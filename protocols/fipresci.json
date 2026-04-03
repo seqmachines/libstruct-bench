@@ -2,7 +2,9 @@
   "protocol_id": "fipresci",
   "protocol_name": "FIPRESCI",
   "references": {
-    "protocol_pdf": "https://teichlab.github.io/scg_lib_structs/methods_html/FIPRESCI.html"
+    "scg_lib_structs": "https://teichlab.github.io/scg_lib_structs/methods_html/FIPRESCI.html",
+    "paper": "https://doi.org/10.1186/s13059-023-02893-1",
+    "protocol_pdf": null
   },
   "library_sequence": "AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCTBBBBBBBBBBBBBBBBUUUUUUUUUUTTTCTTATATGGGCTGTCTCTTATACACATCTBBBBBBAGATCGGAAGAGCACACGTCTGAACTCCAGTCACIIIIIIATCTCGTATGCCGTCTTCTGCTTG",
   "segments": [

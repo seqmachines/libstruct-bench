@@ -2,7 +2,9 @@
   "protocol_id": "indrop",
   "protocol_name": "inDrop V1",
   "references": {
-    "protocol_pdf": "https://teichlab.github.io/scg_lib_structs/methods_html/inDrop.html"
+    "scg_lib_structs": "https://teichlab.github.io/scg_lib_structs/methods_html/inDrop.html",
+    "paper": "https://www.cell.com/cell/fulltext/S0092-8674(15)00500-0",
+    "protocol_pdf": null
   },
   "library_sequence": "AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCTBBBBBBBBBBGAGTGATTGCTTGTGACGCCTTBBBBBBBBUUUUUUAGATCGGAAGAGCGGTTCAGCAGGAATGCCGAGACCGATCTCGTATGCCGTCTTCTGCTTG",
   "segments": [

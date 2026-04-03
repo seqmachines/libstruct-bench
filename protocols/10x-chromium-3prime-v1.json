@@ -1,0 +1,67 @@
+{
+  "protocol_id": "10x-chromium-3prime-v1",
+  "protocol_name": "10x Chromium Single Cell 3' Gene Expression v1",
+  "references": {
+    "scg_lib_structs": "https://teichlab.github.io/scg_lib_structs/methods_html/10xChromium3v1.html",
+    "paper": "https://www.nature.com/articles/ncomms14049",
+    "protocol_pdf": "https://teichlab.github.io/scg_lib_structs/data/10X-Genomics/CG00026_Chromium_Single_Cell_3__Reagent_Kits_User_Guide_RevB.PDF"
+  },
+  "library_sequence": "AATGATACGGCGACCACCGAGATCTACACIIIIIIIIACACTCTTTCCCTACACGACGCTCTTCCGATCTUUUUUUUUUUAGATCGGAAGAGCACACGTCTGAACTCCAGTCACBBBBBBBBBBBBBBATCTCGTATGCCGTCTTCTGCTTG",
+  "segments": [
+    {
+      "name": "P5 adapter",
+      "type": "known",
+      "sequence": "AATGATACGGCGACCACCGAGATCTACAC",
+      "length": 29
+    },
+    {
+      "name": "Sample index",
+      "type": "index",
+      "char": "I",
+      "sequence": "IIIIIIII",
+      "length": 8,
+      "role": "i5 sample index for demultiplexing"
+    },
+    {
+      "name": "TruSeq Read 1",
+      "type": "known",
+      "sequence": "ACACTCTTTCCCTACACGACGCTCTTCCGATCT",
+      "length": 33
+    },
+    {
+      "name": "UMI",
+      "type": "umi",
+      "char": "U",
+      "sequence": "UUUUUUUUUU",
+      "length": 10,
+      "role": "Random 10bp sequence for PCR deduplication"
+    },
+    {
+      "name": "TruSeq Read 2",
+      "type": "known",
+      "sequence": "AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC",
+      "length": 34
+    },
+    {
+      "name": "Cell barcode",
+      "type": "barcode",
+      "char": "B",
+      "sequence": "BBBBBBBBBBBBBB",
+      "length": 14,
+      "role": "14bp cell barcode from 10x barcode whitelist (737K-april-2014)"
+    },
+    {
+      "name": "P7 adapter",
+      "type": "known",
+      "sequence": "ATCTCGTATGCCGTCTTCTGCTTG",
+      "length": 24
+    }
+  ],
+  "placeholder_key": {
+    "I": "sample index",
+    "U": "UMI",
+    "B": "cell barcode"
+  },
+  "total_length": 152,
+  "notes": "v1 chemistry (discontinued). Read order is unusual: Read 1 sequences cDNA, Read 2 sequences barcode+UMI. 14bp cell barcode (737K-april-2014 whitelist). cDNA insert dropped."
+}

@@ -2,7 +2,9 @@
   "protocol_id": "seq-well-s3",
   "protocol_name": "Seq-Well S^3",
   "references": {
-    "protocol_pdf": "https://teichlab.github.io/scg_lib_structs/methods_html/SeqWell_S3.html"
+    "scg_lib_structs": "https://teichlab.github.io/scg_lib_structs/methods_html/SeqWell_S3.html",
+    "paper": "https://www.sciencedirect.com/science/article/pii/S107476132030409X",
+    "protocol_pdf": null
   },
   "library_sequence": "AATGATACGGCGACCACCGAGATCTACACGCCTGTCCGCGGAAGCAGTGGTATCAACGCAGAGTACBBBBBBBBBBBBUUUUUUUUCTGTCTCTTATACACATCTCCGAGCCCACGAGACIIIIIIIIATCTCGTATGCCGTCTTCTGCTTG",
   "segments": [

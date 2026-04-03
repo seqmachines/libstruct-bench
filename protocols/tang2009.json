@@ -2,6 +2,8 @@
   "protocol_id": "tang2009",
   "protocol_name": "Tang 2009",
   "references": {
+    "scg_lib_structs": "https://teichlab.github.io/scg_lib_structs/methods_html/tang2009.html",
+    "paper": "https://www.nature.com/articles/nmeth.1315",
     "protocol_pdf": "https://www.nature.com/articles/nprot.2009.236"
   },
   "library_sequence": "CCACTACGCCTCCGCTTTCCTCTCTATGGGCAGTCGGTGATCGCCTTGGCCGTACAGCAGIIIIIIAGAGAATGAGGAACCCGGGGCAG",

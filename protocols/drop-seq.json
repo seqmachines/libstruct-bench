@@ -2,7 +2,9 @@
   "protocol_id": "drop-seq",
   "protocol_name": "Drop-seq",
   "references": {
-    "protocol_pdf": "https://teichlab.github.io/scg_lib_structs/methods_html/Drop-seq.html"
+    "scg_lib_structs": "https://teichlab.github.io/scg_lib_structs/methods_html/Drop-seq.html",
+    "paper": "https://www.cell.com/fulltext/S0092-8674(15)00549-8",
+    "protocol_pdf": null
   },
   "library_sequence": "AATGATACGGCGACCACCGAGATCTACACGCCTGTCCGCGGAAGCAGTGGTATCAACGCAGAGTACGTBBBBBBBBBBBBUUUUUUUUCTGTCTCTTATACACATCTCCGAGCCCACGAGACIIIIIIIIATCTCGTATGCCGTCTTCTGCTTG",
   "segments": [

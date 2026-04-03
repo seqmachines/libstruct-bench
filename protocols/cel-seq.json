@@ -2,7 +2,9 @@
   "protocol_id": "cel-seq",
   "protocol_name": "CEL-seq",
   "references": {
-    "protocol_pdf": "https://teichlab.github.io/scg_lib_structs/methods_html/CEL-seq_family.html"
+    "scg_lib_structs": "https://teichlab.github.io/scg_lib_structs/methods_html/CEL-seq_family.html",
+    "paper": "https://www.cell.com/cell-reports/fulltext/S2211-1247(12)00228-8",
+    "protocol_pdf": null
   },
   "library_sequence": "AATGATACGGCGACCACCGAGATCTACACGTTCAGAGTTCTACAGTCCGACGATCBBBBBBBBTGGAATTCTCGGGTGCCAAGGAACTCCAGTCACIIIIIIATCTCGTATGCCGTCTTCTGCTTG",
   "segments": [

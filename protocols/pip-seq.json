@@ -2,7 +2,9 @@
   "protocol_id": "pip-seq",
   "protocol_name": "PIP-seq V2",
   "references": {
-    "protocol_pdf": "https://teichlab.github.io/scg_lib_structs/methods_html/PIP-seq.html"
+    "scg_lib_structs": "https://teichlab.github.io/scg_lib_structs/methods_html/PIP-seq.html",
+    "paper": "https://www.nature.com/articles/s41587-023-01685-z",
+    "protocol_pdf": null
   },
   "library_sequence": "AATGATACGGCGACCACCGAGATCTACACGCCTGTCCGCGGAAGCAGTGGTATCAACGCAGAGTACGACTCCTCTTTCCCTACACGACGCTCTTCCGATCTBBBBBBBBATGCATCBBBBBBBBCCTCGAGBBBBBBBBUUUUUUUUUUUUCTGTCTCTTATACACATCTCCGAGCCCACGAGACIIIIIIIIATCTCGTATGCCGTCTTCTGCTTG",
   "segments": [

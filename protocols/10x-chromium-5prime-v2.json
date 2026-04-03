@@ -2,6 +2,8 @@
   "protocol_id": "10x-chromium-5prime-v2",
   "protocol_name": "10x Chromium Single Cell 5' Gene Expression v2",
   "references": {
+    "scg_lib_structs": "https://teichlab.github.io/scg_lib_structs/methods_html/10xChromium5.html",
+    "paper": "https://www.nature.com/articles/ncomms14049",
     "protocol_pdf": "https://teichlab.github.io/scg_lib_structs/data/10X-Genomics/CG000109_AssayConfiguration_VDJ_RevD.pdf"
   },
   "library_sequence": "AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCTBBBBBBBBBBBBBBBBUUUUUUUUUUTTTCTTATATGGGGATCGGAAGAGCACACGTCTGAACTCCAGTCACIIIIIIIIATCTCGTATGCCGTCTTCTGCTTG",

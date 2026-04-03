@@ -2,7 +2,9 @@
   "protocol_id": "strt-seq",
   "protocol_name": "STRT-seq",
   "references": {
-    "protocol_pdf": "https://teichlab.github.io/scg_lib_structs/methods_html/STRT-seq_family.html"
+    "scg_lib_structs": "https://teichlab.github.io/scg_lib_structs/methods_html/STRT-seq_family.html",
+    "paper": "http://genome.cshlp.org/content/21/7/1160.full",
+    "protocol_pdf": null
   },
   "library_sequence": "AATGATACGGCGACCACCGAGATCTAAGCAGTGGTATCAACGCAGAGTGCAGTGCTBBBBBBGGGGATCGGAAGAGCTCGTATGCCGTCTTCTGCTTG",
   "segments": [

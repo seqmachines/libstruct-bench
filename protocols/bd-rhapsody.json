@@ -2,6 +2,8 @@
   "protocol_id": "bd-rhapsody",
   "protocol_name": "BD Rhapsody",
   "references": {
+    "scg_lib_structs": "https://teichlab.github.io/scg_lib_structs/methods_html/BD_Rhapsody.html",
+    "paper": "https://www.nature.com/articles/s41592-018-0255-0",
     "protocol_pdf": "https://teichlab.github.io/scg_lib_structs/data/BD/GMX_BD-Rhapsody-WTA-alpha-Protocol_UG_EN.pdf"
   },
   "library_sequence": "AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCTBBBBBBBBBACTGGCCTGCGABBBBBBBBBGGTAGCGGTGACABBBBBBBBBUUUUUUUUAGATCGGAAGAGCACACGTCTGAACTCCAGTCACIIIIIIIIATCTCGTATGCCGTCTTCTGCTTG",

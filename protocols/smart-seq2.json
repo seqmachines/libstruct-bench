@@ -2,7 +2,9 @@
   "protocol_id": "smart-seq2",
   "protocol_name": "SMART-seq2",
   "references": {
-    "protocol_pdf": "https://teichlab.github.io/scg_lib_structs/methods_html/SMART-seq_family.html"
+    "scg_lib_structs": "https://teichlab.github.io/scg_lib_structs/methods_html/SMART-seq_family.html",
+    "paper": "https://www.nature.com/nmeth/journal/v10/n11/full/nmeth.2639.html",
+    "protocol_pdf": null
   },
   "library_sequence": "AATGATACGGCGACCACCGAGATCTACACIIIIIIIITCGTCGGCAGCGTCAGATGTGTATAAGAGACAGCTGTCTCTTATACACATCTCCGAGCCCACGAGACIIIIIIIIATCTCGTATGCCGTCTTCTGCTTG",
   "segments": [
@@ -63,5 +65,5 @@
     "I": "sample index"
   },
   "total_length": 136,
-  "notes": "Full-length transcript method. No cell barcode or UMI in library construct — individual cells processed in separate wells. Uses Nextera adapters (not TruSeq). cDNA insert dropped."
+  "notes": "Full-length transcript method. No cell barcode or UMI in library construct \u2014 individual cells processed in separate wells. Uses Nextera adapters (not TruSeq). cDNA insert dropped."
 }

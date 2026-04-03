@@ -2,7 +2,9 @@
   "protocol_id": "strt-seq-c1",
   "protocol_name": "STRT-seq/C1",
   "references": {
-    "protocol_pdf": "https://teichlab.github.io/scg_lib_structs/methods_html/STRT-seq_family.html"
+    "scg_lib_structs": "https://teichlab.github.io/scg_lib_structs/methods_html/STRT-seq_family.html",
+    "paper": "http://www.nature.com/nmeth/journal/v11/n2/full/nmeth.2772.html",
+    "protocol_pdf": null
   },
   "library_sequence": "AATGATACGGCGACCACCGATUUUUUGGGCTGTCTCTTATACACATCTGACGCBBBBBBBBTCGTATGCCGTCTTCTGCTTG",
   "segments": [

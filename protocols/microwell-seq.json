@@ -2,7 +2,9 @@
   "protocol_id": "microwell-seq",
   "protocol_name": "Microwell-seq",
   "references": {
-    "protocol_pdf": "https://teichlab.github.io/scg_lib_structs/methods_html/Microwell-seq.html"
+    "scg_lib_structs": "https://teichlab.github.io/scg_lib_structs/methods_html/Microwell-seq.html",
+    "paper": "https://www.cell.com/cell/fulltext/S0092-8674(18)30116-8",
+    "protocol_pdf": null
   },
   "library_sequence": "AATGATACGGCGACCACCGAGATCTACACGCCTGTCCGCGGAAGCAGTGGTATCAACGCAGAGTACGTBBBBBBCGACTCACTACAGGGBBBBBBTCGGTGACACGATCGBBBBBBUUUUUUCTGTCTCTTATACACATCTCCGAGCCCACGAGACIIIIIIIIATCTCGTATGCCGTCTTCTGCTTG",
   "segments": [

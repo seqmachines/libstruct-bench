@@ -2,7 +2,9 @@
   "protocol_id": "sci-rna-seq",
   "protocol_name": "sci-RNA-seq",
   "references": {
-    "protocol_pdf": "https://teichlab.github.io/scg_lib_structs/methods_html/sci-RNA-seq_family.html"
+    "scg_lib_structs": "https://teichlab.github.io/scg_lib_structs/methods_html/sci-RNA-seq_family.html",
+    "paper": "http://science.sciencemag.org/content/357/6352/661",
+    "protocol_pdf": null
   },
   "library_sequence": "AATGATACGGCGACCACCGAGATCTACACIIIIIIIIIIACACTCTTTCCCTACACGACGCTCTTCCGATCTUUUUUUUURRRRRRRRRRCTGTCTCTTATACACATCTCCGAGCCCACGAGACIIIIIIIIIIATCTCGTATGCCGTCTTCTGCTTG",
   "segments": [

@@ -2,7 +2,9 @@
   "protocol_id": "strt-seq-2i",
   "protocol_name": "STRT-seq-2i",
   "references": {
-    "protocol_pdf": "https://teichlab.github.io/scg_lib_structs/methods_html/STRT-seq_family.html"
+    "scg_lib_structs": "https://teichlab.github.io/scg_lib_structs/methods_html/STRT-seq_family.html",
+    "paper": "http://www.biorxiv.org/content/early/2017/04/20/126268",
+    "protocol_pdf": null
   },
   "library_sequence": "AATGATACGGCGACCACCGAGATCTACACBBBBBCTACACGACGCTCTTCCGATCTUUUUUUGGGCTGTCTCTTATACACATCTGACGCBBBBBBBBTCGTATGCCGTCTTCTGCTTG",
   "segments": [
