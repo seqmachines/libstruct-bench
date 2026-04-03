@@ -1,0 +1,83 @@
+{
+  "protocol_id": "drop-seq",
+  "protocol_name": "Drop-seq",
+  "references": {
+    "protocol_pdf": "https://teichlab.github.io/scg_lib_structs/methods_html/Drop-seq.html"
+  },
+  "library_sequence": "AATGATACGGCGACCACCGAGATCTACACGCCTGTCCGCGGAAGCAGTGGTATCAACGCAGAGTACGTBBBBBBBBBBBBUUUUUUUUCTGTCTCTTATACACATCTCCGAGCCCACGAGACIIIIIIIIATCTCGTATGCCGTCTTCTGCTTG",
+  "segments": [
+    {
+      "name": "P5 adapter",
+      "type": "known",
+      "sequence": "AATGATACGGCGACCACCGAGATCTACAC",
+      "length": 29
+    },
+    {
+      "name": "Linker",
+      "type": "known",
+      "sequence": "GCCTGTCCGCGG",
+      "length": 12
+    },
+    {
+      "name": "TSO/ISPCR",
+      "type": "known",
+      "sequence": "AAGCAGTGGTATCAACGCAGAGT",
+      "length": 23
+    },
+    {
+      "name": "Linker",
+      "type": "known",
+      "sequence": "ACGT",
+      "length": 4
+    },
+    {
+      "name": "Cell barcode",
+      "type": "barcode",
+      "char": "B",
+      "sequence": "BBBBBBBBBBBB",
+      "length": 12,
+      "role": "12bp cell barcode on bead"
+    },
+    {
+      "name": "UMI",
+      "type": "umi",
+      "char": "U",
+      "sequence": "UUUUUUUU",
+      "length": 8,
+      "role": "Random 8bp sequence for PCR deduplication"
+    },
+    {
+      "name": "ME (Mosaic End)",
+      "type": "known",
+      "sequence": "CTGTCTCTTATACACATCT",
+      "length": 19
+    },
+    {
+      "name": "s7",
+      "type": "known",
+      "sequence": "CCGAGCCCACGAGAC",
+      "length": 15
+    },
+    {
+      "name": "Sample index",
+      "type": "index",
+      "char": "I",
+      "sequence": "IIIIIIII",
+      "length": 8,
+      "role": "i7 sample index for demultiplexing"
+    },
+    {
+      "name": "P7 adapter",
+      "type": "known",
+      "sequence": "ATCTCGTATGCCGTCTTCTGCTTG",
+      "length": 24
+    }
+  ],
+  "placeholder_key": {
+    "B": "cell barcode",
+    "U": "UMI",
+    "I": "sample index"
+  },
+  "total_length": 154,
+  "notes": "Uses Nextera Tn5 tagmentation for library prep. TSO-based cDNA amplification. cDNA insert dropped. Paper URL returned HTTP 403 during automated validation on 2026-03-30; it may still be browser-accessible"
+}

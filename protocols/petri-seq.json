@@ -1,0 +1,114 @@
+{
+  "protocol_id": "petri-seq",
+  "protocol_name": "PETRI-seq",
+  "references": {
+    "protocol_pdf": "https://teichlab.github.io/scg_lib_structs/data/PETRI-seq/PETRI-seq_Protocol.pdf"
+  },
+  "library_sequence": "AATGATACGGCGACCACCGAGATCTACACIIIIIIIIACACTCTTTCCCTACACGACGCTCTTCCGATCTUUUUUUULLLLLLLGGTCCTTGGCTTCGCLLLLLLLCCTCCTACGCCAGARRRRRRRCTGTCTCTTATACACATCTCCGAGCCCACGAGACIIIIIIIIATCTCGTATGCCGTCTTCTGCTTG",
+  "segments": [
+    {
+      "name": "P5 adapter",
+      "type": "known",
+      "sequence": "AATGATACGGCGACCACCGAGATCTACAC",
+      "length": 29
+    },
+    {
+      "name": "Sample index i5",
+      "type": "index",
+      "char": "I",
+      "sequence": "IIIIIIII",
+      "length": 8,
+      "role": "i5 sample index for demultiplexing"
+    },
+    {
+      "name": "TruSeq Read 1",
+      "type": "known",
+      "sequence": "ACACTCTTTCCCTACACGACGCTCTTCCGATCT",
+      "length": 33
+    },
+    {
+      "name": "UMI",
+      "type": "umi",
+      "char": "U",
+      "sequence": "UUUUUUU",
+      "length": 7,
+      "role": "7bp UMI for PCR deduplication"
+    },
+    {
+      "name": "Round 3 barcode",
+      "type": "barcode",
+      "char": "L",
+      "sequence": "LLLLLLL",
+      "length": 7,
+      "role": "7bp Round 3 ligation barcode"
+    },
+    {
+      "name": "Round 3 linker",
+      "type": "known",
+      "sequence": "GGTCCTTGGCTTCGC",
+      "length": 15
+    },
+    {
+      "name": "Round 2 barcode",
+      "type": "barcode",
+      "char": "L",
+      "sequence": "LLLLLLL",
+      "length": 7,
+      "role": "7bp Round 2 ligation barcode"
+    },
+    {
+      "name": "Round 2 linker",
+      "type": "known",
+      "sequence": "CCTCCTAC",
+      "length": 8
+    },
+    {
+      "name": "Round 1 linker",
+      "type": "known",
+      "sequence": "GCCAGA",
+      "length": 6
+    },
+    {
+      "name": "Round 1 barcode",
+      "type": "barcode",
+      "char": "R",
+      "sequence": "RRRRRRR",
+      "length": 7,
+      "role": "7bp Round 1 RT barcode"
+    },
+    {
+      "name": "ME (Mosaic End)",
+      "type": "known",
+      "sequence": "CTGTCTCTTATACACATCT",
+      "length": 19
+    },
+    {
+      "name": "s7 (Nextera)",
+      "type": "known",
+      "sequence": "CCGAGCCCACGAGAC",
+      "length": 15
+    },
+    {
+      "name": "Sample index i7",
+      "type": "index",
+      "char": "I",
+      "sequence": "IIIIIIII",
+      "length": 8,
+      "role": "i7 sample index for demultiplexing"
+    },
+    {
+      "name": "P7 adapter",
+      "type": "known",
+      "sequence": "ATCTCGTATGCCGTCTTCTGCTTG",
+      "length": 24
+    }
+  ],
+  "placeholder_key": {
+    "I": "sample index",
+    "U": "UMI",
+    "L": "ligation barcode",
+    "R": "RT barcode"
+  },
+  "total_length": 193,
+  "notes": "Prokaryotic single-cell RNA-seq. Three-round combinatorial barcoding (7bp each). 7bp UMI. cDNA insert dropped."
+}

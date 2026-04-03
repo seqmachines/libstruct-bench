@@ -1,0 +1,117 @@
+{
+  "protocol_id": "surecell",
+  "protocol_name": "SureCell 3' WTA",
+  "references": {
+    "protocol_pdf": "https://support.illumina.com/sequencing/sequencing_kits/surecell-wta-3-kit.html"
+  },
+  "library_sequence": "AATGATACGGCGACCACCGAGATCTACACGCCTGTCCGCGGAAGCAGTGGTATCAACGCAGAGTACBBBBBBTAGCCATCGCATTGCBBBBBBTACCTCTGAGCTGAABBBBBBACGUUUUUUUUGACCTGTCTCTTATACACATCTCCGAGCCCACGAGACIIIIIIIIATCTCGTATGCCGTCTTCTGCTTG",
+  "segments": [
+    {
+      "name": "P5 adapter",
+      "type": "known",
+      "sequence": "AATGATACGGCGACCACCGAGATCTACAC",
+      "length": 29
+    },
+    {
+      "name": "Linker",
+      "type": "known",
+      "sequence": "GCCTGTCCGCGG",
+      "length": 12
+    },
+    {
+      "name": "TSO",
+      "type": "known",
+      "sequence": "AAGCAGTGGTATCAACGCAGAGTAC",
+      "length": 25
+    },
+    {
+      "name": "Barcode 1",
+      "type": "barcode",
+      "char": "B",
+      "sequence": "BBBBBB",
+      "length": 6,
+      "role": "6bp cell barcode part 1"
+    },
+    {
+      "name": "Linker PE1",
+      "type": "known",
+      "sequence": "TAGCCATCGCATTGC",
+      "length": 15
+    },
+    {
+      "name": "Barcode 2",
+      "type": "barcode",
+      "char": "B",
+      "sequence": "BBBBBB",
+      "length": 6,
+      "role": "6bp cell barcode part 2"
+    },
+    {
+      "name": "Linker PE2",
+      "type": "known",
+      "sequence": "TACCTCTGAGCTGAA",
+      "length": 15
+    },
+    {
+      "name": "Barcode 3",
+      "type": "barcode",
+      "char": "B",
+      "sequence": "BBBBBB",
+      "length": 6,
+      "role": "6bp cell barcode part 3"
+    },
+    {
+      "name": "Linker",
+      "type": "known",
+      "sequence": "ACG",
+      "length": 3
+    },
+    {
+      "name": "UMI",
+      "type": "umi",
+      "char": "U",
+      "sequence": "UUUUUUUU",
+      "length": 8,
+      "role": "8bp UMI for PCR deduplication"
+    },
+    {
+      "name": "Linker",
+      "type": "known",
+      "sequence": "GAC",
+      "length": 3
+    },
+    {
+      "name": "ME (Mosaic End)",
+      "type": "known",
+      "sequence": "CTGTCTCTTATACACATCT",
+      "length": 19
+    },
+    {
+      "name": "s7",
+      "type": "known",
+      "sequence": "CCGAGCCCACGAGAC",
+      "length": 15
+    },
+    {
+      "name": "Sample index",
+      "type": "index",
+      "char": "I",
+      "sequence": "IIIIIIII",
+      "length": 8,
+      "role": "i7 sample index for demultiplexing"
+    },
+    {
+      "name": "P7 adapter",
+      "type": "known",
+      "sequence": "ATCTCGTATGCCGTCTTCTGCTTG",
+      "length": 24
+    }
+  ],
+  "placeholder_key": {
+    "B": "cell barcode",
+    "U": "UMI",
+    "I": "sample index"
+  },
+  "total_length": 194,
+  "notes": "Three-part split-pool cell barcode (6bp x 3 = 18bp total). 8bp UMI. Nextera Tn5 tagmentation. cDNA insert dropped."
+}

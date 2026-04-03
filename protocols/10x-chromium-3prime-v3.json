@@ -1,0 +1,65 @@
+{
+  "protocol_id": "10x-chromium-3prime-v3",
+  "protocol_name": "10x Chromium Single Cell 3' Gene Expression v3",
+  "references": {
+    "protocol_pdf": "https://teichlab.github.io/scg_lib_structs/data/10X-Genomics/CG000183_ChromiumSingleCell3__v3_UG_Rev-A.pdf"
+  },
+  "library_sequence": "AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCTBBBBBBBBBBBBBBBBUUUUUUUUUUUUGATCGGAAGAGCACACGTCTGAACTCCAGTCACIIIIIIIIATCTCGTATGCCGTCTTCTGCTTG",
+  "segments": [
+    {
+      "name": "P5 adapter",
+      "type": "known",
+      "sequence": "AATGATACGGCGACCACCGAGATCTACAC",
+      "length": 29
+    },
+    {
+      "name": "TruSeq Read 1",
+      "type": "known",
+      "sequence": "TCTTTCCCTACACGACGCTCTTCCGATCT",
+      "length": 29
+    },
+    {
+      "name": "Cell barcode",
+      "type": "barcode",
+      "char": "B",
+      "sequence": "BBBBBBBBBBBBBBBB",
+      "length": 16,
+      "role": "16bp cell barcode from 10x barcode whitelist (3M-february-2018)"
+    },
+    {
+      "name": "UMI",
+      "type": "umi",
+      "char": "U",
+      "sequence": "UUUUUUUUUUUU",
+      "length": 12,
+      "role": "Random 12bp sequence for PCR deduplication"
+    },
+    {
+      "name": "TruSeq Read 2",
+      "type": "known",
+      "sequence": "GATCGGAAGAGCACACGTCTGAACTCCAGTCAC",
+      "length": 33
+    },
+    {
+      "name": "Sample index",
+      "type": "index",
+      "char": "I",
+      "sequence": "IIIIIIII",
+      "length": 8,
+      "role": "i7 sample index for demultiplexing"
+    },
+    {
+      "name": "P7 adapter",
+      "type": "known",
+      "sequence": "ATCTCGTATGCCGTCTTCTGCTTG",
+      "length": 24
+    }
+  ],
+  "placeholder_key": {
+    "B": "cell barcode",
+    "U": "UMI",
+    "I": "sample index"
+  },
+  "total_length": 151,
+  "notes": "v3 chemistry. UMI is 12bp (vs 10bp in v2). 16bp cell barcode (3M-february-2018 whitelist). cDNA insert dropped."
+}

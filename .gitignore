@@ -1,0 +1,4 @@
+__pycache__/
+.venv/
+protocol_pdfs/
+protocol_sources/

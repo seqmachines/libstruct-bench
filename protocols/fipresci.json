@@ -1,0 +1,85 @@
+{
+  "protocol_id": "fipresci",
+  "protocol_name": "FIPRESCI",
+  "references": {
+    "protocol_pdf": "https://teichlab.github.io/scg_lib_structs/methods_html/FIPRESCI.html"
+  },
+  "library_sequence": "AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCTBBBBBBBBBBBBBBBBUUUUUUUUUUTTTCTTATATGGGCTGTCTCTTATACACATCTBBBBBBAGATCGGAAGAGCACACGTCTGAACTCCAGTCACIIIIIIATCTCGTATGCCGTCTTCTGCTTG",
+  "segments": [
+    {
+      "name": "P5 adapter",
+      "type": "known",
+      "sequence": "AATGATACGGCGACCACCGAGATCTACAC",
+      "length": 29
+    },
+    {
+      "name": "TruSeq Read 1",
+      "type": "known",
+      "sequence": "TCTTTCCCTACACGACGCTCTTCCGATCT",
+      "length": 29
+    },
+    {
+      "name": "GEM barcode",
+      "type": "barcode",
+      "char": "B",
+      "sequence": "BBBBBBBBBBBBBBBB",
+      "length": 16,
+      "role": "16bp 10x GEM barcode"
+    },
+    {
+      "name": "UMI",
+      "type": "umi",
+      "char": "U",
+      "sequence": "UUUUUUUUUU",
+      "length": 10,
+      "role": "10bp UMI for PCR deduplication"
+    },
+    {
+      "name": "Spacer",
+      "type": "known",
+      "sequence": "TTTCTTATATGGG",
+      "length": 13
+    },
+    {
+      "name": "ME (Mosaic End)",
+      "type": "known",
+      "sequence": "CTGTCTCTTATACACATCT",
+      "length": 19
+    },
+    {
+      "name": "Tn5 barcode",
+      "type": "barcode",
+      "char": "B",
+      "sequence": "BBBBBB",
+      "length": 6,
+      "role": "6bp Tn5 tagmentation barcode (first-round index)"
+    },
+    {
+      "name": "TruSeq Read 2",
+      "type": "known",
+      "sequence": "AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC",
+      "length": 34
+    },
+    {
+      "name": "Sample index",
+      "type": "index",
+      "char": "I",
+      "sequence": "IIIIII",
+      "length": 6,
+      "role": "i7 sample index for demultiplexing"
+    },
+    {
+      "name": "P7 adapter",
+      "type": "known",
+      "sequence": "ATCTCGTATGCCGTCTTCTGCTTG",
+      "length": 24
+    }
+  ],
+  "placeholder_key": {
+    "B": "barcode",
+    "U": "UMI",
+    "I": "sample index"
+  },
+  "total_length": 186,
+  "notes": "FIPRESCI: Tn5-based first-round indexing + 10x GEM second-round. 16bp GEM barcode + 6bp Tn5 barcode. cDNA insert dropped."
+}

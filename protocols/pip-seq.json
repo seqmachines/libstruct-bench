@@ -1,0 +1,117 @@
+{
+  "protocol_id": "pip-seq",
+  "protocol_name": "PIP-seq V2",
+  "references": {
+    "protocol_pdf": "https://teichlab.github.io/scg_lib_structs/methods_html/PIP-seq.html"
+  },
+  "library_sequence": "AATGATACGGCGACCACCGAGATCTACACGCCTGTCCGCGGAAGCAGTGGTATCAACGCAGAGTACGACTCCTCTTTCCCTACACGACGCTCTTCCGATCTBBBBBBBBATGCATCBBBBBBBBCCTCGAGBBBBBBBBUUUUUUUUUUUUCTGTCTCTTATACACATCTCCGAGCCCACGAGACIIIIIIIIATCTCGTATGCCGTCTTCTGCTTG",
+  "segments": [
+    {
+      "name": "P5 adapter",
+      "type": "known",
+      "sequence": "AATGATACGGCGACCACCGAGATCTACAC",
+      "length": 29
+    },
+    {
+      "name": "Linker",
+      "type": "known",
+      "sequence": "GCCTGTCCGCGG",
+      "length": 12
+    },
+    {
+      "name": "TSO/ISPCR",
+      "type": "known",
+      "sequence": "AAGCAGTGGTATCAACGCAGAGT",
+      "length": 23
+    },
+    {
+      "name": "Linker",
+      "type": "known",
+      "sequence": "ACGACTCC",
+      "length": 8
+    },
+    {
+      "name": "TruSeq Read 1",
+      "type": "known",
+      "sequence": "TCTTTCCCTACACGACGCTCTTCCGATCT",
+      "length": 29
+    },
+    {
+      "name": "Barcode 1",
+      "type": "barcode",
+      "char": "B",
+      "sequence": "BBBBBBBB",
+      "length": 8,
+      "role": "8bp cell barcode part 1"
+    },
+    {
+      "name": "Linker 1",
+      "type": "known",
+      "sequence": "ATGCATC",
+      "length": 7
+    },
+    {
+      "name": "Barcode 2",
+      "type": "barcode",
+      "char": "B",
+      "sequence": "BBBBBBBB",
+      "length": 8,
+      "role": "8bp cell barcode part 2"
+    },
+    {
+      "name": "Linker 2",
+      "type": "known",
+      "sequence": "CCTCGAG",
+      "length": 7
+    },
+    {
+      "name": "Barcode 3",
+      "type": "barcode",
+      "char": "B",
+      "sequence": "BBBBBBBB",
+      "length": 8,
+      "role": "8bp cell barcode part 3"
+    },
+    {
+      "name": "UMI",
+      "type": "umi",
+      "char": "U",
+      "sequence": "UUUUUUUUUUUU",
+      "length": 12,
+      "role": "12bp UMI for PCR deduplication"
+    },
+    {
+      "name": "ME (Mosaic End)",
+      "type": "known",
+      "sequence": "CTGTCTCTTATACACATCT",
+      "length": 19
+    },
+    {
+      "name": "s7 (Nextera)",
+      "type": "known",
+      "sequence": "CCGAGCCCACGAGAC",
+      "length": 15
+    },
+    {
+      "name": "Sample index i7",
+      "type": "index",
+      "char": "I",
+      "sequence": "IIIIIIII",
+      "length": 8,
+      "role": "i7 sample index for demultiplexing"
+    },
+    {
+      "name": "P7 adapter",
+      "type": "known",
+      "sequence": "ATCTCGTATGCCGTCTTCTGCTTG",
+      "length": 24
+    }
+  ],
+  "placeholder_key": {
+    "B": "cell barcode",
+    "U": "UMI",
+    "I": "sample index"
+  },
+  "total_length": 217,
+  "notes": "PIP-seq V2 (paper protocol). Three 8bp barcodes and a 12bp UMI. Dissolvable hydrogel beads. cDNA insert dropped."
+}

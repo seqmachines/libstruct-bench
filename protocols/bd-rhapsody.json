@@ -1,0 +1,93 @@
+{
+  "protocol_id": "bd-rhapsody",
+  "protocol_name": "BD Rhapsody",
+  "references": {
+    "protocol_pdf": "https://teichlab.github.io/scg_lib_structs/data/BD/GMX_BD-Rhapsody-WTA-alpha-Protocol_UG_EN.pdf"
+  },
+  "library_sequence": "AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCTBBBBBBBBBACTGGCCTGCGABBBBBBBBBGGTAGCGGTGACABBBBBBBBBUUUUUUUUAGATCGGAAGAGCACACGTCTGAACTCCAGTCACIIIIIIIIATCTCGTATGCCGTCTTCTGCTTG",
+  "segments": [
+    {
+      "name": "P5 adapter",
+      "type": "known",
+      "sequence": "AATGATACGGCGACCACCGAGATCTACAC",
+      "length": 29
+    },
+    {
+      "name": "TruSeq Read 1",
+      "type": "known",
+      "sequence": "TCTTTCCCTACACGACGCTCTTCCGATCT",
+      "length": 29
+    },
+    {
+      "name": "CLS1",
+      "type": "barcode",
+      "char": "B",
+      "sequence": "BBBBBBBBB",
+      "length": 9,
+      "role": "9bp CLS1 barcode (97 sequences)"
+    },
+    {
+      "name": "Linker 1",
+      "type": "known",
+      "sequence": "ACTGGCCTGCGA",
+      "length": 12
+    },
+    {
+      "name": "CLS2",
+      "type": "barcode",
+      "char": "B",
+      "sequence": "BBBBBBBBB",
+      "length": 9,
+      "role": "9bp CLS2 barcode (97 sequences)"
+    },
+    {
+      "name": "Linker 2",
+      "type": "known",
+      "sequence": "GGTAGCGGTGACA",
+      "length": 13
+    },
+    {
+      "name": "CLS3",
+      "type": "barcode",
+      "char": "B",
+      "sequence": "BBBBBBBBB",
+      "length": 9,
+      "role": "9bp CLS3 barcode (97 sequences)"
+    },
+    {
+      "name": "UMI",
+      "type": "umi",
+      "char": "U",
+      "sequence": "UUUUUUUU",
+      "length": 8,
+      "role": "8bp UMI for PCR deduplication"
+    },
+    {
+      "name": "TruSeq Read 2",
+      "type": "known",
+      "sequence": "AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC",
+      "length": 34
+    },
+    {
+      "name": "Sample index",
+      "type": "index",
+      "char": "I",
+      "sequence": "IIIIIIII",
+      "length": 8,
+      "role": "i7 sample index for demultiplexing"
+    },
+    {
+      "name": "P7 adapter",
+      "type": "known",
+      "sequence": "ATCTCGTATGCCGTCTTCTGCTTG",
+      "length": 24
+    }
+  ],
+  "placeholder_key": {
+    "B": "cell barcode",
+    "U": "UMI",
+    "I": "sample index"
+  },
+  "total_length": 184,
+  "notes": "Three CLS barcodes (9bp each, 97 sequences per CLS = ~912k combinations). 8bp UMI. cDNA insert dropped."
+}

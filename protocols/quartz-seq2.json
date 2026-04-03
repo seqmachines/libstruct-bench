@@ -1,0 +1,77 @@
+{
+  "protocol_id": "quartz-seq2",
+  "protocol_name": "Quartz-seq2",
+  "references": {
+    "protocol_pdf": "https://teichlab.github.io/scg_lib_structs/methods_html/Quartz-seq_family.html"
+  },
+  "library_sequence": "AATGATACGGCGACCACCGAGATCTACATTGTATAGAATTCGCGGCCGCTCGCGATACBBBBBBBBBBBBBBBUUUUUUUUGATCGGAAGAGCACACGTCTGAACTCCAGTCACIIIIIIATCTCGTATGCCGTCTTCTGCTTG",
+  "segments": [
+    {
+      "name": "P5 adapter",
+      "type": "known",
+      "sequence": "AATGATACGGCGACCACCGAGATCTACA",
+      "length": 28
+    },
+    {
+      "name": "Linker",
+      "type": "known",
+      "sequence": "TT",
+      "length": 2
+    },
+    {
+      "name": "TSO",
+      "type": "known",
+      "sequence": "GTATAGAATTCGCGGCCGCTCGCGAT",
+      "length": 26
+    },
+    {
+      "name": "Linker",
+      "type": "known",
+      "sequence": "AC",
+      "length": 2
+    },
+    {
+      "name": "Cell barcode",
+      "type": "barcode",
+      "char": "B",
+      "sequence": "BBBBBBBBBBBBBBB",
+      "length": 15,
+      "role": "15bp cell barcode from Quartz-seq2 barcode list"
+    },
+    {
+      "name": "UMI",
+      "type": "umi",
+      "char": "U",
+      "sequence": "UUUUUUUU",
+      "length": 8,
+      "role": "8bp UMI for PCR deduplication"
+    },
+    {
+      "name": "TruSeq Read 2",
+      "type": "known",
+      "sequence": "GATCGGAAGAGCACACGTCTGAACTCCAGTCAC",
+      "length": 33
+    },
+    {
+      "name": "Sample index",
+      "type": "index",
+      "char": "I",
+      "sequence": "IIIIII",
+      "length": 6,
+      "role": "6bp sample index for demultiplexing"
+    },
+    {
+      "name": "P7 adapter",
+      "type": "known",
+      "sequence": "ATCTCGTATGCCGTCTTCTGCTTG",
+      "length": 24
+    }
+  ],
+  "placeholder_key": {
+    "B": "cell barcode",
+    "U": "UMI",
+    "I": "sample index"
+  },
+  "total_length": 144,
+  "notes": "15bp cell barcode, 8bp UMI. Uses poly-A tailing and TSO for 3' counting. cDNA insert dropped."
+}

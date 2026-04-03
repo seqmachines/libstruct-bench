@@ -1,0 +1,86 @@
+{
+  "protocol_id": "scifi-rna-seq",
+  "protocol_name": "scifi-RNA-seq",
+  "references": {
+    "protocol_pdf": "https://teichlab.github.io/scg_lib_structs/methods_html/scifi-RNA-seq.html"
+  },
+  "library_sequence": "AATGATACGGCGACCACCGAGATCTACACBBBBBBBBBBBBBBBBTCGTCGGCAGCGTCACACTCTTTCCCTACACGACGCTCTTCCGATCTUUUUUUUURRRRRRRRRRRRRCTGTCTCTTATACACATCTCCGAGCCCACGAGACIIIIIIIIATCTCGTATGCCGTCTTCTGCTTG",
+  "segments": [
+    {
+      "name": "P5 adapter",
+      "type": "known",
+      "sequence": "AATGATACGGCGACCACCGAGATCTACAC",
+      "length": 29
+    },
+    {
+      "name": "10x bead barcode",
+      "type": "barcode",
+      "char": "B",
+      "sequence": "BBBBBBBBBBBBBBBB",
+      "length": 16,
+      "role": "16bp 10x GEM barcode"
+    },
+    {
+      "name": "s5 (Nextera)",
+      "type": "known",
+      "sequence": "TCGTCGGCAGCGTC",
+      "length": 14
+    },
+    {
+      "name": "TruSeq Read 1",
+      "type": "known",
+      "sequence": "ACACTCTTTCCCTACACGACGCTCTTCCGATCT",
+      "length": 33
+    },
+    {
+      "name": "UMI",
+      "type": "umi",
+      "char": "U",
+      "sequence": "UUUUUUUU",
+      "length": 8,
+      "role": "8bp UMI for PCR deduplication"
+    },
+    {
+      "name": "RT barcode",
+      "type": "barcode",
+      "char": "R",
+      "sequence": "RRRRRRRRRRRRR",
+      "length": 13,
+      "role": "13bp in situ RT barcode (well-specific)"
+    },
+    {
+      "name": "ME (Mosaic End)",
+      "type": "known",
+      "sequence": "CTGTCTCTTATACACATCT",
+      "length": 19
+    },
+    {
+      "name": "s7 (Nextera)",
+      "type": "known",
+      "sequence": "CCGAGCCCACGAGAC",
+      "length": 15
+    },
+    {
+      "name": "Sample index",
+      "type": "index",
+      "char": "I",
+      "sequence": "IIIIIIII",
+      "length": 8,
+      "role": "i7 sample index for demultiplexing"
+    },
+    {
+      "name": "P7 adapter",
+      "type": "known",
+      "sequence": "ATCTCGTATGCCGTCTTCTGCTTG",
+      "length": 24
+    }
+  ],
+  "placeholder_key": {
+    "B": "cell barcode",
+    "U": "UMI",
+    "R": "RT barcode",
+    "I": "sample index"
+  },
+  "total_length": 179,
+  "notes": "Combines in situ RT barcoding with 10x Chromium. Two-level indexing: 13bp RT barcode + 16bp GEM barcode. cDNA insert dropped. The HTML final library labels the RT barcode as 13bp but renders it as NNNNNNNNNNNNV; this JSON keeps a 13bp RT-barcode placeholder run to follow the labeled length"
+}

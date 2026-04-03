@@ -1,0 +1,71 @@
+{
+  "protocol_id": "vasa-seq",
+  "protocol_name": "VASA-seq (plate)",
+  "references": {
+    "protocol_pdf": "https://teichlab.github.io/scg_lib_structs/methods_html/VASA-seq.html"
+  },
+  "library_sequence": "AATGATACGGCGACCACCGAGATCTACACGTTCAGAGTTCTACAGTCCGACGATCUUUUUUBBBBBBTGGAATTCTCGGGTGCCAAGGAACTCCAGTCACIIIIIIATCTCGTATGCCGTCTTCTGCTTG",
+  "segments": [
+    {
+      "name": "P5 adapter",
+      "type": "known",
+      "sequence": "AATGATACGGCGACCACCGAGATCTACAC",
+      "length": 29
+    },
+    {
+      "name": "RA5",
+      "type": "known",
+      "sequence": "GTTCAGAGTTCTACAGTCCGACGATC",
+      "length": 26
+    },
+    {
+      "name": "UMI",
+      "type": "umi",
+      "char": "U",
+      "sequence": "UUUUUU",
+      "length": 6,
+      "role": "6bp UMI for PCR deduplication"
+    },
+    {
+      "name": "Cell barcode",
+      "type": "barcode",
+      "char": "B",
+      "sequence": "BBBBBB",
+      "length": 6,
+      "role": "6bp cell barcode"
+    },
+    {
+      "name": "RA3",
+      "type": "known",
+      "sequence": "TGGAATTCTCGGGTGCCAAGG",
+      "length": 21
+    },
+    {
+      "name": "Linker",
+      "type": "known",
+      "sequence": "AACTCCAGTCAC",
+      "length": 12
+    },
+    {
+      "name": "Sample index",
+      "type": "index",
+      "char": "I",
+      "sequence": "IIIIII",
+      "length": 6,
+      "role": "6bp sample index for demultiplexing"
+    },
+    {
+      "name": "P7 adapter",
+      "type": "known",
+      "sequence": "ATCTCGTATGCCGTCTTCTGCTTG",
+      "length": 24
+    }
+  ],
+  "placeholder_key": {
+    "U": "UMI",
+    "B": "cell barcode",
+    "I": "sample index"
+  },
+  "total_length": 130,
+  "notes": "VASA-plate uses CEL-seq2-like library structure. Profiles total RNA (not just poly-A) via poly-A tailing of fragmented RNA. cDNA insert dropped."
+}

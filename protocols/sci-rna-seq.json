@@ -1,0 +1,79 @@
+{
+  "protocol_id": "sci-rna-seq",
+  "protocol_name": "sci-RNA-seq",
+  "references": {
+    "protocol_pdf": "https://teichlab.github.io/scg_lib_structs/methods_html/sci-RNA-seq_family.html"
+  },
+  "library_sequence": "AATGATACGGCGACCACCGAGATCTACACIIIIIIIIIIACACTCTTTCCCTACACGACGCTCTTCCGATCTUUUUUUUURRRRRRRRRRCTGTCTCTTATACACATCTCCGAGCCCACGAGACIIIIIIIIIIATCTCGTATGCCGTCTTCTGCTTG",
+  "segments": [
+    {
+      "name": "P5 adapter",
+      "type": "known",
+      "sequence": "AATGATACGGCGACCACCGAGATCTACAC",
+      "length": 29
+    },
+    {
+      "name": "Sample index i5",
+      "type": "index",
+      "char": "I",
+      "sequence": "IIIIIIIIII",
+      "length": 10,
+      "role": "i5 PCR index for demultiplexing"
+    },
+    {
+      "name": "TruSeq adapter",
+      "type": "known",
+      "sequence": "ACACTCTTTCCCTACACGACGCTCTTCCGATCT",
+      "length": 33
+    },
+    {
+      "name": "UMI",
+      "type": "umi",
+      "char": "U",
+      "sequence": "UUUUUUUU",
+      "length": 8,
+      "role": "8bp UMI for PCR deduplication"
+    },
+    {
+      "name": "RT barcode",
+      "type": "barcode",
+      "char": "R",
+      "sequence": "RRRRRRRRRR",
+      "length": 10,
+      "role": "10bp RT barcode identifying cell"
+    },
+    {
+      "name": "ME (Mosaic End)",
+      "type": "known",
+      "sequence": "CTGTCTCTTATACACATCT",
+      "length": 19
+    },
+    {
+      "name": "s7 (Nextera)",
+      "type": "known",
+      "sequence": "CCGAGCCCACGAGAC",
+      "length": 15
+    },
+    {
+      "name": "Sample index i7",
+      "type": "index",
+      "char": "I",
+      "sequence": "IIIIIIIIII",
+      "length": 10,
+      "role": "i7 PCR index for demultiplexing"
+    },
+    {
+      "name": "P7 adapter",
+      "type": "known",
+      "sequence": "ATCTCGTATGCCGTCTTCTGCTTG",
+      "length": 24
+    }
+  ],
+  "placeholder_key": {
+    "I": "sample index",
+    "U": "UMI",
+    "R": "RT barcode"
+  },
+  "total_length": 158,
+  "notes": "Two-level combinatorial indexing (RT barcode + PCR indices). cDNA insert dropped. Paper URL returned HTTP 403 during automated validation on 2026-03-30; it may still be browser-accessible"
+}

@@ -1,0 +1,113 @@
+{
+  "protocol_id": "hydrop-rna",
+  "protocol_name": "HyDrop-RNA",
+  "references": {
+    "protocol_pdf": "https://teichlab.github.io/scg_lib_structs/methods_html/HyDrop_RNA.html"
+  },
+  "library_sequence": "AATGATACGGCGACCACCGAGATCTACACIIIIIIIIIIACACTCTTTCCCTACACGACGCTCTTCCGATCTUUUUUUUUBBBBBBBBBBAGGGTACTCGBBBBBBBBBBGCAGTAGCTGBBBBBBBBBBGTACTCTGCGTTGATACCACTGCTTCCGCGGACAGIIIIIIIIIIATCTCGTATGCCGTCTTCTGCTTG",
+  "segments": [
+    {
+      "name": "P5 adapter",
+      "type": "known",
+      "sequence": "AATGATACGGCGACCACCGAGATCTACAC",
+      "length": 29
+    },
+    {
+      "name": "Sample index i5",
+      "type": "index",
+      "char": "I",
+      "sequence": "IIIIIIIIII",
+      "length": 10,
+      "role": "i5 sample index for demultiplexing"
+    },
+    {
+      "name": "TruSeq Read 1",
+      "type": "known",
+      "sequence": "ACACTCTTTCCCTACACGACGCTCTTCCGATCT",
+      "length": 33
+    },
+    {
+      "name": "UMI",
+      "type": "umi",
+      "char": "U",
+      "sequence": "UUUUUUUU",
+      "length": 8,
+      "role": "8bp UMI for PCR deduplication"
+    },
+    {
+      "name": "Barcode 3",
+      "type": "barcode",
+      "char": "B",
+      "sequence": "BBBBBBBBBB",
+      "length": 10,
+      "role": "10bp cell barcode part 3 (split-pool)"
+    },
+    {
+      "name": "Linker 1",
+      "type": "known",
+      "sequence": "AGGGTACTCG",
+      "length": 10
+    },
+    {
+      "name": "Barcode 2",
+      "type": "barcode",
+      "char": "B",
+      "sequence": "BBBBBBBBBB",
+      "length": 10,
+      "role": "10bp cell barcode part 2 (split-pool)"
+    },
+    {
+      "name": "Linker 2",
+      "type": "known",
+      "sequence": "GCAGTAGCTG",
+      "length": 10
+    },
+    {
+      "name": "Barcode 1",
+      "type": "barcode",
+      "char": "B",
+      "sequence": "BBBBBBBBBB",
+      "length": 10,
+      "role": "10bp cell barcode part 1 (split-pool)"
+    },
+    {
+      "name": "Linker",
+      "type": "known",
+      "sequence": "GT",
+      "length": 2
+    },
+    {
+      "name": "TSO",
+      "type": "known",
+      "sequence": "ACTCTGCGTTGATACCACTGCTT",
+      "length": 23
+    },
+    {
+      "name": "Linker",
+      "type": "known",
+      "sequence": "CCGCGGACAG",
+      "length": 10
+    },
+    {
+      "name": "Sample index i7",
+      "type": "index",
+      "char": "I",
+      "sequence": "IIIIIIIIII",
+      "length": 10,
+      "role": "i7 sample index for demultiplexing"
+    },
+    {
+      "name": "P7 adapter",
+      "type": "known",
+      "sequence": "ATCTCGTATGCCGTCTTCTGCTTG",
+      "length": 24
+    }
+  ],
+  "placeholder_key": {
+    "I": "sample index",
+    "U": "UMI",
+    "B": "cell barcode"
+  },
+  "total_length": 199,
+  "notes": "Hybrid droplet method. Three split-pool barcodes (10bp each = 30bp total). 8bp UMI. cDNA insert dropped."
+}

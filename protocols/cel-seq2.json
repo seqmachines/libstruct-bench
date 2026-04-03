@@ -1,0 +1,71 @@
+{
+  "protocol_id": "cel-seq2",
+  "protocol_name": "CEL-seq2",
+  "references": {
+    "protocol_pdf": "https://teichlab.github.io/scg_lib_structs/methods_html/CEL-seq_family.html"
+  },
+  "library_sequence": "AATGATACGGCGACCACCGAGATCTACACGTTCAGAGTTCTACAGTCCGACGATCUUUUUUBBBBBBTGGAATTCTCGGGTGCCAAGGAACTCCAGTCACIIIIIIATCTCGTATGCCGTCTTCTGCTTG",
+  "segments": [
+    {
+      "name": "P5 adapter",
+      "type": "known",
+      "sequence": "AATGATACGGCGACCACCGAGATCTACAC",
+      "length": 29
+    },
+    {
+      "name": "RA5",
+      "type": "known",
+      "sequence": "GTTCAGAGTTCTACAGTCCGACGATC",
+      "length": 26
+    },
+    {
+      "name": "UMI",
+      "type": "umi",
+      "char": "U",
+      "sequence": "UUUUUU",
+      "length": 6,
+      "role": "6bp UMI for PCR deduplication"
+    },
+    {
+      "name": "Cell barcode",
+      "type": "barcode",
+      "char": "B",
+      "sequence": "BBBBBB",
+      "length": 6,
+      "role": "6bp cell barcode on barcoded RT primer"
+    },
+    {
+      "name": "RA3",
+      "type": "known",
+      "sequence": "TGGAATTCTCGGGTGCCAAGG",
+      "length": 21
+    },
+    {
+      "name": "Linker",
+      "type": "known",
+      "sequence": "AACTCCAGTCAC",
+      "length": 12
+    },
+    {
+      "name": "Sample index",
+      "type": "index",
+      "char": "I",
+      "sequence": "IIIIII",
+      "length": 6,
+      "role": "6bp sample index for demultiplexing"
+    },
+    {
+      "name": "P7 adapter",
+      "type": "known",
+      "sequence": "ATCTCGTATGCCGTCTTCTGCTTG",
+      "length": 24
+    }
+  ],
+  "placeholder_key": {
+    "U": "UMI",
+    "B": "cell barcode",
+    "I": "sample index"
+  },
+  "total_length": 130,
+  "notes": "CEL-seq2 adds 6bp UMI. 6bp cell barcode (reduced from CEL-seq's 8bp). Uses T7 IVT for amplification. cDNA insert dropped."
+}

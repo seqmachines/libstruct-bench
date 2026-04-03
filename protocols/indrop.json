@@ -1,0 +1,76 @@
+{
+  "protocol_id": "indrop",
+  "protocol_name": "inDrop V1",
+  "references": {
+    "protocol_pdf": "https://teichlab.github.io/scg_lib_structs/methods_html/inDrop.html"
+  },
+  "library_sequence": "AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCTBBBBBBBBBBGAGTGATTGCTTGTGACGCCTTBBBBBBBBUUUUUUAGATCGGAAGAGCGGTTCAGCAGGAATGCCGAGACCGATCTCGTATGCCGTCTTCTGCTTG",
+  "segments": [
+    {
+      "name": "P5 adapter",
+      "type": "known",
+      "sequence": "AATGATACGGCGACCACCGAGATCTACAC",
+      "length": 29
+    },
+    {
+      "name": "PE1 primer",
+      "type": "known",
+      "sequence": "TCTTTCCCTACACGACGCTCTTC",
+      "length": 23
+    },
+    {
+      "name": "Linker",
+      "type": "known",
+      "sequence": "CGATCT",
+      "length": 6
+    },
+    {
+      "name": "Barcode 1",
+      "type": "barcode",
+      "char": "B",
+      "sequence": "BBBBBBBBBB",
+      "length": 10,
+      "role": "Variable-length cell barcode part 1 (~8-11bp in HTML; represented here as 10bp)"
+    },
+    {
+      "name": "W1 linker",
+      "type": "known",
+      "sequence": "GAGTGATTGCTTGTGACGCCTT",
+      "length": 22
+    },
+    {
+      "name": "Barcode 2",
+      "type": "barcode",
+      "char": "B",
+      "sequence": "BBBBBBBB",
+      "length": 8,
+      "role": "8bp cell barcode part 2"
+    },
+    {
+      "name": "UMI",
+      "type": "umi",
+      "char": "U",
+      "sequence": "UUUUUU",
+      "length": 6,
+      "role": "6bp UMI for PCR deduplication"
+    },
+    {
+      "name": "PE2 primer",
+      "type": "known",
+      "sequence": "AGATCGGAAGAGCGGTTCAGCAGGAATGCCGAGACCG",
+      "length": 37
+    },
+    {
+      "name": "P7 adapter",
+      "type": "known",
+      "sequence": "ATCTCGTATGCCGTCTTCTGCTTG",
+      "length": 24
+    }
+  ],
+  "placeholder_key": {
+    "B": "cell barcode",
+    "U": "UMI"
+  },
+  "total_length": 165,
+  "notes": "inDrop V1. Barcode 1 is variable length in the HTML final structure (rendered as NN....NN) and is represented here as 10bp for benchmarking consistency. No sample index is shown in the V1 final library. Paper URL returned HTTP 403 during automated validation on 2026-03-30; it may still be browser-accessible."
+}

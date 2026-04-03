@@ -1,0 +1,68 @@
+{
+  "protocol_id": "strt-seq-c1",
+  "protocol_name": "STRT-seq/C1",
+  "references": {
+    "protocol_pdf": "https://teichlab.github.io/scg_lib_structs/methods_html/STRT-seq_family.html"
+  },
+  "library_sequence": "AATGATACGGCGACCACCGATUUUUUGGGCTGTCTCTTATACACATCTGACGCBBBBBBBBTCGTATGCCGTCTTCTGCTTG",
+  "segments": [
+    {
+      "name": "Solexa P1",
+      "type": "known",
+      "sequence": "AATGATACGGCGACCACCGA",
+      "length": 20
+    },
+    {
+      "name": "Linker",
+      "type": "known",
+      "sequence": "T",
+      "length": 1
+    },
+    {
+      "name": "UMI",
+      "type": "umi",
+      "char": "U",
+      "sequence": "UUUUU",
+      "length": 5,
+      "role": "5bp UMI for PCR deduplication"
+    },
+    {
+      "name": "Linker",
+      "type": "known",
+      "sequence": "GGG",
+      "length": 3
+    },
+    {
+      "name": "ME (Mosaic End)",
+      "type": "known",
+      "sequence": "CTGTCTCTTATACACATCT",
+      "length": 19
+    },
+    {
+      "name": "Linker",
+      "type": "known",
+      "sequence": "GACGC",
+      "length": 5
+    },
+    {
+      "name": "Cell barcode",
+      "type": "barcode",
+      "char": "B",
+      "sequence": "BBBBBBBB",
+      "length": 8,
+      "role": "8bp cell barcode (Fluidigm C1 index)"
+    },
+    {
+      "name": "Solexa P2",
+      "type": "known",
+      "sequence": "TCGTATGCCGTCTTCTGCTTG",
+      "length": 21
+    }
+  ],
+  "placeholder_key": {
+    "U": "UMI",
+    "B": "cell barcode"
+  },
+  "total_length": 82,
+  "notes": "STRT-seq on Fluidigm C1. Has 5bp UMI and 8bp cell barcode. Uses Nextera ME for tagmentation. cDNA insert dropped."
+}

@@ -1,0 +1,112 @@
+{
+  "protocol_id": "split-seq",
+  "protocol_name": "SPLiT-seq",
+  "references": {
+    "protocol_pdf": "https://teichlab.github.io/scg_lib_structs/methods_html/SPLiT-seq.html"
+  },
+  "library_sequence": "AATGATACGGCGACCACCGAGATCTACACTAGATCGCTCGTCGGCAGCGTCAGATGTGTATAAGAGACAGRRRRRRRRCGAATGCTCTGGCCTCTCAAGCACGTGGATLLLLLLLLAGTCGTACGCCGATGCGAAACATCGGCCACLLLLLLLLUUUUUUUUUUAGATCGGAAGAGCACACGTCTGAACTCCAGTCACIIIIIIATCTCGTATGCCGTCTTCTGCTTG",
+  "segments": [
+    {
+      "name": "P5 adapter",
+      "type": "known",
+      "sequence": "AATGATACGGCGACCACCGAGATCTACAC",
+      "length": 29
+    },
+    {
+      "name": "Sublibrary index",
+      "type": "known",
+      "sequence": "TAGATCGC",
+      "length": 8
+    },
+    {
+      "name": "s5 (Nextera)",
+      "type": "known",
+      "sequence": "TCGTCGGCAGCGTC",
+      "length": 14
+    },
+    {
+      "name": "ME (Mosaic End)",
+      "type": "known",
+      "sequence": "AGATGTGTATAAGAGACAG",
+      "length": 19
+    },
+    {
+      "name": "Round 1 barcode",
+      "type": "barcode",
+      "char": "R",
+      "sequence": "RRRRRRRR",
+      "length": 8,
+      "role": "8bp Round 1 RT barcode"
+    },
+    {
+      "name": "Round 1 linker",
+      "type": "known",
+      "sequence": "CGAATGCTCTGGCCT",
+      "length": 15
+    },
+    {
+      "name": "Round 2 linker",
+      "type": "known",
+      "sequence": "CTCAAGCACGTGGAT",
+      "length": 15
+    },
+    {
+      "name": "Round 2 barcode",
+      "type": "barcode",
+      "char": "L",
+      "sequence": "LLLLLLLL",
+      "length": 8,
+      "role": "8bp Round 2 ligation barcode"
+    },
+    {
+      "name": "Round 3 linker",
+      "type": "known",
+      "sequence": "AGTCGTACGCCGATGCGAAACATCGGCCAC",
+      "length": 30
+    },
+    {
+      "name": "Round 3 barcode",
+      "type": "barcode",
+      "char": "L",
+      "sequence": "LLLLLLLL",
+      "length": 8,
+      "role": "8bp Round 3 ligation barcode"
+    },
+    {
+      "name": "UMI",
+      "type": "umi",
+      "char": "U",
+      "sequence": "UUUUUUUUUU",
+      "length": 10,
+      "role": "10bp UMI for PCR deduplication"
+    },
+    {
+      "name": "TruSeq Read 2",
+      "type": "known",
+      "sequence": "AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC",
+      "length": 34
+    },
+    {
+      "name": "Sample index",
+      "type": "index",
+      "char": "I",
+      "sequence": "IIIIII",
+      "length": 6,
+      "role": "i7 sample index for demultiplexing"
+    },
+    {
+      "name": "P7 adapter",
+      "type": "known",
+      "sequence": "ATCTCGTATGCCGTCTTCTGCTTG",
+      "length": 24
+    }
+  ],
+  "placeholder_key": {
+    "R": "RT barcode",
+    "L": "ligation barcode",
+    "U": "UMI",
+    "I": "sample index"
+  },
+  "total_length": 228,
+  "notes": "Three-round combinatorial barcoding by ligation. 8bp barcodes per round. 10bp UMI. cDNA insert dropped. Paper URL returned HTTP 403 during automated validation on 2026-03-30; it may still be browser-accessible"
+}

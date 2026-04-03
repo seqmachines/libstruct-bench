@@ -1,0 +1,65 @@
+{
+  "protocol_id": "10x-chromium-3prime-v4",
+  "protocol_name": "10x Chromium GEM-X Single Cell 3' Gene Expression v4",
+  "references": {
+    "protocol_pdf": "https://cdn.10xgenomics.com/image/upload/v1725314293/support-documents/CG000731_ChromiumGEM-X_SingleCell3v4_UserGuide_RevB.pdf"
+  },
+  "library_sequence": "AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCTBBBBBBBBBBBBBBBBUUUUUUUUUUUUGATCGGAAGAGCACACGTCTGAACTCCAGTCACIIIIIIIIATCTCGTATGCCGTCTTCTGCTTG",
+  "segments": [
+    {
+      "name": "P5 adapter",
+      "type": "known",
+      "sequence": "AATGATACGGCGACCACCGAGATCTACAC",
+      "length": 29
+    },
+    {
+      "name": "TruSeq Read 1",
+      "type": "known",
+      "sequence": "TCTTTCCCTACACGACGCTCTTCCGATCT",
+      "length": 29
+    },
+    {
+      "name": "Cell barcode",
+      "type": "barcode",
+      "char": "B",
+      "sequence": "BBBBBBBBBBBBBBBB",
+      "length": 16,
+      "role": "16bp cell barcode from 10x barcode whitelist (3M-3pgex-may-2023)"
+    },
+    {
+      "name": "UMI",
+      "type": "umi",
+      "char": "U",
+      "sequence": "UUUUUUUUUUUU",
+      "length": 12,
+      "role": "Random 12bp sequence for PCR deduplication"
+    },
+    {
+      "name": "TruSeq Read 2",
+      "type": "known",
+      "sequence": "GATCGGAAGAGCACACGTCTGAACTCCAGTCAC",
+      "length": 33
+    },
+    {
+      "name": "Sample index",
+      "type": "index",
+      "char": "I",
+      "sequence": "IIIIIIII",
+      "length": 8,
+      "role": "i7 sample index for demultiplexing"
+    },
+    {
+      "name": "P7 adapter",
+      "type": "known",
+      "sequence": "ATCTCGTATGCCGTCTTCTGCTTG",
+      "length": 24
+    }
+  ],
+  "placeholder_key": {
+    "B": "cell barcode",
+    "U": "UMI",
+    "I": "sample index"
+  },
+  "total_length": 151,
+  "notes": "v4 (GEM-X) chemistry. Library structure identical to v3/v3.1 (12bp UMI, 16bp barcode). Different barcode whitelist (3M-3pgex-may-2023). Better cell recovery and sensitivity. cDNA insert dropped."
+}

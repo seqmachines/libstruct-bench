@@ -1,0 +1,111 @@
+{
+  "protocol_id": "microwell-seq",
+  "protocol_name": "Microwell-seq",
+  "references": {
+    "protocol_pdf": "https://teichlab.github.io/scg_lib_structs/methods_html/Microwell-seq.html"
+  },
+  "library_sequence": "AATGATACGGCGACCACCGAGATCTACACGCCTGTCCGCGGAAGCAGTGGTATCAACGCAGAGTACGTBBBBBBCGACTCACTACAGGGBBBBBBTCGGTGACACGATCGBBBBBBUUUUUUCTGTCTCTTATACACATCTCCGAGCCCACGAGACIIIIIIIIATCTCGTATGCCGTCTTCTGCTTG",
+  "segments": [
+    {
+      "name": "P5 adapter",
+      "type": "known",
+      "sequence": "AATGATACGGCGACCACCGAGATCTACAC",
+      "length": 29
+    },
+    {
+      "name": "Linker",
+      "type": "known",
+      "sequence": "GCCTGTCCGCGG",
+      "length": 12
+    },
+    {
+      "name": "TSO",
+      "type": "known",
+      "sequence": "AAGCAGTGGTATCAACGCAGAGTAC",
+      "length": 25
+    },
+    {
+      "name": "Linker",
+      "type": "known",
+      "sequence": "GT",
+      "length": 2
+    },
+    {
+      "name": "Barcode 1",
+      "type": "barcode",
+      "char": "B",
+      "sequence": "BBBBBB",
+      "length": 6,
+      "role": "6bp cell barcode part 1"
+    },
+    {
+      "name": "Linker PE1",
+      "type": "known",
+      "sequence": "CGACTCACTACAGGG",
+      "length": 15
+    },
+    {
+      "name": "Barcode 2",
+      "type": "barcode",
+      "char": "B",
+      "sequence": "BBBBBB",
+      "length": 6,
+      "role": "6bp cell barcode part 2"
+    },
+    {
+      "name": "Linker PE2",
+      "type": "known",
+      "sequence": "TCGGTGACACGATCG",
+      "length": 15
+    },
+    {
+      "name": "Barcode 3",
+      "type": "barcode",
+      "char": "B",
+      "sequence": "BBBBBB",
+      "length": 6,
+      "role": "6bp cell barcode part 3"
+    },
+    {
+      "name": "UMI",
+      "type": "umi",
+      "char": "U",
+      "sequence": "UUUUUU",
+      "length": 6,
+      "role": "6bp UMI for PCR deduplication"
+    },
+    {
+      "name": "ME (Mosaic End)",
+      "type": "known",
+      "sequence": "CTGTCTCTTATACACATCT",
+      "length": 19
+    },
+    {
+      "name": "s7",
+      "type": "known",
+      "sequence": "CCGAGCCCACGAGAC",
+      "length": 15
+    },
+    {
+      "name": "Sample index",
+      "type": "index",
+      "char": "I",
+      "sequence": "IIIIIIII",
+      "length": 8,
+      "role": "i7 sample index for demultiplexing"
+    },
+    {
+      "name": "P7 adapter",
+      "type": "known",
+      "sequence": "ATCTCGTATGCCGTCTTCTGCTTG",
+      "length": 24
+    }
+  ],
+  "placeholder_key": {
+    "B": "cell barcode",
+    "U": "UMI",
+    "I": "sample index"
+  },
+  "total_length": 188,
+  "notes": "Three-part split-pool cell barcode (6bp x 3 = 18bp total). 6bp UMI. Nextera tagmentation. cDNA insert dropped. Paper URL returned HTTP 403 during automated validation on 2026-03-30; it may still be browser-accessible"
+}

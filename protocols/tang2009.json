@@ -1,0 +1,41 @@
+{
+  "protocol_id": "tang2009",
+  "protocol_name": "Tang 2009",
+  "references": {
+    "protocol_pdf": "https://www.nature.com/articles/nprot.2009.236"
+  },
+  "library_sequence": "CCACTACGCCTCCGCTTTCCTCTCTATGGGCAGTCGGTGATCGCCTTGGCCGTACAGCAGIIIIIIAGAGAATGAGGAACCCGGGGCAG",
+  "segments": [
+    {
+      "name": "SOLiD P1 adapter",
+      "type": "known",
+      "sequence": "CCACTACGCCTCCGCTTTCCTCTCTATGGGCAGTCGGTGAT",
+      "length": 41
+    },
+    {
+      "name": "SOLiD P2 adapter",
+      "type": "known",
+      "sequence": "CGCCTTGGCCGTACAGCAG",
+      "length": 19
+    },
+    {
+      "name": "Sample barcode",
+      "type": "index",
+      "char": "I",
+      "sequence": "IIIIII",
+      "length": 6,
+      "role": "6bp sample barcode"
+    },
+    {
+      "name": "SOLiD adapter tail",
+      "type": "known",
+      "sequence": "AGAGAATGAGGAACCCGGGGCAG",
+      "length": 23
+    }
+  ],
+  "placeholder_key": {
+    "I": "sample index"
+  },
+  "total_length": 89,
+  "notes": "First single-cell RNA-seq method (2009). SOLiD platform (not Illumina). No cell barcode or UMI. cDNA insert dropped."
+}

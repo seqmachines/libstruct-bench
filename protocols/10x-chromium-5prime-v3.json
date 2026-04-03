@@ -1,0 +1,71 @@
+{
+  "protocol_id": "10x-chromium-5prime-v3",
+  "protocol_name": "10x Chromium GEM-X Single Cell 5' Gene Expression v3",
+  "references": {
+    "protocol_pdf": "https://cdn.10xgenomics.com/image/upload/v1710230393/support-documents/CG000733_ChromiumGEM-X_SingleCell5_ReagentKitsv3_UserGuide_RevA.pdf"
+  },
+  "library_sequence": "AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCTBBBBBBBBBBBBBBBBUUUUUUUUUUUUTTTCTTATATGGGGATCGGAAGAGCACACGTCTGAACTCCAGTCACIIIIIIIIATCTCGTATGCCGTCTTCTGCTTG",
+  "segments": [
+    {
+      "name": "P5 adapter",
+      "type": "known",
+      "sequence": "AATGATACGGCGACCACCGAGATCTACAC",
+      "length": 29
+    },
+    {
+      "name": "TruSeq Read 1",
+      "type": "known",
+      "sequence": "TCTTTCCCTACACGACGCTCTTCCGATCT",
+      "length": 29
+    },
+    {
+      "name": "Cell barcode",
+      "type": "barcode",
+      "char": "B",
+      "sequence": "BBBBBBBBBBBBBBBB",
+      "length": 16,
+      "role": "16bp cell barcode from 10x barcode whitelist (3M-5pgex-jan-2023)"
+    },
+    {
+      "name": "UMI",
+      "type": "umi",
+      "char": "U",
+      "sequence": "UUUUUUUUUUUU",
+      "length": 12,
+      "role": "Random 12bp sequence for PCR deduplication"
+    },
+    {
+      "name": "Template switch",
+      "type": "known",
+      "sequence": "TTTCTTATATGGG",
+      "length": 13
+    },
+    {
+      "name": "TruSeq Read 2",
+      "type": "known",
+      "sequence": "GATCGGAAGAGCACACGTCTGAACTCCAGTCAC",
+      "length": 33
+    },
+    {
+      "name": "Sample index",
+      "type": "index",
+      "char": "I",
+      "sequence": "IIIIIIII",
+      "length": 8,
+      "role": "i7 sample index for demultiplexing"
+    },
+    {
+      "name": "P7 adapter",
+      "type": "known",
+      "sequence": "ATCTCGTATGCCGTCTTCTGCTTG",
+      "length": 24
+    }
+  ],
+  "placeholder_key": {
+    "B": "cell barcode",
+    "U": "UMI",
+    "I": "sample index"
+  },
+  "total_length": 164,
+  "notes": "5' v3 (GEM-X) chemistry. UMI is 12bp (vs 10bp in v1/v2). cDNA insert dropped."
+}
