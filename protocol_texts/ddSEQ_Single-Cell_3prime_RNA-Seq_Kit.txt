@@ -1,0 +1,3309 @@
+--- Page 1 ---
+ddSEQTM Single-Cell 3' RNA-Seq Kit
+User Guide
+Version 1.0
+
+
+--- Page 3 ---
+ddSEQ Single-Cell 3' RNA-Seq Kit
+User Guide
+Version 1.0
+Catalog No.
+17009671
+12009359
+12020410
+12020632
+12020413
+
+
+--- Page 4 ---
+Bio-Rad Technical Support Department
+The Bio-Rad Technical Support department in the U.S. is open Monday through Friday, 5:00 AM to 5:00 PM,
+Pacific time.
+Phone: 1-800-424-6723, option 2
+Email: Support@bio-rad.com (U.S./Canada Only)
+For technical assistance outside the U.S. and Canada, contact your local technical support office or click the
+Contact Us link at www.bio-rad.com.
+Legal Notices
+No part of this publication may be reproduced or transmitted in any form or by any means, electronic or mechanical,
+including photocopy, recording, or any information storage or retrieval system, without permission in writing from
+Bio-Rad.
+Bio-Rad reserves the right to modify its products and services at any time. This guide is subject to change without
+notice. Although prepared to ensure accuracy, Bio-Rad assumes no liability for errors or omissions, or for any
+damage resulting from the application or use of this information.
+BIO-RAD, DDPCR, DDSEQ, and MICROSEAL are trademarks of Bio-Rad Laboratories, Inc. in certain jurisdictions.
+ILLUMINA and NEXTSEQ are trademarks of Illumina.
+Purchase of Digital PCR and/or Single-Cell NGS Sample Preparation products (the “Products”) from Bio-Rad
+Laboratories is subject to Bio-Rad Laboratories, Inc. Standard Terms and Conditions of Sale, which can be accessed
+at https://bio-rad.com/en-us/terms-conditions. Unless we expressly state otherwise in additional Terms and
+Conditions, no rights are granted for you to distribute or resell the Products. Unless we expressly state otherwise in
+additional Terms and Conditions, ​no rights are granted for the development or commercialization of diagnostic
+assays for use with the Products without a license from Bio-Rad. It is the user’s obligation to obtain a commercial
+license from Bio-Rad for (i) all commercial uses (not just diagnostic uses) and (ii) sale of assays for use on Bio-Rad's
+dPCR and ddSEQ instruments. The Products and/or their use are covered by U.S.​ and foreign patents and/or
+pending patent applications owned by or under license to Bio-Rad Laboratories, Inc. See https://bio-rad.com/en-
+us/trademarks for trademark information.
+All trademarks used herein are the property of their respective owner.
+Copyright © 2024 by Bio-Rad Laboratories, Inc. All rights reserved.
+
+
+--- Page 5 ---
+Revision History
+Revision History
+Document
+Date
+Description of Change
+ddSEQ Single-Cell 3' RNA-Seq
+Kit
+User Guide
+Version 1.0
+DIR No. 10000167449, Ver B
+June
+2024
+Add bullet points to Index and Library Prep best
+practices, and section on preparing for
+sequencing
+ddSEQ Single-Cell 3' RNA-Seq
+Kit
+User Guide
+Version 1.0
+DIR No. 10000167449, Ver A
+May
+2024
+New user guide
+User Guide | iii
+
+
+--- Page 6 ---
+This page intentionally left blank.
+iv | ddSEQ Single-Cell 3' RNA-Seq Kit
+
+
+--- Page 7 ---
+Table of Contents
+Front Cover
+a
+Revision History
+iii
+ddSEQ Single-Cell 3' RNA-Seq Kit Workflow
+7
+Chapter 1 Introduction
+9
+Chapter 2 Required Consumables and Equipment
+11
+Chapter 3 Technology and Best Practices
+17
+Workflow Technology
+17
+Best Practices
+20
+Key Workflow Considerations
+20
+Dispensing the Encapsulation Oil
+21
+ddSEQ Single-Cell Isolator and Cartridges
+21
+Cartridge Assembly
+21
+Cartridge Loading
+23
+Droplet Transfer
+24
+Droplet and Cartridge Handling
+25
+Purification Beads
+25
+Index and Library Preparation
+26
+Chapter 4 Protocol
+27
+Preparing Single-Cell Suspension
+27
+Preparing 1X PBS + 0.1% BSA
+28
+Preparing the Cells
+28
+Preparing the Mixes for Droplet Generation
+30
+Preparing the Priming Buffer and Encapsulation Oil
+32
+Assembling the Barcode Suspension Mix
+33
+Aliquoting the Barcode Suspension Mix
+34
+Preparing the Cell Enzyme Cocktail
+35
+Assembling the Cell Suspension Mix
+36
+Loading the ddSEQ M Cartridges
+37
+Priming the ddSEQ M Cartridge
+38
+Loading the Cartridge with Barcode and Cell Suspension Mixes
+39
+Single-Cell Encapsulation
+40
+Generating Droplets
+40
+User Guide | v
+
+
+--- Page 8 ---
+Table of Contents
+Transferring Droplets
+43
+In-Droplet Barcoding and cDNA Synthesis
+44
+Breaking Emulsions and Purifying cDNA and DO Dimer Fractions
+46
+Breaking Emulsions
+50
+cDNA and DO Dimer Fraction Purification
+51
+First cDNA Purification and DO Dimer Size Selection
+51
+Combine Wells From cDNA Samples and Transfer
+54
+Second cDNA Purification
+55
+DO Dimer Purification
+56
+Combine Wells From DO Dimer Samples and Transfer
+58
+Preparing cDNA and DO Libraries
+59
+cDNA Tagmentation
+60
+cDNA Indexing and Amplification
+63
+DO Dimer Indexing and Amplification
+67
+cDNA and DO Library Purification
+71
+First Library Purification
+72
+Second Library Purification
+74
+Library Processing
+76
+Preparing for Sequencing
+79
+Chapter 5 Data Analysis
+83
+Appendix A Checking cDNA and DO Dimer Samples Before Library Preparation
+85
+Back Cover
+87
+vi | ddSEQ Single-Cell 3' RNA-Seq Kit
+
+
+--- Page 9 ---
+ddSEQ Single-Cell 3' RNA-Seq Kit Workflow
+Fig. 1 displays the hands-on time and total time for each process step in the Bio-Rad™ddSEQ™Single-
+Cell 3' RNA-Seq Kit workflow.
+Fig. 1: ddSEQ Single-Cell 3' RNA-Seq Kit workflow
+User Guide | 7
+
+
+--- Page 10 ---
+ddSEQ Single-Cell 3' RNA-Seq Kit Workflow
+This page intentionally left blank.
+8 | ddSEQ Single-Cell 3' RNA-Seq Kit
+
+
+--- Page 11 ---
+Chapter 1 Introduction
+The ddSEQ Single-Cell 3' RNA-Seq Kit, when paired with the ddSEQ Single-Cell Isolator, provides end-
+users with a technology to encapsulate thousands of single cells in discrete droplet partitions. These
+droplet partitions include barcoded gel beads, and reagents for cell lysis, capture, and conversion of
+cellular mRNA (messenger RNA) into double-stranded cDNA (complementary DNA). Subsequent
+enzymatic reactions process the cDNA and convert it into libraries for sequencing on Illumina platforms.
+When paired with Omnition Analysis Software for data analysis, you can clarify biological information
+down to single-cell resolution (Fig. 2).
+Fig. 2: ddSEQ single-cell 3' RNA-seq technology
+User Guide | 9
+
+
+--- Page 12 ---
+Chapter 1 Introduction
+This page intentionally left blank.
+10 | ddSEQ Single-Cell 3' RNA-Seq Kit
+
+
+--- Page 13 ---
+Chapter 2 Required Consumables and Equipment
+Fig. 3 illustrates the kit contents.
+Fig. 3: ddSEQ Single-Cell 3' RNA-Seq Kit components
+User Guide | 11
+
+
+--- Page 14 ---
+Chapter 2 Required Consumables and Equipment
+Table 1 defines the contents of the ddSEQ Single-Cell 3' RNA-Seq Kit.
+Name
+Catalog
+no.
+Storage temp
+Assoc doc
+catalog no.
+Qty (ea)
+Cap
+color
+ddSEQ M
+Cartridges
+12009359
+Room
+temp
+12008720
+2
+N/A
+ddSEQ Single-Cell 3' RNA-Seq Droplet Generation Module (catalog no. 12020410)
+ddSEQ Priming
+Solution
+N/A
+4° C
+12020075
+1
+Clear
+Droplet Disruptor
+N/A
+4° C
+12008761
+1
+Clear
+Encapsulation Oil
+N/A
+4° C
+12008762
+1
+Clear
+Barcoded Beads
+N/A
+4° C
+12020007
+1
+Blue
+ddSEQ Single-Cell 3' RNA-Seq RT Module (catalog no. 12020632)
+Bead Buffer
+N/A
+-20° C
+12019997
+1
+Blue
+Cell Suspension
+Buffer
+N/A
+-20° C
+12020074
+1
+Red
+300 mM DTT
+N/A
+-20° C
+10049218
+1
+Gray
+RNA Stabilizer
+N/A
+-20° C
+12020006
+1
+Red
+RT Enzyme
+N/A
+-20° C
+12020053
+1
+Blue
+3' Enzyme Mix
+N/A
+-20° C
+12020052
+1
+Red
+ddSEQ Single-Cell 3' RNA-Seq Library Module (catalog no. 12020413)
+cDNA
+Tagmentation
+buffer (labeled as
+TGMNT on tube)
+N/A
+-20° C
+12019996
+1
+Yellow
+Table 1. ddSEQ Single-Cell 3' RNA-Seq Kit (catalog no. 17009671)
+12 | ddSEQ Single-Cell 3' RNA-Seq Kit
+
+
+--- Page 15 ---
+Name
+Catalog
+no.
+Storage temp
+Assoc doc
+catalog no.
+Qty (ea)
+Cap
+color
+cDNA
+Tagmentation
+Enzyme
+N/A
+-20° C
+12019983
+1
+Yellow
+Carrier DNA
+N/A
+–20° C
+12020782
+1
+Yellow
+PCR Supermix
+N/A
+–20° C
+12020005
+1
+Clear
+Table 1. ddSEQ Single-Cell 3' RNA-Seq Kit (catalog no. 17009671), continued
+Table 2 defines the contents of the ddSEQ Single-Cell 3' RNA-Seq Dual Index Kit, which is sold
+separately.
+Name
+Catalog
+no.
+Storage
+temp
+Assoc doc
+catalog no.
+Qty
+(ea)
+Cap
+color
+ddSEQ 3' cDNA
+Index Plate
+N/A
+-20° C
+12020634
+1
+N/A
+ddSEQ 3' DO
+Index Plate
+N/A
+-20° C
+12020633
+1
+N/A
+Table 2. ddSEQ Single-Cell 3' RNA-Seq Dual Index Kit (Catalog no. 12020461)
+Table 3 defines the equipment that has been validated by Bio-Rad and is recommended for use.
+Important: Substitutions might negatively affect system performance, although purchase from any
+vendor is acceptable for some equipment. For sample analyses, you can use either the Agilent 2100
+Bioanalyzer or the Agilent 4150 Tapestation System, depending on preference or availability.
+Apparatus/equipment
+Catalog no.
+Supplier
+ddSEQ Single-Cell Isolator for single-cell sequencing
+12004336
+Bio-Rad
+ddSEQ Cartridge Holder
+12004739
+Bio-Rad
+Cell counter (automated or manual hemocytometer)
+N/A
+Any vendor
+Centrifuge (rotor for 1.5 ml tubes)
+N/A
+Any vendor
+Table 3. Equipment (not provided)
+User Guide | 13
+
+
+--- Page 16 ---
+Chapter 2 Required Consumables and Equipment
+Apparatus/equipment
+Catalog no.
+Supplier
+Centrifuge (rotor for 15 ml tubes)
+N/A
+Any vendor
+Vortex
+N/A
+Any vendor
+96-well cooling block
+N/A
+Any vendor
+Thermal cycler* (choose one)
+Bio-Rad
+n T100 Thermal Cycler
+n C1000 Thermal Cycler with 96-Deep Well Reaction
+Module)
+n PTC Tempo Deep Well Thermal Cycler
+1861096
+1861097
+12015392
+*Use one of the recommended thermal cyclers or an equivalent deep-well thermal cycler with up to 100 µl
+capacity. The default ramp rate is 2.0° C/sec for the recommended thermal cyclers.
+Rainin Pipet-Lite LTS Pipette L-200XLS+
+17014391
+Mettler Toledo
+Rainin Pipet-Lite LTS Pipette L-100XLS+
+17014384
+Mettler Toledo
+Rainin Pipet-Lite LTS Pipette L-20XLS+
+17014392
+Mettler Toledo
+Rainin Pipet-Lite LTS Pipette L-2XLS+
+17014393
+Mettler Toledo
+Rainin Pipet-Lite Multi Pipette L8-200XLS+
+17013805
+Mettler Toledo
+Rainin Pipet-Lite Multi Pipette L8-50XLS+
+17013804
+Mettler Toledo
+Rainin Pipet-Lite Multi Pipette L8-20XLS
+17013803
+Mettler Toledo
+NEBNext Magnetic Separation Rack
+S1515S
+NEB
+Magnetic Stand 96
+AM10027
+Thermo Fisher
+Scientific
+DynaMag-96 Side Skirted Magnet
+12027
+Thermo Fisher
+Scientific
+Choose one:
+n 2100 Bioanalyzer
+n 4150 Tapestation System
+G2939AAR
+G2992AA
+Agilent
+Table 3. Equipment (not provided), continued
+14 | ddSEQ Single-Cell 3' RNA-Seq Kit
+
+
+--- Page 17 ---
+Table 4 defines the validated required reagents.
+Reagent
+Catalog no.
+Supplier
+Nuclease-free water
+N/A
+Any vendor
+Trypsin or any cell dissociation reagent
+(dependent on cell type of interest)
+N/A
+Any vendor
+Trypan blue or live/dead fluorescent dyes
+N/A
+Any vendor
+Bovine Serum Albumin (BSA), molecular-
+biology grade/nuclease-free
+B6917
+126615
+Millipore Sigma
+(or any vendor with
+appropriate cell
+culture/ molecular
+biology grade)
+1X phosphate-buffered saline (PBS); no
+calcium, no magnesium, pH 7.4
+N/A
+Any vendor
+10 mM Tris-HCl pH 8.0 Resuspension Buffer,
+DNAse-Free
+T1173
+Teknova
+Ethanol, pure (200 proof, anhydrous)
+N/A
+Any vendor
+Choose either A, or B and C:
+A) High-Sensitivity DNA Reagents
+or
+B) High-Sensitivity D5000 Reagents
+and
+C) High-Sensitivity D1000 Reagents
+5067-4627
+5067-5593
+5067-5585
+Agilent
+Glycerin (50% v/v glycerol solution in water)
+N/A
+Any vendor
+Table 4. Required reagents (not provided)
+User Guide | 15
+
+
+--- Page 18 ---
+Chapter 2 Required Consumables and Equipment
+Table 5 defines the validated required consumables.
+Consumable
+Catalog no.
+Supplier
+ddPCR™96-Well Plates
+12001925
+Bio-Rad
+Microseal™F PCR Plate Seal (with pierceable foil)
+MSF1001
+Bio-Rad
+0.2 ml Flat PCR Tube 8-Cap Strips
+TCS0803
+Bio-Rad
+Choose one:
+n 0.2 ml TempAssure PCR Flex-Free 8-Tube Strips
+with Attached Individual Optical Caps
+n 0.2 ml Sapphire PCR 8-Tube Strips for qPCR, with
+Attached Individual Optical Flat Caps
+1402-4700
+608281
+USA-Scientific
+Greiner Bio-one
+0.2 µm PES filtration system
+N/A
+Any vendor
+15 ml conical centrifuge tubes
+N/A
+Any vendor
+1.5 ml DNA LoBind Micro-Centrifuge Tubes
+022431021
+Eppendorf
+Pipette Tips TR LTS 200µl F 960A/10
+17014963
+Mettler Toledo
+Pipette Tips TR LTS 20µl S 960A/10
+17014960
+Mettler Toledo
+Purification beads (choose one):
+Beckman Coulter
+n SPRIselect Reagent Kit
+B23317
+n Ampure XP SPRI Reagent
+A63881
+Choose either A, or B and C:
+A) High-Sensitivity DNA Kit
+or
+B) High-Sensitivity D5000 Ladder and High-Sensitivity
+D5000 Screen Tape
+and
+C) High-Sensitivity D1000 Ladder and High-Sensitivity
+D1000 Screen Tape
+5067-4626
+5067-5594 and
+5067-5592
+5067-5587 and
+5067-5582
+Agilent
+Table 5. Required consumables (not provided)
+16 | ddSEQ Single-Cell 3' RNA-Seq Kit
+
+
+--- Page 19 ---
+Chapter 3 Technology and Best Practices
+Workflow Technology
+The protocol in this document contains information and instructions for preparing 3’ tagged RNA-seq
+libraries from single cells for whole transcriptome analysis on Illumina sequencing platforms. The ddSEQ
+Single-Cell 3' RNA-Seq Kit is optimized for a cell input range of 1,000 to 10,000 cells per sample loaded.
+Each cartridge (two are provided in each kit) contains eight wells, dedicating two wells per sample. You
+can load a single cartridge with up to four unique samples, resulting in a typical cell output of up to 5,000
+single cells per sample (Table 6).
+Viable cells
+loaded per sample
+Cells recovered
+per sample
+1,000
+500
+2,000
+1,000
+3,000
+1,500
+4,000
+2,000
+5,000
+2,500
+6,000
+3,000
+7,000
+3,500
+8,000
+4,000
+9,000
+4,500
+10,000
+5,000
+Table 6. Viable cells loaded vs cells recovered per sample
+Important: To partition single cells and barcode individual transcriptomes, you must use a ddSEQ
+Single-Cell Isolator and reagents provided in the ddSEQ Single-Cell 3' RNA-Seq Kit. For information,
+see Chapter 2, Required Consumables and Equipment.
+User Guide | 17
+
+
+--- Page 20 ---
+Chapter 3 Technology and Best Practices
+To ensure single-cell encapsulation, the ddSEQ Single-Cell 3' RNA-Seq Kit partitions single cells into
+droplets at a limiting dilution. Barcoded beads are overloaded into the system to ensure that each droplet
+has at least one bead to capture the mRNA of an encapsulated cell. Through a deconvolution oligo (DO)
+strategy, cellular information is combined to single-cell resolution bioinformatically.
+Each barcoded bead is covered in two types of oligos: poly(T) capture oligos and deconvolution oligos.
+Both types of oligos contain a bead barcode and a unique molecular identifier (UMI). Every oligo on the
+bead has the same bead barcode to identify the bead, and a UMI to differentiate oligos. These oligo
+configurations and regions are depicted with distinctly colored UMI and bead barcode regions (Fig. 4).
+Fig. 4: Representative diagram of the barcoded gel beads
+When a single cell in a droplet is paired with one or more beads, the cellular mRNA is captured by poly(T)
+oligos from the beads in the droplet, (Fig. 5). DOs in the droplet hybridize to form dimers with other DOs in
+the partition. Omnition Analysis Software assigns captured transcripts to a bead based on their bead
+barcode and connects beads within the same droplet based on their DO sequencing library.
+Fig. 5: Deconvolution of information from multiple beads for partition assignment
+18 | ddSEQ Single-Cell 3' RNA-Seq Kit
+
+
+--- Page 21 ---
+Workflow Technology
+Fig. 6: In-droplet enzymatic reactions during the workflow
+n
+Lysis occurs after cells are partitioned alongside barcoded beads, releasing mRNA into the droplet
+environment. Both the poly(T) capture and DOs are released from the beads.
+n
+The cellular mRNA hybridizes to poly(T) oligos and first strand cDNA synthesis occurs, while bead
+connections are formed via DO hybridization and extension, resulting in DO dimers.
+Fig. 7: Post-droplet enzymatic reactions during the workflow
+n
+After droplet disruption and product cleanup, both cDNA and DO dimer fractions are converted to
+final libraries. cDNA is tagmented to incorporate adapters.
+Note: The protocol skips the tagmentation step for DO dimers.
+n
+After cDNA tagmentation, an indexing PCR step adds final full-length adapters for sequencing.
+n
+A parallel indexing PCR step adds final full-length adapters to the DO dimers for sequencing.
+User Guide | 19
+
+
+--- Page 22 ---
+Chapter 3 Technology and Best Practices
+The final cDNA sequencing library structure is completed via tagmentation and index PCR (Fig. 8), while
+the DO sequencing library structure is achieved via index PCR only (Fig. 9). Both the cDNA and DO
+sequencing libraries are dual-indexed with 8-base unique dual indexes (UDI).
+Note: The cDNA and DO index plates are sold separately.
+Fig. 8: Final cDNA library structure
+Fig. 9: Final DO library structure
+Best Practices
+To ensure optimal workflow performance, Bio-Rad recommends that you comply with the best practices
+explained in the following subsections.
+Key Workflow Considerations
+n
+Before you begin
+o
+Read through the entire protocol to become familiar with the workflow.
+o
+Ensure that all required equipment is properly installed and functioning.
+o
+Ensure that all required materials and reagents are available.
+n
+Pause the protocol only at designated safe stopping points.
+n
+Use separate areas for appropriate steps (such as cell culture rooms, and pre-PCR and post-PCR
+areas).
+n
+To avoid cross-contamination, change pipette tips between each sample and reaction.
+n
+Use the recommended Rainin pipettes and filtered tips only.
+Important: Using other tips can negatively impact performance.
+n
+Do not use latex gloves when making or handling droplets.
+Important: Latex gloves are static-insulative and retain the charge on their surface, which
+affects droplet integrity.
+20 | ddSEQ Single-Cell 3' RNA-Seq Kit
+
+
+--- Page 23 ---
+Best Practices
+Dispensing the Encapsulation Oil
+n
+Before dispensing, ensure the encapsulation oil has equilibrated to room temperature.
+Note: The oil should be equilibrated to room temperature for at least 30 min before loading the
+cartridge.
+n
+Due to its viscosity, aspirate and dispense the encapsulation oil slowly (over 5–10 sec).
+ddSEQ Single-Cell Isolator and Cartridges
+n
+Use only ddSEQ M Cartridges for single-cell encapsulation.
+Important: ddSEQ test cartridges (amber-colored plastic) are included with the ddSEQ Single-
+Cell Isolator solely for equipment testing. They will not produce droplets and are not
+suitable for this assay.
+Cartridge Assembly
+1.
+Grip the ddSEQ M Cartridge by the tab and remove it from the package.
+Important: Do not touch the wells or gaskets.
+Fig. 10: Bio-Rad ddSEQ M Cartridge
+2.
+Insert the cartridge into the cartridge holder, as follows:
+a.
+Lift the cartridge holder lever.
+b.
+Line up the green gasket on the cartridge with the green stripe on the cartridge holder.
+c.
+Insert the tab under the rails, and then slide the cartridge into the holder.
+d.
+Before closing the lever, ensure the cartridge is fully inserted and lying flat against the bottom of
+the holder.
+User Guide | 21
+
+
+--- Page 24 ---
+Chapter 3 Technology and Best Practices
+e.
+Close the lever. If the lever does not close completely, remove and reinsert the cartridge.
+Fig. 11: Inserting ddSEQ M Cartridge into the holder
+Fig. 12 shows a correctly assembled cartridge in the cartridge holder:
+Fig. 12: Correctly assembled cartridge and cartridge holder
+A) Encapsulated sample output wells
+B1) Barcode suspension mix input wells (blue)
+B2) Cell suspension mix input wells (red)
+C) Encapsulation oil input wells
+Fig. 13 shows incorrectly assembled cartridges in the cartridge holders:
+Fig. 13: Incorrectly assembled cartridge and cartridge holder
+A) Cartridge misaligned
+B) Cartridge upside down
+22 | ddSEQ Single-Cell 3' RNA-Seq Kit
+
+
+--- Page 25 ---
+Best Practices
+Cartridge Loading
+n
+Ensure that the ddSEQ M Cartridge is correctly assembled in the cartridge holder.
+n
+To ensure all wells receive equal volumes of reagents, use multi-channel pipettes at all loading steps
+(priming, loading barcode and cell suspension mixes, and adding encapsulation oil).
+n
+Ensure all sample wells in a cartridge are loaded with reaction mixtures.
+Important: If fewer than four samples are available, prepare and load the unused wells with
+50% (v/v) glycerol solution in water in place of barcode and cell suspension mixes.
+Fig. 14: Pipetting into a ddSEQ M Cartridge
+n
+To achieve the best performance and data quality, minimize the introduction of air bubbles into
+individual wells. Air bubbles are difficult to see, but can be avoided by using the pipetting
+techniques that follow:
+o
+To dispense reagents, carefully guide the pipette tip along the side of the well at an approximate
+15° angle until it slides over the lower ridge (Fig. 14).
+o
+While maintaining the 15° angle, anchor the pipette tip against the lower edge of the well and
+gradually release a small portion of the sample.
+Important: To avoid bubbles, press the pipette plunger only to the first stop. Do not pipette
+onto the wall or side of the wall.
+o
+After approximately ½ of the sample has been dispensed, gently elevate the tip while continuing
+to release the remaining portion of the sample.
+User Guide | 23
+
+
+--- Page 26 ---
+Chapter 3 Technology and Best Practices
+Droplet Transfer
+n
+Place the cartridge holder on a flat surface.
+n
+Place the ddPCR 96-Well Plate on a cooling block that is resting on ice.
+n
+Without exception, transfer the emulsion droplets using the recommended Rainin P200 filter tips.
+Using P200 tips from other suppliers affects the integrity of the droplets, and leads to suboptimal data
+quality.
+n
+Without exception, incubate the emulsion droplets in the recommended Bio-Rad ddPCR 96-Well
+Plate, and then seal the plate with the recommended 8-strip tube caps and Bio-Rad foil seal.
+n
+To allow for slower pipetting and finer control of droplet pickup, use a manual 8-channel L-50 Rainin
+pipette with filter tips to transfer droplets out of the ddSEQ M Cartridge and into a single column of a
+96-Well Plate.
+n
+Slide the multi-channel pipette tips straight down into each of the 8 top wells of the ddSEQ M
+Cartridge until they reach the junction where the side wall meets the bottom of the well.
+n
+Tilt the pipette tips at an angle of approximately 30-45°.
+n
+Avoid placing the pipette tip vertically or against any flat surface within the well; ensure the tips do not
+rest flat against the well bottoms.
+n
+Carefully and slowly (~10 sec) draw the specified volume of droplets into the pipette tips (~ 5 µl of air
+will accrue).
+n
+When transferring droplets, place the pipette tip along the well's side – near, but not at, the bottom of
+the well – and gently release the droplets over ~10 sec.
+Fig. 15: Droplet transfer
+24 | ddSEQ Single-Cell 3' RNA-Seq Kit
+
+
+--- Page 27 ---
+Best Practices
+Droplet and Cartridge Handling
+n
+Do not vortex or centrifuge the droplets.
+n
+To avoid evaporation and contamination with particulates, seal the samples immediately after
+transferring the droplets, as follows:
+o
+First, seal the droplets wells using the recommended 8-well strip-tube caps.
+o
+Then, cover the entire ddPCR plate (including the strip caps) with the recommended foil seal.
+Important: Using caps and seals from other suppliers affects the integrity of the droplets and
+leads to suboptimal data quality.
+n
+When sealing the plate with foil, wear nitrile gloves and gently press the foil to adhere to the plate.
+Important: Do not use a roller or similar apparatus to seal the plate, since they generate static
+and cause droplet disruption.
+n
+To ensure sample and droplet stability, keep the samples on the 96-well cooling block and on ice until
+the incubation step of In-Droplet Barcoding and cDNA Synthesis on page 44.
+n
+Start the incubation within 30 min after droplet generation.
+n
+The used cartridge contains residual encapsulation oil. Do not invert the cartridge when removing it
+from the cartridge holder.
+n
+Discard the used cartridge according to standard laboratory procedures.
+Purification Beads
+n
+Use a single-channel pipette to transfer purification beads to sample tubes.
+Important: Using a multi-channel pipette reservoir and a multi-channel pipette can result in an
+inaccurate volume of purification beads reagent to complete this protocol.
+User Guide | 25
+
+
+--- Page 28 ---
+Chapter 3 Technology and Best Practices
+Index and Library Preparation
+n
+For index sequences and coordinates in the cDNA and DO index plates, see Sequencing Run and
+Loading Parameters on page 80.
+n
+Each cDNA and DO index plate contains 24 index containing wells with indexes in the unique dual
+index (UDI) format.
+n
+Index wells are for single use. If fewer than 24 indexes are used, seal the pierced index well(s) before
+returning to -20° C storage to prevent contamination from the used wells.
+n
+To ensure that your libraries produce high-quality sequencing results, use the recommended number
+of PCR cycles.
+n
+For NextSeq2000 two-plex pooling, pool samples with consecutive indexes from a single column of
+the index plate.
+n
+For other sequencing systems, pool more than two samples with consecutive indexes down a single
+column of the index plate.
+n
+Do not pool samples with indexes across a row of the index plate.
+26 | ddSEQ Single-Cell 3' RNA-Seq Kit
+
+
+--- Page 29 ---
+Chapter 4 Protocol
+Preparing Single-Cell Suspension
+Important Notes:
+n
+Keep the single-cell suspension on ice until it is ready to mix with the cell enzyme cocktail.
+n
+After the cells are prepared, there are no safe stopping points until the single-cell encapsulation and
+cDNA synthesis processes are completed.
+Item
+Cap
+color
+Storage
+Supplier/
+Catalog
+number
+Preparation
+BSA cell culture grade
+N/A
+Room
+temp
+or 4° C
+Millipore Sigma
+B6917
+or other
+N/A
+1X PBS; no calcium, no
+magnesium, pH 7.4
+N/A
+Room
+temp
+Any vendor
+N/A
+0.2 µm PES filtration
+system
+N/A
+Room
+temp
+Any
+vendor
+N/A
+Table 7. Single-cell suspension, required items
+User Guide | 27
+
+
+--- Page 30 ---
+Chapter 4 Protocol
+Preparing 1X PBS + 0.1% BSA
+Component
+Stock
+concentration
+Final
+concentration
+Required
+volume
+From powder:
+1X PBS, no calcium, no
+magnesium, pH 7.4
+1X
+1X
+50 ml
+BSA (powder)
+N/A
+0.1% (w/v)
+50 mg
+0.2 µm PES filter
+N/A
+N/A
+N/A
+From 10% solution:
+1X PBS, no calcium, no
+magnesium, pH 7.4
+1X
+1X
+49.50 ml
+BSA (10%)
+10%
+0.1%
+0.50 ml
+Table 8. 1X PBS + 0.1% BSA
+1.
+Using the information in Table 8, prepare 1X PBS + 0.1% BSA.
+Important: If you are using a powdered form of BSA, or an unfiltered BSA solution, filter the final
+buffer through a 0.2 µm PES filter before use. Particulate contamination affects buffer flow in the
+ddSEQ M Cartridge and leads to suboptimal performance.
+2.
+Store on ice.
+Preparing the Cells
+Important Notes:
+n
+Before starting this section, ensure the sample cells are in a single-cell suspension in 1X PBS + 0.1%
+BSA using an optimized protocol most appropriate for the sample cells. Single-cells must be
+suspended in 1X PBS + 0.1% BSA solution.
+n
+The ddSEQ Single-Cell 3' RNA-Seq Kit workflow is optimized for loading a range of 1,000 to 10,000
+viable cells per sample. Each cartridge can accomodate up to four unique samples. For information
+on cell concentrations, see Workflow Technology on page 17.
+n
+Cell concentration should be determined based on the viable cell counts.
+28 | ddSEQ Single-Cell 3' RNA-Seq Kit
+
+
+--- Page 31 ---
+Preparing Single-Cell Suspension
+1.
+After preparing the sample cells into a single cell suspension, refer to Table 9 to dilute the stock cell
+preparation in 1X PBS + 0.1% BSA solution to the desired number of cells input per sample.
+Important: Keep the single cell suspension on ice until use. Load onto the ddSEQ Single-Cell
+Isolator within 1 hr after the viable cell count is determined. Single cell stability could differ based
+on cell types and conditions, and might need to be processed sooner.
+Table 9 on page 29 defines the preferred number of cells loaded per sample in a volume of 5.2 μl.
+Table 9. Preferred number of cells loaded per sample in 5.2 μl total volume
+n
+The single cell suspension concentrations listed are calculated using viable cells only, not total cells.
+n
+For each input, the volume of cell suspension per sample (μl) | volume of 1X PBS + 0.1% BSA
+per sample (μl) is listed accordingly against the number of cells input per sample:
+o
+Green boxes — Optimal cell suspension concentration to achieve the estimated number
+of input cells (cell suspension volume per sample is ≤5.2 μl and ≥2.0 μl)
+o
+Gray boxes — Cell suspension volume per sample (≤2.0 μl); adjust cell suspension
+concentration accordingly to minimize pipetting inaccuracies
+o
+Black boxes — Cell suspension volume (> 5.2 μl); adjust cell suspension accordingly
+to be ≤5.2 μl per sample
+o
+Formulas for calculating volume of cell suspension and 1X PBS + 0.1% BSA required per
+sample:
+Cell suspension volume (µl) = (number of cells input / viable cell count [cells/µl])
+× 23/20
+1X PBS + 0.1% BSA volume (µl) = 5.2 µl −volume of cell suspension
+User Guide | 29
+
+
+--- Page 32 ---
+Chapter 4 Protocol
+Preparing the Mixes for Droplet Generation
+Important: Work quickly to complete the cell preparation and handling tasks. Delays can lead to
+sample failure. Do not stop during or between steps.
+This section explains how to
+n
+Prepare suspension mixes containing cells, barcoded beads, and reagents for cDNA synthesis and
+DO dimer formation. Table 10 defines the required components for preparing the suspension mixes.
+n
+Prepare ddSEQ Priming Solution and encapsulation oil. Table 11 on page 32 defines the required
+components for preparing the cartridge.
+Item
+Cap
+color
+Supplier/
+Catalog no.
+Storage
+Preparation
+Bead Buffer
+Blue
+12019997
+–20° C
+1. Thaw completely, on ice.
+2. Using a tabletop vortexer,
+vortex vigorously to mix
+(5–10 sec).
+3. Centrifuge briefly to collect
+volume at bottom of tube.
+Barcoded
+Beads
+Blue
+12020007
+4° C
+1. Keep on ice.
+2. Using a tabletop vortexer,
+pulse vortex to mix (3x, 5
+sec each).
+Important: Do not
+centrifuge barcoded
+beads after vortexing.
+Cell
+Suspension
+Buffer
+Red
+12020074
+–20° C
+1. Thaw completely, on ice.
+2. Using a tabletop vortexer,
+vortex to mix (5–10 sec).
+3. Centrifuge briefly to collect
+volume at bottom of tube.
+Table 10. Cell and barcode suspension mixes (required items)
+30 | ddSEQ Single-Cell 3' RNA-Seq Kit
+
+
+--- Page 33 ---
+Preparing the Mixes for Droplet Generation
+Item
+Cap
+color
+Supplier/
+Catalog no.
+Storage
+Preparation
+300 mM DTT
+Gray
+10049218
+–20° C
+1. Thaw completely, at room
+temperature.
+2. Using a tabletop vortexer,
+vortex briefly to mix (5 sec).
+3. Centrifuge briefly to collect
+volume at bottom of tube.
+4. When thawed, keep on ice.
+RNA Stabilizer
+Red
+12020006
+–20° C
+1. Keep on ice.
+2. Gently flick the thawed tube
+3–6x.
+3. Centrifuge briefly to collect
+volume at bottom of tube.
+RT Enzyme
+Blue
+12020053
+–20° C
+1. Keep on ice.
+2. Gently flick the thawed tube
+3–6x.
+3. Centrifuge briefly to collect
+volume at bottom of tube.
+3' Enzyme Mix
+Red
+12020052
+–20° C
+1. Keep on ice.
+2. Gently flick the thawed tube
+3–6x.
+3. Centrifuge briefly to collect
+volume at bottom of tube.
+Table 10. Cell and barcode suspension mixes (required items), continued
+User Guide | 31
+
+
+--- Page 34 ---
+Chapter 4 Protocol
+Item
+Cap
+color
+Part
+number
+Storage
+Preparation
+ddSEQ Priming
+Solution
+Clear
+12020075
+4° C
+1. Let stand for 30 min to bring
+to room temperature.
+2. Vortex briefly to mix
+(5 sec).
+3. Centrifuge briefly to collect
+volume at bottom of tube.
+Encapsulation Oil
+Clear
+12008762
+4° C
+1. Let stand for 30 min to bring
+to room temperature.
+2. Gently flick the tube 3–5x.
+Table 11. Cartridge preparation (required reagents, equipment, and consumables)
+Preparing the Priming Buffer and Encapsulation Oil
+The following aliquot volume is sufficient for the preparation of one ddSEQ M Cartridge. To prepare
+multiple cartridges, increase the aliquot volume.
+1.
+Add 25 μl of room temperature ddSEQ Priming Solution to each tube in an 8-tube strip.
+Important: Two adjacent tubes are dedicated for each sample, for a total of four samples.
+Important: If fewer than four samples are used, leave the unused tubes empty.
+2.
+Ensure the encapsulation oil is equilibrated to room temperature.
+3.
+Add 115 μl of room temperature encapsulation oil to each tube of another 8-tube strip.
+Important: Two adjacent tubes are dedicated for each sample, for a total of four samples.
+Important: If fewer than four samples are used, aliquot 115 µl of 50% glycerol into the unused
+tubes in place of encapsulation oil. Match the empty tubes in the ddSEQ priming buffer
+strip to the tubes containing 50% glycerol in the encapsulation oil strip.
+4.
+Set aside, at room temperature, the 8-tube strips of ddSEQ Priming Solution and encapsulation oil
+while you prepare the cell and barcode suspension mixes (next section).
+32 | ddSEQ Single-Cell 3' RNA-Seq Kit
+
+
+--- Page 35 ---
+Preparing the Mixes for Droplet Generation
+Assembling the Barcode Suspension Mix
+Component
+Required volume, µl
+(1 rxn plus excess)
+Required volume, µl
+(4 rxn plus excess)
+Bead Buffer
+10.40
+41.60
+Barcoded Beads
+12.50
+50.00
+RT Enzyme
+2.10
+8.40
+TOTAL
+25.00
+100.00
+Table 12. Barcode suspension mix
+1.
+Add the components in Table 12 according to the order listed, in a 1.5 ml tube on ice.
+2.
+Before combining the components, vortex the barcoded beads 3x, for 5 sec each, and then
+immediately add to the bead buffer.
+Important: Do not centrifuge the barcoded beads after vortexing.
+Important: Barcoded beads are viscous. Pipette slowly to ensure that the accurate volume is
+aspirated and dispensed.
+3.
+Keep the barcode suspension mix on ice until use.
+User Guide | 33
+
+
+--- Page 36 ---
+Chapter 4 Protocol
+Aliquoting the Barcode Suspension Mix
+Important: Keep all reagents on ice, including the bulk mixes in 1.5ml tubes and aliquoted mixes in
+8-well strip tubes.
+1.
+Vortex the barcode suspension mix 3x for 5 sec each. Vortex at medium speed to prevent formation
+of air bubbles.
+Important: Do not centrifuge the barcode suspension mix after vortexing. This creates a
+concentration gradient that affects the amount of barcode input.
+2.
+Add 23 μl of the barcode suspension mix to alternate tubes (starting with tube 1) of an 8-tube strip
+where the positions are labeled as the Barcode tubes (Fig. 16).
+Important: To avoid bubbles, press the pipette plunger only to the first stop.
+Important: If fewer than four samples are used, aliquot 25 µl of 50% glycerol into the unused
+tubes in place of the barcode suspension mix. Match the empty tubes in the ddSEQ Priming
+Solution strip to the tubes containing 50% glycerol in the barcode suspension mix strip.
+Fig. 16: Loading barcode suspension mix into an 8-tube strip
+34 | ddSEQ Single-Cell 3' RNA-Seq Kit
+
+
+--- Page 37 ---
+Preparing the Mixes for Droplet Generation
+Preparing the Cell Enzyme Cocktail
+Component
+Required volume (µl)
+(1 rxn plus excess)
+Required volume (µl)
+(4 rxn plus excess)
+Cell Suspension Buffer
+12.50
+50.00
+300 mM DTT
+1.67
+6.68
+3' Enzyme Mix
+3.98
+15.92
+RNA Stabilizer
+1.25
+5.00
+TOTAL
+19.40
+77.60
+Table 13. Cell enzyme cocktail
+1.
+Add the components in Table 13 according to the order listed, in a 1.5 ml tube on ice.
+2.
+Centrifuge briefly to collect the contents at the bottom of the tube.
+3.
+Keep the cell enzyme cocktail on ice until use.
+User Guide | 35
+
+
+--- Page 38 ---
+Chapter 4 Protocol
+Assembling the Cell Suspension Mix
+Component
+Required volume, µl (1 rxn plus excess)
+Cell enzyme cocktail
+17.8
+Filtered cells
+5.2
+TOTAL
+23.0
+Table 14. Cell suspension mix components
+1.
+Vortex the cell enzyme cocktail 3x, for 5 sec each.
+2.
+Add 17.8 µl of the cell enzyme cocktail to the alternate tubes (starting with tube 2) of the same 8-tube
+strip1, as shown in Fig. 17 where the positions are labeled as the Cell tubes.
+Important: Do not add cells to the cell enzyme cocktail until you are ready to prime the
+cartridge. Cells should not sit in the cell enzyme cocktail for longer than 5 min before the
+cartridge is loaded.
+Fig. 17: Loading cell enzyme cocktail into an 8-tube strip
+3.
+Thoroughly mix the single cell suspension (dependent on cell type).
+4.
+To assemble the cell suspension mix, add 5.2 µl of single cell suspension to the corresponding Cell
+tubes in the 8-tube strip. The single cell suspension was prepared using the table in Preparing the
+Cells on page 28.
+Important: If fewer than four samples are used, aliquot 25 µl of 50% glycerol into the unused
+tubes in place of cell enzyme cocktail. Match the empty tubes in the ddSEQ Priming
+Solution strip to the tubes containing 50% glycerol in the barcode and cell suspension
+mix strip.
+5.
+Immediately continue to the next section.
+1See Assembling the Barcode Suspension Mix on page 33.
+36 | ddSEQ Single-Cell 3' RNA-Seq Kit
+
+
+--- Page 39 ---
+Loading the ddSEQ M Cartridges
+Loading the ddSEQ M Cartridges
+This section explains how to prime, and then load, cartridges for cell and barcode encapsulation using the
+ddSEQ Single-Cell Isolator. Table 15 defines the required components for loading the cartridge.
+Item
+Cap
+color
+Part
+number
+Storage
+Preparation
+Encapsulation
+Oil
+Clear
+12008762
+4° C
+Completed in Preparing
+the Priming Buffer and
+Encapsulation Oil on
+page 32.
+ddSEQ Priming
+Buffer
+Clear
+12020075
+4° C
+Completed in Preparing
+the Priming Buffer and
+Encapsulation Oil on
+page 32.
+Barcode and cell
+suspension mixes in
+8-tube strip
+N/A
+N/A
+N/A
+Completed in
+Assembling the
+Barcode Suspension
+Mix on page 33.
+ddSEQ M Cartridge
+in cartridge holder
+N/A
+12008720
+Room
+temp
+See Cartridge
+Assembly on page 21.
+Keep at room
+temperature.
+Table 15. Cartridge loading (required reagents, equipment, and consumables)
+User Guide | 37
+
+
+--- Page 40 ---
+Chapter 4 Protocol
+Priming the ddSEQ M Cartridge
+Proper priming ensures appropriate flow of the reagent materials through the microfluidics system in the
+ddSEQ M Cartridge. Improper priming leads to failure in cell encapsulation and suboptimal data quality.
+Before priming and loading, ensure the ddSEQ Priming Buffer and encapsulation oil are equilibrated to
+room temperature.
+1.
+Insert the cartridge into the cartridge holder. For information, see Cartridge Assembly on page 21.
+2.
+Transfer 20 μl of ddSEQ Priming Solution from the 8-tube strip to each well in the second row of the
+cartridge.
+To avoid missing wells during Row B cartridge priming, use a P20 multi-channel pipette (Fig. 18).
+When loading the cartridge, ensure that all tips contain equal volumes of priming solution.
+Important: To avoid bubbles, press the pipette plunger only to the first stop.
+Fig. 18: Priming the ddSEQ M Cartridge
+3.
+Allow the ddSEQ Priming Solution to remain in the wells for 1 min.
+4.
+After incubation is finished, remove all 20 μl of ddSEQ Priming Solution in each well.
+Important: Do not allow the ddSEQ Priming Solution to remain in the wells longer than
+3 min and ensure it is completely removed before loading. Leaving ddSEQ Priming Solution in
+the wells interferes with single-cell isolation.
+38 | ddSEQ Single-Cell 3' RNA-Seq Kit
+
+
+--- Page 41 ---
+Loading the ddSEQ M Cartridges
+Loading the Cartridge with Barcode and Cell Suspension
+Mixes
+1.
+Using a P20 multi-channel pipette set to 20 μl, gently mix the barcode suspension and cell
+suspension mixes in the 8-tube strip 10–15x.
+Important: To avoid bubbles, press the pipette plunger only to the first stop.
+2.
+Using the same pipette tips, transfer 20 μl of the barcode suspension and cell suspension mixes into
+the bottom of the Row B wells in the cartridge (Fig. 19).
+Important: To avoid bubbles, press the pipette plunger only to the first stop.
+Important: Load all Row B wells in the ddSEQ M Cartridge. If fewer than four samples are
+available, fill the unused wells with 50% (v/v) glycerol solution in water. You must load the wells
+in Row B before you load the oil in the bottom row of wells labeled OIL (Fig. 19).
+Fig. 19: Barcode suspension mix and cell suspension mix wells
+3.
+Using a P200 multi-channel pipette, transfer 80 μl of encapsulation oil from the 8-tube strip to each
+well of the bottom row in the cartridge, which is labeled OIL. To avoid bubbles, press the pipette
+plunger only to the first stop.
+Note: One bottle of encapsulation oil is enough for two cartridges.
+Important: Load all wells in the OIL row of the ddSEQ M Cartridge. If fewer than four samples
+are available, add 50% (v/v) glycerol solution in water to the encapsulation oil wells. Match the
+glycerol-filled wells in the OIL row to the glycerol-filled wells in Row B.
+Caution: All the input wells (Row B) and oil wells (OIL) must be loaded with the corresponding
+reagents. Running a cartridge with empty Row B wells or empty oil wells on the ddSEQ Single-
+Cell Isolator damages the instrument and repairs will be required to restore it.
+4.
+Keep the loaded cartridge in the cartridge holder for single-cell isolation on the ddSEQ Single-Cell
+Isolator.
+User Guide | 39
+
+
+--- Page 42 ---
+Chapter 4 Protocol
+Single-Cell Encapsulation
+This section explains how to
+n
+Load the cartridge into the ddSEQ Single-Cell Isolator
+n
+Generate partitioned cells in droplets
+Item
+Cap
+color
+Part
+number
+Storage
+Preparation
+Loaded ddSEQ M
+Cartridge in cartridge
+holder
+N/A
+12008720
+Room
+temp
+Prepared in previous
+section.
+Keep at room
+temperature.
+ddSEQ Single-Cell
+Isolator
+N/A
+12004336
+Room
+temp
+Install per the
+instruction manual.
+96-well cooling block
+N/A
+N/A
+4° C
+Set on ice to keep cold.
+ddPCR 96-Well Plates
+N/A
+12001925
+Room
+temp
+N/A
+Table 16. Dispensing to cartridge (required reagents, equipment, and consumables)
+Generating Droplets
+This section explains how to use the ddSEQ Single-Cell Isolator to generate droplets.
+Fig. 20: ddSEQ Single-Cell Isolator
+40 | ddSEQ Single-Cell 3' RNA-Seq Kit
+
+
+--- Page 43 ---
+Single-Cell Encapsulation
+Table 17 defines information on the instrument indicator lights.
+Status
+Solid green
+Power on
+Cartridge holder in place
+Run complete
+Flashing green
+N/A
+N/A
+Run in progress
+Flashing amber
+N/A
+No seal
+N/A
+Off
+Power off
+No cartridge holder
+Idle
+Table 17. Status indicator lights on the ddSEQ Single-Cell Isolator
+Important: The instrument is ready when the first light is solid green and the other two
+lights are off.
+1.
+Insert the cartridge as specified below and as shown in Fig. 20 on page 40.
+a.
+To open the instrument, press the silver button on the front of the ddSEQ Single-Cell Isolator.
+b.
+Place the cartridge holder into the instrument.
+c.
+To confirm that the cartridge holder is in the correct position, ensure that the cartridge indicator
+light (middle light) is solid green.
+If the cartridge indicator light is not illuminated, remove and reseat the cartridge holder on the
+instrument until the cartridge indicator light (middle light) is solid green.
+d.
+To close the instrument, press the silver button on the top of the ddSEQ Single-Cell Isolator.
+Notes:
+n
+After the door is closed, droplet generation and single-cell isolation begin automatically and
+take ~5 min.
+n
+While the droplet indicator flashes green, droplet generation is in progress.
+n
+When all three indicator lights are solid green, droplet generation is complete.
+Important: See Table 17 for information on indicator lights. Do not open the instrument
+until all three indicator lights are solid green. If the central light flashes amber, the
+gasket on the cartridge is not providing an adequate seal. If an error occurs, do not rerun a
+cartridge. For assistance, contact Bio-Rad Technical Support.
+User Guide | 41
+
+
+--- Page 44 ---
+Chapter 4 Protocol
+2.
+While the ddSEQ Single-Cell Isolator is running, set an empty ddPCR 96-Well Plate on a
+96-well cooling block on ice.
+3.
+To open the instrument after the run is complete, press the silver button.
+4.
+Remove the cartridge holder from the ddSEQ Single-Cell Isolator. Successfully encapsulated
+samples are present in the top row of the cartridge (Fig. 21) and appear cloudy.
+Fig. 21: Output wells containing encapsulated samples
+A) Output wells
+5.
+Check for wells that look clear or empty, which indicates droplet generation failure.
+If droplet generation failed, prepare additional cell and barcode suspension mixes and prime a
+second ddSEQ M Cartridge for use.
+Important: After the door opens, the instrument continues to make noise for ~5 sec until the
+reset is completed. Wait for the instrument to reset before running another cartridge.
+Important: Do not rerun used cartridges and samples.
+6.
+Proceed immediately to the next section.
+42 | ddSEQ Single-Cell 3' RNA-Seq Kit
+
+
+--- Page 45 ---
+Single-Cell Encapsulation
+Transferring Droplets
+Table 18 defines the reagents, equipment and consumables that are required during droplet transfer.
+Item
+Cap
+color
+Part
+number
+Storage
+Preparation
+ddSEQ M
+Cartridge in cartridge
+holder, containing
+encapsulated samples
+N/A
+12008720
+Room
+temp
+Prepared in previous
+section.
+Keep at room
+temperature.
+ddPCR 96-Well Plates
+N/A
+12001925
+Room
+temp
+To keep cold, place on
+96-well cooling block.
+PCR Plate Microseal F
+Foil Seals
+N/A
+MSF1001
+Room
+temp
+N/A
+8-Cap Strip for 0.2ml
+PCR Tubes
+N/A
+TCS0803
+Room
+temp
+N/A
+96-well cooling block
+N/A
+N/A
+4° C
+To keep cold, place on
+ice.
+Table 18. Droplet transfer (required items)
+1.
+Place the cartridge holder on a flat surface.
+2.
+Use a P50 multi-channel pipette, set to 43 µl, to slowy aspirate all encapsulated samples from the
+ddSEQ M Cartridge output wells.
+Several emulsion layers can be observed in the pipette tips, as shown in Fig. 22. The total emulsion
+volume transferred to each well in the ddPCR 96-Well Plate is 35– 40 μl, with ~5 μl of air.
+Important: Fast or harsh pipetting breaks encapsulated samples. Pipet slowly (5–10 sec) to
+avoid yield loss.
+3.
+To transfer the encapsulated samples (Fig. 22), complete the following substeps:
+a.
+Slowly (5–10 sec) dispense the encapsulated samples into the empty ddPCR 96-Well Plate, on
+a 96-well cooling block on ice.
+Important: To avoid bubbles, press the pipette plunger only to the first stop.
+b.
+Hold the pipette plunger at the first stop and wait 5 sec for the remaining sample to collect at the
+tip of the pipette.
+User Guide | 43
+
+
+--- Page 46 ---
+Chapter 4 Protocol
+c.
+Press the pipette plunger to the second stop to slowly dispense the remaining sample into the
+same column of the plate.
+Important: Do not discard the tips until all the encapsulated sample has been transferred to
+the plate. Discarding tips with sample results in yield loss.
+Fig. 22: Transferring encapsulated samples from cartridge to ddPCR plate
+The emulsion layers from output wells result in
+A) Aqueous layer containing encapsulated samples
+B) Oil layer
+C) Oil and air bubbles
+4.
+To seal the plate, complete the following substeps:
+a.
+Cover the ddPCR 96-Well Plate samples using 8-tube strip caps.
+b.
+Use the PCR plate Microseal F foil pierceable seals to cover the entire ddPCR plate, including
+the capped wells.
+Important: You must use the recommended strip caps and the foil to seal the plate. Do not use
+rollers or scrapers to adhere the foil.
+Important: Do not wear latex gloves when handling droplets.
+5.
+Keep the samples on the 96-well cooling block on ice until you are ready to start the in-droplet
+barcoding and cDNA synthesis sections.
+In-Droplet Barcoding and cDNA Synthesis
+This section explains the reaction steps during which partitioned cells will lyse, have their mRNA captured
+by barcoded bead oligos, and be converted into double-stranded cDNA. The steps also include DO dimer
+generation within droplets.
+44 | ddSEQ Single-Cell 3' RNA-Seq Kit
+
+
+--- Page 47 ---
+In-Droplet Barcoding and cDNA Synthesis
+Item
+Catalog No.
+Supplier
+ddPCR 96-well sealed and cooled plate containing encapsulated
+samples (completed in previous sections)
+N/A
+N/A
+Thermal cycler*
+*Use one of the recommended thermal cyclers or an equivalent deep-well thermal cycler with up to 100 µl
+capacity. For information, see Required Consumables and Equipment on page 11.
+Table 19. In-droplet barcoding and cDNA synthesis (required reagents, equipment, and consumables)
+Lid temperature
+Reaction volume
+Ramp rate
+105° C
+50 µl
+2.0° C/sec, unless specified
+Step
+Temperature
+Time (hr:min:sec)
+1
+4° C
+00:25:00
+2
+50° C
+00:45:00
+3
+65° C
+00:30:00
+4
+80° C
+00:05:00
+5
+Ramp rate 0.1° C/sec
+6
+4° C
+Hold
+Table 20. In-droplet barcoding and cDNA synthesis program
+1.
+Place the sealed ddPCR 96-Well Plate with encapsulated samples, in the thermal cycler and proceed
+with the incubation protocol specified in Table 20.
+n
+When this section is complete, you can store the sample at 4° C for ≤24 hours, or
+at -20° C for 7 days.
+n
+Operating the instrument at 4° C should be limited to 18 hours at these conditions.
+n
+Holds at 4° C can be performed for up to 72 hrs if humidity is 20-60% (noncondensing).
+User Guide | 45
+
+
+--- Page 48 ---
+Chapter 4 Protocol
+Breaking Emulsions and Purifying cDNA and DO Dimer
+Fractions
+This section explains the steps required to
+n
+Break the individual droplets containing barcoded sample cDNA and DO dimers
+n
+Purify the products for library preparation
+After mixing purification beads to the aqueous phase of disrupted droplets, the cDNA binds to the
+magnetic beads and the DO dimers remain in the supernatant. The cDNA and DO dimers are then
+purified independently from the bead pellet and the supernatant, respectively. At the end of the
+purification step, each sample will have two separate products (cDNA and DO dimers) for Illumina
+sequencing library preparation.
+Important Notes:
+n
+The purification protocol provides a selection step that separates and enriches the cDNA and DO
+dimer fractions. Both fractions are required for the ddSEQ Single-Cell 3' RNA-Seq assay.
+n
+Pay careful attention during the cleanup step, do NOT discard the purification bead supernatant that
+contains the DO dimer fraction.
+n
+The purified cDNA from the two output wells of each sample are combined after the first cDNA elution
+(Fig. 23).
+n
+The purified DO dimer from the two output wells of each sample are combined after the first DO dimer
+elution (Fig. 23).
+46 | ddSEQ Single-Cell 3' RNA-Seq Kit
+
+
+--- Page 49 ---
+Breaking Emulsions and Purifying cDNA and DO Dimer Fractions
+n
+Keep the purified cDNA and DO dimer separate for each sample. Do not combine.
+Important: Experienced users can complete step 3c concurrently with steps 4b-4c. Do not
+attempt concurrent purifications if you are not experienced with the protocol.
+Fig. 23: Droplet disruption, cDNA and DO dimer fraction purification workflow
+User Guide | 47
+
+
+--- Page 50 ---
+Chapter 4 Protocol
+Item
+Cap
+color
+Part
+number
+Storage
+Preparation
+ddPCR 96-Well
+Plate containing
+samples
+N/A
+12001925
+Room
+temp
+Created in previous
+section.
+If frozen, thaw completely
+to room temperature
+Droplet Disruptor
+Clear
+12008761
+4° C
+1. Let stand for 30 min to
+bring to room
+temperature.
+2. Immediately before
+use, vortex 3–5x, for 1
+sec each, to mix.
+3. Centrifuge briefly to
+collect volume at
+bottom of tube.
+Nuclease-free
+water
+N/A
+N/A
+N/A
+N/A
+Purification beads (choose one):
+n Beckman
+Coulter
+SPRIselect
+Reagent Kit
+N/A
+B23317
+Room
+temp
+1. Vortex until well
+dispersed.
+n Beckman
+Coulter AMPure
+XP SPRI
+Reagent
+N/A
+A63881
+4° C
+1. Let stand for 30 min to
+bring to room
+temperature.
+2. Vortex until well
+dispersed.
+Ethanol, pure
+(200-proof,
+anhydrous)
+N/A
+N/A
+Room
+temp
+Prepare a fresh batch of
+80% ethanol in water.
+Table 21. Breaking emulsions and purifying cDNA and DO dimer fractions (reagents and
+consumables)
+48 | ddSEQ Single-Cell 3' RNA-Seq Kit
+
+
+--- Page 51 ---
+Breaking Emulsions and Purifying cDNA and DO Dimer Fractions
+Item
+Cap
+color
+Part
+number
+Storage
+Preparation
+10mM Tris-HCl, pH
+8.0 (Resuspension
+Buffer), DNAse-
+free (Teknova)
+N/A
+T1173
+Room
+temp
+N/A
+NEBNext Magnetic
+Separation Rack
+N/A
+S1515S
+Room
+temp
+N/A
+Thermo Fisher
+Scientific Magnetic
+Stand-96
+(magnetic peg
+stand)
+N/A
+AM10027
+Room
+temp
+N/A
+Thermo Fisher
+Scientific
+DynaMag 96 Side
+Skirted Magnet
+N/A
+12027
+Room
+temp
+N/A
+Table 21. Breaking emulsions and purifying cDNA and DO dimer fractions (reagents and-
+consumables), continued
+Important: This protocol requires a magnetic peg stand (Thermo Fisher Magnetic Stand 96), a
+skirted magnet (Thermo Fisher DynaMag 96 Side-Skirted), and a magnetic separation rack
+(NEBNext). For information, see Required Consumables and Equipment on page 11.
+Important: All magnets are required in this protocol and are not interchangeable. Pay
+careful attention to which magnet is used for each step.
+User Guide | 49
+
+
+--- Page 52 ---
+Chapter 4 Protocol
+Breaking Emulsions
+1.
+Remove the samples from the thermal cycler.
+Important: Do not vortex or centrifuge the samples.
+2.
+Examine the samples and confirm they have equal volumes and two distinct layers, an oil layer on the
+bottom and an aqueous emulsion layer on top, as shown in Fig. 24.
+Fig. 24: Sample emulsion layers
+A) Aqueous emulsion layer
+B) Oil layer
+3.
+To avoid cross-contamination, gently and carefully remove the foil seal, followed by the 8-tube strip
+caps.
+4.
+Add 20 µl of droplet disruptor to each sample. Dispense slowly against the side of the well above
+each sample.
+5.
+Incubate at room temperature for 30 sec.
+Important: Do not mix or pipette the droplet disruptor into the sample. To prevent cross-
+contamination, use fresh pipette tips for each sample well .
+6.
+Add 78 µl of nuclease-free water per well. Dispense against the side of the well above each
+sample.
+Important: Do not mix or pipette water into the sample.
+50 | ddSEQ Single-Cell 3' RNA-Seq Kit
+
+
+--- Page 53 ---
+Breaking Emulsions and Purifying cDNA and DO Dimer Fractions
+cDNA and DO Dimer Fraction Purification
+n
+The steps in this section use purification beads to clean up the cDNA and DO dimer products.
+Important: Do not discard the supernatant fraction from the first size selection step. It must be
+processed into a final DO library. Pay close attention at each step for proper sample handling
+instructions.
+n
+At the start of the cleanup steps, sample wells contain separate oil and aqueous layers. When mixing,
+mix only in the specified aqueous layer.
+n
+Use a single-channel pipette to transfer purification beads to sample wells.
+Note: Using a multi-channel pipette reservoir and a multi-channel pipette can result in an
+inaccurate volume of purification beads (reagent) required to complete this protocol.
+First cDNA Purification and DO Dimer Size Selection
+1.
+Prepare fresh 80% ethanol from absolute ethanol.
+2.
+Vortex the purification beads until well dispersed.
+3.
+Without mixing, slowly dispense 56 µl purification beads to the samples above the aqueous layer.
+Important: Do not dispense into the oil layer at the bottom of the well.
+4.
+Gently pipette mix the purification beads in the aqueous layer until the layer is evenly distributed
+(10–15x).
+Tilt the pipette tip at an angle of approximately 30-45° and pipette the magnetic beads and the
+aqueous layer gently against the side of the wells to mix.
+Important: Pipette mix gently to prevent mixing the aqueous layer with the oil layer. Forceful
+pipette mixing leads to sample loss.
+User Guide | 51
+
+
+--- Page 54 ---
+Chapter 4 Protocol
+After sufficient mixing, the samples display two distinct layers:
+n
+An oil layer at the bottom of the well
+n
+A homogeneous brown aqueous layer at the top (Fig. 25C).
+If parts of the aqueous layer still appear clear or a lighter brown (Fig. 25B), continue to mix until the
+entire aqueous layer is homogeneously brown.
+Fig. 25: Mixing states
+A) Initial state with a clear aqueous layer at the top
+B) A lighter brown aqueous layer at the top indicates the layer is not properly mixed
+C) An entirely homogenous brown aqueous layer at the top indicates the layer is properly mixed
+5.
+Lift the samples to closely examine the quality of mix for the aqueous layer.
+First cDNA Bind
+1.
+Incubate the sample-purification bead mixture in the ddPCR plate at room temperature for 10 min.
+2.
+Place the samples on the magnetic peg stand.
+3.
+Incubate 10 min at room temperature to allow the purification beads to bind to the magnet.
+Note: Due to bead retention in the aqueous and oil layers, the liquid might not be completely
+clear of beads after 10 min, but most beads should be bound to the magnet.
+4.
+Transfer the entire volume of supernatant, including aqueous and oil layers, to a new 8-tube strip.
+Important: High profile PCR strip tubes are required to carry a total volume of ~210 µl during the
+purification steps.
+Important: Do not discard the supernatant. It contains the DO dimer fraction that must be
+further purified in the DO dimer purification sections. Set aside the supernatant at room
+temperature while you complete the cDNA purification sections.
+52 | ddSEQ Single-Cell 3' RNA-Seq Kit
+
+
+--- Page 55 ---
+Breaking Emulsions and Purifying cDNA and DO Dimer Fractions
+First cDNA Wash
+1.
+Wash the magnet-bound purification beads, as follows:
+a.
+Add 200 µl of freshly prepared 80% ethanol to each well.
+Important: To avoid disturbing the pelleted purification beads, pipette against the wall
+opposite the beads.
+b.
+Incubate on the magnet for 30 sec to 1 min.
+c.
+Keeping the plate on the magnet, pipette to remove and discard supernatant.
+d.
+Place the samples on the skirted magnet to move the pellet closer to the bottom of the well.
+This improves the handling.
+2.
+Repeat steps 1a–1c for a total of 2 washes.
+3.
+Pipette to remove any residual ethanol at the bottom of the wells without disrupting the magnetic
+bead pellet.
+4.
+Air-dry the samples on the magnet until there is no remaining liquid in each well.
+Important: Air-dry time varies, depending on the humidity and temperature of the room, but
+typically takes 3–5 min. Monitor the wells closely. If the magnetic bead pellet begins to crack,
+proceed immediately to the next step, as this is an indicator of over-drying and can lead to
+reduced yields.
+First cDNA Elute
+1.
+Remove the plate from the magnet. Add 53 μl of resuspension buffer (10mM Tris-HCl, pH 8.0) to
+each sample well. Pipette to mix, ensuring all beads are resuspended.
+Important: Confirm that the solution is homogenous. Yield loss can occur if beads are not
+thoroughly resuspended.
+2.
+Incubate the solution at room temperature for 5 min.
+3.
+Place the samples on the skirted magnet, which pulls the bead pellet closer to the bottom of the
+well. This facilitates the subsequent handling.
+4.
+Incubate at room temperature for 5 min (until the beads are completely bound to the magnet).
+User Guide | 53
+
+
+--- Page 56 ---
+Chapter 4 Protocol
+Combine Wells From cDNA Samples and Transfer
+Fig. 26: Combining barcoded cDNA samples after magnetic cleanup
+Important: Keep the sample on the skirted magnet during this procedure.
+1.
+To combine the two wells for each sample, transfer 50 µl of supernatant from each sample well to an
+8-tube strip, as shown in Fig. 26:
+n
+Sample 1, wells A and B, to the first tube in an 8-tube strip
+n
+Sample 2, wells C and D, to the second tube in an 8-tube strip
+n
+Sample 3, wells E and F, to the third tube in an 8-tube strip
+n
+Sample 4, wells G and H, to the fourth tube in an 8-tube strip
+After transferring the supernatant, the total volume in each tube is 100 µl.
+Important: Each pair of sample wells in succession represents one sample. Proper pooling is
+critical for library prep indexing and sample processing.
+2.
+Proceed immediately to the next section.
+54 | ddSEQ Single-Cell 3' RNA-Seq Kit
+
+
+--- Page 57 ---
+Breaking Emulsions and Purifying cDNA and DO Dimer Fractions
+Second cDNA Purification
+1.
+Add 60 μl of purification beads to the tubes or wells containing 100 μl of cDNA from the previous
+section.
+2.
+Pipette to mix the purification beads and cDNA until homogeneous (10–15x).
+Second cDNA Bind
+1.
+Incubate the 8-tube strip at room temperature for 5 min.
+2.
+Place the 8-tube strip on the magnetic separation rack.
+3.
+Incubate at room temperature for 5 min.
+4.
+Keeping the 8-tube strip in the magnetic separation rack, pipette to remove and discard
+supernatant.
+Second cDNA Wash
+1.
+Wash the magnet-bound purification beads, as follows:
+a.
+Add 200 µl of freshly prepared 80% ethanol to each well, pipetting the ethanol against the wall
+opposite the beads.
+Important: Do not disturb the pelleted purification beads.
+b.
+Incubate on the magnetic separation rack for 1 min.
+c.
+Keeping the 8-tube strip in the magnetic separation rack, pipette to remove and discard
+supernatant.
+2.
+Repeat steps 1a-1c for a total of 2 washes.
+3.
+Remove all residual ethanol, as follows:
+a.
+Centrifuge briefly to collect purification beads at the bottom of the tubes.
+b.
+Place the 8-tube strip on the magnetic separation rack.
+c.
+Pipette to remove remaining ethanol.
+4.
+Air-dry on the magnetic separation rack until there is no remaining liquid in each well.
+Important: Air-dry time varies, depending on the humidity and temperature of the room, but
+typically takes 3–5 min. Monitor the wells closely. If the magnetic bead pellet begins to crack,
+proceed immediately to the next step, as this is an indicator of over-drying and can lead to
+reduced yields.
+User Guide | 55
+
+
+--- Page 58 ---
+Chapter 4 Protocol
+Second cDNA Elute
+1.
+Remove the 8-tube strip from the magnetic separation rack.
+2.
+Add 23 μl resuspension buffer (10 mM Tris-HCl, pH 8.0) to each sample well.
+3.
+Pipette to mix, making sure all beads are resuspended.
+Important: Confirm the solution is homogenous. Yield loss can occur if the beads are not
+thoroughly resuspended.
+4.
+Incubate at room temperature for 2 min.
+5.
+Place the samples on the magnetic separation rack and incubate at room temperature for 1–5 min
+(until beads are no longer visible in the solution).
+6.
+Transfer 22 μl of purified cDNA to a new 8-tube strip.
+DO Dimer Purification
+1.
+Prepare fresh 80% ethanol from absolute ethanol.
+2.
+Vortex the purification beads until they are well dispersed.
+3.
+Proceed with DO dimer purification at room temperature.
+Note: These are the supernatant samples that were set aside during cDNA purification. For
+information, see cDNA and DO Dimer Fraction Purification on page 51.
+4.
+Without mixing, slowly dispense 56 μl purification beads to the DO dimer sample above the aqueous
+layer.
+Important: Do not dispense into the oil layer at the bottom of the tube.
+5.
+Pipette mix purification beads in the aqueous layer only until the layer is evenly distributed (10–15x).
+To mix, tilt the pipette tip at an angle of ~30–45° and gently pipette the magnetic beads and the
+aqueous layer against the side of the tubes.
+Important: Pipette mix gently to prevent mixing the aqueous layer with the oil layer. Forceful
+pipette mixing leads to sample loss.
+6.
+After mixing, the samples have two distinct layers: an oil layer on the bottom of the tube and a
+homogeneous brown aqueous layer on the top. If parts of the aqueous layer still appear clear or a
+lighter brown, continue to mix until the entire aqueous layer is homogenous brown.
+56 | ddSEQ Single-Cell 3' RNA-Seq Kit
+
+
+--- Page 59 ---
+Breaking Emulsions and Purifying cDNA and DO Dimer Fractions
+DO Dimer Bind
+1.
+Incubate the DO dimer samples in the 8-tube strip at room temperature for 5 min.
+2.
+Place the 8-tube strip in the magnetic separation rack.
+3.
+Incubate at room temperature for 5 min.
+4.
+Keeping the strip tube in the magnetic separation rack, pipette to remove and discard supernatant
+(including aqueous and oil layers).
+DO Dimer Wash
+1.
+Wash the magnet-bound purification beads, as follows:
+a.
+Add 200 µl of freshly prepared 80% ethanol to each well, pipetting the ethanol against the wall
+opposite the beads.
+Important: Do not disturb the pelleted purification beads.
+b.
+Incubate on the magnetic separation rack for 30 sec to 1 min.
+c.
+Keeping the 8-tube strip in the magnetic separation rack, pipette to remove and discard
+supernatant..
+2.
+Repeat steps 1a-1c for a total of 2 washes.
+3.
+Remove all residual ethanol, as follows:
+a.
+Centrifuge briefly to collect purification beads at the bottom of the tubes.
+b.
+Place the 8-tube strip on the magnetic separation rack.
+c.
+Pipette to remove remaining ethanol.
+4.
+Air-dry on the magnetic separation rack until there is no remaining liquid in each tube.
+Important: Air-dry time varies, depending on the humidity and temperature of the room, but
+typically takes 3–5 min. Monitor the wells closely. If the magnetic bead pellet begins to crack,
+proceed immediately to the next step, as this is an indicator of over-drying and can lead to
+reduced yields.
+User Guide | 57
+
+
+--- Page 60 ---
+Chapter 4 Protocol
+DO Dimer Elute
+1.
+Remove the 8-tube strip from the magnetic separation rack.
+2.
+Add 20 μl resuspension buffer (10mM Tris-HCl, pH 8.0) to each sample tube to elute the DO dimers.
+3.
+Pipette to mix, making sure all beads are resuspended.
+Important: Confirm that solution is homogenous. Yield loss can occur if beads are not
+thoroughly resuspended.
+4.
+Incubate the 8-tube strip at room temperature for 5 min.
+5.
+Place the sample plate on the magnetic separation rack and incubate at room temperature for 1–5
+min (until beads are no longer visible in the solution).
+Combine Wells From DO Dimer Samples and Transfer
+1.
+To combine the two tubes for each sample, transfer 19 µl of supernatant from each sample tube to a
+new 8-tube strip (Fig. 27).
+Important: Keep the samples on the magnetic separation rack during this step.
+Fig. 27: Combining DO dimer samples after magnetic bead cleanup
+n
+Sample 1, Tubes A and B, to Tube 1 of the new 8-tube strip
+n
+Sample 2, Tubes C and D, to Tube 2 of the new 8-tube strip
+n
+Sample 3, Tubes E and F, to Tube 3 of the new 8-tube strip
+n
+Sample 4, Tubes G and H, to Tube 4 of the new 8-tube strip
+58 | ddSEQ Single-Cell 3' RNA-Seq Kit
+
+
+--- Page 61 ---
+Preparing cDNA and DO Libraries
+After transferring, the total volume of supernatant in each tube is 38 µl.
+Important: Each pair of sample tubes in succession represents the DO dimers from one
+sample. Proper pooling is critical for matching to each sample's partner cDNA, and for library
+prep indexing and sample processing.
+After this section is complete, you can store the purified cDNA and DO dimers at -20° C for up to 7 days.
+Preparing cDNA and DO Libraries
+The cDNA fraction is converted into a sequencing library via tagmentation and index PCR. The DO dimers
+are processed into a sequencing library using indexing PCR only (Fig. 28).
+Important: Follow the instructions carefully to ensure you are performing the correct library
+preparation procedure on the cDNA and DO dimer fractions.
+Fig. 28: cDNA and DO library preparation
+User Guide | 59
+
+
+--- Page 62 ---
+Chapter 4 Protocol
+cDNA Tagmentation
+Important: Perform tagmentation on cDNA samples only. Before you begin tagmentation, you must
+fully thaw all necessary index PCR reagents for the next step (cDNA Indexing and Amplification on
+page 63).
+Item
+Cap
+color
+Part
+number
+Storage
+Preparation
+cDNA, purified
+(22 µl)
+N/A
+N/A
+On ice
+See previous sections.
+cDNA
+Tagmentation Buffer
+(labeled as TGMNT
+on tube)
+Yellow
+12019996
+-20° C
+1. Thaw completely, on
+ice.
+2. Using a tabletop
+vortexer, vortex to
+mix (5–10 sec).
+3. Centrifuge briefly to
+collect volume at
+bottom of tube.
+cDNA Tagmentation
+Enzyme
+Yellow
+12019983
+-20° C
+1. Set on ice.
+2. Gently flick the
+thawed tube 3–6x to
+mix.
+3. Centrifuge briefly to
+collect volume at
+bottom of tube.
+Carrier DNA
+Yellow
+12020782
+-20° C
+1. Thaw completely, on
+ice.
+2. Using a tabletop
+vortexer, vortex to
+mix (5–10 sec).
+3. Centrifuge briefly to
+collect volume at
+bottom of tube.
+Thermal cycler*
+*Use one of the recommended thermal cyclers or an equivalent deep-well thermal cycler with up to 100 µl
+capacity.For information and catalog numbers, see Required Consumables and Equipment on page 11.
+Table 22. cDNA tagmentation (required reagents, equipment, and consumables)
+60 | ddSEQ Single-Cell 3' RNA-Seq Kit
+
+
+--- Page 63 ---
+Preparing cDNA and DO Libraries
+1.
+Save the following tagmentation program (TGM) on the thermal cycler.
+Lid temperature
+Reaction volume
+Ramp rate
+105° C
+50 µl
+2.0° C/sec
+Step
+Temperature
+Time (hr:min:sec)
+1
+55° C
+Hold
+2
+55° C
+00:05:00
+3
+4° C
+Hold
+Table 23. cDNA tagmentation protocol
+2.
+Pre-warm the thermal cycler to 55° C and hold at that temperature while preparing the tagmentation
+mix.
+3.
+Before adding the cDNA tagmentation mix, mix carrier DNA (if needed) directly into each cDNA
+sample. For information on recommended carrier volumes, see Table 24.
+Important: Failure to mix Carrier DNA into the recommended samples might lead to low library
+yield and reduced gene detection sensitivity.
+Important: Keep samples on ice at all times.
+Carrier DNA volume
+Cell input
+1 µl
+if
+Low-expresser cells*
+or
+≤2,500 high-expresser cells**
+Not required
+if
+> 2,500 high-expresser cells**
+Table 24. Recommended carrier DNA volumes
+* Based on human PBMC; actual performance may vary based on cell type and cell conditions.
+** Based on HEK 293 and NIH 3T3 cell lines; actual performance may vary based on cell type and cell
+conditions.
+User Guide | 61
+
+
+--- Page 64 ---
+Chapter 4 Protocol
+4.
+Add the components in Table 25, according to the order listed, in a 1.5 ml tube on ice.
+Component
+Required Volume, µl
+(1 rxn plus excess)
+Required Volume, µl
+(4 rxn plus excess)
+cDNA Tagmentation Buffer
+(labeled as TGMNT on tube)
+8.80
+35.20
+cDNA Tagmentation Enzyme
+11.00
+44.00
+TOTAL
+19.80
+79.20
+Table 25. cDNA tagmentation components
+5.
+Pipet the cDNA tagmentation mix 3–6x while on ice, and then centrifuge briefly to collect the contents
+at the bottom of the tube.
+6.
+Add 18 µl of the cDNA tagmentation mix to each cDNA sample (whether or not carrier DNA is
+present).
+Important: Use a new pipette tip for each cDNA sample.
+7.
+Pipette to mix the samples 3–6x and then seal or cap the samples.
+8.
+Place on the pre-programmed thermal cycler and run the TGM program.
+9.
+Advance the TGM program past the 55° C hold to tagment for 5 min.
+10. Remove the samples from the thermal cycler as soon as the temperature reaches 4° C.
+11. Place the samples on ice.
+Important: Proceed immediately to the next section.
+62 | ddSEQ Single-Cell 3' RNA-Seq Kit
+
+
+--- Page 65 ---
+Preparing cDNA and DO Libraries
+cDNA Indexing and Amplification
+Item
+Cap
+color
+Part
+number
+Storage
+Preparation
+Tagmented
+cDNA
+N/A
+N/A
+On ice
+See previous sections
+PCR Supermix
+White
+12020005
+-20° C
+1. Thaw completely, on ice.
+2. Gently flick the thawed
+tube 3–6x.
+3. Centrifuge briefly to collect
+volume at bottom of tube.
+cDNA Index
+Plate
+N/A
+12020634
+-20° C
+1. Thaw completely, at room
+temperature.
+2. Centrifuge briefly to collect
+volume at bottom of plate.
+Thermal cycler*
+*Use one of the recommended thermal cyclers or an equivalent deep-well thermal cycler with up to 100 µl
+capacity.For information and catalog numbers, see Required Consumables and Equipment on page 11.
+Table 26. cDNA indexing and amplification (required reagents, equipment, and consumables)
+User Guide | 63
+
+
+--- Page 66 ---
+Chapter 4 Protocol
+1.
+Save the cDNA library amplification (CLA) program (Table 27) on the thermal cycler.
+Lid temperature
+Reaction volume
+Ramp rate
+105° C
+100 µl
+2.0° C/sec
+Step
+Temperature
+Time (hr:min:sec)
+1
+95° C
+00:03:00
+2
+98° C
+00:00:20
+3
+60° C
+00:00:45
+4
+72° C
+00:01:00
+5
+Go to Step 2 for a total of X cycles (Table 28 on page 65)
+6
+72° C
+00:05:00
+7
+10° C
+Hold
+Table 27. CLA protocol
+Important: To amplify cDNA libraries based on cell input and expression level, follow the PCR
+cycle recommendations in Table 28 on page 65. Use the recommended number of PCR
+cycles as the starting point to determine the optimal number of cycles. Upon evaluation of the
+performance of similar sample types, the number of PCR cycles can be adjusted for optimal
+performance.
+64 | ddSEQ Single-Cell 3' RNA-Seq Kit
+
+
+--- Page 67 ---
+Preparing cDNA and DO Libraries
+Recommended cDNA
+index PCR cycle number
+Cell input
+14
+if
+≤5,000 low-expresser cells *
+or
+≤4,000 high-expresser cells **
+13
+if
+> 5,000 low-expresser cells *
+or
+>4,000 high-expresser cells **
+Table 28. Recommended number of cDNA index PCR cycles
+* based on human PBMC; actual performance may vary based on cell type and cell conditions.
+** based on HEK 293 and NIH 3T3 cell lines; actual performance may vary based on cell type and cell
+conditions.
+2.
+Add 50 µl of PCR supermix to each of the cDNA-tagmented samples.
+Important: To prevent cross-contamination, use a fresh tip for each sample.
+3.
+Open the lid of the index plate marked for cDNA indexing only and gently wipe the surface (foil) of
+the cDNA index plate with 80% ethanol.
+Important: The cDNA and the DO Index plates are NOT interchangeable. Ensure you are
+using the cDNA index plate for the cDNA libraries you are preparing.
+4.
+Using a clean pipette tip, gently pierce the foil over the well containing the index adapters to be used
+with your cDNA sample.
+Important: To prevent cross-contamination, do the following:
+n
+Use a new pipette tip for each index well
+n
+Indexes are for single use. If fewer than 24 indexes are used, seal the pierced index wells before
+returning to -20° C storage to prevent contamination from the pierced wells.
+Important: Because the foil may require slight pressure to pierce, ensure the plate is on a flat
+surface to prevent spills and cross-contamination.
+User Guide | 65
+
+
+--- Page 68 ---
+Chapter 4 Protocol
+5.
+Using a pipette set to 10 µl, with a clean tip, pipette mix the cDNA indexes in the pre-pierced index
+well 5x, and then add 10 µl of a unique cDNA index to each cDNA tagmented sample.
+Important: Use a different cDNA index for each sample, and record the index used. The
+information is required to match the index to the paired DO dimer sample during DO library
+preparation, and to set up the sequencing run.
+Fig. 29 illustrates the cDNA index plate map. For index sequences, see Library Preparation for
+Sequencing on page 79.
+Fig. 29: cDNA index map
+6.
+Using a P200 multi-channel pipette set to 80 µl, mix the cDNA PCR reaction 10x.
+7.
+Seal or cap the cDNA PCR reactions and centrifuge.
+8.
+Place the cDNA PCR reactions on the pre-programmed thermal cycler and run the CLA program.
+9.
+If a second thermocycler is available, proceed to DO indexing and amplification once the CLA
+program is initiated.
+n
+After this section is complete, you can store the sample on the thermal
+cycler at 10° C or at 4° C for up to 72 hr.
+n
+Operating the instrument at 4° C should be limited to 18 hours at these
+conditions.
+n
+Holds at 4° C can be performed for up to 72 hrs if humidity is 20-60%
+(noncondensing).
+66 | ddSEQ Single-Cell 3' RNA-Seq Kit
+
+
+--- Page 69 ---
+Preparing cDNA and DO Libraries
+DO Dimer Indexing and Amplification
+Item
+Cap
+color
+Part
+number
+Storage
+Preparation
+Purified DO
+dimer
+samples
+N/A
+N/A
+On ice
+See previous section.
+PCR
+Supermix
+White
+12020005
+-20° C
+1. Thaw on ice.
+2. Gently flick the thawed tube
+3–6x.
+3. Centrifuge briefly to collect
+volume at bottom of tube.
+DO Index
+Plate
+N/A
+12020634
+-20° C
+1. Thaw completely, at room
+temperature.
+2. Centrifuge briefly to collect
+volume at bottom of plate.
+Nuclease-free
+water
+N/A
+N/A
+N/A
+N/A
+Thermal cycler*
+*Use one of the recommended thermal cyclers or an equivalent deep-well thermal cycler with up to 100 µl
+capacity. For information and catalog numbers, see Required Consumables and Equipment on page 11.
+Table 29. DO dimer indexing and amplification (required items)
+User Guide | 67
+
+
+--- Page 70 ---
+Chapter 4 Protocol
+1.
+Save the following DO library amplification (DLA) program on the thermal cycler:
+Lid temperature
+Reaction volume
+Ramp rate
+105° C
+100 µl
+2.0° C/sec
+Step
+Temperature
+Time (hr:min:sec)
+1
+95° C
+00:03:00
+2
+98° C
+00:00:20
+3
+50° C
+00:00:45
+4
+72° C
+00:00:45
+5
+Go to Step 2 for a total of 3 cycles
+6
+98° C
+00:00:20
+7
+65° C
+00:00:20
+8
+72° C
+00:00:25
+9
+Go to Step 6 for a total of 13 cycles
+10
+72° C
+00:05:00
+11
+10° C
+Hold
+Table 30. DLA protocol
+2.
+Add 50 µl of PCR supermix to each of the purified DO dimer samples.
+Important: To prevent cross-contamination, use a fresh tip for each sample.
+3.
+Add 2 µl of nuclease-free H2O to the DO dimer samples.
+Important: To prevent cross-contamination, use a fresh tip for each sample.
+4.
+Open the lid of the index plate, marked for DO indexing, and gently wipe the surface of the DO
+index plate (foil) with 80% ethanol.
+Important: The cDNA and the DO Index plates are NOT interchangeable. Ensure you are
+using the correct index plate for the type of libraries you are preparing.
+Fig. 30 on page 69 illustrates the cDNA and DO index plate maps. For index sequences, see Library
+Preparation for Sequencing on page 79.
+68 | ddSEQ Single-Cell 3' RNA-Seq Kit
+
+
+--- Page 71 ---
+Preparing cDNA and DO Libraries
+5.
+Using a clean pipette tip, gently pierce the foil over the well containing the indexes to be used with
+your DO dimer sample.
+Important: To prevent cross-contamination, do the following:
+n
+Use a new pipette tip for each index well
+n
+Indexes are for single use. If fewer than 24 indexes are used, seal the pierced index wells before
+returning to -20°C storage to prevent contamination from the pierced wells
+Important: Because the foil may require slight pressure to pierce, ensure the plate is on a flat
+surface to prevent spills and cross-contamination.
+Important: In Step 6, you must use the same index for each cDNA and DO sample pair.
+Matching is crucial for deconvoluting sample information bioinformatically. Each sample must
+receive a unique index from the plate, matching back in coordinate position to the cDNA plate
+used for cDNA libraries.
+6.
+Complete the following substeps:
+a.
+Using a pipette set to 10 µl, with a clean tip, pipette mix the DO indexes in the pre-pierced index
+well 5x.
+b.
+Transfer 10 µl of a unique DO Index to each DO dimer sample.
+Fig. 30: Index coordinates
+User Guide | 69
+
+
+--- Page 72 ---
+Chapter 4 Protocol
+7.
+Use a P200 multi-channel pipette, set at 80 µl, to mix the DO dimer PCR reaction 10x.
+8.
+Seal or cap the samples DO dimer PCR reactions and centrifuge.
+9.
+Place the DO dimer PCR reactions on the pre-programmed thermal cycler and run the DLA program.
+n
+After this section is complete, you can store the sample on the thermal
+cycler at 10° C or at 4° C for up to 72 hr.
+n
+Operating the instrument at 4° C should be limited to 18 hours at these
+conditions.
+n
+Holds at 4° C can be performed for up to 72 hrs if humidity is 20-60%
+(noncondensing).
+70 | ddSEQ Single-Cell 3' RNA-Seq Kit
+
+
+--- Page 73 ---
+Preparing cDNA and DO Libraries
+cDNA and DO Library Purification
+Follow the instructions in this section carefully to ensure the correct amount of purification beads are used
+to purify the cDNA and DO libraries. Inexperienced users may purify the cDNA and DO libraries
+sequentially.
+Item
+Cap
+color
+Part
+number
+Storage
+Preparation
+cDNA libraries
+N/A
+N/A
+4° C
+or
+10° C
+Preparation completed in
+cDNA Indexing and
+Amplification on page 63.
+DO libraries
+N/A
+N/A
+4° C
+or
+10° C
+Preparation completed in
+DO Dimer Indexing and
+Amplification on page 67.
+Purification beads (choose one):
+n Beckman Coulter
+SPRIselect
+Reagent Kit
+N/A
+B23317
+Room
+temp
+1. Vortex until well
+dispersed.
+n Beckman Coulter
+AMPure XP SPRI
+Reagent
+N/A
+A63881
+4° C
+1. Let stand for 30 min to
+bring to room
+temperature.
+2. Vortex until well
+dispersed.
+10mM Tris-HCl, pH
+8.0 (Resuspension
+Buffer), DNAse-free
+(Teknova)
+N/A
+T1173
+Room
+temp
+N/A
+Ethanol, pure (200
+proof, anhydrous)
+N/A
+N/A
+Room
+temp
+Prepare a fresh batch of
+80% ethanol in water.
+NEBNext Magnetic
+Separation Rack
+N/A
+S1515S
+Room
+temp
+N/A
+Table 31. cDNA and DO library purification, required equipment and consumables
+User Guide | 71
+
+
+--- Page 74 ---
+Chapter 4 Protocol
+First Library Purification
+1.
+Prepare fresh 80% ethanol.
+2.
+Vortex the purification beads until well dispersed.
+3.
+Add purification beads to the tubes containing 100 µl of libraries prepared from the previous index
+PCR sections, as follows:
+n
+cDNA library: 60 µl of purification beads
+n
+DO library: 80 µl of purification beads
+4.
+Pipette mix the purification beads and samples until homogenous (10–15x).
+First Library Bind
+1.
+Incubate the samples at room temperature for 5 min.
+2.
+Place the strip tubes in the magnetic separation rack.
+3.
+Incubate at room temperature for 5 min.
+4.
+Keeping the strip tubes in the magnetic separation rack, pipette to remove and discard the
+supernatant.
+72 | ddSEQ Single-Cell 3' RNA-Seq Kit
+
+
+--- Page 75 ---
+Preparing cDNA and DO Libraries
+First Library Wash
+1.
+Wash the magnet-bound purification beads, as follows:
+a.
+Add 200 µl of freshly prepared 80% ethanol to each well, pipetting the ethanol against the wall
+opposite the beads.
+Important: Do not disturb the pelleted purification beads.
+b.
+Incubate on the magnetic separation rack for 1 min.
+c.
+Keeping the 8-tube strip in the magnetic separation rack, pipette to remove and discard the
+supernatant.
+2.
+Repeat steps 1a-1c, for a total of 2 washes.
+3.
+Remove all residual ethanol, as follows:
+a.
+Centrifuge briefly to collect purification beads at the bottom of the tubes.
+b.
+Place the 8-tube strip on the magnetic separation rack.
+c.
+Pipette to remove remaining ethanol.
+4.
+Air-dry on the magnetic separation rack until there is no remaining liquid in each tube.
+Important: Air-dry time varies, depending on the humidity and temperature of the room, but
+typically takes 3–5 min. Monitor the wells closely. If the magnetic bead pellet begins to crack,
+proceed immediately to the next step, as this is an indicator of over-drying and can lead to
+reduced yields.
+First Library Elute
+1.
+Remove the sample tubes from the magnet.
+2.
+Add 51 μl resuspension buffer (10mM Tris-HCl, pH 8.0) to each sample.
+3.
+Pipette to mix, making sure all beads are resuspended.
+Important: Confirm that solution is homogenous. Yield loss can occur if beads are not
+thoroughly resuspended.
+4.
+Incubate at room temperature for 2 min.
+5.
+Place the strip tubes on the magnetic separation rack and incubate for 1–5 min (until the beads
+have attached to the magnet and are no longer visible in the solution).
+6.
+Keeping the strip tube in the magnetic separation rack, transfer 50 µl of library from each sample
+tube to a new 8-tube strip.
+User Guide | 73
+
+
+--- Page 76 ---
+Chapter 4 Protocol
+Second Library Purification
+1.
+Vortex the purification beads until well dispersed.
+2.
+Add purification beads to the tubes containing 50 µl of first purification eluates from the previous
+section:
+n
+cDNA library first purification eluate: 30 µl of purification beads
+n
+DO library first purification eluate: 40 µl of purification beads
+3.
+Pipette mix the purification beads and library until homogenous (10–15x).
+Second Library Bind
+1.
+Incubate the library samples at room temperature for 5 min.
+2.
+Place the strip tubes in the magnetic separation rack.
+3.
+Incubate at room temperature for 5 min.
+4.
+Keeping the strip tubes in the magnetic separation rack, pipette to remove and discard the
+supernatant.
+Second Library Wash
+1.
+Wash the magnet-bound purification beads, as follows:
+a.
+Add 200 µl of freshly prepared 80% ethanol to each tube, pipetting the ethanol against the wall
+opposite the beads.
+Important: Do not disturb the pelleted purification beads.
+b.
+Incubate on the magnetic separation rack for 30 sec to 1 min.
+c.
+Remove and discard all the supernatant from each tube.
+2.
+Repeat steps 1a-1c, for a total of 2 washes.
+74 | ddSEQ Single-Cell 3' RNA-Seq Kit
+
+
+--- Page 77 ---
+Preparing cDNA and DO Libraries
+3.
+Remove all residual ethanol, as follows:
+a.
+Centrifuge briefly to collect purification beads at the bottom of the tubes.
+b.
+Place the 8-tube strip on the magnetic separation rack.
+c.
+Pipette to remove remaining ethanol.
+4.
+Air-dry the samples on the magnetic separation rack until there is no remaining liquid in each tube.
+Important: Air-dry time varies, depending on the humidity and temperature of the room, but
+typically takes 3–5 min. Monitor the wells closely. If the magnetic bead pellet begins to crack,
+proceed immediately to the next step, as this is an indicator of over-drying and can lead to
+reduced yields.
+Second Library Elute
+1.
+Remove the 8-tube strip from the magnetic separation rack.
+2.
+Add 21 μl resuspension buffer (10mM Tris-HCl, pH 8.0) to each sample tube.
+3.
+Pipette to mix, making sure all beads are resuspended.
+Important: Confirm that solution is homogenous. Yield loss can occur if beads are not
+thoroughly resuspended.
+4.
+Incubate at room temperature for 2 min.
+5.
+Place the strip tube on the magnetic separation rack and incubate for 1–5 min (until the beads have
+attached to the magnet and are no longer visible in the solution).
+6.
+Keeping the strip tube in the magnetic separation rack, transfer 20 µl of library from each sample
+tube to a new 8-tube strip.
+After this section is complete, you can store the sample long-term at -20° C.
+User Guide | 75
+
+
+--- Page 78 ---
+Chapter 4 Protocol
+Library Processing
+Item
+Part number
+Supplier
+cDNA and DO library samples
+N/A
+See previous section.
+*2100 Bioanalyzer Instrument
+n High Sensitivity DNA Kit
+n High Sensitivity DNA Reagents
+G2939AAR
+5067-4626
+5067-4627
+Agilent
+*4150 TapeStation System
+n High Sensitivity D5000 Ladder
+n High Sensitivity D5000 Reagents
+n High Sensitivity D5000 Screen Tape
+G2992AA
+5067-5594
+5067-5593
+5067-5592
+Agilent
+Table 32. cDNA and DO library analysis (required items)
+*Use either the 2100 Bioanalyzer Instrument or the 4150 TapeStation System and their respective
+consumables.
+76 | ddSEQ Single-Cell 3' RNA-Seq Kit
+
+
+--- Page 79 ---
+Preparing cDNA and DO Libraries
+Check Quality of Libraries
+This section contains the procedure for processing libraries for Illumina NGS. Before proceeding with
+sequencing, complete the following procedure for quality control analysis on your cDNA and DO libraries:
+1.
+Load the libraries onto the 2100 Bioanalyzer or the 4150 Tapestation System. You can often run
+n
+cDNA libraries from low-expresser cells, undiluted
+n
+cDNA libraries from high-expresser cells at 1:4 to 1:10 dilution
+n
+DO libraries at a 1:4 dilution
+Important: Follow the recommended loading ranges for each instrument, and perform
+appropriate dilutions before loading. If you dilute libraries following our recommended guidelines
+and observe that Bioanalyzer and/or Tapestation marker peaks are not in the appropriate signal
+range for accurate quantification (following Agilent guidelines), then dilute the libraries further.
+2.
+Use the following 2100 Bioanalyzer and 4150 Tapestation System guidelines to determine library
+size ranges and concentration for sequencer loading:
+n
+For cDNA libraries, capture the 200–1,200 bp region.
+The average size is used for nM calculation for sequencing. Expect libraries to have an average
+of 700–900 bp.
+n
+For DO libraries, capture the 200–500 bp region.
+The average size is used for nM calculation for sequencing. Expect libraries to have a
+predominant peak at around 300bp.
+Fig. 31 shows the representative cDNA traces from the Agilent Tapestation system software on
+the left and from the Agilent Technology 2100 Bioanalyzer Software on the right.
+Fig. 31: Representative cDNA library traces
+User Guide | 77
+
+
+--- Page 80 ---
+Chapter 4 Protocol
+Fig. 32 shows representative DO library traces from A) Agilent Tapestation System Software or B
+through E) Agilent Technology 2100 Bioanalyzer Software. Most DO library traces will present like A
+and B, with a single predominant peak. Occasionally, DO library traces may present with multiple
+peaks, such as those observed in C through E. You can still proceed to sequence with these libraries.
+A)
+B)
+C)
+D)
+E)
+Fig. 32: Representative DO library traces
+78 | ddSEQ Single-Cell 3' RNA-Seq Kit
+
+
+--- Page 81 ---
+Preparing cDNA and DO Libraries
+Preparing for Sequencing
+Library Preparation for Sequencing
+Bio-Rad recommends that you sequence libraries on Illumina platforms targeting sufficient depth for
+subsequent analyses. You should expect to recover 50% (minimum) of the original cell input. A minimum
+of 20,000 read pairs per cell might provide adequate depth for high-expressor cell types, but at least
+50,000 reads per expected cell output are recommended for single-cell transcriptomic analyses.
+Depending on the sequencing platform and kit chosen, properly account for the number of samples being
+tested to achieve proper sequencing depth. You must prepare two sequencing pools separately (the
+cDNA and the DO library pools), and then combine them to achieve the desired read distribution.
+Note the following:
+n
+For NextSeq2000 two-plex pooling, pool samples with consecutive indexes from a single column of
+the index plate.
+n
+For other sequencing systems, pool more than two samples with consecutive indexes down a single
+column of the index plate.
+Important: Do not pool samples with indexes across a row of the index plate.
+Note: To ensure accurate bead deconvolution, DO libraries must be allocated 5 million reads per DO
+library during sequencing. The following is an example read pair allocation.
+Cell input = 10,000 viable cells
+Expected cells recovered = 5,000 cells
+Recommended cDNA library read pairs per sample = 5,000 cells per sample * 50,000 read
+pairs per cell = 250M read pairs per sample
+Recommended DO library read pairs per sample = 5M read pairs per sample
+Total read pairs required per sample = 255M read pairs
+For each Illumina platform being used, follow the platform-specific protocol for denaturing, diluting, and
+loading libraries.
+User Guide | 79
+
+
+--- Page 82 ---
+Chapter 4 Protocol
+Sequencing Run and Loading Parameters
+The sequencing parameters in Table 33 are recommended when sequencing on Illumina NextSeq2000.
+Parameter
+Recommended
+Pool concentration
+725 pM
+Sequencing depth
+Minimum: 20,000 read pairs per cell
+Recommended: 50,000 read pairs per cell
+Sequencing type
+Paired-end, dual indexing
+Sequencing reads
+n Read 1
+n i7 index
+n i5 index
+n Read 2
+Recommended number of cycles
+54
+8
+8
+68
+Table 33. Sequencing run parameters
+Notes:
+n
+A PhiX spike-in control is not required for sequencing the ddSEQ single cell 3’ RNA-seq libraries.
+n
+A low concentration of PhiX spike-in control could be included for sequencing run spec monitoring
+purposes if needed.
+Sample index
+Well position
+i7 index in adapter
+(Index 1)
+i5 index in adapter
+(Index 2)
+UDI_001
+A1
+CCGCGGTT
+AGCGCTAG
+UDI_002
+B1
+TTATAACC
+GATATCGA
+UDI_003
+C1
+GGACTTGG
+CGCAGACG
+UDI_004
+D1
+AAGTCCAA
+TATGAGTA
+UDI_005
+E1
+ATCCACTG
+AGGTGCGT
+UDI_006
+F1
+GCTTGTCA
+GAACATAC
+Table 34. Matched cDNA and DO library indexes corresponding to well position
+80 | ddSEQ Single-Cell 3' RNA-Seq Kit
+
+
+--- Page 83 ---
+Preparing cDNA and DO Libraries
+Sample index
+Well position
+i7 index in adapter
+(Index 1)
+i5 index in adapter
+(Index 2)
+UDI_007
+G1
+CAAGCTAG
+ACATAGCG
+UDI_008
+H1
+TGGATCGA
+GTGCGATA
+UDI_009
+A2
+AGTTCAGG
+CCAACAGA
+UDI_010
+B2
+GACCTGAA
+TTGGTGAG
+UDI_011
+C2
+TCTCTACT
+CGCGGTTC
+UDI_012
+D2
+CTCTCGTC
+TATAACCT
+UDI_013
+E2
+CCAAGTCT
+AAGGATGA
+UDI_014
+F2
+TTGGACTC
+GGAAGCAG
+UDI_015
+G2
+CAGTAGGC
+TGACGAAT
+UDI_016
+H2
+TGACGAAT
+CAGTAGGC
+UDI_017
+A3
+TAATACAG
+ATATTCAC
+UDI_018
+B3
+CGGCGTGA
+GCGCCTGT
+UDI_019
+C3
+ATGTAAGT
+ACTCTATG
+UDI_020
+D3
+GCACGGAC
+GTCTCGCA
+UDI_021
+E3
+GGTACCTT
+AAGACGTC
+UDI_022
+F3
+AACGTTCC
+GGAGTACT
+UDI_023
+G3
+GCAGAATT
+ACCGGCCA
+UDI_024
+H3
+ATGAGGCC
+GTTAATTG
+Table 34. Matched cDNA and DO library indexes corresponding to well position, continued
+User Guide | 81
+
+
+--- Page 84 ---
+Chapter 4 Protocol
+This page intentionally left blank.
+82 | ddSEQ Single-Cell 3' RNA-Seq Kit
+
+
+--- Page 85 ---
+Chapter 5 Data Analysis
+You can analyze your data using Omnition Analysis Software, which performs the following:
+n
+Read QC
+n
+Sample deconvolution
+n
+Single-cell identification
+n
+Transcriptome alignment
+n
+3' gene and unique molecular identifier (UMI) counting
+n
+Cell clustering
+The Omnition Analysis Software user guide, which explains how to set up and use the analysis software,
+is available at the following hyperlink:
+Omnition Analysis Software User Guide (3' RNA Module)
+Omnition supports human and mouse genomes. You can use other ENSEMBL genome assemblies, but
+they are not supported.
+User Guide | 83
+
+
+--- Page 86 ---
+Chapter 5 Data Analysis
+This page intentionally left blank.
+84 | ddSEQ Single-Cell 3' RNA-Seq Kit
+
+
+--- Page 87 ---
+Appendix A Checking cDNA and DO Dimer
+Samples Before Library Preparation
+Important: Do not dedicate >1 µl of cDNA or DO dimer sample for this optional QC step. Sample
+loss before library preparation negatively impacts gene detection sensitivity.
+This quality control check is an optional step in the protocol. Bio-Rad recommends that you skip this
+section and refer instead to Preparing cDNA and DO Libraries on page 59, since low or undetectable
+cDNA does not indicate that sample preparation has failed.
+To assess the presence of cDNA and DO dimers before library preparation, you can run a Bioanalyzer or
+TapeStation electropherogram test if the samples used were from high-expresser cell types. For high-
+expresser samples with cell input ≥2,500 cells, cDNA is detectable and can be analyzed for size
+distribution and yield. However, cDNA that is isolated from low-expresser cell types cannot be detected at
+this step, regardless of cell input. The same is true for low input high-expresser cells. To conduct cDNA
+quality analysis, complete the following procedure on your cDNA and DO dimer samples. For technical
+assistance, contact Bio-Rad Technical Support.
+Item
+Part number
+Supplier
+cDNA and DO dimer samples
+N/A
+See previous section.
+*2100 Bioanalyzer Instrument
+n High Sensitivity DNA Kit
+n High Sensitivity DNA Reagents
+G2939AAR
+5067-4626
+5067-4627
+Agilent
+Table 35. cDNA and DO dimer sample analysis (required equipment and consumables)
+*4150 TapeStation System
+n High Sensitivity D5000 Ladder
+n High Sensitivity D5000 Reagents
+n High Sensitivity D5000 Screen Tape
+n High Sensitivity D1000 Ladder
+n High Sensitivity D1000 Reagents
+n High Sensitivity D1000 Screen Tape
+G2992AA
+5067-5594
+5067-5593
+5067-5592
+5067-5587
+5067-5585
+5067-5582
+Agilent
+Table 36. cDNA and DO sample analysis (required equipment and consumables)
+User Guide | 85
+
+
+--- Page 88 ---
+Appendix A Checking cDNA and DO Dimer Samples Before Library Preparation
+*Use either the 2100 Bioanalyzer Instrument or the 4150 TapeStation System and their respective
+consumables.
+1.
+Run 1 µl of undiluted cDNA and DO dimer sample on separate wells of an Agilent Technology 2100
+Bioanalyzer or an Agilent 4150 TapeStation. Assess as follows:
+n
+Assess cDNA using the High Sensitivity DNA Kit and Reagents (2100 Bioanalyzer), or the High
+Sensitivity D5000 kit and reagents (4150 TapeStation)
+n
+Assess DO dimers using the High Sensitivity DNA Kit and Reagents (2100 Bioanalyzer), or the
+High Sensitivity D1000 kit and reagents (4150 TapeStation)
+2.
+Determine concentrations using the instrument’s incorporated software.
+n
+For cDNA samples, capture the 200–8,000 bp region. Yields can range from undetectable to > 2
+ng.
+n
+For DO dimer samples, capture the 200–500 bp region. You should expect two to three peaks in
+the region (~200 bp, ~250 bp, ~275 bp) at varying levels of intensity.
+Fig. 33: Representative cDNA and DO dimer sample traces analyzed using an Agilent Technology
+2100 Bioanalyzer
+LEGEND
+A–C: cDNA samples from high-expresser cell lines
+D: Lack of quantifiable cDNA from 9,000 low-expresser cells
+E–F: Representative DO dimer sample traces
+86 | ddSEQ Single-Cell 3' RNA-Seq Kit
+
+
+--- Page 90 ---
+   10000167449 Ver B   US/EG  
+  Sig 0124 

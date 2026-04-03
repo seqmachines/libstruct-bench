@@ -1,0 +1,4106 @@
+--- Page 1 ---
+Chromium GEM-X 
+Single Cell 5' Reagent Kits v3
+ 
+For use with:
+Chromium GEM-X Single Cell 5' Kit v3
+16 rxns PN-1000699 | 4 rxns PN-1000695
+Library Construction Kit C
+16 rxns PN-1000694
+Chromium GEM-X  Single Cell 5' Chip Kit
+4 chips PN-1000698 
+Chromium Single Cell V(D)J Amplification Kits
+Human 16 rxns TCR PN-1000252 / BCR PN-1000253 
+Mouse 16 rxns TCR PN-1000254 / BCR PN-1000255
+Dual Index Kit TT Set A 96 rxns PN-1000215  
+User Guide  |  CG000733  |  Rev A
+10xgenomics.com
+
+
+--- Page 2 ---
+Document Number
+CG000733 | Rev A
+Legal Notices
+© 2024 10x Genomics, Inc. (10x Genomics). All rights reserved. Duplication and/or reproduction of all or any 
+portion of this document without the express written consent of 10x Genomics, is strictly forbidden. Nothing 
+contained herein shall constitute any warranty, express or implied, as to the performance of anyproducts 
+described herein. Any and all warranties applicable to any products are set forth in the applicable terms and 
+conditions of sale accompanying the purchase of such product. 10x Genomics provides no warranty and hereby 
+disclaims any and all warranties as to the use of any third-party products or protocols described herein. The use 
+of products described herein is subject to certain restrictions as set forth in the applicable terms and conditions 
+of sale accompanying the purchase of such product. A non-exhaustive list of 10x Genomics’ marks, many of 
+which are registered in the United States and other countries can be viewed at: 
+www.10xgenomics.com/trademarks. 10x Genomics may refer to the products or services offered by other 
+companies by their brand name or company name solely for clarity, and does not claim any rights in those third-
+party marks or names. 10x Genomics products may be covered by one or more of the patents as indicated at: 
+www.10xgenomics.com/patents. The use of products described herein is subject to 10x Genomics Terms and 
+Conditions of Sale, available at www.10xgenomics.com/legal-notices, or such other terms that have been agreed 
+to in writing between 10x Genomics and user. All products and services described herein are intended FOR 
+RESEARCH USE ONLY and NOT FOR USE IN DIAGNOSTIC PROCEDURES.
+Instrument & Licensed Software Updates Warranties
+Updates to existing Instruments and Licensed Software may be required to enable customers to use new or 
+existing products. In the event of an Instrument failure resulting from an update, such failed Instrument will be 
+replaced or repaired in accordance with the 10x Limited Warranty, Assurance Plan or service agreement, only if 
+such Instrument is covered by any of the foregoing at the time of such failure. Instruments not covered under a 
+current 10x Limited Warranty, Assurance Plan or service agreement will not be replaced or repaired.
+Support
+Email: support@10xgenomics.com
+10x Genomics
+6230 Stoneridge Mall Road
+Pleasanton, CA
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+  10xgenomics.com     2
+Notices
+
+
+--- Page 3 ---
+Document Number
+CG000733 | Rev A
+Title
+Chromium GEM-X Single Cell 5' Reagent Kits v3   
+Revision
+N/A to Rev A
+Revision Date
+March 07, 2024
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+  10xgenomics.com     3
+Document Revision Summary
+
+
+--- Page 4 ---
+Introduction
+Chromium GEM-X Single Cell 5'  Reagent Kits v3
+8
+10x Genomics Accessories
+11
+Third-Party Items
+12
+Protocol Steps & Timing
+13
+Stepwise Objectives
+15
+Tips & Best Practices
+Step 1: GEM Generation and Barcoding
+1.0 Get Started
+31
+1.1 Prepare Master Mix
+32
+Assemble GEM-X  Chip
+33
+1.2 Load  GEM-X Chip
+37
+1.3 Run the Chromium  X/iX
+39
+1.4 Transfer GEMs
+40
+1.5 GEM-RT Incubation
+41
+Step 2: Post GEM–RT Cleanup & cDNA Amplification
+2.0 Get Started
+43
+2.1 Post GEM-RT Cleanup – Dynabeads
+45
+2.2 cDNA Amplification
+48
+2.3 cDNA Cleanup – SPRIselect
+50
+2.4 Post cDNA Amplification QC & Quantification
+51
+Step 3: V(D)J Amplification from cDNA
+3.0 Get Started
+54
+3.1 V(D)J Amplification 1
+56
+3.2 Post V(D)J Amplification 1 Cleanup Double Sided  – SPRIselect
+57
+3.3 V(D)J Amplification 2
+58
+3.4 Post V(D)J Amplification 2 Cleanup Double Sided  – SPRIselect
+59
+3.5 Post V(D)J Amplification QC & Quantification
+60
+Step 4: V(D)J Library Construction
+4.0 Get Started
+64
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+  10xgenomics.com     4
+Table of Contents
+
+
+--- Page 5 ---
+4.1 Fragmentation, End Repair & A-tailing
+66
+4.2 Adaptor Ligation
+67
+4.3 Post Ligation Cleanup – SPRIselect
+67
+4.4 Sample Index PCR
+69
+4.5 Post Sample Index PCR Cleanup – SPRIselect
+70
+4.6 Post Library Construction QC
+71
+Step 5: 5' Gene Expression Library Construction
+5.0 Get Started
+73
+Step Overview (Step 5.1d)
+75
+5.1 GEX Fragmentation, End Repair & A-tailing
+77
+5.2 GEX Post Fragmentation, End Repair & A-tailing Double Sided  – SPRIselect
+78
+5.3 GEX Adaptor Ligation
+79
+5.4 GEX Post Ligation Cleanup – SPRIselect
+79
+5.5 GEX Sample Index PCR
+81
+5.6 Post Sample Index PCR Double Sided Size Selection – SPRIselect
+82
+5.7 Post Library Construction QC
+83
+Step 6: Sequencing
+Sequencing Libraries
+85
+Illumina Sequencer Compatibility
+85
+Sample Indices
+86
+Library Sequencing Depth & Run Parameters
+86
+Library Loading
+86
+Library Pooling
+87
+Data Analysis and Visualization
+87
+Troubleshooting
+GEM Generation & Barcoding
+90
+Chromium X Series Errors
+94
+Appendix
+GEM-X Chip Loading Overview
+96
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+  10xgenomics.com     5
+Table of Contents
+
+
+--- Page 6 ---
+Post Library Construction Quantification using KAPA qPCR
+97
+LabChip Traces
+98
+Oligonucleotide Sequences
+99
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+  10xgenomics.com     6
+Table of Contents
+
+
+--- Page 7 ---
+Introduction
+Chromium GEM-X Single Cell 5'  Reagent Kits v3
+8
+10x Genomics Accessories
+11
+Third-Party Items
+12
+Protocol Steps & Timing
+13
+Stepwise Objectives
+15
+
+
+--- Page 8 ---
+Chromium GEM-X Single Cell 5'  Reagent Kits v3
+Refer to SDS for handling and disposal information
+ 
+Chromium GEM-X Single Cell 5' Kit v3, 16 rxns PN-1000699
+Chromium GEM-X 
+Single Cell 5’ GEM Kit v3
+16 rxns, PN-1000701
+Store at -20°C
+ 
+ 
+#
+PN
+RT Reagent  E
+1
+2001106
+RT Enzyme  E
+1
+2001105
+Poly-dT RT Primer B
+1
+2001110
+Reducing  Agent  B
+1
+2000087
+Cleanup  Buffer
+2
+2000088
+cDNA Primers
+1
+2000089
+Amp  Mix
+1
+2000047
+Library Construction Kit C
+16 rxns, PN-1000694
+Store at -20°C
+ 
+ 
+#
+PN
+Fragmentation  Enzyme
+1
+2000090
+Fragmentation  Buffer
+1
+2000091
+Ligation  Mix
+1
+2001109
+DNA  Ligase
+1
+220110
+Library Amp Mix
+1
+2000531
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Chromium GEM-X
+Single Cell 5' Gel Bead Kit v3
+16 rxns, PN-1000700
+Store at  -80°C
+ 
+#
+PN
+GEM-X Single Cell 5’ Gel Bead 
+v3 (16 rxns)
+2
+ 
+2001129
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+DynabeadsTM MyOneTM SILANE
+PN-2000048
+Store at  4°C
+ 
+#
+PN
+Dynabeads MyOne SILANE
+1
+2000048
+ 
+ 
+ 
+ 
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+Introduction
+  10xgenomics.com     8
+
+
+--- Page 9 ---
+Chromium GEM-X Single Cell 5' Kit v3, 4 rxns PN-1000695
+Chromium GEM-X 
+Single Cell 5’ GEM Kit v3
+4 rxns, PN-1000697
+Store at -20°C
+ 
+ 
+#
+PN
+RT Reagent  E
+1
+2001106
+RT Enzyme  E
+1
+2001146
+Poly-dT RT Primer B
+1
+2001110
+Reducing  Agent  B
+1
+2000087
+Cleanup  Buffer
+1
+2000088
+cDNA Primers
+1
+2000089
+Amp  Mix
+1
+2000103
+Library Construction Kit C
+4 rxns, PN-1000689
+Store at -20°C
+ 
+ 
+#
+PN
+Fragmentation  Enzyme
+1
+2000104
+Fragmentation  Buffer
+1
+2000091
+Ligation Mix
+1
+2001109
+DNA  Ligase
+1
+220131
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Chromium GEM-X
+Single Cell 5' Gel Bead Kit v3
+4 rxns, PN-1000696
+Store at  -80°C
+ 
+#
+PN
+GEM-X Single Cell 5’ Gel Bead 
+v3 (4 rxns)
+1
+ 
+2001129
+ 
+ 
+ 
+ 
+ 
+ 
+DynabeadsTM MyOneTM SILANE
+PN-2000048
+Store at  4°C
+ 
+#
+PN
+Dynabeads MyOne SILANE
+1
+2000048
+ 
+ 
+ 
+If constructing Gene Expression libraries with V(D)J  (T-cell receptor  or B-cell 
+receptor) libraries, additional Library Construction Kit C will be required. 
+Refer to the 10x Genomics Support website for more details
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+Introduction
+  10xgenomics.com     9
+
+
+--- Page 10 ---
+Chromium GEM-X Single Cell  5' Chip Kit v3, 4 chips PN-1000698
+Chromium
+Partitioning Oil B
+Store at  ambient temperature
+ 
+ 
+#
+PN
+Partitioning Oil B
+4
+2001213
+ 
+ 
+ 
+ 
+Chromium
+Recovery Agent
+Store at  ambient temperature
+ 
+ 
+#
+PN
+Recovery Agent
+4
+220016
+ 
+ 
+ 
+ 
+ 
+Chromium  GEM-X
+5' Chip & Gaskets
+Store at ambient temperature
+ 
+#
+PN
+GEM-X 5' Chip 
+4
+2001098
+Chip Gasket X/iX, 2-pack 
+2
+3000656
+Dual Index Kit TT Set A, 96 rxns PN-1000215
+Dual Index Kit TT Set A
+Store at  -20°C
+ 
+#
+PN
+Dual Index Plate TT Set A
+1
+3000431
+ 
+ 
+ 
+ 
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+Introduction
+  10xgenomics.com     10
+
+
+--- Page 11 ---
+Chromium Single Cell V(D)J Amplification Kits, Human
+Chromium
+Single Cell Human TCR Amplification
+16 rxns, PN-1000252
+Store at -20°C
+ 
+ 
+#
+PN
+Human T Cell Mix 1 
+v2
+1
+2000242
+Human T Cell Mix 2 
+v2
+1
+2000246
+Amp  Mix 
+2
+2000047
+Chromium
+Single Cell Human BCR Amplification 
+16 rxns, PN-1000253
+Store at -20°C
+ 
+ 
+#
+PN
+Human B Cell Mix 1 
+v2
+1
+2000254
+Human B Cell Mix 2 
+v2
+1
+2000255
+Amp  Mix 
+2
+2000047
+ 
+Chromium Single Cell V(D)J Amplification Kits, Mouse
+Chromium
+Single Cell Mouse TCR Amplification
+16 rxns, PN-1000254
+Store at -20°C
+ 
+ 
+#
+PN
+Mouse T Cell Mix 1 
+v2
+1
+2000256
+Mouse T Cell Mix 2 
+v2
+1
+2000257
+Amp  Mix 
+2
+2000047
+Chromium
+Single Cell Mouse BCR Amplification
+16 rxns, PN-1000255
+Store at -20°C
+ 
+ 
+#
+PN
+Mouse B Cell Mix 1 
+v2
+1
+2000258
+Mouse B Cell Mix 2 
+v2
+1
+2000259
+Amp  Mix 
+2
+2000047
+ 
+ 10x Genomics Accessories
+Product
+Part Number (Kit)
+Part Number (Item)
+10x Vortex Adapter
+120251
+330002
+10x Magnetic Separator B*
+1000709 (Chromium X/iX Accessory Kit)/
+1000707 (GEM-X Transition Kit)
+2001212
+Chromium X/iX Chip Holder
+3000598
+*10x Magnetic Separator (PN-230003) is untested but interchangeable with the 
+10x Magnetic Separator B (PN-2001212).
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+Introduction
+  10xgenomics.com     11
+
+
+--- Page 12 ---
+Third-Party Items
+Successful execution of Chromium Immune Profiling workflow requires  third-
+party reagents, kits, and equipment in addition to those provided by 10x 
+Genomics. All  third-party reagents and consumables  should be obtained prior 
+to starting this library construction workflow. 
+Refer to the Chromium GEM-X Single Cell Gene Expression v4 & Immune 
+Profiling v3 - Protocol Planner (CG000748) for a detailed list of the following 
+third-party items:
+  l Additional reagents, kits, and equipment
+  l Recommended pipette tips
+  l Recommended thermal cyclers
+10x Genomics has tested all items listed in the Protocol Planner. These items 
+perform optimally with the assay. Substituting materials may adversely affect 
+assay performance. 
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+Introduction
+  10xgenomics.com     12
+
+
+--- Page 13 ---
+Protocol Steps & Timing 
+Steps
+Timing
+Stop & Store
+Sample Preparation
+variable*
+ 
+ 
+ 
+*Refer to the appropriate Demonstrated Protocols 
+for details.
+Step 1: GEM Generation and Barcoding (page 30)
+1.1 Prepare Master Mix (page 32)
+20 min
+ 
+ 
+1.2 Load  GEM-X Chip (page 37)
+10 min
+ 
+ 
+1.3 Run the Chromium  X/iX (page 39)
+6 min
+ 
+ 
+1.4 Transfer GEMs (page 40)
+3 min
+ 
+ 
+1.5 GEM-RT Incubation (page 41)
+55 min
+4°C ≤72 h/-20°C ≤1 week
+Step 2: Post GEM–RT Cleanup & cDNA Amplification (page 42)
+2.1 Post GEM-RT Cleanup – Dynabeads (page 45)
+45 min
+ 
+ 
+2.2 cDNA Amplification (page 48)
+40 min
+4°C ≤72 h/-20°C ≤1 
+week
+2.3 cDNA Cleanup – SPRIselect (page 50)
+30 min
+4°C ≤72 h/-20°C ≤4 
+weeks
+2.4 Post cDNA Amplification QC & Quantification (page 51)
+50 min
+ 
+ 
+Step 3: V(D)J Amplification from cDNA (page 53)
+3.1 V(D)J Amplification 1 (page 56)
+50 min
+ 
+ 
+3.2 Post V(D)J Amplification 1 Cleanup Double Sided  – SPRIselect (page 57)
+30 min
+ 
+ 
+3.3 V(D)J Amplification 2 (page 58)
+25 min
+ 
+ 
+3.4 Post V(D)J Amplification 2 Cleanup Double Sided  – SPRIselect (page 59)
+30 min
+ 
+ 
+3.5 Post V(D)J Amplification QC & Quantification (page 60)
+40 min
+4°C ≤72 h
+Step 4: V(D)J Library Construction (page 63)
+4.1 Fragmentation, End Repair & A-tailing (page 66)
+50 min
+ 
+ 
+4.2 Adaptor Ligation (page 67)
+30 min
+ 
+ 
+4.3 Post Ligation Cleanup – SPRIselect (page 67)
+25 min
+ 
+ 
+4.4 Sample Index PCR (page 69)
+40 min
+4°C ≤72 h
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+Introduction
+  10xgenomics.com     13
+
+
+--- Page 14 ---
+Steps
+Timing
+Stop & Store
+4.5 Post Sample Index PCR Cleanup – SPRIselect (page 70)
+30 min
+4°C ≤72 h/-20°C long 
+term
+4.6 Post Library Construction QC (page 71)
+50 min
+ 
+Step 5: 5' Gene Expression Library Construction (page 72)
+5.1 GEX Fragmentation, End Repair & A-tailing (page 77)
+50 min
+ 
+ 
+5.2 GEX Post Fragmentation, End Repair & A-tailing Double Sided  – SPRIselect (page 
+78)
+30 min
+ 
+ 
+5.3 GEX Adaptor Ligation (page 79)
+25 min
+ 
+ 
+5.4 GEX Post Ligation Cleanup – SPRIselect (page 79)
+30 min
+ 
+ 
+5.5 GEX Sample Index PCR (page 81)
+40 min
+4°C ≤72 h
+5.6 Post Sample Index PCR Double Sided Size Selection – SPRIselect (page 82)
+30 min
+4°C ≤72 h/-20°C long 
+term
+5.7 Post Library Construction QC (page 83)
+50 min
+ 
+ 
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+Introduction
+  10xgenomics.com     14
+
+
+--- Page 15 ---
+Stepwise Objectives
+The Chromium GEM-X Single Cell Immune Profiling v3  offers comprehensive, 
+scalable solutions for measuring immune repertoire information and gene 
+expression from the same cell. Profile full-length (5' UTR to constant region), 
+paired T-cell receptor (TCR), or B-cell receptor (BCR) transcripts,  from 500-
+20,000 individual cells per sample.
+A pool of ~3,600,000 barcodes are sampled separately to index each cell’s 
+transcriptome. This is done by partitioning thousands of cells into nanoliter-
+scale Gel Beads-in-emulsion (GEMs), where all generated cDNA share a 
+common 10x Barcode. Libraries are generated and sequenced and 10x 
+Barcodes are used to associate individual reads back to the individual 
+partitions.
+This document outlines the protocols to generate the following libraries:
+  o
+Single Cell V(D)J libraries from V(D)J-amplified cDNA derived from poly-
+adenylated mRNA
+  o
+Single Cell 5' Gene Expression libraries from amplified cDNA derived from 
+poly-adenylated mRNA
+Step 1: GEM Generation & Barcoding
+GEMs are generated by combining barcoded GEM-X Single Cell 5' Gel Bead v3, 
+a Master Mix with  cells and Partitioning Oil B onto  GEM-X 5' Chip. To achieve 
+single cell resolution, cells are delivered at a limiting dilution, such that the 
+majority (~90-99%) of generated GEMs contain no cell, while the remainders 
+largely contain a single cell.
+Immediately following GEM generation, the Gel Bead is dissolved and any co-
+partitioned cell is lysed. Gel Bead primers containing  (i) an Illumina TruSeq 
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+Introduction
+  10xgenomics.com     15
+
+
+--- Page 16 ---
+Read 1 sequence (read 1 sequencing primer),  (ii) a 16 nt 10x Barcode, (iii) a 
+12 nt unique molecular identifier (UMI), and (iv) a 13 nt template switch oligo 
+(TSO) are released and mixed with both the cell lysate and a Master Mix 
+containing reverse transcription (RT) reagents and poly(dT) primers. 
+Gel Bead
+The cell lysate and the released Gel Bead primer incubated with the Master 
+Mix containing RT reagents, produce 10x Barcoded, full-length cDNA from 
+poly-adenylated mRNA.
+Inside Individual GEMs
+cDNA from Poly-adenylated mRNA
+Step 2: Post GEM-RT Cleanup & cDNA Amplification
+GEMs are broken and pooled after the GEM-RT reaction mixtures are 
+recovered. Silane magnetic beads are used to purify the 10x Barcoded first-
+strand cDNA from the post GEM-RT reaction mixture, which includes leftover 
+biochemical reagents and primers. 10x Barcoded, full-length cDNA is 
+amplified via PCR with primers against common 5' and 3' ends added during 
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+Introduction
+  10xgenomics.com     16
+
+
+--- Page 17 ---
+GEM-RT. Amplification generates sufficient material to construct multiple 
+libraries from the same cells, e.g. both T cell and/or B cell libraries (steps 3 
+and 4) and 5' Gene Expression libraries (step 5).
+Pooled cDNA Amplification 
+Step 3: V(D)J Amplification from cDNA
+Amplified full-length cDNA from poly-adenylated mRNA is used to enrich 
+full-length V(D)J segments (10x Barcoded) via PCR amplification with primers 
+specific to either the TCR or BCR constant regions. If both T and B cells are 
+expected to be present in the partitioned cell population, TCR and BCR 
+transcripts can be amplified in separate reactions from the same amplified 
+cDNA material.
+Step 4: V(D)J Library Construction
+Enzymatic fragmentation and size selection are used to generate variable 
+length fragments that collectively span the V(D)J segments of the amplified 
+TCR and/or BCR transcripts prior to library construction. P5, P7, i5 and i7 
+sample indexes, and an Illumina R2 sequence (read 2 primer sequence) are 
+added via End Repair, A-tailing, Adaptor Ligation, and Sample Index PCR. 
+The final libraries contain the P5 and P7 primers used in Illumina 
+amplification.
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+Introduction
+  10xgenomics.com     17
+
+
+--- Page 18 ---
+Pooled Amplified cDNA Processed in Bulk
+Step 5: 5' Gene Expression (GEX) Library Construction
+Amplified full-length cDNA from poly-adenylated mRNA is used to generate 
+5ʹ  Gene Expression library. Enzymatic fragmentation and size selection are 
+used to optimize the cDNA amplicon size prior to 5’ gene expression library 
+construction. P5, P7, i5 and i7 sample indexes, and Illumina R2 sequence 
+(read 2 primer sequence) are added via End Repair, A-tailing, Adaptor 
+Ligation, and Sample Index PCR. The final libraries contain the P5 and P7 
+primers used in Illumina amplification.
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+Introduction
+  10xgenomics.com     18
+
+
+--- Page 19 ---
+Pooled Amplified cDNA Processed in Bulk
+Step 6: Sequencing
+Illumina-ready dual index libraries can be sequenced at the recommended 
+depth & run parameters. Illumina sequencer compatibility, sample indices, 
+library loading and pooling for sequencing are summarized in the Sequencing 
+step.
+Chromium Single Cell V(D)J  Library
+Chromium Single Cell 5' Gene Expression  Library
+See Oligonucleotide Sequences  on page 99
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+Introduction
+  10xgenomics.com     19
+
+
+--- Page 20 ---
+Tips & Best Practices
+
+
+--- Page 21 ---
+Icons
+Tips & Best Practices 
+section includes 
+additional guidance
+Signifies critical 
+step requiring 
+accurate execution
+Troubleshooting 
+section includes 
+additional guidance
+GEM-X 
+specific 
+protocol step 
+updates
+Version 
+specific 
+protocol step 
+updates
+Emulsion-safe Plastics
+  l Use validated emulsion-safe plastic consumables when handling GEMs as 
+some plastics can destabilize GEMs.
+  l Consult Chromium GEM-X Single Cell Gene Expression v3 & Immune 
+Profiling v4 - Protocol Planner (CG000748) for a detailed list of plastics 
+and other consumables.
+ Cell Concentration
+  l The optimal input cell concentration depends upon the desired cell 
+recovery target:
+Optimal Input Cell Concentration 
+Cell Recovery Target
+700-1,200 cells/ μl
+500-10,000 cells
+1,300-1,600 cells/ μl
+10,000-20,000 cells
+  l The presence of dead cells and debris in the suspension may  reduce the 
+recovery rate. Consult the following documents for more information on 
+preparing cells:
+  o
+10x Genomics Single Cell Protocols Cell Preparation Handbook  
+(Documents CG00053)
+  o
+Best Practices to Minimize Chromium Next GEM Chip Clogs and 
+Wetting Failure (Document CG000479)
+Multiplet  Rate (%)
+# of Cells Loaded
+# of Cells Recovered
+~0.20%
+~725
+~500
+~0.40%
+~1,450
+~1,000
+~0.80%
+~2,900
+~2,000
+~1.20%
+~4,350
+~3,000
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+Tips & Best Practices
+  10xgenomics.com     21
+
+
+--- Page 22 ---
+Multiplet  Rate (%)
+# of Cells Loaded
+# of Cells Recovered
+~1.60%
+~5,800
+~4,000
+~2.00%
+~7,250
+~5,000
+~2.40%
+~8,700
+~6,000
+~2.80%
+~10,150
+~7,000
+~3.20%
+~11,600
+~8,000
+~3.60%
+~13,050
+~9,000
+~4.00%
+~14,500
+~10,000
+~4.40%
+~15,950
+~11,000
+~4.80%
+~17,400
+~12,000
+~5.20%
+~18,850
+~13,000
+~5.60%
+~20,300
+~14,000
+~6.00%
+~21,750
+~15,000
+~6.40%
+~23,200
+~16,000
+~6.80%
+~24,650
+~17,000
+~7.20%
+~26,100
+~18,000
+~7.60%
+~27,550
+~19,000
+~8.00%
+~29,000
+~20,000
+ 
+General Reagent Handling
+  l Fully thaw and thoroughly mix reagents before use.
+  l Keep all enzymes and reagent mixes on ice during setup and use. 
+Promptly move reagents back to the recommended storage.
+  l Calculate reagent volumes with 10% excess of 1 reaction values.
+  l Limit Partitioning Oil exposure to air to minimize evaporation.
+  l If using multiple chips, use separate reagent reservoirs for each chip 
+during loading.
+  l Thoroughly mix samples with the beads during bead-based cleanup steps.
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+Tips & Best Practices
+  10xgenomics.com     22
+
+
+--- Page 23 ---
+50% Glycerol Solution for Addition to Unused Chip Wells
+  l Purchase 50% glycerol solution from Ricca Chemical Company, Glycerin 
+(glycerol), 50% (v/v) Aqueous Solution, PN-3290-32.
+OR
+  l Prepare 50% glycerol solution:
+  o
+Mix an equal volume of water and ≥99% Glycerol, Molecular Biology 
+Grade.
+  o
+Filter through a 0.2 μm filter.
+  o
+Store at −20°C in 1-ml LoBind tubes. 50% glycerol solution should be 
+equilibrated to room temperature before use.
+Pipette Calibration
+  l Follow manufacturer’s calibration and maintenance schedules.
+  l Pipette accuracy is particularly important when using SPRIselect reagents.
+Chromium X/iX Chip Holder
+  l Chromium X/iX Chip Holders encase  GEM-X 5' Chips.
+  l The holder lid flips over to become a stand, holding the chip at 45 degrees 
+for optimal recovery well content removal.
+  l Squeeze the slider on the back (right side) of the holder toward the middle 
+to unlock the lid and return the holder to a flat position.
+GEM-X Chip Handling
+  l Minimize exposure of reagents, chips, and gaskets to sources of particles 
+and fibers, laboratory wipes, frequently opened flip-cap tubes, clothing 
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+Tips & Best Practices
+  10xgenomics.com     23
+
+
+--- Page 24 ---
+that sheds fibers, and dusty surfaces.
+  l After removing the chip from the sealed bag, use in ≤24 h.
+  l Execute steps without pause or delay, unless indicated. When using 
+multiple chips, load, run, and collect the content from one chip before 
+loading the next.
+  l Fill all unused input wells in rows labeled 1, 2, and 3 on a chip with an 
+appropriate volume of 50% glycerol solution before loading the used wells. 
+DO NOT add glycerol to the wells in the top NO FILL row.
+  l Avoid contacting the bottom surface of the chip with gloved hands and 
+other surfaces. Frictional charging can lead to inadequate priming of the 
+channels, potentially leading to  wetting failures.
+  l Minimize the distance that a loaded chip is moved to reach the Chromium 
+X/iX.
+  l Keep the chip horizontal to prevent wetting the gasket with oil, which 
+depletes the input volume and may adversely affect the quality of the 
+resulting emulsion. 
+GEM-X Chip & Holder Assembly with Gasket
+  l Close the holder lid. Attach the gasket by holding the tongue (curved end, 
+to the right) and hook the gasket on the left-hand tabs of the holder. 
+Gently pull the gasket toward the right and hook it on the two right-hand 
+tabs.
+  l DO NOT touch the smooth side of the gasket.
+  l Open the chip holder.
+  l Align notch on the chip (upper left corner) and the open holder with the 
+gasket attached.
+  l Slide the chip to the left until the chip is inserted under the guide on the 
+holder.
+  l Depress the right hand side of the chip until the spring-loaded clip 
+engages.
+  l Keep the assembled unit with the attached gasket until ready for 
+dispensing reagents. 
+One of the rows of the gasket will not align with the GEM-X chip wells. 
+This is expected and will not impact the assay.
+A generic image representative of the GEM-X 5' Chip is shown below.
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+Tips & Best Practices
+  10xgenomics.com     24
+
+
+--- Page 25 ---
+GEM-X Chip Loading
+  o
+Place the assembled chip and holder flat (gasket attached) on the 
+bench with the lid open.
+  o
+Dispense at the bottom of the wells without introducing bubbles.
+  o
+When dispensing Gel Beads into the chip, wait for the remainder to 
+drain into the bottom of the pipette tips and dispense again to ensure 
+complete transfer.
+  o
+Refer to Load  GEM-X Chip on page 37 for specific instructions.
+Chromium X/iX Firmware
+  o
+Firmware version 2.0.0 or higher is required in the Chromium X/iX to 
+run the GEM-X chips.
+  o
+The current firmware version of the instrument can be located using 
+the system menu.
+  o
+Consult the Chromium X Series (X/iX) User Guide (CG000396) for 
+detailed  instructions on updating the firmware. 
+ Gel Bead Handling
+  l Use one tube of Gel Beads per sample. DO NOT puncture the foil seals of 
+tubes not used at the time.
+  l After removing the Gel Bead strip from the packaging, equilibrate the Gel 
+Bead strip to room temperature for at least 30 min before use.
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+Tips & Best Practices
+  10xgenomics.com     25
+
+
+--- Page 26 ---
+  l Store unused Gel Beads at −80°C and avoid more than 12 freeze-thaw 
+cycles. 
+DO NOT store Gel Beads at −20°C.
+  l Snap the tube strip holder with the Gel Bead strip into a 10x Vortex 
+Adapter. Vortex 30 sec.
+  l Centrifuge the Gel Bead strip for ~5 sec after removing from the holder. 
+Confirm there are no bubbles at the bottom of tubes and the liquid levels 
+look even. Place Gel Bead strip back in the holder and secure the holder 
+lid.
+  l If the required volume of beads cannot be recovered, place the pipette tips 
+against the sidewalls and slowly dispense the Gel Beads back into the 
+tubes. DO NOT introduce bubbles into the tubes and verify that the 
+pipette tips contain no leftover Gel Beads. Withdraw the full volume of 
+beads again by pipetting slowly.
+ 10x Magnetic Separator B
+  l Images below are illustrative - actual appearance of magnetic separator 
+may vary. Guidance applies to all 10x Magnetic Separators.
+  l Offers two positions of the magnets (high and low) relative to a tube, 
+depending on its orientation. Flip the magnetic separator over to switch 
+between high (magnet•High) or low (magnet•Low) positions.
+  l If using MicroAmp 8-Tube Strips, use only the high position 
+(magnet•High)  throughout the protocol.
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+Tips & Best Practices
+  10xgenomics.com     26
+
+
+--- Page 27 ---
+Magnetic Bead Cleanup Steps
+  l During magnetic bead based cleanup steps that specify waiting “until the 
+solution clears”, visually confirm clearing of solution before proceeding to 
+the next step. See  panel below for an example.
+  l The time needed for the solution to clear may vary based on specific step, 
+reagents, volume of reagents etc.
+  l Images below are representative - actual color of magnetic separator may 
+vary. Guidance applies to all 10x Magnetic Separators.
+Visually Confirm Clearing of Magnetic Bead Solution 
+SPRIselect Cleanup & Size Selection
+  l After aspirating the desired volume of SPRIselect reagent, examine the 
+pipette tips before dispensing to ensure the correct volume is transferred.
+  l Pipette mix thoroughly as insufficient mixing of sample and SPRIselect 
+reagent will lead to inconsistent results. 
+  l Use fresh preparations of 80% Ethanol.
+Tutorial — SPRIselect Reagent:DNA Sample Ratios
+SPRI beads selectively bind DNA according to the ratio of SPRIselect 
+reagent (beads). 
+Example Ratio: = Volume of SPRIselect reagent added to the sample = 50  μl = 0.5X
+ 
+Volume of DNA sample
+100  μl
+ 
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+Tips & Best Practices
+  10xgenomics.com     27
+
+
+--- Page 28 ---
+Schematic of Double Sided Size Selection 
+After the first SPRI, supernatant is transferred for a second SPRI while 
+larger fragments are discarded (green). After the second SPRI, fragments 
+on beads are eluted and kept while smaller fragments are discarded (blue). 
+Final sample has a tight fragment size distribution with reduced overall 
+amount (black).
+Tutorial — Double Sided Size Selection
+a. First SPRIselect: Add 50 μl SPRIselect reagent to 100  μl sample (0.5X). 
+Ratio: = Volume of SPRIselect reagent added to the sample = 50  μl = 0.5X
+ 
+Volume of DNA sample
+100  μl
+ 
+b. Second SPRIselect: Add 30  μl SPRIselect reagent to supernatant from 
+step a (0.8X).
+Ratio: = Total Volume of reagent added to the sample (step a + b) = 50 μl + 30  μl = 0.8X
+ 
+Original Volume of DNA sample
+100  μl
+ 
+Enzymatic Fragmentation
+Ensure enzymatic fragmentation reactions are prepared on ice and then 
+loaded into a thermal cycler pre-cooled to 4°C prior to initiating the 
+Fragmentation, End Repair, and A-tailing incubation steps.
+Sample Indices in Sample Index PCR
+  l Choose the appropriate sample index sets to ensure that no sample indices 
+overlap in a multiplexed sequencing run.
+  l Verify and use the specified index plate only. DO NOT use the plates 
+interchangeably.
+  l Each well in the Dual Index Plate contains a unique i7 and a unique i5 
+oligonucleotide.
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+Tips & Best Practices
+  10xgenomics.com     28
+
+
+--- Page 29 ---
+Index Hopping Mitigation 
+Index hopping can impact pooled samples sequenced on Illumina sequencing 
+platforms that utilize patterned flow cells and exclusion amplification 
+chemistry. To minimize index hopping, follow the guidelines listed below.
+  l Remove adaptors during cleanup steps.
+  l Ensure no leftover primers and/or adaptors are present when performing 
+Post-Library Construction QC.
+  l Store each library individually at 4°C for up to 72 h or at −20°C for long-
+term storage. DO NOT pool libraries during storage.
+  l Pool libraries prior to sequencing. An additional 1.0X SPRI may be 
+performed for the pooled libraries to remove any free adaptors before 
+sequencing.
+  l Hopped indices can be computationally removed from the data generated 
+from single cell dual index libraries.
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+Tips & Best Practices
+  10xgenomics.com     29
+
+
+--- Page 30 ---
+Step 1: 
+GEM Generation and Barcoding
+1.0 Get Started
+31
+1.1 Prepare Master Mix
+32
+Assemble GEM-X  Chip
+33
+1.2 Load  GEM-X Chip
+37
+1.3 Run the Chromium  X/iX
+39
+1.4 Transfer GEMs
+40
+1.5 GEM-RT Incubation
+41
+
+
+--- Page 31 ---
+1.0 Get Started
+Firmware Version v2.0.0 or higher is required in the Chromium X/iX used for 
+this protocol.
+Item
+10x PN
+Preparation & Handling
+Storage
+ Equilibrate to Room Temperature
+□
+ 
+GEM-X Single Cell  5' 
+Gel Bead v3
+2001129
+Equilibrate to room 
+temperature 30 min before 
+loading the chip.
+−80°C
+□
+RT Reagent E
+2001106
+Vortex, verify no precipitate, 
+centrifuge briefly. If a 
+precipitate is observed, warm 
+the tube with hands until  the 
+precipitate dissolves. Vortex 
+and centrifuge briefly.
+−20°C
+□
+Poly-dT RT Primer B
+2001110
+Vortex, verify no precipitate, 
+centrifuge briefly.
+−20°C
+□
+Reducing Agent B
+2000087
+Vortex, verify no precipitate, 
+centrifuge briefly.
+−20°C
+ Place on Ice
+□
+ 
+Cell Suspension
+—
+—
+□
+RT Enzyme E
+2001105/
+2001146
+Centrifuge briefly before 
+adding to the mix.
+−20°C
+□
+ 
+1X PBS
+—
+ 
+—
+ Obtain
+□
+ 
+Partitioning Oil B
+2001213
+ 
+—
+Ambient
+□
+ 
+GEM-X 5' Chip
+Verify name and PN
+2001098
+See Tips & Best Practices.
+Ambient
+□
+ 
+X/iX Chip Gasket 
+3000656
+See Tips & Best Practices.
+Ambient
+□
+ 
+Chromium X/iX Chip 
+Holder
+3000598
+See Tips & Best Practices.
+Ambient
+□
+ 
+10x Vortex Adapter
+330002
+See Tips & Best Practices.
+Ambient
+□
+ 
+50% glycerol solution
+If using < 8 reactions
+—
+See Tips & Best Practices.
+—
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+Step 1: GEM Generation and Barcoding
+  10xgenomics.com     31
+
+
+--- Page 32 ---
+1.1 Prepare Master Mix
+  a. Prepare Master Mix on ice. Pipette mix 15x and centrifuge briefly.
+ Master Mix
+Add reagents in the order listed
+PN
+1X
+(μl)
+4X + 
+10%
+(μl)
+8X + 
+10%
+(μl)
+RT Reagent E
+2001106
+16.3
+71.7
+143.4
+Poly-dT RT Primer 
+B
+2001110
+2.2
+9.7
+19.4
+Reducing Agent B
+2000087
+2.0
+8.8
+17.6
+RT Enzyme E
+2001105/2001146
+7.0
+30.8
+61.6
+ 
+Total
+–
+27.5
+121.0
+242.0
+  b. Add 27.5 μl Master Mix into each tube of a PCR 8-tube strip on ice.
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+Step 1: GEM Generation and Barcoding
+  10xgenomics.com     32
+
+
+--- Page 33 ---
+Assemble GEM-X  Chip
+ 
+The GEM-X chip  is only compatible with Chromium X/iX Chip Holder (PN-
+3000598). DO NOT use any other holder.
+See Tips & Best Practices on page 20 for chip handling instructions. 
+  l Close the holder lid. 
+  l Attach the gasket by holding the tongue (curved end, to the right) and 
+hook the gasket on the left-hand tabs of the holder. Gently pull the gasket 
+toward the right and hook it on the two right-hand tabs. 
+  l DO NOT touch the smooth side of the gasket. 
+  l Open the chip holder.
+  l Remove the chip from the sealed bag. Use the chip within ≤ 24 h.
+  l Align notch on the chip (upper left corner) and the open holder with the 
+gasket attached.
+  l Slide the chip to the left until the guide on the holder is inserted into the 
+chip.  Depress the right hand side of the chip until the spring-loaded clip 
+engages. 
+A generic image representative of the GEM-X 5' Chip is shown on the next 
+page.
+  l Keep the assembled unit with the attached gasket open until ready for and 
+while dispensing reagents into the wells.
+  l After loading reagents, close the chip holder. DO NOT press down on the 
+top of the gasket.
+For GEM generation, load the indicated reagents only in the specified rows, 
+starting from row labeled 1, followed by rows labeled 2 and 3. DO NOT load 
+reagents in the top row labeled NO FILL. See step 1.2 for details.
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+Step 1: GEM Generation and Barcoding
+  10xgenomics.com     33
+
+
+--- Page 34 ---
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+Step 1: GEM Generation and Barcoding
+  10xgenomics.com     34
+
+
+--- Page 35 ---
+Cell Suspension Volume Calculator Table 
+For step 1.2 of this protocol. 
+DO NOT add PBS directly to single cell suspension. Add PBS to the Master Mix. See step 1.2c.
+Cell Recovery Target – 500-10,000
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+Step 1: GEM Generation and Barcoding
+  10xgenomics.com     35
+
+
+--- Page 36 ---
+Cell Recovery Target – 10,000-20,000
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+Step 1: GEM Generation and Barcoding
+  10xgenomics.com     36
+
+
+--- Page 37 ---
+1.2 Load  GEM-X Chip
+ 
+ 
+ l After removing chip from the sealed bag, use in ≤24 h.
+ l Open the lid (gasket attached) of the assembled chip and lay 
+flat for loading.
+ l Ensure that the Gel Beads are properly thawed and ready to 
+use.
+ l When loading the chip, raising and depressing the pipette 
+plunger should each take ~5 sec. When dispensing, raise the 
+pipette tips at the same rate as the liquid is rising, keeping the 
+tips slightly submerged.
+ 
+Color Legend
+ 2: Gel beads
+ 1: Sample
+ 3: Oil
+ 
+The Chromium X/iX Chip Holder, Chip Gasket X/iX, and GEM-X chip images 
+shown below are representative and do not show the specific color & label. 
+Chip holder and gasket should be  black and blue in color, respectively. Refer 
+to Assemble GEM-X  Chip on page 33 for details. 
+GEM-X 5' Chip, gasket attached
+Representative chip image
+Pipette technique
+ 
+a. If loading less than 8 samples/chip, add 50% glycerol  
+solution to each unused well in row 1, 2, and 3
+ l 60  μl in each unused well in row labeled  1 
+ l 60  μl in each unused well in row labeled  2 
+ l 250  μl in each unused well in row labeled  3 
+ 
+DO NOT add 50% glycerol solution to the wells in top row labeled 
+NO FILL. 
+DO NOT use any substitute for 50% glycerol solution.
+Glycerol 
+in GEM-X 5' Chip
+ 
+b. Prepare Gel Beads
+ l Snap the tube strip holder with the Gel Bead strip into a 
+10x Vortex Adapter. Vortex 30 sec.
+ l Centrifuge the Gel Bead strip for ~5 sec.
+ l Confirm there are no bubbles at the bottom of the tubes & the 
+liquid levels are even.
+ l Place the Gel Bead strip back in the holder. Secure the holder 
+lid.
+ 
+ 
+Prep Gel Beads
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+Step 1: GEM Generation and Barcoding
+  10xgenomics.com     37
+
+
+--- Page 38 ---
+ 
+ 
+c. Prepare  Master Mix + Cell suspension
+ l Refer to the Cell Suspension Volume Calculator Table  on 
+page 35.
+ l Add the appropriate volume of PBS to Master Mix.
+ l Add corresponding volume of single cell suspension into the 
+Master Mix. Total of 65  μl in each tube.
+Gently pipette mix the cell suspension before adding to the 
+Master Mix.
+Prep Cells
+ 
+d. Load Row Labeled 1
+ l Gently pipette mix the Master Mix + Cell Suspension. 
+ l Using the same pipette tip, dispense 60 μl Master Mix + Cell 
+Suspension into the bottom center of each well in row labeled 
+1 without introducing bubbles.
+ l Wait 30 sec.
+60 μl Master Mix + Cell Suspension
+in GEM-X 5’ Chip
+ 
+e. Load Row Labeled 2
+ l Puncture the foil seal of the Gel Bead tubes.
+ l Slowly aspirate 60 μl Gel Beads.
+ l Dispense into the bottom center of each well in row labeled 2 
+without introducing bubbles.
+ l Wait 30 sec.
+60 μl Gel Beads 
+in GEM-X 5’ Chip
+ 
+f. Load Row Labeled 3
+ l Dispense 250  μl Partitioning Oil B into the wells in row 
+labeled 3 by pipetting two aliquots of 125  μl from a reagent 
+reservoir. 
+Failure to add Partitioning Oil B to the row labeled 3 will prevent GEM 
+generation and can damage the instrument. 
+250 μl Partitioning Oil B
+in GEM-X 5’ Chip
+ 
+g. Prepare for Run
+ l Close the lid (gasket already attached). DO NOT touch the 
+smooth side of the gasket. DO NOT press down on the top of 
+the gasket. Keep horizontal to avoid wetting the gasket.
+Run the chip in Chromium X/iX immediately after loading the 
+Partitioning Oil B.
+GEM-X 5’ Chip, closed
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+Step 1: GEM Generation and Barcoding
+  10xgenomics.com     38
+
+
+--- Page 39 ---
+1.3 Run the Chromium  X/iX
+Firmware Version 2.0.0 or higher is required in the Chromium X/iX used for 
+this protocol. 
+Consult the Chromium X Series (X/iX) User Guide (CG000396) for detailed 
+instrument operation instructions and follow the Chromium X touchscreen 
+prompts for execution.
+  a. Press the eject button on the Chromium X to eject the tray. 
+If the eject button is not touched within 1 min, tray will close 
+automatically. System requires a few seconds before the tray can be 
+ejected again. 
+  b. Place the assembled chip with the gasket in the tray, ensuring that the 
+chip stays horizontal. Press the button to retract the tray.
+  c. Confirm  GEM-X 5P program on the screen. Press the play button.
+  d. At completion of the run (~6 min), Chromium X/iX will chime. 
+Immediately proceed to the next step.
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+Step 1: GEM Generation and Barcoding
+  10xgenomics.com     39
+
+
+--- Page 40 ---
+ 
+1.4 Transfer GEMs
+  a. Place a tube strip on ice.
+  b. Press the eject button of the Chromium X/iX and remove the chip.
+  c. Discard the gasket. Open the chip holder. Fold the lid back until it clicks 
+to expose the wells at 45 degrees. 
+  d. Visually compare the remaining volume in rows labeled 1-2. Abnormally 
+high volume in one well relative to other wells may indicate a clog.
+  e. Slowly aspirate 100 μl GEMs from the  lowest points of the recovery wells 
+in the top NO FILL row without creating a seal between the tips and the 
+bottom of the wells.
+  f. Withdraw pipette tips from the wells. GEMs should appear opaque and 
+uniform across all channels. Excess Partitioning Oil (clear) in the pipette 
+tips indicates a potential clog.
+  g. Over the course of ~20 sec, dispense GEMs into the tube strip on ice with 
+the pipette tips against the sidewalls of the tubes.
+  h. It is recommended to start GEM incubation within 5 min. If multiple 
+chips are run back-to-back,  place the GEMs from the subsequent chips in 
+separate thermal cyclers.
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+Step 1: GEM Generation and Barcoding
+  10xgenomics.com     40
+
+
+--- Page 41 ---
+1.5 GEM-RT Incubation
+Use a thermal cycler that can accommodate at least 100 μl volume. A volume 
+corresponding to the maximum allowable amount, for a given supported 
+thermal cycler, is the preferred setting.  For example a volume of 125 μl is the 
+preferred setting on Bio-Rad C1000 Touch. In alternate thermal cyclers, use 
+highest reaction volume setting.
+  a. Incubate in a thermal cycler with the following protocol.
+Lid Temperature
+Reaction Volume
+Run Time
+48°C
+125 μl
+~55 min
+Step
+Temperature
+Time hh:mm:ss
+1
+48°C
+00:45:00
+2
+85°C
+00:05:00
+3
+4°C
+Hold
+  b. Store at 4°C for up to 72 h or at −20°C for up to a week, or proceed to the 
+next step.
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+Step 1: GEM Generation and Barcoding
+  10xgenomics.com     41
+
+
+--- Page 42 ---
+2
+Step 2: 
+Post GEM–RT Cleanup & cDNA Amplification
+2.0 Get Started
+43
+2.1 Post GEM-RT Cleanup – Dynabeads
+45
+2.2 cDNA Amplification
+48
+2.3 cDNA Cleanup – SPRIselect
+50
+2.4 Post cDNA Amplification QC & Quantification
+51
+
+
+--- Page 43 ---
+2.0 Get Started
+Item
+10x PN
+Preparation & Handling
+Storage
+Equilibrate to Room Temperature
+□
+Reducing Agent B
+2000087
+Thaw, vortex, verify no 
+precipitate, centrifuge 
+briefly.
+−20°C
+□
+cDNA Primers
+2000089
+Thaw, vortex, centrifuge 
+briefly.
+−20°C
+2000089
+2000439/
+□
+ 
+Dynabeads MyOne 
+SILANE
+2000048
+Vortex thoroughly (≥30 sec) 
+immediately before adding 
+to the mix. If still clumpy, 
+pipette mix to resuspend 
+completely. DO NOT 
+centrifuge before use.
+4°C
+□
+ 
+Beckman Coulter 
+SPRIselect Reagent
+—
+Manufacturer’s 
+recommendations.
+—
+□
+ 
+Agilent Bioanalyzer High 
+Sensitivity Kit 
+If used for QC & 
+quantification
+—
+Manufacturer’s 
+recommendations.
+—
+□
+ 
+DNA High Sensitivity 
+Reagent Kit 
+If LabChip used for QC & 
+quantification
+—
+Manufacturer’s  
+recommendations.
+—
+□
+ 
+Agilent TapeStation 
+ScreenTape & Reagents
+If used for QC & 
+quantification
+—
+Manufacturer’s 
+recommendations.
+—
+Place on Ice
+□
+Amp Mix
+DO NOT use the Library 
+Amp Mix PN-2000531 (if 
+provided) at this step to 
+avoid  a significant 
+decrease in assay 
+performance 
+2000047
+/2000103
+Vortex, centrifuge briefly.
+−20°C
+Thaw at 65°C
+□
+Cleanup Buffer
+2000088
+Thaw for 10 min at 65°C at 
+max speed on a thermomixer.  
+Verify no visible crystals. 
+Cool to room temperature.
+−20°C
+Obtain
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+Step 2: Post GEM–RT Cleanup & cDNA Amplification
+  10xgenomics.com     43
+
+
+--- Page 44 ---
+Item
+10x PN
+Preparation & Handling
+Storage
+□
+Recovery Agent
+220016
+—
+Ambient
+□
+ 
+10x Magnetic Separator B
+2001212
+—
+Ambient
+□
+ 
+Qiagen Buffer EB
+—
+Manufacturer’s 
+recommendations.
+—
+□
+ 
+Bio-Rad 10%
+Tween 20
+—
+Manufacturer’s 
+recommendations.
+—
+□
+ 
+Prepare 80% Ethanol
+Prepare 15 ml for 8 reactions.
+—
+Prepare fresh.
+Ambient
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+Step 2: Post GEM–RT Cleanup & cDNA Amplification
+  10xgenomics.com     44
+
+
+--- Page 45 ---
+2.1 Post GEM-RT Cleanup – Dynabeads
+  a. Add 125 μl Recovery Agent to each sample (Post GEM-RT) at room 
+temperature. If using sample stored at −20°C, equilibrate to room 
+temperature before adding the Recovery Agent. DO NOT pipette mix or 
+vortex the biphasic mixture. Wait 2 min.
+The resulting biphasic mixture contains Recovery Agent/Partitioning Oil 
+(pink) and aqueous phase (clear), with no persisting emulsion (opaque).
+If biphasic separation is incomplete:
+  l Firmly secure the cap on the tube strip, ensuring that no liquid is 
+trapped between the cap and the tube rim.
+  l Mix by inverting the capped tube strip 5x, centrifuge briefly, and 
+proceed to step b. DO NOT invert without firmly securing the caps.
+A smaller aqueous phase volume indicates a clog during GEM generation.
+ 
+  b. Slowly remove and discard 125 μl Recovery Agent/Partitioning Oil (pink) 
+from the bottom of the tube. DO NOT aspirate any aqueous sample.
+  c. Prepare Dynabeads Cleanup Mix.
+Before using Dynabeads MyOne SILANE to prepare the Dynabeads 
+Cleanup Mix: 
+  l Vortex the Dynabeads thoroughly (≥30 sec) immediately before 
+adding to the mix.
+  l Aspirate full liquid volume in the Dynabead tube with a pipette tip to 
+verify that beads have not settled in the bottom of the tube. If clumps 
+are present, pipette mix to resuspend completely. DO NOT centrifuge 
+before adding to the mix.
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+Step 2: Post GEM–RT Cleanup & cDNA Amplification
+  10xgenomics.com     45
+
+
+--- Page 46 ---
+Dynabeads Cleanup Mix
+Add reagents in the order listed
+PN
+1X
+(μl) 
+4X + 
+10%
+(μl) 
+8X + 
+10%
+(μl)
+Cleanup Buffer
+2000088
+182
+801
+1602
+ 
+Dynabeads MyOne SILANE
+2000048
+8
+35
+70
+Reducing Agent B
+2000087
+5
+22
+44
+ 
+Nuclease-free Water
+—
+5
+22
+44
+ 
+Total
+ 
+200
+880
+1760
+  d. Vortex and add 200 μl to each tube. Pipette mix 10x (pipette set to 200 
+μl). Before adding ensure that there are no clumps. 
+  e. Incubate 10 min at room temperature (keep caps open). Pipette mix 
+again at ~5 min after start of incubation to resuspend settled beads.
+ 
+  f. Prepare Elution Solution I. Vortex and centrifuge briefly.
+Elution Solution I
+Add reagents in the order listed
+PN
+1X (μl)
+10X (μl)
+ 
+Buffer EB
+—
+98
+980
+ 
+10% Tween 20
+—
+1
+10
+Reducing Agent B
+2000087
+1
+10
+ 
+Total
+ 
+100
+1000
+  g. At the end of 10 min incubation, place on a 10x Magnetic Separator•High 
+position (magnet•High) until the solution clears. 
+A white interface between the aqueous phase and Recovery Agent is 
+normal.
+  h. Remove the supernatant.
+  i. Add 300 μl 80% ethanol to the pellet while on the magnet. Wait 30 sec.
+  j. Remove the ethanol.
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+Step 2: Post GEM–RT Cleanup & cDNA Amplification
+  10xgenomics.com     46
+
+
+--- Page 47 ---
+  k. Add 200 μl 80% ethanol to pellet. Wait 30 sec.
+  l. Remove the ethanol.
+  m. Centrifuge briefly. Place on the 10x Magnetic Separator•Low position 
+(magnet•Low).
+  n. Remove remaining ethanol. Air dry for 1 min.
+  o. Remove from the magnet. Immediately add 35.5 μl Elution Solution I.
+  p. Pipette mix (pipette set to 30 μl) without introducing bubbles. Pipette mix 
+15x. If beads still appear clumpy, continue pipette mixing until fully 
+resuspended.
+  q. Incubate 1 min at room temperature.
+  r. Place on the magnet•Low until the solution clears.
+  s. Transfer 35 μl sample to a new tube strip.
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+Step 2: Post GEM–RT Cleanup & cDNA Amplification
+  10xgenomics.com     47
+
+
+--- Page 48 ---
+2.2 cDNA Amplification
+  a. Prepare cDNA Amplification Mix on ice. Vortex and centrifuge briefly.
+cDNA Amplification Reaction Mix
+Add reagents in the order listed
+PN
+1X
+(μl)
+4X + 
+10%
+(μl)
+8X + 
+10%
+(μl)
+Amp Mix
+DO NOT use the Library Amp Mix PN-
+2000531 (if provided)
+2000047/
+2000103
+50
+220
+440
+cDNA Primers
+2000089
+15
+66
+132
+ 
+Total
+ 
+65
+286
+572
+  b. Add 65 μl cDNA Amplification Reaction Mix to 35 μl sample (Post-GEM-
+RT Cleanup, step 2.1s).
+  c. Pipette mix 15x (pipette set to 90 μl). Centrifuge briefly.
+  d. Incubate in a thermal cycler with the following protocol. 
+Lid Temperature
+Reaction Volume
+Run Time
+105°C
+100 μl
+~25-50 min
+Step
+Temperature
+Time hh:mm:ss
+1
+98°C
+00:00:45
+2
+98°C
+00:00:20
+3
+63°C
+00:00:30
+4
+72°C
+00:01:00
+5
+Go to Step 2, see table below for total # of cycles
+6
+72°C
+00:01:00
+7
+4°C
+Hold
+Recommended starting point for cycle number optimization. The 
+optimal cycle number is a trade-off between generating sufficient final 
+mass for libraries & minimizing PCR amplification artifacts. 
+The number of total cycles is based on the targeted cell recovery and is 
+independent of the RNA content of the sample.
+Targeted Cell Recovery
+Total Cycles
+<500
+17
+501–2,000
+15
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+Step 2: Post GEM–RT Cleanup & cDNA Amplification
+  10xgenomics.com     48
+
+
+--- Page 49 ---
+Targeted Cell Recovery
+Total Cycles
+2,001–6,000
+13
+>6,000
+12
+  e. Store at 4°C for up to 72 h or −20°C for ≤1 week, or proceed to the next 
+step.
+ 
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+Step 2: Post GEM–RT Cleanup & cDNA Amplification
+  10xgenomics.com     49
+
+
+--- Page 50 ---
+2.3 cDNA Cleanup – SPRIselect
+  a. Vortex to resuspend the SPRIselect reagent. Add 60 μl SPRIselect reagent 
+(0.6X) to each sample and pipette mix 15x (pipette set to 150 μl).
+  b. Incubate 5 min at room temperature.
+  c. Place on the magnet•High until the solution clears.
+  d. Remove the supernatant.
+  e. Add 200 μl 80% ethanol to the pellet. Wait 30 sec.
+  f. Remove the ethanol.
+  g. Repeat steps e and f for a total of 2 washes.
+  h. Centrifuge briefly and place on the magnet•Low.
+  i. Remove any remaining ethanol. Air dry for 2 min. DO NOT exceed 2 min 
+as this will decrease elution efficiency.
+  j. Remove from the magnet. Add 40.5 μl Buffer EB. Pipette mix 15x.
+  k. Incubate 2 min at room temperature.
+  l. Place the tube strip on the magnet•High until the solution clears.
+  m. Transfer 40 μl sample to a new tube strip.
+  n. Store at 4°C for up to 72 h or −20°C for ≤4 weeks, or proceed to the next 
+step.
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+Step 2: Post GEM–RT Cleanup & cDNA Amplification
+  10xgenomics.com     50
+
+
+--- Page 51 ---
+2.4 Post cDNA Amplification QC & Quantification
+  a. Run  1 μl (see dilutions below)  product from step 2.3 on an Agilent 
+Bioanalyzer High Sensitivity chip. 
+  l Low RNA content cells (<1 pg total RNA/cell) should be run undiluted
+  l High RNA content cells should be run at 1:5 or 1:10 dilution 
+  b. See example calculation in the following page. 
+Alternate Quantification Methods
+Agilent TapeStation 
+LabChip
+See Appendix on page 95 for representative traces.
+Example Calculation 
+  i. Select Region: Under the “Electropherogram” view, choose the “Region 
+Table.” Manually select the region of ~200 – ~9000 bp.
+  ii. Note Concentration [pg/μl]
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+Step 2: Post GEM–RT Cleanup & cDNA Amplification
+  10xgenomics.com     51
+
+
+--- Page 52 ---
+  iii. Calculate: Multiply the diluted sample concentration [pg/μl] reported via 
+Agilent 2100 Expert Software by the dilution factor and divide by 1000 to 
+obtain the total cDNA yield in ng/μl. 
+Carry forward ONLY 25% of total cDNA yield into Gene Expression Library 
+Construction.
+Example Calculation of cDNA Yield
+Concentration: 1842.07 pg/μl Elution volume:40 μl; Dilution Factor:10
+Total Yield
+= Conc’n (pg/μl) x Elution Vol. (μl) x Dilution Factor 
+1000 (pg/ng)
+= 1842.07 x 40 x 10
+1000 (pg/ng)
+= 736.83 ng
+Carrying Forward  ONLY 25% of total cDNA yield for  GEX Library 
+= Total cDNA x 0.25 = 736.83 ng x 0.25 = 184.21 ng
+Refer to step 3.5 for appropriate number of Sample Index PCR cycles 
+based on carry forward cDNA product yield.
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+Step 2: Post GEM–RT Cleanup & cDNA Amplification
+  10xgenomics.com     52
+
+
+--- Page 53 ---
+3
+Step 3: 
+V(D)J Amplification from cDNA
+3.0 Get Started
+54
+3.1 V(D)J Amplification 1
+56
+3.2 Post V(D)J Amplification 1 Cleanup Double Sided  – SPRIselect
+57
+3.3 V(D)J Amplification 2
+58
+3.4 Post V(D)J Amplification 2 Cleanup Double Sided  – SPRIselect
+59
+3.5 Post V(D)J Amplification QC & Quantification
+60
+
+
+--- Page 54 ---
+3.0 Get Started
+  Item
+10x PN
+Preparation & Handling
+Storage
+Equilibrate to Room Temperature
+For Human Samples (Choose B or T-cell primers based on desired amplification products)
+□
+Human T Cell Mix 1 v2
+2000242
+Thaw, vortex, centrifuge 
+briefly
+−20°C
+□
+Human T Cell Mix 2 v2
+2000246
+Thaw, vortex, centrifuge 
+briefly
+−20°C
+□
+Human B Cell Mix 1 v2
+2000254
+Thaw, vortex, centrifuge 
+briefly
+−20°C
+□
+Human B Cell Mix 2 v2
+2000255
+Thaw, vortex, centrifuge 
+briefly
+−20°C
+For Mouse Samples (Choose B or T-cell primers based on desired amplification products)
+□
+Mouse T Cell Mix 1 v2
+2000256
+Thaw, vortex, centrifuge 
+briefly
+−20°C
+□
+Mouse T Cell Mix 2 v2
+2000257
+Thaw, vortex, centrifuge 
+briefly
+−20°C
+□
+Mouse B Cell Mix 1 v2
+2000258
+Thaw, vortex, centrifuge 
+briefly
+−20°C
+□
+Mouse B Cell Mix 2 v2
+2000259
+Thaw, vortex, centrifuge 
+briefly
+−20°C
+For All Samples 
+□
+ 
+Beckman Coulter 
+SPRIselect Reagent
+—
+Manufacturer’s  
+recommendations.
+—
+□
+ 
+Agilent  Bioanalyzer High 
+Sensitivity Kit 
+If used for  QC and 
+quantification
+—
+Manufacturer’s  
+recommendations.
+—
+□
+ 
+DNA High Sensitivity 
+Reagent Kit 
+If LabChip used for QC
+—
+Manufacturer’s  
+recommendations.
+—
+□
+ 
+Agilent TapeStation 
+ScreenTape & Reagents
+If used for  QC and 
+quantification
+—
+Manufacturer’s  
+recommendations.
+—
+Place on Ice
+□
+ 
+Amp  Mix
+Retrieve from Single Cell
+V(D)J Amplification Kits
+DO NOT use the Library Amp 
+2000047
+Vortex, centrifuge briefly.
+−20°C
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+Step 3: V(D)J Amplification from cDNA
+  10xgenomics.com     54
+
+
+--- Page 55 ---
+  Item
+10x PN
+Preparation & Handling
+Storage
+Mix (PN 2000531) at this 
+step to avoid a significant 
+decrease in assay 
+performance
+Obtain
+□
+ 
+10x Magnetic  Separator B
+2001212
+See  Tips & Best Practices.
+Ambient
+□
+ 
+Qiagen Buffer EB
+—
+Manufacturer’s  
+recommendations.
+Ambient
+□
+ 
+Prepare 80% Ethanol
+Prepare 15  ml for  8  reactions.
+—
+Prepare fresh.
+Ambient
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+Step 3: V(D)J Amplification from cDNA
+  10xgenomics.com     55
+
+
+--- Page 56 ---
+3.1 V(D)J Amplification 1
+  a. Place a tube strip on ice and transfer 2 μl sample (post cDNA 
+Amplification & QC, step 2.3) to the same tube.
+  b. Prepare V(D)J Amplification 1 Reaction Mix on ice.  Vortex and centrifuge 
+briefly.
+V(D)J Amplification 1 Rxn Mix
+Add reagents in the order listed
+PN
+1X
+(μl)
+4X + 
+10%
+(μl)
+8X + 
+10%
+(μl)
+Amp Mix
+2000047
+50
+220
+440
+ 
+ 
+T Cell Mix 1 v2
+ 
+or
+ 
+B Cell Mix 1 v2
+Human 2000242/
+Mouse 2000256
+or
+Human 2000254/
+Mouse 2000258
+48
+211.2
+422.4
+ 
+Total
+ 
+98
+431.2
+862.4
+  c. Add 98 μl V(D)J Amplification 1 Reaction Mix to each tube containing 2 
+μl sample.
+  d. Pipette mix 5x (pipette set to 90 μl). Centrifuge briefly.
+  e. Incubate in a thermal cycler with the following protocol.
+Lid Temperature
+Reaction Volume
+Run Time
+105°C
+100 μl
+~20-30 min
+Step
+Temperature
+Time hh:mm:ss
+1
+98°C
+00:00:45
+2
+98°C
+00:00:20
+3
+62°C
+00:00:30
+4
+72°C
+00:01:00
+5
+Different cycle numbers for T & B cells
+T Cell: Go to Step 2, 11x (total 12 cycles)
+B Cell: Go to Step 2, 7x (total 8 cycles)
+6
+72°C
+00:01:00
+7
+4°C
+Hold
+  f. Store at 4°C for up to 72 h or proceed to the next step.
+ 
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+Step 3: V(D)J Amplification from cDNA
+  10xgenomics.com     56
+
+
+--- Page 57 ---
+3.2 Post V(D)J Amplification 1 Cleanup Double Sided  – 
+SPRIselect
+  a. Vortex to resuspend SPRIselect Reagent. Add 50 μl SPRIselect Reagent 
+(0.5X) to each sample. Pipette mix 15x (pipette set to 140 μl).
+  b. Incubate 5 min at room temperature.
+  c. Place tube strip on the magnet•High until the solution clears.
+DO NOT discard supernatant.
+  d. Transfer 145 μl supernatant to a new tube strip.
+  e. Vortex to resuspend SPRIselect Reagent. Add 30 μl SPRIselect Reagent 
+(0.8X) to each sample. Pipette mix 15x (pipette set to 150 μl).
+  f. Incubate 5 min at room temperature.
+  g. Place on the magnet•High until the solution clears.
+  h. Remove 170 μl supernatant. DO NOT discard any beads.
+  i. Add 200 μl 80% ethanol. Wait 30 sec.
+  j. Remove the ethanol.
+  k. Repeat steps i and j for a total of 2 washes.
+  l. Centrifuge briefly. Place on the magnet•Low
+  m. Remove remaining ethanol wash. DO NOT over-dry beads to ensure 
+maximum elution efficiency.
+  n. Remove from the magnet. Add 35.5 μl Buffer EB. Pipette mix 15x.
+  o. Incubate 2 min at room temperature.
+  p. Place on the magnet•Low until the solution clears.
+  q. Transfer 35 μl sample to a new tube strip.
+  r. Store at 4°C for up to 72 h or at −20°C for up to 1 week, or proceed to the 
+next step.
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+Step 3: V(D)J Amplification from cDNA
+  10xgenomics.com     57
+
+
+--- Page 58 ---
+3.3 V(D)J Amplification 2
+  a. Prepare V(D)J Amplification 2 Reaction Mix on ice.  Vortex and centrifuge 
+briefly.
+V(D)J Amplification 2 
+Reaction Mix
+Add reagents in the order 
+listed
+PN
+1X
+(μl)
+4X + 
+10%
+(μl)
+8X + 
+10%
+(μl)
+Amp Mix
+2000047
+50
+220
+440
+ 
+ 
+T Cell Mix 2 
+v2
+ 
+or
+ 
+B Cell Mix 2 
+v2
+Human 2000246/
+Mouse 2000257
+or
+Human 2000255/
+Mouse 2000259
+15
+66
+132
+ 
+Total
+ 
+65
+286
+572
+  b. Add 65 μl V(D)J Amplification 2 Reaction Mix to each tube containing 35 
+μl sample.
+  c. Pipette mix 5x (pipette set to 90 μl). Centrifuge briefly.
+  d. Incubate in a thermal cycler with the following protocol.
+Lid Temperature
+Reaction Volume
+Run Time
+105°C
+100 μl
+~25-30 min
+Step
+Temperature
+Time hh:mm:ss
+1
+98°C
+00:00:45
+2
+98°C
+00:00:20
+3
+62°C
+00:00:30
+4
+72°C
+00:01:00
+5
+Different cycle numbers for T & B cells
+T Cell: Go to Step 2, 9x (total 10 cycles)
+B Cell: Go to Step 2, 7x (total 8 cycles)
+6
+72°C
+00:01:00
+7
+4°C
+Hold
+  e. Store at 4°C for up to 72 h or proceed to the next step.
+ 
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+Step 3: V(D)J Amplification from cDNA
+  10xgenomics.com     58
+
+
+--- Page 59 ---
+3.4 Post V(D)J Amplification 2 Cleanup Double Sided  – 
+SPRIselect
+  a. Vortex to resuspend SPRIselect Reagent. Add 50 μl SPRIselect Reagent 
+(0.5X) to each sample. Pipette mix 15x (pipette set to 145 μl).
+  b. Incubate 5 min at room temperature.
+  c. Place tube strip on the magnet•High until the solution clears. 
+DO NOT discard supernatant.
+  d. Transfer 145 μl supernatant to a new tube strip.
+  e. Vortex to resuspend SPRIselect Reagent. Add 30 μl SPRIselect Reagent 
+(0.8X) to each sample. Pipette mix 15x (pipette set to 150 μl).
+  f. Incubate 5 min at room temperature.
+  g. Place on the magnet•High until the solution clears.
+  h. Remove 170 μl supernatant. DO NOT discard any beads.
+  i. Add 200 μl 80% ethanol. Wait 30 sec.
+  j. Remove the ethanol.
+  k. Repeat steps i and j for a total of 2 washes.
+  l. Centrifuge briefly. Place on the magnet•Low
+  m. Remove remaining ethanol wash. DO NOT over-dry beads to ensure 
+maximum elution efficiency.
+  n. Remove from the magnet. Add 40.5 μl Buffer EB. Pipette mix 15x.
+  o. Incubate 2 min at room temperature.
+  p. Place on the magnet•Low until the solution clears.
+  q. Transfer 40 μl sample to a new tube strip.
+  r. Store at 4°C for up to 72 h or at −20°C for up to 1 week, or proceed to the 
+next step.
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+Step 3: V(D)J Amplification from cDNA
+  10xgenomics.com     59
+
+
+--- Page 60 ---
+3.5 Post V(D)J Amplification QC & Quantification
+  a. Run 1 μl sample (see below for dilution) on an Agilent Bioanalyzer High 
+Sensitivity chip. 
+Sample Dilution is dependent on the sample type.
+Sample Type
+Dilution
+PBMCs amplified for TCR
+1:5
+PBMCs amplified for BCR
+1:2
+Purified primary T cells (TCR)
+1:10
+Purified primary B cells (BCR)
+1:5
+High RNA content cells (i.e. Cell Lines) 
+1:15
+Samples of RNA-rich cells may require additional dilution in nuclease-free 
+water. The number of distinct peaks may vary. Higher molecular weight 
+product (2,000-9,000 bp) may be present. This does not affect sequencing.
+Representative Traces 
+PBMCs amplified for TCR
+ 
+ 
+ 
+ 
+ 
+ 
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+Step 3: V(D)J Amplification from cDNA
+  10xgenomics.com     60
+
+
+--- Page 61 ---
+PBMCs amplified for BCR
+ 
+Determine yield for each sample. See example calculation in the following 
+page. 
+Alternate QC Methods:
+  l Agilent TapeStation
+  l LabChip
+  l See Appendix on page 95 for representative traces
+ 
+Example Calculation 
+  i. Select Region: Under the “Electropherogram” view, choose the “Region 
+Table.” Manually select the region of ~200 – ~9000 bp.
+  ii. Note Concentration [pg/μl]
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+Step 3: V(D)J Amplification from cDNA
+  10xgenomics.com     61
+
+
+--- Page 62 ---
+ 
+  iii. Calculate: Multiply the diluted sample concentration [pg/μl] reported via 
+Agilent 2100 Expert Software by the dilution factor and divide by 1000 to 
+obtain the total V(D)J amplified product concentration in ng/μl. 
+Carry forward ONLY 25% of total V(D)J-amplified product yield into V(D)J 
+Library Construction.
+Example Calculation of V(D)J-amplified Product  Yield
+Concentration: 2886.74 pg/μl Elution volume: 40 μl; Dilution Factor: 10
+Total Yield
+= Conc’n (pg/μl) x Elution Vol. (μl) x Dilution Factor 
+1000 (pg/ng)
+= 2886.74 x 40 x 10
+1000 (pg/ng)
+=1154.70 ng
+Carrying Forward  ONLY 25% of total V(D)J amplified-product for V(D)J 
+Library 
+= Total cDNA x 0.25 = 1154.70 ng x 0.25
+=288.68 ng
+Refer to step 4.5 for appropriate number of Sample Index PCR cycles based 
+on carry forward V(D)J-amplified product yield.
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+Step 3: V(D)J Amplification from cDNA
+  10xgenomics.com     62
+
+
+--- Page 63 ---
+Step 4: 
+V(D)J Library Construction
+4.0 Get Started
+64
+4.1 Fragmentation, End Repair & A-tailing
+66
+4.2 Adaptor Ligation
+67
+4.3 Post Ligation Cleanup – SPRIselect
+67
+4.4 Sample Index PCR
+69
+4.5 Post Sample Index PCR Cleanup – SPRIselect
+70
+4.6 Post Library Construction QC
+71
+
+
+--- Page 64 ---
+4.0 Get Started
+  Item
+10x PN
+Preparation & 
+Handling
+Storage
+Equilibrate to Room Temperature
+□
+Fragmentation Buffer
+2000091
+Thaw, vortex, verify 
+no precipitate, 
+centrifuge briefly
+−20°C
+□
+Ligation Mix
+2001109
+Thaw, vortex, verify 
+no precipitate, 
+centrifuge briefly.
+−20°C
+□
+ 
+Dual Index Plate TT 
+Set A
+Verify name & PN. 
+Use indicated plate only
+3000431
+—
+−20°C
+□
+ 
+Beckman Coulter 
+SPRIselect Reagent
+—
+Manufacturer’s  
+recommendations.
+—
+□
+ 
+Agilent  Bioanalyzer 
+High Sensitivity Kit 
+If used for  QC 
+—
+Manufacturer’s  
+recommendations.
+—
+□
+ 
+Agilent TapeStation 
+ScreenTape & 
+Reagents
+If used for  QC
+—
+Manufacturer’s  
+recommendations.
+—
+ 
+ 
+DNA High Sensitivity 
+Reagent Kit 
+If LabChip used for QC
+—
+Manufacturer’s  
+recommendations.
+—
+Place on Ice
+□
+Fragmentation 
+Enzyme
+Ensure that 
+Fragmentation Buffer 
+and Fragmentation 
+Enzyme from the same 
+kit are used together. 
+Lots are matched for 
+optimal performance
+2000090/2000104
+Centrifuge briefly.
+−20°C
+□
+DNA  Ligase
+220131/
+220110
+Centrifuge briefly.
+−20°C
+□
+ 
+Amp Mix or Library 
+Amp  Mix
+ 
+2000047/2000103 or 
+2000531
+ 
+Vortex, centrifuge 
+briefly.
+−20°C
+ 
+ 
+KAPA Library 
+Quantification Kit for 
+—
+Manufacturer’s  
+recommendations.
+—
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+Step 4: V(D)J Library Construction
+  10xgenomics.com     64
+
+
+--- Page 65 ---
+  Item
+10x PN
+Preparation & 
+Handling
+Storage
+Illumina Platforms
+Obtain
+□
+ 
+10x Magnetic  
+Separator B
+2001212
+See  Tips & Best 
+Practices.
+Ambient
+□
+ 
+Qiagen Buffer EB
+—
+Manufacturer’s  
+recommendations.
+Ambient
+□
+ 
+Prepare 80% Ethanol
+Prepare 15 ml for 8 
+reactions
+—
+Prepare fresh.
+Ambient
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+Step 4: V(D)J Library Construction
+  10xgenomics.com     65
+
+
+--- Page 66 ---
+4.1 Fragmentation, End Repair & A-tailing
+  a. Prepare a thermal cycler with the following incubation protocol.
+Lid Temperature
+Reaction 
+Volume
+Run Time
+65°C
+50 μl
+~35 min
+Step
+Temperature
+Time hh:mm:ss
+Pre-cool block
+Pre-cool block prior to preparing the 
+Fragmentation Mix
+ 
+4°C
+ 
+Hold
+Fragmentation
+32°C
+00:02:00
+End Repair & A-Tailing
+65°C
+00:30:00
+Hold
+4°C
+Hold
+  b. Vortex Fragmentation Buffer. Verify there is no precipitate.
+  c. Prepare Fragmentation Mix on ice. Pipette mix and centrifuge briefly.
+Fragmentation Mix
+PN
+1X
+(μl)
+4X + 10%
+(μl)
+8X + 10%
+(μl)
+Buffer EB
+-
+25
+110
+220
+Fragmentation Buffer
+2000091
+5
+22
+44
+Fragmentation Enzyme
+2000090/
+2000104
+ 
+10
+ 
+44
+ 
+88
+Total
+ 
+40
+176
+352
+  d. Transfer ONLY 10 μl purified V(D)J-amplified product  from V(D)J 
+Amplification (step 3.4) to a tube strip. Note that only 10 μl (25%) V(D)J-
+amplified sample is sufficient for generating V(D)J library. The remaining 
+sample can be stored at 4°C for up to 72 h or at −20°C for up to 4 weeks 
+for generating additional V(D)J libraries.
+  e. Add 40 μl Fragmentation Mix to each 10 μl sample.
+  f. Pipette mix 15x (pipette set to 30 μl) on ice. Centrifuge briefly.
+  g. Transfer into the pre-cooled thermal cycler (4°C) and press “SKIP” to 
+initiate the protocol.
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+Step 4: V(D)J Library Construction
+  10xgenomics.com     66
+
+
+--- Page 67 ---
+4.2 Adaptor Ligation
+  a. Prepare Adaptor Ligation Mix.  Pipette mix and centrifuge briefly.
+Adaptor Ligation Mix
+Add reagents in the order 
+listed
+PN
+1X
+(μl)
+4X + 
+10%
+(μl)
+8X + 
+10%
+(μl)
+Ligation Mix
+2001109
+40
+176
+352
+DNA Ligase
+220110/220131
+10
+44
+88
+Total
+ 
+50
+220
+440
+  b. Remove the sample from the thermal cycler.
+  c. Add 50 μl Adaptor Ligation Mix to 50 μl sample. Pipette mix 15x (pipette 
+set to 90 μl). Centrifuge briefly.
+  d. Incubate in a thermal cycler with the following protocol.
+Lid Temperature
+Reaction 
+Volume
+Run Time
+30°C
+(lid may be turned off if the instrument does not enable 
+30°C)
+100 μl
+15 min
+Step
+Temperature
+Time 
+hh:mm:ss
+1
+20°C
+00:15:00
+2
+4°C
+Hold
+4.3 Post Ligation Cleanup – SPRIselect
+  a. Vortex to resuspend SPRIselect Reagent. Add 80 μl SPRIselect Reagent 
+(0.8X) to each sample. Pipette mix 15x (pipette set to 150 μl).
+  b. Incubate 5 min at room temperature.
+  c. Place on the magnet•High until the solution clears.
+  d. Remove the supernatant.
+  e. Add 200 μl 80% ethanol to the pellet. Wait 30 sec.
+  f. Remove the ethanol.
+  g. Repeat steps e and f for a total of 2 washes.
+  h. Centrifuge briefly. Place on the magnet•Low.
+  i. Remove any remaining ethanol. Air dry for 2 min. 
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+Step 4: V(D)J Library Construction
+  10xgenomics.com     67
+
+
+--- Page 68 ---
+  j. Remove from the magnet. Add 30.5 μl Buffer EB. Pipette mix 15x. If beads 
+still appear clumpy, continue pipette mixing until fully resuspended.
+  k. Incubate 2 min at room temperature.
+  l. Place on the magnet•Low until the solution clears.
+  m. Transfer 30 μl sample to a new tube strip.
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+Step 4: V(D)J Library Construction
+  10xgenomics.com     68
+
+
+--- Page 69 ---
+4.4 Sample Index PCR
+  a. Choose the appropriate sample index sets to ensure that no sample indices 
+overlap in a multiplexed sequencing run. Record the 10x sample index 
+name (PN-3000431 Dual Index Plate TT Set A well ID) used.
+  b. Add 50 μl Library Amp Mix (PN-2000531) or Amp Mix (PN-
+2000047/2000103) to 30 μl sample.
+  c. Add 20 μl of an individual Dual Index TT Set A to each sample and record 
+the well ID used. Pipette mix 5x (pipette set to 90 μl). Centrifuge briefly.
+  d. Incubate in a thermal cycler with the following protocol.
+Lid Temperature
+Reaction Volume
+Run Time
+105°C
+100 μl
+~30 min
+Step
+Temperature
+Time hh:mm:ss
+1
+98°C
+00:00:45
+2
+98°C
+00:00:20
+3
+54°C
+00:00:30
+4
+72°C
+00:00:20
+5
+Go to step 2, see below for # of cycles
+ 
+6
+72°C
+00:01:00
+7
+4°C
+Hold
+  e. Store at 4°C for up to 72 h or proceed to the next step.
+The table recommends a starting point for optimization. The total cycles 
+should be optimized based on 25% carry forward V(D)J-amplified product 
+yield/input calculated during Post V(D)J Amplification QC & 
+Quantification (step 3.5).
+cDNA Input
+Total Cycles
+<25 ng
+9
+25-150 ng
+8
+151-500 ng
+7
+501-1,000 ng
+6
+>1,500 ng
+5
+Recommended Cycle Numbers
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+Step 4: V(D)J Library Construction
+  10xgenomics.com     69
+
+
+--- Page 70 ---
+4.5 Post Sample Index PCR Cleanup – SPRIselect
+  a. Vortex to resuspend the SPRIselect reagent. Add 80 μl SPRIselect Reagent 
+(0.8X) to each sample. Pipette mix 15x (pipette set to 150 μl).
+  b. Incubate 5 min at room temperature.
+  c. Place the magnet•High until the solution clears.
+  d. Remove the supernatant.
+  e. Add 200 μl 80% ethanol to the pellet. Wait 30 sec.
+  f. Remove the ethanol.
+  g. Repeat steps e and f for a total of 2 washes.
+  h. Centrifuge briefly. Place on the magnet•Low. 
+  i. Remove remaining ethanol. Air dry for 2 min.
+  j. Remove from the magnet. Add 35.5 μl Buffer EB. Pipette mix 15x.
+  k. Incubate 2 min at room temperature.
+  l. Place on the magnet•Low until the solution clears.
+  m. Transfer 35 μl to a new tube strip.
+  n. Store at 4°C for up to 72 h or at −20°C for long-term storage.
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+Step 4: V(D)J Library Construction
+  10xgenomics.com     70
+
+
+--- Page 71 ---
+4.6 Post Library Construction QC
+Library QC
+Use Agilent Bioanalyzer, Perkin Elmer LabChip, or Agilent Tapestation for QC.
+  a. Run 1 μl sample at 1:10 dilution on an Agilent Bioanalyzer High 
+Sensitivity chip.
+  b. Select the region between 200-2,000 bp to determine average size of the 
+library. This will be used as the insert size for library quantification.
+Representative Traces
+PBMCs amplified for TCR
+PBMCs amplified for BCR
+  l See Appendix on page 95 for representative traces
+Library Quantification
+Library quantification should be performed prior to sequencing. For the most 
+accurate quantitative assessment of libraries, a qPCR-based method should be 
+used to ensure  that the sequencing flowcell is loaded properly.  See Post 
+Library Construction Quantification using KAPA qPCR on page 97
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+Step 4: V(D)J Library Construction
+  10xgenomics.com     71
+
+
+--- Page 72 ---
+Step 5: 
+5' Gene Expression Library Construction
+5.0 Get Started
+73
+Step Overview (Step 5.1d)
+75
+5.1 GEX Fragmentation, End Repair & A-tailing
+77
+5.2 GEX Post Fragmentation, End Repair & A-tailing Double Sided  – SPRIselect
+78
+5.3 GEX Adaptor Ligation
+79
+5.4 GEX Post Ligation Cleanup – SPRIselect
+79
+5.5 GEX Sample Index PCR
+81
+5.6 Post Sample Index PCR Double Sided Size Selection – SPRIselect
+82
+5.7 Post Library Construction QC
+83
+
+
+--- Page 73 ---
+5.0 Get Started
+  Item
+10x PN
+Preparation & 
+Handling
+Storage
+Equilibrate to Room Temperature
+□
+Fragmentation Buffer
+2000091
+Thaw, vortex, verify 
+no precipitate, 
+centrifuge.
+−20°C
+□
+Ligation Mix
+2001109
+Thaw, vortex, verify 
+no precipitate, 
+centrifuge.
+−20°C
+□
+ 
+ 
+Dual Index Plate TT
+Set A 
+Verify name & PN.
+ Use indicated plate only
+3000431
+—
+−20°C
+□
+ 
+Beckman Coulter 
+SPRIselect Reagent
+—
+Manufacturer’s  
+recommendations.
+—
+□
+ 
+Agilent  Bioanalyzer High 
+Sensitivity Kit
+If used for  QC 
+—
+Manufacturer’s  
+recommendations.
+—
+□
+ 
+DNA High Sensitivity 
+Reagent Kit 
+If LabChip used for QC
+—
+Manufacturer’s  
+recommendations.
+—
+□
+ 
+Agilent TapeStation 
+ScreenTape & Reagents
+If used for  QC
+—
+Manufacturer’s  
+recommendations.
+—
+Place on Ice
+□
+Fragmentation Enzyme
+Ensure that Fragmentation 
+Buffer and Fragmentation 
+Enzyme from the same kit 
+are used together. Lots are 
+matched for optimal 
+performance
+2000090
+/2000104
+Centrifuge briefly.
+−20°C
+□
+DNA Ligase
+220110/220131
+Centrifuge briefly.
+−20°C
+□
+Library Amp  Mix or Amp 
+Mix
+2000531 or 
+2000047/2000103
+Vortex, centrifuge 
+briefly.
+−20°C
+□
+ 
+KAPA Library 
+Quantification Kit for 
+Illumina Platforms
+—
+Manufacturer’s  
+recommendations.
+—
+Obtain
+□
+ 
+10x Magnetic  Separator 
+B
+2001212
+See  Tips & Best 
+Practices.
+Ambient
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+Step 5: 5' Gene Expression Library Construction
+  10xgenomics.com     73
+
+
+--- Page 74 ---
+  Item
+10x PN
+Preparation & 
+Handling
+Storage
+□
+ 
+Qiagen Buffer EB
+—
+Manufacturer’s  
+recommendations.
+Ambient
+□
+ 
+Prepare 80% Ethanol 
+Prepare 15  ml for  8  
+reactions.
+—
+Prepare fresh.
+Ambient
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+Step 5: 5' Gene Expression Library Construction
+  10xgenomics.com     74
+
+
+--- Page 75 ---
+Step Overview (Step 5.1d)
+Correlation between input & library complexity
+A Single Cell Gene Expression library is generated using a fixed proportion 
+(10 μl, 25%) of the total cDNA (40 μl) obtained at step 2.3m. The complexity of 
+this library will be comparable to one generated using a higher proportion 
+(>25%) of the cDNA. The remaining proportion (30 μl, 75%) of the cDNA may 
+be stored at 4°C for up to 72 h or at −20°C for long-term storage (up to 4 
+weeks).
+Note that irrespective of the total cDNA yield (ng), which may vary based on 
+cell type, targeted cell recovery etc., this protocol has been optimized for a 
+broad range of input mass (ng), as shown in the example below. The total 
+number of SI PCR cycles (step 5.5d) should be optimized based on carrying 
+forward a fixed proportion (10 μl, 25%) of the total cDNA yield calculated 
+during Post cDNA Amplification QC & Quantification (step 2.4).
+ 
+Cell
+ 
+Targeted Cell 
+Recovery
+Total
+cDNA
+Yield 
+(ng)
+cDNA Input into 
+Fragmentation
+SI PCR Cycle 
+Number
+Volume 
+(μl)
+Mass (ng)
+High RNA 
+Content
+Low
+ 
+500 ng
+ 
+10  μl
+ 
+125 ng
+ 
+13 
+High
+3800 ng
+10  μl
+950 ng
+10 
+Example: Library Construction Input Mass & SI PCR Cycles
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+Step 5: 5' Gene Expression Library Construction
+  10xgenomics.com     75
+
+
+--- Page 76 ---
+ 
+Cell
+ 
+Targeted Cell 
+Recovery
+Total
+cDNA
+Yield 
+(ng)
+cDNA Input into 
+Fragmentation
+SI PCR Cycle 
+Number
+Volume 
+(μl)
+Mass (ng)
+Low RNA 
+Content
+Low
+ 
+2 ng
+ 
+10  μl
+ 
+0.5 ng
+ 
+16
+High
+ 
+400 ng
+ 
+10  μl
+ 
+100 ng
+ 
+12 
+Example: Library Construction Input Mass & SI PCR Cycles (continued)
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+Step 5: 5' Gene Expression Library Construction
+  10xgenomics.com     76
+
+
+--- Page 77 ---
+5.1 GEX Fragmentation, End Repair & A-tailing
+  a. Prepare a thermal cycler with the following incubation protocol.
+Lid Temperature
+Reaction 
+Volume
+Run Time
+65°C
+50 μl
+~35 min
+Step
+Temperature
+Time 
+hh:mm:ss
+Pre-cool block
+Pre-cool block prior to preparing the Fragmentation 
+Mix
+ 
+4°C
+ 
+Hold
+Fragmentation
+32°C
+00:05:00
+End Repair & A-Tailing
+65°C
+00:30:00
+Hold
+4°C
+Hold
+  b. Vortex Fragmentation Buffer. Verify there is no precipitate.
+  c. Prepare Fragmentation Mix on ice. Add reagents in the order listed. 
+Pipette mix and centrifuge briefly.
+Fragmentation Mix
+Add reagents in the order listed
+PN
+1X
+(μl)
+4X + 
+10%
+(μl)
+8X + 
+10%
+(μl)
+ 
+Buffer EB
+-
+25
+110
+220
+Fragmentation 
+Buffer
+2000091
+5
+22
+44
+Fragmentation 
+Enzyme
+2000090/
+2000104
+ 
+10
+ 
+44
+ 
+88
+ 
+Total
+ 
+40
+176
+352
+  d. Transfer ONLY 10 μl purified cDNA sample from Cleanup (step 2.3) to a 
+tube strip. Note that only 10 μl (25%) cDNA sample is sufficient for 
+generating  Gene Expression library. The remaining cDNA sample can be 
+stored at 4°C for up to 72 h or at −20°C for up to 4 weeks for generating 
+additional Gene Expression libraries.
+  e. Add 40 μl Fragmentation Mix to each 10 μl sample.
+  f. Pipette mix 15x (pipette set to 30 μl) on ice. Centrifuge briefly.
+  g. Transfer into the pre-cooled thermal cycler (4°C) and press “SKIP” to 
+initiate the protocol.
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+Step 5: 5' Gene Expression Library Construction
+  10xgenomics.com     77
+
+
+--- Page 78 ---
+5.2 GEX Post Fragmentation, End Repair & A-tailing Double 
+Sided  – SPRIselect
+  a. Vortex to resuspend SPRIselect reagent. Add 30 μl SPRIselect reagent
+(0.6X)  to each sample. Pipette mix 15x (pipette set to 75 μl).
+  b. Incubate 5 min at room temperature.
+  c. Place on the magnet•High until the solution clears. DO NOT discard 
+supernatant.
+  d. Transfer 75 μl supernatant to a new tube strip.
+  e. Vortex to resuspend SPRIselect reagent. Add 10 μl SPRIselect reagent 
+(0.8X) to each sample. Pipette mix 15x (pipette set to 80 μl).
+  f. Incubate 5 min at room temperature.
+  g. Place on the magnet•High until the solution clears.
+  h. Remove 80 μl supernatant. DO NOT discard any beads.
+  i. With the tube strip still on the magnet, add 125 μl 80% ethanol to the 
+pellet. Wait 30 sec.
+  j. Remove the ethanol.
+  k. Repeat steps i and j for a total of 2 washes.
+  l. Centrifuge briefly. Place on the magnet•Low until the solution clears. 
+  m. Remove remaining ethanol. DO NOT over dry to ensure maximum elution 
+efficiency.
+  n. Remove from the magnet. Add 50.5 μl Buffer EB to each sample. Pipette 
+mix 15x (pipette set to 45 µl).
+  o. Incubate 2 min at room temperature.
+  p. Place on the magnet•High until the solution clears.
+  q. Transfer 50 μl sample to a new tube strip.
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+Step 5: 5' Gene Expression Library Construction
+  10xgenomics.com     78
+
+
+--- Page 79 ---
+5.3 GEX Adaptor Ligation
+  a. Prepare Adaptor Ligation Mix. Pipette mix and centrifuge briefly.
+Adaptor Ligation Mix
+Add reagents in the order 
+listed
+PN
+1X
+(μl)
+4X + 
+10%
+(μl)
+8X + 
+10%
+(μl)
+Ligation Mix
+2001109
+40
+176
+352
+DNA Ligase
+220110/220131
+10
+44
+88
+Total
+ 
+50
+220
+440
+  b. Add 50 μl Adaptor Ligation Mix to 50 μl sample. Pipette mix 15x (pipette 
+set to 90 μl). Centrifuge briefly.
+  c. Incubate in a thermal cycler with the following protocol.
+Lid Temperature
+Reaction 
+Volume
+Run Time
+30°C
+(lid may be turned off if the instrument does not enable 
+30°C)
+100 μl
+15 min
+Step
+Temperature
+Time 
+hh:mm:ss
+1
+20°C
+00:15:00
+2
+4°C
+Hold
+5.4 GEX Post Ligation Cleanup – SPRIselect
+  a. Vortex to resuspend SPRIselect Reagent. Add 80 μl SPRIselect Reagent 
+(0.8X) to each sample. Pipette mix 15x (pipette set to 150 μl).
+  b. Incubate 5 min at room temperature.
+  c. Place on the magnet•High until the solution clears.
+  d. Remove the supernatant.
+  e. Add 200 μl 80% ethanol to the pellet. Wait 30 sec.
+  f. Remove the ethanol.
+  g. Repeat steps e and f for a total of 2 washes.
+  h. Centrifuge briefly. Place on the magnet•Low.
+  i. Remove any remaining ethanol. Air dry for 2 min. DO NOT exceed 2 min 
+as this will decrease elution efficiency.
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+Step 5: 5' Gene Expression Library Construction
+  10xgenomics.com     79
+
+
+--- Page 80 ---
+  j. Remove from the magnet. Add 30.5 μl Buffer EB. Pipette mix 15x.
+  k. Incubate 2 min at room temperature.
+  l. Place on the magnet•Low until the solution clears.
+  m. Transfer 30 μl sample to a new tube strip.
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+Step 5: 5' Gene Expression Library Construction
+  10xgenomics.com     80
+
+
+--- Page 81 ---
+5.5 GEX Sample Index PCR
+  a. Choose the appropriate sample index sets to ensure that no sample indices 
+overlap in a multiplexed sequencing run. Record the 10x sample index 
+name (PN-3000431 Dual Index Plate TT Set A well ID) used.
+  b. Add 50 μl Library Amp Mix (PN-2000531) or Amp Mix (PN-
+2000047/2000103) to 30 μl sample.
+  c. Add 20 μl of an individual Dual Index TT Set A to each sample and record 
+the well ID used. Pipette mix 5x (pipette set to 90 μl). Centrifuge briefly.
+  d. Incubate in a thermal cycler with the following protocol.
+Lid Temperature
+Reaction Volume
+Run Time
+105°C
+100 μl
+~30 min
+Step
+Temperature
+Time hh:mm:ss
+1
+98°C
+00:00:45
+2
+98°C
+00:00:20
+3
+54°C
+00:00:30
+4
+72°C
+00:00:20
+5
+Go to step 2, see below for # of cycles
+ 
+6
+72°C
+00:01:00
+7
+4°C
+Hold
+The table recommends a starting point for optimization. The total cycles 
+should be optimized based on 25% carry forward cDNA yield/input 
+calculated during cDNA QC & Quantification (step 2.4).
+cDNA Input
+Total Cycles
+0.25-50 ng
+14-16
+50-250 ng
+12-14
+250-600 ng
+10-12
+600-1,100 ng
+8-10
+1,100-1,500 ng
+6-8
+>1,500 ng
+5
+Recommended Cycle Numbers
+  e. Store at 4°C for up to 72 h or proceed to the next step.
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+Step 5: 5' Gene Expression Library Construction
+  10xgenomics.com     81
+
+
+--- Page 82 ---
+5.6 Post Sample Index PCR Double Sided Size Selection – 
+SPRIselect
+  a. Vortex to resuspend the SPRIselect reagent. Add 60 μl SPRIselect Reagent 
+(0.6X) to each sample. Pipette mix 15x (pipette set to 150 μl).
+  b. Incubate 5 min at room temperature.
+  c. Place the magnet•High until the solution clears. DO NOT discard 
+supernatant.
+  d. Transfer 150 μl supernatant to a new tube strip.
+  e. Vortex to resuspend the SPRIselect reagent. Add 20 μl SPRIselect Reagent 
+(0.8X) to each transferred supernatant. Pipette mix 15x (pipette set to 150 
+μl).
+  f. Incubate 5 min at room temperature.
+  g. Place the magnet•High until the solution clears.
+  h. Remove 165 μl supernatant. DO NOT discard any beads.
+  i. With the tube still in the magnet, add 200 μl 80% ethanol to the pellet. 
+Wait 30 sec.
+  j. Remove the ethanol.
+  k. Repeat steps i and j for a total of 2 washes.
+  l. Centrifuge briefly. Place on the magnet•Low.
+  m. Remove remaining ethanol. DO NOT over dry beads to ensure maximum 
+elution efficiency.
+  n. Remove from the magnet. Add 35.5 μl Buffer EB. Pipette mix 15x (pipette 
+set to 35 µl).
+  o. Incubate 2 min at room temperature.
+  p. Place on the magnet•Low until the solution clears.
+  q. Transfer 35 μl to a new tube strip.
+  r. Store at 4°C for up to 72 h or at −20°C for long-term storage.
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+Step 5: 5' Gene Expression Library Construction
+  10xgenomics.com     82
+
+
+--- Page 83 ---
+5.7 Post Library Construction QC
+Library QC
+Use Agilent Bioanalyzer, Perkin Elmer LabChip, or Agilent Tapestation for QC.
+  a. Run 1 μl sample at 1:10 dilution on an Agilent Bioanalyzer High 
+Sensitivity chip.
+  b. Select the region between 200-2,000 bp to determine average size of the 
+library. This will be used as the insert size for library quantification. 
+Representative Trace
+See Appendix on page 95 for representative traces
+Quantification
+Library quantification should be performed prior to sequencing. For the most 
+accurate quantitative assessment of libraries, a qPCR-based method should be 
+used to ensure  that the sequencing flowcell is loaded properly. 
+See Post Library Construction Quantification using KAPA qPCR on page 97
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+Step 5: 5' Gene Expression Library Construction
+  10xgenomics.com     83
+
+
+--- Page 84 ---
+Step 6: 
+Sequencing
+Sequencing Libraries
+85
+Illumina Sequencer Compatibility
+85
+Sample Indices
+86
+Library Sequencing Depth & Run Parameters
+86
+Library Loading
+86
+Library Pooling
+87
+Data Analysis and Visualization
+87
+
+
+--- Page 85 ---
+Sequencing Libraries
+Chromium Single Cell V(D)J & Gene Expression Libraries
+Chromium Single Cell 5' Gene Expression and V(D)J Dual Index libraries 
+comprise standard Illumina paired-end constructs which begin with P5 and 
+end with P7. These libraries include 16  bp 10x Barcodes at the start of TruSeq 
+Read 1 while i7 and i5 sample index sequences are incorporated as the sample 
+index read. TruSeq Read 1 and TruSeq Read 2 are standard Illumina 
+sequencing primer sites used in paired-end sequencing of Single Cell  Gene 
+Expression and V(D)J libraries. 
+Chromium Single Cell V(D)J  Library
+Chromium Single Cell 5' Gene Expression  Library
+Sequencing these libraries produces a standard Illumina BCL data output 
+folder.
+Illumina Sequencer Compatibility
+The compatibility of the listed sequencers has been verified by 10x Genomics. 
+Some variation in assay performance is expected based on sequencer choice. 
+For more information about performance variation, visit the 10x Genomics 
+Support website.
+  l MiSeq
+  l NextSeq 500/550/2000
+  l HiSeq 2500 (Rapid Run)
+  l HiSeq 3000/4000
+  l NovaSeq 6000
+ 
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+Step 6: Sequencing
+  10xgenomics.com     85
+
+
+--- Page 86 ---
+Sample Indices
+Each sample index in the relevant Dual Index Kit contains a mix of one 
+unique i7 and one unique i5 sample index. If multiple samples are pooled in a 
+sequence lane, the sample index name (i.e. the Dual Index plate well ID) is 
+needed in the sample sheet used for generating FASTQs with "cellranger 
+mkfastq". If multiple libraries are pooled in a sequence lane, a separate 
+sample index is needed with each library (see Sample Indices in Sample Index 
+PCR on page 28).
+Library Sequencing Depth & Run Parameters
+Parameter
+Description
+Sequencing Depth
+Minimum 5,000 read pairs/cell for V(D)J library
+Minimum 20,000 read pairs/cell for 5' Gene Expression  library
+Sequencing Type
+Paired-end, dual indexing
+Sequencing Read
+Recommended Number of Cycles
+Read 1 
+i7 Index
+i5 Index 
+Read 2
+28 cycles
+10 cycles
+10 cycles
+90 cycles
+Library Loading
+Once quantified and normalized,  libraries should be denatured and diluted as 
+recommended for Illumina sequencing platforms. Refer to Illumina 
+documentation for denaturing and diluting libraries. Refer to the 10x 
+Genomics Support website for more information.
+Instrument
+Loading Concentration (pM)*
+PhiX (%)
+MiSeq
+12
+1
+NextSeq 500/550
+1.6
+1
+NextSeq 1000/2000
+650
+1
+HiSeq 2500 (RR)
+12
+1
+HiSeq 4000
+240
+1
+NovaSeq 6000 Standard  & Xp workflow
+150
+1
+Library Loading
+*Minor updates to the loading concentrations
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+Step 6: Sequencing
+  10xgenomics.com     86
+
+
+--- Page 87 ---
+Library Pooling
+Different  libraries maybe pooled for sequencing, taking into account the 
+differences in cell number and per-cell read depth requirements between each 
+library. Samples utilizing the same sample index should not be pooled 
+together or run on the same flow cell lane, as this would not enable correct 
+sample demultiplexing. 
+Libraries
+Sequencing Depth 
+(read pairs per cell)
+Library 
+Pooling 
+Ratio
+Example 1
+V(D)J library
+5' Gene Expression library
+5,000
+20,000 
+1
+4
+Example 2
+V(D)J library
+5' Gene Expression library
+5,000
+50,000 
+1
+10
+Data Analysis and Visualization
+Sequencing data may be analyzed using Cell Ranger and visualized using 
+Loupe Browser. Key features for these tools are listed below. For detailed 
+product-specific information, visit the 10x Genomics Support website.
+Cell Ranger
+Cell Ranger is a set of analysis pipelines that processes Chromium Single 
+Gene Expression data to align reads, generate Feature Barcode matrices and 
+perform clustering and gene expression analysis.
+  l Input: Binary base call (BCL) and FASTQ
+  l Output: BAM, MEX, CSV, HDF5, Web Summary, .cloupe/.loupe
+  l Operating System: Linux
+Cloud Analysis 
+Cloud Analysis is currently only available for US & Canada customers.
+Cloud Analysis allows users to run Cell Ranger analysis pipelines from a web 
+browser while computation is handled in the cloud.
+  l Key features: scalable, highly secure, simple to set up and run
+  l Input: FASTQ
+  l Output: BAM, MEX, CSV, HDF5, Web Summary, .cloupe/.loupe 
+Loupe Browser
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+Step 6: Sequencing
+  10xgenomics.com     87
+
+
+--- Page 88 ---
+Loupe Browser is an interactive data visualization application that requires no 
+prior programming knowledge.
+  l Input: .cloupe, .vloupe
+  l Output: Data visualization, including t-SNE and UMAP projections, 
+custom clusters, differentially expressed genes
+  l Operating System: MacOS, Windows
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+Step 6: Sequencing
+  10xgenomics.com     88
+
+
+--- Page 89 ---
+Troubleshooting
+GEM Generation & Barcoding
+90
+Chromium X Series Errors
+94
+
+
+--- Page 90 ---
+GEM Generation & Barcoding 
+STEP
+Normal
+Impacted
+1.2
+Load Chromium 
+GEM-X Chip
+Gasket holes are aligned with the sample and gel bead 
+wells.
+Gasket holes are misaligned with the gel bead wells. 
+Open and close the chip holder slowly once.
+One of the rows of Chromium X/iX gasket will not align 
+with the GEM-X chip. This is normal and will not impact 
+the assay.
+1.4d
+After Chip is 
+removed from 
+the instrument 
+and the wells 
+are exposed.
+All recovery wells are similar in volume and opacity.
+Recovery well A indicates a wetting failure.
+Not all wetting failures may present themselves with 
+excess bubbles (foam). 
+ 
+ 
+ 
+ 
+Recovery wells A-C show normal emulsions. Not all 
+normal emulsions may have small (in size and number) 
+bubbles in the recovery wells. 
+Inspecting emulsions in pipette tips is 
+recommended for diagnosing emulsion failures. 
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+Troubleshooting
+  10xgenomics.com     90
+
+
+--- Page 91 ---
+STEP
+Normal
+Impacted
+ 
+1.4e
+Transfer GEMs 
+from Chip  
+ 
+All liquid levels are similar in volume and opacity 
+without air trapped in the pipette tips.
+Pipette tip A shows wetting failure. Pipette tips B-C 
+show uniform emulsions & slightly low volumes. (~95 µl)
+Most wetting failures will not impact emulsion volumes 
+of other sample run on the chip.
+Occasionally, wetting failures may impact the emulsion 
+volumes recovered from other lanes. This is expected 
+and does not indicate an emulsion failure if the samples 
+are uniform in volume and opacity (B-C). 
+ 
+ 
+ 
+ 
+ 
+In pipette tips A-E & G-H,  a portion of the emulsion 
+displays  separate layers of oil, which indicates clog.
+Pipette tip F indicates a clog (separate oil layers) and 
+wetting failure (non-uniform emulsion).  
+ 
+Emulsion failures are not expected to be observed across the entire chip. The above images are for illustrative 
+purposes to show a range in emulsion failures. A clog is not expected to impact other lanes on the chip. 
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+Troubleshooting
+  10xgenomics.com     91
+
+
+--- Page 92 ---
+STEP
+Normal
+Impacted
+2.1a
+After transfer 
+of the GEMs 
++ Recovery 
+Agent
+All liquid levels are similar in the aqueous sample 
+volume (clear) and Recovery Agent/ Partitioning Oil 
+(pink).
+Tube G indicates a reagent clog has occurred. There is 
+a decreased volume of aqueous layer (clear).
+Tube C and E indicate a wetting failure has occurred. 
+There is an abnormal volume of Recovery 
+Agent/Partitioning Oil (pink).
+2.1b
+After aspiration 
+of Recovery 
+Agent/ 
+Partitioning Oil
+All liquid volumes are similar in the aqueous sample 
+volume (clear) and residual Recovery 
+Agent/Partitioning Oil (pink).
+Tube G indicates a reagent clog has occurred. There is 
+a decreased volume of aqueous layer (clear). There is 
+also a greater residual volume of Recovery Agent/ 
+Partitioning Oil (pink).
+Tube C and E indicate a wetting failure has occurred. 
+There is an abnormal residual volume of Recovery 
+Agent/Partitioning Oil (pink).
+2.1d 
+After addition 
+of Dynabeads 
+Cleanup Mix
+All liquid volumes are similar after addition of the 
+Dynabeads Cleanup Mix.
+Tube G indicates a reagent clog has occurred. There is 
+an abnormal ratio of Dynabeads Cleanup Mix (brown) 
+to Recovery Agent/Partitioning Oil (appears white). 
+Tube C and E indicate a wetting failure has occurred. 
+There is an abnormal ratio of Dynabeads Cleanup Mix 
+(brown) to Recovery Agent/Partitioning Oil (appears 
+white).
+If a channel clogs or wetting failure occurs during GEM generation, it is recommended that the 
+sample be remade. If any of the listed issues occur, take a picture and send it to 
+support@10xgenomics.com for further assistance. Replacement reagents and chips may be provided 
+for properly documented clogs or wetting failures if they are associated with runs of unexpired 
+reagents and chips, and are reported within 30 days of the expiration date. Consult the Best 
+Practices to Minimize Chromium Next GEM Chip Clogs and Wetting Failures (Technical Note 
+CG000479) for more information.
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+Troubleshooting
+  10xgenomics.com     92
+
+
+--- Page 93 ---
+Step
+Normal 
+Prominent Adaptor Dimer 
+Peaks
+5.7 Post Library Construction QC 
+(Gene Expression)
+ 
+Minor peaks below 200 bp may be observed.
+Libraries before repeating step 5.6
+Libraries after repeating step 5.6
+ 
+If peaks below 200 bp are more 
+prominent, repeat step 3.6 Post Sample 
+Index PCR Double Sided Size Selection - 
+SPRIselect.
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+Troubleshooting
+  10xgenomics.com     93
+
+
+--- Page 94 ---
+Chromium X Series Errors 
+The Chromium X touchscreen will guide the user through recoverable errors. 
+If the error continues, or if the instrument has seen critical or intermediate 
+errors, email support@10xgenomics.com with the displayed error code. 
+Support will request a troubleshooting package. Upload pertinent logs to 10x 
+Genomics by navigating to the Logs menu option on screen. 
+ 
+There are two types of errors:
+ 
+Critical Errors – When the instrument has seen a critical error, the run will 
+immediately abort. Do not proceed with any further runs. Contact 
+support@10xgenomics.com with the error code.
+  a. System Error
+  b. Pressure Error
+  c. Chip Error
+  d. Run Error
+  e. Temperature Error
+  f. Software Error
+ 
+User Recoverable Errors – Follow error handling instructions through the 
+touchscreen and continue the run.
+  a. Gasket Error
+  b. Tray Error
+  c. Chip Error
+  d. Unsupported Chip Error
+  e. Network Error
+  f. Update Error
+Consult the Chromium X Series (X/iX) User Guide (CG000396) for additional 
+information and follow the Chromium X touchscreen prompts for execution. 
+The Chromium X touchscreen will guide the user through recoverable errors.
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+Troubleshooting
+  10xgenomics.com     94
+
+
+--- Page 95 ---
+Appendix
+GEM-X Chip Loading Overview
+96
+Post Library Construction Quantification using KAPA qPCR
+97
+LabChip Traces
+98
+Oligonucleotide Sequences
+99
+
+
+--- Page 96 ---
+GEM-X Chip Loading Overview
+This section provides a quick overview to the GEM-X  chip  loading and does not include detailed 
+instructions.  Refer to Load  GEM-X Chip on page 37 for details. The Chromium X/iX Chip Holder 
+and X/iX Chip Gasket  images shown here are representative. Refer to Assemble GEM-X  Chip on 
+page 33 for details. 
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+Appendix
+  10xgenomics.com     96
+
+
+--- Page 97 ---
+Post Library Construction Quantification using KAPA qPCR
+  a. Thaw KAPA Library Quantification Kit for Illumina Platforms.
+  b. Dilute 2 μl sample with deionized water to appropriate dilutions that fall 
+within the linear detection range of the KAPA Library Quantification Kit 
+for Illumina Platforms. (For more accurate quantification, make the 
+dilution(s) in duplicate).
+  c. Make enough Quantification Master Mix for the DNA dilutions per sample 
+and the DNA Standards (plus 10% excess) using the guidance for 1 
+reaction volume below.
+Quantification Master Mix
+1X (μl)
+SYBR Fast Master Mix + Primer
+12
+Water
+4
+Total
+16
+  d. Dispense 16 μl Quantification Master Mix for sample dilutions and DNA 
+Standards into a 96 well PCR plate.
+  e. Add 4 μl sample dilutions and 4 μl DNA Standards to appropriate wells. 
+Centrifuge briefly.
+  f. Incubate in a thermal cycler with the following protocol.
+Step
+Temperature
+Run Time
+1
+95°C
+00:03:00
+2
+95°C
+00:00:05
+3
+67°C
+Read Signal
+00:00:30
+4
+Go to Step 2, 29X (Total 30 cycles)
+ 
+  g. Follow the manufacturer’s recommendations for qPCR-based 
+quantification. For library quantification for sequencer clustering, 
+determine the concentration based on insert size derived from the 
+Bioanalyzer/TapeStation trace.
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+Appendix
+  10xgenomics.com     97
+
+
+--- Page 98 ---
+LabChip Traces 
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+Appendix
+  10xgenomics.com     98
+
+
+--- Page 99 ---
+Oligonucleotide Sequences 
+Gel Bead Primers
+5’-CTACACGACGCTCTTCCGATCT-N16-N12-TTTCTTATATrGrGrG-3’
+Gene Expression Library
+Sample Index PCR Product
+5’-AATGATACGGCGACCACCGAGATCTACAC-N10-ACACTCTTTCCCTACACGACGCTCTTCCGATCT-N16-N12-TTTCTTATATGGG-cDNA_Insert-
+AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC-N10-ATCTCGTATGCCGTCTTCTGCTTG-3’
+ 
+3’-TTACTATGCCGCTGGTGGCTCTAGATGTG-N10-TGTGAGAAAGGGATGTGCTGCGAGAAGGCTAGA-N16-N12-AAAGAATATACCC-cDNA_Insert-
+TCTAGCCTTCTCGTGTGCAGACTTGAGGTCAGTG-N10-TAGAGCATACGGCAGAAGACGAAC-5’
+V(D)J Library
+Sample Index PCR Product
+5’-AATGATACGGCGACCACCGAGATCTACAC-N10-ACACTCTTTCCCTACACGACGCTCTTCCGATCT-N16-N12-TTTCTTATATGGG-Insert-
+AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC-N10-ATCTCGTATGCCGTCTTCTGCTTG-3’
+ 
+3’-TTACTATGCCGCTGGTGGCTCTAGATGTG-N10-TGTGAGAAAGGGATGTGCTGCGAGAAGGCTAGA-N16-N12-AAAGAATATACCC-Insert-
+TCTAGCCTTCTCGTGTGCAGACTTGAGGTCAGTG-N10-TAGAGCATACGGCAGAAGACGAAC-5’
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+Appendix
+  10xgenomics.com     99
+
+
+--- Page 100 ---
+Additional Sequences 
+User Guide | Chromium GEM-X Single Cell 5' Reagent Kits v3
+CG000733 | Rev A
+Appendix
+  10xgenomics.com     100

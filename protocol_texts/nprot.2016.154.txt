@@ -1,0 +1,3060 @@
+--- Page 1 ---
+© 2016 Macmillan Publishers Limited, part of Springer Nature. All rights reserved.
+protocol
+44 | VOL.12 NO.1 | 2017 | nature protocols
+INTRODUCTION
+Cell-to-cell heterogeneity has been a major confounding factor in 
+the phenotypic profiling of healthy and diseased tissues1,2. Single-
+cell technologies seek to turn this heterogeneity from a problem 
+into a strong advantage for studying cell and tissue physiology. 
+Unlike bulk assays, measurements of heterogeneity through 
+single-cell assays provide far higher phenotypic resolution and 
+do not require prior knowledge of the subtypes of cells within a 
+sample, or of how to fractionate them3. These measurements allow 
+de novo identification of cell types within tissues and detection 
+of biomarkers in rare cell types4; they can be used to identify het­
+erogeneous responses or to compare cell states between complex 
+samples without requiring prior knowledge of their population 
+structure5. Variations between cells in bulk populations can also 
+be used to reconstruct differentiation trajectories or cell cycle 
+dynamics6–9. We are probably only beginning to appreciate the 
+range of diverse applications for single-cell transcriptional profil­
+ing in basic and clinical research10–13. It is therefore no surprise 
+that single-cell profiling has gained considerable attention in 
+the past few years14,15, triggering substantial efforts to develop 
+various analytical techniques to isolate, amplify, and sequence 
+the genetic material of single cells10. Despite great progress in this 
+field, however, one major limitation remained a challenge until 
+the introduction of droplet microfluidic technology—the cell 
+throughput. Using state-of-the-art technologies such as FACS into 
+microtiter plates9,16,17, a few hundred or, with great effort, a few 
+thousand cells could be isolated and sequenced. These numbers 
+are generally not sufficient for extensive analysis of heterogeneous 
+cell populations. For example, a tumor is composed of many cell 
+types, and thorough analysis requires sequencing of core biopsies 
+that typically yield ~104 single cells18. Furthermore, performing 
+single-cell isolation and subsequent nucleic acid amplification 
+in microtiter plates requires relatively large amounts of reagents 
+(typically ~20 µl per cell), which becomes prohibitively costly for 
+high-throughput studies.
+Microfluidics has been established as an enabling technology in 
+single-cell studies19–24. Recent reports have shown that reduced 
+reaction volumes improve the yield of cDNA25 and reduce techni­
+cal variability26, making microfluidics very appealing for a variety 
+of single-cell applications. The commercially available Fluidigm C1 
+platform, developed for automated capture and processing of sin­
+gle cells, facilitated the use of the technology and has been success­
+fully adapted to various biological applications1,5,27–31. However, 
+the number of cells that can be analyzed with one chip is typically 
+in the range of tens of cells or, more recently, several hundred cells, 
+setting a limit for analysis of large cell populations. Identifying rare 
+cells in a heterogeneous population that do not have proper sur­
+face markers requires much higher throughput capabilities, which 
+are not offered by commercial systems3,6,31,32. In addition to pro­
+viding a low throughput, the efficiency of capturing cells within 
+microfluidic chambers is typically low (~1–10% of the input) and 
+is cell-size-biased, which is a serious drawback for primary and 
+heterogeneous clinical samples. The use of microfluidic devices 
+with patterned nano-wells has been shown to increase cell capture 
+efficiencies33,34, yet poor gene recovery and cross-contamination 
+issues between individual compartments remains a challenge.
+Droplet microfluidics technology circumvents the aforemen­
+tioned limitations and opens new possibilities for the field of 
+single-cell biology35–37. Microfluidic droplets function as inde­
+pendent microreactors that are functionally equivalent to wells 
+(or tubes), yet the volume of a droplet is roughly a thousand to 
+a million times smaller. Obviously, such a massive reduction in 
+reaction volume provides huge savings in reagents cost when 
+performing large numbers of reactions in parallel. In addition, 
+unlike conventional microtiter plates or valve-based microfluid­
+ics, droplets are intrinsically scalable: the number of reaction 
+‘wells’ is not limited by the physical dimensions of the chip but 
+scales linearly with the emulsion volume. Another notable advan­
+tage is that cell capture efficiencies with droplet microfluidics 
+Single-cell barcoding and sequencing using droplet 
+microfluidics
+Rapolas Zilionis1,2, Juozas Nainys1, Adrian Veres2–4, Virginia Savova2, David Zemmour5, Allon M Klein2 & 
+Linas Mazutis1
+1Institute of Biotechnology, Vilnius University, Vilnius, Lithuania. 2Department of Systems Biology, Harvard Medical School, Boston, Massachusetts, USA. 
+3Department of Stem Cell and Regenerative Biology, Harvard University, Cambridge, Massachusetts, USA. 4Harvard Stem Cell Institute, Harvard University, 
+Cambridge, Massachusetts, USA. 5Division of Immunology, Department of Microbiology and Immunobiology, Harvard Medical School, Boston, Massachusetts, USA. 
+Correspondence should be addressed to A.M.K. (allon_klein@hms.harvard.edu) or L.M. (linas.mazutis@bti.vu.lt).
+Published online 8 December 2016; doi:10.1038/nprot.2016.154
+Single-cell RNA sequencing has recently emerged as a powerful tool for mapping cellular heterogeneity in diseased and healthy 
+tissues, yet high-throughput methods are needed for capturing the unbiased diversity of cells. Droplet microfluidics is among the 
+most promising candidates for capturing and processing thousands of individual cells for whole-transcriptome or genomic analysis in 
+a massively parallel manner with minimal reagent use. We recently established a method called inDrops, which has the capability to 
+index >15,000 cells in an hour. A suspension of cells is first encapsulated into nanoliter droplets with hydrogel beads (HBs) bearing 
+barcoding DNA primers. Cells are then lysed and mRNA is barcoded (indexed) by a reverse transcription (RT) reaction. Here we 
+provide details for (i) establishing an inDrops platform (1 d); (ii) performing hydrogel bead synthesis (4 d); (iii) encapsulating and 
+barcoding cells (1 d); and (iv) RNA-seq library preparation (2 d). inDrops is a robust and scalable platform, and it is unique in its 
+ability to capture and profile >75% of cells in even very small samples, on a scale of thousands or tens of thousands of cells. 
+
+
+--- Page 2 ---
+© 2016 Macmillan Publishers Limited, part of Springer Nature. All rights reserved.
+protocol
+nature protocols | VOL.12 NO.1 | 2017 | 45
+are extremely high; nearly all cells in a sample can be loaded 
+in droplets, which is an important consideration when work­
+ing with primary samples. Furthermore, different microfluidic 
+modules can be used to manipulate droplets in a sophisticated, 
+yet highly controllable, manner38. Large numbers of droplets 
+(>107) can be generated at astonishingly high rates (>20,000 
+droplets per s)39–41, their size can be tuned precisely42,43, new 
+reagents can be introduced into preformed droplets at defined 
+time points44–49, and droplets can be split50,51 and sorted52–59, 
+therefore opening new opportunities for single-cell genomics. A 
+number of single-cell applications have already benefited from 
+droplet microfluidics to assay different biomolecules56,57,60–71, 
+amplify selected genes72–75, and sort individual cells of interest 
+at high-throughput rates56,57,76. For single-cell genomics stud­
+ies, droplet microfluidics can bring a much needed throughput 
+necessary to profile large (>10,000) numbers of cells.
+Our method, known as inDrops (for indexing droplets), makes 
+use of droplet microfluidic technology to index individual cells 
+at a rate of >12,000 cells/h in nanoliter-scale droplets6. The basic 
+principle of the technology is easy to understand: a mixture of 
+cells is encapsulated into microfluidic droplets together with bar­
+coding oligonucleotide primers (attached to HBs), and a mix of 
+RT and lysis reagents (Fig. 1). The mRNA released from lysed 
+cells remains trapped inside the same droplet and is tagged (bar­
+coded) with oligonucleotide primers during the RT reaction. 
+After barcoding, the material from all cells is pooled by breaking 
+the droplets, and the cDNA library is processed for next-genera­
+tion sequencing. In this process it is essential that each droplet 
+carry primers encoding only one unique barcode, which should 
+be different from the barcodes in other droplets. To achieve this, 
+we developed a combinatorial approach to produce a library of 
+barcoding hydrogel beads (BHBs) that are coencapsulated with 
+the cells. Each bead carries covalently coupled, photoreleasable 
+primers encoding one predefined barcode. The barcode in this 
+context encodes two parts: a ‘cellular barcode’, which indicates the 
+cell from which mRNA is captured, and a ‘unique molecular iden­
+tifier’ (UMI), which provides a quantitative measure of absolute 
+transcript levels in a given cell. It is noteworthy that the delivery of 
+deformable HBs can be efficiently synchronized, allowing nearly 
+100% loading of a single bead per droplet77. This is an important 
+distinction of inDrops, ensuring that individual cells randomly 
+arriving into droplets will nearly always be exposed to one, unique 
+DNA barcode. For capturing rare primary cells, this feature is of 
+critical importance as compared with those of alternative meth­
+ods based on random delivery of barcoding beads32.
+In this work, we describe the detailed steps for building and 
+using an inDrops platform for whole-genome single-cell RNA 
+sequencing. The protocol can be divided into five parts: the first 
+two parts involve hydrogel bead and DNA barcode synthesis, 
+which is carried out infrequently and in advance; the other three 
+parts involve cell barcoding, library preparation, and data analysis. 
+We expect that additional methods will eventually appear based 
+on the inDrops technique, and their development will bene­
+fit from a detailed description of this protocol. The platform 
+could eventually be extended by increasing flow rates and bar­
+code number, library protocol optimization, or application to 
+other single-cell profiling assays such as DNA sequencing, assay 
+for transposase-accessible chromatin with high throughput 
+sequencing (ATAC-seq), or chromatin immunoprecipitation 
+sequencing (ChIP-seq).
+a
+RT/lysis
+reagents
+A
+A
+A
+b
+Barcoding hydrogel beads
+Cells
+Oil
+Oil
+mRNA
+TTTTTTT
+cDNA
+A
+AAAAA
+Barcode
+release
+Cell
+Barcoding
+hydrogel
+bead 
+PC
+PE1
+UMI
+Bcd
+Poly-T
+Unique molecular
+identifier
+ T7 promoter
+Photocleavable
+spacer 
+Cell
+barcode
+PCR primer site
+3′
+T7p
+cDNA synthesis
+(barcoding)
+c
+4 °C
+50 °C
+3′
+5′
+Figure 1 | Single-cell transcriptome barcoding in drops. (a) Coencapsulation of cells, barcodes (delivered by hydrogel bead), and RT–lysis reagents 
+into microfluidic droplets. Red arrowheads show individual cells, and black arrows indicate flow direction. After the desired number of cells is collected, 
+barcoding primers are released from hydrogel beads by photocleavage to initiate reverse transcription of mRNA. Scale bars, 100 µm. (b) Schematic of 
+single-cell transcriptome barcoding in drops. After cell and hydrogel bead encapsulation, the barcoding cDNA primers are released from the beads using 
+>350-nm UV light (which is not damaging to DNA/RNA), followed by mRNA capture and reverse transcription. (c) Schematic of barcoding cDNA primers 
+attached to hydrogel beads. mRNA is brown and cDNA is the gray dashed line.
+
+
+--- Page 3 ---
+© 2016 Macmillan Publishers Limited, part of Springer Nature. All rights reserved.
+protocol
+46 | VOL.12 NO.1 | 2017 | nature protocols
+Advantages and limitations in comparison with other methods
+There are several advantages and limitations to consider when 
+choosing inDrops for single-cell RNA sequencing10. As already 
+discussed, droplet-based methods are currently unparalleled in 
+the number of cells that can be processed, and thus any applica­
+tion requiring whole-genome sequencing of thousands or tens of 
+thousands of cells would indicate the use of inDrops6 or a similar 
+droplet-based method32. For limiting samples, in which the total 
+input consists of <200,000 cells (e.g., fine-needle aspirations, 
+tumor biopsies, or rare stem cell populations already purified 
+by FACS), inDrops may be the only suitable method of choice, 
+as it can barcode a high fraction (~60–90%, typically 75%) of 
+cells passing through the device. Another droplet-based approach, 
+known as Drop-seq, offers most of the advantages of inDrops, but 
+it barcodes only 2–4% of the cells in a sample32.
+The inDrops platform also has the ability to capture cells of 
+practically any size and shows no size bias, an important advan­
+tage as compared with microfluidic approaches that make use of 
+hydrodynamic traps to capture cells (e.g., the Fluidigm C1 chip). 
+The method has short capture times, allowing thousands of cells 
+to be captured in under an hour and 1,000 cells barcoded in a 
+few minutes. The cost of library preparation is low, with costs 
+estimated at ~$0.06 per cell (Supplementary Table 1), and will 
+drop for larger-scale applications.
+There are also important limitations of the inDrops method. 
+One major trade-off is between high cell numbers and per-cell 
+sequencing depth. Because the cost of sequencing is invariant, 
+sequencing transcriptomes of many thousands of cells to satura­
+tion rapidly becomes limiting. Measurements of inDrops sensitiv­
+ity suggest that it is three-fold less sensitive when ten-fold fewer 
+reads are collected per cell as compared with lower-throughput 
+methods (~100–200 K reads per cell for inDrops as compared 
+with 1–2 million reads per cell using the Fluidigm C1 system)6,26. 
+Thus, in experiments in which the important differences between 
+cells are subtle and cell subpopulations of interest are not rare, 
+lower-throughput methods might be preferred. As the cost of 
+sequencing drops, this trade-off will diminish in importance. 
+Further optimization of cell lysis conditions, mRNA capture, and 
+cDNA amplification should improve the method sensitivity and 
+the diversity of transcripts recovered from individual cells.
+There are several other situations in which inDrops would not 
+be the method of choice. inDrops assigns a random barcode to 
+each cell, and thus it is not possible to associate transcriptomics 
+data with individually tracked cells. Thus, inDrops is not suit­
+able for experiments aiming to link specific cell transcriptomes 
+with previous data collected on each cell (e.g., morphology, 
+lineage, position, and fluorescence). Another constraint is that 
+inDrops requires at least 2,000 cells of input material (and in 
+practice an amount >10,000 cells is preferred), and thus it is 
+not suitable when the initial sample of cells consists of just 
+tens or hundreds of cells (e.g., if cells are selected by hand or 
+laser dissection).
+In addition, as an alternative to assembling their own inDrops 
+platform, users may wish to purchase a commercially engineered 
+system and reagents. One company, 1CellBio, holds licenses to 
+inDrops and provides all required equipment and consumables; 
+other companies (e.g., 10× Genomics) provide researchers with 
+a variant of the inDrops technique. The commercial solutions suf­
+fer from the same advantages and disadvantages described above, 
+although some researchers may prefer the support and simplicity 
+of a commercial system. In contrast to a commercial solution, the 
+current protocol is much lower in cost, offers higher flexibility, 
+and allows assay innovation. There is still a huge window for inno­
+vation of droplet microfluidic technologies, and this protocol will 
+thus particularly appeal to laboratories wishing to tinker with 
+aspects of the method in an affordable and controllable manner. 
+Single-cell methods are likely to improve in quality substantially 
+in the coming years, and major breakthroughs will likely come 
+from the deep knowledge and creativity of academic laboratories 
+working with open systems such as those described here.
+Experimental design
+The inDrops protocol involves five parts: (i) microfluidic chip 
+manufacturing, (ii) BHB synthesis, (iii) single-cell transcriptome 
+barcoding in drops, (iv) library preparation for next-generation 
+sequencing, and (v) sequencing data analysis. Chip manufactur­
+ing and hydrogel synthesis are carried out well in advance of the 
+biological application at hand; a single batch of HBs can then 
+serve to barcode millions of cells, lasting for several weeks or 
+months of inDrops analysis, depending on the frequency of use.
+Microfluidic device fabrication. A detailed protocol for micro­
+fluidic device fabrication has been described previously57. 
+Briefly, this multistep process begins with a computer-assisted 
+design (CAD) drawing of the microfluidic device design, which 
+is then printed on a transparent film (mask) and used to fabri­
+cate a master with channels as embossed features. The master 
+serves as a reusable mold to transfer the microfluidic pattern onto 
+poly(dimethyl siloxane) (PDMS) slabs, which are then bonded to 
+a glass slide. Treating microfluidic channels with a hydrophobic 
+coating completes microfluidic device manufacturing. The proto­
+col reported here requires two separate microfluidic devices, one 
+for hydrogel bead generation, and the other for cell encapsula­
+tion and barcoding (CAD designs provided as Supplementary 
+Data 1). Users may wish to skip these steps and instead purchase 
+functional devices from commercial manufacturers (1CellBio 
+(http://1cell-bio.com) in the United States or Droplet Genomics 
+(http://dropletgenomics.com) in Europe).
+BHB synthesis. The principle of hydrogel bead synthesis relies on 
+microfluidic emulsification of an acrylamide:bis-acrylamide solu­
+tion supplemented with an acrydite-modified DNA primer that 
+is covalently incorporated into the hydrogel mesh. DNA prim­
+ers on polymerized HBs are then barcoded using a combination 
+of a split-and-pool method and a primer extension reaction, as 
+depicted in Figure 2. The microfluidic device used to produce 
+HBs has a flow-focusing junction at which the continuous stream 
+of aqueous phase is emulsified into a stream of highly mono­
+disperse droplets, which are collected off-chip and polymerized 
+into HBs. This microfluidic approach allows for the generation of 
+HBs of a precise size, which is important for subsequent steps to 
+ensure a high capture efficiency of cells in downstream single-cell 
+barcoding experiments. The most important advantage provided 
+by HBs is their use for synchronized and evenly spaced delivery 
+into droplets77. Because hydrogel-based beads are deformable, 
+they can be close-packed, making their injection into a micro­
+fluidic device highly controllable. By matching the speed of bead 
+injection with the speed of droplet generation, it is possible to set 
+
+
+--- Page 4 ---
+© 2016 Macmillan Publishers Limited, part of Springer Nature. All rights reserved.
+protocol
+nature protocols | VOL.12 NO.1 | 2017 | 47
+conditions in which nearly every droplet would be loaded with 
+one barcode (hydrogel bead). For applications dealing with single 
+cells, such straightforward control over bead injection is highly 
+desirable because it reduces the number of droplets that have a 
+cell but no barcoding bead, and it simplifies the overall opera­
+tion of a device. Moreover, as compared with solid beads, HBs 
+provide a higher number of attachment sites for DNA primers, 
+thus increasing the concentration of single-stranded DNA 
+(ssDNA) that is delivered into droplets. This protocol describes 
+the synthesis of HBs containing ~109 photoreleasable DNA prim­
+ers, yet this number can be adjusted by changing the initial con­
+centration of acrydite-modified oligonucleotides. The barcoding 
+bead library is generated by the use of oligonucleotide building 
+blocks (barcodes) that are incorporated into the hydrogel mesh 
+by primer extension in a combinatorial split-and-pool manner 
+(Fig. 2b,c). For primer extension, we recommend a thermosta­
+ble DNA polymerase (e.g., Bst and Bsm) that possesses 5′→3′ 
+DNA polymerase activity and lacks 5′→3′ and 3′→5′ exonucle­
+ase activities. In addition, the enzyme is active at 60 °C, which 
+helps minimize unspecific annealing of DNA primers. At the final 
+step, the double-stranded DNA (dsDNA) produced during primer 
+extension is converted into a single-stranded form by alkaline 
+denaturation. However, it is easy to envision certain applications 
+such as ChIP-seq, ATAC-seq, or Hi-C, in which HBs carrying 
+double-stranded DNA oligonucleotides could be applied to 
+barcode fragments of genomic DNA. In such cases, the poly-T 
+3′ end of the primers would be replaced by an adaptor sequence 
+for tagmentation78, and alkaline denaturation would be omitted. 
+The modular nature of barcoding primers allows other adap­
+tations as well: for example, poly-T could be replaced with 
+a gene-specific sequence for targeted RNA-seq.
+Our protocol describes two-step synthesis of a library of 147,456 
+unique barcodes (repeated across 40 million HBs per synthesis 
+batch), but this library size can be increased in a straightfor­
+ward manner by incorporating an additional primer extension 
+step. Each DNA primer incorporates a cellular barcode, as well 
+as a UMI sequence that allows correction of PCR amplification 
+bias during data analysis79. Once synthesized, the BHBs can be 
+stored for an extended period of time. Users may wish to skip 
+these steps and instead purchase BHBs with similar characteristics 
+from 1CellBio.
+Single-cell transcriptome barcoding in drops. This is the key 
+step of the protocol, which can be performed routinely with ~1 
+h of setup time per day. In this step, cells are captured in droplets 
+with RT–lysis reagents and with BHBs (Fig. 1 and Supplementary 
+Video 1). After collection, droplets are exposed to >350-nm light 
+to release RT primers from the barcoding beads; this step is criti­
+cal for efficient mRNA capture in droplets. Only droplets con­
+taining both a hydrogel bead and a cell result in an RT product 
+(Fig. 1b); droplets that do not contain cells do not contribute to 
+the final barcoded library. However, ambient mRNA can con­
+tribute to background noise, and therefore great care must be 
+taken to prepare clean cell suspensions before encapsulation. 
+To prevent cell sedimentation in the syringe or in tubing, we 
+typically adjust the density of the medium to that of cells with 
+Optiprep solution.
+The microfluidic device used to barcode individual cells (Fig. 1a) 
+contains four inlets for (i) BHBs, (ii) cell suspension, (iii) RT 
+and lysis reagent mix, and (iv) carrier oil, and one outlet port 
+for encapsulated cell collection. To reduce potential flow fluc­
+tuations that arise because of the mechanics of syringe pumps, 
+fluid resistors in the form of serpentine channels are incorpo­
+rated into the device, whereas passive filters at each inlet prevent 
+channels from clogging. The device consists of two junctions: 
+the first for bringing the RT–lysis reagents, cells, and barcoded 
+beads together, and the second for cell and bead coencapsula­
+tion, where droplet generation occurs (Fig. 1a). Due to laminar 
+flow, the mixing of cells and reagents occurs only after encapsula­
+tion, preventing premature cell lysis. Depending on the flow rates 
+used, droplet volume can be tuned precisely in 1–5 nl range at 
+a rate of ~100 drops per s. During development, we found that 
+the RT reaction can be strongly inhibited when droplets are 
+Prebarcoded
+hydrogel beads 
+DNA stub 
+ 
+2nd barcode
+ 
+1st barcode
+TTTTTTT
+TTTTTTT
+Split and
+pool 
+Split and
+pool
+384 unique
+barcodes 
+384 × 384 unique
+barcodes 
+Acrylamide/
+primer mix
+Oil
+Oil
+Droplet
+collection
+and off-chip
+polymerization 
+a
+b
+UMI
+T7 RNA Pol
+promoter  
+Adaptor 2
+3′
+Barcode1
+Barcode2
+Adaptor 1
+Conversion
+to ssDNA 
+UMI
+Barcode2
+3′
+5′
+UMI
+Barcode2
+Hybridization
+and
+extension
+Conversion
+to ssDNA 
+3′
+Barcode1
+3′
+5′
+Adaptor 2*
+Adaptor 2
+Barcode1*
+3′
+5′
+Extension
+Hybridization
+Split
+Pool
+Split
+T7 RNA Pol
+promoter  
+Adaptor 1
+3′
+Photocleavable
+spacer 
+Hydrogel bead
+Pool
+Elimination of
+incomplete
+products
+Photocleavable
+spacer 
+c
+Poly-A
+Poly-T
+Poly-T
+Figure 2 | Synthesis of barcoding hydrogel beads. (a) Hydrogel bead 
+generation and collection. An aqueous acrylamide/bis-acrylamide solution 
+carrying acrydite-modified DNA oligonucleotide is emulsified using a 
+microfluidic device to yield highly monodispersed droplets, which are 
+collected off-chip and polymerized into hydrogel beads. Scale bars, 100 µm. 
+Image adapted with permission from ref. 6, Cell Press. (b) Illustration of the 
+‘split-and-pool’ approach, with a geometric increase in barcode diversity at 
+each step. The diversity of unique barcodes can be increased by performing 
+more than two rounds of split-and-pool synthesis, and/or using more than 
+384 barcodes at each round. (c) Primer extension reaction to incorporate 
+barcode sequences into DNA oligonucleotides attached to hydrogel beads. 
+Pol, polymerase; UMI, unique molecular identifier79.
+
+
+--- Page 5 ---
+© 2016 Macmillan Publishers Limited, part of Springer Nature. All rights reserved.
+protocol
+48 | VOL.12 NO.1 | 2017 | nature protocols
+smaller than 1 nl, in agreement with previous reports80. To mini­
+mize cases in which two or more cells enter the same droplet, 
+cells are diluted and injected into the device at a concentration 
+corresponding to one cell in every ~10 droplets. Keeping cell 
+occupancy low ensures that droplets containing two or more cells 
+are extremely rare. The flow rates recommended here produce 
+~170,000 droplets per hour, leading to >15,000 barcoded cells 
+per hour. This protocol describes ways to achieve >90% hydrogel 
+bead loading efficiency, although any fraction above 60% can 
+provide adequate data, and typical runs in our experience have 
+a 75–90% loading efficiency. For certain cell types, or for future 
+applications, parameters such as the flow rates and the droplet 
+size can be easily controlled.
+Library preparation for next-generation sequencing. After 
+generating barcoded cDNA from single cells, the droplets are 
+broken and cDNA is processed for next-gen sequencing. The 
+general strategy used follows that developed in Jaitin et al.16 
+and Hashimshony et al.81, but several steps have been added 
+or revised as compared with previous protocols. Detailed steps 
+shown in Figure 3 include initial purification of the cDNA library 
+and second-strand synthesis, followed by in vitro transcription 
+(IVT) using T7 RNA polymerase. The amplified antisense RNA 
+is fragmented using zinc-ion-mediated cleavage, and converted 
+into a DNA library ready for Illumina sequencing by a second 
+RT reaction and a few cycles of PCR. This library preparation 
+step takes ~2 d and includes two quality control (QC) steps. As 
+detailed in Figure 3, a library index is added during the final 
+PCR to allow pooling of multiple libraries for sequencing in a 
+single run. Our protocol is designed to work with all Illumina 
+sequencing platforms and can possibly be adapted to work with 
+different sequencers.
+Although the library protocol itself is flexible and can be 
+adapted for other applications, we draw attention to two gen­
+eral considerations: first, it is critical to take precautions dur­
+ing library preparation to minimize material loss during all 
+steps between droplet breakage and library amplification. Each 
+molecule in the preamplified library represents a unique cell 
+transcript, and thus losses lead to lower sensitivities for the 
+method, seen in lower UMI counts per cell. Second, we recom­
+mend splitting the droplet emulsion into aliquots before break­
+ing droplets, with each aliquot processed into an independent 
+library. Splitting ensures that ample archived aliquots remain 
+should any errors affect library preparation. To minimize cases 
+in which two cells acquire the same barcode, the number of 
+cells in each aliquot should ideally not exceed 2% of the total 
+number of available barcodes—i.e. ~3,000 cells per aliquot for the 
+synthesis scales described here. Increasing the combinatorial 
+scale of split-and-pool hydrogel bead synthesis can alleviate this 
+limit if necessary.
+Sequencing data analyses. Raw sequencing reads are first proc­
+essed through a low-level pipeline that generates a table of gene 
+expression counts, followed by a high-level analysis to identify 
+cell population structure and gene expression correlations. The 
+high-level analysis is platform independent and is not discussed in 
+this article. Scripts and documentation for the low-level analysis 
+are provided as the Supplementary Software.
+Level of expertise needed to implement the protocol
+The core steps for barcoding single cells with the inDrops plat­
+form require a background in molecular biology covering stand­
+ard procedures such as nucleic acid purification and enzymatic 
+reactions, and basic skills in microscopy. Users do not require 
+deep microfluidics expertise, as the protocol provides complete 
+instructions on operating the microfluidic device. However, users 
+with no microfluidics background might expect to spend 2 weeks 
+becoming fully proficient with device operation. Other aspects of 
+this protocol may require more specialized expertise: fabrication 
+of PDMS-based microfluidic devices requires cleanroom training; 
+automation of barcode synthesis requires use of a liquid-handling 
+robot; and single-cell data analysis requires bioinformatics exper­
+tise. However, if the user chooses to purchase ready-made micro­
+fluidic devices (to replace Step 1 of PROCEDURE), experience in 
+microfabrication becomes unnecessary. Ready-to-use BHBs are 
+also available from commercial vendors (e.g., 1CellBio), further 
+facilitating the implementation of the inDrops platform.
+3′
+5′
+5′
+T7p
+PE1 adaptor
+Cell barcode
+UMI
+TTTTTTTTTT
+ExoI and HinfI treatment
+3′
+5′
+5′
+cDNA:mRNA
+aRNA
+3′
+5′
+5′
+dsDNA
+3′
+3′
+3′
+5′
+3′
+5′
+3′
+5′
+Digestion of
+unused primers
+by ExoI
+Barcoded cDNA library
+Digestion of
+primer dimers
+and hairpins
+by HinfI
+Second-strand synthesis
+Linear amplification by IVT
+Fragmentation
+Reverse transcription
+Purification
+PCR
+Completed library
+P7 Illumina capture site
+Library index
+Read 2 and index read
+primer annealing site
+Cell barcode
+UMI
+3′-[transcript]
+P5 Illumina capture site
+and Read 1 primer site
+ExoI
+HinfI
+3′
+cDNA of transcript
+DNA:aRNA
+ssDNA
+[transcript]-3′
+Figure 3 | Library preparation. Library preparation starts with 
+enzymatic cleanup of the reverse transcription reaction product. 
+The 3′–5′ exonuclease ExoI is used (to digest unused ssDNA primers) 
+together with the dsDNA-specific restriction endonuclease HinfI (which 
+cleaves the T7 promoter (T7p) sequence in primer dimers and hairpins). 
+Note that the target library is immune to both HinfI and ExoI, as it is 
+in the form of a cDNA–mRNA hybrid with the T7p sequence as ssDNA. 
+Second-strand synthesis generates dsDNA that is used in an in vitro 
+transcription (IVT) reaction to linearly amplify the cDNA library. The resulting 
+amplified RNA (aRNA) is fragmented by zinc-ion-catalyzed hydrolysis, 
+and a reverse transcription reaction followed by limited-cycle PCR is 
+used to convert the aRNA into a dsDNA library compatible with Illumina 
+sequencing platforms.
+
+
+--- Page 6 ---
+© 2016 Macmillan Publishers Limited, part of Springer Nature. All rights reserved.
+protocol
+nature protocols | VOL.12 NO.1 | 2017 | 49
+MATERIALS
+REAGENTS
+Mineral oil (Sigma-Aldrich, cat. no. M5310-1L)
+Nuclease-free water (Life Technologies, cat. no. 10977-023)
+EDTA (0.5 M; Thermo Fisher Scientific, cat. no. 15575020)
+Tris–HCl, pH 8.0 (1 M; Thermo Fisher Scientific, cat. no. 15568025)
+Tris–HCl, pH 7.0 (1 M; Thermo Fisher Scientific, cat. no. AM9851)
+Tween-20 (Fisher Scientific, cat. no. BP337-100)
+Triton X-100 (Sigma-Aldrich, cat. no. T8787-100ML)
+NaCl (Sigma-Aldrich, cat. no. S3014-1KG)
+KCl (Sigma-Aldrich, cat. no. P9541-1KG)
+Carrier oil (e.g., Droplet Genomics, droplet stabilization oil, cat. no. DS003; 
+RAN Biotechnologies, cat. no. 008-FluoroSurfactant-2wtH-50G; 
+or alternative)
+1H,1H,2H,2H-Perfluorooctanol (Alfa Aesar, cat. no. B20156) 
+! CAUTION Wear appropriate personal protective equipment and 
+avoid contact with skin when handling this reagent. Use it in a 
+well-ventilated area.
+Exonuclease I (ExoI, 20,000 U/ml; Thermo Fisher Scientific, 
+cat. no. EN0581; or NEB, cat. no. M0293L)
+Exonuclease I reaction buffer (10×; NEB, cat. no. B0293S)
+FastDigest HinfI restriction endonuclease (HinfI; Thermo Fisher Scientific, 
+cat. no. FD0804)
+FastDigest Buffer (10×; Thermo Fisher Scientific, cat. no. B64)
+Deoxynucleotide solution mix (dNTP; 10 mM each; NEB, cat. no. N0447L)
+3M Novec 7500 Engineered Fluid (HFE-7500 oil, 3 M; Novec, 
+cat. no. Novec 7500) ! CAUTION Avoid direct contact; it may cause 
+respiratory, skin, and eye irritation.
+DNA oligonucleotides (e.g., IDT and TriLink). Refer to Supplementary 
+Tables 2, 3 and 4 for a complete list of oligonucleotides. See also 
+Reagent Setup.
+Barcode synthesis
+5′-BAAAAAAAAAAAAAAAAAAA-3′ DNA oligonucleotide (standard desalting; 
+it can be ordered from IDT or other vendors)
+5′-/6-FAM/AGATCGGAAGAGCGTCGTGTAGG GAAAGAG-3′ DNA oligo­
+nucleotide (standard desalting; it can be ordered from IDT or other vendors)
+5′-/6-FAM/AAGGCGTCACAAGCAATCACTC-3′ DNA oligonucleotide 
+(standard desalting; it can be ordered from IDT or other vendors)
+5′-/6-FAM/BAAAAAAAAAAAAAAAAAAA-3′ DNA oligonucleotide (stand­
+ard desalting; it can be ordered from IDT or other vendors) 
+5′-/acrydite/photocleavable spacer/ CGATGACGTA ATACGACTCACTATAG­
+GGATACCACCATGGCTCTTTCCCTAC A CGACGCTCTTC-3′ DNA oligonu­
+cleotide (HPLC-purified; it can be ordered from TriLink, IDT, or other vendors).
+Acrylamide solution (AA; 40% (wt/wt); Sigma-Aldrich, cat. no. A4058-
+100ML) ! CAUTION AA is a potent neurotoxin. Use the reagent in a well-
+ventilated area and wear appropriate personal protective equipment.
+AA/bis-acrylamide solution, 40% (wt/wt), molar ratio 19:1 (AA/BIS; 
+Sigma-Aldrich, cat. no. A9926-100ML) ! CAUTION AA and bis-acrylamide 
+are potent neurotoxins. Use the reagent in a well-ventilated area and wear 
+appropriate personal protective equipment.
+Span-80 (Sigma-Aldrich, cat. no. S6760-250ML)
+Hexane (≥99%, mixture of isomers, anhydrous; Sigma-Aldrich, 
+cat. no. 227064-1L) ! CAUTION Hexane is highly flammable and toxic.
+N,N,N′,N′-Tetramethylethylenediamine (TEMED; Sigma-Aldrich, 
+cat. no. T7024-50L) ! CAUTION TEMED is harmful if inhaled or swallowed; 
+it is corrosive and causes burns. Use the reagent in a well-ventilated 
+area and wear appropriate personal protective equipment.
+APS (Sigma-Aldrich, cat. no. A9164) ! CAUTION APS is an oxidizing agent; 
+it may ignite combustible materials. It is harmful if swallowed. Wear 
+appropriate personal protective equipment when handling this reagent.
+Isothermal Amplification Buffer (10×; NEB, cat. no. B0537S)
+Bst 2.0 DNA polymerase (Bst; 8,000 U/ml; NEB, cat. no. M0537L)
+Barcoded DNA oligonucleotides (refer to Supplementary Tables 3 and 4 
+for complete list)
+Brij-35 (30% (wt/wt); Thermo Fisher Scientific, cat. no. 20150)
+NaOH solution (10 M; Sigma-Aldrich, cat. no. 72068-100ML)
+Barcoding transcriptomes of single cells and library preparation
+5′-TCGGCATTCCTGCTGAACCGCTCTTCCGATC TNNNNNN-3′ DNA 
+oligonucleotide (standard desalting, hand-mixed; it can be ordered from 
+IDT or other vendors) 
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+5′-CAAGCAGAAGACGGCATACGAGATXXXXXXCTCTTT CCCT
+ACACGA DNA oligonucleotide, where XXXXXX is an index sequence for 
+multiplexing libraries (see Supplementary Table 2; standard desalting; it can 
+be ordered from IDT or other vendors).
+5′-AATGATACGGCGACCACCGAGATCTACACGGTCTCGGCA TTCC
+TGCTGAAC -3′ DNA oligonucleotide (standard desalting; it can be 
+ordered from IDT or other vendors)
+5′-GGCATTCCTGCTGAACCGCTCTT CCGATCT-3′ DNA oligonucleotide 
+(HPLC purification; it can be ordered from IDT or other vendors)
+5′-AGATCGGAAGAGCGTCGTGTAGGGAAAGAG-3′ DNA oligonucle­
+otide (HPLC purification; it can be ordered from IDT or other vendors)
+5′-CTCTTTCCCTACACGACGCTCTT CCGATCT-3′ DNA oligonucleotide 
+(HPLC purification; it can be ordered from IDT or other vendors)
+PBS (10×; Thermo Fisher Scientific, cat. no. AM9625)
+SuperScript III Reverse Transcriptase (SuperScript III, 200 U/µl; Thermo 
+Fisher Scientific, cat. no. 18080-044)  CRITICAL In our experience, the 
+primer dimer amount produced with this reverse transcriptase is the lowest 
+as compared with other brands.
+RNaseOUT Recombinant Ribonuclease Inhibitor (RNaseOUT, 40 U/µl; 
+Thermo Fisher Scientific, cat. no. 10777-019)
+Trypan blue (0.4% (wt/vol); Thermo Fisher Scientific, cat. no. T10282)
+Ethanol (Koptec, cat. no. V1016) ! CAUTION Ethanol is highly flammable.
+OptiPrep Density Gradient Medium (OptiPrep; Sigma-Aldrich, 
+cat. no. D1556-250ML)
+Igepal CA-630 (Sigma-Aldrich, cat. no. 56741)
+1 M MgCl2 (nuclease-free; Thermo Fisher Scientific, cat. no. AM9530G)
+BSA (2% (wt/vol); Thermo Fisher Scientific, cat. no. B14)
+Agencourt AMPure XP magnetic beads (AMPure beads; Beckman Coulter, 
+cat. no. A63881)
+NEBNext mRNA Second Strand Synthesis Module (NEB, cat. no. E6111S)
+HiScribe T7 High Yield RNA Synthesis Kit (NEB, cat. no. E2040S)
+BioAnalyzer RNA pico chip and reagents (Agilent, cat. no. 5067-1513)
+BioAnalyzer HS DNA chip and reagents (Agilent, cat. no. 50674626)
+RNA Fragmentation Reagents (Ambion/Life Technologies, cat. no. AM8740)
+PrimeScript Reverse Transcriptase (Takara Clontec, cat. no. 2680A)
+Kapa 2× HiFi HotStart PCR mix (Kapa Biosystems, cat. no. KK2601)
+EvaGreen Dye (20× in water; Biotium, cat. no. 31000-T)
+5× First Strand Buffer (Thermo Fisher Scientific, cat. no. 18080-044)
+Aquapel (Aquapel, cat. no. 47100) ! CAUTION  This material is highly 
+toxic and moisture sensitive. Work in a fume hood and wear appropriate 
+protective clothing and equipment when handling it. 
+EQUIPMENT
+Inverted fluorescence microscope (e.g., Nikon Ti-U Eclipse) equipped 
+with FITC set of filters
+Red band-pass filter (wavelength cutoff at ≥ 600 nm; e.g., BP635 Light 
+Red Bandpass Filter from Midopt)
+Digital camera (complementary metal oxide semiconductor high-speed 
+camera such as the Fastec IL-3, Phantom V7.0 series, or similar)
+Syringe pumps (four; Harvard Apparatus, cat. no. 702226, or alternatives 
+from, e.g., Cetoni and KD Scientific)
+Pump control software (custom script in LabVIEW v15.0; National 
+Instruments, http://www.ni.com/labview/)
+Micro gear motor (Firgelli Automation, cat. no. FA-GM-6V-30, for keeping 
+cells suspended)
+Gear motor drive hub (Firgelli Automation, cat. no. FA-HUB-3MM)
+Magnetic stirring bar (2 × 2 mm; Spinbar, cat. no. 371210008, or VWR, 
+cat. no. 58948-377)
+Cold Rush Cold Therapy system (Ossur, cat. no. B-232000010)
+Refrigeration copper tubing (1.8-inch outer diameter; e.g., 
+Cardel Industries, cat. no. REF-1/8)
+Tygon S3 Laboratory Tubing (3.2-inch inner diameter; VWR, 
+cat. no. 89403-850)
+High-Intensity UV Inspection Lamp (UVP, cat. no. 95-0127-01)
+Liquid handler (e.g., Hamilton Microlab STAR-let)
+Heat-block for 1.5-ml tubes (e.g., VWR, cat. no. 12621-084)
+4-block PCR apparatus compatible with 96-well PCR plates 
+(e.g., MJ Research Tetrad PTC-225 Thermal Cycler)
+Rotary incubator (37 °C) for 15-ml and 50-ml tubes (e.g., VWR, 
+cat. no. 47746-130)
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+
+
+--- Page 7 ---
+© 2016 Macmillan Publishers Limited, part of Springer Nature. All rights reserved.
+protocol
+50 | VOL.12 NO.1 | 2017 | nature protocols
+Tube rotator (e.g., VWR, cat. no. 10136-084)
+2100 Electrophoresis Bioanalyzer Instrument (Agilent, cat. no. G2939AA)
+Refrigerated centrifuge for 1.5-ml and 2-ml tubes (e.g., Eppendorf, 
+cat. no. 5424 R)
+Swing-bucket centrifuge for 15-ml and 50-ml tubes (e.g., Eppendorf, 
+cat. no. 5810)
+Vortex (e.g., Scientific Industries, cat. no. SI-0236)
+12-channel pipette (p300, e.g., Eppendorf, cat. no. 3122000060)
+Liquid-handler-compatible 50-µl pipette tips (nuclease-free; 
+e.g., Hamilton Co-re, cat. no. 235964)
+Liquid-handler-compatible 300-µl pipette tips (nuclease-free; 
+e.g., Hamilton Co-re, cat. no. 235950)
+Gel-loading pipette tips (Research Products International, cat. no. 148622)
+15- and 50-ml serological pipettes
+25-ml Reagent Reservoirs (VWT, cat. no. 89094-662)
+300-ml Reagent Reservoirs (Thermo Scientific, cat. no. 1200-1300)
+96-well round-bottom plates (Corning, cat. no. 3359)
+Flat 96-well PCR plates (VWT, cat. no. 82006-640)
+Aluminum microplate sealing tape (RNase, DNase free; Sigma-Aldrich, 
+cat. no. CLS6570-100EA)
+1.5-ml DNA LoBind tubes (Eppendorf, cat. no. 022431021)
+0.5-ml DNA LoBind tubes (Eppendorf, cat. no. 0030108035)
+0.2-ml PCR tubes (e.g., VWT, cat. no. 53509-304)
+Magnetic racks for 0.2-ml and 1.5-ml tubes (e.g., Permagen, 
+cat. no. MSR1224)
+Sterile 1-ml syringes, Slip Tip (BD, cat. no. 309626)
+Sterile 1-ml low-dead-space syringes (for cell mix; B Braun, 
+cat. no. 9166017V-02)
+Sterile 3-ml syringes, Luer-Lok Tip (BD, cat. no. 309657)
+Sterile 60-ml syringes, Luer-Lok Tip (BD, cat. no. 309653)
+25 G × 5/8 needles (0.5 mm × 16 mm; BD, cat. no. 305122) 
+ CRITICAL The specific needle gauge size has to match the inner 
+diameter of the microtubing used.
+Microtubing (i.d. 0.38 mm × o.d. 1.09 mm; Scientific Commodities, 
+cat. no. BB31695-PE/2)  CRITICAL Tubing size has been matched to 
+microfluidic device port size.
+Black tubing (i.d. 1.6 mm; Saint-Gobain, cat. no. AFL00003)
+Hemocytometer (e.g., Bulldog Bio, cat. no. DHCN420)
+Aluminum foil (e.g., Ted Pella, cat. no. 43–100)
+Tweezers (blunt end; e.g., Fisher Scientific, cat. no. 16-100-111)
+Complete Filtration Units (filter + bottle; 500 ml; 0.2-µm PES membrane; 
+VWR, cat. no. 10040-436)
+Syringe filters (25 mm diameter; 0.2-µm PTFE membrane; VWR, 
+cat. no. 28145-495)
+Kimwipe delicate task wipers (Kimwipes; Kimberly-Clark, cat. no. 34155)
+10-µm, 20-µm, and 85-µm strainers (e.g. pluriSelect, cat. nos. 43-50010-03, 
+43-50020-03, and 43-50085-03, respectively)
+70-µm strainer (e.g., Falcon 70-µm Cell Strainer; Corning, cat. no. 352350)
+Corning Costar Spin-X column (pore size 0.45 µm, cellulose acetate 
+membrane; e.g., Corning, cat. no. 8162)
+REAGENT SETUP
+10% (vol/vol) Tween-20  Combine 90 ml of nuclease-free water and 
+10 ml of Tween-20. This solution is stable for at least 6 months at room 
+temperature (20 °C).
+10% (vol/vol) Triton X-100  Combine 90 ml of nuclease-free water 
+and 10 ml of Triton X-100. This solution is stable for at least 6 months 
+at room temperature.
+10% (vol/vol) Igepal CA-630  Combine 9 ml of nuclease-free water and 1 ml 
+of Igepal CA-630. This solution is stable for at least 6 months at room temperature.
+1 M NaCl  Dissolve 58.44 g of molecular-biology-grade NaCl in ~900 of 
+nuclease-free water, and adjust the final volume to 1 l. This solution is 
+stable for at least 1 year at room temperature.
+2 M KCl  Dissolve 149.1 g of molecular-biology-grade KCl in ~900 of 
+nuclease-free water, and adjust the final volume to 1 l. This solution is 
+stable for at least 1 year at room temperature.
+20% (vol/vol) 1H,1H,2H,2H-Perfluorooctanol in HFE-7500 oil 
+(20% (vol/vol))  Combine 8 ml of HFE-7500 oil with 2 ml of 1H,1H,2H,
+2H-perfluorooctanol (PFO). ! CAUTION Wear appropriate personal 
+protective equipment and avoid contact with skin when handling this 
+reagent. Use it in a well-ventilated area.
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+DNA elution buffer  Combine 49.5 ml of nuclease-free water, 500 µl of 
+1 M Tris–HCl (pH 8.0), and 10 µl of 0.5 M EDTA (pH 8.0). Make 1-ml 
+aliquots and store them at −20 °C for up to 1 year.
+RNA elution buffer  Combine 49.5 ml of nuclease-free water, 500 µl of 
+1 M Tris–HCl (pH 7.0), and 10 µl of 0.5 M EDTA (pH 8.0). Make 1-ml 
+aliquots and store them at −20 °C for up to 1 year.
+Tris–EDTA–Tween buffer  Combine 480 ml of nuclease-free water, 5 ml of 
+1 M Tris–HCl (pH 8.0), 10 ml of 0.5 M EDTA, and 5 ml of 10% (vol/vol) Tween-
+20 in nuclease-free water. Filter the solution through a 0.2-µm membrane. 
+This solution is stable for at least 6 months at room temperature.
+Hydrogel bead wash buffer  Combine 980 ml of nuclease-free water, 10 ml 
+of 1 M Tris–HCl (pH 8.0), 200 µl of 0.5 M EDTA, and 10 ml of 10% (vol/vol) 
+Tween-20 in nuclease-free water. Filter the solution through a 0.2-µm mem­
+brane. This solution is stable for at least 6 months at room temperature.
+Barcode synthesis  Prepare the following solutions.
+4× Acrylamide/bis-acrylamide solution contains 3.6 ml of acrylamide/
+bis-acrylamide (AA/BIS), 2.58 ml of AA, and 3.82 ml of nuclease-free water. 
+Filter the solution through a 0.2-µm membrane. The solution 
+can be stored at 4 °C for at least 6 months.
+10% (wt/vol) ammonium persulfate should be freshly prepared. Prepare a 
+10% (wt/vol) ammonium persulfate solution in nuclease-free water and filter 
+it through a 0.2-µm membrane. Aliquots of 100 µl can be stored at −20 °C 
+for up to 6 months.
+Tris-buffered saline–EDTA–Triton buffer is prepared by combining 822 
+ml of nuclease-free water, 10 ml of 1 M Tris–HCl (pH 8.0), 137 ml of 1 M 
+NaCl, 1.35 ml of 2 M KCl, 20 ml of 0.5 M EDTA, and 10 ml of 10% (vol/vol) 
+Triton X-100 in nuclease-free water. Filter the solution through a 0.2-µm 
+membrane. This solution is stable for at least 6 months at room temperature.
+Acrydite-modified primer (5′-/acrydite/photocleavable spacer/
+CGATGACGTA ATACGACTCACTATAG GGATACCACCATGGCTCTTT
+CCCTACA CGACGCTCTTC-3′) should be diluted to 250 µM in DNA elution 
+buffer. This solution is stable for at least 1 year at −20 °C.  CRITICAL The 
+primer is light-sensitive. Avoid any exposure of the tube to UV or bright light.
+1% (vol/vol) Span-80 in hexane is prepared by combining 99 ml of hexane 
+and 1 ml of Span-80 in a fume hood. Store the solution in a glass bottle in a 
+fume hood. This solution is stable for at least 6 months at room temperature.
+STOP-25 buffer is prepared by combining 880 ml of nuclease-free 
+water, 10 ml of 1 M Tris–HCl (pH 8.0), 50 ml of 0.5 M EDTA, 10 ml of 
+10% (vol/vol) Tween-20, and 50 ml of 2 M KCl. Filter the solution through 
+a 0.2-µm membrane. This solution is stable for at least 6 months at room 
+temperature. Prechill the solution to 4 °C before use.
+STOP-10 buffer is prepared by combining 1,820 ml of nuclease-free water, 
+20 ml of 1 M Tris–HCl (pH 8.0), 40 ml of 0.5 M EDTA, 20 ml of 10% (vol/
+vol) Tween-20, and 100 ml of 2 M KCl. Filter the buffer through a 0.2-µm 
+membrane. This solution is stable for at least 6 months at room temperature.
+Denaturation solution is prepared by combining 242 ml of nuclease-free 
+water, 3.75 ml of 10 M NaOH, and 4.2 ml of 30% (wt/wt) Brij-35. 
+Filter the solution through a 0.2-µm membrane (e.g., using Complete 
+Filtration Units).  CRITICAL The solution must be freshly prepared just 
+before use, starting from solid NaOH or a 10 M NaOH stock. ! CAUTION 
+NaOH is highly corrosive; wear appropriate personal protective equipment 
+when handling this reagent.
+Neutralization buffer is prepared by combining 385 ml of nuclease-free 
+water, 50 ml of 1 M Tris–HCl (pH 8.0), 10 ml of 0.5 M EDTA, 5 ml of 
+10% (vol/vol) Tween-20, and 50 ml of 1 M NaCl. Filter the buffer 
+through a 0.2-µm membrane. This solution is stable for at least 6 months 
+at room temperature.
+Hybridization buffer is prepared by combining 407 ml of nuclease-free 
+water, 5 ml of 1 M Tris–HCl (pH 8.0), 100 µl of 0.5 M EDTA, 5 ml of 10% 
+(vol/vol) Tween-20, and 82.5 ml of 2 M KCl. Filter the buffer through a 0.2-µm 
+membrane. This solution is stable for at least 6 months at room temperature.
+QC buffer is prepared by combining 24 ml of nuclease-free water, 
+250 µl of 1 M Tris–HCl (pH 8.0), 500 µl of 0.5 M EDTA, 250 µl of 10% 
+(vol/vol) Tween-20, and 25 ml of 2 M KCl. This solution is stable for 
+at least 6 months at room temperature.
+BA19 oligo is 5′-BAAAAAAAAAAAAAAAAAAA-3′ (standard desalting); 
+prepare a 1 mM solution in nuclease-free water. This solution is stable 
+for at least 1 year at −20 °C.
+
+
+--- Page 8 ---
+© 2016 Macmillan Publishers Limited, part of Springer Nature. All rights reserved.
+protocol
+nature protocols | VOL.12 NO.1 | 2017 | 51
+FAM-PE1 probe is 5′-/6-FAM/AGATCGGAAGAGCGTCGTGTAGG
+GAAAGAG-3′ (standard desalting); prepare a 100 µM solution in DNA 
+elution buffer. This solution is stable for at least 1 year at −20 °C.
+FAM-W1 probe is 5′-/6-FAM/AAGGCGTCACAAGCAATCACTC-3′ 
+(standard desalting); prepare a 100 µM solution in DNA elution buffer. 
+This solution is stable for at least 1 year at −20 °C.
+FAM-BA19 probe is 5′-/6-FAM/BAAAAAAAAAAAAAAAAAAA-3′ 
+(standard desalting); prepare a 100 µM solution in DNA elution buffer. 
+This solution is stable for at least 1 year at −20 °C.
+Barcode plates (eight 96-well plates) should be ordered with the DNA 
+oligonucleotide sequences listed in Supplementary Tables 3 and 4. 
+We typically use a 10-nmole-scale normalization and standard desalting, 
+and order oligonucleotides dissolved to a final concentration of 50 µM 
+in TE buffer (10 mM Tris–HCl, pH 8.0, 0.1 mM EDTA) from IDT. 
+The two sets of 4 × 96-well plates are referred to as ‘Barcode 1 plates’ and 
+‘Barcode 2 plates’ in PROCEDURE.
+Barcoding transcriptomes of single cells and library preparation 
+1×PBS with 30% (vol/vol) OptiPrep is prepared by combining 6 ml of 
+nuclease-free water, 3 ml of OptiPrep, and 1 ml of 10× PBS. Store the 
+solution at 4 °C for up to a month.
+Cell mix is prepared by combining (on ice) 150 µl of 1× PBS and 300 µl 
+of 1× PBS with 30% (vol/vol) OptiPrep, and then vortexing the mixture well. 
+Add 150 µl of a 320,000 cell/ml single-cell suspension, and gently mix by 
+pipetting up and down. Prepare immediately before use at Step 109, and keep 
+the solution on ice.  CRITICAL Cell preparation is cell-type-dependent and 
+is not covered in detail in this protocol. It should be optimized by the reader 
+to guarantee high cell viability (>90%). For example, certain cell types should 
+not be cooled on ice before encapsulation into droplets.
+1.3× RT premix is prepared by combining 2.2 ml of nuclease-free water, 
+1.13 ml of 5× First Strand Buffer, 680 µl of 1 M Tris–HCl (pH 8.0), 680 µl 
+of 10 mM dNTP mix, and 356 µl of 10% (vol/vol) Igepal CA-630. Make 
+20 aliquots of 240 µl and store them at −20 °C for up to 6 months.
+2× Bead concentration mix is prepared by combining 6.1 ml of nuclease-
+free water, 4.2 ml of 5× First Strand Buffer, and 210 µl of 10% (vol/vol) Igepal 
+CA-630. Make 20 aliquots of 500 µl and store them at −20 °C for up to 1 year.
+Blocking buffer is prepared by combining 9.3 ml of nuclease-free water, 
+105 µl of 1 M Tris–HCl (pH 8.0), 2.1 µl of 0.5 M EDTA, 525 µl of 10% 
+(vol/vol) Tween 20, and 525 µl of 2% (wt/vol) BSA. Prepare 0.5-ml aliquots 
+and store them at −20 °C for up to 1 year. Upon thawing, use the aliquot 
+within a day, and then discard it.
+PE2-N6 primer is 5′-TCGGCATTCCTGCTGAACCGCTCTTCCGATC
+TNNNNNN-3′ (standard desalting, hand-mixed); prepare a 100 µM solution 
+in DNA elution buffer. This solution is stable for at least 1 year at −20 °C.
+PE1/PE2 primer mix is prepared by combining equal volumes of 
+10 µM PE1 primer and 10 µM PE2 primer in DNA elution buffer.
+PE1 primer: 5′-CAAGCAGAAGACGGCATACGAGATXXXXXXCTCTTT
+CCCTACACGA-3 (purification: standard desalting), where XXXXXX is an index 
+sequence for multiplexing libraries. See Supplementary Table 2 for a list of 24 PE2 
+primer variants. Typically, from one (i.e., no multiplexing) to six indexes are used.
+PE2 primer: 5′-AATGATACGGCGACCACCGAGATCTACACGGTCTCGGCA
+TTCCTGCTGAAC-3 (purification: standard desalting).
+Sequencing 
+Custom read 1 primer is 5′-GGCATTCCTGCTGAACCGCTCTT
+CCGATCT-3′ (HPLC); prepare a 100 µM solution in DNA elution buffer 
+or nuclease-free water. This solution is stable for at least 1 year at −20 °C.
+Custom index read primer is 5′-AGATCGGAAGAGCGTCGTGTAG­
+GGAAAGAG-3′ (HPLC); prepare a 100 µM solution in DNA elution buffer 
+or nuclease-free water. This solution is stable for at least 1 year at −20 °C.
+Custom read 2 primer is 5′-CTCTTTCCCTACACGACGCTCTT
+CCGATCT-3′ (HPLC); prepare a 100 µM solution in DNA elution buffer 
+or nuclease-free water. This solution is stable for at least 1 year at −20 °C.
+EQUIPMENT SETUP
+Microfluidics platform  The setup of the droplet microfluidics platform has 
+been reported previously57, except that in this work four syringe pumps are 
+needed to deliver (i) cells, (ii) lysis and RT reagents, (iii) BHBs, and (iv) carrier 
+oil. Figure 4 depicts the inDrops platform, in which the major components are 
+an inverted bright-field microscope (i), syringe pumps (ii–v), a digital camera 
+(vi), and a computer (vii). Loaded syringes are connected to the microfluidic 
+device (viii) via tubing attached to the needle and are placed close to the micro­
+scope to reduce the length of tubing. It is useful to place the cell infusion pump 
+(iii) above the microscope stage (e.g., using monitor arm) to further shorten 
+the distance that cells travel from the syringe to the chip. This is particularly 
+important when working with large and fragile cells. Furthermore, cells in the 
+syringe are gently agitated with a micro-flea to prevent sedimentation and 
+clumping. Syringe pumps for BHBs (ii) and RT–lysis mix (vi) should be placed 
+vertically because syringes containing these reagents are prefilled with HFE-
+7500 oil, which we use to overcome the dead volume of the syringe and tubing. 
+Depending on the type of syringe pump, the infusion rate can be controlled 
+manually or by using pump-control software. We typically encapsulate cells into 
+3–4 nl droplets at a throughput of 5.5 cells per s and record the encapsulation 
+process with a digital camera (vi) using a 10× objective (NA 0.3, WP 16 mm) 
+and 100-µs exposure time. We recommend that the minimal camera require­
+ments be 100 fps at 1.3-MP resolution, with a sensor sensitive enough to give 
+bright images with a <1,000 µs exposure time. For fast cell encapsulation (>100 
+cells per s), a high-speed camera (e.g., CMOS-based Phantom V7, Fastec IL-3) 
+is a preferable option. It is noteworthy that most of the bright-field microscopes 
+are equipped with powerful Xe or Hg lamps that emit a fraction of light at near 
+UV and can damage the photocleavable linkage used to bridge barcoded DNA 
+primers to HBs. Therefore, to prevent premature primer photocleavage, the 
+incoming light from the microscope lamp must be filtered with a red band-pass 
+filter (x). In addition, the tubing used to deliver HBs (ix) should be inserted into 
+a black tube (e.g., Saint-Gobain, i.d. 1.6 mm, cat. no. AFL00003), or alternatively 
+wrapped in aluminum foil to protect photosensitive primers from ambient light 
+(Supplementary Video 2). The encapsulated cells are collected into a 1.5-ml 
+tube prefilled with 300 µl of mineral oil (to prevent evaporation) and placed 
+in an ice rack (xi). After encapsulation, the tube will contain three phases (xiii): 
+mineral oil (top), encapsulated cells (middle), and carrier oil (bottom).
+Cell mixer  To ensure that cells remain in suspension, place a micro-stirring bar 
+(2 × 2 mm) inside the cell syringe, and agitate it using a neodymium magnet 
+attached to a 6 V gear motor (xii, Fig. 4). The mixing can be controlled by con­
+necting it to an adjustable power source or a 6 V battery with a potentiometer. 
+Cells can be also encapsulated without using a cell mixer, but the cell occupancy 
+may change over time, depending on the cell type.
+Syringe cooling system  During the experiment, syringes carrying cells and 
+RT–lysis mix must be cooled. We use ice-cold water jackets, or ice-cold water 
+circulating through a copper coil wrapped around the syringes (Supplemen­
+tary Fig. 1). Using pliers, form a copper coil that tightly fits a 1-ml syringe. 
+Ice-cold water is delivered via flexible tubing (e.g., Tygon S3 Laboratory 
+Tubing) and fittings as required, and circulated using a circulator pump (e.g., 
+Cold Rush Cold Therapy system; Ossur, cat. no. B-232000010).
+i
+ii
+iii
+iv
+vi
+vii
+viii
+ix
+xi
+xii
+x
+xiii
+Mineral oil
+Emulsion
+Carrier oil
+v
+Figure 4 | The inDrops platform. (i) Inverted bright-field microscope; 
+(ii–v) syringe pumps; (vi) fast speed camera; (vii) computer; 
+(viii) microfluidic chip; (ix) barcoding hydrogel bead containing tubing, 
+protected from ambient light by insertion into a second, opaque tubing, 
+or alternatively, wrapped in aluminum foil; (x) red band-pass filter 
+(≥600 nm); (xi) ice-cold rack containing the collection tube; (xii) cell mixer; 
+(xiii) photograph of the collection tube showing three distinct phases.
+
+
+--- Page 9 ---
+© 2016 Macmillan Publishers Limited, part of Springer Nature. All rights reserved.
+protocol
+52 | VOL.12 NO.1 | 2017 | nature protocols
+PROCEDURE
+Microfluidic device fabrication ● TIMING 2–3 d
+1|	 Follow the protocol reported previously57 to manufacture the PDMS-based microfluidic devices whose design is indicated 
+in Figure 5. Channels of the hydrogel bead generation device (Fig. 5a) and the cell encapsulation device (Fig. 5b) should be 
+50 and 80 µm deep, respectively. CAD files for the microfluidic devices are provided as Supplementary Data 1. Ready-to-use 
+microfluidic devices can be also obtained commercially (from 1CellBio, http://1cell-bio.com, or Droplet Genomics, 
+http://dropletgenomics.com).
+Barcode synthesis: hydrogel bead production ● TIMING 14 h
+2|	 Prepare 2.5 ml of carrier oil–TEMED mix by combining 2.5 ml of carrier oil and 10 µl of TEMED. Vortex the 
+mixture well.
+3|	 Transfer the carrier oil–TEMED mix to a 3-ml syringe. To transfer, load the oil–TEMED mix into a p1000 pipette tip, 
+insert the tip firmly into the Luer tip of the syringe, and suck the liquid into the syringe by withdrawing the plunger 
+(see Supplementary Video 3 for Steps 3–5).
+4|	 Attach a 25-gauge needle and connect a piece of tubing (~40 cm (~16 inches)) using tweezers.
+5|	 Hand-prime the syringe: hold the syringe upright, and then slowly push the plunger until the liquid fills half of 
+the tubing. Then mount the syringe on a syringe pump.
+6|	 Pump-prime the syringe: run the syringe pump at 2,000–5,000 µl/h until the liquid reaches the end of the tubing.
+7|	 Prepare 1 ml of acrylamide–primer mix by combining the following reagents. Mix the solution by vortexing and 
+centrifuge at 1,000g for 5 s at room temperature.
+Component
+Amount (ml)
+Final
+Nuclease-free water
+420
+1× TBSET buffer
+100
+0.1×
+4× AB solution
+250
+1×
+Acrydite-modified DNA primer (250 µM)
+200
+50 µM
+10% (wt/vol) APS
+30
+0.3% (wt/vol)
+Total
+1,000
+AB, acrylamide/bis-acrylamide.
+ CRITICAL STEP Acrydite-modified DNA primers are light-sensitive, as they contain a photocleavable 
+(1-(2-nitrophenyl)-ethyl-based) moiety. At all times protect the DNA primers from exposure to UV light (<400 nm). 
+Noticeable primer deactivation may occur at prolonged (≥20 min) exposure to ambient white light illumination. 
+Therefore, perform Steps 7–79 in dim illumination and away 
+from UV light sources.
+8|	 Transfer the acrylamide–primer mix to a 3-ml 
+syringe prefilled with 300 µl of HFE-7500 oil 
+(Supplementary Video 3).
+v
+ii
+iii
+iv
+iii
+ii
+i
+i
+a
+b
+1 mm
+Figure 5 | Design of the microfluidic devices. (a) Design of the hydrogel 
+bead generation device. The numbers indicate the carrier oil inlet (i), 
+the acrylamide–primer mix inlet (ii), and the outlet for droplet collection 
+(iii). The depth of microfluidic channels is 50 µm. (b) Design of the cell 
+encapsulation device. The numbers indicate the carrier oil inlet (i), 
+the collection outlet (ii), the inlet for RT–lysis mix (iii), the cell inlet (iv), 
+and the inlet for barcoding hydrogel beads (v). The depth of the microfluidic 
+channels is 80 µm.
+
+
+--- Page 10 ---
+© 2016 Macmillan Publishers Limited, part of Springer Nature. All rights reserved.
+protocol
+nature protocols | VOL.12 NO.1 | 2017 | 53
+9|	 Connect a piece of tubing (~40 cm (~16 inches)), and prime the syringe as described in Steps 4–6. Cover the syringe 
+and tubing with foil.
+ CRITICAL STEP Syringes prefilled with HFE-7500 oil should be placed into vertical pumps (Fig. 4) with the needle 
+pointing upward. This will prevent the HFE-7500 oil from entering the tubing before the entire acrylamide–primer mix is 
+pushed out of the syringe.
+10| Connect a piece of tubing (~15 cm (~6 inches)) to the outlet (Fig. 5a, port no. ii), and insert the tubing into a 2-ml 
+collection tube prefilled with 300 µl of mineral oil. Cover the collection tubing and 2-ml tube with aluminum foil.
+11| Connect the syringes (via tubing) to corresponding inlets of the hydrogel bead generation device (Fig. 5a) 
+and place it on the stage of a microscope equipped with a red band-pass filter (≤650 nm cutoff). Use flow rates of 
+900 µl/h and 1,800 µl/h for the acrylamide–primer mix and carrier oil, respectively. When using this 50-µm-deep 
+microfluidic chip (Fig. 2a), hydrogel droplets of 125 pl (62 µm diameter) should be generated at ~2,000 droplets per s 
+(Supplementary Video 4).
+ CRITICAL STEP Microscope light should be filtered through a red band-pass filter to minimize damage to 
+photocleavable primers.
+12| Once flow rates in the system are stabilized (~3–5 min), record the droplet size (Box 1) and, if necessary, adjust it 
+by changing the flow rate of the carrier oil. Droplet diameter should be in the 58- to 63-µm range, ideally 60 µm.
+? TROUBLESHOOTING
+13| After 30 min of operation, replace the collection tube to prevent it from overflowing.
+14| Once hydrogel bead generation is complete, transfer both tubes to 65 °C and incubate overnight protected from light. 
+During this step, the aqueous acrylamide droplets will polymerize into HBs.
+ PAUSE POINT If you are not proceeding to Step 16 immediately, HBs can be stored at 4 °C protected from light for 
+at least 1 week.
+15| Repeat Steps 2–14 to produce a desired amount of HBs. For example, the barcode synthesis protocol (Steps 16–79) 
+is described for a 5-ml batch.
+Barcode synthesis: cleanup ● TIMING 2 h
+16| Remove the top (mineral oil) and bottom (carrier oil) phases from the 2-ml collection tubes, leaving ~500 µl 
+of polymerized HBs per tube. Add 500 µl of Tris-buffered saline–EDTA–Triton (TBSET) buffer on top of the creamy-
+looking emulsion.
+17| To release polymerized HBs from the emulsion, add 1 ml of 20% (vol/vol) PFO per tube, vortex well, and centrifuge 
+at 5,000g at room temperature for 30 s. HBs should appear as a milky (or semitransparent) phase.
+Box 1 | Estimating droplet volume and diameter
+To calculate droplet volume and diameter, record a short (1–2 s) video at the outlet, and then play it back at a slower frame rate and 
+count 10–20 droplets. Droplet volume in picoliters (pl) is given by V
+Ft
+c N
+=
+1
+, where F is the sum flow rate (microliters per hour) of all 
+aqueous phases (e.g., hydrogel beads, cell mix, and RT–lysis mix), t is the time (s) to count N droplets, and c1 is a factor to correct for 
+unit differences c
+l
+pl h
+1
+3 6
+=
+⋅
+⋅
+
+
+
+
+. sec m
+.
+  Before performing an actual experiment, we recommend a test run of the microfluidic device to determine optimal imaging 
+conditions (such as frame rate and exposure) for the specific camera used. If no camera fast enough for counting droplets as they are 
+being formed is available, droplet size can be determined from still images of droplets at the outlet of the microfluidic device using 
+the equation V
+D
+D
+h
+D
+h
+=
+−
+−
++
+p
+12 2
+2
+3
+2
+[
+(
+) (
+)], where h is the height of the channel and D is droplet diameter (µm). Alternatively, 
+a hemocytometer can be used to trap and measure the droplet volume using the expression V
+R
+= 4
+3
+3
+p
+, yet care must be taken to 
+ensure that all dimensions of the imaging chamber are larger than 2R, where R is the droplet radius.
+
+
+--- Page 11 ---
+© 2016 Macmillan Publishers Limited, part of Springer Nature. All rights reserved.
+protocol
+54 | VOL.12 NO.1 | 2017 | nature protocols
+18| Remove the bottom 20% (vol/vol) of the PFO phase and repeat Step 17 until the milky phase is transformed into 
+a solid, well-packed, translucent mass on top of the 20% (vol/vol) PFO phase.
+19| Remove the bottom 20% (vol/vol) of the PFO phase and add 1 ml of 1% (vol/vol) Span-80 in hexane per tube. 
+Mix vigorously by vortexing and centrifuge at 5,000g at room temperature for 30 s. This time, the HBs will appear 
+as a solid mass at the bottom of the tube. Remove the top hexane layer.
+20| Repeat the previous step.
+21| Add 1 ml of TBSET buffer to each 2-ml tube and resuspend HBs by vortexing. Combine HBs from all tubes and split 
+equally into two 15-ml tubes.
+22| Fill the 15-ml tubes with TBSET buffer, vortex the tubes, and centrifuge them at 3,000g at room temperature for 3 min. 
+The HBs will sediment, whereas traces of hexane from Step 20 will appear as a milky layer on the top. Carefully aspirate the 
+supernatant, keeping the tip of the serological pipette at the liquid–air interface.
+ CRITICAL STEP If the HBs do not sediment, extend the centrifugation time.
+? TROUBLESHOOTING
+23| Repeat Step 22 three times until the top milky layer disappears.
+ PAUSE POINT After the third wash, the HBs can be kept at 4 °C, protected from light, for several months.
+24| Measure the hydrogel bead diameter using the hemocytometer-based approach described in Box 1. The bead diameter 
+should be ~70 µm, as they swell in TBSET buffer.
+? TROUBLESHOOTING
+25| Pass the HBs through a 70-µm cell strainer attached to the top of a 50-ml tube. Use ice-cold TBSET buffer to facilitate 
+the passage of the beads through the mesh.
+ CRITICAL STEP The use of a strainer allows the removal of dust particles and occasional large HBs (>75 µm), both of which 
+interfere with proper microfluidic operation at Steps 118–120.
+? TROUBLESHOOTING
+26| Centrifuge the pass-through HBs at 3,000g at room temperature for 10 min. Remove the supernatant, leaving a final 
+volume of ~20 ml.
+ CRITICAL STEP If the HBs do not sediment, extend centrifugation time and/or speed.
+27| Distribute the HBs evenly into four 15-ml tubes (~5 ml per tube). Collect the HBs remaining in the 50-ml tube 
+by washing the inner walls with ~1 ml of TBSET buffer.
+ CRITICAL STEP HBs sediment faster in 15-ml tubes as compared with 50-ml tubes and allow shorter centrifugation times 
+in the subsequent steps of barcode synthesis.
+ PAUSE POINT The HBs can be stored at 4 °C for up to 6 months protected from light.
+Barcode synthesis: first split-and-pool round ● TIMING 5 h
+28| Wash the HBs contained in 15-ml tubes with hydrogel bead wash (HBW) buffer three times. To wash, fill the tubes 
+with HBW buffer, resuspend the HBs by vortexing, centrifuge at 1,000g at room temperature for 3 min, and carefully remove 
+the supernatant. The HBs will swell to ~2 ml per tube.
+ CRITICAL STEP If no swelling is observed, perform additional washes.
+29| Combine all HBs into a single 15-ml tube (~8–10 ml). Rinse the empty tubes with ~1 ml of HBW buffer to collect 
+the HBs adhered to the inner walls.
+30| Centrifuge the tube for 1 min at 1,000g at room temperature and remove the supernatant, leaving a final volume 
+of 12 ml.
+31| Add 2.9 ml of 10× Isothermal Amplification Buffer and vortex well. Increased ionic strength will cause the 
+HBs to shrink. Centrifuge the tube 1 min at 1,000g at room temperature and remove the supernatant, leaving a final 
+volume of 9.4 ml.
+
+
+--- Page 12 ---
+© 2016 Macmillan Publishers Limited, part of Springer Nature. All rights reserved.
+protocol
+nature protocols | VOL.12 NO.1 | 2017 | 55
+32| Prepare the hydrogel bead mix by combining the following reagents:
+Component
+Amount (ml)
+Final
+Nuclease-free water
+2.3
+Hydrogel bead suspension from Step 31
+9.4
+dNTP (10 mM each)
+0.812
+650 µM each
+Total
+12.5
+33| Transfer the hydrogel bead mix from Step 32 to a 25-ml reagent reservoir.
+34| Using a multichannel pipette, load a round-bottom 96-well plate with 125 µl of hydrogel bead mix per well. The remains 
+of the hydrogel bead mix can be saved for another run by mixing with 5 volumes of Tris–EDTA–Tween (TET) buffer; 
+the solution can be stored up to several months at 4 °C protected from light.
+35| Place the round-bottom plate with the hydrogel bead mix into a liquid handler.
+36| Thaw the four 96-well Barcode 1 plates at room temperature (see Reagent Setup and Supplementary Tables 3 and 4), 
+and centrifuge for 1 min at 1,000g at room temperature to collect the condensate.
+37| Put the plates into a PCR machine set at 70 °C (lid 105 °C) for 40 s (primer-dimer denaturation and heat-induced 
+convection), and then at 4 °C for 20 s. Rapidly peel off the seal. Discard the seal immediately.
+ CRITICAL STEP Take great care to avoid cross-contamination between wells.
+38| Place the four Barcode 1 plates and four 96-well PCR plates (Reaction plates) into the liquid handler.
+39| Using the liquid handler, mix the HBs with the barcoded DNA oligonucleotides. Resuspend the HBs contained in the 
+round-bottom 96-well plate (Step 34) by pipetting up and down a few times, and then dispense 30 µl of hydrogel bead mix 
+into every well of each reaction plate. Transfer 13.5 µl of DNA oligonucleotides from each well of the Barcode 1 plate into 
+the four reaction plates. Mix by pipetting up and down.
+  Detailed method files for use with a Hamilton Microlab STAR-let liquid handler and Hamilton Method Editor v4.4.7740 
+software are provided as Supplementary Data 2.
+40| Seal the reaction plates and transfer them to a four-block PCR machine for incubation at 85 °C for 2 min, 60 °C for 
+120 min, and 4 °C indefinitely. Keep the lid temperature at 100 °C.
+41| While the reaction is incubating at 60 °C, proceed to Steps 42–44.
+42| Carefully seal the four Barcode 1 plates with adhesive seal, and mark the remaining volume. Place the plates in a plastic 
+bag to avoid frost accumulation and store them at −20 °C for up to 3 years.
+43| While the reaction plates are incubating at 60 °C, prepare the following isothermal reaction mix. Gently mix by 
+inverting the tube 15 times. Keep on ice.
+Component
+Amount (ml)
+Final
+Nuclease-free water
+6.85
+10× isothermal amplification buffer
+0.8
+1×
+Bst 2.0 DNA polymerase (8,000 U/ml)
+0.35
+350 U/ml
+Total
+8
+44| Transfer the isothermal reaction mix to a 25-ml reagent reservoir and split into a round-bottom 96-well plate, 
+80 µl per well. Keep the plate on ice.
+
+
+--- Page 13 ---
+© 2016 Macmillan Publishers Limited, part of Springer Nature. All rights reserved.
+protocol
+56 | VOL.12 NO.1 | 2017 | nature protocols
+45| After 20 min of incubation at 60 °C, pause the PCR machine program, take the reaction plates out of the PCR machine, 
+and remove the seals (as described in Step 37).
+46| Using the liquid handler, transfer 15 µl of the isothermal reaction mix to each well of the four reaction plates, and mix. 
+Discard the tips after each transfer.
+47| Seal the reaction plates with fresh tape and return them to the PCR machine. Continue the isothermal reaction at 60 °C 
+for 60 min. Longer incubations have no harmful effect. During this step the barcoded DNA primers in each well will be 
+incorporated into the hydrogel matrix via a primer extension reaction catalyzed by Bst 2.0 DNA polymerase.
+48| Cool the reaction plates on ice for 1 min, remove the adhesive seals, and transfer the plates to the liquid handler.
+49| Place two reservoirs in the liquid handler: a 300-ml reservoir filled with 150 ml of STOP-25 buffer (source reservoir) 
+and a 300-ml reservoir filled with 50 ml of STOP-25 buffer (collection reservoir).
+50| Using the liquid handler, stop the primer extension reactions in each of the four reaction plates. Using 200- to 300-µl 
+tips, transfer 40 µl per well of STOP-25 buffer from the source reservoir to each of the four reaction plates, and combine the 
+mix from all reaction plates in the collection reservoir. Rinse the empty wells with 100 µl of STOP-25 buffer, and transfer to 
+the collection reservoir. There is no need to change tips during this step.
+51| Using a serological 50-ml pipette, transfer the contents of the collection reservoir to three 50-ml tubes covered in foil. 
+Rinse the collection reservoir with 10 ml of STOP-25 buffer and transfer to one of the 50-ml tubes.
+52| Adjust the volume of all tubes to 50 ml with STOP-25 buffer, and leave the tubes rotating (5–50 r.p.m.) at room 
+temperature for >30 min. The tubes can also be incubated at room temperature without rotation.
+ PAUSE POINT The HBs can be stored at 4 °C overnight.
+Barcode synthesis: postbarcoding washes ● TIMING 4 h
+53| Centrifuge the 50-ml tubes containing the HBs at 300g at room temperature for 15 min.
+54| Using a serological pipette, remove the supernatant, leaving a total volume of ~5–10 ml per tube. When using 50-ml 
+tubes, we always observe some HBs in the supernatant. Do not discard the supernatant at this step: transfer it to fresh 
+50-ml tubes, and collect the HBs by repeating centrifugation at 300g at room temperature for 15 min.
+ CRITICAL STEP Do not use excessive centrifugation force, as the HBs may clump.
+55| Combine the HBs from all 50-ml tubes into one, mix by pipetting up and down, and split equally into four 15-ml tubes. 
+Rinse the 50-ml tubes with 5 ml of STOP-10 buffer to collect the beads that are adhered to inner walls.
+56| Wash the HBs three times in STOP-10 buffer. To wash, fill 15-ml tubes with STOP-10 buffer, rotate them for 15 min 
+at room temperature, centrifuge for 3 min at 300g at room temperature, and remove the supernatant. Make sure to 
+leave <3 ml total volume per tube after the last wash.
+ PAUSE POINT The HBs can be stored at 4 °C for up to 6 months.
+57| Prepare 250 ml of fresh Denaturation solution (Reagent Setup).
+58| Fill the four hydrogel-bead-containing 15-ml tubes with denaturation solution, rotate them for 10 min at room 
+temperature, centrifuge for 3 min at 300g at room temperature, and discard the supernatant.
+59| Wash the HBs three times in denaturation solution. To wash, fill 15-ml tubes with denaturation solution, invert and flick 
+the tubes to resuspend all beads, incubate for 1 min at room temperature, centrifuge for 3 min at 300g at room temperature, 
+and remove the supernatant.
+60| Repeat the previous step for two washes using neutralization buffer.
+ PAUSE POINT If stopping here, wash the HBs three times in TET buffer with 3-min centrifugation at 1,000g at room 
+temperature, and store them protected from light at 4 °C for up to 6 months. If the beads are to be used on the same day in the 
+second split-and-pool round of barcode synthesis, skip the washes in TET and proceed directly to the washes in HBW (Step 61).
+
+
+--- Page 14 ---
+© 2016 Macmillan Publishers Limited, part of Springer Nature. All rights reserved.
+protocol
+nature protocols | VOL.12 NO.1 | 2017 | 57
+Barcode synthesis: second split-and-pool round ● TIMING 1 d
+61| Wash the HBs three times in HBW buffer with 3-min centrifugations at 1,000g at room temperature, as described in Step 28.
+62| Combine all HBs in a single 15-ml tube. Rinse the empty tubes with HBW buffer to collect the HBs adhered to the walls. 
+At this step (postdenaturation at Steps 58–59), the HBs will swell up to 12 ml.
+63| Repeat Steps 30–60 using the Barcode 2 plates.
+Barcode synthesis: enzymatic cleanup ● TIMING 1 d
+64| Perform HBs washes in HBW buffer four times, as described in Step 28.
+65| Transfer 30 µl of packed HBs to a 1.5-ml tube filled with 270 µl of TET buffer. Label the tube ‘HBs before cleanup’ and 
+store them at 4 °C protected from light until QC (Step 80).
+66| To each of the four 15-ml tubes (containing ~2-5 mL of HBs), add the following components in listed order, and then 
+rotate them at 37 °C for 2 h.
+Component
+Amount (ml)
+Final
+10× FastDigest buffer
+1.5
+1×
+Nuclease-free water
+Up to 14.7
+FastDigest HinfI
+0.3
+Total
+15
+67| Spin the tubes down at 300g at room temperature for 3 min, and remove the supernatant.
+68| Wash the tubes with hybridization buffer three times. To wash, fill the tubes with hybridization buffer, resuspend the 
+HBs by vortexing, centrifuge at 1,000g at room temperature for 3 min, and carefully remove the supernatant.
+69| Combine the content of all 15-ml tubes into one 50-ml tube.
+70| Fill the 50-ml tube with hybridization buffer, invert a few times, and centrifuge at 300g at room temperature for 10 min. 
+Remove the supernatant, leaving a final volume of 22.5 ml.
+71| Add 500 µl of 1 mM BA19 oligo. Mix well to resuspend the HBs.
+72| Rotate the 50-ml tube at room temperature, protected from light, for 30 min.
+73| Transfer half (11.5 ml) of the hydrogel bead/BA19 oligo mix to a second 50-ml tube. Pipette slowly to minimize sticking 
+of the hydrogel beads to the serological pipette.
+74| To remove primers missing poly-T tails, add the following reagents to each of the two 50-ml tubes:
+Component
+Amount (ml)
+Final
+Hydrogel bead/BA19 oligo mix from Step 73
+11.5
+10× ExoI buffer
+3.3
+1×
+Nuclease-free water
+18
+ExoI (20 U/µl)
+0.44
+0.27 U/µl
+Total
+33
+Rotate the tubes for 2 h at room temperature, protected from light.
+75| Stop the ExoI treatment by filling each 50-ml tube with STOP-25 buffer and inverting a few times.
+
+
+--- Page 15 ---
+© 2016 Macmillan Publishers Limited, part of Springer Nature. All rights reserved.
+protocol
+58 | VOL.12 NO.1 | 2017 | nature protocols
+76| Perform washes in STOP-10 buffer, followed by BA19 
+oligo removal by alkaline denaturation, as described in 
+Steps 53–60.
+77| After neutralization of sodium hydroxide (Step 60), 
+filter the HBs through a 85-µm strainer placed on top of 
+a 50-ml tube, as described in Step 25.
+78| Centrifuge the 50-ml tube at 1,000g at room 
+temperature for 5 min, remove the supernatant, and 
+distribute the HBs into two 15-ml tubes.
+79| Wash the HBs three times with TET buffer, as described 
+in Step 28. Prepare aliquots of the concentrated hydrogel 
+bead suspension in 1.5-ml nuclease-free tubes.
+ PAUSE POINT At this step, combinatorial barcode synthesis 
+is complete, and the HBs are referred to as BHBs. BHBs can 
+be stored at 4 °C, protected from light, for up to 6 months. 
+Before first use, perform the QC checks described below.
+Barcode synthesis: QC by capillary electrophoresis ● 
+TIMING 30 min
+80| In two PCR tubes, prepare two samples for comparison—
+‘Before ExoI’: 8 µl of water + 2 µl of close-packed HBs before 
+cleanup (from Step 65), and ‘After ExoI’: 8 µl of water + 2 µl 
+of close-packed BHBs after cleanup (from Step 79). The HBs 
+can be close-packed by letting them sediment by gravity or 
+by centrifugation for 3 min at 1,000g at room temperature.
+81| Release photocleavable barcoding primers from HBs by 
+UV treatment for 7 min (Supplementary Video 5).
+82| Remove HBs using 0.45-µm filter columns, and centrifu­
+gation for 5 min at 16,000g at room temperature.
+83| Incubate the flow-through at 90 °C for 5 min, and then 
+place on ice.
+84| Run a BioAnalyzer HS DNA assay on 1 µl of each flow-
+through. See ANTICIPATED RESULTS for examples of electroph­
+erograms.
+Barcode synthesis: QC using fluorescent probes ● TIMING 
+1.5 h
+85| In two 1.5-ml tubes, prepare two samples for compari­
+son—‘Before ExoI’: 1.4 ml of QC buffer + 10 µl of close-
+packed HBs before cleanup (from Step 65), and ‘After ExoI’: 1.4 ml of QC buffer + 10 µl of close-packed HBs after cleanup 
+(from Step 79).
+86| Vortex the mixture, centrifuge for 1 min at 1,000g at room temperature, and remove most of the supernatant. 
+Perform Steps 87–92 with each sample in parallel.
+87| Adjust the volume of QC buffer to a final of 120 µl.
+88| Resuspend the HBs by pipetting up and down, and distribute the suspension into three 1.5-ml tubes, at a volume 
+of 36 µl per tube, and label them ‘PE1’, ‘W1’, and ’BA19’ (Fig. 6).
+35
+200
+10,380
+Size (bp)
+0
+200
+400
+600
+800
+DNA amount (RFU)
+35
+200
+10,380
+Size (bp)
+0
+200
+400
+600
+800
+DNA amount (RFU)
+b
+a
+Hydrogel
+bead
+Photocleavable
+spacer
+T7 RNA pol
+promoter
+PE1
+3′-GAGAAAGGGATGTGCTGCGAGAAGGCTAGA
+FAM
+FAM-PE1
+probe
+W1
+3′-CTCACTAACGAACACTGCGGAA
+FAM
+FAM-W1
+probe
+T19V
+3′-AAAAAAAAAAAAAAAAAAAB
+FAM
+FAM-BA19
+probe
+UMI
+c
+A
+C
+C
+A
+T
+G
+G
+C
+T
+C
+TTTCCCTACACGACGCTCTTCCGATCT[BARCODE1]GAGTGATTGCTTGTGACGCCTT[BARCODE2]NNNNNNTTTTTTTTTTTTTTTTTTTV-3′
+C
+C
+A
+T
+A
+G
+G
+G
+A
+T
+ATCACTCAGCATAATGCAGTAGC
+ 
+After exoI
+ 
+Before exoI
+d
+e
+f
+h
+i
+g
+Figure 6 | Quality control of barcoded hydrogel bead synthesis. 
+(a,b) BioAnalyzer electropherograms of barcoding cDNA primers 
+photoreleased from hydrogel beads before (a) and after (b) ExoI treatment 
+(Step 84). The highest-molecular-weight peak (that typically appears 
+at 170–190 bp) represents the full-length barcoding primer (actual size 
+134–136 nt), and lower-molecular-weight peaks are synthesis intermediates 
+that are hydrolyzed by ExoI. Peaks at 35 and 10,380 bp are gel migration 
+markers. Note that the BioAnalyzer HS DNA assay is optimized for double-
+stranded DNA, and thus the ladder cannot be used for estimating primer 
+length. (c) Sequence of fully assembled barcoding primer. (d–i) Fluorescent 
+confocal imaging of barcoding hydrogel beads after hybridization of probes 
+targeting PE1 (d,g), W1 (e,h), and T19V (f,i) sequences. Fluorescent 
+in situ hybridization results before (d–f) and after (g–i) ExoI treatment 
+are compared. Scale bars, 100 µm. RFU, relative fluorescence units.
+
+
+--- Page 16 ---
+© 2016 Macmillan Publishers Limited, part of Springer Nature. All rights reserved.
+protocol
+nature protocols | VOL.12 NO.1 | 2017 | 59
+89| Add 4 µl of the 100 µM FAM-PE1, FAM-W1, and FAM-
+BA19 probes to the ‘PE1’, ‘W1’, and ’BA19’ tubes, respectively. 
+Mix by pipetting up and down, and incubate the tubes at 
+room temperature for 20 min.
+90| Remove excess probe by washing the HBs three times 
+with QC buffer. To wash, add 1.4 ml of QC buffer, vortex the 
+mixture, centrifuge for 1 min at 1,000g at room temperature, 
+and remove the supernatant. At the end of the last wash, 
+remove the supernatant, leaving an ~40-µl total volume in 
+each tube.
+91| Record digital images of HBs from each tube under a 
+fluorescence microscope equipped with a filter set for FITC 
+(Fig. 6d–i).
+92| Measure the normalized intensity for each bead ((total fluorescence)/(area of hydrogel bead)) using an image analysis 
+software (such as Fiji82). See ANTICIPATED RESULTS for typical QC results.
+Barcoding of transcriptomes of single cells: BHB preparation ● TIMING 20 min
+93| Transfer 300 µl of close-packed BHBs obtained in Step 79 to a 1.5-ml tube prefilled with 1 ml of HBW buffer. 300 µl of 
+close-packed BHBs is sufficient for barcoding 20,000–30,000 cells.
+ CRITICAL STEP At all times until barcoding, HBs can become encapsulated into droplets; protect them from direct light, 
+close window blinds, and use dim illumination.
+94| Briefly vortex the tube, centrifuge at 1,000g at room temperature for 1 min, and transfer the supernatant to a clean 15-
+ml tube, wrapped in foil. Label the 15-ml tube ‘Recovered BHBs’.
+95| Repeat the previous step three times, filling the 1.5-ml tube with HBW buffer during each wash. After the last wash, 
+remove the supernatant, leaving an ~500-µl total volume (use the mark on the tube as a reference).
+96| Add 500 µl of 2× bead concentration mix (Reagent Setup), vortex well, and centrifuge the BHB suspension 
+at 5,000g at room temperature for 1 min.
+97| Using a p1000 pipette, transfer as much of the supernatant as possible to the 15-ml ‘Recovered BHBs’ tube. 300 µl of 
+close-packed BHBs from Step 93 should now concentrate to ~150–200 µl.
+98| Spin down the tube at 5,000g at room temperature for 1 min, and use a fine gel-loading pipette tip remove 
+any remains of the supernatant and transfer it to the ‘Recovered BHBs’ tube.
+ CRITICAL STEP Make sure to remove all of the supernatant.
+99| Attach a 25-gauge needle to a 1-ml syringe, and connect ~90 cm (~3 feet) of tubing using tweezers. Push the plunger 
+all the way through until it reaches the 0-ml position.
+100| Insert the open end of the tubing into the bottom of the concentrated BHBs (Step 98), and fill the tubing with BHBs by 
+gently pulling the plunger. Stop once ~3/4 of the tubing is filled with concentrated BHBs (see also Supplementary Video 2, 
+for Steps 100–103). The leftover BHBs can be mixed with 1 ml of TET buffer and returned to the ‘Recovered BHBs’ tube.
+ CRITICAL STEP Make sure that the end of the tubing remains immersed in BHBs during the procedure to avoid 
+aspirating air. If it happens, gently push the plunger to remove the air gap and resume the loading.
+101| Using a razor blade, cut the open end of the tubing right where the BHBs start. Place the tubing with the BHBs on 
+your bench.
+102| Fill a 1-ml syringe with 500 µl of HFE-7500, attach a 25-gauge needle, remove air bubbles by pushing the plunger, 
+and connect it to the open end of tubing that contains BHBs. Remove the empty syringe from the opposite end.
+ CRITICAL STEP When you are connecting the syringe with HFE-7500 to the tubing, avoid any air gaps.
+0
+5
+10
+15
+20
+Cycles
+0
+1,000
+2,000
+3,000
+4,000
+5,000
+6,000
+Threshold
+12.67 cycles
+Relative fluorescence units
+Figure 7 | Setting the qPCR threshold. The x axis shows 24 temperature 
+cycles with the higher (65 °C) primer annealing temperature. In this 
+example, Ct (cycle threshold) was determined to be 12.67.
+
+
+--- Page 17 ---
+© 2016 Macmillan Publishers Limited, part of Springer Nature. All rights reserved.
+protocol
+60 | VOL.12 NO.1 | 2017 | nature protocols
+103| Insert the BHB tubing into an opaque tubing of larger diameter (e.g., 1.6 mm), or alternatively wrap the BHB tubing 
+in foil, and mount the syringe with HFE-7500 onto a vertical syringe pump with the needle facing upward ((ii) in Fig. 4).
+Barcoding of transcriptomes of single cells: RT–lysis mix preparation ● TIMING 10 min
+104| Estimate the volume of RT–lysis mix to prepare. Count 15 µl of RT–lysis mix per ~1,000 cells and ~10 µl for priming. 
+For example, if you plan to encapsulate and barcode two samples of 10,000 cells, prepare 320 µl of RT–lysis mix.
+105| On ice, prepare the RT–lysis mix by combining the following components:
+Component
+Amount (ml)
+Final
+1.3× RT premix
+240
+1×
+MgCl2 (1.0 M)
+3.6
+11 mM
+DTT (0.1 M)
+22
+7 mM
+RNaseOUT (40 U/µl)
+22
+2.7 U/µl
+SuperScript III (200 U/µl)
+32
+20 U/µl
+Total
+320
+ CRITICAL STEP Add RNAseOUT and SuperScript III just before encapsulation to reduce the time on ice.
+106| Transfer the RT–lysis mix to a 1-ml syringe prefilled with 300 µl of HFE-7500, connect a piece of tubing (~40 cm 
+(~16 inches)), and hand-prime the syringe (as described in Steps 3–5 and Supplementary Video 3).
+107| Mount the syringe onto a vertical pump ((iv) in Fig. 4) and ensure cooling using a copper coil with circulating 
+ice-cold water or an ice jacket (Supplementary Fig. 1).
+ CRITICAL STEP Cooling of the RT–lysis mix is critical to prevent the heat-induced inactivation of the RT enzyme.
+Barcoding of transcriptomes of single cells: cell preparation ● TIMING 10 min
+108| Confirm that your cell sample meets the following requirements, which we recommend verifying on a separate 
+day before a single-cell transcriptome barcoding experiment. The cell suspension should have no, or very few (<5%), 
+cell doublets or clumps. Cell strainers can be used to filter out cell clumps. Ensure that the sample is free from cell lysate, 
+as it contains RNA, which cross-contaminates the sample. Cell viability in 1× PBS needs to be high (ideally 95–100%), 
+and it should remain stable (not more than a 5% drop) for at least 30 min on ice.
+109| On ice, prepare the cell mix, which consists of 80,000 cells per ml in 1× PBS with 15% (vol/vol) OptiPrep 
+(Reagent Setup). For the first runs, we recommend using 600 µl of cell mix. When the number of available cells is very 
+low (e.g., a total number of 1,000 cells), use a final volume of at least 100 µl.
+110| Place a magnetic stir bar into a low-dead-space 1-ml syringe. If, because of limited cell availability, the total 
+volume of cell mix is <500 µl, the use of a flea is not necessary.
+111| Transfer the cell mix from Step 109 to the syringe containing the magnetic stir bar.
+112| Hand-prime the cell syringe (as in Step 5) and mount it onto the pump equipped with a magnet attached to a rotor 
+(see Equipment Setup and Fig. 4). Turn on the rotor. Use a copper coil with circulating ice-cold water or an ice jacket to 
+cool the cell mix in the syringe (Supplementary Fig. 1).
+ CRITICAL STEP Adjust the rotation speed so that the stir bar spins gently. Vigorous mixing can damage cells.
+Barcoding of transcriptomes of single cells: system setup ● TIMING 5 min
+113| Fill a 1-ml syringe with 1 ml of carrier oil. Attach tubing, hand-prime, and mount onto a horizontally held syringe 
+pump, as described in Steps 3–5 ((v) in Fig. 4).
+114| Set the correct syringe diameters on the syringe pumps. For example, when using the 1-ml syringes called for by this 
+protocol, set the diameter at 4.78 mm.
+
+
+--- Page 18 ---
+© 2016 Macmillan Publishers Limited, part of Springer Nature. All rights reserved.
+protocol
+nature protocols | VOL.12 NO.1 | 2017 | 61
+115| Pump-prime the syringe with BHBs at 500 µl/h. Once the BHBs start moving, stop the pump immediately. Due to 
+compression, the BHBs will keep moving slowly for a few minutes (for ~3–5 cm of tubing distance). Once the BHBs stop 
+moving, cut the empty end of the tubing and connect to the appropriate port of the microfluidic chip (Fig. 5b, port no. v).
+ CRITICAL STEP Make sure that the tubing containing the BHBs is fully covered in foil or opaque tubing (except for 
+a few millimeters that go into the port).
+116| Pump-prime the remaining syringes at 2,000 µl/h, and connect the tubing to the corresponding inlets of the 
+microfluidic device (Fig. 5b).
+ CRITICAL STEP Make sure that the red band-pass filter is placed in the path of microscope light source ((x) in Fig. 4).
+117| Connect a 1.5-ml tube to the device outlet (Fig. 5b, port no. ii) via ~15 cm of tubing. The 1.5-ml tube is a waste 
+tube that will be replaced by a collection tube at Step 120 once the system is primed.
+Barcoding of transcriptomes of single cells: cell encapsulation ● TIMING 30–60 min
+118| Once all syringes are connected to appropriate ports, fine-tune the flow rates of the inDrops system:
+Priming 
+BHBs
+Priming the rest 
+of the system
+Close-packing 
+BHBs
+Working 
+flow rates
+Cell mix
+50 µl/h
+250 µl/h
+50 µl/h
+250 µl/h
+Barcoding hydrogel beads
+150 µl/h
+20 µl/h
+50 µl/h
+40 µl/h
+RT/lysis mix
+50 µl/h
+250 µl/h
+50 µl/h
+250 µl/h
+Carrier oil
+50 µl/h
+360 µl/h
+360 µl/h
+360 µl/h
+Additional instruction
+As BHBs reach the inlet, 
+immediately switch to ‘Priming 
+the rest of the system’
+Once air is displaced 
+from the system, switch 
+to ‘Close-packing BHBs’
+Once beads are close-
+packed, proceed to 
+‘Working flow rates’
+Adjust the flow rate 
+of BHBs to reach 
+85–95% occupancy
+119| Once flow rates are stabilized, allow the system to run for 2–3 min until the ‘priming emulsion’ is displaced from the 
+tubing connected to the outlet of the microfluidic device.
+? TROUBLESHOOTING
+120| Start collecting the emulsion into a 1.5-ml collection tube prefilled with 300 µl of mineral oil and held in a cooling 
+rack or ice bucket on the microscope stage ((xi) in Fig. 4).
+ CRITICAL STEP Make sure that the collection tube remains on ice at all times until Step 128.
+121| Adjust the flow rate of BHBs by increments of 5 µl/h to reach 85–95% occupancy (Box 2).
+ CRITICAL STEP Avoid having two BHBs per droplet.
+? TROUBLESHOOTING
+122| Confirm the droplet size as described in Box 1. Using the flow rates provided at Step 118, the drop size should be 
+3.0–3.5 nl, and it can be adjusted by changing the flow rate of the carrier oil.
+123| Confirm the cell count as described in Box 2.
+124| Calculate the time of encapsulation required to collect the desired number of cells, as described in Box 2. Using the 
+cell concentration and flow rates described in this protocol, and with 90% BHB occupancy, it takes less than 4 min to 
+coencapsulate ~1,000 cells with barcoding BHBs. You can also estimate the fraction of productive droplets containing more 
+than one cell. Using the cell concentration and flow rates described in this protocol, it should be ~5%. This number can be 
+linearly decreased by reducing cell concentration (Step 109), but this comes at the expense of longer encapsulation time.
+125| Follow the encapsulation on a computer screen in a snapshot mode, which can be achieved by setting the camera 
+display rate to 2 frames per s.
+? TROUBLESHOOTING
+
+
+--- Page 19 ---
+© 2016 Macmillan Publishers Limited, part of Springer Nature. All rights reserved.
+protocol
+62 | VOL.12 NO.1 | 2017 | nature protocols
+126| Once the desired number of cells is encapsulated, unplug the tubing from the outlet (leave the other end in the 
+collection tube), stop the pumps, and let the emulsion in the tubing drain into the collection tube by gravity.
+Barcoding of transcriptomes of single cells: RT ● TIMING 3 h
+127| To release photocleavable barcoding primers from the BHBs, place the collection tube on ice and expose it to 
+6.5 J/cm2 of 365-nm light. When using the UV light source provided in the MATERIALS section, place the lamp ~3–5 cm 
+above the tube and expose the tube for 7 min (Supplementary Video 5).
+ CRITICAL STEP Keep the emulsion on ice at all steps during and after encapsulation.
+128| To initiate the RT reaction, transfer the tube with the UV-exposed emulsion to 50 °C for 2 h followed by 15 min at 70 °C.
+129| Once the RT reaction is complete, transfer the tube to room temperature and remove as much light mineral oil 
+(top phase) and HFE-7500 (bottom phase) as possible.
+? TROUBLESHOOTING
+Box 2 | Calculating the inDrops platform parameters 
+Using the flow rates, 90% BHB occupancy, and cell dilution listed in this protocol, the throughput of the system is ~45 droplets 
+per s or ~5 barcoded cells per s. We recommend performing a test run using mock reagents to become familiar with the flow 
+parameters of the system and to determine the optimal imaging conditions, such as frame rate, exposure, and playback speed with 
+the specific camera used.
+  Hydrogel bead occupancy refers to the percentage of droplets containing a bead, and can be easily determined from still images 
+or a short (~1 s) video recorded at the outlet of the microfluidic device.
+  Cell count (cells/ml) is most conveniently determined at the cell inlet. Record an ~10-s-long video, count the number of cells 
+flowing through, and calculate the cell count using the following equation: 
+C
+c
+N
+F
+t
+cells
+= 3
+,
+where F is the flow rate of the cell syringe (250 µl/h), t is the time (s) to count N cells, and c3 corrects for unit differences 
+c3
+3600
+=
+
+
+
+
+sec
+h
+.
+  Time of encapsulation (min) to collect a desired number of cells is given as follows: 
+T
+c
+N
+t
+N
+= 4
+targeth ,
+where Ntarget is the desired number of cells to barcode, η is BHB occupancy, t is the time (s) to count N cells, and c4 corrects for 
+unit differences 
+c4 =
+
+
+
+
+min
+60sec .
+  The fraction of droplets containing more than one cell should be kept as low as possible, as such droplets will give rise to 
+artificial cell types. Those droplets that have both a cell and a barcoding hydrogel bead are considered productive. Cell arrival 
+into droplets is a Poisson process, and the fraction of productive droplets containing more than one cell can be estimated from 
+the Poisson distribution: 
+P X
+X
+e
+e
+(
+|
+)
+(
+)
+≥
+≥
+=
+−
++
+−
+−
+−
+2
+1
+1
+1
+1
+l
+l
+l ,
+ 
+where λ is the average number of cells per droplet. λ is given by 
+l =CV F
+F
+cells
+where C is the cell count (cells/nl), V is the droplet volume (nl), Fcells is the flow rate of the cell syringe (250 µl/h), and F is the sum 
+flow rate of BHBs, cell mix, and RT–lysis mix (typically 540–560 µl/h).
+
+
+--- Page 20 ---
+© 2016 Macmillan Publishers Limited, part of Springer Nature. All rights reserved.
+protocol
+nature protocols | VOL.12 NO.1 | 2017 | 63
+130| Divide the emulsion into fractions containing the desired number of cells; use 0.5-ml DNA LoBind tubes. 
+For example, if 4,000 cells were barcoded, divide the entire volume of the emulsion in two equal parts to get 2,000-cell 
+libraries. Using the conditions described in this protocol, 35 µl of emulsion typically contains ~1,000 barcoded cells.
+131| Release the barcoded cDNA from the droplets by adding one drop (~3 µl) of 20% (vol/vol) PFO on top of the emulsion, 
+and then add 40 µl of HFE-7500 oil.
+? TROUBLESHOOTING
+ PAUSE POINT Store post-RT libraries at −80 °C. They are stable for at least 3 months.
+Library preparation: digestion of unused primers and primer dimers ● TIMING 2 h
+132| Up to eight libraries can be conveniently processed in parallel. Thaw post-RT libraries on ice. Centrifuge the tubes 
+at 4 °C for 5 min at 19,000g to pellet cell debris.
+133| Without aspirating the HFE-7500 oil (bottom phase), transfer the post-RT material (top phase) to a nucleic acid 
+purification column, such as Corning Costar Spin-X (pore size 0.45 µm, cellulose acetate membrane) and collect the 
+flow-through fraction into a 1.5-ml DNA LoBind tube by centrifuging for 1 min at 16,000g (at 4 °C). After centrifugation, 
+leave the filter column inserted into the collection tube until Step 136.
+ CRITICAL STEP At all steps before linear amplification by IVT (Step 141), block the pipette tips to minimize material 
+loss due to adsorption. Blocking is performed by immersing the tip into blocking buffer, and pipetting up and down once. 
+If large drops remain attached to the tip, flick the pipette to remove them.
+134| Prepare the digestion mix. For each 70 µl of post-RT material, prepare 100 µl of digestion mix.
+Component
+Amount (ml)
+Final
+Nuclease-free water
+79
+10× FastDigest buffer
+9
+0.9×
+ExoI (20 U/µl)
+5
+1 U/µl
+FastDigest HinfI
+7
+Total
+100
+135| Add 100 µl of digestion mix on top of the HFE-7500 oil in the original 0.5-ml tube and mix gently by pipetting up 
+and down to collect the remains of the post-RT material attached to the inner walls of the tube.
+136| Transfer the digestion mix to the nucleic acid purification column containing the bulk of the sample (from Step 133) 
+and centrifuge the filter column at 4 °C for 5 min at 16,000g, thus combining the digestion mix and the sample in the 
+1.5-ml LoBind collection tube. After centrifugation, discard the filter membrane containing the BHBs.
+137| Incubate the flow-through fraction for 30 min at 37 °C.
+138| Purify the reaction product (in the form of a cDNA:RNA hybrid) using AMPure beads. Use a 1.2× volume of AMPure 
+beads (e.g., to 100 µl of digestion reaction product, add 120 µl of AMPure beads) and elute into 17 µl of nuclease-free 
+water. Follow the instructions from the AMPure Purification Kit. Detailed steps for AMPure purification are also provided as 
+Supplementary Method 1.
+Library preparation: second-strand synthesis and linear amplification ● TIMING 16–18 h
+139| Set up second-strand synthesis (SSS) using reagents from the NEBNext mRNA Second Strand Synthesis Module. 
+On ice, add 2 µl of 10× SSS buffer to the 17 µl of eluate from Step 138. Mix by vortexing, centrifuge at 1,000g for 5s at 
+room temperature, add 1 µl of SSS Enzyme, and mix by gently flicking the tube.
+140| Incubate at 16 °C for 2.5 h, followed by 20 min at 65 °C.
+
+
+--- Page 21 ---
+© 2016 Macmillan Publishers Limited, part of Springer Nature. All rights reserved.
+protocol
+64 | VOL.12 NO.1 | 2017 | nature protocols
+141| At room temperature, top the 20 µl of SSS product with the following reagents for IVT (HiScribe T7 High Yield 
+RNA Synthesis Kit):
+Component
+Amount (ml)
+Final
+SSS product
+20
+Nuclease-free water
+12
+10× reaction buffer
+8
+1×
+ATP, CTP, GTP, and UTP (100 mM)
+8 each
+10 mM each
+T7 RNA Polymerase Mix
+8
+Total
+80
+142| Mix, centrifuge at 1,000g for 5s at room temperature, and incubate at 37 °C for 13–15 h on a PCR machine with a 
+heated lid (50 °C).
+ PAUSE POINT After 15 h, the IVT reactions can be kept at 4 °C for up to 2 h.
+143| Purify with a 1.3× volume (104 µl) of AMPure beads (Step 138) and elute into 19 µl of RNA elution buffer.
+ PAUSE POINT If you are pausing here, store the samples at −80 °C for up to 6 months.
+144| On ice, transfer 10 µl of the eluate from the previous step to a fresh tube and label it ‘Post-IVT back-up’.
+145| Run a BioAnalyzer RNA Pico assay on 1 µl of Post-IVT back-up and transfer the remaining aliquot to −80 °C. 
+See ANTICIPATED RESULTS for examples of post-IVT RNA traces of successful libraries.
+? TROUBLESHOOTING
+ PAUSE POINT At this step samples can be stored at −80 °C for up to 6 months.
+Library preparation: fragmentation of amplified RNA ● TIMING 20 min
+146| Prepare STOP mix. For one sample, combine the following, vortex the mixture, and place it on ice.
+Component
+Amount (ml)
+RNA elution buffer
+9.8
+AMPure beads
+26.4
+Stop solution from the RNA Fragmentation Kit
+1.2
+Total
+37.4
+147| Allow the PCR machine to reach 70 °C (lid: 100–110 °C)
+148| On ice, add 1 µl of 10× RNA Fragmentation Reagents to 9 µl of purified IVT product from Step 143. Flick the tube, 
+centrifuge at 1,000g for 5s at room temperature, and immediately incubate the mixture at 70 °C for exactly 3 min.
+ CRITICAL STEP Fragmentation time might vary between 2 and 3 min depending on IVT material amount, RNA quality, 
+and sample handling.
+149| Transfer the fragmentation reaction on ice and immediately add 34 µl of STOP mix (from Step 146). Mix well, and spin 
+the mixture very briefly (~1 s) to collect drops from walls of the tube. Avoid sedimentation of magnetic beads.
+150| Incubate the samples for 5 min on ice, and then place them in a magnetic rack and continue the AMPure purification, 
+as described above (Step 138). Elute in 8 µl of RNA elution buffer and transfer to a PCR tube.
+
+
+--- Page 22 ---
+© 2016 Macmillan Publishers Limited, part of Springer Nature. All rights reserved.
+protocol
+nature protocols | VOL.12 NO.1 | 2017 | 65
+Library preparation: RT using random hexamers ● TIMING 2.5 h
+151| On ice, combine the following reagents, vortex the mixture, and then spin it down.
+Component
+Amount (ml)
+Final
+Purified fragmented amplified RNA (from Step 150)
+8
+dNTP (10 mM each)
+1
+500 µM each
+PE2-N6 primer (100 µM)
+2
+10 µM
+Total
+11
+152| Incubate the mixture at 70 °C (lid 105 °C) for exactly 3 min, and cool it immediately on ice.
+153| On ice, add the following components (to a total volume of 20 ml):
+Component
+Amount (ml)
+Final
+Mixture from step 152 
+11
+Nuclease-free water
+3.5
+5× PrimeScript buffer
+4
+1×
+RNaseOUT (40 U/µl)
+1
+2 U/µl
+PrimeScript reverse transcriptase (200 U/µl)
+0.5
+5 U/µl
+Total
+20
+154| Mix gently. Incubate the reaction mixture at 30 °C for 10 min, followed by 42 °C for 1 h. Heat-inactivate the 
+mixture at 70 °C for 15 min.
+155| Add 20 µl of nuclease-free water, mix, and save 20 µl as backup (label it as ‘pre-PCR backup’ and store it at −80 °C for 
+up to 6 months).
+156| Purify the RT product with 1.2× (24 µl) AMPure beads, and resuspend it in 10 µl of DNA elution buffer.
+Library preparation: diagnostic quantitative PCR ● TIMING 1.5 h
+157| Perform a quantitative PCR (qPCR) to determine the correct number of cycles for PCR amplification at Step 161. 
+Combine the following components on ice:
+Component
+Amount (ml)
+Final
+Eluate from Step 156
+0.5
+Nuclease-free water
+6.5
+2× Kapa HiFi HotStart PCR mix
+10
+1×
+20× EvaGreen Dye
+1
+1×
+PE1/PE2 primer mix (5 µM)
+2
+0.5 µM
+Total
+20
+158| Perform the following qPCR thermal cycling program:
+Cycle number
+Denaturation
+Annealing
+Extension
+Termination
+1
+ 98 °C, 2 min
+2–3
+98 °C, 20 s
+55 °C, 30 s
+72 °C, 40 s
+4–27
+98 °C, 20 s
+65 °C, 30 s
+72 °C, 40 s (with fluorescence acquisition)
+28
+4 °C, hold
+EvaGreen Dye requires the same excitation/emission settings as for SYBR Green.
+
+
+--- Page 23 ---
+© 2016 Macmillan Publishers Limited, part of Springer Nature. All rights reserved.
+protocol
+66 | VOL.12 NO.1 | 2017 | nature protocols
+159| Set the qPCR threshold within the exponential phase of amplification, as shown in Figure 7. Correct the resulting 
+cycle threshold (Ct) value to account for input differences between the qPCR (Steps 157–158) and library PCR (Steps 160 
+and 161). The library input is 19 times higher, and assuming a 100% PCR efficiency, the difference corresponds to 
+log219 = 4.25 cycles. For example, if the number of cycles determined by qPCR is 2 + 12.67, the required number of 
+PCR cycles for the library is 2 + (12.67–4.25) = 2 + 8.
+Library preparation: library amplification by PCR ● TIMING 2 h
+160| Combine the following components on ice:
+Component
+Amount (ml)
+Final
+Eluate from Step 156
+9.5
+Nuclease-free water
+0.5
+2× Kapa HiFi HotStart PCR mix
+12.5
+1×
+PE1/PE2 primer mix (5 µM)
+2.5
+0.5 µM
+Total
+25
+ CRITICAL STEP If multiple libraries are to be sequenced in one sequencing run (i.e., multiplexed), use different PE1/PE2 
+primer mix variants to introduce standard Illumina library indices (Reagent setup).
+ CRITICAL STEP Whenever you are multiplexing libraries, two of the indices must be index 6 and index 12 (see Reagent 
+Setup and Supplementary Table 2). This requirement ensures proper signal registration during the index read using Illumina 
+sequencing platforms.
+161| PCR thermal cycling program:
+Cycle number
+Denaturation
+Annealing
+Extension
+Termination
+1
+98 °C, 2 min
+2–3
+98 °C, 20 s
+55 °C, 30 s
+72 °C, 40 s
+4–11/15a
+98 °C, 20 s
+65 °C, 30 s
+72 °C, 40 s
+16
+72 °C, 5 min
+17
+4 °C, hold
+aThe number of cycles at 65 °C annealing temperature is determined at Step 159 and is typically between 8 and 12.
+If you are working with multiple libraries that require different numbers of cycles, set the PCR machine to perform the 
+highest number of cycles required, and manually remove individual libraries from the PCR machine. For example, if library X 
+requires 8 cycles, at the end of the 72 °C step of cycle 8, pause the cycler and place library X on ice. Next, resume the PCR 
+program. Once all libraries have undergone the required number of PCR cycles, transfer all tubes back to the PCR machine 
+for 5 min at 72 °C.
+162| Add 25 µl of DNA elution buffer to the PCR product.
+163| Purify using a 0.7× volume (35 µl) of AMPure beads, and elute in 20 µl of DNA elution buffer. The eluate is the final 
+sequencing-ready library.
+164| Test library quality by running a BioAnalyzer DNA HS assay on 1 µl of eluate. Libraries should look like a smooth 
+hump starting at 200 bp and ending at 1.5 kb, and have an average size of 400–600 bp. See ANTICIPATED RESULTS for 
+examples of successful libraries.
+? TROUBLESHOOTING
+ PAUSE POINT Store the final libraries at −20 or −80 °C; they should be stable for at least 1 year.
+
+
+--- Page 24 ---
+© 2016 Macmillan Publishers Limited, part of Springer Nature. All rights reserved.
+protocol
+nature protocols | VOL.12 NO.1 | 2017 | 67
+Sequencing ● TIMING 1 d
+165| Quantify, dilute, and mix (if multiplexing) the libraries according to standard procedures.
+166| Sequence the libraries on an Illumina sequencer using custom sequencing primers (Reagent Setup). Read 2, which is 
+the cell barcode and UMI read (Fig. 3), should be at least 50 bp. Distribute the rest of the cycles between the Index read 
+(if multiplexing) and Read 1 (transcript read). See Table 1 for examples.
+ CRITICAL STEP The optional PhiX control library will not be sequenced when using custom sequencing primers. To use the 
+PhiX Control, contact Illumina. Do not mix custom index read primers with standard index read primers.
+Sequencing data processing ● TIMING 1 d
+167| Process raw reads using the script and instructions provided in the Supplementary Software. The output is a 
+genes-versus-cells UMI-filtered count matrix.
+? TROUBLESHOOTING
+Troubleshooting advice can be found in Table 2.
+Table 2 | Troubleshooting table.
+Steps
+Problem
+Possible reasons
+Solution
+12, 119, 
+125
+Fluctuation in droplet size
+Air bubbles in the system
+Verify that no air bubble is trapped at the passive 
+filters of the inlet ports. Increasing the flow rate 
+of the selected phase by 1,000 µl/h for 1–2 s may 
+facilitate air-bubble escape. Gently press the PDMS 
+device to facilitate air-bubble release 
+Stop encapsulation and remove bubbles from the 
+tubing and/or syringes. Repeat priming as described 
+in Steps 5 and 6
+Liquid jetting: the liquid 
+steam extends into the droplet 
+stabilization channel and 
+produces droplets of variable size
+Incorrect flow rate
+Increase the flow rate of carrier oil until jetting 
+disappears
+Wetting: the aqueous phase 
+‘sticks’ to the walls of the droplet 
+stabilization channel, resulting in 
+polydisperse drops
+Poor coating of microfluidic 
+channels
+Treat microfluidic channels with fresh Aquapel. 
+Inject the solution into the channels, leave for 
+10–30 s, rinse the channels with HFE-7500 oil, 
+and then flush with pressurized air or nitrogen. 
+A detailed protocol is provided in Mazutis et al.57
+12, 119, 
+121, 125
+Droplets coalesce at the outlet 
+of the device
+Insufficient surfactant 
+concentration 
+PDMS or dust particles cause 
+droplet coalescence 
+Igepal CA-630 concentration is 
+too high
+Use a fresh batch of carrier oil 
+Use a new microfluidic device 
+Droplets are typically stable in the presence of up to 
+1% (wt/vol) Igepal CA-630. A higher concentration 
+of detergent might destabilize droplets
+Table 1 | Sequencing parameters for different Illumina sequencers.
+Sequencer
+Multiplexing?
+Kit
+Read1
+Index read
+Read2
+MiSeq
+Yes
+MiSeq Reagent Kit v3 (150 cycles)
+89 cycles
+6 cycles
+55 cycles
+NextSeq
+Yes
+NextSeq 500/550 High-Output v2 Kit (75 cycles)a
+37 cycles
+6 cycles
+51 cycles
+NextSeq
+No
+NextSeq 500/550 High-Output v2 Kit (75 cycles)a
+43 cycles
+0 cycles
+51 cycles
+HiSeq 2500
+Yes
+HiSeq SBS Kit v4 (2 × 50 cycles)
+61 cycles
+6 cycles
+51 cycles
+a92–94 cycles can actually be performed using the ‘75 cycle’ Kit.
+(continued)
+
+
+--- Page 25 ---
+© 2016 Macmillan Publishers Limited, part of Springer Nature. All rights reserved.
+protocol
+68 | VOL.12 NO.1 | 2017 | nature protocols
+Table 2 | Troubleshooting table (continued).
+Steps
+Problem
+Possible reasons
+Solution
+22
+White pellet at the bottom of 
+the tube after centrifugation
+Remains of HFE-7500 oil
+At Step 18, make sure to perform enough washes for 
+the HBs to form a translucent mass 
+To rescue a contaminated batch of HBs, carefully and 
+without disturbing the white pellet, transfer the bulk 
+of the HBs to a fresh 15-ml tube
+24
+Satellite droplets (variable size, 
+smaller, and different color 
+than HBs)
+Remains of hexane and/or 
+HFE-7500 oil
+HFE-7500 contamination: see above 
+Hexane contamination: at Step 22, make sure to hold 
+the tip of the serological pipette at the liquid–air 
+interface when removing the supernatant. To rescue 
+a contaminated batch of HBs, perform another 2–3 
+washes in TBSET as described in Step 22
+25
+The bulk of the HBs do not pass 
+through the strainer
+The HBs are slightly too large 
+and clog the mesh
+Try the following approaches that cause hydrogel 
+beads to shrink: 
+(i) refrigerate hydrogel beads in the strainer at 4 °C 
+for 5 min 
+(ii) Use cold TBSET supplemented with 1 M NaCl to 
+wash the strainer
+121, 125
+Inconsistent flow of BHBs
+Hydrogel bead inlet is blocked 
+by dust 
+
+
+Polydisperse BHBs 
+
+
+
+Air in BHB tubing
+Remove tubing from the collection tube. Using an 
+Allen wrench or blunt-end tweezers as a pointer, 
+and gently press the PDMS at the location of the 
+blockage. If the dust blockage is not released, 
+switch to a new device 
+Hydrogel beads of >70 µm might cause temporary 
+blockage of the channel and disturb smooth injection 
+of the BHBs. Pass the BHBs through a 70-µm strainer 
+(Step 25) 
+Verify that there are no air gaps in the BHB tubing. 
+Repeat hydrogel bead loading (Steps 93–103)
+129
+An aqueous layer between the 
+mineral oil and the emulsion
+Merged droplets
+Use a p200 pipette to remove the aqueous layer 
+between the mineral oil and the emulsion
+131
+The emulsion is not breaking
+Insufficient amount of PFO
+Add up to 20 µl of PFO, and flick the tube. If needed, 
+increase PFO concentration further
+145
+Large peak at ~200 nt
+Incomplete digestion of primer 
+dimers due to HinfI failure 
+(Steps 133–137)
+Make sure that the sample for HinfI digestion is 
+free of PFO (Step 134) 
+Restart library preparation with a fresh batch of HinfI
+145
+The yield of amplified RNA 
+(400–4,000 nt) is low
+Low amount of starting 
+material (<500 cells and/or cells 
+containing little mRNA) 
+RNA degradation following 
+premature cell death
+Proceed further and use the BioAnalyzer 
+electropherogram of the final library (Step 164) 
+as a validation of successful library preparation 
+(ANTICIPATED RESULTS) 
+Verify cell viability before the experiment (Step 108)
+164
+Average library size is <400 bp
+Fragmentation (Step 148) went 
+on for too long
+Repeat library preparation from Step 146 using 
+the post-IVT backup, and make sure to perform 
+fragmentation at 70 °C for exactly 3 min. Some cell 
+types require a shorter shearing time (~2 min). 
+Run a BioAnalyzer RNA Pico Chip to confirm the 
+size of sheared RNA
+(continued)
+
+
+--- Page 26 ---
+© 2016 Macmillan Publishers Limited, part of Springer Nature. All rights reserved.
+protocol
+nature protocols | VOL.12 NO.1 | 2017 | 69
+● TIMING
+Microfluidic device fabrication
+Step 1, 2–3 d, or the device can be purchased
+Barcode synthesis
+Steps 2–15, hydrogel bead production: 14 h
+Steps 16–27, cleanup: 2 h
+Steps 28–52, first split-and-pool round: 5 h
+Steps 53–60, postbarcoding washes: 4 h
+Steps 61–63, second split-and-pool round: 1 d
+Steps 64–79, enzymatic cleanup: 6 hrs
+Steps 80–84, QC by capillary electrophoresis: 30 min
+Steps 85–92, QC using fluorescent probes: 1.5 h
+Barcoding of transcriptomes of single cells
+Steps 93–103, BHB preparation: 20 min
+Steps 104–107, RT–lysis mix preparation: 10 min
+Steps 108–112, cell preparation: 10 min
+Steps 113–117, system setup: 5 min
+Steps 118–126, cell encapsulation: 30–60 min
+Steps 127–131, RT: 3 h
+Library preparation
+Steps 132–138, digestion of unused primers and primer dimers: 2 h
+Steps 139–145, second-strand synthesis and linear amplification: 16–18 h
+Steps 146–150, fragmentation of amplified RNA: 20 min
+Steps 151–156, RT using random hexamers: 2.5 h
+Steps 157–159, diagnostic qPCR: 1.5 h
+Steps 160–164, library amplification by PCR: 2 h
+Sequencing and raw data processing
+Steps 165 and 166, sequencing: 1 d
+Step 167, sequencing data processing: 1 d
+Box 1, estimating droplet volume and diameter
+Box 2, calculating the inDrops platform parameters
+ANTICIPATED RESULTS
+This protocol describes the establishment of a droplet microfluidics platform for high-throughput single-cell RNA-seq 
+experiments using the inDrops technique. Upon completion of the procedure described above, one will have produced an 
+amount of BHBs sufficient to barcode 500,000–1,000,000 single cells, and will be able to perform inDrops experiments 
+starting from a suspension of cells and ending with a genes-versus-cells UMI-filtered count matrix.
+Below are described QC results from the synthesis of a 5-ml batch of BHBs (Fig. 6 and Table 3), and typical single-cell 
+RNA-seq results using inDrops (Figs. 8 and 9; Table 4).
+Barcode synthesis—QC by capillary electrophoresis (Step 84). After combinatorial barcode synthesis (Steps 28–79), 
+the 3′5′ exonuclease ExoI is used to remove reaction intermediates that did not undergo the first or second primer extension 
+Table 2 | Troubleshooting table (continued).
+Steps
+Problem
+Possible reasons
+Solution
+164
+High-molecular-weight products 
+(at 2,000 bp and above)
+Too many PCR cycles at Step 161
+Repeat library preparation from Step 156 using 
+the pre-PCR backup, and perform 1–2 PCR fewer 
+cycles at Step 161
+164
+No DNA library detected
+Library was lost during 
+purification because of an 
+incorrect concentration of 
+AMPure reagent
+Repeat library preparation from the pre-PCR backup 
+(Step 156), making sure to completely resuspend 
+the AMPure beads before use by vortexing vigorously. 
+If the problem persists, optimize the AMPure 
+amount by increments of 0.1× at Step 163, but 
+avoid products of <200 nt (as determined by 
+BioAnalyzer HS DNA assay at Step 164)
+
+
+--- Page 27 ---
+© 2016 Macmillan Publishers Limited, part of Springer Nature. All rights reserved.
+protocol
+70 | VOL.12 NO.1 | 2017 | nature protocols
+reaction (Steps 64–79 and Fig. 2c). As shown in 
+Figure 6a,b, successful barcode synthesis and ExoI 
+treatment results in a single peak in the BioAnalyzer 
+electropherogram of primers photoreleased from the HBs. 
+This QC check can also be performed by denaturing PAGE 
+(Supplementary Method 2).
+Barcode synthesis—QC using fluorescent probes 
+(Step 92). Table 3 summarizes results of barcode synthesis 
+QC by fluorescent in situ hybridization (FISH). PE1, W1, 
+and T19V sequences are shared by all full-length barcoding 
+primers (Fig. 6c), and their presence is confirmed 
+using fluorescent probes in three separated FISH reactions 
+(Fig. 6d–i and Steps 85–92). This QC check is performed 
+on HBs before and after ExoI treatment (Steps 68–79). 
+The sample before ExoI treatment provides information 
+about the efficiency of each primer extension step, which 
+is measured as the relative fluorescence of FAM-W1 and 
+FAM-BA19 probes as compared with the FAM-PE1 probe. 
+The overall efficiency of both primer extension steps is 
+typically >30%. In the example provided in Table 3, the 
+efficiencies of the first and second steps were 58% and 
+62%, respectively, yielding an overall efficiency of 36%, 
+or ~109 copies of full-length barcoded primers per hydrogel bead. The sample after ExoI treatment is used to quantify the 
+variability in primer amount between ready-to-use barcoded HBs. Upon successful barcode synthesis, the coefficient of 
+variation (CV) of FAM-BA19 probe fluorescence across all HBs should be less than 25%, and the CV of all three probes 
+should not differ by more than 20%. A higher CV in fluorescence typically indicates suboptimal settings of the liquid handler 
+(Steps 39–50) or pipetting errors.
+BioAnalyzer electropherograms (Steps 145 and 164). The profile of amplified RNA (aRNA) electropherograms (Step 145 
+and Fig. 8a,b) is highly variable depending on the cell source (e.g., primary versus culture cells), library size, and initial 
+biological sample quality. A successful library typically shows a distinguishable signal between 200 and 4,000 nt, although 
+it may be less pronounced with some samples. A single peak or two peaks at ~200 nt are indicative of primer dimers/hairpins 
+that survive digestion by ExoI and HinfI (Steps 133–137 and Fig. 3), although they are eventually eliminated by size-
+selective purification using AMPure beads in subsequent steps of library preparation. DNA electropherograms of final libraries 
+(Step 164) are more reproducible among samples, and serve as a better estimate of library quality as compared with aRNA 
+traces. A successful library should be distributed between 200 and 2,000 bp, with an average fragment size between 400 
+and 600 bp. Library concentration depends on the number of PCR cycles applied (Step 161), and it is typically between 
+3 and 10 nM (as determined by BioAnalyzer, Fig. 8d), although concentrations up to 20 nM are also acceptable (Fig. 8c). 
+However, it is noteworthy that overcycling libraries can cause preferential amplification of a fraction of amplicons, 
+and require deeper sequencing to detect rare molecules.
+Typical single-cell RNA-seq results using inDrops. We typically barcode transcriptomes of 3,000–30,000 cells in one run 
+(Steps 118–131), and further process in parallel multiple libraries of 1,000–3,000 cells (Steps 132–166). Figure 9 summarizes 
+intermediate (i.e., BioAnalyzer electropherograms) and final results of sequencing a 2,000-cell library of immune cells. 
+b
+a
+d
+c
+25 200 1,000
+4,000
+Size (nt)
+0
+1
+2
+3
+4
+5
+RNA amount (RFU)
+25
+200 1,000 4,000
+Size (nt)
+0
+10
+20
+30
+40
+RNA amount (RFU)
+35
+200
+400
+1,000 10,380
+Size (bp)
+0
+50
+100
+150
+DNA amount (RFU)
+35
+200
+400
+1,000 10,380
+Size (bp)
+0
+10
+20
+30
+40
+50
+60
+70
+DNA amount (RFU)
+Figure 8 | BioAnalyzer electropherograms of amplified RNA (Step 145) and 
+sequencing-ready DNA libraries (Step 164). Traces were obtained from neural 
+organoid culture cells (a,c) and blood cells (b,d). Peaks at 25 nt (a,b), 
+35 bp, and 10,380 bp (c,d) are gel migration markers. Library concentration 
+and average fragment size are 475 bp and 20 nM, respectively, in c, and 
+530 bp and 5 nM, respectively, in d.
+Table 3 | Quality control of barcode synthesis by fluorescence in situ hybridization.
+Before ExoI treatment
+After ExoI treatment
+Probe
+FAM-PE1
+FAM-W1
+FAM-BA19
+FAM-PE1
+FAM-W1
+FAM-BA19
+Number of hydrogel beads analyzed
+354
+428
+435
+207
+1,085
+375
+Mean fluorescence across beads, RFU/px
+23,273
+13,465
+8,383
+9,683
+8,787
+7,834
+Standard deviation of fluorescence across beads, RFU/px
+2,673
+1,853
+1,880
+1,930
+1,746
+1,800
+Coefficient of variation
+11%
+14%
+22%
+20%
+20%
+23%
+Fraction of PE1 probe fluorescence
+100%
+58%a
+36%b
+100%
+91%
+81%
+px, pixel; RFU, relative fluorescence units.
+aBarcode yield after the first round of primer extension. bOverall barcode yield.
+
+
+--- Page 28 ---
+© 2016 Macmillan Publishers Limited, part of Springer Nature. All rights reserved.
+protocol
+nature protocols | VOL.12 NO.1 | 2017 | 71
+The average library size was 586 bp, and it was multiplexed with another five libraries and sequenced in two NextSeq runs 
+(NextSeq 500 High Throughput 75 cycle v2 kit). A total of 154,518,684 reads were obtained for the library (Step 167). 
+Barcodes associated with actual cells were selected by manually placing a threshold in the barcode abundance histogram shown 
+in Figure 9c. This filters out barcodes represented by small numbers of reads that are due to RNA contamination in the cell 
+sample and/or premature barcoding primer cleavage during transcriptome barcoding in drops (Steps 93–126). The number 
+of retained barcodes—which corresponds to the number of cells detected—should agree with the estimated library size. 
+For example, we detected 1,725 cells in the library described here. After filtering for barcode abundance and read quality, 
+85,196,231 reads were retained for alignment to the reference transcriptome and gene expression quantification. The total 
+number of UMI-filtered molecules (UMI-FMs) was 5,098,601, resulting in 2,956 UMI-FMs per cell on average. With this particular 
+sample, this was sufficient to address the biological questions of interest. On average, each UMI-FM was represented by 
+10.1 aligned reads. However, the shape of the oversequencing histogram (Fig. 9d) suggests that deeper sequencing would 
+allow the detection of additional unique molecules because a large fraction of UMI-FMs are represented by just one read.
+The results of sequencing one specific library are described above; Table 4 summarizes sequencing results of two projects 
+focusing on cells of different origin and showing results at a scale of tens of thousands of cells.
+25 200
+1,000
+4,000
+Size (nt)
+0
+2
+4
+6
+8
+10
+12
+14
+RNA amount (RFU)
+b
+a
+c
+35
+200
+400
+1,000 10,380
+Size (bp)
+0
+50
+100
+150
+200
+250
+300
+DNA amount (RFU)
+d
+100 101 102 103 104 105 106
+Reads per barcode
+0.0
+0.5
+1.0
+1.5
+2.0
+2.5
+3.0
+Number of reads
+coming from bin
+1e7
+Threshold at 20,000
+reads per barcode
+100
+101
+102
+Reads per UMI-FM
+0.0
+0.1
+0.2
+0.3
+0.4
+0.5
+0.6
+Fraction of UMI-FM
+Figure 9 | Results of sequencing a library of 2,000 immune cells. 
+(a) BioAnalyzer electropherograms of amplified RNA (Step 145). The peak 
+at 25 nt is the gel migration marker. (b) BioAnalyzer electropherograms of 
+sequencing-ready DNA libraries (Step 164). Peaks at 35 and 10,380 bp are gel 
+migration markers. (c) Histogram of reads per cell barcode. Note that units of 
+the y axis are the number of reads coming from the histogram (rather than the 
+number of barcodes having a given value of reads per barcode). A good-quality 
+library should have a distinct peak on the right side of the histogram (the exact 
+position of the peak being a function of sequencing depth, library size, and cell 
+type). This peak represents high-abundance barcodes associated with actual 
+cells. A threshold is set manually (at 20,000 reads per barcode in the case 
+of this specific library), and only barcodes passing the threshold are kept for 
+further analysis. The number of detected cells should agree with the estimated 
+library size (at Steps 124 and 130). (d) Oversequencing histogram, showing the 
+distribution of reads per UMI-filtered molecule (UMI-FM—i.e., a unique [cell 
+barcode] × [gene] × [UMI] combination). The shape of the histogram suggests 
+that deeper sequencing should allow the detection of more unique molecules. 
+However, the coverage represented by this histogram was sufficient to reveal 
+rich biological information, and distinguish clear cell clusters (data not shown).
+Table 4 | Examples of inDrops RNA-seq results using cells of different origin and different per-cell sequencing depth.
+Type of sample
+Mouse primary immune 
+cells (data not shown)
+Mouse embryonic stem cells 
+(data from Klein et al.6)
+Flow-estimated number of barcoded cells (Steps 124 and 130)
+35,400 (18 libraries of 
+1,000–2,400 cells)
+1,000
+Sequencing platform
+NextSeq
+HiSeq
+Number of cycles (transcript read/index read/cell barcode read)
+35/6/51
+119/0/54
+Total number of raw reads across all libraries
+1,554,529,911
+602,681,732
+Number of cells detected
+25,408
+919
+Number of raw reads per cell
+61,183
+655,802
+Percentage of reads used for alignment after filtering
+53%
+39%
+Percentage of reads aligned to reference and used to generate UMI-FM counts.
+58%
+54%
+Number of reads used to generate UMI-FM counts per cell
+18,802
+136,930
+Number of UMI-FMs per cell
+2,350
+14,508
+Average number of reads per UMI-FM
+8.0
+9.4
+UMI-FM, unique molecular-identifier-filtered molecule.
+
+
+--- Page 29 ---
+© 2016 Macmillan Publishers Limited, part of Springer Nature. All rights reserved.
+protocol
+72 | VOL.12 NO.1 | 2017 | nature protocols
+Note: Any Supplementary Information and Source Data files are available in the 
+online version of the paper.
+Acknowledgments This work was supported by the Lithuanian-Swiss 
+Research and Development Program (grant no. CH-3-SMM-01/03) and an 
+Edward J Mallinckrodt Foundation Grant (to A.M.K.). L.M. holds a Marie Curie 
+Individual Fellowship (705791). A.M.K. holds a Burroughs Wellcome Fund CASI 
+Award. A.V. is supported by the HSCI Medical Scientist Training Fellowship and 
+the Harvard Presidential Scholars Fund. Liquid-handling robotics was carried 
+out at the ICCB-Longwood Screening Facility at Harvard Medical School (HMS); 
+microfabrication was carried out at the HMS Microfabrication/Microfluidics 
+core facility.
+AUTHOR CONTRIBUTIONS A.M.K. and L.M. developed the original inDrops 
+method. A.M.K., A.V., and V.S. developed the bioinformatic pipeline for raw 
+sequencing data analysis. R.Z., A.M.K., and L.M. analyzed data provided in the 
+Anticipated Results. D.Z. designed library PCR primers and custom sequencing 
+primers. R.Z., J.N., A.M.K., and L.M. wrote the manuscript.
+COMPETING FINANCIAL INTERESTS The authors declare competing financial 
+interests: details are available in the online version of the paper.
+Reprints and permissions information is available online at http://www.nature.
+com/reprints/index.html.
+1.	 Zeisel, A. et al. Brain structure. Cell types in the mouse cortex and 
+hippocampus revealed by single-cell RNA-seq. Science 347, 1138–1142 
+(2015).
+2.	 Bedard, P.L. et al. Tumour heterogeneity in the clinic. Nature 501, 
+355–364 (2013).
+3.	 Levine, J.H. et al. Data-driven phenotypic dissection of AML reveals 
+progenitor-like cells that correlate with prognosis. Cell 162, 184–197 
+(2015).
+4.	 Ramsköld, D. et al. Full-length mRNA-Seq from single-cell levels 
+of RNA and individual circulating tumor cells. Nat. Biotechnol. 30, 
+777–782 (2012).
+5.	 Patel, A.P. et al. Single-cell RNA-seq highlights intratumoral heterogeneity 
+in primary glioblastoma. Science 344, 1396–1401 (2014).
+6.	 Klein, A.M. et al. Droplet barcoding for single-cell transcriptomics applied 
+to embryonic stem cells. Cell 161, 1187–1201 (2015).
+7.	 Bendall, S.C. et al. Single-cell trajectory detection uncovers progression 
+and regulatory coordination in human B cell development. Cell 157, 
+714–725 (2014).
+8.	 Trapnell, C. et al. The dynamics and regulators of cell fate decisions are 
+revealed by pseudotemporal ordering of single cells. Nat. Biotechnol. 32, 
+381–386 (2014).
+9.	 Buettner, F. et al. Computational analysis of cell-to-cell heterogeneity in 
+single-cell RNA-sequencing data reveals hidden subpopulations of cells. 
+Nat. Biotechnol. 33, 155–160 (2015).
+10.	 Kolodziejczyk, A.A. et al. The technology and biology of single-cell RNA 
+sequencing. Mol. Cell 58, 610–620 (2015).
+11.	 Deng, Q. et al. Single-cell RNA-seq reveals dynamic, random 
+monoallelic gene expression in mammalian cells. Science 343, 
+193–196 (2014).
+12.	 Stubbington, M.J. et al. T cell fate and clonality inference from 
+single-cell transcriptomes. Nat. Methods 13, 329–332 2016.
+13.	 Miyamoto, D.T. et al. RNA-Seq of single prostate CTCs implicates 
+noncanonical Wnt signaling in antiandrogen resistance. Science 349, 
+1351–1356 (2015).
+14.	 Sandberg, R. Entering the era of single-cell transcriptomics in biology 
+and medicine. Nat. Methods 11, 22–24 (2014).
+15.	 Shapiro, E., Biezuner, T. & Linnarsson, S. Single-cell sequencing-based 
+technologies will revolutionize whole-organism science. Nat. Rev. Genet. 
+14, 618–630 (2013).
+16.	 Jaitin, D.A. et al. Massively parallel single-cell RNA-seq for marker-free 
+decomposition of tissues into cell types. Science 343, 776–779 (2014).
+17.	 Sasagawa, Y. et al. Quartz-Seq: a highly reproducible and sensitive 
+single-cell RNA sequencing method, reveals non-genetic gene-expression 
+heterogeneity. Genome Biol. 14, R31 (2013).
+18.	 Stoler, D.L., Stewart, C.C. & Stomper, P.C. Breast epithelium procurement 
+from stereotactic core biopsy washings: flow cytometry-sorted cell count 
+analysis. Clin. Cancer Res 8, 428–432 (2002).
+19.	 Tay, S. et al. Single-cell NF-kappaB dynamics reveal digital activation and 
+analogue information processing. Nature 466, 267–271 (2010).
+20.	 Junkin, M. & Tay, S. Microfluidic single-cell analysis for systems 
+immunology. Lab Chip 14, 1246–1260 (2014).
+21.	 Kellogg, R.A. & Tay, S. Noise facilitates transcriptional control under 
+dynamic inputs. Cell 160, 381–392 (2015).
+22.	 Weinstein, J.A. et al. High-throughput sequencing of the zebrafish 
+antibody repertoire. Science 324, 807–810 (2009).
+23.	 Fan, H.C. et al. Whole-genome molecular haplotyping of single cells. 
+Nat. Biotechnol. 29, 51–57 (2011).
+24.	 Lecault, V. et al. High-throughput analysis of single hematopoietic stem 
+cell proliferation in microfluidic cell culture arrays. Nat. Methods 8, 
+581–586 (2011).
+25.	 Streets, A.M. et al. Microfluidic single-cell whole-transcriptome 
+sequencing. Proc. Natl. Acad. Sci. USA 111, 7048–7053 (2014).
+26.	 Wu, A.R. et al. Quantitative assessment of single-cell RNA-sequencing 
+methods. Nat. Methods 11, 41–46 (2014).
+27.	 Shalek, A.K. et al. Single-cell transcriptomics reveals bimodality in 
+expression and splicing in immune cells. Nature 498, 236–240 (2013).
+28.	 Usoskin, D. et al. Unbiased classification of sensory neuron types by 
+large-scale single-cell RNA sequencing. Nat. Neurosci. 18, 145–153 
+(2015).
+29.	 Treutlein, B. et al. Reconstructing lineage hierarchies of the distal lung 
+epithelium using single-cell RNA-seq. Nature 509, 371–375 (2014).
+30.	 Kumar, R.M. et al. Deconstructing transcriptionalheterogeneity in 
+pluripotent stem cells. Nature 516, 56–61 (2014).
+31.	 Shalek, A.K. et al. Single-cell RNA-seq reveals dynamic paracrine control 
+of cellular variation. Nature 510, 363–369 (2014).
+32.	 Macosko, E.Z. et al. Highly parallel genome-wide expression profiling of 
+individual cells using nanoliter droplets. Cell 161, 1202–1214 (2015).
+33.	 Fan, H.C., Fu, G.K. & Fodor, S.P. Expression profiling. Combinatorial 
+labeling of single cells for gene expression cytometry. Science 347, 
+1258367 (2015).
+34.	 Bose, S. et al. Scalable microfluidics for single-cell RNA printing and 
+sequencing. Genome Biol. 16, 120 (2015).
+35.	 Guo, M.T. et al. Droplet microfluidics for high-throughput biological 
+assays. Lab Chip 12, 2146–2155 (2012).
+36.	 Price, A.K. & Paegel, B.M. Discovery in droplets. Anal. Chem. 88, 
+339–353 (2016).
+37.	 Joensson, H.N. & Andersson Svahn, H. Droplet microfluidics--a tool for 
+single-cell analysis. Angew. Chem. Int. Ed. Engl. 51, 12176–12192 (2012).
+38.	 Theberge, A.B. et al. Microdroplets in microfluidics: an evolving platform 
+for discoveries in chemistry and biology. Angew. Chem. Int. Ed. Engl. 49, 
+5846–5868 (2010).
+39.	 Thorsen, T. et al. Dynamic pattern formation in a vesicle-generating 
+microfluidic device. Phys. Rev. Lett. 86, 4163–4166 (2001).
+40.	 Anna, S.L., Bontoux, N. & Stone, H.A. Formation of dispersions using 
+‘flow focusing’ in microchannels. Appl. Phys. Lett. 82, 364–366 (2003).
+41.	 Nisisako, T., Ando, T. & Hatsuzawa, T. High-volume production of single 
+and compound emulsions in a microfluidic parallelization arrangement 
+coupled with coaxial annular world-to-chip interfaces. Lab Chip 12, 
+3426–3435 (2012).
+42.	 Christopher, G.F. & Anna, S.L. Microfluidic methods for generating 
+continuous droplet streams. J. Phys. D: Appl. Phys. 40, R319–R336 (2007).
+43.	 Garstecki, P. et al. Formation of droplets and bubbles in a microfluidic 
+T-junction - scaling and mechanism of break-up. Lab Chip 6, 437–446 
+(2006).
+44.	 Mazutis, L. & Griffiths, A.D. Selective droplet coalescence using 
+microfluidic systems. Lab Chip 12, 1800–1806 (2012).
+45.	 Ahn, K. et al. Electrocoalescence of drops synchronized by size-dependent 
+flow in microfluidic channels. Appl. Phys. Lett. 88, 264105 (2006).
+46.	 Chabert, M., Dorfman, K.D. & Viovy, J.L. Droplet fusion by alternating 
+current (AC) field electrocoalescence in microchannels. Electrophoresis 26, 
+3706–3715 (2005).
+47.	 Priest, C., Herminghaus, S. & Seemann, R. Controlled electrocoalescence 
+in microfluidics: targeting a single lamella. Appl. Phys. Lett. 89, 134101 
+(2006).
+48.	 Abate, A.R. et al. High-throughput injection with microfluidics using 
+picoinjectors. Proc. Natl. Acad. Sci. USA 107, 19163–19166 (2010).
+49.	 Rotem, A. et al. High-throughput single-cell labeling (Hi-SCL) for RNA-Seq 
+using drop-based microfluidics. PLoS One 10, e0116328 (2015).
+50.	 Link, D.R. et al. Geometrically mediated breakup of drops in microfluidic 
+devices. Phys. Rev. Lett. 92, 054503 (2004).
+51.	 Hatch, A.C. et al. 1-Million droplet array with wide-field fluorescence 
+imaging for digital PCR. Lab Chip 11, 3838–3845 (2011).
+52.	 Ahn, K. et al. Dielectrophoretic manipulation of drops for high-speed 
+microfluidic sorting devices. Appl. Phys. Lett. 88, 024104 (2006).
+
+
+--- Page 30 ---
+© 2016 Macmillan Publishers Limited, part of Springer Nature. All rights reserved.
+protocol
+nature protocols | VOL.12 NO.1 | 2017 | 73
+53.	 Franke, T. et al. Surface acoustic wave (SAW) directed droplet flow in 
+microfluidics for PDMS devices. Lab Chip 9, 2625–2627 (2009).
+54.	 Baret, J.C. et al. Fluorescence-activated droplet sorting (FADS): 
+efficient microfluidic cell sorting based on enzymatic activity. Lab Chip 
+9, 1850–1858 (2009).
+55.	 Granieri, L. et al. High-throughput screening of enzymes by retroviral 
+display using droplet-based microfluidics. Chem. Biol. 17, 229–235 
+(2010).
+56.	 Debs, B.E. et al. Functional single-cell hybridoma screening using droplet-
+based microfluidics. Proc. Natl. Acad. Sci. USA 109, 11570–11575 (2012).
+57.	 Mazutis, L. et al. Single-cell analysis and sorting using droplet-based 
+microfluidics. Nat. Protoc. 8, 870–91 (2013).
+58.	 Mazutis, L. & Griffiths, A.D. Preparation of monodisperse emulsions 
+by hydrodynamic size fractionation. Appl. Phys. Lett. 95, 204103 (2009).
+59.	 Sciambi, A. & Abate, A.R. Accurate microfluidic sorting of droplets 
+at 30 kHz. Lab Chip 15, 47–51 (2015).
+60.	 Clausell-Tormos, J. et al. Droplet-based microfluidic platforms for the 
+encapsulation and screening of mammalian cells and multicellular 
+organisms. Chem. Biol. 15, 427–437 (2008).
+61.	 Koster, S. et al. Drop-based microfluidic devices for encapsulation of 
+single cells. Lab Chip 8, 1110–1115 (2008).
+62.	 Brouzes, E. et al. Droplet microfluidic technology for single-cell high-
+throughput screening. Proc. Natl. Acad. Sci. USA 106, 14195–14200 (2009).
+63.	 Liu, W. et al. Isolation, incubation, and parallel functional testing and 
+identification by FISH of rare microbial single-copy cells from multi-
+species mixtures using the combination of chemistrode and stochastic 
+confinement. Lab Chip 9, 2153–2162 (2009).
+64.	 Zeng, Y. et al. High-performance single cell genetic analysis using 
+microfluidic emulsion generator arrays. Anal. Chem. 82, 3183–3190 
+(2010).
+65.	 Huebner, A. et al. Development of quantitative cell-based enzyme assays 
+in microdroplets. Anal. Chem. 80, 3890–3896 (2008).
+66.	 Chokkalingam, V. et al. Probing cellular heterogeneity in cytokine-
+secreting immune cells using droplet-based microfluidics. Lab Chip 13, 
+4740–4744 (2013).
+67.	 Martino, C. et al. Intracellular protein determination using droplet-based 
+immunoassays. Anal. Chem. 83, 5361–5368 (2011).
+68.	 Sjostrom, S.L. et al. High-throughput screening for industrial enzyme 
+production hosts by droplet microfluidics. Lab Chip 14, 806–813 (2014).
+69.	 Del Ben, F. et al. A method for detecting circulating tumor cells based on 
+the measurement of single-cell metabolism in droplet-based microfluidics. 
+Angew. Chem. Int. Ed. Engl. 55, 8581–8584 (2016).
+70.	 DeKosky, B.J. et al. In-depth determination and analysis of the human 
+paired heavy- and light-chain antibody repertoire. Nat. Med. 21, 86–91 
+(2015).
+71.	 Kintses, B. et al. Picoliter cell lysate assays in microfluidic droplet 
+compartments for directed enzyme evolution. Chem. Biol. 19, 1001–1009 
+(2012).
+72.	 Eastburn, D.J., Sciambi, A. & Abate, A.R. Ultrahigh-throughput mammalian 
+single-cell reverse-transcriptase polymerase chain reaction in microfluidic 
+drops. Anal. Chem. 85, 8016–8021 (2013).
+73.	 Eastburn, D.J., Sciambi, A. & Abate, A.R. Identification and genetic 
+analysis of cancer cells with PCR-activated cell sorting. Nucleic Acids Res. 
+42, e128 (2014).
+74.	 Rane, T.D. et al. Droplet microfluidics for amplification-free genetic 
+detection of single cells. Lab Chip 12, 3341–3347 (2012).
+75.	 Novak, R. et al. Single-cell multiplex gene detection and sequencing with 
+microfluidically generated agarose emulsions. Angew. Chem. Int. Ed. Engl. 
+50, 390–395 (2011).
+76.	 Agresti, J.J. et al. Ultrahigh-throughput screening in drop-based 
+microfluidics for directed evolution. Proc. Natl. Acad. Sci. USA 107, 
+4004–4009 (2010).
+77.	 Abate, A.R. et al. Beating Poisson encapsulation statistics using 
+close-packed ordering. Lab Chip 9, 2628–2631 (2009).
+78.	 Wang, Q. et al. Tagmentation-based whole-genome bisulfite sequencing. 
+Nat. Protoc. 8, 2022–2032 (2013).
+79.	 Islam, S. et al. Quantitative single-cell RNA-seq with unique molecular 
+identifiers. Nat. Methods 11, 163–166 (2014).
+80.	 White, A.K. et al. High-throughput microfluidic single-cell RT-qPCR. 
+Proc. Natl. Acad. Sci. USA 108, 13999–14004 (2011).
+81.	 Hashimshony, T. et al. CEL-Seq: single-cell RNA-Seq by multiplexed linear 
+amplification. Cell Rep. 2, 666–673 (2012).
+82.	 Schindelin, J. et al. Fiji: an open-source platform for biological-image 
+analysis. Nat. Methods 9, 676–682 (2012).

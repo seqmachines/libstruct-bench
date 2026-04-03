@@ -1,0 +1,592 @@
+--- Page 1 ---
+ 
+10x Genomics®  |  CG000109 Rev D Technical Note – Assay Scheme and Configuration of Chromium™ Single Cell V(D)J Libraries 
+1 
+TECHNICAL NOTE 
+Assay Scheme and Configuration of Chromium™ 
+Single Cell V(D)J Libraries  
+INTRODUCTION 
+The Chromium™ Single Cell V(D)J Solution produces Illumina® sequencer-ready libraries for profiling T-cell 
+receptor (TCR) or B cell immunoglobulin (Ig) repertoires from single cells. In addition, users have the option of 
+profiling 5’ gene expression from the same cells if cDNA amplification is performed prior to target enrichment 
+for TCR and/or Ig transcripts. During library preparation, sequence components essential for Illumina 
+sequencing and downstream data analysis are incorporated into the final library construct. The sequence 
+components are introduced via Gel Beads and during the library preparation steps of the workflow.  
+Each Gel Bead contains millions of oligo primers that are comprised of the following sequences (Figure 1):  
+             
+ 
+ 
+ 
+10x Genomics® GemCode™ Technology partitions thousands of cells into droplets, each called a Gel Bead-in-
+EMulsion (GEM). Once partitioned, the Gel Bead dissolves and its oligo primers are released into the aqueous 
+environment of the GEM. The cell captured in the GEM is also lysed. The contents of the GEM (oligos, lysed cell 
+components and Master Mix that contains the Poly-dT RT primer) are incubated in a reverse transcription (RT) 
+reaction to generate full-length, barcoded cDNA from poly-adenylated mRNA. The reverse transcriptase 
+incorporates the Gel Bead oligo via a template switching reaction at the 5’ end of the transcript. All cDNA 
+generated within an individual GEM share a common 10x Barcode.  
+The Single Cell V(D)J Solution offers the option to generate: 
+ i.  Protocol Option 1: Direct Target Enrichment - enriched library from either T cells or B cells, directly 
+from first-strand cDNA 
+ii.   Protocol Option 2: cDNA Amplification followed by Target Enrichment - enriched T cell library and/or 
+an enriched B cell library, and/or a 5’ gene expression library from amplified cDNA from the same 
+cells 
+ 
+i.
+Partial Illumina Read 1 Sequence (22 nucleotides (nt)) 
+ii.
+16 nt 10x™ Barcode 
+iii.
+10 nt Unique Molecular Identifier (UMI) 
+iv.
+13 nt Switch Oligo 
+Figure 1. Schematic of a Single Cell 5’ Gel Bead oligo primer. 
+
+
+--- Page 2 ---
+10x Genomics®  |  CG000109 Rev D Technical Note – Assay Scheme and Configuration of Chromium™ Single Cell V(D)J Libraries 
+2 
+The Single Cell V(D)J Protocols produce V(D)J enriched and 5’ gene expression Illumina® sequencer-ready 
+libraries. A library comprises standard Illumina paired-end constructs which begin and end with P5 and P7, 
+respectively. For V(D)J enriched libraries, Read 1 encodes the 16 bp 10x™ Barcode, 10 bp UMI, and 13 bp Switch 
+Oligo, as well as the 5’ end of an enriched transcript. For 5’ gene expression libraries, Read 1 encodes the 16 
+bp 10x Barcode and 10 bp UMI. Due to Enzymatic Fragmentation, for both libraries Read 2 encodes a random 
+internal fragment of the corresponding insert. Sample index sequences are incorporated as the i7 index read. 
+A schematic of the final library constructs is shown in Figure 2. 
+ 
+V(D)J Enriched Library Structure: 
+ 
+ 
+5’ Gene Expression Library Structure: 
+ 
+ 
+Figure 2. Schematic of final library constructs and recommended sequencing run parameters for the Single Cell V(D)J Protocol options. 
+ 
+
+
+--- Page 3 ---
+10x Genomics®  |  CG000109 Rev D Technical Note – Assay Scheme and Configuration of Chromium™ Single Cell V(D)J Libraries 
+3 
+An overview of the Single Cell V(D)J Protocol options and how individual sequence components are incorporated 
+during library construction is presented in Figure 3 and Figure 4. Table 1 provides detailed reaction products 
+and oligo sequences for Protocol Option 1: Direct Target Enrichment and Table 2 provides detailed reaction 
+products and oligo sequences for Protocol Option 2: Target Enrichment from Amplified cDNA and 5’ Gene 
+Expression. Refer to the Chromium™ Single Cell V(D)J Reagent Kits User Guide (CG000086) for more details. 
+ 
+ 
+                                              Inside individual GEMs 
+                                         Pooled cDNA processed in bulk 
+    
+ 
+Figure 3. Assay schematic for Single Cell V(D)J Protocol Option 1: Direct Target Enrichment Library Construction. Fragmentation occurs through 
+the length of the V(D)JC gene segments. Only fragmented products that contain the C region are shown for simplicity. TSO = Template Switch 
+Oligo. 
+ 
+             Inside individual GEMs  
+                                      Pooled cDNA processed in bulk 
+ 
+Figure 4. Assay schematic for Single Cell V(D)J Protocol Option 2: Target Enrichment from Amplified cDNA and 5’ Gene Expression Library 
+Construction. Fragmentation occurs through the length of the V(D)JC gene segments. Only fragmented products that contain the C region are 
+shown for simplicity. TSO = Template Switch Oligo. 
+ 
+
+
+--- Page 4 ---
+10x Genomics®  |  CG000109 Rev D Technical Note – Assay Scheme and Configuration of Chromium™ Single Cell V(D)J Libraries 
+4 
+CONCLUSION 
+We have presented a detailed description of the assay configuration for the Single Cell V(D)J Solution, including 
+enriched libraries and 5’ gene expression libraries. Individual steps during library construction outlined here 
+provide additional insight and may serve as a reference to customize the library preparation workflow for 
+unsupported technical development and applications. 
+ 
+REFERENCES 
+• 
+Chromium™ Single Cell V(D)J Reagent Kits User Guide (CG000086) 
+ 
+
+
+--- Page 5 ---
+10x Genomics®  |  CG000109 Rev D Technical Note – Assay Scheme and Configuration of Chromium™ Single Cell V(D)J Libraries 
+5 
+Protocol Step 1.5 – GEM-RT Incubation 
+Gel Bead Oligo Primer (TSO) 
+(PN-220112) 
+ 
+ 
+5’-CTACACGACGCTCTTCCGATCT-NNNNNNNNNNNNNNNN-NNNNNNNNNN-TTTCTTATATrGrGrG-3’ 
+Poly-dT RT Primer  
+(PN-2000007) 
+ 
+ 
+5’AAGCAGTGGTATCAACGCAGAGTAC-TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTVN-3’ 
+Reverse Transcript Product 
+ 
+ 
+3’-GATGTGCTGCGAGAAGGCTAGA-NNNNNNNNNNNNNNNN-NNNNNNNNNN-AAAGAATATACCC-cDNA_Insert-NVTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT-CATGAGACGCAACTATGGTGACGAA-5’ 
+Protocol Step 3.1 – Direct Target Enrichment 1  
+Human T Cell Mix 1  
+(PN-2000008) 
+Forward primer: (final concentration of 2 µM) 
+ 
+5’-AATGATACGGCGACCACCGA-GATCTACACTCTTTCCCTACACGACGCTC-3’ 
+Reverse primers: (final concentration of 1 µM each)  
+ 
+5’-TGAAGGCGTTTGCACATGCA-3’ 
+5’-TCAGGCAGTATCTGGAGTCATTGAG-3’ 
+Human B Cell Mix 1  
+(PN-2000035) 
+Forward primer: (final concentration of 1 µM) 
+ 
+5’-AATGATACGGCGACCACCGA-GATCTACACTCTTTCCCTACACGACGCTC-3’ 
+Reverse primers: (final concentration of 0.5 µM each)  
+ 
+5’-CAGGGCACAGTCACATCCT-3’ 
+5’-TGCTGGACCACGCATTTGTA-3’ 
+5’-GGTTTTGTTGTCGACCCAGTCT-3’ 
+5’-TTGTCCACCTTGGTGTTGCT-3’ 
+5’-CATGACGTCCTTGGAAGGCA-3’ 
+5’-TGTGGGACTTCCACTG-3’ 
+5’-TTCTCGTAGTCTGCTTTGCTCAG-3’ 
+Protocol Step 3.3 – Direct Target Enrichment 2  
+Human T Cell Mix 2  
+(PN-2000009) 
+Forward primer: (final concentration of 2 µM) 
+ 
+5’-AATGATACGGCGACCACCGA-GATCT-3’ 
+Reverse primers: (final concentration of 1 µM each)  
+ 
+5’-AGTCTCTCAGCTGGTACACG-3’  
+5’-TCTGATGGCTCAAACACAGC-3’ 
+Human B Cell Mix 2 
+(PN-2000036) 
+Forward primer: (final concentration of 1 µM) 
+ 
+5’-AATGATACGGCGACCACCGA-GATCT-3’ 
+Reverse primers: (final concentration of 0.5 µM each)  
+ 
+5’-GGGAAGTTTCTGGCGGTCA-3’  
+5’-GGTGGTACCCAGTTATCAAGCAT-3’ 
+5’-GTGTCCCAGGTCACCATCAC-3’  
+5’-TCCTGAGGACTGTAGGACAGC-3’ 
+5’-CACGCTGCTCGTATCCGA-3’  
+5’-TAGCTGCTGGCCGC-3’  
+5’-GCGTTATCCACCTTCCACTGT-3’ 
+Targeted Amplification 
+Product 
+ 
+ 
+ 
+5’-AATGATACGGCGACCACCGA-GATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT-NNNNNNNNNNNNNNNN-NNNNNNNNNN-TTTCTTATATGGG-cDNA_Insert-Inner_Primer-3’ 
+ |||||||||||||||||||| |||||||||||||||||||||||||||||||||||||| |||||||||||||||| |||||||||| ||||||||||||| ||||||||||| ||||||||||||| 
+3’-TTACTATGCCGCTGGTGGCT-CTAGATGTGAGAAAGGGATGTGCTGCGAGAAGGCTAGA-NNNNNNNNNNNNNNNN-NNNNNNNNNN-AAAGAATATACCC-cDNA_Insert-Inner_Primer-5’ 
+ 
+ 
+ 
+Enrichment Outer Primer
+Enrichment Outer Primer
+Enrichment Inner Primer
+Enrichment Inner Primer
+Read 1
+P5
+10x
+Barcode
+UMI
+Switch Oligo
+V
+J
+C
+D
+
+
+--- Page 6 ---
+10x Genomics®  |  CG000109 Rev D Technical Note – Assay Scheme and Configuration of Chromium™ Single Cell V(D)J Libraries 
+6 
+Table 1. Detailed reaction products and oligo sequences for the Single Cell V(D)J Protocol Option 1: Direct Target Enrichment Library Construction. Protocol steps correspond to the Chromium™ 
+Single Cell V(D)J Reagent Kits User Guide (CG000086).  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Protocol 7.2 – Adaptor Ligation 
+Adaptor (Read 2)  
+(PN-220026) 
+ 
+                                                          5’-GATCGGAAGAGCACACGTCTGAACTCCAGTCAC-3’ 
+                                                             ||||||||||||  
+                                                         3’-TCTAGCCTTCTCG-5’ 
+Ligation Product 
+ 
+ 
+              5’-AATGATACGGCGACCACCGA-GATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT-NNNNNNNNNNNNNNNN-NNNNNNNNNN-TTTCTTATATGGG-cDNA_Insert-AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC-3’ 
+                 |||||||||||||||||||| |||||||||||||||||||||||||||||||||||||| |||||||||||||||| |||||||||| ||||||||||||| ||||||||||| ||||||||||||| 
+              3’-TTACTATGCCGCTGGTGGCT-CTAGATGTGAGAAAGGGATGTGCTGCGAGAAGGCTAGA-NNNNNNNNNNNNNNNN-NNNNNNNNNN-AAAGAATATACCC-cDNA_Insert-TCTAGCCTTCTCG-5’ 
+ 
+Protocol 7.4 – Sample Index PCR 
+ 
+Sample Index PCR Primer 
+(PN-220111 and PN-220103) 
+ 
+Forward primer: 
+ 
+P5 – Partial Read 1 
+5’-AATGATACGGCGACCACCGA-GATCTACACTCTTTCCCTACACGACGCTC-3’ 
+Reverse primer: 
+ 
+P7 – Sample Index – Partial Read 2  
+5’-CAAGCAGAAGACGGCATACGAGAT-NNNNNNNN-GTGACTGGAGTTCAGACGTGT-3’ 
+Sample Index PCR Product 
+ 
+ 
+5’-AATGATACGGCGACCACCGA-GATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT-NNNNNNNNNNNNNNNN-NNNNNNNNNN-TTTCTTATATGGG-cDNA_Insert-AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC-NNNNNNNN-ATCTCGTATGCCGTCTTCTGCTTG-3’ 
+   |||||||||||||||||||| |||||||||||||||||||||||||||||||||||||| |||||||||||||||| |||||||||| ||||||||||||| ||||||||||| |||||||||||||||||||||||||||||||||| |||||||| |||||||||||||||||||||||| 
+3’-TTACTATGCCGCTGGTGGCT-CTAGATGTGAGAAAGGGATGTGCTGCGAGAAGGCTAGA-NNNNNNNNNNNNNNNN-NNNNNNNNNN-AAAGAATATACCC-cDNA_Insert-TCTAGCCTTCTCGTGTGCAGACTTGAGGTCAGTG-NNNNNNNN-TAGAGCATACGGCAGAAGACGAAC-5’ 
+Read 1
+P5
+10x
+Barcode
+UMI
+Switch Oligo
+Read 2
+V
+J
+C
+D
+Read 1
+P5
+10x
+Barcode
+UMI
+Switch Oligo
+Read 2
+Sample
+Index
+P7
+V
+J
+C
+D
+
+
+--- Page 7 ---
+10x Genomics®  |  CG000109 Rev D Technical Note – Assay Scheme and Configuration of Chromium™ Single Cell V(D)J Libraries 
+7 
+Protocol Step 1.5 – GEM-RT Incubation 
+Gel Bead Oligo Primer 
+(TSO) 
+(PN-220112) 
+ 
+ 
+5’-CTACACGACGCTCTTCCGATCT-NNNNNNNNNNNNNNNN-NNNNNNNNNN-TTTCTTATATrGrGrG-3’ 
+Poly-dT RT Primer  
+(PN-2000007) 
+ 
+ 
+5’AAGCAGTGGTATCAACGCAGAGTAC-TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTVN-3’ 
+Reverse Transcript 
+Product 
+ 
+ 
+3’-GATGTGCTGCGAGAAGGCTAGA-NNNNNNNNNNNNNNNN-NNNNNNNNNN-AAAGAATATACCC-cDNA_Insert-NVTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT-CATGAGACGCAACTATGGTGACGAA-5’ 
+Protocol 4.1– cDNA Amplification 
+cDNA Primer Mix  
+(PN-220106) 
+Forward primer: 
+ 
+5’-CTACACGACGCTCTTCCGATCT-3’ 
+Reverse primer:  
+ 
+5’- AAGCAGTGGTATCAACGCAGAG-3’ 
+cDNA Amplified Product 
+ 
+5’-CTACACGACGCTCTTCCGATCT-NNNNNNNNNNNNNNNN-NNNNNNNNNN-TTTCTTATATGGG-cDNA_Insert-GTACTCTGCGTTGATACCACTGCTT-3’ 
+|||||||||||||||||||||| |||||||||||||||| |||||||||| ||||||||||||| ||||||||||| ||||||||||||||||||||||||| 
+3’-GATGTGCTGCGAGAAGGCTAGA-NNNNNNNNNNNNNNNN-NNNNNNNNNN-AAAGAATATACCC-cDNA_Insert-CATGAGACGCAACTATGGTGACGAA-5’ 
+Protocol Step 5.1 – Target Enrichment 1 from Amplified cDNA 
+Human T Cell Mix 1  
+(PN-2000008) 
+Forward primer: (final concentration of 2 µM) 
+ 
+5’-AATGATACGGCGACCACCGA-GATCTACACTCTTTCCCTACACGACGCTC-3’ 
+Reverse primers: (final concentration of 1 µM each)  
+ 
+5’-TGAAGGCGTTTGCACATGCA-3’ 
+5’-TCAGGCAGTATCTGGAGTCATTGAG-3’ 
+Human B Cell Mix 1  
+(PN-2000035) 
+Forward primer: (final concentration of 1 µM) 
+ 
+5’-AATGATACGGCGACCACCGA-GATCTACACTCTTTCCCTACACGACGCTC-3’ 
+Reverse primers: (final concentration of 0.5 µM each)  
+ 
+5’-CAGGGCACAGTCACATCCT-3’ 
+5’-TGCTGGACCACGCATTTGTA-3’ 
+5’-GGTTTTGTTGTCGACCCAGTCT-3’ 
+5’-TTGTCCACCTTGGTGTTGCT-3’ 
+5’-CATGACGTCCTTGGAAGGCA-3’ 
+5’-TGTGGGACTTCCACTG-3’ 
+5’-TTCTCGTAGTCTGCTTTGCTCAG-3’ 
+Protocol Step 5.3 – Target Enrichment 2 from Amplified cDNA 
+Human T Cell Mix 2  
+(PN-2000009) 
+Forward primer: (final concentration of 2 µM) 
+ 
+5’-AATGATACGGCGACCACCGA-GATCT-3’ 
+Reverse primers: (final concentration of 1 µM each)  
+ 
+5’-AGTCTCTCAGCTGGTACACG-3’  
+5’-TCTGATGGCTCAAACACAGC-3’ 
+Human B Cell Mix 2 
+(PN-2000036) 
+Forward primer: (final concentration of 1 µM) 
+ 
+5’-AATGATACGGCGACCACCGA-GATCT-3’ 
+Reverse primers: (final concentration of 0.5 µM each)  
+ 
+5’-GGGAAGTTTCTGGCGGTCA-3’  
+5’-GGTGGTACCCAGTTATCAAGCAT-3’ 
+5’-GTGTCCCAGGTCACCATCAC-3’  
+5’-TCCTGAGGACTGTAGGACAGC-3’ 
+5’-CACGCTGCTCGTATCCGA-3’  
+5’-TAGCTGCTGGCCGC-3’  
+5’-GCGTTATCCACCTTCCACTGT-3’ 
+Partial Read 1
+Non-Poly(dT)  Primer
+Read 1
+10x
+Barcode
+UMI
+Switch Oligo
+Poly(dT) RT primer
+Enrichment Outer Primer
+Enrichment Outer Primer
+Enrichment Inner Primer
+Enrichment Inner Primer
+
+
+--- Page 8 ---
+10x Genomics®  |  CG000109 Rev D Technical Note – Assay Scheme and Configuration of Chromium™ Single Cell V(D)J Libraries 
+8 
+Table 2A. Detailed reaction products and oligo sequences for the Single Cell V(D)J Protocol Option 2: Target Enrichment from Amplified cDNA Library Construction. Protocol steps correspond to the 
+Chromium™ Single Cell V(D)J Reagent Kits User Guide (CG000086). 
+ 
+ 
+ 
+Targeted Amplification 
+Product 
+ 
+ 
+5’-AATGATACGGCGACCACCGA-GATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT-NNNNNNNNNNNNNNNN-NNNNNNNNNN-TTTCTTATATGGG-cDNA_Insert-Inner_Primer-3’ 
+ |||||||||||||||||||| |||||||||||||||||||||||||||||||||||||| |||||||||||||||| |||||||||| ||||||||||||| ||||||||||| ||||||||||||| 
+3’-TTACTATGCCGCTGGTGGCT-CTAGATGTGAGAAAGGGATGTGCTGCGAGAAGGCTAGA-NNNNNNNNNNNNNNNN-NNNNNNNNNN-AAAGAATATACCC-cDNA_Insert-Inner_Primer-5’ 
+ 
+ 
+Protocol 7.2 – Adaptor Ligation 
+Adaptor (Read 2)  
+(PN-220026) 
+ 
+                                                          5’-GATCGGAAGAGCACACGTCTGAACTCCAGTCAC-3’ 
+                                                             ||||||||||||  
+                                                         3’-TCTAGCCTTCTCG-5’ 
+Ligation Product 
+ 
+ 
+              5’-AATGATACGGCGACCACCGA-GATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT-NNNNNNNNNNNNNNNN-NNNNNNNNNN-TTTCTTATATGGG-cDNA_Insert-AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC-3’ 
+                 |||||||||||||||||||| |||||||||||||||||||||||||||||||||||||| |||||||||||||||| |||||||||| ||||||||||||| ||||||||||| ||||||||||||| 
+              3’-TTACTATGCCGCTGGTGGCT-CTAGATGTGAGAAAGGGATGTGCTGCGAGAAGGCTAGA-NNNNNNNNNNNNNNNN-NNNNNNNNNN-AAAGAATATACCC-cDNA_Insert-TCTAGCCTTCTCG-5’ 
+ 
+Protocol 7.4 – Sample Index PCR 
+ 
+Sample Index PCR Primer 
+(PN-220111 and PN-220103) 
+ 
+Forward primer: 
+ 
+P5 – Partial Read 1 
+5’-AATGATACGGCGACCACCGA-GATCTACACTCTTTCCCTACACGACGCTC-3’ 
+Reverse primer: 
+ 
+P7 – Sample Index – Partial Read 2 
+5’-CAAGCAGAAGACGGCATACGAGAT-NNNNNNNN-GTGACTGGAGTTCAGACGTGT-3’ 
+Sample Index PCR 
+Product 
+ 
+ 
+5’-AATGATACGGCGACCACCGA-GATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT-NNNNNNNNNNNNNNNN-NNNNNNNNNN-TTTCTTATATGGG-cDNA_Insert-AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC-NNNNNNNN-ATCTCGTATGCCGTCTTCTGCTTG-3’ 
+   |||||||||||||||||||| |||||||||||||||||||||||||||||||||||||| |||||||||||||||| |||||||||| ||||||||||||| ||||||||||| |||||||||||||||||||||||||||||||||| |||||||| |||||||||||||||||||||||| 
+3’-TTACTATGCCGCTGGTGGCT-CTAGATGTGAGAAAGGGATGTGCTGCGAGAAGGCTAGA-NNNNNNNNNNNNNNNN-NNNNNNNNNN-AAAGAATATACCC-cDNA_Insert-TCTAGCCTTCTCGTGTGCAGACTTGAGGTCAGTG-NNNNNNNN-TAGAGCATACGGCAGAAGACGAAC-5’ 
+Read 1
+P5
+10x
+Barcode
+UMI
+Switch Oligo
+V
+J
+C
+D
+Read 1
+P5
+10x
+Barcode
+UMI
+Switch Oligo
+Read 2
+V
+J
+C
+D
+Read 1
+P5
+10x
+Barcode
+UMI
+Switch Oligo
+Read 2
+Sample
+Index
+P7
+V
+J
+C
+D
+
+
+--- Page 9 ---
+10x Genomics®  |  CG000109 Rev D Technical Note – Assay Scheme and Configuration of Chromium™ Single Cell V(D)J Libraries 
+9 
+Table 2B. Detailed reaction products and oligo sequences for the Single Cell V(D)J Protocol Option 2: 5’ Gene Expression Library Construction. Protocol steps correspond to the Chromium™ Single 
+Cell V(D)J Reagent Kits User Guide (CG000086). 
+Protocol Step 1.5 – GEM-RT Incubation 
+Gel Bead Oligo Primer 
+(TSO) 
+(PN-220112) 
+ 
+ 
+5’-CTACACGACGCTCTTCCGATCT-NNNNNNNNNNNNNNNN-NNNNNNNNNN-TTTCTTATATrGrGrG-3’ 
+Poly-dT RT Primer  
+(PN-2000007) 
+ 
+ 
+5’AAGCAGTGGTATCAACGCAGAGTAC-TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTVN-3’ 
+Reverse Transcript 
+Product 
+ 
+ 
+3’-GATGTGCTGCGAGAAGGCTAGA-NNNNNNNNNNNNNNNN-NNNNNNNNNN-AAAGAATATACCC-cDNA_Insert-NVTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT-CATGAGACGCAACTATGGTGACGAA-5’ 
+Protocol 4.1– cDNA Amplification 
+cDNA Primer Mix  
+(PN-220106) 
+Forward primer: 
+ 
+5’-CTACACGACGCTCTTCCGATCT-3’ 
+Reverse primer:  
+ 
+5’- AAGCAGTGGTATCAACGCAG-3’ 
+cDNA Amplified Product 
+ 
+ 
+5’-CTACACGACGCTCTTCCGATCT-NNNNNNNNNNNNNNNN-NNNNNNNNNN-TTTCTTATATGGG-cDNA_Insert-GTACTCTGCGTTGATACCACTGCTT-3’ 
+|||||||||||||||||||||| |||||||||||||||| |||||||||| ||||||||||||| ||||||||||| ||||||||||||||||||||||||| 
+3’-GATGTGCTGCGAGAAGGCTAGA-NNNNNNNNNNNNNNNN-NNNNNNNNNN-AAAGAATATACCC-cDNA_Insert-CATGAGACGCAACTATGGTGACGAA-5’ 
+Protocol 6.3 – Adaptor Ligation 
+Adaptor (Read 2)  
+(PN-220026) 
+ 
+                                                          5’-GATCGGAAGAGCACACGTCTGAACTCCAGTCAC-3’ 
+                                                             ||||||||||||  
+                                                         3’-TCTAGCCTTCTCG-5’ 
+Ligation Product 
+ 
+                                                         
+ 
+5’-CTACACGACGCTCTTCCGATCT-NNNNNNNNNNNNNNNN-NNNNNNNNNN-TTTCTTATATGGG-cDNA_Insert-AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC-3’ 
+                                            |||||||||||||||||||||| |||||||||||||||| |||||||||| ||||||||||||| ||||||||||| ||||||||||||| 
+                                         3’-GATGTGCTGCGAGAAGGCTAGA-NNNNNNNNNNNNNNNN-NNNNNNNNNN-AAAGAATATACCC-cDNA_Insert-TCTAGCCTTCTCG-5’ 
+ 
+Protocol 6.5 – Sample Index PCR 
+Sample Index PCR Primer 
+(PN-220111 and PN-220103) 
+ 
+Forward primer: 
+ 
+P5 – Partial Read  
+5’-AATGATACGGCGACCACCGA-GATCTACACTCTTTCCCTACACGACGCTC-3’ 
+Reverse primer: 
+ 
+P7 – Sample Index – Partial Read 2 
+5’-CAAGCAGAAGACGGCATACGAGAT-NNNNNNNN-GTGACTGGAGTTCAGACGTGT-3’ 
+Sample Index PCR Product 
+ 
+ 
+5’-AATGATACGGCGACCACCGA-GATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT-NNNNNNNNNNNNNNNN-NNNNNNNNNN-TTTCTTATATGGG-cDNA_Insert-AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC-NNNNNNNN-ATCTCGTATGCCGTCTTCTGCTTG-3’ 
+   |||||||||||||||||||| |||||||||||||||||||||||||||||||||||||| |||||||||||||||| |||||||||| ||||||||||||| ||||||||||| |||||||||||||||||||||||||||||||||| |||||||| |||||||||||||||||||||||| 
+3’-TTACTATGCCGCTGGTGGCT-CTAGATGTGAGAAAGGGATGTGCTGCGAGAAGGCTAGA-NNNNNNNNNNNNNNNN-NNNNNNNNNN-AAAGAATATACCC-cDNA_Insert-TCTAGCCTTCTCGTGTGCAGACTTGAGGTCAGTG-NNNNNNNN-TAGAGCATACGGCAGAAGACGAAC-5’ 
+Partial Read 1
+Non-Poly(dT)  Primer
+Non-Polyd(T) Primer
+Read 1
+10x
+Barcode
+UMI
+Switch Oligo
+Insert
+Read 1
+10x
+UMI
+Switch Oligo
+Read 2
+Insert
+Read 1
+P5
+10x
+Barcode
+UMI
+Switch Oligo
+Read 2
+Sample
+Index
+P7
+Insert
+
+
+--- Page 10 ---
+10x Genomics®  |  CG000109 Rev D Technical Note – Assay Scheme and Configuration of Chromium™ Single Cell V(D)J Libraries 
+10 
+Notices 
+ 
+Document Number 
+CG000109 Rev D Technical Note 
+ 
+Legal Notices  
+© 2017 10x Genomics, Inc. All rights reserved. Duplication and/or reproduction of all or any portion of this document 
+without the express written consent of 10x Genomics, Inc., is strictly forbidden. Nothing contained herein shall 
+constitute any warranty, express or implied, as to the performance of any products described herein. Any and all 
+warranties applicable to any products are set forth in the applicable terms and conditions of sale accompanying the 
+purchase of such product. 10x Genomics provides no warranty and hereby disclaims any and all warranties as to the 
+use of any third party products or protocols described herein. The use of products described herein is subject to 
+certain restrictions as set forth in the applicable terms and conditions of sale accompanying the purchase of such 
+product. “10x”, “10x Genomics”, “Changing the Definition of Sequencing”, “Chromium”, “GemCode”, “Loupe”, “Long 
+Ranger”, “Cell Ranger” and “Supernova” are trademarks of 10x Genomics, Inc. All other trademarks are the property 
+of their respective owners. All products and services described herein are intended FOR RESEARCH USE ONLY and 
+NOT FOR USE IN DIAGNOSTIC PROCEDURES.  
+The use of 10x Product(s) in practicing the methods set forth herein has not been validated by 10x, and such non-
+validated use is NOT COVERED BY 10X STANDARD WARRANTY, AND 10X HEREBY DISCLAIMS ANY AND ALL 
+WARRANTIES FOR SUCH USE.  
+Nothing in this document should be construed as altering, waiving or amending in any manner 10x Genomics, Inc., 
+terms and conditions of sale for the Chromium™ Controller, consumables or software, including without limitation 
+such terms and conditions relating to certain use restrictions, limited license, warranty and limitation of liability, and 
+nothing in this document shall be deemed to be Documentation, as that term is set forth in such terms and conditions 
+of sale. Nothing in this document shall be construed as any representation by 10x Genomics, Inc that it currently or 
+will at any time in the future offer or in any way support any application set forth herein.  
+ 
+ 
+Customer Information and Feedback  
+For technical information or advice, please contact our Customer Technical Support Division online at any time.  
+Email: support@10xgenomics.com  
+10x Genomics 7068 Koll Center Parkway  
+Suite 401  
+Pleasanton, CA 94566 USA 

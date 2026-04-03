@@ -1,5 +1,6 @@
 __pycache__/
 .venv/
+.DS_Store
 protocol_pdfs/
 protocol_sources/
-.DS_Store
+

@@ -1,0 +1,180 @@
+--- Page 1 ---
+ 
+10x Genomics®  |  CG000108 Rev A Technical Note – Assay Scheme and Configuration of Chromium™ Single Cell 3’ v2 Libraries 
+1 
+TECHNICAL NOTE 
+Assay Scheme and Configuration of Chromium™ 
+Single Cell 3’ v2 Libraries  
+INTRODUCTION 
+The Chromium™ Single Cell 3’ v2 Protocol (CG00052) produces Single Cell 3’ libraries ready for Illumina® 
+sequencing. During library preparation sequence components essential for Illumina sequencing and 
+downstream data analysis are incorporated into the final library construct. The sequence components are 
+introduced via the 10x™ Gel Beads and the library preparation steps of the workflow.  
+Each Gel Bead contains millions of oligo primers that are comprised of the following sequences (Figure 1): 
+                   
+ 
+ 
+ 
+10x Genomics technology is based on the partitioning of samples and reagents into droplets, each called a Gel 
+Bead in Emulsion (GEM). Once partitioned, the Gel Bead dissolves and its oligo primers are released into the 
+aqueous environment of the GEM. The cell captured in the GEM is also lysed. The contents of the GEM (oligos, 
+lysed cell components and Master Mix) are incubated in an RT reaction to generate full-length, barcoded cDNA 
+from the poly A-tailed mRNA transcripts. The reverse transcription reaction is primed by the barcoded Gel Bead 
+oligo and the reverse transcriptase incorporates the template switch oligo via a template switching reaction at 
+the 5’ end of the transcript. The GEMs are then “broken”, pooling single-stranded, barcoded cDNA molecules 
+from every cell. A bulk PCR-amplification and Enzymatic Fragmentation follow. Size selection is then used to 
+optimize the insert size of the double-stranded cDNA prior to library construction. During library construction 
+Read 2 is added by Adapter ligation. Illumina P5 and P7 sequences and sample index sequences are added 
+during the Sample Index PCR. The final library fragments contain the P5, P7, Read 1 and Read 2 sequences used 
+in Illumina bridge amplification and sequencing. Additionally, each fragment contains the 10x Barcode, UMI and 
+cDNA insert sequence used in data analysis (Figure 2). An overview of the Single Cell 3’ v2 assay scheme and 
+how individual sequence components are incorporated during library construction is presented in Figure 3.  
+ 
+Fig. 1. Schematic of a SC3’ v2 Gel Bead oligo primer. 
+i.
+Partial Illumina Read 1 sequence (22 nucleotides (nt)) 
+ii.
+16 nt 10x™ Barcode 
+iii.
+10 nt Unique Molecular Identifier (UMI) 
+iv.
+30 nt Poly(dT) primer sequence 
+
+
+--- Page 2 ---
+10x Genomics®  |  CG000108 Rev A Technical Note – Assay Scheme and Configuration of Chromium™ Single Cell 3’ v2 Libraries 
+2 
+ 
+Fig. 2. Schematic of a fragment from a final Chromium™ Single Cell 3’ v2 library. *Can be adjusted. 
+ 
+ 
+Inside individual GEMs  
+ 
+ 
+           Pooled cDNA processed in bulk 
+ 
+Fig. 3. Schematic of assay scheme for Chromium Single Cell 3’ v2 library preparation.  
+ 
+Figure 4 provides a detailed description of the library preparation workflow. Individual protocol steps that are 
+listed in Figure 4 refer to the Chromium Single Cell 3’ Reagent Kits v2 User Guide (CG00052). 
+ 
+CONCLUSION 
+We have presented a detailed description of the assay configuration for Chromium Single Cell 3’ v2 libraries. 
+Individual steps during library construction outlined here provide additional insight and may serve as a 
+reference to customize the library preparation workflow (e.g. targeted cDNA enrichment). 
+ 
+ 
+ 
+ 
+ 
+ 
+REFERENCES 
+• 
+Chromium™ Single Cell 3’ Reagent Kits v2 User Guide (CG00052) 
+ 
+
+
+--- Page 3 ---
+10x Genomics®  |  CG000108 Rev A Technical Note – Assay Scheme and Configuration of Chromium™ Single Cell 3’ v2 Libraries 
+3 
+ 
+ 
+Fig. 4. Flow chart that outlines construction of Single Cell 3’ v2 libraries. Protocol steps and part numbers refer to Chromium™ Single Cell 3’ Reagent Kits v2 User Guide (CG00052). 
+Protocol Step 1.5 – GEM-RT Incubation 
+Gel Bead Oligo 
+Primer 
+(PN-220104) 
+ 
+5’-CTACACGACGCTCTTCCGATCT-NNNNNNNNNNNNNNNN-NNNNNNNNNN-TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTVN-3’ 
+RT Primer (TSO)  
+(PN-310354) 
+ 
+5’-AAGCAGTGGTATCAACGCAGAGTACATrGrGrG-3’ 
+Reverse Transcript 
+Product 
+ 
+5’-CTACACGACGCTCTTCCGATCT-NNNNNNNNNNNNNNNN-NNNNNNNNNN-TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTVN-cDNA_Insert-CCCATGTACTCTGCGTTGATACCACTGCTT-3’ 
+Protocol Step 2.2 – cDNA Amplification Reaction 
+cDNA Primer Mix  
+(PN-22016) 
+Forward primer: 
+ 
+5’-CTACACGACGCTCTTCCGATCT-3’ 
+Reverse primer: 
+ 
+5’-AAGCAGTGGTATCAACGCAGAGTACAT-3’ 
+cDNA 
+Amplification 
+Product 
+ 
+5’-CTACACGACGCTCTTCCGATCT-NNNNNNNNNNNNNNNN-NNNNNNNNNN-TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTVN-cDNA_Insert-CCCATGTACTCTGCGTTGATACCACTGCTT-3’ 
+|||||||||||||||||||||| |||||||||||||||| |||||||||| |||||||||||||||||||||||||||||||| ||||||||||| ||||||||||||||||||||||||||||||                   
+3’-GATGTGCTGCGAGAAGGCTAGA-NNNNNNNNNNNNNNNN-NNNNNNNNNN-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAVN-cDNA_Insert-GGGTACATGAGACGCAACTATGGTGACGAA-5’         
+Protocol 3.3 – Adapter Ligation 
+Adapter (Read 2)  
+(PN-220026) 
+ 
+                                                          5’-GATCGGAAGAGCACACGTCTGAACTCCAGTCAC-3’ 
+                                                             ||||||||||||  
+                                                         3’-TCTAGCCTTCTCG-5’ 
+Ligation Product 
+ 
+          5’-CTACACGACGCTCTTCCGATCT-NNNNNNNNNNNNNNNN-NNNNNNNNNN-TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTVN-cDNA_Insert-AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC-3’ 
+             |||||||||||||||||||||| |||||||||||||||| |||||||||| |||||||||||||||||||||||||||||||| ||||||||||| ||||||||||||| 
+          3’-GATGTGCTGCGAGAAGGCTAGA-NNNNNNNNNNNNNNNN-NNNNNNNNNN-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAVN-cDNA_Insert-TCTAGCCTTCTCG-5’ 
+Protocol 3.5 – Sample Index PCR 
+Sample Index PCR 
+Primer  
+Forward primer: 
+ 
+P5 – Partial Read 1 (PN-220111) 
+5’-AATGATACGGCGACCACCGA-GATCTACACTCTTTCCCTACACGACGCTC-3’ 
+Reverse primer: 
+ 
+P7 – Sample Index – Partial Read 2 (PN-220103) 
+5’-CAAGCAGAAGACGGCATACGAGAT-NNNNNNNN-GTGACTGGAGTTCAGACGTGT-3’ 
+Sample Index PCR  
+Product 
+ 
+5’-AATGATACGGCGACCACCGA-GATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT-NNNNNNNNNNNNNNNN-NNNNNNNNNN-TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTVN-cDNA_Insert-AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC-NNNNNNNN-ATCTCGTATGCCGTCTTCTGCTTG-3’ 
+|||||||||||||||||||| |||||||||||||||||||||||||||||||||||||| |||||||||||||||| |||||||||| |||||||||||||||||||||||||||||||| ||||||||||| |||||||||||||||||||||||||||||||||| |||||||| |||||||||||||||||||||||| 
+3’-TTACTATGCCGCTGGTGGCT-CTAGATGTGAGAAAGGGATGTGCTGCGAGAAGGCTAGA-NNNNNNNNNNNNNNNN-NNNNNNNNNN-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAVN-cDNA_Insert-TCTAGCCTTCTCGTGTGCAGACTTGAGGTCAGTG-NNNNNNNN-TAGAGCATACGGCAGAAGACGAAC-5’ 
+
+
+--- Page 4 ---
+10x Genomics®  |  CG000108 Rev A Technical Note – Assay Scheme and Configuration of Chromium™ Single Cell 3’ v2 Libraries 
+4 
+Notices 
+ 
+Document Number 
+CG000108 Rev A Technical Note 
+ 
+Legal Notices  
+© 2017 10x Genomics, Inc. All rights reserved. Duplication and/or reproduction of all or any portion of this document 
+without the express written consent of 10x Genomics, Inc., is strictly forbidden. Nothing contained herein shall 
+constitute any warranty, express or implied, as to the performance of any products described herein. Any and all 
+warranties applicable to any products are set forth in the applicable terms and conditions of sale accompanying the 
+purchase of such product. 10x Genomics provides no warranty and hereby disclaims any and all warranties as to the 
+use of any third party products or protocols described herein. The use of products described herein is subject to 
+certain restrictions as set forth in the applicable terms and conditions of sale accompanying the purchase of such 
+product. “10x”, “10x Genomics”, “Changing the Definition of Sequencing”, “Chromium”, “GemCode”, “Loupe”, “Long 
+Ranger”, “Cell Ranger” and “Supernova” are trademarks of 10x Genomics, Inc. All other trademarks are the property 
+of their respective owners. All products and services described herein are intended FOR RESEARCH USE ONLY and 
+NOT FOR USE IN DIAGNOSTIC PROCEDURES.  
+The use of 10x Product(s) in practicing the methods set forth herein has not been validated by 10x, and such non-
+validated use is NOT COVERED BY 10X STANDARD WARRANTY, AND 10X HEREBY DISCLAIMS ANY AND ALL 
+WARRANTIES FOR SUCH USE.  
+Nothing in this document should be construed as altering, waiving or amending in any manner 10x Genomics, Inc., 
+terms and conditions of sale for the Chromium™ Controller, consumables or software, including without limitation 
+such terms and conditions relating to certain use restrictions, limited license, warranty and limitation of liability, and 
+nothing in this document shall be deemed to be Documentation, as that term is set forth in such terms and conditions 
+of sale. Nothing in this document shall be construed as any representation by 10x Genomics, Inc that it currently or 
+will at any time in the future offer or in any way support any application set forth herein.  
+ 
+ 
+Customer Information and Feedback  
+For technical information or advice, please contact our Customer Technical Support Division online at any time.  
+Email: support@10xgenomics.com  
+10x Genomics 7068 Koll Center Parkway  
+Suite 401  
+Pleasanton, CA 94566 USA 

@@ -1,0 +1,3046 @@
+--- Page 1 ---
+PROTOCOL STEP 4 – Library Construction 
+ 
+Chromium™ 
+Single Cell 3’ Reagent Kits 
+User Guide 
+ 
+FOR USE WITH 
+Chromium™ Single Cell 3’ Library, Gel Bead & Multiplex Kit, 16 rxns PN-120233 
+Chromium™ Single Cell 3’ Chip Kit PN-120232 
+ 
+ 
+ 
+ 
+
+
+--- Page 2 ---
+NOTICES 
+__________________________________________________________________________________________________ 
+ 
+Chromium™ Single Cell 3’ Reagent Kits User Guide 
+ 
+i 
+Click to TOC 
+Notices 
+Manual Part Number 
+CG00026 
+Rev B 
+Legal Notices 
+© 2016 10x Genomics, Inc.  All rights reserved.  Duplication and/or reproduction of all or any portion of this 
+document without the express written consent of 10x Genomics, Inc., is strictly forbidden.  Nothing contained 
+herein shall constitute any warranty, express or implied, as to the performance of any products described 
+herein.  Any and all warranties applicable to any products are set forth in the applicable terms and 
+conditions of sale accompanying the purchase of such product.  10x Genomics provides no warranty and 
+hereby disclaims any and all warranties as to the use of any third party products or protocols described 
+herein.  The use of products described herein is subject to certain restrictions as set forth in the applicable 
+terms and conditions of sale accompanying the purchase of such product. “10x”, “10x Genomics”, “Changing 
+the Definition of Sequencing”, “Chromium”, “GemCode”, “Loupe”, “Long Ranger”, “Cell Ranger” and 
+“Supernova” are trademarks of 10x Genomics, Inc.  All other trademarks are the property of their respective 
+owners.  All products and services described herein are intended FOR RESEARCH USE ONLY and NOT FOR 
+USE IN DIAGNOSTIC PROCEDURES. 
+ 
+Limited Use Label License: Research Use Only 
+Notice to Purchaser: This product contains Thermo Fisher Scientific products that are the subject of one or 
+more issued US patents or pending US patent applications, and corresponding non-US equivalents, owned 
+by Thermo Fisher Scientific, Inc. or its subsidiaries and is sold under an agreement between Thermo Fisher 
+Scientific Baltics UAB and 10x Genomics, Inc. The purchase of this product conveys to the purchaser the 
+limited, non-transferable right to use the product in RNA sequencing applications to: (i) perform internal 
+research and development for the sole benefit of the purchaser; or (ii) perform research and development 
+services conducted by the purchaser on a fee for service or contract basis for or on behalf of third parties. 
+No right to resell this product or any of its components is conveyed expressly, by implication, or by estoppel. 
+For information on obtaining additional rights under patents owned by Thermo Fisher Scientific, please 
+contact outlicensing@lifetech.com or Out Licensing, Life Technologies, 5791 Van Allen Way, Carlsbad, 
+California 92008. 
+ 
+Customer Information and Feedback 
+For technical information or advice, please contact our Customer Technical Support Division online at any 
+time.  
+ 
+Email: techsupport@10xgenomics.com 
+10x Genomics 
+7068 Koll Center Parkway 
+Suite 401 
+Pleasanton, CA 94566 USA  
+
+
+--- Page 3 ---
+TABLE OF CONTENTS 
+__________________________________________________________________________________________________ 
+ 
+Chromium™ Single Cell 3’ Reagent Kits User Guide 
+ 
+ii 
+Click to TOC 
+Table of Contents 
+Introduction 
+iv 
+Chromium™ Single Cell 3’ Reagent Kits – Components 
+v 
+Chromium™ Accessories 
+vi 
+Additional Kits, Reagents & Equipment 
+vii 
+Recommended Thermal Cyclers 
+viii 
+The Single Cell 3’ Reagent Kit Protocol 
+1 
+The Single Cell 3’ Reagent Kit Protocol – Stepwise Objectives 
+2 
+The Single Cell 3’ Reagent Kit Protocol – Steps & Timing 
+4 
+Protocol Step 1 
+5 
+1. 
+Cell Preparation 
+6 
+1.1. 
+Cell Harvesting – Suspension Cell Lines 
+7 
+1.2. 
+Cell Harvesting – Adherent Cell Lines 
+7 
+1.3. 
+Cell Washing 
+8 
+Protocol Step 2 
+9 
+2. 
+GEM Generation & Barcoding 
+10 
+2.1. 
+Preparing Single Cell Master Mix 
+14 
+2.2. 
+Loading the Single Cell 3’ Chip 
+14 
+2.3. 
+Running the Chromium™ Controller 
+17 
+2.4. 
+Transferring GEMs 
+17 
+2.5. 
+GEM-RT Incubation 
+19 
+Protocol Step 3 
+20 
+3. 
+Post GEM-RT Cleanup & cDNA Amplification 
+21 
+3.1. 
+Post GEM-RT Cleanup – Silane DynaBeads 
+22 
+3.2. 
+Post GEM-RT Cleanup – SPRIselect 
+24 
+3.3. 
+cDNA Amplification Reaction 
+25 
+3.4. 
+Post cDNA Amplification Reaction Cleanup – SPRIselect 
+26 
+3.5. 
+Post cDNA Amplification Reaction QC 
+27 
+Protocol Step 4 
+28 
+4. 
+Library Construction 
+29 
+4.1. 
+Shearing 
+31 
+
+
+--- Page 4 ---
+TABLE OF CONTENTS 
+__________________________________________________________________________________________________ 
+ 
+Chromium™ Single Cell 3’ Reagent Kits User Guide 
+ 
+iii 
+Click to TOC 
+4.2. 
+Post Shearing Size Selection – SPRIselect 
+31 
+4.3. 
+Library Construction: End Repair & A-tailing 
+32 
+4.4. 
+Library Construction: Adaptor Ligation 
+33 
+4.5. 
+Post Ligation Cleanup 1 – SPRIselect 
+33 
+4.6. 
+Post Ligation Cleanup 2 – SPRIselect 
+34 
+4.7. 
+Sample Index PCR 
+35 
+4.8. 
+Post Sample Index PCR Cleanup 1 – SPRIselect 
+36 
+4.9. 
+Post Sample Index PCR Cleanup 2 – SPRIselect 
+36 
+4.10. 
+Post Library Construction QC 
+37 
+4.11. 
+Post Library Construction Quantification 
+38 
+Protocol Step 5 
+39 
+5. 
+Sequencing Libraries 
+40 
+5.1. 
+Sequencing Run Parameters 
+40 
+5.2. 
+Loading Single Cell 3’ Libraries 
+40 
+Practical Tips & Troubleshooting 
+41 
+6. 
+Practical Tips & Troubleshooting 
+42 
+6.1. 
+Processing Fewer than 8 Reactions 
+42 
+6.2. 
+Assembling a Chip, 10x™ Chip Holder & 10x™ Gasket 
+42 
+6.3. 
+Pipetting Gel Beads 
+44 
+6.4. 
+Pipetting GEMs 
+45 
+6.5. 
+Surrogate Fluid 
+46 
+6.6. 
+Reagent Clogs during GEM Generation 
+47 
+6.7. 
+Wetting Failures 
+48 
+6.8. 
+Chromium™ Controller Errors 
+49 
+6.9. 
+Glossary of Terms 
+50 
+
+
+--- Page 5 ---
+INTRODUCTION 
+__________________________________________________________________________________________________ 
+ 
+Chromium™ Single Cell 3’ Reagent Kits User Guide 
+ 
+iv 
+Click to TOC 
+ 
+Introduction 
+ 
+ 
+Chromium™ Single Cell 3’ Reagent Kits - 
+Components 
+Chromium™ Accessories 
+Additional Kits, Reagents & Equipment 
+Recommended Thermal Cyclers 
+ 
+ 
+ 
+
+
+--- Page 6 ---
+INTRODUCTION 
+__________________________________________________________________________________________________ 
+ 
+Chromium™ Single Cell 3’ Reagent Kits User Guide 
+ 
+v 
+Click to TOC 
+Chromium™ Single Cell 3’ Reagent Kits – Components 
+ 
+Product 
+Description 
+# 
+Part Number 
+Chromium™ Single Cell 3’ Library Kit (store at −20°C) 
+ 
+120230 
+Reagents Module 1 
+RT Reagent Mix 
+1 
+220071 
+ 
+RT Enzyme 
+1 
+220070 
+ 
+RNase Inhibitor 
+1 
+220065 
+ 
+Additive A 
+1 
+220074 
+ 
+RT Primer 
+2 
+310354 
+ 
+Buffer for Sample Cleanup 1 
+2 
+220020 
+ 
+cDNA Primer Mix 
+1 
+220066 
+ 
+cDNA Additive 
+1 
+220067 
+ 
+ 
+ 
+ 
+Reagents Module 2 
+Amplification Master Mix 
+2 
+220073 
+ 
+End Repair and A-tailing Buffer 
+1 
+220046 
+ 
+End Repair and A-tailing Enzyme 
+1 
+220047 
+ 
+Ligation Buffer 
+1 
+220048 
+ 
+DNA Ligase 
+1 
+220049 
+ 
+R1 Adaptor Mix 
+1 
+220064 
+ 
+SI-PCR Primer 
+1 
+220068 
+ 
+Surrogate Fluid 
+1 
+220021 
+ 
+ 
+ 
+ 
+ 
+Single Cell 3’ Sample Index Plate 
+1 
+210136 
+Chromium™ Single Cell 3’ Gel Bead Kit (store at −80°C) 
+ 
+120231 
+ 
+Single Cell 3’ Gel Beads 
+2 
+220069 
+Chromium™ Single Cell 3’ Chip Kit (store at ambient temperature) 
+ 
+120232 
+ 
+Single Cell 3’ Chips 
+6 
+230008 
+ 
+Gaskets 
+6 
+370017 
+ 
+Partitioning Oil 
+5 
+220017 
+ 
+Recovery Agent 
+6 
+220016 
+ 
+ 
+
+
+--- Page 7 ---
+INTRODUCTION 
+__________________________________________________________________________________________________ 
+ 
+Chromium™ Single Cell 3’ Reagent Kits User Guide 
+ 
+vi 
+Click to TOC 
+Chromium™ Accessories 
+ 
+Product 
+Description 
+Part Number 
+10x™ Vortex 
+Adapter 
+The 10x Vortex Adapter 
+attaches to the top of a 
+standard laboratory vortexer 
+and enables users to vortex Gel 
+Bead Strips. 
+ 
+330002 
+10x™ Chip 
+Holder 
+The 10x Chip Holder encases the Chromium Chips and holds them 
+in the correct position in the Chromium Controller. The 10x Gasket 
+fits over the top of the 10x Chip Holder before inserting the 
+assembly in the Chromium Controller. 
+The 10x Chip Holder lid also conveniently flips over to become a 
+stand, holding the Chromium Chip at the ideal 45° angle for 
+removing GEMs from the Recovery Wells after a Chromium 
+Controller run. 
+Squeeze the black sliders on the back side of the 10x Chip Holder 
+together to unlock the lid and return the 10x Chip Holder to a flat 
+position. 
+330019 
+ 
+ 
+ 
+ 
+10x™ Magnetic 
+Separator 
+The 10x Magnetic Separator offers two positions of the magnets 
+relative to the 8-tube strip inserted, depending on its orientation.  
+Simply flip the 10x Magnetic Separator over to switch between the 
+magnets being High or Low. 
+230003 
+ 
+ 
+
+
+--- Page 8 ---
+INTRODUCTION 
+__________________________________________________________________________________________________ 
+ 
+Chromium™ Single Cell 3’ Reagent Kits User Guide 
+ 
+vii 
+Click to TOC 
+Additional Kits, Reagents & Equipment 
+Supplier 
+Description 
+Part Number 
+(US) 
+Qiagen 
+Buffer EB 
+19086 
+Thermo Fisher 
+DynaBeads® MyOne™ Silane Beads*  
+37002D 
+ 
+Nuclease-Free Water 
+AM9937 
+ 
+Low TE Buffer (10 mM Tris-HCl pH 8.0, 0.1 mM EDTA) 
+12090-015 
+ 
+Phosphate Buffered Saline (PBS), pH 7.4 
+10010023 
+ 
+Countess® II Automated Cell Counter‡ 
+AMQAX1000 
+ 
+Countess® II Automated Cell Counting Chamber Slides‡ 
+C10228 
+ 
+UltraPure™ BSA (50 mg/mL) (alternate to Sigma product) 
+AM2616 
+Sigma 
+Ethanol, Pure (200 Proof, anhydrous) 
+459836-500ML 
+ 
+Bovine Serum Albumin (alternate to Thermo Fisher product) 
+B6917 
+Beckman Coulter 
+SPRIselect Reagent Kit* 
+B23318 
+USA Scientific 
+TempAssure PCR 8-tube strip* (alternate to Eppendorf product) 
+14024700 
+Eppendorf 
+twin.tec® 96-Well PCR Plate* Semi-skirted§ 
+951020362 
+ 
+twin.tec® 96-Well PCR Plate* Divisible, unskirted§ 
+0030133374 
+ 
+twin.tec® 96-Well PCR Plate* Unskirted§ 
+0030133390 
+ 
+ThermoMixer C® 
+5382000015 
+ 
+SmartBlock 1.5 mL, Thermoblock for 24 Reaction Vessels 
+5360000038 
+ 
+DNA LoBind Tube Microcentrifuge Tube, 0.5 mL* 
+022431005 
+ 
+DNA LoBind Tube Microcentrifuge Tube, 1.5 mL* 
+022431021 
+ 
+DNA LoBind Tube Microcentrifuge Tube, 2.0 mL* 
+022431048 
+ 
+PCR Tubes 0.2 mL 8-tube strips* (alternate to USA Scientific product) 
+951010022 
+Bio-Rad 
+PX1 PCR Plate Sealer** 
+1814000 
+ 
+Optical Flat 8-Cap Strips 
+TCS0803 
+ 
+Pierceable Foil Heat Seal** 
+1814040 
+ 
+10% Tween 20 
+1610781 
+ 
+Microseal 'B' Adhesive Seals 
+MSB1001 
+KAPA Biosystems 
+Illumina Library Quantification Kit 
+KK4824 
+- 
+ 
+qPCR instrument and compatible consumables 
+- 
+ 
+VWR 
+Vortex Mixer* 
+10153-838 
+ 
+Divided Polystyrene Reservoirs** 
+41428-958 
+Agilent‡ 
+2100 Bioanalyzer Laptop Bundle 
+G2943CA 
+ 
+High Sensitivity DNA Kit 
+5067-4626 
+ 
+4200 TapeStation 
+G2291aa 
+ 
+High Sensitivity D1000 ScreenTape 
+5067-5584 
+ 
+High Sensitivity D1000 Reagents 
+5067-5585 
+Covaris 
+M220 Focused Ultrasonicator™*** 
+500295 
+ 
+M220 Holder microTUBE*** 
+500301 
+ 
+microTUBE AFA Fiber Screw-Cap 6 x 16 mm*** 
+520096 
+Ricca Chemical 
+Company 
+Glycerin (glycerol), 50% (v/v) Aqueous Solution (additional Surrogate 
+Fluid, if needed) 
+3290-32 
+
+
+--- Page 9 ---
+INTRODUCTION 
+__________________________________________________________________________________________________ 
+ 
+Chromium™ Single Cell 3’ Reagent Kits User Guide 
+ 
+viii 
+Click to TOC 
+Supplier 
+Description 
+Part Number 
+US 
+Rainin 
+Tips LTS 20UL Filter RT-L10FLR 
+17007957 
+ 
+Tips LTS 200UL Filter RT-L200FLR* 
+17007961 
+ 
+Tips LTS 1ML Filter RT-L1000FLR 
+17007954 
+ 
+Tips LTS W-O 1MLUL Fltr RT-L1000WFLR 
+17014297 
+ 
+Pipet-Lite LTS Pipette L-2XLS+ 
+17014393 
+ 
+Pipet-Lite LTS Pipette L-10XLS+ 
+17014388 
+ 
+Pipet-Lite LTS Pipette L-20XLS+ 
+17014392 
+ 
+Pipet-Lite LTS Pipette L-100XLS+ 
+17014384 
+ 
+Pipet-Lite LTS Pipette L-200XLS+ 
+17014391 
+ 
+Pipet-Lite LTS Pipette L-1000XLS+ 
+17014382 
+ 
+Pipet-Lite Multi Pipette L8-10XLS+ 
+17013802 
+ 
+Pipet-Lite Multi Pipette L8-20XLS+ 
+17013803 
+ 
+Pipet-Lite Multi Pipette L8-50XLS+ 
+17013804 
+ 
+Pipet-Lite Multi Pipette L8-200XLS+ 
+17013805 
+Bel-Art 
+Flowmi™ Cell Strainer, 40 µm 
+H13680-0040 
+Miltenyi Biotec 
+MACS SmartStrainers, 30 µm 
+130-098-458 
+iNCYTO 
+Hemocytometer C chip† 
+DHC-N01 
+EMD Millipore 
+Scepter™ 2.0 Handheld Automated Cell Counter† 
+PHCC20060 
+ 
+Scepter™ Cell Counter Sensors, 60 µm† 
+PHCC60050 
+ 
+Scepter™ Cell Counter Sensors, 40 µm† 
+PHCC40050 
+*No substitutions are allowed. Items have been validated by 10x Genomics® and are required for Single Cell 
+3’ workflow, training and system operations. §Eppendorf twin.tec® brand PCR plates are required to ensure 
+stability of GEM emulsions, but the specific model should be selected based on compatibility with thermal 
+cycler in use. **Substituting materials may adversely affect system performance and are not supported. †10x 
+Genomics® recommends the Countess II Cell Counter for most applications, however users should determine 
+the best system for specific sample types. ‡Either Bioanalyzer or TapeStation needed for quality control. 
+***Models LE220 and S2 have also been validated for use with the manufacturer’s recommended tubes.  
+PCR 8-tube strips 
+USA Scientific TempAssure PCR 8-tube strip and Eppendorf PCR Tubes 0.2 mL 8-tube strips have been 
+validated by 10x Genomics®. 
+If USA Scientific or Eppendorf 8-tube strips are not available in your region, alternatives are MicroAmp® and 
+BIOplastics 8-tube strips and caps. 
+Recommended Thermal Cyclers 
+Thermal cyclers used with the Single Cell 3’ Protocol must support uniform heating of 105 µl emulsion 
+volumes. Thermal cyclers recommended for use with the Single Cell 3’ Protocol are: 
+• 
+Bio-Rad C1000 Touch™ Thermal Cycler with 96-Deep Well Reaction Module (# 1851197) 
+• 
+Eppendorf MasterCycler® Pro (# North America 950030010, International 6321 000.019) 
+• 
+Thermo Fisher Veriti© 96-Well Thermal Cycler (# 4375786) 
+
+
+--- Page 10 ---
+INTRODUCTION  The Single Cell 3’ Reagent Kit Protocol 
+__________________________________________________________________________________________________ 
+ 
+Chromium™ Single Cell 3’ Reagent Kits User Guide 
+ 
+1 
+Click to TOC 
+ 
+The Single Cell 3’ 
+Reagent Kit Protocol 
+ 
+ 
+Stepwise Objectives 
+Steps & Timing 
+ 
+ 
+
+
+--- Page 11 ---
+INTRODUCTION  The Single Cell 3’ Reagent Kit Protocol 
+__________________________________________________________________________________________________ 
+ 
+Chromium™ Single Cell 3’ Reagent Kits User Guide 
+ 
+2 
+Click to TOC 
+The Single Cell 3’ Reagent Kit Protocol – Stepwise Objectives 
+Step 1 – Cell Preparation 
+The Single Cell 3’ Protocol enables transcriptional profiling of thousands to tens of thousands of individual 
+cells in a single experiment for sensitive and accurate detection of rare cell types. Cells are first washed to 
+remove contaminants and then prepared in an ideal concentration to go forward to the next step. 
+Step 2 – GEM Generation & Barcoding 
+The Single Cell 3’ Protocol upgrades short read sequencers to deliver a scalable microfluidic platform for 3’ 
+digital gene expression profiling of 1000 – 6000 individual cells per sample. The 10x™ GemCode™ 
+Technology samples a pool of ~ 750,000 barcodes to separately index each cell’s transcriptome. It does so 
+by partitioning thousands of cells into nanoliter-scale Gel Bead-In-EMulsions (GEMs), where all generated 
+cDNA share a common 10x Barcode. Libraries are generated and sequenced from the cDNA and the 10x 
+Barcodes are used to associate individual reads back to the individual partitions. 
+To achieve single cell resolution, the cells are delivered at a limiting dilution, such that the vast majority 
+(~93-99%) of generated GEMs contains no cell, while the remainder largely contains a single cell. 
+Upon dissolution of the Single Cell 3’ Gel Bead in a GEM, primers containing (i) an Illumina P7 and R2 
+sequence (read 2 sequencing primer), (ii) a 14 bp 10x Barcode, (iii) a 10 bp randomer and (iv) a poly-dT 
+primer sequence are released and mixed with cell lysate and Master Mix. Incubation of the GEMs then 
+produces barcoded, full-length cDNA from poly-adenylated mRNA. After incubation, the GEMs are broken 
+and the pooled fractions are recovered. 
+ 
+Step 3 – Post GEM-RT Cleanup & cDNA Amplification 
+Silane magnetic beads and Solid Phase Reversible Immobilization (SPRI) beads are used to remove leftover 
+biochemical reagents and primers from the post GEM reaction mixture. Full-length, barcoded cDNA is then 
+amplified by PCR to generate sufficient mass for library construction. 
+Step 4 – Library Construction 
+A shearing step optimizes the cDNA amplicon size prior to library construction. P7 and R2 (read 2 primer 
+sequence) are added to the molecules during the GEM incubation. P5, a sample index and R1 (read 1 primer 
+sequence) are added during library construction via end repair, A-tailing, adaptor ligation and PCR.  The final 
+libraries contain the P5 and P7 primers used in Illumina bridge amplification. 
+
+
+--- Page 12 ---
+INTRODUCTION  The Single Cell 3’ Reagent Kit Protocol 
+__________________________________________________________________________________________________ 
+ 
+Chromium™ Single Cell 3’ Reagent Kits User Guide 
+ 
+3 
+Click to TOC 
+Step 5 – Sequencing Libraries 
+The Single Cell 3’ Protocol produces Illumina-ready sequencing libraries. A Single Cell 3’ Library comprises 
+standard Illumina paired-end constructs which begin and end with P5 and P7. The Single Cell 3’ 14 bp 10x™ 
+Barcode is encoded in the i7 index read, while sample index sequences are incorporated as the i5 index 
+read. 
+Final Library Structure: 
+ 
+Single Cell 3’ Library Analysis 
+Sequencing a Single Cell 3’ Library produces a standard Illumina BCL data output folder. The BCL data will 
+include the paired-end Read 1 and Read 2, the sample index in the i5 read, and the 14 bp 10x Barcode in the 
+i7 index read. 
+The Cell Ranger™ analysis pipelines perform secondary analysis and visualization. In addition to performing 
+standard analysis steps such as demultiplexing, alignment, and gene counting, Cell Ranger™ leverages the 
+10x Barcodes to generate expression data with single-cell resolution. This data type enables applications 
+including cell clustering, cell type classification, and differential gene expression at an unprecedented scale 
+of thousands of cells. 
+ 
+
+
+--- Page 13 ---
+INTRODUCTION  The Single Cell 3’ Reagent Kit Protocol 
+__________________________________________________________________________________________________ 
+ 
+Chromium™ Single Cell 3’ Reagent Kits User Guide 
+ 
+4 
+Click to TOC 
+The Single Cell 3’ Reagent Kit Protocol – Steps & Timing 
+ 
+Day 1 – Steps 
+ 
+Hands-on 
+Cell Preparation 
+ 
+Sample dependent 
+ 
+ 
+ 
+Reagent Preparation 
+ 
+20 min 
+ 
+ 
+ 
+GEM Generation 
+ 
+15 min 
+ 
+ 
+ 
+RT Incubation (2 h) 
+STOP 
+- 
+ 
+ 
+ 
+Silane Bead & SPRIselect Cleanup 
+STOP 
+1 h 
+ 
+ 
+ 
+cDNA Amplification 
+STOP 
+5 min 
+ 
+ 
+ 
+SPRIselect Cleanup 
+STOP 
+10 min 
+Total Hands-on Time 
+ 
+1 h 50 min 
+Total Turnaround Time 
+ 
+6.5 h 
+ 
+ 
+ 
+Day 2 – Steps 
+ 
+Hands-on 
+Shearing 
+ 
+10 min 
+ 
+ 
+ 
+SPRIselect Size Selection 
+ 
+10 min 
+ 
+ 
+ 
+End Repair & A-tailing 
+ 
+5 min 
+ 
+ 
+ 
+Adaptor Ligation, SPRIselect Cleanups 
+ 
+20 min 
+ 
+ 
+ 
+Sample Index PCR, SPRIselect Cleanups 
+STOP 
+20 min 
+Total Hands-on Time 
+ 
+1h 5 min 
+Total Turnaround Time 
+ 
+5.5 h 
+ 
+ 
+ 
+Library Quantification 
+ 
+ 
+Sequencing 
+ 
+ 
+ 
+ 
+ 
+Single Cell 3’ Library Analysis 
+ 
+ 
+ 
+STOP - Potential stopping points 
+
+
+--- Page 14 ---
+PROTOCOL STEP 1  Cell Preparation 
+__________________________________________________________________________________________________ 
+ 
+Chromium™ Single Cell 3’ Reagent Kits User Guide 
+ 
+5 
+Click to TOC 
+ 
+Protocol Step 1 
+ 
+ 
+Cell Preparation 
+ 
+ 
+Preparing viable single cell suspensions from 
+cultured cell lines 
+ 
+ 
+
+
+--- Page 15 ---
+PROTOCOL STEP 1  Cell Preparation 
+__________________________________________________________________________________________________ 
+ 
+Chromium™ Single Cell 3’ Reagent Kits User Guide 
+ 
+6 
+Click to TOC 
+1. 
+Cell Preparation 
+Tips 
+Single Cell Suspensions from Cultured Cell Lines 
+The Chromium™ Controller requires a suspension of viable single cells as input. Minimizing the presence of 
+cellular aggregates, dead cells, non-cellular nucleic acids and potential inhibitors of reverse transcription is 
+critical to obtaining high quality data. 
+This protocol describes best practices for preparing single cell suspensions from cultured cell lines. Optimal 
+preparation of single cell suspensions from other sample types, such as primary cell cultures, blood or solid 
+tissues may require additional dissociation, straining and washing steps not covered here.  
+Cell Concentration for Optimal Performance 
+The recommended preparation for each cultured cell line sample run on the Chromium Controller is at least 
+20 µl of single cells suspended in 1X PBS containing 0.04% weight/volume BSA (400 µg/ml) at a 
+concentration of 1000 cells/µl. BSA is added to minimize losses and aggregation during the wash steps. For 
+recommendations on working with higher or lower cell concentrations, refer to the Cell Suspension Volume 
+Calculator Table in Protocol Step 2. 
+Primary cells, stem cell lines and other sensitive sample types may require washing and suspension in 
+alternative buffers to maintain optimal viability. If necessary, PBS can be replaced with most common cell 
+culture buffers and media without significant loss of performance. 
+Best Practices for Handling Samples 
+Best practices for handling any sample type include following all applicable biohazard safety regulations, 
+using sterile technique, nuclease-free reagents and consumables, minimizing pipetting steps, and using 
+wide-bore pipette tips where possible to minimize cell damage. 
+__________________________________________________________________________________________________ 
+Getting Started! 
+Prepare: 
+• 
+Warm ~30 ml of culture medium and, if harvesting adherent cells (section 1.2), ~ 8 ml of 0.25% 
+Trypsin-EDTA solution in a 37°C incubator. 
+• 
+1X PBS containing 0.04% BSA (400 µg/ml). 
+ 
+ 
+ 
+ 
+
+
+--- Page 16 ---
+PROTOCOL STEP 1  Cell Preparation 
+__________________________________________________________________________________________________ 
+ 
+Chromium™ Single Cell 3’ Reagent Kits User Guide 
+ 
+7 
+Click to TOC 
+Cell Preparation 
+1.1. 
+Cell Harvesting – Suspension Cell Lines 
+a) Determine the cell concentration using Countess® II Automated Cell Counter. 
+b) Ideally, cells will be 3 x 105 to 1 x 106 /ml with >90% alive. If the cell concentration is 
+above 6 x 105 /ml, transfer 1.5 ml of the cell suspension to a 2 ml Eppendorf tube. If the 
+cell concentration is below 6 x 105 /ml, transfer 1.5 ml to two 2 ml Eppendorf tubes for 
+a total of 3 ml of cell suspension.  
+1.2. 
+Cell Harvesting – Adherent Cell Lines 
+This protocol is written for a 75 cm2 flask. Adjust the reagent volume for other flasks or 
+dishes proportionally. 
+Prepare warm ~30 ml of culture medium and ~ 8 ml of 0.25% Trypsin-EDTA solution by 
+incubating in a 37°C incubator. 
+a) Using a 10 ml serological pipette, remove and discard culture medium. 
+b) Using a 10 ml serological pipette, add 1.5 ml of 0.25% Trypsin-EDTA solution to flask 
+and briefly rinse the cell layer to eliminate residual serum. Immediately discard the 
+spent trypsin solution. 
+c) Using a 10 ml serological pipette, add 5 - 6 ml of 0.25% Trypsin-EDTA solution to cover 
+the cell layer and incubate flask at 37°C for 5- 15 min until the cells dissociate from the 
+flask surface. 
+Periodically, check the cell dissociation under a microscope if available. Over-incubation 
+may damage cells. Avoid shaking or hitting the flask to minimize clumping. 
+d) Using a 10 ml serological pipette, add 10 ml of medium to stop digestion. 
+e) Transfer the cell suspension to a 50 ml conical tube.  
+f) 
+Rinse the flask with 2 ml of medium using a 10 ml serological pipette and transfer the 
+wash solution to the conical tube containing the cells. 
+g) Centrifuge cells at 250 rcf for 5 min. 
+The optimal centrifugation speed and time may vary depending on the cell type. Smaller 
+cells will generally require higher speeds. 
+Depending on the rotor type, the cell pellet forms on the side or on the bottom of the conical 
+tube. Know the expected position of the pellet, especially when working with small or 
+limited numbers of cells, as the pellet can be invisible to naked eye. 
+h) Using a 10 ml serological pipette, discard supernatant without disrupting cell pellet. 
+i) 
+Resuspend the pelleted cells in medium and determine the cell concentration using 
+Countess® II Automated Cell Counter. 
+j) 
+If the cell concentration is above 6 x 105 /ml, transfer 1.5 ml of the cell suspension to a 
+2 ml Eppendorf tube. If the cell concentration is below 6 x 105 /ml, transfer 1.5 ml to 
+two 2 ml Eppendorf tubes for a total of 3 ml of cell suspension.  
+NOTE 
+NOTE 
+CRITICAL! 
+NOTE 
+
+
+--- Page 17 ---
+PROTOCOL STEP 1  Cell Preparation 
+__________________________________________________________________________________________________ 
+ 
+Chromium™ Single Cell 3’ Reagent Kits User Guide 
+ 
+8 
+Click to TOC 
+1.3. 
+Cell Washing 
+This section assumes 1.5-3 ml cell suspensions have been prepared according to sections 
+1.1 or 1.2. If the number of available cells are limiting, it may be necessary to skip one or 
+more wash steps to minimize cell losses. 
+The optimal centrifugation speed and time may vary depending on the cell type. Smaller 
+cells will generally require higher speeds. 
+a) Centrifuge cells in a 2 ml Eppendorf tube at 150 rcf for 3 min. 
+Depending on the rotor type, the cell pellet forms on the side or on the bottom of the conical 
+tube. Know the expected position of the pellet, especially when working with small or 
+limited cells, as the pellet can be invisible to naked eye. 
+b) Remove supernatant without disrupting cell pellet. 
+c) Using a wide bore tip, add 1 ml of 1X PBS with 0.04% BSA to each tube and gently 
+pipette mix 5 times and invert tubes to resuspend cell pellet. Pool the tubes if 
+necessary. 
+d) Centrifuge cells at 150 rcf for 3 min.  
+e) Remove supernatant without disrupting cell pellet. 
+f) 
+Using a wide bore tip, add 1 ml of 1X PBS with 0.04% BSA to the tube. Gently pipette mix 
+5 times and invert tubes to resuspend cell pellet. 
+g) Centrifuge cells at 150 rcf for 3 min. 
+h) Remove supernatant without disrupting cell pellet. 
+ 
+i) 
+Add 500 µl 1X PBS with 0.04% BSA or appropriate volume of 1X PBS with 0.04% BSA 
+such that cell concentration is above 1 x 106 /ml. Gently pipette 10 - 15 times or until 
+cells are completely suspended. 
+Do not invert the tube in this step, as cells can stick to the sides of the tube, changing the 
+cell concentration. 
+Use a cell strainer to remove cell debris and large clumps. For low volume cell 
+suspensions, a Flowmi™ Tip Strainer is recommended for minimal loss of additional 
+sample volume. 
+j) 
+Determine the cell concentration using Countess® II Automated Cell Counter.  
+k) Ideally, the cells will be at 1 x 106 /ml (1000/µl). If the cells are too concentrated, adjust 
+volume accordingly.  Re-count. 
+l) 
+Once cells at 1 x 106 /ml (1000/µl) are obtained, place the cells on ice and proceed to 
+the next step. 
+ 
+NOTE 
+CRITICAL! 
+NOTE 
+OPTIONAL 
+
+
+--- Page 18 ---
+PROTOCOL STEP 2  GEM Generation & Barcoding 
+__________________________________________________________________________________________________ 
+ 
+Chromium™ Single Cell 3’ Reagent Kits User Guide 
+ 
+9 
+Click to TOC 
+ 
+Protocol Step 2 
+ 
+ 
+GEM Generation & 
+Barcoding 
+ 
+ 
+Partition input cells across tens of thousands 
+of GEMs for lysis and barcoding 
+ 
+ 
+
+
+--- Page 19 ---
+PROTOCOL STEP 2  GEM Generation & Barcoding 
+__________________________________________________________________________________________________ 
+ 
+Chromium™ Single Cell 3’ Reagent Kits User Guide 
+ 
+10 
+Click to TOC 
+2. 
+GEM Generation & Barcoding 
+Tips 
+Importance of Emulsion-safe Plastic Consumables 
+Some plastics can interact with and destabilize GEMs. It is therefore critical to use validated emulsion-safe 
+plastic consumables when handling GEMs. 10x Genomics® has validated Eppendorf twin.tec® PCR plates and 
+Rainin LTS Low retention pipette tips as GEM-compatible plastics. Substituting these materials can 
+adversely affect performance. 
+Importance of Loading Cell Concentration 
+The recommended starting point for a new sample type is to load ~2600 cells into each reaction, recovering 
+approximately 1200 cells, to achieve an expected multiplet rate of approximately 1.1%. Loading fewer cells 
+per reaction will result in a lower multiplet rate, but may affect application performance if the number of 
+recovered cells is less than 1000. Loading more cells per reaction will elevate the doublet rate, which may 
+also impact application performance (see table below). 
+ 
+Multiplet Rate (%) 
+# of Cells Loaded 
+# of Cells Recovered 
+~1.1% 
+~2600 
+~1200 
+~1.8% 
+~4300 
+~2000 
+~2.7% 
+~6400 
+~3000 
+~3.6% 
+~8500 
+~4000 
+~4.5% 
+~10700 
+~5000 
+~5.3% 
+~12800 
+~6000 
+ 
+Best Practices for Handling Single Cell 3’ Chips 
+Single Cell 3’ Chips are microfluidic chips, which can clog due to the introduction of particulates. Therefore, 
+it is important to minimize exposure of reagents, chips, and gaskets to sources of fibers such as reagent 
+reservoirs, KimWipes, repeat-usage of flip-cap tubes, and the general laboratory environment. 
+The presence of excess Partitioning Oil in recovered GEMs from the Single Cell 3’ Chip after running the 
+Chromium™ Controller may indicate that a clog occurred. See Practical Tips & Troubleshooting for more 
+information. 
+It is critical all unused wells in Rows labeled 1, 2 and 3 of the Single Cell 3’ Chip contain Surrogate Fluid 
+prior to running the Chromium™ Controller. Surrogate Fluid for up to 4 Single Cell 3’ Chip channels is 
+provided in the Library Kit. See Practical Tips & Troubleshooting for information on purchasing or generating 
+more Surrogate Fluid, if required. 
+Best Practices for Preparing & Handling Reagents & Master Mixes 
+• 
+Covering Partitioning Oil tubes and holders to minimize evaporation. 
+• 
+Ensuring the reagents are fully thawed and thoroughly mixed before use. Keep all enzyme 
+components and Master Mixes on ice during setup and promptly move reagents back to the 
+recommended storage temperature when possible. 
+
+
+--- Page 20 ---
+PROTOCOL STEP 2  GEM Generation & Barcoding 
+__________________________________________________________________________________________________ 
+ 
+Chromium™ Single Cell 3’ Reagent Kits User Guide 
+ 
+11 
+Click to TOC 
+• 
+Assembling Master Mix on ice and keeping cold until Single Cell 3’ Chip loading. 
+• 
+For tips on processing fewer than 8 reactions, see Practical Tips & Troubleshooting. 
+Best Practices for Handling Gel Beads 
+• 
+Equilibrating the Single Cell 3’ Gel Beads Strip to room temperature before use. 
+• 
+Storing any unused Single Cell 3’ Gel Beads at −80°C and avoiding more than 4 freeze-thaw 
+cycles. 
+• 
+Never storing Single Cell 3’ Gel Beads at −20°C. 
+• 
+Piercing the Gel Bead Strip foils seals with pipette tips without engaging the plunger. 
+• 
+Upon initial Gel Bead Strip foil seal puncture, the pipette tips should extend no more than 2 mm 
+below the seal. Then, raise the tips above the foil seal and depress the plunger. Lower the tips 
+to the bottom of the wells and widen the opening by gently rocking the tips back and forth, 
+keeping the plunger engaged. This will maximize recovery of Gel Beads for optimal 
+performance. 
+Best Practices for Loading the Single Cell 3’ Chip 
+• 
+Waiting 30 sec between loading the Master Mix and loading the Gel Beads into the Single Cell 3’ 
+Chip to ensure proper priming of the channels. 
+• 
+When aspirating Gel Beads from the Gel Bead Strip or the Recovery Wells, pipet slowly to avoid 
+introducing air bubbles and leave the pipette tips in the wells for an additional 5 sec after the 
+aspiration stops to allow pressure to equilibrate. 
+• 
+When dispensing Gel Beads into the Single Cell 3’ Chip, wait for remainder to collect into the 
+pipette tips and dispense again to ensure complete transfer. 
+• 
+Starting GEM generation immediately after Single Cell 3’ Chip loading. 
+Best Practices for GEM Recovery 
+• 
+Unloading GEMs immediately after the completion of GEM generation. 
+• 
+When dispensing GEMs into the PCR plate, wait for remainder to collect into the pipette tips and 
+dispense again to ensure complete transfer. 
+• 
+Keeping the GEMs on a chilled metal block resting on ice immediately after recovery. 
+ 
+ 
+
+
+--- Page 21 ---
+PROTOCOL STEP 2  GEM Generation & Barcoding 
+__________________________________________________________________________________________________ 
+ 
+Chromium™ Single Cell 3’ Reagent Kits User Guide 
+ 
+12 
+Click to TOC 
+Getting Started! 
+Equilibrate to room temperature before use: 
+• 
+Single Cell 3’ Gel Beads (equilibrate to room temperature for 30 min before loading the Single 
+Cell 3’ Chip) 
+• 
+RT Reagent Mix (vortex and verify no precipitate) 
+• 
+RT Primer (provided as lyophilized oligos; after resuspension, store unused primers at −80°C) 
+• 
+Additive A (vortex and verify no precipitate) 
+• 
+Surrogate Fluid (if processing fewer than 8 samples) 
+Resuspend: 
+• 
+Briefly centrifuge the tube containing the thawed RT Primer and then resuspend the oligo by 
+adding 40 µl of low TE. Vortex for 15 sec at full speed, centrifuge briefly, and leave at room 
+temperature for at least 30 min 
+Place on ice: 
+• 
+RT Enzyme (keep on ice, centrifuge briefly before adding to Master Mix) 
+• 
+RNase Inhibitor (keep on ice, centrifuge briefly before adding to Master Mix) 
+• 
+Chilled metal block resting on ice 
+Obtain: 
+• 
+Partitioning Oil 
+• 
+Single Cell 3’ Chip(s), 10x™ Gasket(s) and 10x Chip Holder 
+Plate sealer: 
+• 
+Set the Bio-Rad® PX1 Plate Sealer to seal at 185°C for 6 sec. Keep heat block external to sealer 
+until plate sealing step 
+ 
+
+
+--- Page 22 ---
+PROTOCOL STEP 2  GEM Generation & Barcoding 
+__________________________________________________________________________________________________ 
+ 
+Chromium™ Single Cell 3’ Reagent Kits User Guide 
+ 
+13 
+Click to TOC 
+Cell Suspension Volume Calculator Table 
+ 
+Volume of Cell Suspension Stock per reaction (μl) | Volume of Nuclease-free Water per reaction (μl) 
+Cell Stock Concentration 
+(Cells/μl) 
+Targeted Cell Recovery 
+1200 cells 
+2000 cells 
+3000 cells 
+4000 cells 
+5000 cells 
+6000 cells 
+100 
+25.6 | 11.8 
+n/a 
+n/a 
+n/a 
+n/a 
+n/a 
+200 
+12.8 | 24.6 
+21.3 | 16.1 
+32.0 | 5.4 
+n/a 
+n/a 
+n/a 
+300 
+8.5 | 28.9 
+14.2 | 23.2 
+21.3 | 16.1 
+28.4 | 9.0 
+35.6 | 1.8 
+n/a 
+400 
+6.4 | 31.0 
+10.7 | 26.7 
+16.0 | 21.4 
+21.3 | 16.1 
+26.7 | 10.7 
+32.0 | 5.4 
+500 
+5.1 | 32.3 
+8.5 | 28.9 
+12.8 | 24.6 
+17.1 | 20.3 
+21.3 | 16.1 
+25.6 | 11.8 
+600 
+4.3 | 33.1 
+7.1 | 30.3 
+10.7 | 26.7 
+14.2 | 23.2 
+17.8 | 19.6 
+21.3 | 16.1 
+700 
+3.7 | 33.7 
+6.1 | 31.3 
+9.1 | 28.3 
+12.2 | 25.2 
+15.2 | 22.2 
+18.3 | 19.1 
+800 
+3.2 | 34.2 
+5.3 | 32.1 
+8.0 | 29.4 
+10.7 | 26.7 
+13.3 | 24.1 
+16.0 | 21.4 
+900 
+2.8 | 34.6 
+4.7 | 32.7 
+7.1 | 30.3 
+9.5 | 27.9 
+11.9 | 25.5 
+14.2 | 23.2 
+1000 
+2.6 | 34.8 
+4.3 | 33.1 
+6.4 | 31.0 
+8.5 | 28.9 
+10.7 | 26.7 
+12.8 | 24.6 
+1100 
+2.3 | 35.1 
+3.9 | 33.5 
+5.8 | 31.6 
+7.8 | 29.6 
+9.7 | 27.7 
+11.6 | 25.8 
+1200 
+2.1 | 35.3 
+3.6 | 33.8 
+5.3 | 32.1 
+7.1 | 30.3 
+8.9 | 28.5 
+10.7 | 26.7 
+1300 
+2.0 | 35.4 
+3.3 | 34.1 
+4.9 | 32.5 
+6.6 | 30.8 
+8.2 | 29.2 
+9.8 | 27.6 
+1400 
+1.8 | 35.6 
+3.0 | 34.4 
+4.6 | 32.8 
+6.1 | 31.3 
+7.6 | 29.8 
+9.1 | 28.3 
+1500 
+1.7 | 35.7 
+2.8 | 34.6 
+4.3 | 33.1 
+5.7 | 31.7 
+7.1 | 30.3 
+8.5 | 28.9 
+1600 
+1.6 | 35.8 
+2.7 | 34.7 
+4.0 | 33.4 
+5.3 | 32.1 
+6.7 | 30.7 
+8.0 | 29.4 
+1700 
+1.5 | 35.9 
+2.5 | 34.9 
+3.8 | 33.6 
+5.0 | 32.4 
+6.3 | 31.1 
+7.5 | 29.9 
+1800 
+1.4 | 36.0 
+2.4 | 35.0 
+3.6 | 33.8 
+4.7 | 32.7 
+5.9 | 31.5 
+7.1 | 30.3 
+1900 
+1.3 | 36.1 
+2.2 | 35.2 
+3.4 | 34.0 
+4.5 | 32.9 
+5.6 | 31.8 
+6.7 | 30.7 
+2000 
+1.3 | 36.1 
+2.1 | 35.3 
+3.2 | 34.2 
+4.3 | 33.1 
+5.3 | 32.1 
+6.4 | 31.0 
+Grey boxes: 
+Volumes that would exceed the allowable water volume in each reaction 
+Yellow boxes: 
+Indicate a low transfer volume that may result in higher cell load variability 
+ 
+ 
+ 
+
+
+--- Page 23 ---
+PROTOCOL STEP 2  GEM Generation & Barcoding 
+__________________________________________________________________________________________________ 
+ 
+Chromium™ Single Cell 3’ Reagent Kits User Guide 
+ 
+14 
+Click to TOC 
+GEM Generation & Barcoding 
+2.1. 
+Preparing Single Cell Master Mix 
+Volumes for 8 reactions are listed in all reagent tables and include 10% excess (i.e. 8.8X). 
+a) Prepare Master Mix on ice. Add reagents in the order shown below. Pipette mix 15 
+times and centrifuge briefly. Do not add Single Cell Suspension at this point.  
+ 
+Master Mix 
+1X (µl) 
+8.8X (µl) 
+Nuclease-Free Water 
+From Table 
+Calculate 
+RT Reagent Mix 
+50.0 
+440.0 
+RT Primer 
+4.0 
+35.2 
+RNase Inhibitor 
+1.5 
+13.2 
+Additive A 
+2.5 
+22.0 
+RT Enzyme 
+4.6 
+40.5 
+Total 
+Calculate 
+Calculate 
+ 
+b) Place the Master Mix on a chilled metal block resting on ice. 
+2.2. 
+Loading the Single Cell 3’ Chip 
+a) Place a Single Cell 3’ Chip in a 10x™ Chip Holder. See Practical Tips & Troubleshooting 
+for tips on assembly. 
+The order in which the wells of Single Cell 3’ Chips are loaded is critical for optimal 
+performance. Always load the rows in the labeled order: 1 followed by 2, then 3. 
+b) If processing fewer than 8 samples per Single Cell 3’ Chip, add Surrogate Fluid to each 
+unused well: 
+i. 
+90 μl in the row labeled 1 
+ii. 
+40 μl in the row labeled 2 
+iii. 
+270 μl in the row labeled 3 
+Do not add Surrogate Fluid to Recovery Wells (row labeled ◄) 
+c) Snap the Single Cell 3’ Gel Bead Strip into a 10x Vortex Adaptor and vortex for 25 sec. 
+d) Remove the Single Cell 3’ Gel Bead Strip and flick in a sharp, downward motion to 
+ensure maximum recovery. Confirm that there are no bubbles at the bottom of the tube 
+and well levels look even. Place the Gel Bead Strip aside at room temperature. 
+e) Dispense the calculated total volume (µl) of Master Mix into each well of an 8-tube 
+strip on a chilled metal block resting on ice. 
+f) 
+Gently pipette mix the tube containing the washed and diluted cells. Add the 
+appropriate volume (µl) of single cell suspension (from the Cell Suspension Volume 
+Calculator Table) to each well of the tube strip containing the Master Mix.  
+CRITICAL! 
+NOTE 
+CRITICAL! 
+
+
+--- Page 24 ---
+PROTOCOL STEP 2  GEM Generation & Barcoding 
+__________________________________________________________________________________________________ 
+ 
+Chromium™ Single Cell 3’ Reagent Kits User Guide 
+ 
+15 
+Click to TOC 
+g) With a pipette set to 90 µl gently pipette mix the combined cells and Master Mix 5 times 
+while keeping the tube strip on a chilled metal block resting on ice. 
+h) Without discarding the pipette tips, transfer 90 µl Master Mix containing cells to the 
+wells in the row labeled 1. To do this, place the tips into the bottom center of the wells 
+and raise the tips slightly above the bottom before slowly dispensing the Master Mix 
+containing cells. Wait 30 sec, then immediately load the Single Cell 3’ Gel Beads. 
+Pipette slowly. Raising and depressing the pipette plunger should each take 2 sec. A 30 
+second wait is required to ensure proper priming of the Single Cell 3’ Chip. 
+ 
+ 
+ 
+Pipette Single Cell 3’ Gel Beads slowly as they have a viscosity similar to high-
+concentration glycerol. 
+i) 
+Carefully puncture the foil seal and slowly aspirate 40 µl Single Cell 3’ Gel Beads, taking 
+care not to introduce air bubbles. 
+If processing fewer than 8 samples, only puncture sufficient wells in the Single Cell 3’ Gel 
+Bead Strip. 
+j) 
+Slowly dispense the Single Cell 3’ Gel Bead suspension into the bottom of the wells in 
+the row labeled 2, taking care not to introduce bubbles. To do this, place the tips into 
+the bottom center of the wells and raise the tips slightly above the bottom before slowly 
+dispensing the Gel Beads. 
+ 
+ 
+ 
+ 
+ 
+CRITICAL! 
+NOTE 
+NOTE 
+
+
+--- Page 25 ---
+PROTOCOL STEP 2  GEM Generation & Barcoding 
+__________________________________________________________________________________________________ 
+ 
+Chromium™ Single Cell 3’ Reagent Kits User Guide 
+ 
+16 
+Click to TOC 
+Confirm that the pipette tips do not contain leftover Gel Beads. If necessary, wait for the 
+remaining Gel Beads to collect into the bottom of the pipette tips and dispense into the 
+wells. 
+k) Pipette 135 µl Partitioning Oil from a reagent reservoir into the wells in the row labeled 
+3 twice for a total of 270 µl. 
+ 
+ 
+ 
+Failure to add Partitioning Oil can damage the Chromium™ Controller. 
+l) 
+Attach the 10x™ Gasket. The notched cut should be at the top left corner. Ensure the 
+10x Gasket holes are aligned with the wells. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+CRITICAL! 
+CRITICAL! 
+
+
+--- Page 26 ---
+PROTOCOL STEP 2  GEM Generation & Barcoding 
+__________________________________________________________________________________________________ 
+ 
+Chromium™ Single Cell 3’ Reagent Kits User Guide 
+ 
+17 
+Click to TOC 
+2.3. 
+Running the Chromium™ Controller 
+a) Press the button on the touchscreen of the Chromium Controller to eject the tray. 
+b) Place the assembled Chip, 10x™ Chip Holder and 10x Gasket on the tray. 
+c) Press the button on the touchscreen again to retract the tray. Confirm the Single Cell 3’ 
+program shows on screen and press the play button to begin the run. 
+d) At the completion of the run (~6 min), the Chromium Controller will chime. Proceed 
+immediately to the next step. 
+ 
+ 
+ 
+Place the assembled Chip, 10x Chip 
+Holder and 10x Gasket in the tray and 
+press the button on the touchscreen to 
+retract the tray 
+Confirm the Single Cell 3’ program 
+shows on the screen and press the 
+play button to start the run 
+ 
+2.4. 
+Transferring GEMs 
+a) Maintain an Eppendorf twin.tec® 96-well PCR plate for GEM transfer on a chilled metal 
+block resting on ice. 
+b) Press the eject button to eject the tray and remove the Single Cell 3’ Chip. Remove and 
+discard the 10x Gasket. Press the button to retract the empty tray. 
+c) Open the 10x Chip Holder and fold the lid back until it clicks to expose the wells at a 45-
+degree angle. 
+d) Check for volume uniformity in the Gel Bead, Sample, and Partitioning Oil wells 
+remaining in the Single Cell 3’ Chip. 
+Abnormally high volume in any of the wells may indicate that a clog occurred during GEM 
+generation. 
+ 
+ 
+NOTE 
+
+
+--- Page 27 ---
+PROTOCOL STEP 2  GEM Generation & Barcoding 
+__________________________________________________________________________________________________ 
+ 
+Chromium™ Single Cell 3’ Reagent Kits User Guide 
+ 
+18 
+Click to TOC 
+ 
+e) Slowly aspirate 105 µl GEMs from the lowest points of the Recovery Wells (row labeled 
+◄) without creating a seal between the tips and the bottom of the wells. Avoid 
+introducing air bubbles. 
+ 
+ 
+ 
+Pipette GEMs slowly as they have a high viscosity.  If a tip aspirates excessive air the 
+sample may be compromised. 
+f) 
+Withdraw pipette tips from the wells and verify that there is no air in the tips. GEMs 
+should appear opaque and uniform across all channels. 
+The presence of excess Partitioning Oil (clear) indicates a potential clog during GEM 
+generation. 
+g) Over the course of ~20 sec, dispense the GEMs into the Eppendorf® twin-tec 96-
+well PCR plate (on a chilled metal block resting on ice) with the pipette tips 
+against the sidewalls of the wells. (See Practical Tips & Troubleshooting). 
+Keep the tips above the liquid level to minimize GEMs lost on the outside of the 
+tips. 
+Check the volume uniformity of the GEMs and the Partitioning Oil in the PCR plate.  A clog 
+occurred if the Partitioning Oil volume in one or more wells is increased compared to other 
+wells. See Practical Tips & Troubleshooting for more information. 
+h) If multiple Single Cell 3’ Chips are run back-to-back, keep plate containing recovered 
+GEMs on ice and seal the plate wells containing GEMs with Strip Caps before 
+proceeding to generate GEMs for the next set of samples. 
+i) 
+Discard the used Single Cell 3’ Chip. Push the black sliders on the back of the 10x™ 
+Chip Holder toward the middle to release the lock and close the lid. 
+ 
+ 
+ 
+NOTE 
+NOTE 
+NOTE 
+
+
+--- Page 28 ---
+PROTOCOL STEP 2  GEM Generation & Barcoding 
+__________________________________________________________________________________________________ 
+ 
+Chromium™ Single Cell 3’ Reagent Kits User Guide 
+ 
+19 
+Click to TOC 
+2.5. 
+GEM-RT Incubation 
+a) If necessary, remove the strip caps from the PCR plate with recovered GEMs. Check 
+that the Plate Sealer plate block is at room temperature. 
+b) Seal the plate with pierceable foil heat seal at 185°C for 6 sec and promptly remove. 
+c) Load the sealed PCR plate into a thermal cycler that can accommodate at least 105 µl 
+reaction volume and proceed with the following incubation protocol. The run will take 
+~2 h 10 min. 
+A reaction volume of 125 µl is the preferred setting on the Bio-Rad C1000 Touch™ Thermal 
+Cycler. If using an alternate thermal cycler, the highest reaction volume setting should be 
+used. 
+ 
+Lid Temperature 
+Reaction Volume 
+55°C 
+125 µl 
+ 
+ 
+Step 
+Temperature 
+Time 
+1 
+55˚C 
+2:00:00 
+2 
+85˚C 
+5:00 
+3 
+4˚C 
+Hold 
+ 
+d) Place PCR plate on a chilled metal block resting on ice after completion of the thermal 
+cycler program. 
+e) Store in the PCR plate at 4°C for up to 72 h before proceeding to Post GEM-RT Cleanup. 
+ 
+ 
+STOP 
+NOTE 
+
+
+--- Page 29 ---
+PROTOCOL STEP 3  Post GEM-RT Cleanup & cDNA Amplification 
+__________________________________________________________________________________________________ 
+ 
+Chromium™ Single Cell 3’ Reagent Kits User Guide 
+ 
+20 
+Click to TOC 
+ 
+Protocol Step 3 
+ 
+ 
+Post GEM-RT Cleanup 
+& cDNA Amplification 
+ 
+ 
+Isolate and amplify cDNA for library 
+construction 
+
+
+--- Page 30 ---
+PROTOCOL STEP 3  Post GEM-RT Cleanup & cDNA Amplification 
+__________________________________________________________________________________________________ 
+ 
+Chromium™ Single Cell 3’ Reagent Kits User Guide 
+ 
+21 
+Click to TOC 
+3. 
+Post GEM-RT Cleanup & cDNA Amplification 
+Tips 
+Best Practices 
+Ensure that the reagents are fully thawed and thoroughly mixed before use. During the bead-based cleanup 
+steps, ensure that the samples are thoroughly mixed with the Silane beads or the SPRIselect Reagent to 
+achieve optimal recovery. 
+Best Practices – Post cDNA Amplification Reaction QC 
+Agilent Bioanalyzer is the recommended method for library QC after GEM cleanup and amplification to ensure 
+successful cDNA amplification, before proceeding with library construction.  
+__________________________________________________________________________________________________ 
+Getting Started! 
+Equilibrate to room temperature before use: 
+• 
+Additive A (vortex and verify no precipitate) 
+• 
+DynaBeads® MyOne™ Silane beads 
+• 
+Beckman Coulter SPRIselect Reagent 
+• 
+Agilent Bioanalyzer High Sensitivity Kit (if used for QC) 
+• 
+Amplification Master Mix 
+• 
+cDNA Primer Mix 
+• 
+cDNA Additive 
+Obtain: 
+• 
+Recovery Agent 
+• 
+Qiagen Buffer EB 
+• 
+Bio-Rad 10% Tween 20 
+Thaw at 65°C: 
+• 
+Thaw Buffer for Sample Cleanup 1 for 10 min at 65°C at max speed on a thermomixer. Let cool 
+to room temperature. Verify that the Buffer for Sample Cleanup 1 is completely dissolved with 
+no visible crystals. 
+Prepare 80% Ethanol (15 ml for 8 samples) 
+ 
+ 
+ 
+
+
+--- Page 31 ---
+PROTOCOL STEP 3  Post GEM-RT Cleanup & cDNA Amplification 
+__________________________________________________________________________________________________ 
+ 
+Chromium™ Single Cell 3’ Reagent Kits User Guide 
+ 
+22 
+Click to TOC 
+Post GEM-RT Cleanup & cDNA Amplification 
+3.1. 
+Post GEM-RT Cleanup – Silane DynaBeads 
+a) Remove the foil seal and add 125 µl Recovery Agent to each well containing post 
+incubation GEMs. Wait 60 sec and then transfer the entire volume to an 8-tube strip. 
+To maximize recovery of the aquous phase, the plate can be lightly sealed with a 
+Microseal® ‘B’ Adhesive Seal and spun down in a plate centrifuge at 1200 rpm for 30 sec. 
+b) The recovered biphasic mixture contains distinct Recovery Agent/Partitioning Oil (pink) 
+and aqueous phases (clear), with no persisting emulsion (opaque). 
+A decrease in the aqueous phase indicates that a clog occurred during GEM generation. 
+c) Slowly remove 125 µl Recovery Agent/Partitioning Oil (pink) from the bottom of the 
+tubes and discard. Be careful not to aspirate any of the clear aqueous sample. 
+A small volume of Recovery Agent/Partitioning Oil will remain.  
+d) Vortex DynaBeads MyOne Silane beads until fully resuspended. Prepare DynaBeads 
+Cleanup Mix by adding reagents in the order shown below. Vortex mix thoroughly. 
+ 
+DynaBeads Cleanup Mix 
+1X (µl) 
+8.8X (µl) 
+Buffer for Sample Cleanup 1 
+182 
+1602 
+DynaBeads MyOne Silane 
+14 
+123 
+Additive A 
+4 
+35 
+Total 
+200 
+1760 
+ 
+e) Immediately add 200 µl DynaBeads Cleanup Mix to each sample. Pipette mix 5 times 
+and incubate at room temperature for 10 min. After the first 5 min pipette mix again 5 
+times. 
+f) 
+Prepare Elution Solution I by adding reagents in the order shown below. Vortex mix 
+thoroughly and centrifuge briefly. 
+ 
+Elution Solution I 
+1 reaction (µl) 
+10 reactions (µl) 
+Buffer EB 
+98 
+980 
+10% Tween20 
+1 
+10 
+Additive A 
+1 
+10 
+Total 
+100 
+1000 
+ 
+g) After the 10 min incubation step is completed, place the tube strip into a 10x™ Magnetic 
+Separator in the High position until the solution is clear. 
+A white interface may appear between the aqueous solution and Recovery Agent layers. 
+This is normal. 
+h) Carefully remove and discard the supernatant. 
+NOTE 
+NOTE 
+NOTE 
+NOTE 
+
+
+--- Page 32 ---
+PROTOCOL STEP 3  Post GEM-RT Cleanup & cDNA Amplification 
+__________________________________________________________________________________________________ 
+ 
+Chromium™ Single Cell 3’ Reagent Kits User Guide 
+ 
+23 
+Click to TOC 
+i) 
+Add 150 µl freshly prepared 80% ethanol twice to the pellet while on the magnet for a 
+total volume of 300 µl and stand for 30 sec.  
+j) 
+Carefully remove and discard the ethanol wash.  
+k) Add 200 µl 80% ethanol to the pellet and stand for 30 sec.  
+l) 
+Carefully remove and discard the ethanol wash. 
+m) Centrifuge the tube strip briefly and return it to a 10x™ Magnetic Separator in the Low 
+position until the solution is clear. 
+n) Remove and discard any remaining ethanol and allow the samples to air dry for 2 min. 
+o) Remove the tube strip from the magnet and 
+. Pipette mix at 
+least 15 times and 
+. 
+p) Place the tube strip in a 10x Magnetic Separator in the High position until the solution is 
+clear. 
+q) Transfer 50
+ the eluted sample to a new tube strip. 
+ 
+ 
+
+
+--- Page 33 ---
+PROTOCOL STEP 3  Post GEM-RT Cleanup & cDNA Amplification 
+__________________________________________________________________________________________________ 
+ 
+Chromium™ Single Cell 3’ Reagent Kits User Guide 
+ 
+24 
+Click to TOC 
+3.2. 
+Post GEM-RT Cleanup – SPRIselect 
+a) Prepare Elution Solution II by adding appropriate volume of reagents in the order 
+shown below. Vortex mix thoroughly and centrifuge briefly. 
+ 
+Elution Solution II 
+1 reaction (µl) 
+10 reactions (µl) 
+Buffer EB 
+99 
+990 
+Additive A 
+1 
+10 
+Total 
+100 
+1000 
+ 
+b) Vortex the SPRIselect Reagent until fully resuspended. Add 30 μl SPRIselect Reagent to 
+each sample in the tube strip and pipette mix 15 times.  
+c) Incubate the tube strip at room temperature for 5 min. 
+d) Place the tube strip in a 10x™ Magnetic Separator in the High position until the solution 
+is clear.  
+e) Carefully remove and discard the supernatant. 
+f) 
+Add 125 µl 80% ethanol to the pellet and stand for 30 sec.  
+g) Carefully remove and discard the ethanol wash.  
+h) Repeat steps f and g for a total of 2 washes.  
+i) 
+Centrifuge the tube strip briefly and return it to a 10x Magnetic Separator in the Low 
+position. 
+j) 
+Remove and discard any remaining ethanol and allow the samples to air dry for 1 min. 
+Do not exceed 1 min as this will lead to decreased elution efficiency. 
+k) Remove the tube strip from the 10x Magnetic Separator and add 35.5 µl Elution Solution 
+II. 
+l) 
+Pipette mix 15 times and incubate at room temperature for 2 min. 
+m) Place the tube strip in a 10x Magnetic Separator in the Low position until the solution is 
+clear. 
+n) Transfer 35 µl of sample to a new tube strip and cap the sample wells. 
+ 
+ 
+Repeat 
+
+
+--- Page 34 ---
+PROTOCOL STEP 3  Post GEM-RT Cleanup & cDNA Amplification 
+__________________________________________________________________________________________________ 
+ 
+Chromium™ Single Cell 3’ Reagent Kits User Guide 
+ 
+25 
+Click to TOC 
+3.3. 
+cDNA Amplification Reaction 
+a) Prepare cDNA Amplification Reaction Mix on ice. Add reagents in the order shown 
+below. Vortex mix and centrifuge briefly. Do not add Purified GEM-RT Product at this 
+point.  
+ 
+cDNA Amplification Reaction Mix 
+1X (µl) 
+8.8X (µl) 
+Nuclease-Free Water 
+8 
+70 
+Amplification Master Mix 
+50 
+440 
+cDNA Additive 
+5 
+44 
+cDNA Primer Mix 
+2 
+18 
+Total 
+65 
+572 
+ 
+b) Add 65 µl cDNA Amplification Reaction Mix to each tube containing 35 µl of purified 
+GEM-RT product. 
+c) Pipette mix 15 times (pipette setting 80 µl) and centrifuge briefly. 
+d) Cap and load the tube strip into a thermal cycler that can accommodate at least 100 µl 
+reaction volume and proceed with the following incubation protocol. The run will take 
+~45 min. 
+ 
+Lid Temperature 
+Reaction Volume 
+105°C 
+100 µl 
+ 
+ 
+Step 
+Temperature 
+Time 
+1 
+98˚C 
+3:00 
+2 
+98˚C 
+0:15 
+3 
+67˚C 
+0:20 
+4 
+72˚C 
+1:00 
+5 
+Go to Step 2, see table below for # of cycles 
+6 
+72˚C 
+1:00 
+7 
+4˚C 
+Hold 
+ 
+The optimal number of cycles for the cDNA amplification reaction is a trade-off between 
+generating sufficient mass for the subsequent library construction steps and minimizing 
+PCR amplification artifacts. If large numbers of cells are sampled, the total number of cDNA 
+amplification cycles should be reduced. The following table is a recommended starting 
+point for optimization. 
+ 
+ 
+NOTE 
+
+
+--- Page 35 ---
+PROTOCOL STEP 3  Post GEM-RT Cleanup & cDNA Amplification 
+__________________________________________________________________________________________________ 
+ 
+Chromium™ Single Cell 3’ Reagent Kits User Guide 
+ 
+26 
+Click to TOC 
+ 
+Targeted Cell Recovery 
+Total cDNA Amplification Cycles 
+<2000 
+14 
+2000 – 6000 
+12 
+>6000 
+10 
+ 
+e) Store the samples at 4°C in a tube strip for up to 72 h or proceed directly to SPRIselect 
+Cleanup. 
+ 
+3.4. 
+Post cDNA Amplification Reaction Cleanup – SPRIselect 
+a) Vortex the SPRIselect Reagent until fully resuspended. Add 60 μl SPRIselect Reagent to 
+each sample in the tube strip and pipette mix 15 times.  
+b) Incubate the tube strip at room temperature for 5 min. 
+c) Place the tube strip in a 10x™ Magnetic Separator in the High position until the solution 
+is clear.  
+d) Carefully remove and discard the supernatant. 
+e) Add 200 µl 80% ethanol to the pellet and stand for 30 sec.  
+f) 
+Carefully remove and discard the ethanol wash.  
+g) Repeat steps e and f for a total of 2 washes.  
+h) Centrifuge the tube strip briefly and return it to a 10x Magnetic Separator in the Low 
+position. 
+i) 
+Remove and discard any remaining ethanol and allow the samples to air dry for 2 min. 
+Do not exceed 2 min as this will lead to decreased elution efficiency. 
+j) 
+Remove the tube strip from the 10x Magnetic Separator and add 55.5 µl Buffer EB. 
+k) Pipette mix 15 times and incubate at room temperature for 2 min. 
+l) 
+Place the tube strip in a 10x Magnetic Separator in the High position until the solution is 
+clear. 
+m) Transfer 55 µl of sample to a new tube strip and cap the sample wells. 
+n) Store the samples at 4°C in a tube strip for up to 72 h or at −20°C for up to a week, or 
+proceed directly to Post cDNA Amplification QC. 
+ 
+ 
+STOP 
+Repeat 
+STOP 
+
+
+--- Page 36 ---
+PROTOCOL STEP 3  Post GEM-RT Cleanup & cDNA Amplification 
+__________________________________________________________________________________________________ 
+ 
+Chromium™ Single Cell 3’ Reagent Kits User Guide 
+ 
+27 
+Click to TOC 
+3.5. 
+Post cDNA Amplification Reaction QC 
+a) Run 1 μl of sample at 1:5 dilution in Nuclease-Free Water on the Agilent Bioanalyzer 
+High Sensitivity chip for qualitative analysis. Traces should resemble the overall shape 
+of the sample electropherogram shown below. 
+ 
+ 
+ 
+If the input cells are particularly RNA-poor (< 1pg total RNA/cell), it may be necessary to 
+run 1 μl of undiluted product. 
+ 
+ 
+ 
+NOTE 
+
+
+--- Page 37 ---
+PROTOCOL STEP 4  Library Construction 
+__________________________________________________________________________________________________ 
+ 
+Chromium™ Single Cell 3’ Reagent Kits User Guide 
+ 
+28 
+Click to TOC 
+ 
+Protocol Step 4 
+ 
+ 
+Library Construction 
+ 
+ 
+Insert P5, Read 1, and Sample Index to prepare 
+for sequencing 
+ 
+ 
+ 
+ 
+
+
+--- Page 38 ---
+PROTOCOL STEP 4  Library Construction 
+__________________________________________________________________________________________________ 
+ 
+Chromium™ Single Cell 3’ Reagent Kits User Guide 
+ 
+29 
+Click to TOC 
+4. 
+Library Construction 
+Tips 
+General 
+The final Single Cell 3’ Libraries contain the P5 and P7 primers used in Illumina bridge amplification PCR. 
+The Single Cell 3’ Barcode is added to the molecules during the GEM-RT incubation. P7 primer and Read 2 
+(primer site for sequencing read 2) are added to the cDNA molecules during the GEM-RT incubation. The P5 
+primer, Read1 (primer site for sequencing read 1), and Sample Index will be added during library 
+construction. The protocol is designed to support library construction from a wide range of cDNA 
+amplification yields spanning at least 0.1 ng/µl to 70 ng/µl without modification. 
+Best Practices – Reagents 
+Ensure that the reagents are fully thawed and thoroughly mixed before use. Keep all enzyme components 
+and master mixes on ice during setup and promptly move back to the recommended storage temperature 
+when possible. 
+Best Practices – Shearing 
+Use Covaris’s recommended settings for the available instrument to achieve a target peak size of 200 bp for 
+a standard DNA sample. 
+Best Practices – Sample Index PCR 
+Choose the appropriate sample index sets to ensure that no sample indices overlap in a multiplexed 
+sequencing run. Each sample index set is base-balanced to avoid monochromatic signal issues when it is the 
+sole sample loaded on an Illumina sequencer. The sample index sets can therefore be used in any 
+combination. 
+ 
+ 
+
+
+--- Page 39 ---
+PROTOCOL STEP 4  Library Construction 
+__________________________________________________________________________________________________ 
+ 
+Chromium™ Single Cell 3’ Reagent Kits User Guide 
+ 
+30 
+Click to TOC 
+Getting Started! 
+Equilibrate to room temperature before use: 
+• 
+End Repair and A-tailing Buffer (verify no precipitate) 
+• 
+SI-PCR Primer 
+• 
+Ligation Buffer (verify no precipitate) 
+• 
+R1 Adaptor Mix 
+• 
+Single Cell 3’ Sample Index Plate 
+• 
+Beckman Coulter SPRIselect Reagent 
+• 
+Agilent Bioanalyzer High Sensitivity Kit (if used for QC) 
+• 
+Agilent TapeStation ScreenTape and Reagents (if used for QC) 
+• 
+Kapa DNA Quantification Kit for Illumina Platforms 
+Obtain: 
+• 
+Qiagen Buffer EB 
+Place on ice: 
+• 
+End Repair and A-tailing Enzyme 
+• 
+DNA Ligase 
+• 
+Amplification Master Mix 
+Prepare 80% Ethanol (20 ml for 8 samples) 
+ 
+ 
+ 
+
+
+--- Page 40 ---
+PROTOCOL STEP 4  Library Construction 
+__________________________________________________________________________________________________ 
+ 
+Chromium™ Single Cell 3’ Reagent Kits User Guide 
+ 
+31 
+Click to TOC 
+Library Construction 
+4.1. 
+Shearing 
+a) Shear 51 µl of the sample obtained from Post cDNA Amplification Reaction Cleanup 
+according to Covaris’s recommended settings to achieve target peak size of 200 bp for 
+a standard DNA sample. 
+b) Centrifuge tubes briefly and transfer 50 µl of sheared sample to a new tube strip 
+If the shearing instrument used requires a larger input volume, the Post cDNA 
+Amplification Reaction Cleanup product may be further diluted in Nuclease-Free Water. 
+Recover the full volume post shearing and scale the volumes of SPRIselect Reagent and 
+trasnferred supernatants in step 4.2 accordingly. 
+4.2. 
+Post Shearing Size Selection – SPRIselect  
+a) Vortex the SPRIselect Reagent until fully resuspended. Add 30 μl SPRIselect Reagent to 
+each sample in the tube strip and pipette mix 15 times.  
+b) Incubate the tube strip at room temperature for 5 min. 
+c) Place the tube strip in a 10x™ Magnetic Separator in the High position until the solution 
+is clear. 
+DO NOT discard supernatant. 
+d) Transfer 75 μl supernatant to a new tube strip and discard the previous tube strip. 
+e) Add 10 μl SPRIselect Reagent to each sample in the tube strip and pipette mix 15 times. 
+f) 
+Incubate the tube strip at room temperature for 5 min. 
+g) Place the tube strip in a 10x Magnetic Separator in the High position until the solution is 
+clear. 
+h) Carefully remove and discard the supernatant. 
+Due to the extremely low volume of the SPRIselect Reagent used in this step it is crucial to 
+not discard any of the beads with the supernatant. Verify the supernatant is free of 
+magnetic beads before continuing. If there are beads present in the pipette tips, transfer 
+the supernatant back into the tube strip and reduce the volume of supernatant removed by 
+5 µl. 
+i) 
+With the tube strip still in a 10x Magnetic Separator, add 125 µl 80% ethanol to the 
+pellet and stand for 30 sec.  
+j) 
+Carefully remove and discard the ethanol wash. 
+k) Repeat steps i and j for a total of two washes. 
+l) 
+Briefly centrifuge the tube strip and return it to the 10x Magnetic Separator in the Low 
+position. Carefully remove and discard the remaining ethanol wash.  
+Due to the extremely low volume of beads used during this SPRI clean-up it is crucial not to 
+over-dry the beads. Proceed directly into resuspension with Buffer EB without waiting for 
+the beads to dry to ensure maximum elution efficiency. 
+NOTE 
+NOTE 
+Repeat 
+NOTE 
+CRITICAL! 
+
+
+--- Page 41 ---
+PROTOCOL STEP 4  Library Construction 
+__________________________________________________________________________________________________ 
+ 
+Chromium™ Single Cell 3’ Reagent Kits User Guide 
+ 
+32 
+Click to TOC 
+m) Remove the tube strip from the 10x™ Magnetic Separator and add 50.5 µl Buffer EB. 
+Pipette mix 15 times. 
+n) Incubate the tube strip at room temperature for 2 min. 
+o) Place the tube strip in a 10x Magnetic Separator in the High position until the solution is 
+clear. 
+p) Transfer 50 µl of sample to a new tube strip and cap the sample wells. 
+4.3. 
+Library Construction: End Repair & A-tailing 
+a) Vortex the End Repair and A-tailing Buffer. Verify there is no precipitate before 
+proceeding. 
+b) Prepare End Repair and A-tailing Mix by adding the reagents in the order shown below. 
+Mix thoroughly and centrifuge briefly. 
+ 
+End Repair and A-tailing Mix 
+1X (µl) 
+8.8X (µl) 
+End Repair and A-tailing Buffer 
+7 
+62 
+End Repair and A-tailing Enzyme  
+3 
+26 
+Total 
+10 
+88 
+ 
+c) Add 10 µl End Repair and A-tailing Mix to each tube containing 50 µl sample from the 
+Post Shearing Size Selection. Pipette mix 15 times and centrifuge briefly. 
+d) Incubate in a thermal cycler with the following protocol. The run will take ~1 h 5 min. 
+ 
+Lid Temperature 
+Reaction Volume 
+85°C 
+60 µl 
+ 
+ 
+Step 
+Temperature 
+Time 
+End Repair 
+20°C 
+30:00 
+A-tailing 
+65°C 
+30:00 
+Hold 
+4°C 
+Hold 
+ 
+e) Proceed immediately to the next step. 
+ 
+ 
+ 
+
+
+--- Page 42 ---
+PROTOCOL STEP 4  Library Construction 
+__________________________________________________________________________________________________ 
+ 
+Chromium™ Single Cell 3’ Reagent Kits User Guide 
+ 
+33 
+Click to TOC 
+4.4. 
+Library Construction: Adaptor Ligation 
+a) Prepare Adaptor Ligation Mix by adding the reagents in the order shown below. Mix 
+thoroughly and centrifuge briefly. 
+ 
+Adaptor Ligation Mix 
+1X (µl) 
+8.8X (µl) 
+Nuclease-Free Water 
+7.5 
+66 
+Ligation Buffer 
+30 
+264 
+DNA Ligase 
+10 
+88 
+R1 Adaptor Mix 
+2.5 
+22 
+Total 
+50 
+440 
+ 
+b) Add 50 µl Adaptor Ligation Mix to each tube containing 60 µl sample from the End 
+Repair and A-tailing step. Pipette mix 15 times and centrifuge briefly. 
+c) Incubate in a thermal cycler with the following protocol. 
+ 
+Lid Temperature 
+Reaction Volume 
+30°C 
+110 µl 
+ 
+ 
+Step 
+Temperature 
+Time 
+1 
+20°C 
+15:00 
+ 
+d) Proceed immediately to the next step. 
+4.5. 
+Post Ligation Cleanup 1 – SPRIselect  
+a) Vortex the SPRIselect Reagent until fully resuspended.  Add 88 μl SPRIselect Reagent to 
+each sample in the tube strip and pipette mix 15 times. 
+b) Incubate the tube strip at room temperature for 5 min. 
+c) Place the tube strip in a 10x™ Magnetic Separator in the High position until the solution 
+is clear. 
+d) Carefully remove and discard the supernatant. 
+e) Add 200 µl 80% ethanol to the pellet and stand for 30 sec. 
+f) 
+Carefully remove and discard the ethanol wash.  
+g) Repeat steps e and f for a total of 2 washes.  
+h) Centrifuge the tube strip briefly and return it to a 10x Magnetic Separator in the Low 
+position.  
+i) 
+Remove and discard any remaining ethanol and allow the samples to air dry for 2 min. 
+Do not exceed 2 min as this will lead to decreased elution efficiency. 
+j) 
+Remove the tube strip from the 10x Magnetic Separator and add 50.5 µl Buffer EB. 
+Pipette mix 15 times. 
+Repeat  
+
+
+--- Page 43 ---
+PROTOCOL STEP 4  Library Construction 
+__________________________________________________________________________________________________ 
+ 
+Chromium™ Single Cell 3’ Reagent Kits User Guide 
+ 
+34 
+Click to TOC 
+k) Incubate the tube strip at room temperature for 2 min. 
+l) 
+Place the tube strip in a 10x™ Magnetic Separator in the High position until the solution 
+is clear. 
+m) Transfer 50 µl of sample to a new tube strip. 
+4.6. 
+Post Ligation Cleanup 2 – SPRIselect 
+a) Vortex the SPRIselect Reagent until fully resuspended.  Add 50 μl SPRIselect Reagent to 
+each sample in the tube strip and pipette mix 15 times. 
+b) Incubate the tube strip at room temperature for 5 min. 
+c) Place the tube strip in a 10x Magnetic Separator in the High position until the solution is 
+clear. 
+d) Carefully remove and discard the supernatant. 
+e) Add 125 µl 80% ethanol to the pellet and stand for 30 sec. 
+f) 
+Carefully remove and discard the ethanol wash.  
+g) Repeat steps e and f for a total of 2 washes.  
+h) Centrifuge the tube strip briefly and return it to a 10x Magnetic Separator in the Low 
+position.  
+i) 
+Remove and discard any remaining ethanol and allow the samples to air dry for 2 min. 
+Do not exceed 2 min as this will lead to decreased elution efficiency. 
+j) 
+Remove the tube strip from the 10x Magnetic Separator and add 30.5 µl Buffer EB. 
+Pipette mix 15 times. 
+k) Incubate the tube strip at room temperature for 2 min. 
+l) 
+Place the tube strip in a 10x Magnetic Separator in the Low position until the solution is 
+clear. 
+m) Transfer 30 µl of sample to a new tube strip. 
+ 
+ 
+ 
+Repeat  
+
+
+--- Page 44 ---
+PROTOCOL STEP 4  Library Construction 
+__________________________________________________________________________________________________ 
+ 
+Chromium™ Single Cell 3’ Reagent Kits User Guide 
+ 
+35 
+Click to TOC 
+4.7. 
+Sample Index PCR 
+Choose the appropriate sample index sets to ensure that no sample indices overlap in a 
+multiplexed sequencing run. 
+a) Prepare Sample Index PCR Mix by adding the reagents in the order shown below. Mix 
+thoroughly and centrifuge briefly. 
+ 
+Sample Index PCR Mix 
+1X (µl) 
+8.8X (µl) 
+Nuclease-Free Water 
+8 
+70 
+Amplification Master Mix 
+50 
+440 
+SI-PCR Primer 
+2 
+18 
+Total 
+60 
+528 
+ 
+b) Add 60 µl Sample Index PCR Mix to each tube containing 30 µl purified Post Ligation 
+sample. 
+c) Add 10 µl of an individual Single Cell 3’ Sample Index to each well and record their 
+assignment. Pipette mix 15 times and centrifuge briefly. 
+d) Index the library DNA in a thermal cycler for a total of 10 cycles. The run will take ~25 
+min. 
+ 
+Lid Temperature 
+Reaction Volume 
+105°C 
+100 µl 
+ 
+ 
+Step 
+Temperature 
+Time 
+1 
+98°C 
+0:45 
+2 
+98°C 
+0:20 
+3 
+60°C 
+0:30 
+4 
+72°C 
+0:20 
+5 
+Go to step 2, 9X (for 10 cycles in total) 
+6 
+72°C 
+1:00 
+7 
+4°C 
+Hold 
+ 
+e) Store the tube strip at 4 °C for up to 72 h or proceed directly to Post Sample Index PCR 
+Cleanup. 
+ 
+ 
+ 
+STOP 
+NOTE 
+
+
+--- Page 45 ---
+PROTOCOL STEP 4  Library Construction 
+__________________________________________________________________________________________________ 
+ 
+Chromium™ Single Cell 3’ Reagent Kits User Guide 
+ 
+36 
+Click to TOC 
+4.8. 
+Post Sample Index PCR Cleanup 1 – SPRIselect  
+a) Vortex the SPRIselect Reagent until fully resuspended.  Add 100 μl SPRIselect Reagent 
+to each sample in the tube strip and pipette mix 15 times. 
+b) Incubate the tube strip at room temperature for 5 min. 
+c) Place the tube strip in a 10x™ Magnetic Separator in the High position until the solution 
+is clear. 
+d) Carefully remove and discard the supernatant. 
+e) Add 200 µl 80% ethanol to the pellet and stand for 30 sec. 
+f) 
+Carefully remove and discard the ethanol wash.  
+g) Repeat steps e and f for a total of 2 washes.  
+h) Centrifuge the tube strip briefly and return it to a 10x Magnetic Separator in the Low 
+position.  
+i) 
+Remove and discard any remaining ethanol and allow the samples to air dry for 2 min. 
+Do not exceed 2 min as this will lead to decreased elution efficiency. 
+j) 
+Remove the tube strip from the 10x Magnetic Separator and add 50.5 µl Buffer EB. 
+Pipette mix 15 times. 
+k) Incubate the tube strip at room temperature for 2 min. 
+l) 
+Place the tube strip in a 10x Magnetic Separator in the High position until the solution is 
+clear. 
+m) Transfer 50 µl of sample to a new tube strip. 
+4.9. 
+Post Sample Index PCR Cleanup 2 – SPRIselect  
+a) Vortex the SPRIselect Reagent until fully resuspended.  Add 50 μl SPRIselect Reagent to 
+each sample in the tube strip and pipette mix 15 times. 
+b) Incubate the tube strip at room temperature for 5 min. 
+c) Place the tube strip in a 10x Magnetic Separator in the High position until the solution is 
+clear. 
+d) Carefully remove and discard the supernatant. 
+e) Add 125 µl 80% ethanol to the pellet and stand for 30 sec. 
+f) 
+Carefully remove and discard the ethanol wash.  
+g) Repeat steps e and f for a total of 2 washes.  
+h) Centrifuge the tube strip briefly and return it to a 10x Magnetic Separator in the Low 
+position.  
+i) 
+Remove and discard any remaining ethanol and allow the samples to air dry for 2 min. 
+Do not exceed 2 min as this will lead to decreased elution efficiency. 
+j) 
+Remove the tube strip from the 10x Magnetic Separator and add 35.5 µl Buffer EB. 
+Pipette mix 15 times. 
+k) Incubate the tube strip at room temperature for 2 min. 
+Repeat  
+Repeat  
+
+
+--- Page 46 ---
+PROTOCOL STEP 4  Library Construction 
+__________________________________________________________________________________________________ 
+ 
+Chromium™ Single Cell 3’ Reagent Kits User Guide 
+ 
+37 
+Click to TOC 
+l) 
+Place the tube strip in a 10x™ Magnetic Separator in the Low position until the solution 
+is clear. 
+m) Transfer 35 µl of sample to a new tube strip. 
+n) Store the tube strip at 4°C for up to 72 h or at −20°C for long-term storage. 
+ 
+4.10. 
+Post Library Construction QC 
+a) EITHER Run 1 μl of sample at 1:10 dilution on the Agilent Bioanalyzer High Sensitivity 
+chip for qualitative analysis. Traces should resemble the overall shape of the sample 
+electropherogram shown below. 
+A 1:10 dilution ratio is typically sufficient to avoid over-loading the High Sensitivity DNA 
+Chip. For samples of particularly RNA-rich cells, additional dilution may be required to QC 
+the library. 
+ 
+ 
+ 
+b) OR Run 1 μl of sample at 1:10 dilution on the Agilent TapeStation High Sensitivity D1000 
+ScreenTape for qualitative analysis. Traces should resemble the overall shape of the 
+sample electropherogram shown below. 
+ 
+ 
+ 
+ 
+ 
+ 
+STOP 
+
+
+--- Page 47 ---
+PROTOCOL STEP 4  Library Construction 
+__________________________________________________________________________________________________ 
+ 
+Chromium™ Single Cell 3’ Reagent Kits User Guide 
+ 
+38 
+Click to TOC 
+4.11. 
+Post Library Construction Quantification 
+Typically a series of 1:40,000, 1:200,000, 1:1,000,000 and 1:5,000,000 of the completed 
+Single Cell 3’ library is required to fall within the dynamic range of the assay. 
+a) Thaw Kapa DNA Quantification Kit for Illumina platforms.  
+b) Dilute 1 µl of sample with deionized water to appropriate dilutions that fall within the 
+linear detection range of the Kapa DNA Quantification Kit. 
+c) Make enough Quantification Master Mix for the DNA dilutions per sample and the DNA 
+Standards (plus 10% excess) using the guidance for 1 reaction volume below. 
+ 
+Quantification Master Mix 
+1X (µl) 
+SYBR Fast Master Mix + Primer 
+12 
+Water 
+4 
+Total 
+16 
+ 
+d) Dispense 16 μl of Quantification Master Mix for sample dilutions and DNA Standards to 
+a 96-Well PCR Plate. 
+e) Add 4 μl of sample dilutions and 4 μl DNA Standards to appropriate wells. Centrifuge 
+the PCR plate briefly.  
+f) 
+Run DNA Quantification Cycling Protocol with data acquisition at Step 3.  
+ 
+Step 
+Temperature 
+Time 
+1 
+95°C 
+3:00 
+2 
+95°C 
+0:05 
+3 
+67°C 
+0:30 
+4 
+Go to Step 2, 29X (for 30 cycles in total) 
+ 
+g) Follow the manufacturer’s recommendations for qPCR analysis. The average fragment 
+size derived from the Bioanalyzer trace is used as the insert size for accurate library 
+quantification in qPCR. 
+ 
+NOTE 
+
+
+--- Page 48 ---
+PROTOCOL STEP 5  Sequencing 
+__________________________________________________________________________________________________ 
+ 
+Chromium™ Single Cell 3’ Reagent Kits User Guide 
+ 
+39 
+Click to TOC 
+ 
+Protocol Step 5 
+ 
+ 
+Sequencing 
+ 
+ 
+Sequencing prepared libraries 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+--- Page 49 ---
+PROTOCOL STEP 5  Sequencing 
+__________________________________________________________________________________________________ 
+ 
+Chromium™ Single Cell 3’ Reagent Kits User Guide 
+ 
+40 
+Click to TOC 
+5. 
+Sequencing Libraries 
+The Single Cell 3’ Solution produces Illumina-ready sequencing libraries. This section of the protocol 
+describes the steps required to ensure the successful sequencing of Single Cell 3’ libraries to deliver the full 
+value of the Single Cell 3’ Solution. 
+A Single Cell 3’ Library comprises standard Illumina paired-end constructs which begin and end with P5 and 
+P7. The Single Cell 3’ 14 bp 10x™ Barcodes are encoded at the start of the i7 index read, while sample index 
+sequences are incorporated as the i5 index read. Read 1 and Read 2 are standard Illumina sequencing 
+primer sites used in paired-end sequencing. Read 1 is used to sequence the cDNA fragment, while Read 2 is 
+used to sequence the 10 bp randomer attached during the reverse transcription step. 
+ 
+Each sample index provided in the Single Cell 3’ Sample Index Kit combines 4 different sequences in order to 
+balance across all 4 nucleotides. 
+__________________________________________________________________________________________________ 
+5.1. 
+Sequencing Run Parameters 
+a) Single Cell libraries have been validated for sequencing on the Illumina NextSeq 500 
+(V2 chemistry, 150 cycle kit) and the HiSeq 2500 in Rapid Run mode (V1 and V2 
+chemistry, 200 cycle kits). 
+b) Single Cell libraries use standard Illumina sequencing primers for both sequencing and 
+index reads, and require no custom primers. 
+c) Single Cell libraries must be run using paired-end sequencing with dual indexing. The 
+following read lengths are recommended: 
+i. 
+Read 1: 98 nt (shorter reads may result in reduced alignment rates) 
+ii. 
+i7 Index: 14 nt (any other length will result in a failed run) 
+iii. 
+i5 Index:  8 nt (any other length will result in a failed run) 
+iv. 
+Read 2:  10 nt (any other length will result in a failed run) 
+5.2. 
+Loading Single Cell 3’ Libraries 
+a) Once quantified and normalized, Single Cell 3’ Libraries should be denatured and 
+diluted as recommended for the Illumina HiSeq 2500 sequencer or the Illumina 
+NextSeq 500. Refer to Illumina documentation for Denaturing and Diluting Libraries for 
+the HiSeq and NextSeq sequencers. Suggested loading concentrations are 10 pM for 
+HiSeq 2500 Rapid Run mode and 2.1 pM for NextSeq 500. Sequencing runs should be 
+set up per Illumina recommendations for the number of cycles specified in section 5.1. 
+ 
+
+
+--- Page 50 ---
+PRACTICAL TIPS & TROUBLESHOOTING 
+__________________________________________________________________________________________________ 
+ 
+Chromium™ Single Cell 3’ Reagent Kits User Guide 
+ 
+41 
+Click to TOC 
+ 
+ 
+Practical Tips & 
+Troubleshooting 
+ 
+ 
+Processing Fewer than 8 Reactions 
+Assembling a Chip, 10x™ Chip Holder & 10x™ 
+Gasket 
+Pipetting Gel Beads 
+Pipetting GEMs 
+Surrogate Fluid 
+Reagent Clogs during GEM Generation 
+Wetting Failures 
+Chromium™ Controller Errors 
+Glossary of Terms 
+ 
+ 
+ 
+ 
+
+
+--- Page 51 ---
+PRACTICAL TIPS & TROUBLESHOOTING 
+__________________________________________________________________________________________________ 
+ 
+Chromium™ Single Cell 3’ Reagent Kits User Guide 
+ 
+42 
+Click to TOC 
+6. 
+Practical Tips & Troubleshooting 
+6.1. 
+Processing Fewer than 8 Reactions 
+a) Puncture foil seals in the Gel Bead Strip as needed for a run. 
+b) Store any unused Gel Beads at −80°C and avoid more than 4 freeze-thaw cycles. 
+c) Never store Gel Beads at −20°C. 
+d) Reagent volumes should be calculated with a 10% excess of 1X values quoted in the 
+protocol. e.g. For 3 samples, multiply the 1X volume quoted in the protocol by 3.3 to 
+determine the suitable volume to prepare. Using larger reagent excesses may reduce 
+the total number of reactions that can be run using one kit. 
+e) Store any unused RT Primer at −80°C for future use. 
+6.2. 
+Assembling a Chip, 10x™ Chip Holder & 10x™ Gasket 
+a) Align the notch on the upper left corner of the Chromium™ Chip with the notch on the 
+10x Chip Holder and insert the left-hand side of the Chromium Chip under the guide. 
+b) Depress the right-hand side of the Chromium Chip until the spring-loaded clip engages 
+the Chromium Chip. 
+ 
+ 
+ 
+c) Close the hinged lid of the 10x Chip Holder. After loading the Chromium Chip, the 10x 
+Chip Holder should lay flat on the bench top with the lid closed. 
+ 
+ 
+ 
+ 
+ 
+
+
+--- Page 52 ---
+PRACTICAL TIPS & TROUBLESHOOTING 
+__________________________________________________________________________________________________ 
+ 
+Chromium™ Single Cell 3’ Reagent Kits User Guide 
+ 
+43 
+Click to TOC 
+d) Position the assembly so that the Partitioning Oil wells (row labeled 3) are toward you 
+and identify the rows labeled 1, 2 and 3 for correct addition of the reagents. 
+e) After the reagents have been added, attach a 10x™ Gasket by holding the tongue 
+(curved end, to the right) and hook it on the left-hand tabs of the 10x Chip Holder. Gently 
+pull the 10x Gasket toward the right and hook it on the two right-hand tabs. 
+ 
+ 
+ 
+Click back to Loading the Single Cell 3’ Chip 
+ 
+ 
+ 
+ 
+
+
+--- Page 53 ---
+PRACTICAL TIPS & TROUBLESHOOTING 
+__________________________________________________________________________________________________ 
+ 
+Chromium™ Single Cell 3’ Reagent Kits User Guide 
+ 
+44 
+Click to TOC 
+6.3. 
+Pipetting Gel Beads 
+a) After vortexing, remove the Gel Bead Strip from the 10x™ Vortex Adapter and flick the 
+Gel Bead Strip in a sharp, downward motion to ensure maximum Gel Bead recovery. 
+Confirm that there are no bubbles at the bottom of the tube. 
+b) Best practices for recovering adequate volume of Gel Beads from the Gel Bead Strip 
+include the following: 
+i. 
+Set a pipette to the volume being pipetted and, without engaging the plunger, 
+puncture the foil seal on the Gel Bead Strip. The pipette tips should extend no 
+more than 2 mm below the seal.  
+ii. 
+Once the holes are formed, raise the pipette tips above the seal and engage the 
+plunger. 
+iii. 
+Lower the tips to the bottom of the wells and widen the opening by gently rocking 
+the tips back and forth, keeping the plunger engaged. Widening the foil seal 
+opening allows the pipette tips to reach the bottom of the Gel Bead Strip wells. 
+This is important for recovering the full volume of Gel Beads required for optimal 
+performance. 
+iv. 
+With the pipette tips still in the Gel Bead Strip, very slowly aspirate the required 
+volume of Gel Beads. After aspiration stops, leave the pipette tips in the wells for 
+an additional 5 sec to allow pressure to equilibrate. 
+ 
+c) If the required volume of beads cannot be recovered, place the pipette tips against the 
+sidewalls of the Gel Bead Strip wells and slowly dispense the Gel Beads back into the 
+strip. Take care not to introduce bubbles into the wells and verify that the pipette tips 
+contain no leftover Gel Beads. Attempt to withdraw the full volume of beads again by 
+pipetting slowly. 
+ 
+ 
+ 
+
+
+--- Page 54 ---
+PRACTICAL TIPS & TROUBLESHOOTING 
+__________________________________________________________________________________________________ 
+ 
+Chromium™ Single Cell 3’ Reagent Kits User Guide 
+ 
+45 
+Click to TOC 
+6.4. 
+Pipetting GEMs 
+a) After the completion of a Chromium™ Controller run, the hinged lid of the 10x™ Chip 
+Holder is folded back to expose the wells at a 45-degree angle. The GEMs should be 
+aspirated from the lowest points of the Recovery Wells (row labeled ◄) without 
+creating a seal between the tips and the bottom of the wells. Avoid introducing air 
+bubbles. 
+ 
+ 
+ 
+b) When transferring the GEMs from the Single Cell 3’ Chip after the Chromium Controller 
+run into the Eppendorf® twin-tec 96-well PCR plate (on a chilled metal block resting on 
+ice), the pipette tips should be positioned against the side walls of the wells as shown 
+below. 
+ 
+ 
+ 
+Click back to Loading the Single Cell 3’ Chip 
+ 
+ 
+ 
+ 
+
+
+--- Page 55 ---
+PRACTICAL TIPS & TROUBLESHOOTING 
+__________________________________________________________________________________________________ 
+ 
+Chromium™ Single Cell 3’ Reagent Kits User Guide 
+ 
+46 
+Click to TOC 
+6.5. 
+Surrogate Fluid 
+Surrogate Fluid is glycerol in a ~50% volume/volume aqueous solution. It is critical all unused wells in Rows 
+labeled 1, 2 and 3 of the Single Cell 3’ Chip contain Surrogate Fluid prior to running the Chromium™ 
+Controller. If the amount of Surrogate Fluid provided in the Library Kit is insufficient, the following 
+commercially available glycerol solution can be used as a substitute: 
+ 
+ 
+Ricca Chemical Company, Glycerin (glycerol), 50% (v/v) Aqueous Solution, P/N 3290-32 
+ 
+Alternatively, additional Surrogate Fluid can be made from a stock solution of glycerol as follows: 
+a) Mix an equal volume of water and 99% Glycerol, Molecular Biology Grade. 
+b) Filter through a 0.2 μm filter. 
+c) Store at −20°C in 1 ml LoBind tubes. 
+d) Surrogate Fluid should be equilibrated to room temperature before use. 
+ 
+ 
+
+
+--- Page 56 ---
+PRACTICAL TIPS & TROUBLESHOOTING 
+__________________________________________________________________________________________________ 
+ 
+Chromium™ Single Cell 3’ Reagent Kits User Guide 
+ 
+47 
+Click to TOC 
+6.6. 
+Reagent Clogs during GEM Generation 
+GEM reagents are manufactured in a cleanroom environment to minimize the level of fibers and debris in 
+GEM reagents that could cause a clog during GEM generation. 
+It is also important for users to minimize exposure of reagents, chips, and gaskets to sources of fibers such 
+as reagent reservoirs, KimWipes, repeat-usage of flip-cap tubes, and the general laboratory environment. 
+When care is taken to minimize the introduction of additional debris, the clog rate is typically very low. In the 
+unlikely event that a clog occurs during GEM generation, it is recommended that the sample be remade. 
+There are several ways to identify if a clog has occurred. If any of the following occur, take a picture and 
+send it to techsupport@10xgenomics.com for further assistance. Continue processing the remaining 
+samples: 
+a) After removing a Chromium™ Chip from the Chromium Controller, one or more wells 
+contain abnormally high volume. 
+b) During GEM recovery: 
+i. 
+When transferring GEMs from the Chromium Chip to a PCR plate, there is excess 
+Partitioning Oil in a pipette tip after aspiration. Note the excess Partitioning Oil 
+present in the third tip from the left (below left, arrow). 
+ii. 
+Excess Partitioning Oil can also be observed by comparing the volume uniformity 
+in the PCR plate. After the GEMs are transferred to a PCR plate, a clog occurred if 
+the Partitioning Oil volume (clear, bottom of well) in one or more wells is 
+increased compared to other wells (below right, arrow). 
+ 
+c) After transfer of the GEMs + Recovery Agent to a tube strip: 
+i. 
+Wells with decreased aqueous sample indicate a clog during GEM generation 
+when compared to wells with other normal samples (below left, arrow). 
+ii. 
+After aspirating the designated volume of Recovery Agent/Partitioning Oil, a 
+greater volume of Partitioning Oil (pink) remaining in the PCR tubes (below right, 
+arrow) also indicates a clog occurred. 
+ 
+ 
+ 
+
+
+--- Page 57 ---
+PRACTICAL TIPS & TROUBLESHOOTING 
+__________________________________________________________________________________________________ 
+ 
+Chromium™ Single Cell 3’ Reagent Kits User Guide 
+ 
+48 
+Click to TOC 
+6.7. 
+Wetting Failures 
+Once reagents are added to the Chromium™ Chip wells, they immediately flow into and prime the 
+microfluidic channels on the chip. Incorrect priming can result in wetting failures, in which polydisperse, 
+millimeter-scale droplets are formed instead of a uniform GEM. To minimize the occurrence of wetting 
+failures, it is critical to add reagents in the stipulated order and to wait 30 sec between addition of Master 
+Mix and addition of Gel Beads. If a wetting failure occurs during GEM generation, it is recommended that the 
+sample be remade. 
+The occurrence of a wetting failure can be recognized during GEM recovery by the absence of uniform GEM 
+emulsion in an outlet well or pipette tip (below, arrow). If this occurs, take a picture and send it to 
+techsupport@10xgenomics.com for further assistance. Continue processing the remaining samples. 
+ 
+ 
+ 
+ 
+ 
+
+
+--- Page 58 ---
+PRACTICAL TIPS & TROUBLESHOOTING 
+__________________________________________________________________________________________________ 
+ 
+Chromium™ Single Cell 3’ Reagent Kits User Guide 
+ 
+49 
+Click to TOC 
+6.8. 
+Chromium™ Controller Errors 
+If the Chromium Controller fails to start, an error tone will sound and one of the following error messages 
+will be displayed: 
+a) Chip not read – Try again: Eject the tray, remove and/or reposition the 10x™ Chip 
+Holder assembly and try again. If the error message is still received after trying this 
+more than twice, contact techsupport@10xgenomics.com for further assistance. 
+b) Check Gasket: Eject the tray by pressing the eject button to check there is a 10x Gasket 
+on the Chromium Chip. In the case the 10x Gasket installation was forgotten, install and 
+try again. In the case a 10x Gasket was already installed, remove, reapply, and try 
+again. If the error message is still received after trying either of these more than twice, 
+contact techsupport@10xgenomics.com for further assistance. 
+c) Pressure not at Setpoint: 
+i. 
+If this message is received within a few seconds of starting a run, eject the tray 
+by pressing the eject button and check for dirt or deposits on the 10x Gasket. If 
+dirt is observed, replace with a new 10x Gasket and try again. If the error 
+message is still received after trying this more than twice, contact 
+techsupport@10xgenomics.com for further assistance. 
+ii. 
+If this message is received after a few minutes into the run, it is likely one or 
+more of the reagents was not loaded into the Chromium Chip. In this case, the 
+Chromium Chip must be discarded. Do not try running this Chromium Chip again 
+as this will damage the Chromium Controller. 
+d) CAUTION: Chip Holder not Present: Eject the tray by pressing the eject button to check 
+there is a 10x Chip Holder encasing the Chromium Chip. In the case the 10x Chip Holder 
+was forgotten, install with a 10x Gasket in place, and try again. If the error message is 
+still received after a 10x Chip Holder is confirmed as in place, contact 
+techsupport@10xgenomics.com for further assistance. 
+e) Invalid Chip CRC Value: This indicates the Chromium Chip has encountered an error, 
+should not be run, and must be discarded. Contact techsupport@10xgenomics.com for 
+further assistance. 
+ 
+Click back to Running the Chromium Controller 
+ 
+ 
+ 
+
+
+--- Page 59 ---
+PRACTICAL TIPS & TROUBLESHOOTING 
+__________________________________________________________________________________________________ 
+ 
+Chromium™ Single Cell 3’ Reagent Kits User Guide 
+ 
+50 
+Click to TOC 
+6.9. 
+Glossary of Terms 
+10x™ Barcode 
+Defined DNA sequences that are added to each cDNA generated in a GEM so they can be distinguished and 
+sorted during data analysis. 
+Chromium™ Single Cell 3’ Chip 
+The Chromium Single Cell 3’ Chip is a microfluidic chip specifically designed to run the Single Cell 3’ Protocol 
+in the Chromium Controller. The Single Cell 3’ Chip is indicated by a red label at the top of the chip. Other 
+chips used with the Chromium System include the Chromium Genome Chip. 
+Gel Beads 
+Gel Beads are the foundation of 10x Genomics®’ technology, and are beads functionalized with millions of 
+copies of a 10x Barcoded primer. Gel Beads are provided in 8-reaction Gel Bead Strips. 
+GEM 
+GEM is an abbreviation of Gel Bead-In-EMulsion. In the Single Cell 3’ Chip, a library of Single Cell 3’ Gel 
+Beads is combined with cells and a reverse transcriptase (RT) Master Mix to create single nanoliter reaction 
+volumes partitioned by oil. 
+GemCode™ Technology 
+The GemCode Technology is the microfluidic chip-based technology that partitions cells across tens of 
+thousands of GEMs. Upon isothermal incubation, the cDNA produced in each GEM contains a 10x Barcode 
+that identifies them as having originated from the same sample partition. 
+ 
