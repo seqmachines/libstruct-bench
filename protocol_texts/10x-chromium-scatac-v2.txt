@@ -1,0 +1,2708 @@
+--- Page 1 ---
+10xGenomics.com
+CG000496 Rev A
+USER GUIDE
+Chromium
+Next GEM
+Single Cell ATAC
+Reagent Kits v2
+FOR USE WITH
+Chromium Next GEM Single Cell ATAC Kit v2, 16 rxns PN-1000390
+Chromium Next GEM Single Cell ATAC Kit v2, 4 rxns PN-1000406
+Chromium Next GEM Chip H Single Cell Kit, 48 rxns PN-1000161
+Chromium Next GEM Chip H Single Cell Kit, 16 rxns PN-1000162
+Single Index Kit N, Set A, 96 rxns PN-1000212
+Next GEM reagents are specific to Next GEM products and should not be used interchangeably with non-Next GEM reagents.
+
+
+--- Page 2 ---
+2
+Click to TOC
+Chromium Next GEM Single Cell ATAC Reagent Kits v2 User Guide • Rev A
+Notices
+Document Number
+CG000496 • Rev A
+Legal Notices
+© 2022 10x Genomics, Inc. (10x Genomics). All rights reserved. Duplication and/or reproduction of all or 
+any portion of this document without the express written consent of 10x Genomics, is strictly forbidden. 
+Nothing contained herein shall constitute any warranty, express or implied, as to the performance of any 
+products described herein. Any and all warranties applicable to any products are set forth in the applicable 
+terms and conditions of sale accompanying the purchase of such product. 10x Genomics provides no 
+warranty and hereby disclaims any and all warranties as to the use of any third-party products or protocols 
+described herein. The use of products described herein is subject to certain restrictions as set forth in the 
+applicable terms and conditions of sale accompanying the purchase of such product. A non-exhaustive 
+list of 10x Genomics’ marks, many of which are registered in the United States and other countries can 
+be viewed at:  www.10xgenomics.com/trademarks. 10x Genomics may refer to the products or services 
+offered by other companies by their brand name or company name solely for clarity, and does not claim any 
+rights in those third-party marks or names. 10x Genomics products may be covered by one or more of the 
+patents as indicated at: www.10xgenomics.com/patents.  The use of products described herein is subject 
+to 10x Genomics Terms and Conditions of Sale, available at www.10xgenomics.com/legal-notices, or such 
+other terms that have been agreed to in writing between 10x Genomics and user.  All products and services 
+described herein are intended FOR RESEARCH USE ONLY and NOT FOR USE IN DIAGNOSTIC PROCEDURES.
+Notice to Customer: The listed products and their use are the subject of United States Patent Nos. 6,159,736, 
+and 6,294,385, European Patent No. 1115856 and related patents and patent applications licensed from the 
+Wisconsin Alumni Research Foundation.
+Instrument & Licensed Software Updates Warranties
+Updates to existing Instruments and Licensed Software may be required to enable customers to use 
+new or existing products.  In the event of an Instrument failure resulting from an update, such failed 
+Instrument will be replaced or repaired in accordance with the 10x Limited Warranty, Assurance Plan or 
+service agreement, only if such Instrument is covered by any of the foregoing at the time of such failure. 
+Instruments not covered under a current 10x Limited Warranty, Assurance Plan or service agreement will 
+not be replaced or repaired.
+Support
+Email: support@10xgenomics.com
+10x Genomics
+6230 Stoneridge Mall Road
+Pleasanton, CA 94588 USA 
+ 
+Notices
+
+
+--- Page 3 ---
+3
+Click to TOC
+Chromium Next GEM Single Cell ATAC Reagent Kits v2 User Guide • Rev A
+Document Number
+CG000496
+Title
+Chromium Next GEM Single Cell ATAC Reagent Kits v2 User 
+Guide
+Revision
+Rev A
+Revision Date
+March 2022
+Specific Changes:
+General Changes:
+Document
+Revision
+Summary
+
+
+--- Page 4 ---
+4
+Chromium Next GEM Single Cell ATAC Reagent Kits v2 User Guide • Rev A
+Table of Contents
+Introduction	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+5
+Chromium Next GEM Single Cell ATAC Reagent Kits v2	
+6
+Chromium Accessories	
+9
+Recommended Thermal Cyclers	
+9
+Additional Kits, Reagents & Equipment	
+10
+Protocol Steps & Timing 	
+12
+Stepwise Objectives	
+13
+Tips &Best Practices	 	
+	
+	
+	
+	
+	
+	
+	
+15
+Step 1	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+20
+Transposition	
+21
+Nuclei Concentration Guidelines	
+22
+1.1 Prepare Transposition Mix	
+23
+1.2 Isothermal Incubation 	
+23
+Step 2	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+24
+GEM Generation & Barcoding	
+25
+2.1 Prepare Master Mix	
+26
+2.2 Load Chromium Next GEM Chip H	
+27
+2.3 Run the Chromium Controller or X/iX	
+28
+2.4 Transfer GEMs	
+29
+2.5 GEM Incubation	
+30
+Step 3	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+31
+Post GEM Incubation Cleanup	
+32
+3.1 Post GEM Incubation Cleanup – Dynabeads	
+33
+3.2 Post GEM Incubation Cleanup – SPRIselect	
+35
+Step 4	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+36
+Library Construction	
+37
+4.1 Sample Index PCR	
+38
+4.2 Post Sample Index Double Sided Size Selection – SPRIselect	
+39
+4.3 Post Library Construction QC	
+40
+4.4 Post Library Construction Quantification	
+41
+Sequencing	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+42
+Troubleshooting	 	
+	
+	
+	
+	
+	
+	
+	
+	
+45
+GEMs	
+46
+Chromium Instrument Errors	
+48
+Appendix	
+49
+TOC
+ 
+
+
+--- Page 5 ---
+5
+Click to TOC
+Chromium Next GEM Single Cell ATAC Reagent Kits v2 User Guide • Rev A
+Introduction
+Chromium Next GEM Single Cell ATAC Reagent Kits v2
+Chromium Accessories
+Recommended Thermal Cyclers
+Additional Kits, Reagents & Equipment
+Protocol Steps & Timing
+Stepwise Objectives
+
+
+--- Page 6 ---
+6
+Click to TOC
+Chromium Next GEM Single Cell ATAC Reagent Kits v2 User Guide • Rev A
+Chromium Next GEM Single Cell ATAC Library Kit v2, 16 rxns PN-1000392 (store at −20°C)
+Chromium Next GEM Single Cell ATAC Gel Bead Kit v2, 16 rxns PN-1000391 (store at −80°C)
+Chromium
+Next GEM
+Single Cell ATAC
+Gel Beads v2
+Single Cell ATAC
+Gel Beads v2 
+2
+2000210
+10xGenomics.com
+#
+PN
+Dynabeads™ MyOne™ SILANE, PN-2000048 (store at 4°C)
+Dynabeads MyOne 
+SILANE
+1
+2000048
+#
+PN
+Introduction
+Chromium Next GEM Single Cell ATAC Reagent Kits v2
+Chromium Next GEM Single Cell ATAC Kit v2, 16 rxns PN-1000390
+Chromium
+Next GEM
+Single Cell ATAC
+Library Kit v2
+10xGenomics.com
+#
+PN
+20X Nuclei Buffer
+2
+2000207
+ATAC Buffer B
+1
+2000193
+ATAC Enzyme B
+1
+2000265
+Barcoding Reagent B 
+1
+2000194
+Barcoding Enzyme
+1
+2000125
+Reducing Agent B
+1
+2000087
+Cleanup Buffer
+2
+2000088
+Amp Mix
+1
+2000047
+SI-PCR Primer B
+1
+2000128
+
+
+--- Page 7 ---
+7
+Click to TOC
+Chromium Next GEM Single Cell ATAC Reagent Kits v2 User Guide • Rev A
+Chromium Next GEM Single Cell ATAC Library Kit v2, 4 rxns PN-1000408 (store at −20°C)
+Chromium Next GEM Single Cell ATAC Gel Bead Kit v2, 4 rxns PN-1000407 (store at −80°C)
+Chromium
+Next GEM
+Single Cell ATAC
+Gel Beads v2
+Single Cell ATAC
+Gel Beads v2 (4 rxns)
+ 1
+2000210
+10xGenomics.com
+#
+PN
+Dynabeads™ MyOne™ SILANE, PN-2000048 (store at 4°C)
+Dynabeads MyOne 
+SILANE
+1
+2000048
+#
+PN
+Introduction
+Chromium Next GEM Single Cell ATAC Reagent Kits v2
+Chromium Next GEM Single Cell ATAC Kit v2, 4 rxns PN-1000406
+Chromium
+Next GEM
+Single Cell ATAC
+Library Kit v2
+10xGenomics.com
+#
+PN
+20X Nuclei Buffer
+2
+2000207
+ATAC Buffer B
+1
+2000193
+ATAC Enzyme B
+1
+2000272
+Barcoding Reagent B 
+1
+2000194
+Barcoding Enzyme
+1
+2000139
+Reducing Agent B
+1
+2000087
+Cleanup Buffer
+1
+2000088
+Amp Mix
+1
+2000103
+SI-PCR Primer B
+1
+2000128
+
+
+--- Page 8 ---
+8
+Click to TOC
+Chromium Next GEM Single Cell ATAC Reagent Kits v2 User Guide • Rev A
+#
+PN
+10xGenomics.com
+Chromium
+Partitioning Oil
+
+#
+PN
+Chromium
+Recovery Agent
+
+Partitioning Oil
+6
+2000190
+Chromium
+Next GEM
+Chip H & Gaskets
+Chromium Next GEM Chip H 
+6
+2000180
+Gasket, 6-pack
+1
+370017
+#
+PN
+Recovery Agent
+6
+220016
+Chromium
+Partitioning Oil
+
+Partitioning Oil
+2
+2000190
+#
+PN
+Chromium
+Next GEM
+Chip H & Gaskets
+Chromium Next GEM Chip H
+2
+2000180
+Gasket, 2-pack
+1
+3000072
+#
+PN
+10xGenomics.com
+Chromium
+Recovery Agent
+
+Recovery Agent
+2
+220016
+#
+PN
+Single Index Kit N Set A
+
+
+Single Index Plate N Set A
+1
+3000427
+#
+PN
+Chromium Next GEM Chip H Single Cell Kit, 48 rxns PN-1000161
+(store at ambient temperature)
+Chromium Next GEM Chip H Single Cell Kit, 16 rxns PN-1000162
+(store at ambient temperature)
+Single Index Kit N Set A, 96 rxns PN-1000212 (store at −20°C)
+Introduction
+
+
+--- Page 9 ---
+9
+Click to TOC
+Chromium Next GEM Single Cell ATAC Reagent Kits v2 User Guide • Rev A
+Introduction
+Recommended 
+Thermal Cyclers
+Supplier
+Description
+Part Number 
+Bio-Rad
+C1000 Touch Thermal Cycler 
+with 96-Deep Well Reaction 
+Module
+1851197
+Eppendorf
+MasterCycler Pro
+North America 950030010 
+International 6321 000.019
+Thermo Fisher 
+Scientific
+Veriti 96-Well Thermal Cycler
+4375786
+Thermal cyclers used must support uniform heating of 100 µl emulsion volumes.
+Chromium 
+Accessories
+Product
+PN (Orderable)
+PN (Item) 
+10x Vortex Adapter
+120251
+330002
+Chromium Next GEM Secondary Holder
+1000195
+3000332
+10x Magnetic Separator
+120250
+230003
+
+
+--- Page 10 ---
+10
+Click to TOC
+Chromium Next GEM Single Cell ATAC Reagent Kits v2 User Guide • Rev A
+The items in the table below have been validated by 10x Genomics and are highly 
+recommended for the Single Cell ATAC protocols. Substituting materials may adversely 
+affect system performance. This list does not include standard laboratory equipment 
+such as water baths, centrifuges, vortex mixers, pH meters, freezers etc. 
+Additional Kits, 
+Reagents & 
+Equipment
+Supplier
+Description
+Part Number (US)
+Plastics
+Eppendorf
+PCR Tubes 0.2 ml 8-tube strips
+DNA LoBind Tubes, 1.5 ml
+DNA LoBind Tubes, 2.0 ml
+951010022
+022431021
+022431048
+USA Scientific
+TempAssure PCR 8-tube strip
+1402-4700
+Thermo Fisher Scientific
+MicroAmp 8-Tube Strip, 0.2 ml
+MicroAmp 8-Cap Strip, clear
+N8010580
+N8010535
+Kits & Reagents
+Thermo Fisher Scientific
+Nuclease-free Water
+AM9937
+Millipore Sigma
+Ethanol, Pure (200 Proof, anhydrous)
+E7023-500ML
+Beckman Coulter
+SPRIselect Reagent Kit
+B23318
+Bio-Rad
+10% Tween 20
+1662404
+Ricca Chemical Company
+Glycerin (glycerol), 50% (v/v) Aqueous Solution
+3290-32
+Qiagen
+Qiagen Buffer EB
+19086
+Equipment
+VWR
+Vortex Mixer
+Divided Polystyrene Reservoirs
+10153-838
+41428-958
+Thermo Fisher Scientific
+MYFUGE 12 Mini Centrifuge
+(alternatively, use any equivalent mini centrifuge)
+C1012
+Eppendorf
+Eppendorf ThermoMixer C
+Eppendorf ThermoMixer C Bundle, includes SmartBlock 1.5 ml, 
+Thermoblock for 24 reaction vessel
+(alternatively, use a temperature-controlled Heat Block)
+5382000023
+2231000574
+Introduction
+Choose either 
+Eppendorf,
+USA Scientific or 
+Thermo Fisher 
+Scientific PCR 
+8-tube strips.
+Quantification & Quality Control
+Agilent
+2100 Bioanalyzer Laptop Bundle
+High Sensitivity DNA Kit
+4200 TapeStation
+High Sensitivity D1000 ScreenTape
+High Sensitivity D1000 Reagents
+G2943CA
+5067-4626
+G2991AA
+5067-5584
+5067-5585
+KAPA Biosystems
+KAPA Library Quantification Kit for Illumina Platforms
+KK4824
+Choose Bioanalyzer, 
+or TapeStation 
+based on availability 
+& preference. 
+
+
+--- Page 11 ---
+11
+Click to TOC
+Chromium Next GEM Single Cell ATAC Reagent Kits v2 User Guide • Rev A
+10x Genomics recommends using only validated emulsion-safe pipette tips for all Single 
+Cell protocols. Rainin pipette tips have been extensively validated by 10x Genomics and 
+are highly recommended for all single cell assays. If Rainin tips are unavailable, any of 
+the listed alternate pipette tips validated by 10x Genomics may be used.  
+Introduction
+Supplier
+Description
+Part Number (US)
+Recommended Pipettes & Pipette tips
+Rainin
+Pipettes
+Pipet-Lite Multi Pipette L8-50XLS+
+Pipet-Lite Multi Pipette L8-200XLS+
+Pipet-Lite Multi Pipette L8-10XLS+
+Pipet-Lite Multi Pipette L8-20XLS+
+Pipet-Lite LTS Pipette L-2XLS+
+Pipet-Lite LTS Pipette L-10XLS+
+Pipet-Lite LTS Pipette L-20XLS+
+Pipet-Lite LTS Pipette L-100XLS+
+Pipet-Lite LTS Pipette L-200XLS+
+Pipet-Lite LTS Pipette L-1000XLS+
+Pipette Tips
+Tips LTS 200UL Filter RT-L200FLR
+Tips LTS 1ML Filter RT-L1000FLR
+Tips LTS 20UL Filter RT-L10FLR
+17013804
+17013805
+17013802
+17013803
+17014393
+17014388
+17014392
+17014384
+17014391
+17014382
+30389240
+30389213
+30389226
+Alternate Recommendations  (If Rainin pipette tips are unavailable, any of the listed pipette tips may be used)
+Eppendorf
+Pipettes
+Eppendorf Research plus, 8-channel, epT.I.P.S. Box, 0.5 – 10 µL
+Eppendorf Research plus, 8-channel, epT.I.P.S. Box, 10 – 100 µL
+Eppendorf Research plus, 8-channel, epT.I.P.S. Box, 100 – 300 µL
+Eppendorf Research plus, 1-channel, epT.I.P.S.® Box, 0.1 – 2.5 µL
+Eppendorf Research plus, 1-channel, epT.I.P.S.® Box, 0.5 – 10 µL
+Eppendorf Research plus, 1-channel, epT.I.P.S.® Box, 2 – 20 µL
+Eppendorf Research plus, 1-channel, epT.I.P.S.® Box, 2 – 200 µL
+Eppendorf Research plus, 1-channel, epT.I.P.S.® Box, 100 – 1000 µL
+Pipette Tips (compatible with Eppendorf pipettes only)
+ep Dualfilter T.I.P.S., 2-20 µL
+ep Dualfilter T.I.P.S., 2-200 µL
+ep Dualfilter T.I.P.S., 2-1,000 µL
+
+3125000010
+3125000036
+3125000052
+3123000012
+3123000020
+3123000039
+3123000055
+3123000063
+
+0030078535
+0030078551
+0030078578
+Labcon*
+ZAP SLIK 20 µL Low Retention Aerosol Filter Pipet Tips for Rainin LTS
+ZAP SLIK 200 µL Low Retention Aerosol Filter Pipet Tips for Rainin LTS
+ZAP SLIK 1000 µL Low Retention Aerosol Filter Pipet Tips for Rainin LTS
+4-1143-965-008
+4-1144-965-008
+4-1145-965-008
+Biotix*
+xTIP4  Racked Pipette Tips, Rainin LTS Pipette Compatible, 0.1-20uL 
+xTIP4  Racked Pipette Tips, Rainin LTS Pipette Compatible, 200uL 
+xTIP4  Racked Pipette Tips, Rainin LTS Pipette Compatible, 1000uL
+63300931
+63300001
+63300003
+*Compatible with Rainin pipettes
+Recommended 
+Pipette Tips
+
+
+--- Page 12 ---
+12
+Click to TOC
+Chromium Next GEM Single Cell ATAC Reagent Kits v2 User Guide • Rev A
+Steps
+Timing
+Stop & Store
+3 h
+Nuclei Isolation
+Dependent on Cell Type
+~1-2 h
+Step 1 – Transposition
+1.1 
+1.2 
+Prepare Transposition Mix
+Isothermal Incubation
+10 min
+30 min
+Step 2 – GEM Generation & Barcoding 
+2.1 
+2.2 
+2.3
+2.4
+2.5
+Prepare Master Mix
+Load Chromium Next GEM Chip H
+Run the Chromium Controller or X/iX
+Transfer GEMs
+GEM Incubation
+10 min
+10 min
+18 min
+3 min
+45 min
+
+
+15°C ≤18 h or −20°C ≤ 1 week
+Step 3 – Post GEM Incubation Cleanup 
+3.1
+3.2
+Post GEM Incubation Cleanup – Dynabeads
+Post GEM Incubation Cleanup – SPRIselect
+35 min
+15 min
+4°C ≤ 72 h or −20°C ≤ 2 weeks
+Step 4 – Library Construction
+4.1
+4.2
+4.3
+Sample Index PCR
+Post Sample Index Double Sided Size Selection – 
+SPRIselect
+Post Library Construction QC
+40 min
+20 min
+60 min
+4°C ≤72 h or −20°C long-term
+2 h
+4 h
+6 h
+STOP
+STOP
+STOP
+ 
+Introduction
+Protocol Steps & Timing 
+
+
+--- Page 13 ---
+13
+Click to TOC
+Chromium Next GEM Single Cell ATAC Reagent Kits v2 User Guide • Rev A
+	 Nuclei suspensions are incubated in a Transposition Mix that includes a Transposase. 
+The Transposase enters the nuclei and preferentially fragments the DNA in open 
+regions of the chromatin. Simultaneously, adapter sequences are added to the ends of 
+the DNA fragments.
+Stepwise Objectives
+Step 1
+Transposition
+Step 2
+GEM Generation & 
+Barcoding 
+The Chromium Single Cell ATAC Solution provides a comprehensive, scalable approach 
+to determine the regulatory landscape of chromatin in hundreds to thousands of cells 
+in a single sample. This is achieved by transposing nuclei in a bulk solution; then 
+using a microfluidic chip, the nuclei are partitioned into nanoliter-scale Gel Beads-
+in-emulsion (GEMs). A pool of ~750,000 10x Barcodes is sampled to separately and 
+uniquely index the transposed DNA of each individual nucleus. Libraries are generated 
+and sequenced, and 10x Barcodes are used to associate individual reads back to the 
+individual partitions, and thereby, to each individual nucleus.	
+Introduction
+	 GEMs are generated by combining 
+barcoded Gel Beads, transposed 
+nuclei, 
+a 
+Master 
+Mix, 
+and 
+Partitioning Oil on a Chromium 
+Next GEM Chip H. To achieve single 
+nuclei resolution, the nuclei are 
+delivered at a limiting dilution, 
+such that the majority (~90-99%) of 
+generated GEMs contains no nuclei, 
+while the remainder largely contain 
+a single nucleus.
+	 Upon GEM generation, the Gel 
+Bead is dissolved. Oligonucleotides 
+containing (i) an Illumina® P5 
+sequence, (ii) a 16 nt 10x Barcode 
+and (iii) a Read  1 (Read 1N) 
+sequence are released and mixed 
+with DNA fragments and Master 
+Mix. Thermal cycling of the GEMs 
+produces 10x barcoded single-
+stranded DNA. After incubation, 
+the GEMs are broken and pooled 
+fractions are recovered.	
+	
+	
+10x Barcoded DNA Fragments
+Read 1N
+10x 
+Barcode
+ Insert
+Read 1N
+10x 
+Barcode
+Read 2N
+P5
+P5
+Read 2N
+Denaturation, Linear Amplification
+Linear Amplification Product
+Inside Individual GEMs
+Read 1N
+P5
+10x 
+Barcode
+Gel Beads
+Chromium Next GEM Chip H
+10x Barcoded 
+Gel Beads
+GEMs
+Nuclei
+Enzyme
+Gel Beads
+Partitioning
+Oil
+
+
+--- Page 14 ---
+14
+Click to TOC
+Chromium Next GEM Single Cell ATAC Reagent Kits v2 User Guide • Rev A
+Step 4
+Library Construction
+Step 5
+Sequencing
+	 The Chromium Next GEM Single Cell ATAC Reagent Kits v2 protocol produces Illumina®-
+ready sequencing libraries. Illumina® sequencer compatibility, sample indices, 
+sequencing depth & run parameters, library loading and pooling are summarized. 
+Introduction
+Step 3
+Post GEM Incubation 
+Cleanup 
+	 Silane magnetic beads are used to remove leftover biochemical reagents from the 
+post GEM reaction mixture. Solid Phase Reversible Immobilization (SPRI) beads are 
+used to eliminate unused barcodes from the sample. 	
+	 P7 and a sample index 
+are added during library 
+construction via PCR. The 
+final libraries contain the 
+P5 and P7 sequences 
+used in Illumina® bridge 
+amplification.
+Chromium Single Cell ATAC Library 
+10x 
+Barcode
+P5
+Read 2N
+Read 1N
+P5
+P5
+Read 1N
+10x 
+Barcode
+Read 2N
+P7
+Pooled Amplified DNA Processed in Bulk
+Sample
+Index N
+Priming
+Sample Index PCR
+ Insert
+Sample
+Index N
+P7
+See Appendix for Oligonucleotide Sequences
+P5
+Read 1N
+10x 
+Barcode
+Read 2N
+P7
+ Insert
+Read 1N
+Read 2N
+i7:8
+Sample
+Index N
+i5:16 
+
+
+--- Page 15 ---
+15
+Click to TOC
+Chromium Next GEM Single Cell ATAC Reagent Kits v2 User Guide • Rev A
+Tips &
+Best Practices
+TIPS
+
+
+--- Page 16 ---
+16
+Click to TOC
+Chromium Next GEM Single Cell ATAC Reagent Kits v2 User Guide • Rev A
+Emulsion-safe 
+Plastics
+Multiplet Rate
+General 
+Reagent 
+Handling
+50% Glycerol 
+Solution
+Tips & Best Practices
+Icons
+•	 Use 10x Genomics validated emulsion-safe plastic consumables when handling 
+GEMs as some plastics can destabilize GEMs.
+Multiplet Rate (%)
+# of Nuclei Loaded
+# of Nuclei Recovered
+0.4%
+~775
+~500
+0.8%
+~1,550
+~1,000
+1.6%
+~3,075
+~2,000
+2.3%
+~4,625
+~3,000
+3.1%
+~6,150
+~4,000
+3.9%
+~7,700
+~5,000
+4.6%
+~9,250
+~6,000
+5.4%
+~10,750
+~7,000
+6.2%
+~12,300
+~8,000
+6.9%
+~13,850
+~9,000
+7.7%
+~15,400
+~10,000
+•	 Fully thaw and thoroughly mix reagents before use. 
+•	 Keep all enzymes and Master Mixes on ice during setup and use. Promptly move 
+reagents back to the recommended storage.
+•	 Calculate reagent volumes with 10% excess of 1 reaction values.
+•	 Cover Partitioning Oil tubes and reservoirs to minimize evaporation.
+•	 Thoroughly mix samples with the beads during bead-based cleanup steps.
+•	 Purchase 50% glycerol solution from Ricca Chemical Company, Glycerin (glycerol), 
+50% (v/v) Aqueous Solution, PN-3290-32. 
+•	 Prepare 50% glycerol solution:
+i.	 Mix an equal volume of water and 99% Glycerol, Molecular Biology Grade.
+ii.	Filter through a 0.2-μm filter.
+iii.	Store at −20°C in 1-ml LoBind tubes. 50% glycerol solution should be equilibrated 
+to room temperature before use. 
+!
+TIPS
+Tips & Best Practices 
+section includes
+additional guidance
+Signifies critical step 
+requiring accurate 
+execution
+Troubleshooting section 
+includes additional 
+guidance
+Version specific protocol 
+step updates
+
+
+--- Page 17 ---
+17
+Click to TOC
+Chromium Next GEM Single Cell ATAC Reagent Kits v2 User Guide • Rev A
+•	 Follow manufacturer’s calibration and maintenance schedules. 
+•	 Pipette accuracy is particularly important when using SPRIselect reagents.
+•	 Minimize exposure of reagents, chips, and gaskets to sources of particles and fibers, 
+laboratory wipes, frequently opened flip-cap tubes, clothing that sheds fibers, and 
+dusty surfaces. 
+•	 After removing the chip from the sealed bag, use within 24 h. 
+•	 Execute steps without pause or delay, unless indicated. When multiple chips are to be 
+used, load, run, and collect the content from one chip before loading the next.
+•	 Fill all unused input wells in rows labeled 1, 2, and 3 on a chip with an appropriate 
+volume of 50% glycerol solution before loading the used wells. DO NOT add glycerol 
+to the wells in the bottom NO FILL row. 
+•	 Avoid contacting the bottom surface of the chip with gloved hands and other surfaces. 
+Frictional charging can lead to inadequate priming of the channels, potentially leading 
+to either clogs or wetting failures. 
+•	 Minimize the distance that a loaded chip is moved to reach the Chromium Controller.
+•	 Keep the chip horizontal to prevent wetting the gasket with oil, which depletes the 
+input volume and may adversely affect the quality of the assay.
+Chromium 
+Next GEM Chip 
+Handling 
+Chromium
+Next GEM 
+Secondary 
+Holders
+Chromium 
+Next GEM 
+Chip & Holder 
+Assembly
+•	 Chromium Next GEM Secondary 
+Holders encase Chromium Next GEM 
+Chips.
+•	 The holder lid flips over to become a 
+stand, holding the chip at 45 degrees 
+for optimal Recovery Well content 
+removal.
+•	 Squeeze the black sliders on the back 
+side of the holder together to unlock 
+the lid and return the holder to a flat 
+position.
+•	 Align notch on the chip (upper 
+left corner) and the holder. 
+•	 Insert the left-hand side of the 
+chip under the guide. Depress 
+the right-hand side of the chip 
+until the spring-loaded clip 
+engages.
+•	 Close the lid before dispensing 
+reagents into the wells.
+Pipette 
+Calibration
+Tips & Best Practices
+Chromium Next GEM 
+Secondary Holder
+Guide
+Clip
+Sliders
+Chromium Next GEM Chip
+Assembled Chromium
+Next GEM Chip 
+Chromium Next GEM 
+Secondary Holder
+
+
+--- Page 18 ---
+18
+Click to TOC
+Chromium Next GEM Single Cell ATAC Reagent Kits v2 User Guide • Rev A
+•	 Place the assembled chip and holder flat 
+on the bench with the lid closed.
+•	 Dispense at the bottom of the wells without 
+introducing bubbles. 
+•	 When dispensing Gel Beads into the chip, 
+wait for the remainder to drain into the 
+bottom of the pipette tips and dispense 
+again to ensure complete transfer.
+•	 Refer to Load Chromium Next GEM Chip H 
+for specific instructions. 
+•	 Use one tube of Gel Beads per sample. 
+DO NOT puncture the foil seals of tubes not 
+used at the time.
+•	 Equilibrate the Gel Beads strip to room 
+temperature before use.
+•	 Store unused Gel Beads at −80°C and 
+avoid more than 12 freeze-thaw cycles. 
+DO NOT store Gel Beads at −20°C. 
+Chromium 
+Next GEM 
+Chip Loading
+•	 Snap the tube strip holder with the Gel Bead strip into a 10x Vortex Adapter. Vortex 
+30 sec.
+•	 Centrifuge the Gel Bead strip for ~5 sec. Confirm there are no bubbles at the bottom 
+of the tubes and the liquid levels look even. Place the Gel Bead strip back in the holder 
+and secure the holder lid.
+•	 If the required volume of beads cannot be recovered, place the pipette tips against the 
+sidewalls and slowly dispense the Gel Beads back into the tubes. DO NOT introduce 
+bubbles into the tubes and verify that the pipette tips contain no leftover Gel Beads. 
+Withdraw the full volume of beads again by pipetting slowly.
+Gel Bead 
+Handling
+Tips & Best Practices
+•	 After reagents are loaded, attach the 
+gasket by holding the tongue (curved end, 
+to the right) and hook it on the left-hand 
+tabs of the holder. Gently pull the gasket 
+toward the right and hook it on the two 
+right-hand tabs.  
+•	 DO NOT touch the smooth side of the 
+gasket. DO NOT press down on the top of 
+the gasket after attachment. 
+•	 Keep the assembly horizontal to avoid 
+wetting the gasket with Partitioning Oil.
+10x Gasket 
+Attachment
+Notched Cut
+Tongue
+Lid
+Gel Bead Strip
+Holder
+
+
+--- Page 19 ---
+19
+Click to TOC
+Chromium Next GEM Single Cell ATAC Reagent Kits v2 User Guide • Rev A
+•	 Offers two positions of the magnets (high and low) 
+relative to a tube, depending on its orientation. Flip 
+the magnetic separator over to switch between high 
+(magnet•High) or low (magnet•Low) positions.
+•	 If using MicroAmp 8-Tube Strips, use the high position 
+(magnet•High) only throughout the protocol.
+10x Magnetic 
+Separator
+Tips & Best Practices
+•	 After aspirating the desired volume of SPRIselect reagent, examine the pipette tips 
+before dispensing to ensure the correct volume is transferred. 
+•	 Pipette mix thoroughly as insufficient mixing of sample and SPRIselect reagent will 
+lead to inconsistent results. 
+•	 Use fresh preparations of 80% Ethanol. 
+ 
+SPRIselect 
+Cleanup & 
+Size Selection
+	 Schematic of Double Sided Size Selection	
+	
+After the first SPRI, supernatant is transferred for a second SPRI while larger fragments are 
+discarded (green). After the second SPRI, fragments on beads are eluted and kept while smaller 
+fragments are discarded (blue). Final sample has a tight fragment size distribution with reduced 
+overall amount (black).
+	 Tutorial — SPRIselect Reagent:DNA Sample Ratios 
+SPRI beads selectively bind DNA according to the ratio of SPRIselect reagent (beads).
+	
+Example: Ratio =  Volume of SPRIselect reagent added to the sample  =  50 µl  =  0.5X
+	
+	
+	
+Volume of DNA sample	
+ 100 µl
+	 Tutorial — Double Sided Size Selection
+Step a – First SPRIselect: Add 50 µl SPRIselect reagent to 100 µl sample (0.5X).
+	
+Ratio
+	
+Step b – Second SPRIselect: Add 30 µl SPRIselect reagent to supernatant from step a (0.8X).
+	
+Ratio
+=  Volume of SPRIselect reagent added to the sample  =  50 µl  =  0.5X
+	
+	
+	
+Volume of DNA sample	
+ 100 µl
+=  Total Volume of SPRIselect reagent added to the sample (step a + b)  =  50 µl + 30 µl   =  0.8X
+	
+	
+	
+    Original Volume of DNA sample	
+	
+100 µl
+Sample Indices in 
+Sample Index PCR
+•	 Choose the appropriate sample index sets to ensure that no sample indices overlap in a 
+multiplexed sequencing run.
+•	  Each well in the i7 Single Index plate N, Set A contains a unique mix of 4 oligos. 
+•	 The sample indexes can therefore be used in any combination.
+•	 Each sample index set is base-balanced to avoid monochromatic signal issues when it 
+is the sole sample loaded on an Illumina® sequencer. 
+
+
+--- Page 20 ---
+20
+Click to TOC
+Chromium Next GEM Single Cell ATAC Reagent Kits v2 User Guide • Rev A
+Step 1
+Transposition
+1.1		
+Prepare Transposition Mix
+1.2 	
+Isothermal Incubation
+1
+
+
+--- Page 21 ---
+21
+Click to TOC
+Chromium Next GEM Single Cell ATAC Reagent Kits v2 User Guide • Rev A
+1.0 
+Transposition
+GET STARTED!
+Action
+Item
+10x PN
+Preparation & Handling
+Storage
+Equilibrate to
+Room
+Temperature
+ATAC Buffer B
+2000193
+Vortex, centrifuge 
+briefly.
+−20°C
+20X Nuclei Buffer*
+*Concentrated 20X 
+stock; dilute 1:20 in 
+nuclease-free water 
+before use. (See below 
+to Prepare Diluted 
+Nuclei Buffer) 
+2000207
+Thaw. Vortex, 
+centrifuge briefly. 
+−20°C
+Place on Ice
+ATAC Enzyme B
+2000265/
+2000272
+Centrifuge briefly.
+−20°C
+Nuclei**
+in Diluted Nuclei Buffer 
+(See below to Prepare 
+Diluted Nuclei Buffer)
+ 
+**Refer to Demonstrated Protocols for isolating nuclei for ATAC Sequencing 
+(Documents CG000169; CG000212). Adhering to this protocol is critical for 
+optimal assay performance. If following a different nuclei isolation protocol, use 
+the Diluted Nuclei Buffer for final nuclei pellet suspension.
+The use of the Tris-based Diluted Nuclei Buffer for nuclei suspension is critical 
+for optimal assay performance. The composition of the Diluted Nuclei Buffer, 
+including Magnesium concentration, has been optimized for the Transposition 
+and Barcoding steps. Suspension of nuclei in a different buffer may not be 
+compatible with the downstream protocol steps.
+Prepare
+Diluted Nuclei 
+Buffer
+!
+!
+Diluted Nuclei Buffer 
+Maintain at 4°C
+Stock
+Final
+1 ml
+20X Nuclei Buffer
+(PN-2000207)
+Nuclease-free Water
+20X
+
+-
+1X
+
+-
+50 µl
+
+950 µl
+Step 1
+Transposition
+
+
+--- Page 22 ---
+22
+Click to TOC
+Chromium Next GEM Single Cell ATAC Reagent Kits v2 User Guide • Rev A
+Step 1
+Transposition
+Nuclei Concentration
+Guidelines
+Based on the Targeted Nuclei Recovery, resuspend the nuclei in Diluted Nuclei Buffer to get 
+corresponding Nuclei Stock Concentrations (see Table). This enables pipetting volumes of the 
+Nuclei Stock for Transposition (step 1.1) to be 2-5 µl. Higher Nuclei Stock Concentrations will 
+result in lower pipetting volumes that may increase nuclei input variability. 
+Targeted Nuclei Recovery
+Nuclei Stock Concentration
+(nuclei/µl)
+500
+155-390
+1,000
+310-780
+2,000
+610-1,540
+3,000
+925-2,300
+4,000
+1,230-3,075
+5,000
+1,540-3,850
+6,000
+1,850-4,600
+7,000
+2,150-5,400
+8,000
+2,460-6,150
+9,000
+2,770-6,900
+10,000
+3,080-7,700
+Calculate volume of Nuclei Stock and Diluted Nuclei Buffer for a total volume of 5 µl 
+Volume of Nuclei Stock (µl) =
+
+Volume of Diluted Nuclei Buffer* (µl) = 5 µl - volume of Nuclei Stock (µl)
+*Use ONLY Diluted Nuclei Buffer (Dilute 20X Nuclei Buffer (PN-2000207) 1:20 in nuclease-free water)
+Targeted Nuclei Recovery x 1.53 (Recovery efficiency factor)
+        Nuclei Stock Concentration (nuclei/ µl)	
+        
+	 Example Calculation
+
+Targeted Nuclei Recovery = 4000 nuclei
+Nuclei Stock Concentration = 2500 nuclei/ µl 
+Recovery efficiency factor 1.53
+
+Volume of Nuclei Stock (µl) = 
+
+	
+	
+Volume of Diluted Nuclei Buffer = 5 µl - 2.45 µl = 2.55 µl
+
+Add calculated volumes of Diluted Nuclei Buffer and Nuclei Stock to the Transposition Mix in 
+Step 1.1
+Targeted Nuclei Recovery x 1.53 (Recovery efficiency factor) = 4000 x 1.53 = 2.45 µl
+	
+	
+Nuclei Stock Concentration (nuclei/µl)                                 2500	
+        
+Calculate volumes necessary 
+first and proceed to making 
+the Transposition Mix. DO NOT 
+mix Nuclei Stock and Diluted 
+Nuclei Buffer together until 
+indicated in the User Guide 
+(Step 1.1).
+!
+
+
+--- Page 23 ---
+23
+Click to TOC
+Chromium Next GEM Single Cell ATAC Reagent Kits v2 User Guide • Rev A
+a.	Prepare Transposition Mix on ice. Pipette mix 10x and centrifuge briefly.
+Transposition Mix
+Add reagents in the order listed
+PN
+1X (μl)
+4X + 
+10% (μl)
+8X + 
+10% (μl)
+ATAC Buffer B
+2000193
+7.0
+30.8
+61.6
+ATAC Enzyme B
+2000265/
+2000272
+3.0
+13.2
+26.4
+Total
+-
+10.0
+44.0
+88.0
+b.	Add 10 µl Transposition Mix to a tube of a PCR 8-tube strip for each sample. 
+Centrifuge briefly and maintain on ice. 
+c.	Refer to Nuclei Concentration Guidelines to calculate the volume of Nuclei Stock and 
+Diluted Nuclei Buffer for a total volume of 5 µl.
+d.	Add the calculated volume of Diluted Nuclei Buffer to the Transposition Mix. Pipette 
+mix. Centrifuge briefly. 
+e.	Gently pipette mix the Nuclei Stock. Add the calculated volume of the Nuclei Stock to 
+the tube containing the Transposition Mix. Gently pipette mix 6x (pipette set to 10 µl).
+DO NOT centrifuge.  
+a.	Incubate in a thermal cycler using the following protocol. Ensure lid temperature is 
+set to 50°C. DO NOT use heated lid option if temperature defaults to 100°C. 
+Lid Temperature
+Reaction Volume
+Run Time
+50°C
+15 µl
+30 min
+Step
+Temperature
+Time (hh:mm:ss)
+Incubate
+37°C
+00:30:00
+Hold
+4°C
+Hold
+b.	Immediately proceed to the next step.
+!
+1.1 
+Prepare
+Transposition Mix
+Step 1
+Transposition
+1.2 
+Isothermal Incubation 
+
+
+--- Page 24 ---
+24
+Click to TOC
+Chromium Next GEM Single Cell ATAC Reagent Kits v2 User Guide • Rev A
+Step 2
+GEM Generation & Barcoding
+2.1		
+Prepare Reaction Mix
+2.2	
+Load Chromium Next GEM Chip H
+2.3	
+Run the Chromium Controller or X/iX
+2.4	
+Transfer GEMs
+2.5	
+GEM Incubation
+2
+
+
+--- Page 25 ---
+25
+Click to TOC
+Chromium Next GEM Single Cell ATAC Reagent Kits v2 User Guide • Rev A
+2.0 
+GEM Generation & 
+Barcoding
+Step 2
+GEM Generation & Barcoding
+GET STARTED!
+Action
+Item
+10x PN
+Preparation & Handling
+Storage
+Equilibrate to
+Room
+Temperature
+Single Cell ATAC
+Gel Beads v2
+2000210
+Equilibrate to room 
+temperature 30 min 
+before loading the chip. 
+−80°C
+Reducing Agent B
+2000087
+Thaw, vortex, verify no 
+precipitate, centrifuge 
+briefly.
+−20°C
+Barcoding Reagent B
+2000194
+Thaw, vortex, verify no 
+precipitate, centrifuge 
+briefly.
+−20°C
+Place on Ice
+Barcoding Enzyme 
+2000125/
+2000139
+Maintain on ice. Store at 
+−20°C immediately after 
+use.
+−20°C
+Obtain
+Partitioning Oil
+2000190
+-
+Ambient
+Chromium Next GEM 
+Chip H 
+2000180
+See Tips & Best Practices. 
+Ambient
+10x Gasket
+370017/
+3000072
+See Tips & Best Practices. 
+Ambient
+10x Vortex Adapter
+330002
+See Tips & Best Practices.
+Ambient
+Chromium Next GEM 
+Secondary Holder
+3000332
+See Tips & Best Practices
+Ambient
+50% glycerol 
+solution 
+If using <8 reactions
+-
+See Tips & Best Practices. 
+-
+Firmware Version 4.00 or higher 
+is required in the Chromium 
+Controller or the Chromium 
+Single Cell Controller used for 
+the Single Cell ATAC v2 protocol.
+!
+Next GEM
+specific
+
+
+--- Page 26 ---
+26
+Click to TOC
+Chromium Next GEM Single Cell ATAC Reagent Kits v2 User Guide • Rev A
+Assemble Chromium Next GEM Chip H
+After removing the chip from the sealed 
+bag, use the chip in ≤ 24 h.
+See Tips & Best Practices for chip handling 
+instructions. 
+•	 Align notch on the chip (upper left corner) 
+and the holder. 
+•	 Insert the left-hand side of the chip under 
+the guide. Depress the right-hand side 
+of the chip until the spring-loaded clip 
+engages.
+•	 Close the lid before dispensing reagents 
+into the wells.
+•	 The assembled chip is ready for loading 
+the indicated reagents. Refer to step 2.2 
+for reagent volumes and loading order.  
+a.	Prepare Master Mix on ice. Pipette mix 10x and centrifuge briefly.  
+Master  Mix
+Add reagents in the order listed
+PN
+1X (μl)
+4X + 
+10% (μl)
+8X + 
+10% (μl)
+Barcoding Reagent B 
+2000194
+56.5
+248.6
+497.2
+Reducing Agent B
+2000087
+1.5
+6.6
+13.2
+Barcoding Enzyme
+2000125/
+2000139
+2.0
+8.8
+17.6
+Total
+-
+60.0
+264.0
+528.0
+2.1
+Prepare Master Mix
+Step 2
+GEM Generation & Barcoding
+For GEM generation, load the 
+indicated reagents only in the 
+specified rows, starting from row 
+labeled 1, followed by rows labeled 
+2 and 3.  DO NOT load reagents in 
+the bottom row labeled NO FILL. See 
+step 2.2 for details. 
+!
+Notch
+Chromium Next GEM Chip H
+Chromium Next GEM 
+Secondary Holder
+Guide
+Notch
+Clip
+!
+TIPS
+Assembled Chip 
+3
+2
+Partitioning Oil
+Master Mix + Sample
+Gel Beads
+1
+NO FILL
+
+
+--- Page 27 ---
+27
+Click to TOC
+Chromium Next GEM Single Cell ATAC Reagent Kits v2 User Guide • Rev A
+a.	Dispense 50% Glycerol into Unused Chip Wells (if < 8 samples per chip)
+i.	 70 μl to unused wells in row labeled 1.
+ii.	50 μl to unused wells in row labeled 2.
+iii.	40 μl to unused wells in row labeled 3.
+b.	Prepare Master Mix + Transposed Nuclei 
+Add 60 µl Master Mix to each tube containing Transposed Nuclei for a total of 75 µl in each 
+tube. 
+c.	 Load Row Labeled 1 
+Gently pipette mix the Master Mix + Transposed Nuclei 5x. Using the same pipette tip, 
+dispense 70 µl Master Mix + Transposed Nuclei into the bottom center of each well in row 
+labeled 1 without introducing bubbles. 
+d.	Prepare Gel Beads 
+Snap the tube strip holder with the Gel Bead strip into a 10x Vortex 
+Adapter. Vortex 30 sec. Centrifuge the Gel Bead strip for ~5 sec. Confirm 
+there are no bubbles at the bottom of the tubes and the liquid levels are 
+even. Place the Gel Bead strip back in the holder. Secure the holder lid.
+e.	Load Row Labeled 2
+Puncture the foil seal of the Gel Bead tubes. Slowly aspirate 50 µl Gel Beads. Dispense into 
+the wells in row labeled 2 without introducing bubbles. Wait 30 sec. 
+f.	 Load Row Labeled 3 
+Dispense 40 µl Partitioning Oil into the wells in row labeled 3 from a reagent reservoir.
+Failure to add Partitioning Oil to the top row labeled 3 will prevent GEM generation and can 
+damage the Chromium Controller. 
+g.	Attach 10x Gasket
+Align the notch with the top left-hand corner. Ensure the gasket holes are aligned with the 
+wells. Avoid touching the smooth surface. 
+DO NOT add 50% glycerol solution to the bottom 
+row of NO FILL wells. DO NOT use any substitute 
+for 50% glycerol solution.
+The illustrated chip is being loaded for 8 samples. 
+2.2
+Load Chromium
+Next GEM Chip H
+Step 2
+Chip Assembly & Loading
+After removing 
+the chip from the sealed 
+bag, use in ≤ 24 h. For all 
+chip loading steps, raising 
+and depressing the pipette 
+plunger should each take 
+~5 sec. When dispensing, 
+raise the pipette tips at 
+the same rate as the liquid 
+is rising, keeping the tips 
+slightly submerged. 
+!
+Attach the gasket 
+and run the chip in the 
+Chromium Controller or 
+X/iX immediately after 
+loading the Partitioning Oil.  
+!
+Lid
+Gel Bead Strip
+Holder
+70 µl Master Mix +
+Transposed Nuclei 
+1
+NO FILL
+3
+40 µl Partitioning Oil
+NO FILL
+3
+2
+Partitioning Oil
+Master Mix + Sample
+Gel Beads
+1
+Keep horizontal to avoid wetting the gasket. DO NOT press down on the gasket. 
+NO FILL
+50 µl Gel Beads
+2
+NO FILL
+
+
+--- Page 28 ---
+28
+Click to TOC
+Chromium Next GEM Single Cell ATAC Reagent Kits v2 User Guide • Rev A
+If using Chromium Controller:
+a.	Press the eject button on the Controller to 
+eject the tray.
+b.	Place the assembled chip with the gasket 
+in the tray, ensuring that the chip stays 
+horizontal. Press the button to retract the tray. 
+c.	Press the play button.
+d.	At completion of the run (~18 min), the 
+Controller will chime. Immediately proceed 
+to the next step.
+
+!
+2.3
+Run the Chromium 
+Controller or X/iX
+Step 2
+GEM Generation & Barcoding
+Firmware Version 4.00 or higher is 
+required in the Chromium Controller or the 
+Chromium Single Cell Controller used for 
+the Single Cell ATAC v2 protocol.
+!
+If using Chromium X/iX:
+Consult the Chromium X Series (X/iX) User Guide 
+(CG000396) for detailed instrument operation 
+instructions and follow the instrument touchscreen 
+prompts for execution.
+a.	Press the eject button on Chromium X/iX to 
+eject the tray.
+If the eject button is not touched within 1 min, 
+tray will close automatically. System requires 
+a few seconds before the tray can be ejected 
+again.
+b.	Place the assembled chip with the gasket 
+in the tray, ensuring that the chip stays 
+horizontal. Press the button to retract the 
+tray.
+c.	Press the play button.
+d.	At completion of the run (~18 min), Chromium 
+X/iX will chime. Immediately proceed to the 
+next step.
+!
+!
+
+
+--- Page 29 ---
+29
+Click to TOC
+Chromium Next GEM Single Cell ATAC Reagent Kits v2 User Guide • Rev A
+Step 1
+GEM Generation & Barcoding
+a.	Place a PCR 8-tube strip on ice. 
+b.	Press the eject button of the Controller to 
+remove the chip.
+c.	Discard the gasket. Open the chip holder. 
+Fold the lid back until it clicks to expose the 
+wells at 45 degrees.   
+d.	Check the volume in row labeled 1-2. 
+Abnormally high volume in any well 
+indicates a clog.   
+e.	Slowly aspirate 100 µl GEMs from the lowest 
+points of the recovery wells in the top row 
+labeled 3 without creating a seal between 
+the pipette tips and the wells. 
+f.	 Withdraw pipette tips from the wells. GEMs 
+should appear opaque and uniform across 
+all channels. Excess Partitioning Oil (clear) in 
+the pipette tips indicates a potential clog. 
+g.	Over the course of ~20 sec, dispense GEMs 
+into the tube strip on ice with the pipette tips 
+against the sidewalls of the wells. 
+h.	If multiple chips are run back-to-back, cap/
+cover the GEM-containing tube strip or plate 
+and place on ice for no more than 1 h. 
+2.4
+Transfer GEMs
+GEMs
+Transfer GEMs
+Expose Wells at 45 Degrees
+
+
+--- Page 30 ---
+30
+Click to TOC
+Chromium Next GEM Single Cell ATAC Reagent Kits v2 User Guide • Rev A
+	 Use a thermal cycler that can accommodate at least 100 µl volume. A volume of 
+125 µl is the preferred setting on Bio-Rad C1000 Touch. In alternate thermal cyclers, 
+use highest reaction volume setting.
+a.	Incubate in a thermal cycler with the following protocol. 
+Lid Temperature
+Reaction Volume
+Run Time
+105°C
+100 µl
+30 min
+Step
+Temperature
+Time (hh:mm:ss)
+1
+72°C
+00:05:00
+2
+98°C
+00:00:30
+3
+98°C
+00:00:10
+4
+59°C
+00:00:30
+5
+72°C
+00:01:00
+Go to step 3, repeat 11X
+(Total 12 cycles)
+6
+15°C
+Hold
+b.	Store at 15°C for up to 18 h or at −20°C for up to 1 week, or proceed to the next step.
+STOP
+2.5
+GEM Incubation
+Step 2
+GEM Generation & Barcoding
+
+
+--- Page 31 ---
+31
+Click to TOC
+Chromium Next GEM Single Cell ATAC Reagent Kits v2 User Guide • Rev A
+3
+Step 3
+Post GEM Incubation Cleanup 
+3.1		
+Post GEM Incubation Cleanup – Dynabeads
+3.2	
+Post GEM Incubation Cleanup – SPRIselect
+
+
+--- Page 32 ---
+32
+Click to TOC
+Chromium Next GEM Single Cell ATAC Reagent Kits v2 User Guide • Rev A
+3.0
+Post GEM Incubation 
+Cleanup
+GET STARTED!
+Action
+Item
+10x PN
+Preparation & Handling
+Storage
+Equilibrate to
+Room
+Temperature
+Reducing Agent B
+2000087
+Thaw, vortex, verify no 
+precipitate, centrifuge 
+briefly.
+−20°C
+Nuclease-free 
+Water
+-
+-
+-
+Dynabeads MyOne 
+SILANE
+2000048
+Vortex thoroughly 
+(≥30 sec) to resuspend 
+beads immediately before 
+use.
+4°C
+Beckman Coulter 
+SPRIselect 
+Reagent
+-
+Manufacturer’s 
+recommendations.
+-
+Thaw at 65°C
+Cleanup Buffer
+2000088
+Thaw for 10 min at 
+65°C at max speed on a 
+thermomixer, or in a water 
+bath or bead bath, mixing 
+every 5 min. Verify there 
+are no visible crystals. 
+Cool to room temperature. 
+−20°C
+Obtain
+Recovery Agent
+220016
+-
+Ambient
+Qiagen Buffer EB
+-
+Manufacturer’s 
+recommendations.
+-
+Bio-Rad 10% 
+Tween 20
+-
+Manufacturer’s 
+recommendations.
+-
+10x Magnetic 
+Separator 
+230003
+-
+Ambient
+Prepare 
+80% Ethanol
+Prepare 10 ml for
+8 reactions
+-
+Prepare fresh. 
+-
+Step 3
+Post GEM Incubation Cleanup
+
+
+--- Page 33 ---
+33
+Click to TOC
+Chromium Next GEM Single Cell ATAC Reagent Kits v2 User Guide • Rev A
+a.	Add 125 µl Recovery Agent to each sample 
+at room temperature. DO NOT pipette mix 
+or vortex the biphasic mixture. Gently invert 
+tube 10x to mix. Centrifuge briefly.
+	 The resulting biphasic mixture contains 
+Recovery Agent/Partitioning Oil (pink) and 
+aqueous phase (clear), with no persisting 
+emulsion (opaque).
+	 A smaller aqueous phase volume indicates a 
+clog during GEM generation. 
+b.	Slowly remove and discard 125 µl Recovery 
+Agent/Partitioning Oil (pink) from the bottom 
+of the tube. DO NOT aspirate any aqueous 
+sample. 
+c.	Prepare Dynabeads Cleanup Mix. 
+!
+3.1
+Post GEM Incubation 
+Cleanup – Dynabeads
+Dynabeads Cleanup Mix
+Add reagents in the order listed
+PN
+1X (μl)
+4X + 
+10% (μl)
+8X + 
+10% (μl)
+Cleanup Buffer
+2000088
+182
+800.8
+1601.6
+Dynabeads MyOne SILANE
+Vortex thoroughly (≥30 sec)
+immediately before adding to the 
+mix.
+
+Aspirate the full liquid volume with 
+a pipette tip to verify that the beads 
+have not settled in the bottom of the 
+tube. If clumps are present, pipette 
+mix to resuspend completely.
+DO NOT centrifuge before use.
+2000048
+8
+35.2
+70.4
+Reducing Agent B
+2000087
+5
+22
+44
+Nuclease-free Water
+-
+5
+22
+44
+Total
+-
+200
+880
+1760
+!
+d.	Vortex and add 200 µl to each sample. 
+Pipette mix 5x (pipette set to 200 µl).
+e.	Incubate 10 min at room temperature. 
+Pipette mix again at ~5 min after start of 
+incubation to resuspend settled beads. 
+Keep caps open during incubation. 
+Step 3
+Biphasic Mixture
+Remove Recovery Agent
+Add Dynabeads Cleanup Mix
+Post GEM Incubation Cleanup
+Resuspend
+clump
+
+
+--- Page 34 ---
+34
+Click to TOC
+Chromium Next GEM Single Cell ATAC Reagent Kits v2 User Guide • Rev A
+f.	Prepare Elution Solution I. Vortex and centrifuge briefly.
+Elution Solution I*
+Add reagents in the order listed
+PN
+1X (μl)
+4X + 
+10% (μl)
+8X + 
+10% (μl)
+Buffer EB
+-
+98.0
+431.2
+862.4
+10% Tween 20
+-
+1.0
+4.4
+8.8
+Reducing Agent B
+200087
+1.0
+4.4
+8.8
+Total
+-
+100.0
+440.0
+880.0
+*Elution Solution I will be used in steps 3.1o and 3.2j
+g.	At the end of 10 min incubation, place on the 10x Magnetic Separator, high position 
+(magnet•High) until the solution clears. A white interface between the aqueous phase 
+and Recovery Agent is normal. 
+h.	Remove the supernatant.
+i.	 Add 300 µl freshly prepared 80% ethanol to the pellet while on the magnet•High. Wait 
+30 sec. 
+j.	 Remove the ethanol. 
+k.	 Add 200 µl 80% ethanol to pellet. Wait 30 sec. 
+l.	 Remove the ethanol.
+m.	Centrifuge briefly. Place on the magnet•Low.
+n.	Remove remaining ethanol. 
+o.	Remove from the magnet. Immediately add 40.5 µl Elution Solution I to avoid 
+clumping.
+p.	Pipette mix (pipette set to 40 µl) without introducing bubbles.
+q.	Incubate 1 min at room temperature.
+r.	 Centrifuge briefly. Place on the magnet•Low until the solution clears.
+s.	Transfer 40 µl sample to a new tube strip.
+TIPS
+
+Step 3
+Post GEM Incubation Cleanup
+
+
+--- Page 35 ---
+35
+Click to TOC
+Chromium Next GEM Single Cell ATAC Reagent Kits v2 User Guide • Rev A
+3.2
+Post GEM Incubation 
+Cleanup – SPRIselect
+Step 3
+Post GEM Incubation Cleanup 
+a.	Vortex the SPRIselect reagent until fully resuspended.  Add 48 µl SPRIselect reagent 
+to each sample. Pipette mix thoroughly using a pipette set to 80 µl. 
+b.	Incubate 5 min at room temperature.
+c.	Centrifuge briefly. Place on the magnet•High until the solution clears. 
+d.	Remove the supernatant.
+e.	Add 200 µl 80% ethanol to the pellet. Wait 30 sec. 
+f.	 Remove the ethanol. 
+g.	Repeat steps e and f for a total of 2 washes. 
+h.	Centrifuge briefly. Place on the magnet•Low.
+i.	 Remove any remaining ethanol. 
+j.	 Remove the tube strip from the magnet. Immediately add 40.5 µl Elution Solution I.
+k.	Pipette mix (pipette set to 30 µl) without introducing bubbles.
+l.	 Incubate 2 min at room temperature.
+m.	Centrifuge briefly. Place on the magnet•Low until the solution clears.
+n.	Transfer 40 µl sample to a new tube strip.
+o.	Store at 4°C for up to 72 h or at −20°C for up to 2 weeks, or proceed to the next step.
+STOP
+
+
+--- Page 36 ---
+36
+Click to TOC
+Chromium Next GEM Single Cell ATAC Reagent Kits v2 User Guide • Rev A
+4
+Step 4
+Library Construction
+4.1		
+Sample Index PCR
+4.2 	
+Post Sample Index Double Sided Size Selection – SPRIselect
+4.3	
+Post Library Construction QC
+4.4	
+Post Library Construction Quantification
+
+
+--- Page 37 ---
+37
+Click to TOC
+Chromium Next GEM Single Cell ATAC Reagent Kits v2 User Guide • Rev A
+4.0
+Library Construction
+GET STARTED!
+Action
+Item
+10x PN
+Preparation & Handling
+Storage
+Equilibrate to
+Room
+Temperature
+Single Index 
+Plate N Set A
+3000427
+-
+−20°C
+Beckman Coulter 
+SPRIselect 
+Reagent
+-
+Manufacturer’s 
+recommendations.
+-
+Agilent 
+Bioanalyzer DNA 
+kit 
+(if used for QC)
+-
+Manufacturer’s 
+recommendations.
+-
+Place on Ice
+SI-PCR Primer B
+2000128
+Vortex, centrifuge briefly.
+−20°C
+Amp Mix
+2000047/
+2000103
+Gently pipette mix, 
+centrifuge briefly.
+−20°C
+KAPA Library 
+Quantification Kit
+for Illumina® 
+Platforms
+-
+Manufacturer’s 
+recommendations.
+-
+Obtain
+Qiagen Buffer EB
+-
+-
+Ambient
+10x Magnetic 
+Separator
+230003
+See Tips & Best Practices.
+Ambient
+Prepare
+80% Ethanol 
+Prepare 10 ml 
+for 8 reactions 
+-
+Prepare fresh. 
+Ambient
+Step 4
+Library Construction
+
+
+--- Page 38 ---
+38
+Click to TOC
+Chromium Next GEM Single Cell ATAC Reagent Kits v2 User Guide • Rev A
+Choose the appropriate sample index sets to ensure that no sample indices 
+overlap in a multiplexed sequencing run. Record the 10x Sample Index name 
+used. 
+a.	Prepare Sample Index PCR Mix. 
+Sample Index PCR Mix
+Add reagents in the order listed
+PN
+1X (μl)
+4X + 
+10% (μl)
+8X + 
+10% (μl)
+Amp Mix
+2000047/
+2000103
+50
+220
+440
+SI-PCR Primer B
+2000128
+7.5
+33
+66
+Total
+-
+57.5
+253
+506
+b.	Add 57.5 µl Sample Index PCR Mix to 40 µl sample. Pipette mix and centrifuge briefly.
+c.	Add 2.5 µl of an individual Single Index N Set A to each sample and record the well ID 
+used. Pipette mix and centrifuge briefly. 
+d.	Incubate in a thermal cycler with the following protocol.
+Lid Temperature
+Reaction Volume
+Run Time
+105°C
+100 µl
+~30 min
+Step
+Temperature
+Time (hh:mm:ss)
+1
+98°C
+00:00:45
+2
+98°C
+00:00:20
+3
+67°C
+00:00:30
+4
+72°C
+00:00:20 
+Go to step 2, see table below 
+for # cycles
+5
+72°C
+00:01:00
+6
+4°C
+Hold
+	
+	
+	
+	
+    Cycle Number Optimization Table
+Targeted Nuclei 
+Recovery
+Total Cycles
+500-2,000
+9
+2,001-6,000
+8
+6,001-10,000
+7
+e.	Store at 4°C for up to 72 h or proceed to the next step.
+STOP
+4.1
+Sample Index PCR
+Step 4
+Library Construction
+The table recommends a starting point 
+for cycle number optimization based 
+on Targeted Nuclei Recovery. 
+
+
+--- Page 39 ---
+39
+Click to TOC
+Chromium Next GEM Single Cell ATAC Reagent Kits v2 User Guide • Rev A
+4.2
+Post Sample Index 
+Double Sided Size 
+Selection – SPRIselect
+a.	Vortex to resuspend SPRIselect reagent. Add 40 μl SPRIselect reagent to each 
+sample. Pipette mix thoroughly using a pipette set to 130 µl.  
+b.	Incubate 5 min at room temperature.
+c.	Place on the magnet•High until the solution clears. DO NOT discard the supernatant.
+d.	Transfer 130 µl supernatant to a new strip tube. 
+e.	Vortex to resuspend SPRIselect reagent. Add 74 µl SPRIselect reagent to each 
+sample. Pipette mix thoroughly using a pipette set to 190 µl.   
+f.	 Incubate 5 min at room temperature. 
+g.	Place on the magnet•High until the solution clears.
+h.	Remove the supernatant. DO NOT discard any beads. 
+i.	 With the tube still on the magnet, add 200 µl 80% ethanol to the pellet. Wait 30 sec.
+j.	 Remove the ethanol. 
+k.	Repeat steps i and j for a total of 2 washes. 
+l.	 Centrifuge briefly. Place on the magnet•Low. 
+m.	Remove remaining ethanol. 
+n.	Remove from the magnet. Immediately add 20.5 µl Buffer EB. Pipette mix thoroughly 
+using a pipette set to 15 µl.   
+o.	Incubate 2 min at room temperature.
+p.	Centrifuge briefly. Place on the magnet•Low until the solution clears.
+q.	Transfer 20 µl sample to a new tube strip.
+r.	 Store at 4°C for up to 72 h or at −20°C for long-term storage.
+TIPS
+!
+STOP
+Step 4
+Library Construction
+
+
+--- Page 40 ---
+40
+Click to TOC
+Chromium Next GEM Single Cell ATAC Reagent Kits v2 User Guide • Rev A
+a.	EITHER Run 1 μl sample at 1:5 dilution on the Agilent Bioanalyzer High Sensitivity 
+DNA chip to determine fragment size. Lower molecular weight product (≤ 150 bp) 
+and/or a high molecular weight product (~2,000 bp) may be present and is normal. 
+This does not affect sequencing.
+b.	OR Run 2 μl sample on the Agilent TapeStation High Sensitivity D1000 or D5000 
+ScreenTape to determine fragment size. 
+4.3
+Post Library Construction 
+QC
+Step 4
+Library Construction
+Representative Trace
+Representative Trace
+
+
+--- Page 41 ---
+41
+Click to TOC
+Chromium Next GEM Single Cell ATAC Reagent Kits v2 User Guide • Rev A
+a.	Thaw KAPA Library Quantification Kit for Illumina® Platforms. 
+b.	Dilute 1 µl sample with deionized water to appropriate dilutions that fall within the 
+linear detection range of the KAPA Library Quantification Kit for Illumina® Platforms. 
+(For more accurate quantification, make the dilution(s) in duplicate).
+c.	Make enough Quantification Master Mix for the DNA dilutions per sample and the DNA 
+Standards (plus 10% excess) using the guidance for 1 reaction volume below.
+Quantification Master Mix
+1X (µl)
+SYBR Fast Master Mix + Primer
+12
+Water
+4
+Total
+16
+d.	Dispense 16 μl Quantification Master Mix for sample dilutions and DNA Standards into 
+a 96 well PCR plate.
+e.	Add 4 μl sample dilutions and 4 μl DNA Standards to appropriate wells. Centrifuge 
+briefly. 
+f.	 Incubate in a thermal cycler with the following protocol.
+Step
+Temperature
+Run Time
+1
+95°C
+00:03:00
+2
+95°C
+00:00:05
+3
+67°C
+00:00:30
+4
+Go to Step 2, 29X (Total 30 cycles)
+g.	Follow the manufacturer’s recommendations for qPCR-based quantification. For 
+library quantification for sequencer clustering, determine the concentration using the 
+average size in the region of 175-1,000 bp.
+4.4
+Post Library Construction 
+Quantification
+Step 4
+Library Construction
+For Library Construction related questions, contact support@10xgenomics.com 
+
+
+--- Page 42 ---
+42
+Click to TOC
+Chromium Next GEM Single Cell ATAC Reagent Kits v2 User Guide • Rev A
+5
+Sequencing
+
+
+--- Page 43 ---
+43
+Click to TOC
+Chromium Next GEM Single Cell ATAC Reagent Kits v2 User Guide • Rev A
+	 Chromium Single Cell ATAC libraries comprise double stranded DNA fragments 
+which begin with P5 and end with P7. Sequencing these libraries produces a standard 
+Illumina® BCL data output folder.
+	 The BCL data for Single Cell ATAC libraries include:
+•	 Paired-end Read 1N containing insert sequence only
+•	 Read 2N containing insert sequence, starting from the opposite end of fragment
+•	 8 bp sample index in the i7 read
+•	 16 bp 10X barcode sequence in the i5 read
+ 	 The Cell Ranger scATAC pipeline performs demultiplexing and leverages the 10x 
+Barcodes to group read-pairs and associate them to individual cells for secondary 
+analysis and visualization. In addition to performing standard analysis steps such as 
+alignment, Cell Ranger scATAC leverages the 10x Barcodes to generate chromatin 
+accessibility data with single cell resolution. This enables applications including cell 
+clustering, cell type classification, and differential accessibility at a scale of hundreds 
+to thousands of cells.
+The compatibility of the listed sequencers has been verified by 10x Genomics. Some 
+variation in assay performance is expected based on sequencer choice. For more 
+information about performance variation, visit the 10x Genomics Support website.
+•	 MiSeq™
+•	 NextSeq™ 500/550 (High Output)
+•	 NextSeq™ 1000/2000
+•	 HiSeq 2500™ (Rapid Run)
+•	 HiSeq™ 3000/4000
+•	 NovaSeq™
+	 Each i7 sample index in the Single Index Plate Kit N Set A (PN-3000427) is a mix of 
+4 different sequences to balance across all 4 nucleotides. If multiple samples are 
+pooled in a sequence lane, the sample index name (i.e. Single Index Plate N Set A 
+well ID) is needed in the sample sheet used for generating FASTQs with “cellranger-
+scATAC mkfastq”.
+Illumina® Sequencer 
+Compatibility
+Sample Indices
+Sequencing Depth & Run 
+Parameters
+Sequencing
+Sequencing Depth
+25,000 read pairs per nucleus 
+(25,000 reads for Read 1N; 25,000 reads for Read 2N)
+Sequencing Type
+Paired-end, dual indexing
+Sequencing Read
+Recommended Number of Cycles
+Read 1N
+i7 Index
+i5 Index
+Read 2N
+50 cycles
+8 cycles
+16 cycles
+50 cycles
+Sequencing Libraries
+Step 5
+P5
+Read 1N
+10x 
+Barcode
+Read 2N
+P7
+ Insert
+Read 1N
+Read 2N
+i7:8
+Sample
+Index N
+i5:16 bp
+
+
+--- Page 44 ---
+44
+Click to TOC
+Chromium Next GEM Single Cell ATAC Reagent Kits v2 User Guide • Rev A
+Sequencing
+Once quantified and normalized, Single Cell ATAC libraries should be denatured and 
+diluted according to the table below. Consult the Technical Note on Sequencing Metrics 
+and Base Composition of Chromium Single Cell ATAC Libraries (Document CG000181), 
+available at the 10x Genomics Support website, for more information. 
+Instrument
+Loading Concentration (pM) 
+PhiX (%)
+MiSeq™
+11
+1
+NextSeq™ 500/550
+1.7
+1
+NextSeq™ 1000/2000
+650
+1
+HiSeq™ 2500 (RR)
+11
+1
+HiSeq™ 4000
+180
+1
+NovaSeq™ 6000
+300
+1
+	 Pooling dissimilar libraries may compromise the ability to pool effectively due 
+to differences in insert sizes. DO NOT pool Single Cell ATAC libraries with other 
+10x Genomics libraries. 
+Library Loading 
+Step 6
+Library Pooling
+
+
+--- Page 45 ---
+45
+Click to TOC
+Chromium Next GEM Single Cell ATAC Reagent Kits v2 User Guide • Rev A
+6
+Troubleshooting
+
+
+--- Page 46 ---
+46
+Click to TOC
+Chromium Next GEM Single Cell ATAC Reagent Kits v2 User Guide • Rev A
+GEMs
+Troubleshooting
+A       B      C        D       E       F      G       H
+STEP
+NORMAL
+REAGENT CLOGS & WETTING FAILURES
+2.4 d
+After Chip H is 
+removed from the 
+Controller and the 
+wells are exposed
+ 
+All 8 recovery wells (row labeled 3) are 
+similar in volume and opacity.
+Recovery well G indicates a reagent clog.
+Recovery well C and E indicate a wetting 
+failure. Recovery wells B, D, and F are 
+normal. Wells A and H contain 50% Glycerol 
+Solution. 
+2.4 f
+Transfer GEMs
+from Chip H
+Row Labeled 3
+All liquid levels are similar in volume and 
+opacity without air trapped in the pipette 
+tips.
+Pipette tips C and E indicate a wetting 
+failure. Pipette tip C contains partially 
+emulsified GEMs. Emulsion is absent 
+in pipette tip E. Pipette tip G indicates a 
+reagent clog.
+ A      B     C      D      E     F     G      H
+ A      B     C      D      E     F     G      H
+
+
+--- Page 47 ---
+47
+Click to TOC
+Chromium Next GEM Single Cell ATAC Reagent Kits v2 User Guide • Rev A
+STEP
+NORMAL
+REAGENT CLOGS & WETTING FAILURES
+3.1 a
+After transfer of the 
+GEMs +
+Recovery Agent 
+All liquid levels are similar in the 
+aqueous sample volume (clear) and 
+Recovery Agent/Partitioning Oil (pink).
+Tube G indicates a reagent clog has 
+occurred. There is a decreased volume of 
+aqueous layer (clear).
+Tube C and E indicate a wetting failure has 
+occurred. There is an abnormal volume of 
+Recovery Agent/Partitioning Oil (pink).
+3.1 b
+After aspiration of 
+Recovery Agent/
+Partitioning Oil
+All liquid volumes are similar in the 
+aqueous sample volume (clear) and 
+residual Recovery Agent/Partitioning Oil 
+(pink).
+Tube G indicates a reagent clog has 
+occurred. There is a decreased volume 
+of aqueous layer (clear). There is also 
+a greater residual volume of Recovery 
+Agent/Partitioning Oil (pink).
+Tube C and E indicate a wetting failure has 
+occurred. There is an abnormal residual 
+volume of Recovery Agent/Partitioning Oil 
+(pink).
+3.1 d
+After addition of 
+Dynabeads
+Cleanup Mix
+All liquid volumes are similar after 
+addition of the Dynabeads Cleanup Mix.
+Tube G indicates a reagent clog has 
+occurred. There is an abnormal ratio 
+of Dynabeads Cleanup Mix (brown) to 
+Recovery Agent/Partitioning Oil (appears 
+white).
+Tube C and E indicate a wetting failure 
+has occurred. There is an abnormal ratio 
+of Dynabeads Cleanup Mix (brown) to 
+Recovery Agent/Partitioning Oil (appears 
+white). 
+ 
+Troubleshooting
+If a channel clogs or wetting failure occurs during GEM generation, it is 
+recommended that the sample be remade. If any of the listed issues occur, take 
+a picture and send it to support@10xgenomics.com for further assistance.
+A        B          C        D         E          F        G          H
+ A          B          C         D        E         F         G         H
+A         B          C        D          E        F         G          H
+A         B         C         D         E          F        G         H
+A         B         C         D         E          F        G         H
+A         B          C        D          E        F         G          H
+
+
+--- Page 48 ---
+48
+Click to TOC
+Chromium Next GEM Single Cell ATAC Reagent Kits v2 User Guide • Rev A
+Troubleshooting
+Chromium Controller Errors
+	
+If the Chromium Controller or the Chromium Single Cell Controller fails to start, an error tone will sound and one of the following error messages will be 
+displayed:
+a.	 Chip not read – Try again: Eject the tray, remove and/or reposition the Chromium Next GEM Secondary Holder assembly and try again. If the error message 
+is still received after trying this more than twice, contact support@10xgenomics.com for further assistance.
+b.	 Check gasket: Eject the tray by pressing the eject button to check that the 10x Gasket is correctly installed on the Chromium Next GEM Chip. If the error 
+message persists, try a new gasket. Contact support@10xgenomics.com for further assistance.
+c.	 Error Detected: Row _ Pressure:
+i.	 If this message is received within a few seconds of starting a run, eject the tray by pressing the eject button and check for dirt or deposits on the 10x 
+Gasket. If dirt is observed, replace with a new 10x Gasket and try again. If the error message is still received after trying this more than twice, contact 
+support@10xgenomics.com for further assistance.
+ii.	 If this message is received after a few minutes into the run, the Chromium Next GEM Chip must be discarded. Do not try running this Chromium Next 
+GEM Chip again as this may damage the Chromium Controller.
+d.	 Invalid Chip CRC Value: This indicates that a Chromium Next GEM Chip has been used with an older firmware version. The chip must be discarded. Contact 
+support@10xgenomics.com for further assistance.
+e.	 Chip Holder Not Present: Open the controller drawer and check if chip holder is present. Insert chip properly into chip holder and retry.
+f.	 Unauthorized Chip: This indicates that an incompatible non-Next GEM chip has been used with an instrument that only can run Next GEM assays. Use only 
+Chromium Controller (PN-120223;120246) or Chromium Single Cell Controller (PN-120263;120212) to run that chip or chip must be discarded. Contact 
+support@10xgenomics.com for further assistance.
+g.	 Endpoint Reached Early: If this message is received, contact support@10xgenomics.com for further assistance.
+Chromium X Series Errors
+	
+The Chromium X touchscreen will guide the user through recoverable errors. If the error continues, or if the instrument has seen critical or intermediate 
+errors, email support@10xgenomics.com with the displayed error code. Support will request a troubleshooting package. Upload pertinent logs to 10x Genomics by 
+navigating to the Logs menu option on screen.
+	
+There are two types of errors:
+	
+Critical Errors — When the instrument has seen a critical error, the run will immediately abort. Do not proceed with any further runs. Contact support@10xgenomics.
+com with the error code.
+a.	
+System Error
+b.	
+Pressure Error
+c.	
+Chip Error
+d.	
+Run Error
+e.	
+Temperature Error
+f.	
+Software Error
+        User Recoverable Errors — Follow error handling instructions through the touchscreen and continue the run.
+a.	
+Gasket Error
+b.	
+Tray Error
+c.	
+Chip Error
+d.	
+Unsupported Chip Error
+e.	
+Update Error
+Chromium Controller 
+!
+Consult the Chromium X Series (X/iX) User Guide (CG000396) for additional information and follow the Chromium X 
+touchscreen prompts for execution.
+
+
+--- Page 49 ---
+49
+Click to TOC
+Chromium Next GEM Single Cell ATAC Reagent Kits v2 User Guide • Rev A
+7
+Appendix
+Oligonucleotide Sequences  
+
+
+--- Page 50 ---
+50
+Click to TOC
+Chromium Next GEM Single Cell ATAC Reagent Kits v2 User Guide • Rev A
+Oligonucleotide
+Protocol steps correspond to the Chromium Next GEM Single Cell ATAC Reagent Kits v2 User Guide (CG000496)
+Protocol Step 1 – Transposition
+Transposed DNA 
+Product
+5ʹ-TCGTCGGCAGCGTCAGATGTGTATAAGAGACAG-----insert--      CTGTCTCTTATACACATCT-3ʹ
+                                                                                3ʹ-TCTACACATATTCTCTGTC      --insert-----GACAGAGAATATGTGTAGAGGCTCGGGTGCTCTG-5ʹ
+Protocol Step 2.5 – GEM Incubation
+Gel Bead Oligo 
+Primer
+PN-2000210
+5’-AATGATACGGCGACCACCGAGATCTACAC-NNNNNNNNNNNNNNNN-TCGTCGGCAGCGTC-3’
+Linear Amplification 
+DNA Product
+5ʹ-AATGATACGGCGACCACCGAGATCTACAC-NNNNNNNNNNNNNNNN-TCGTCGGCAGCGTCAGATGTGTATAAGAGACAG----insert----CTGTCTCTTATACACATCTCCGAGCCCACGAGAC-3ʹ
+Protocol Step 4.1 – Sample Index PCR
+SI-PCR Primer B
+PN-2000128
+Single Index Plate N 
+Set A
+PN-3000427
+Forward Primer: 
+5’-AATGATACGGCGACCACCGAGA-3’
+Reverse Primer: 
+5’- CAAGCAGAAGACGGCATACGAGAT-NNNNNNNN-GTCTCGTGGGCTCGG-3ʹ
+Sample Index PCR 
+Product
+5ʹ-AATGATACGGCGACCACCGAGATCTACAC-NNNNNNNNNNNNNNNN-TCGTCGGCAGCGTCAGATGTGTATAAGAGACAG---insert---CTGTCTCTTATACACATCTCCGAGCCCACGAGAC-NNNNNNNN-ATCTCGTATGCCGTCTTCTGCTTG-3ʹ
+3ʹ-TTACTATGCCGCTGGTGGCTCTAGATGTG-NNNNNNNNNNNNNNNN-AGCAGCCGTCGCAGTCTACACATATTCTCTGTC---insert---GACAGAGAATATGTGTAGAGGCTCGGGTGCTCTG-NNNNNNNN-TAGAGCATACGGCAGAAGACGAAC-5ʹ
+Read 1N
+Read 2N
+Gel
+Bead
+P5
+10x
+Barcode
+Partial
+ Read 1N
+Partial P5
+Partial
+ Read 2N
+Sample
+Index N
+P7
+Read 2N
+P7
+Sample
+Index N
+P5
+10x
+Barcode
+Read 1N
+ Insert
+Appendix
+Sequences
+P5
+10x
+Barcode
+Read 1N
+Read 2N
+ Insert

@@ -1,0 +1,4116 @@
+--- Page 1 ---
+10xGenomics.com
+CG000338 Rev F
+USER GUIDE
+Chromium
+Next GEM
+Single Cell Multiome
+ATAC + Gene Expression  
+FOR USE WITH
+Chromium Next GEM Single Cell Multiome ATAC + Gene Expression Reagent Bundle, 16 rxns PN-1000283, includes: 
+	
+Chromium Next GEM Single Cell Multiome ATAC Kit A, 16 rxns PN-1000280
+	
+Chromium Next GEM Single Cell Multiome Reagent Kit A, 16 rxns PN-1000282
+	
+Library Construction Kit, 16 rxns PN-1000190
+Chromium Next GEM Single Cell Multiome ATAC + Gene Expression Reagent Bundle, 4 rxns PN-1000285, includes:
+	
+Chromium Next GEM Single Cell Multiome ATAC Kit A, 4 rxns PN-1000281
+	
+Chromium Next GEM Single Cell Multiome Reagent Kit A, 4 rxns PN-1000284
+	
+Library Construction Kit B, 4 rxns PN-1000279
+Chromium Next GEM Chip J Single Cell Kit, 48 rxns PN-1000234
+Chromium Next GEM Chip J Single Cell Kit, 16 rxns PN-1000230
+Single Index Kit N Set A, 96 rxns PN-1000212
+Dual Index Kit TT Set A, 96 rxns PN-1000215
+Next GEM reagents are specific to Next GEM products and should not be used interchangeably with non-Next GEM reagents.
+
+
+--- Page 2 ---
+2
+Click to TOC
+Chromium Next GEM Single Cell Multiome ATAC + Gene Expression User Guide • Rev F
+Notices
+Document Number
+CG000338 • Rev F
+Legal Notices
+©2022 10x Genomics, Inc. (10x Genomics). All rights reserved. Duplication and/or reproduction of all or 
+any portion of this document without the express written consent of 10x Genomics, is strictly forbidden. 
+Nothing contained herein shall constitute any warranty, express or implied, as to the performance of any 
+products described herein. Any and all warranties applicable to any products are set forth in the applicable 
+terms and conditions of sale accompanying the purchase of such product. 10x Genomics provides no 
+warranty and hereby disclaims any and all warranties as to the use of any third-party products or protocols 
+described herein. The use of products described herein is subject to certain restrictions as set forth in the 
+applicable terms and conditions of sale accompanying the purchase of such product. A non-exhaustive 
+list of 10x Genomics’ marks, many of which are registered in the United States and other countries can 
+be viewed at:  www.10xgenomics.com/trademarks. 10x Genomics may refer to the products or services 
+offered by other companies by their brand name or company name solely for clarity, and does not claim any 
+rights in those third-party marks or names. 10x Genomics products may be covered by one or more of the 
+patents as indicated at: www.10xgenomics.com/patents.  The use of products described herein is subject 
+to 10x Genomics Terms and Conditions of Sale, available at www.10xgenomics.com/legal-notices, or such 
+other terms that have been agreed to in writing between 10x Genomics and user.  All products and services 
+described herein are intended FOR RESEARCH USE ONLY and NOT FOR USE IN DIAGNOSTIC PROCEDURES.
+Notice to Customer: The listed products and their use are the subject of United States Patent Nos. 6,159,736, 
+and 6,294,385, European Patent No. 1115856 and related patents and patent applications licensed from the 
+Wisconsin Alumni Research Foundation.
+Instrument & Licensed Software Updates Warranties
+Updates to existing Instruments and Licensed Software may be required to enable customers to use 
+new or existing products.  In the event of an Instrument failure resulting from an update, such failed 
+Instrument will be replaced or repaired in accordance with the 10x Limited Warranty, Assurance Plan or 
+service agreement, only if such Instrument is covered by any of the foregoing at the time of such failure. 
+Instruments not covered under a current 10x Limited Warranty, Assurance Plan or service agreement will 
+not be replaced or repaired.
+Support
+Email: support@10xgenomics.com
+10x Genomics
+6230 Stoneridge Mall Road
+Pleasanton, CA 94588 USA 
+ 
+Notices
+
+
+--- Page 3 ---
+3
+Click to TOC
+Chromium Next GEM Single Cell Multiome ATAC + Gene Expression User Guide • Rev F
+Document Number
+CG000338
+Title
+Chromium Next GEM Single Cell Multiome ATAC + Gene 
+Expression User Guide
+Revision
+Rev E to Rev F
+Revision Date
+August 2022
+Specific Changes:
+•	 Updated pipette tip and thermal cycler recommendations.
+•	 Updated chip assembly guidance in Tips & Best Practices and in step 2 - GEM Generation & 
+Barcoding.
+•	 Updated reagent volumes for preparing  Elution Solution 1 in step 3.1f. 
+•	 Updated Troubleshooting section to include guidance on gasket misalignment and GEM transfer.
+General Changes:
+•	 Updated for general minor consistency of language and terms throughout.
+Document
+Revision
+Summary
+
+
+--- Page 4 ---
+4
+Chromium Next GEM Single Cell Multiome ATAC + Gene Expression User Guide • Rev F
+TOC
+6
+7
+13
+13
+14
+16
+27
+28
+29
+30
+30
+31
+32
+33
+34
+35
+36
+37
+37
+38
+							
+39
+3.1 Post GEM Incubation Cleanup – Dynabeads	
+40
+3.2 Post GEM Incubation Cleanup – SPRIselect	
+42
+Step 4 											
+43
+Pre-Amplification PCR									
+44
+4.1 Prepare Pre-Amplification Mix	
+45
+4.2 Pre-Amplification PCR	
+45
+4.3 Pre-Amplification SPRI Cleanup	
+46
+
+
+--- Page 5 ---
+5
+Chromium Next GEM Single Cell Multiome ATAC + Gene Expression User Guide • Rev F
+TOC
+Step 5 											
+48
+ATAC Library Construction								
+49
+5.1 Sample Index PCR	
+50
+5.2 Post Sample Index Double Sided Size Selection – SPRIselect	
+51
+5.3 Post Library Construction QC	
+52
+Step 6 											
+53
+cDNA Amplification 
+54
+6.1 cDNA Amplification	
+55
+6.2 cDNA Cleanup – SPRIselect	
+56
+6.3 cDNA QC & Quantification	
+57
+Step 7 											
+58
+Gene Expression Library Construction						
+59
+Step Overview (Step 7.1d)	
+60
+7.1 Fragmentation, End Repair & A-tailing	
+61
+7.2 Post Fragmentation, End Repair & A-tailing Double Sided Size Selection – SPRIselect	
+62
+7.3 Adaptor Ligation	
+63
+7.4 Post Ligation Cleanup – SPRIselect	
+64
+7.5 Sample Index PCR	
+65
+7.6 Post Sample Index PCR Double Sided Size Selection – SPRIselect	
+66
+7.7 Post Library Construction QC	
+67
+Sequencing										
+71
+Troubleshooting 										
+72
+GEM Generation & Barcoding	
+73
+Chromium Controller Errors	
+75
+Appendix											
+76
+Post Library Construction Quantification	
+77
+Agilent TapeStation Traces 	
+78
+LabChip Traces 	
+79
+Assay Scheme Overview	
+80
+Sequences
+81
+
+
+--- Page 6 ---
+6
+Click to TOC
+Chromium Next GEM Single Cell Multiome ATAC + Gene Expression User Guide • Rev F
+Introduction
+Chromium Next GEM Single Cell Multiome ATAC + Gene Expression Reagents
+Chromium Accessories
+Recommended Thermal Cyclers
+Additional Kits, Reagents & Equipment
+Protocol Steps & Timing
+Stepwise Objectives
+
+
+--- Page 7 ---
+7
+Click to TOC
+Chromium Next GEM Single Cell Multiome ATAC + Gene Expression User Guide • Rev F
+Chromium Next GEM Single Cell 
+Multiome Gel Bead Kit A, 16 rxns
+PN-1000231 (store at −80°C)
+Chromium
+Next GEM Single Cell Multiome
+Gel Beads A
+Store at -80°C
+Single Cell Multiome
+Gel Beads A
+2
+2000261
+10xGenomics.com
+#
+PN
+Dynabeads™ MyOne™ SILANE,
+PN-2000048 (store at 4°C)
+Dynabeads MyOne 
+SILANE
+2
+2000048
+#
+PN
+Introduction
+Chromium Next GEM Single Cell Multiome Reagent Kit A, 16 rxns PN-1000282
+Chromium Next GEM Single Cell 
+Multiome GEM Kit A, 16 rxns 
+PN-1000232 (store at −20°C)
+Barcoding Reagent Mix 
+1
+2000267
+Barcoding Enzyme Mix
+1
+2000266
+Template Switch Oligo
+1
+3000228
+Reducing Agent B
+1
+2000087
+Cleanup Buffer
+2
+2000088
+Quenching Agent
+1
+2000269
+Chromium 
+Next GEM Single Cell Multiome 
+GEM Kit A
+Store at -20°C
+10xGenomics.com
+#
+PN
+Chromium Next GEM Single Cell 
+Multiome Amp Kit A, 16 rxns 
+PN-1000233 (store at −20°C)
+Pre-Amp Mix
+1
+2000270
+Pre-Amp Primers
+1
+2000271
+Amp Mix
+2
+2000047
+SI-PCR Primer B
+1
+2000128
+cDNA Primers
+1
+2000089
+Chromium
+Next GEM Single Cell Multiome
+Amp Kit A
+Store at -20°C
+10xGenomics.com
+#
+PN
+
+
+--- Page 8 ---
+8
+Click to TOC
+Chromium Next GEM Single Cell Multiome ATAC + Gene Expression User Guide • Rev F
+Introduction
+Library Construction Kit, 16 rxns PN-1000190 (store at −20°C)
+
+Library Construction Kit 
+Store at -20°C
+Fragmentation Enzyme
+1
+2000090
+Fragmentation Buffer
+1
+2000091
+Ligation Buffer
+1
+2000092
+DNA Ligase
+1
+220110
+Adaptor Oligos
+1
+2000094
+Amp Mix
+1
+2000047
+10xGenomics.com
+#
+PN
+Chromium Next GEM Single Cell Multiome ATAC Kit A, 16 rxns PN-1000280 (store at −20°C)
+20X Nuclei Buffer
+1
+2000207
+ATAC Buffer B
+1
+2000193
+ATAC Enzyme B
+1
+2000265
+Chromium
+Next GEM Single Cell Multiome
+ATAC Kit A
+Store at -20°C
+#
+PN
+10xGenomics.com
+
+
+--- Page 9 ---
+9
+Click to TOC
+Chromium Next GEM Single Cell Multiome ATAC + Gene Expression User Guide • Rev F
+Chromium Next GEM Single Cell 
+Multiome Gel Bead Kit A, 4 rxns
+PN-1000235 (store at −80°C)
+Chromium
+Next GEM Single Cell Multiome
+Gel Beads A
+Store at -80°C
+Single Cell Multiome
+Gel Beads A
+1
+2000261
+10xGenomics.com
+#
+PN
+Dynabeads™ MyOne™ SILANE,
+PN-2000048 (store at 4°C)
+Dynabeads MyOne 
+SILANE
+1
+2000048
+#
+PN
+Introduction
+Chromium Next GEM Single Cell Multiome Reagent Kit A, 4 rxns PN-1000284
+Chromium Next GEM Single Cell 
+Multiome GEM Kit A, 4 rxns 
+PN-1000236 (store at −20°C)
+Barcoding Reagent Mix 
+1
+2000267
+Barcoding Enzyme Mix
+1
+2000273
+Template Switch Oligo
+1
+3000228
+Reducing Agent B
+1
+2000087
+Cleanup Buffer
+1
+2000088
+Quenching Agent
+1
+2000269
+Chromium 
+Next GEM Single Cell Multiome 
+GEM Kit A
+Store at -20°C
+10xGenomics.com
+#
+PN
+Chromium Next GEM Single Cell 
+Multiome Amp Kit A, 4 rxns 
+PN-1000237 (store at −20°C)
+Pre-Amp Mix
+1
+2000274
+Pre-Amp Primers
+1
+2000271
+Amp Mix
+1
+2000103
+SI-PCR Primer B
+1
+2000128
+cDNA Primers
+1
+2000089
+Chromium
+Next GEM Single Cell Multiome
+Amp Kit A
+Store at -20°C
+10xGenomics.com
+#
+PN
+
+
+--- Page 10 ---
+10
+Click to TOC
+Chromium Next GEM Single Cell Multiome ATAC + Gene Expression User Guide • Rev F
+Introduction
+Library Construction Kit B, 4 rxns PN-1000279 (store at −20°C)
+
+Library Construction Kit B 
+Store at -20°C
+Fragmentation Enzyme
+1
+2000104
+Fragmentation Buffer
+1
+2000091
+Ligation Buffer
+1
+2000092
+DNA Ligase
+1
+220131
+Adaptor Oligos
+1
+2000094
+Amp Mix
+1
+2000131
+10xGenomics.com
+#
+PN
+Chromium Next GEM Single Cell Multiome ATAC Kit A, 4 rxns PN-1000281 (store at −20°C)
+20X Nuclei Buffer
+1
+2000207
+ATAC Buffer B
+1
+2000193
+ATAC Enzyme B
+1
+2000272
+Chromium
+Next GEM Single Cell Multiome
+ATAC Kit A 
+Store at -20°C
+#
+PN
+10xGenomics.com
+
+
+--- Page 11 ---
+11
+Click to TOC
+Chromium Next GEM Single Cell Multiome ATAC + Gene Expression User Guide • Rev F
+Introduction
+Chromium
+Partitioning Oil
+
+#
+PN
+Chromium
+Recovery Agent
+
+#
+PN
+Partitioning Oil
+6
+2000190
+Chromium
+Next GEM
+Chip J & Gaskets
+Chromium Next GEM Chip J
+6
+2000264
+Gasket, 6-pack
+1
+370017
+#
+PN
+10xGenomics.com
+Recovery Agent
+6
+220016
+Chromium Next GEM Chip J Single Cell Kit, 48 rxns PN-1000234
+(store at ambient temperature)
+Chromium
+Partitioning Oil
+
+Partitioning Oil
+2
+2000190
+#
+PN
+Chromium
+Next GEM
+Chip J & Gaskets
+Chromium Next GEM Chip J
+2
+2000264
+Gasket, 2-pack
+1
+3000072
+#
+PN
+10xGenomics.com
+Chromium
+Recovery Agent
+
+Recovery Agent
+2
+220016
+#
+PN
+Chromium Next GEM Chip J Single Cell Kit, 16 rxns PN-1000230
+(store at ambient temperature)
+
+
+--- Page 12 ---
+12
+Click to TOC
+Chromium Next GEM Single Cell Multiome ATAC + Gene Expression User Guide • Rev F
+Single Index Kit N Set A
+
+Single Index Plate N Set A
+1
+3000427
+#
+PN
+Single Index Kit N Set A, 96 rxns PN-1000212 (store at −20°C)
+Introduction
+Dual Index Kit TT Set A, 96 rxns PN-1000215  (store at −20°C)
+Dual Index Kit TT Set A
+
+
+Dual Index Plate TT Set A
+1
+3000431
+#
+PN
+
+
+--- Page 13 ---
+13
+Click to TOC
+Chromium Next GEM Single Cell Multiome ATAC + Gene Expression User Guide • Rev F
+Introduction
+Recommended 
+Thermal Cyclers
+Chromium 
+Accessories
+Product
+PN (Orderable)
+PN (Item) 
+10x Vortex Adapter
+120251
+330002
+Chromium Next GEM Secondary Holder
+1000195
+3000332
+10x Magnetic Separator
+120250
+230003
+Supplier
+Description
+Part Number 
+BioRad
+C1000 Touch Thermal Cycler 
+with 96-Deep Well Reaction 
+Module
+1851197
+Analytik Jena†
+Biometra TAdvanced 96 SG
+846-x-070-241
+(x = 2 for 230 V; 4 for 115 V; 5 for 100 V, 
+50-60 Hz)
+Eppendorf‡
+Mastercycler X50s*
+6311000010
+Mastercycler Pro 
+(discontinued)
+North America 950030010 
+International 6321 000.019
+Thermo Fisher 
+Scientific
+Veriti 96-Well Thermal Cycler
+4375786
+The table below lists the thermal cyclers that have been validated by 10x Genomics. 
+Thermal cyclers used must support uniform heating of 100 µl emulsion volumes.
+For select instruments, ramp rates should be adjusted for all steps as described below:
+†Analytik Jena Biometra TAdvanced 96 SG: 2°C/sec for both heating and cooling
+‡Eppendorf Mastercycler X50s: 3°C/sec heating and 2°C/sec cooling
+
+
+--- Page 14 ---
+14
+Click to TOC
+Chromium Next GEM Single Cell Multiome ATAC + Gene Expression User Guide • Rev F
+The items in the table below have been validated by 10x Genomics and are highly 
+recommended for the Single Cell protocols. Substituting materials may adversely affect 
+system performance. This list does not include standard laboratory equipment such as 
+water baths, centrifuges, vortex mixers, pH meters, freezers etc. 
+Additional Kits, 
+Reagents & 
+Equipment
+Supplier
+Description
+Part Number (US)
+Plastics
+Eppendorf
+PCR Tubes 0.2 ml 8-tube strips
+DNA LoBind Tubes, 1.5 ml
+DNA LoBind Tubes, 2.0 ml
+951010022
+022431021
+022431048
+USA Scientific
+TempAssure PCR 8-tube strip
+1402-4700
+Thermo Fisher Scientific
+MicroAmp 8-Tube Strip, 0.2 ml
+MicroAmp 8-Cap Strip, clear
+N8010580
+N8010535
+Rainin
+Tips LTS 200UL Filter RT-L200FLR
+Tips LTS 1ML Filter RT-L1000FLR
+Tips LTS 20UL Filter RT-L10FLR
+30389240
+30389213
+30389226
+Kits & Reagents
+Thermo Fisher Scientific
+Nuclease-free Water
+Low TE Buffer (10 mM Tris-HCl pH 8.0, 0.1 mM EDTA)
+AM9937
+12090-015
+Millipore Sigma
+Ethanol, Pure (200 Proof, anhydrous)
+Sigma Protector RNase Inhibitor
+DTT
+E7023-500ML
+3335399001
+646563
+Beckman Coulter
+SPRIselect Reagent Kit
+B23318
+Bio-Rad
+10% Tween 20
+1662404
+Ricca Chemical Company
+Glycerin (glycerol), 50% (v/v) Aqueous Solution
+3290-32
+Qiagen
+Qiagen Buffer EB
+19086
+Introduction
+Choose either 
+Eppendorf,
+USA Scientific or 
+Thermo Fisher 
+Scientific PCR 
+8-tube strips.
+Quantification & Quality Control
+Agilent
+2100 Bioanalyzer Instrument & Laptop Bundle
+High Sensitivity DNA Kit
+4200 TapeStation
+High Sensitivity D1000 ScreenTape/Reagents
+High Sensitivity D5000 ScreenTape/Reagents
+G2939BA & G2953CA
+5067-4626
+G2991AA
+5067-5584/5067-5585
+5067-5592/5067-5593
+Thermo Fisher Scientific
+Qubit 4.0 Flourometer
+Qubit dsDNA HS Assay Kit
+Q33226
+Q32854
+Advanced Analytical
+Fragment Analyzer Automated CE System - 12 cap
+Fragment Analyzer Automated CE System - 48/96 cap
+High Sensitivity NGS Fragment Analysis Kit
+FSv2-CE2F
+FSv2-CE10F
+DNF-474
+PerkinElmer
+LabChip GX Touch HT Nucleic Acid Analyzer
+DNA High Sensitivity Reagent Kit
+CLS137031
+CLS760672
+KAPA Biosystems
+KAPA Library Quantification Kit for Illumina Platforms
+KK4824
+Choose Bioanalyzer, 
+TapeStation, 
+LabChip, Fragment 
+Analyzer or Qubit 
+based on availability 
+& preference. 
+
+
+--- Page 15 ---
+15
+Click to TOC
+Chromium Next GEM Single Cell Multiome ATAC + Gene Expression User Guide • Rev F
+Introduction
+10x Genomics recommends using only validated emulsion-safe pipette tips for all Single 
+Cell protocols. Rainin pipette tips have been extensively validated by 10x Genomics and 
+are highly recommended for all single cell assays. If Rainin tips are unavailable, any of the 
+listed alternate pipette tips validated by 10x Genomics may be used.  
+Recommended 
+Pipette Tips
+Supplier
+Description
+Part Number (US)
+Recommended Pipettes & Pipette tips
+Rainin
+Pipettes
+Pipet-Lite Multi Pipette L8-50XLS+
+Pipet-Lite Multi Pipette L8-200XLS+
+Pipet-Lite Multi Pipette L8-10XLS+
+Pipet-Lite Multi Pipette L8-20XLS+
+Pipet-Lite LTS Pipette L-2XLS+
+Pipet-Lite LTS Pipette L-10XLS+
+Pipet-Lite LTS Pipette L-20XLS+
+Pipet-Lite LTS Pipette L-100XLS+
+Pipet-Lite LTS Pipette L-200XLS+
+Pipet-Lite LTS Pipette L-1000XLS+
+Pipette Tips
+Tips LTS 200UL Filter RT-L200FLR
+Tips LTS 1ML Filter RT-L1000FLR
+Tips LTS 20UL Filter RT-L10FLR
+17013804
+17013805
+17013802
+17013803
+17014393
+17014388
+17014392
+17014384
+17014391
+17014382
+30389240
+30389213
+30389226
+Alternate Recommendations  (If Rainin pipette tips are unavailable, any of the listed pipette tips may be used)
+Eppendorf
+Pipettes
+Eppendorf Research plus, 8-channel, epT.I.P.S. Box, 0.5 – 10 µL
+Eppendorf Research plus, 8-channel, epT.I.P.S. Box, 10 – 100 µL
+Eppendorf Research plus, 8-channel, epT.I.P.S. Box, 100 – 300 µL
+Eppendorf Research plus, 1-channel, epT.I.P.S.® Box, 0.1 – 2.5 µL
+Eppendorf Research plus, 1-channel, epT.I.P.S.® Box, 0.5 – 10 µL
+Eppendorf Research plus, 1-channel, epT.I.P.S.® Box, 2 – 20 µL
+Eppendorf Research plus, 1-channel, epT.I.P.S.® Box, 2 – 200 µL
+Eppendorf Research plus, 1-channel, epT.I.P.S.® Box, 100 – 1000 µL
+Pipette Tips (compatible with Eppendorf pipettes only)
+ep Dualfilter T.I.P.S., 2-20 µL
+ep Dualfilter T.I.P.S., 2-200 µL
+ep Dualfilter T.I.P.S., 2-1,000 µL
+
+3125000010
+3125000036
+3125000052
+3123000012
+3123000020
+3123000039
+3123000055
+3123000063
+
+0030078535
+0030078551
+0030078578
+Labcon*
+ZAP SLIK 20 µL Low Retention Aerosol Filter Pipet Tips for Rainin LTS
+ZAP SLIK 200 µL Low Retention Aerosol Filter Pipet Tips for Rainin LTS
+ZAP SLIK 1000 µL Low Retention Aerosol Filter Pipet Tips for Rainin LTS
+4-1143-965-008
+4-1144-965-008
+4-1145-965-008
+Biotix*
+xTIP4  Racked Pipette Tips, Rainin LTS Pipette Compatible, 0.1-20uL 
+xTIP4  Racked Pipette Tips, Rainin LTS Pipette Compatible, 200uL 
+xTIP4  Racked Pipette Tips, Rainin LTS Pipette Compatible, 1000uL
+63300931
+63300001
+63300003
+*Compatible with Rainin pipettes
+
+
+--- Page 16 ---
+16
+Click to TOC
+Chromium Next GEM Single Cell Multiome ATAC + Gene Expression User Guide • Rev F
+Steps
+Timing
+Stop & Store
+Nuclei Isolation
+Dependent on Cell Type
+~1-2 h
+Step 1 – Transposition
+1.1 
+1.2 
+Prepare Transposition Mix
+Isothermal Incubation
+10 min
+60 min
+Step 2 – GEM Generation & Barcoding 
+2.1 
+2.2 
+2.3
+2.4
+2.5
+2.6
+Prepare Master Mix
+Load Chromium Next GEM Chip J
+Run the Chromium Controller or X/iX
+Transfer GEMs
+GEM Incubation
+Quenching Reaction
+10 min
+10 min
+18 min
+3 min
+75 min
+5 min
+−80°C ≤ 4  week
+Step 3 – Post GEM Incubation Cleanup 
+3.1
+3.2
+Post GEM Incubation Cleanup – Dynabeads
+Post GEM Incubation Cleanup – SPRIselect
+35 min
+15 min
+Step 4 – Library Pre-Amplification PCR
+4.1
+4.2
+4.3
+Prepare Pre-Amplification Mix
+Pre-Amplification PCR
+SPRI Cleanup
+10 min
+30 min 
+15 min
+
+4°C ≤18 h 
+4°C ≤72 h or −20°C long-term
+Step 5 – Single Cell ATAC Library Construction
+5.1
+5.2
+5.3
+Sample Index PCR
+Post Sample Index Double Sided Size Selection – 
+SPRIselect
+Post Library Construction QC
+45 min
+20 min
+60 min
+4°C ≤72 h or −20°C long-term
+Step 6 – cDNA Amplification
+6.1
+6.2
+6.3
+cDNA Amplification
+cDNA Cleanup – SPRIselect
+cDNA QC & Quantification
+40 min
+15 min
+50 min
+4°C ≤72 h or −20°C ≤1 week
+4°C ≤72 h or −20°C ≤4 weeks
+Step 7 – Gene Expression Library Construction
+7.1
+7.2
+
+7.3
+7.4
+7.5
+7.6
+7.7
+Fragmentation, End Repair & A-tailing
+Post Fragmentation, End Repair & A-tailing Double
+Sided – SPRIselect
+Adaptor Ligation
+Post Ligation Cleanup- SPRIselect
+Sample Index PCR
+Post Sample Index PCR Double Sided – SPRIselect
+Post Library Construction QC
+45 min
+30 min 
+
+25 min
+20 min
+40 min
+30 min
+50 min
+
+
+
+
+ 4°C ≤72 h
+ 4°C ≤72 h or -20°C long term
+STOP
+STOP
+STOP
+STOP
+STOP
+STOP
+STOP
+STOP
+ 
+Introduction
+Protocol Steps & Timing 
+
+
+--- Page 17 ---
+17
+Click to TOC
+Chromium Next GEM Single Cell Multiome ATAC + Gene Expression User Guide • Rev F
+Stepwise Objectives
+Chromium Single Cell Multiome + Gene Expression provides a comprehensive, 
+scalable multiomic approach for simultaneously profiling epigenomic landscape and 
+gene expression in the same single nuclei. This is achieved by transposing nuclei in 
+a bulk solution. Using a microfluidic chip, the nuclei are partitioned into nanoliter-
+scale Gel Beads-in-emulsion (GEMs). A pool of 736,000 10x Barcodes is sampled 
+to separately and uniquely index the transposed DNA and cDNA of each individual 
+nucleus. ATAC and gene expression (GEX) libraries are generated from the same pool 
+of pre-amplified transposed DNA/cDNA and sequenced. The 10x Barcodes in each 
+library type  are used to associate individual reads back to the individual partitions, 
+and thereby, to each individual nucleus.
+Introduction
+Step 2
+GEM Generation & 
+Barcoding
+Step 1
+Transposition
+Nuclei suspensions are incubated in a Transposition Mix that includes a Transposase. 
+The Transposase enters the nuclei and preferentially fragments the DNA in open 
+regions of the chromatin. Simultaneously, adapter sequences are added to the ends 
+of the DNA fragments.
+Single Cell Multiome ATAC + GEX Gel Beads include a poly(dT) sequence that enables 
+production of barcoded, full-length cDNA from poly-adenylated mRNA for gene 
+expression (GEX) library and a Spacer sequence that enables barcode attachment to 
+transposed DNA fragments for ATAC library. 
+GEMs are generated by combining barcoded Gel Beads, transposed nuclei, a Master 
+Mix, and Partitioning Oil on a Chromium Next GEM Chip J. To achieve single nuclei 
+resolution, the nuclei are delivered at a limiting dilution, such that the majority (~90-
+99%) of generated GEMs contains no nuclei, while the remainder largely contain a 
+single nucleus. 
+
+
+--- Page 18 ---
+18
+Click to TOC
+Chromium Next GEM Single Cell Multiome ATAC + Gene Expression User Guide • Rev F
+Step 3
+Post-GEM Cleanup
+Introduction
+Upon GEM generation, the Gel Bead is dissolved. Oligonucleotides containing an 
+Illumina® P5 sequence, a 16 nt 10x Barcode (for ATAC), and a Spacer sequence are 
+released. In the same partition, primers containing an Illumina® TruSeq Read 1 (read 
+1 sequencing primer), 16 nt 10x Barcode (for GEX), 12 nt unique molecular identifier 
+(UMI), and a 30 nt poly(dT) sequence are also released. The primers are mixed with 
+the nuclei lysate containing transposed DNA fragments, mRNA, and Master Mix, that 
+includes reverse transcription (RT) reagents.
+Incubation of the GEMs produces 10x Barcoded DNA from the transposed DNA (for 
+ATAC) and 10x Barcoded, full-length cDNA from poly-adenylated mRNA (for GEX). This 
+is followed by a quenching step that stops the reaction.
+GEMs are broken and pooled fractions are recovered. Silane magnetic beads are used 
+to purify the cell barcoded products from the post GEM-RT reaction mixture, which 
+includes leftover biochemical reagents and primers.
+Step 4
+Pre-Amplification PCR
+Barcoded transposed DNA and barcoded full length cDNA from poly-adenylated 
+mRNA are amplified via PCR to fill gaps and for generating sufficient mass for 
+library construction. The pre-amplified product is used as input for both ATAC library 
+construction and cDNA amplification for gene expression library construction.
+ 
+Pooled pre-amplification PCR
+Transposed DNA
+cDNA
+Inside individual GEMs
+
+
+--- Page 19 ---
+19
+Click to TOC
+Chromium Next GEM Single Cell Multiome ATAC + Gene Expression User Guide • Rev F
+Introduction
+P7 and a sample index are added to pre-amplified transposed DNA during ATAC 
+library construction via PCR. The final  ATAC libraries contain the P5 and P7 
+sequences used in Illumina® bridge amplification.
+Step 6
+cDNA Amplification
+Barcoded, full-length pre-amplified cDNA is amplified via PCR to generate sufficient 
+mass for gene expression library construction.
+
+Step 5
+ATAC Library 
+Construction
+Step 7
+Gene Expression Library 
+Construction
+Enzymatic fragmentation and size selection are used to optimize the cDNA amplicon 
+size. P5, P7, i7 and i5 sample indexes, and TruSeq Read 2 (read 2 primer sequence) are 
+added via End Repair, A-tailing, Adaptor Ligation, and PCR. The final gene expression 
+libraries contain the P5 and P7 primers used in Illumina® bridge amplification.
+ATAC Library Construction 
+cDNA Amplification & 
+Gene Expression Library Construction 
+
+
+--- Page 20 ---
+20
+Click to TOC
+Chromium Next GEM Single Cell Multiome ATAC + Gene Expression User Guide • Rev F
+Introduction
+Step 8
+Sequencing
+Chromium Single Cell Multiome ATAC libraries comprise double stranded DNA with 
+standard Illumina® paired-end constructs which begin with P5 and end with P7. 
+Sequencing these libraries produces a standard Illumina® BCL data output folder that 
+includes  paired-end Read 1N and Read 2N used for sequencing the DNA insert, along 
+with the 8 bp sample index in the i7 read and 16 bp 10x Barcode sequence in the i5 
+read.
+
+
+
+
+
+
+
+Chromium Single Cell Multiome Gene Expression libraries comprise cDNA insert 
+with standard Illumina® paired-end constructs which begin with P5 and end with P7. 
+Sequencing these libraries produces a standard Illumina® BCL data output folder. 
+TruSeq Read 1 is used to sequence 16 bp 10x Barcodes and 12 bp UMI, while 10 bp i5 
+and i7 sample index sequences are the sample index reads. TruSeq Read 2 is used to 
+sequence the insert.
+Chromium Single Cell Multiome ATAC Library
+Chromium Single Cell Multiome Gene Expression Library
+
+
+--- Page 21 ---
+Chromium Next GEM Single Cell Multiome  ATAC + Gene Expression User Guide • Rev F
+21
+Click to TOC
+Tips & 
+Best Practices
+TIPS
+
+
+--- Page 22 ---
+Chromium Next GEM Single Cell Multiome  ATAC + Gene Expression User Guide • Rev F
+22
+Click to TOC
+Emulsion-safe 
+Plastics
+Multiplet Rate
+General 
+Reagent 
+Handling
+Tips & Best Practices
+Icons
+•	 Use 10x Genomics validated emulsion-safe plastic consumables when handling 
+GEMs as some plastics can destabilize GEMs.
+Multiplet Rate (%)
+# of Nuclei Loaded
+# of Nuclei Recovered
+0.4%
+~775
+~500
+0.8%
+~1,550
+~1,000
+1.6%
+~3,075
+~2,000
+2.3%
+~4,625
+~3,000
+3.1%
+~6,150
+~4,000
+3.9%
+~7,700
+~5,000
+4.6%
+~9,250
+~6,000
+5.4%
+~10,750
+~7,000
+6.2%
+~12,300
+~8,000
+6.9%
+~13,850
+~9,000
+7.7%
+~15,400
+~10,000
+
+•	 Fully thaw and thoroughly mix reagents before use. 
+•	 Keep all enzymes and Master Mixes on ice during setup and use. Promptly move 
+reagents back to the recommended storage.
+•	 Calculate reagent volumes with 10% excess of reaction volumes.
+•	 Cover Partitioning Oil tubes and reservoirs to minimize evaporation.
+•	 Thoroughly mix samples with the beads during bead-based cleanup steps.
+!
+TIPS
+Tips & Best Practices 
+section includes
+additional guidance
+Signifies critical step 
+requiring accurate 
+execution
+Troubleshooting section 
+includes additional 
+guidance
+
+
+--- Page 23 ---
+Chromium Next GEM Single Cell Multiome  ATAC + Gene Expression User Guide • Rev F
+23
+Click to TOC
+•	 Purchase 50% glycerol solution from Ricca Chemical Company, Glycerin (glycerol), 
+50% (v/v) Aqueous Solution, PN-3290-32. 
+•	 Prepare 50% glycerol solution:
+i.	 Mix an equal volume of water and 99% Glycerol, Molecular Biology Grade.
+ii.	Filter through a 0.2 μm filter.
+iii.	Store at −20°C in 1-ml LoBind tubes. 50% glycerol solution should be equilibrated 
+to room temperature before use.
+•	 Follow manufacturer’s calibration and maintenance schedules. 
+•	 Pipette accuracy is particularly important when using SPRIselect reagents.
+•	 Minimize exposure of reagents, chips, and gaskets to sources of particles and fibers, 
+laboratory wipes, frequently opened flip-cap tubes, clothing that sheds fibers, and 
+dusty surfaces. 
+•	 After removing the chip from the sealed bag, use in ≤ 24 h. 
+•	 Execute steps without pause or delay, unless indicated. When multiple chips are to be 
+used, load, run, and collect the content from one chip before loading the next.
+•	 Fill all unused input wells in rows labeled 1, 2, and 3 on a chip with an appropriate 
+volume of 50% glycerol solution before loading the used wells. DO NOT add glycerol 
+to the wells in the bottom NO FILL row. 
+•	 Avoid contacting the bottom surface of the chip with gloved hands and other surfaces. 
+Frictional charging can lead to inadequate priming of the channels, potentially leading 
+to either clogs or wetting failures. 
+•	 Minimize the distance that a loaded chip is moved to reach the Chromium Controller.
+•	 Keep the chip horizontal to prevent wetting the gasket with oil, which depletes the 
+input volume and may adversely affect the quality of the resulting emulsion.
+Chromium 
+Next GEM Chip 
+Handling 
+Pipette 
+Calibration
+Tips & Best Practices
+50% Glycerol 
+Solution
+
+
+--- Page 24 ---
+Chromium Next GEM Single Cell Multiome  ATAC + Gene Expression User Guide • Rev F
+24
+Click to TOC
+Tips & Best Practices
+Chromium Next GEM 
+Secondary  Holders
+•	 Chromium Next GEM Secondary Holders 
+encase Chromium Next GEM Chips.
+•	 The holder lid flips over to become a stand, 
+holding the chip at 45 degrees for optimal 
+recovery well content removal.
+•	 Squeeze the black sliders on the back side 
+of the holder together to unlock the lid and 
+return the holder to a flat position.
+Guide
+Clip
+Sliders
+Chromium Next GEM 
+Secondary Holder
+Chromium Next GEM 
+Chip Loading
+•	 Place the assembled chip and holder flat (gasket 
+attached) on the bench with the lid open.
+•	 Dispense at the bottom of the wells without 
+introducing bubbles. 
+•	 When dispensing Gel Beads into the chip, wait for the 
+remainder to drain into the bottom of the pipette tips 
+and dispense again to ensure complete transfer.
+•	 Refer to Load Chromium Next GEM Chip J for 
+specific instructions. 
+Chromium Next GEM 
+Chip & Holder 
+Assembly with Gasket
+•	 Close the holder lid. Attach the gasket by holding the tongue (curved end, to the right) 
+and hook the gasket on the left-hand tabs of the holder. Gently pull the gasket toward 
+the right and hook it on the two right-hand tabs. 
+•	 DO NOT touch the smooth side of the gasket. 
+•	 Open the chip holder.
+•	 Align notch on the chip (upper left corner) and the open holder with the gasket 
+attached. 
+•	 Slide the chip to the left until the chip is inserted under the guide on the holder. 
+Depress the right hand side of the chip until the spring-loaded clip engages. 
+•	 Keep the assembled unit with the attached gasket until ready for dispensing reagents 
+into the wells.
+Chromium Next GEM
+Secondary Holder
+with Gasket
+Chip in Chromium Next GEM Secondary Holder
+Assembled Chip
+Notch
+Guide
+Clip
+
+
+--- Page 25 ---
+Chromium Next GEM Single Cell Multiome  ATAC + Gene Expression User Guide • Rev F
+25
+Click to TOC
+Tips & Best Practices
+Magnetic beads mixed with reagent
+Separation in 
+Separation 
+Separation complete; solution is 
+•	 Offers two positions of the magnets (high 
+and low) relative to a tube, depending on 
+its orientation. Flip the magnetic separator 
+over to switch between high (magnet•High) 
+or low (magnet•Low) positions.
+•	 If using MicroAmp 8-Tube Strips, use 
+the high position (magnet•High) only 
+throughout the protocol.
+10x Magnetic 
+Separator
+Magnetic Bead 
+Cleanup Steps
+•	 During magnetic bead based cleanup 
+steps that specify waiting “until the 
+solution clears”, visually confirm clearing 
+of solution before proceeding to the next 
+step. See adjacent panel for an example.
+•	 The time needed for the solution to clear 
+may vary based on specific step, reagents, 
+volume of reagents etc. 
+Gel Bead 
+Handling
+•	 Use one tube of Gel Beads per sample. DO NOT 
+puncture the foil seals of tubes not used at the time.
+•	 Equilibrate the Gel Beads strip to room 
+temperature before use.
+•	 Store unused Gel Beads at −80°C and avoid 
+more than 12 freeze-thaw cycles. DO NOT 
+store Gel Beads at −20°C.
+•	 Snap the tube strip holder with the Gel Bead strip into a 10x Vortex Adapter. Vortex 30 sec.
+•	 Centrifuge the Gel Bead strip for ~5 sec after removing from the holder. Confirm 
+there are no bubbles at the bottom of the tubes and the liquid levels look even. Place 
+the Gel Bead strip back in the holder and secure the holder lid.
+•	 If the required volume of beads cannot be recovered, place the pipette tips against the 
+sidewalls and slowly dispense the Gel Beads back into the tubes. DO NOT introduce 
+bubbles into the tubes and verify that the pipette tips contain no leftover Gel Beads. 
+Withdraw the full volume of beads again by pipetting slowly.
+Lid
+Gel Bead Strip
+Holder
+
+
+--- Page 26 ---
+Chromium Next GEM Single Cell Multiome  ATAC + Gene Expression User Guide • Rev F
+26
+Click to TOC
+Tips & Best Practices
+•	 After aspirating the desired volume of SPRIselect reagent, examine the pipette tips 
+before dispensing to ensure the correct volume is transferred. 
+•	 Pipette mix thoroughly as insufficient mixing of sample and SPRIselect reagent will 
+lead to inconsistent results. 
+•	 Use fresh preparations of 80% Ethanol. 
+SPRIselect 
+Cleanup & 
+Size Selection
+	 Schematic of Double Sided Size Selection	
+	
+After the first SPRI, supernatant is transferred for a second SPRI while larger fragments are 
+discarded (green). After the second SPRI, fragments on beads are eluted and kept while smaller 
+fragments are discarded (blue). Final sample has a tight fragment size distribution with reduced 
+overall amount (black).
+	 Tutorial — SPRIselect Reagent:DNA Sample Ratios 
+SPRI beads selectively bind DNA according to the ratio of SPRIselect reagent (beads).
+	
+Example: Ratio =  Volume of SPRIselect reagent added to the sample  =  50 µl  =  0.5X
+	
+	
+	
+Volume of DNA sample	
+ 100 µl
+	 Tutorial — Double Sided Size Selection
+Step a – First SPRIselect: Add 50 µl SPRIselect reagent to 100 µl sample (0.5X).
+	
+Ratio
+	
+Step b – Second SPRIselect: Add 30 µl SPRIselect reagent to supernatant from step a (0.8X).
+	
+Ratio
+=  Volume of SPRIselect reagent added to the sample  =  50 µl  =  0.5X
+	
+	
+	
+Volume of DNA sample	
+ 100 µl
+=  Total Volume of SPRIselect reagent added to the sample (step a + b)  =  50 µl + 30 µl   =  0.8X
+	
+	
+	
+    Original Volume of DNA sample	
+	
+100 µl
+Enzymatic 
+Fragmentation
+•	 Choose the appropriate sample index sets to ensure that no sample indices overlap in 
+a multiplexed sequencing run.
+•	  Each well in the Single Index plate N, Set A contains a unique mix of 4 oligos. 
+•	 Each well in the Dual Index Plate TT Set A contains a unique i7 and a unique i5 
+oligonucleotide.
+•	 Verify and use the specified index plate only. DO NOT use the plates interchangebaly. 
+Sample Indices in 
+Sample Index PCR 
+•	 Ensure enzymatic fragmentation reactions are prepared on ice and then loaded into a 
+thermal cycler pre-cooled to 4°C prior to initiating the Fragmentation, End Repair, and 
+A-tailing incubation steps.
+
+
+--- Page 27 ---
+27
+Click to TOC
+Chromium Next GEM Single Cell Multiome ATAC + Gene Expression User Guide • Rev F
+Step 1
+Transposition
+1.1		
+Prepare Transposition Mix
+1.2 	
+Isothermal Incubation
+1
+
+
+--- Page 28 ---
+28
+Click to TOC
+Chromium Next GEM Single Cell Multiome ATAC + Gene Expression User Guide • Rev F
+1.0 
+Transposition
+GET STARTED!
+Action
+Item
+10x PN
+Preparation & Handling
+Storage
+Equilibrate to
+Room
+Temperature
+ATAC Buffer B
+2000193
+Vortex, centrifuge 
+briefly.
+−20°C
+20X Nuclei Buffer*
+*Concentrated 20X 
+stock; dilute 1:20 in 
+nuclease-free water 
+before use. (See below 
+to Prepare Diluted 
+Nuclei Buffer) 
+2000207
+Thaw. Vortex, 
+centrifuge briefly. 
+−20°C
+Place on Ice
+ATAC Enzyme B
+2000265/
+2000272
+Centrifuge briefly.
+−20°C
+Nuclei**
+in Diluted Nuclei Buffer 
+(See below to Prepare Diluted Nuclei Buffer)
+**Refer to Demonstrated Protocols for Nuclei Isolation for ATAC + Gene 
+Expression Sequencing (Documents CG000365, CG000366, CG000375, 
+CG000505). Adhering to these protocols is recommended for optimal assay 
+performance. 
+The use of the Tris-based Diluted Nuclei Buffer for nuclei suspension is critical 
+for optimal assay performance. The composition of the Diluted Nuclei Buffer, 
+including Magnesium concentration, has been optimized for the Transposition 
+and Barcoding steps. Suspension of nuclei in a different buffer may not be 
+compatible with the downstream protocol steps.
+Prepare
+Diluted 
+Nuclei 
+Buffer
+!
+!
+Diluted Nuclei Buffer 
+Maintain at 4°C
+Stock
+Final
+1 ml
+20X Nuclei Buffer
+(PN-2000207)
+DTT
+RNase Inhibitor
+(confirm vendor-specific 
+stock concentration)
+Nuclease-free Water
+20X
+
+1,000 mM
+ 40 U/µl
+
+
+-
+1X
+
+1 mM
+1 U/µl
+
+
+-
+50 µl
+
+1 µl
+25 µl
+
+
+924 µl
+Step 1
+Transposition
+
+
+--- Page 29 ---
+29
+Click to TOC
+Chromium Next GEM Single Cell Multiome ATAC + Gene Expression User Guide • Rev F
+Step 1
+Transposition
+Nuclei Concentration
+Guidelines
+Based on the Targeted Nuclei Recovery, resuspend the nuclei in Diluted Nuclei Buffer to get 
+corresponding Nuclei Stock Concentrations (see Table). This enables pipetting volumes of the 
+Nuclei Stock for Transposition (step 1.1) to be 2-5 µl. Higher Nuclei Stock Concentrations will 
+result in lower pipetting volumes that may increase nuclei input variability. 
+Targeted Nuclei Recovery
+Nuclei Stock Concentration
+(nuclei/µl)
+500
+160-400
+1,000
+320-810
+2,000
+650-1,610
+3,000
+970-2,420
+4,000
+1,290-3,230
+5,000
+1,610-4,030
+6,000
+1,940-4,840
+7,000
+2,260-5,650
+8,000
+2,580-6,450
+9,000
+2,900-7,260
+10,000
+3,230-8,060
+Calculate volume of Nuclei Stock and Diluted Nuclei Buffer for a total volume of 5 µl 
+Volume of Nuclei Stock (µl) =
+
+Volume of Diluted Nuclei Buffer* (µl) = 5 µl - volume of Nuclei Stock (µl)
+*Use ONLY Diluted Nuclei Buffer (Dilute 20X Nuclei Buffer (PN-2000207) 1:20 in nuclease-free water)
+Targeted Nuclei Recovery x 1.61 (Recovery efficiency factor)
+        Nuclei Stock Concentration (nuclei/ µl)	
+        
+	 Example Calculation
+
+Targeted Nuclei Recovery = 4000 nuclei
+Nuclei Stock Concentration = 2500 nuclei/µl 
+Recovery efficiency factor 1.61
+
+Volume of Nuclei Stock (µl) = 
+
+	
+	
+Volume of Diluted Nuclei Buffer = 5 µl - 2.58 µl = 2.42 µl
+
+Add calculated volumes of Diluted Nuclei Buffer and Nuclei Stock to the Transposition Mix in 
+step 1.1
+Targeted Nuclei Recovery x 1.61 (Recovery efficiency factor) = 4000 x 1.61 = 2.58 µl
+	
+	
+Nuclei Stock Concentration (nuclei/µl)                                 2500	
+        
+
+
+--- Page 30 ---
+30
+Click to TOC
+Chromium Next GEM Single Cell Multiome ATAC + Gene Expression User Guide • Rev F
+a.	Prepare Transposition Mix on ice. Pipette mix 10x and centrifuge briefly.
+Transposition Mix
+Add reagents in the order listed
+PN
+1X (μl)
+4X + 
+10% (μl)
+8X + 
+10% (μl)
+ATAC Buffer B
+2000193
+7.0
+30.8
+61.6
+ATAC Enzyme B
+2000265/
+2000272
+3.0
+13.2
+26.4
+Total
+-
+10.0
+44.0
+88.0
+b.	Add 10 µl Transposition Mix to a tube of a PCR 8-tube strip for each sample. 
+Centrifuge briefly and maintain on ice. 
+c.	Refer to Nuclei Concentration Guidelines to calculate the volume of Nuclei Stock and 
+Diluted Nuclei Buffer for a total volume of 5 µl.
+d.	Add the calculated volume of Diluted Nuclei Buffer to the Transposition Mix. Pipette 
+mix. Centrifuge briefly. 
+e.	Gently pipette mix the Nuclei Stock. Add the calculated volume of the Nuclei Stock to 
+the tube containing the Transposition Mix. Gently pipette mix 6x (pipette set to 10 µl).
+DO NOT centrifuge.  
+a.	Incubate in a thermal cycler using the following protocol.
+Lid Temperature
+Reaction Volume
+Run Time
+hh:mm:ss
+50°C
+15 µl
+60 min
+Step
+Temperature
+Time
+Incubate
+37°C
+00:60:00
+Hold
+4°C
+Hold
+b.	Immediately proceed to the next step.
+!
+1.1 
+Prepare
+Transposition Mix
+Step 1
+Transposition
+1.2 
+Isothermal Incubation 
+
+
+--- Page 31 ---
+31
+Click to TOC
+Chromium Next GEM Single Cell Multiome ATAC + Gene Expression User Guide • Rev F
+Step 2
+GEM Generation & Barcoding
+2.1		
+Prepare Master Mix
+2.2	
+Load Chromium Next GEM Chip J
+2.3	
+Run the Chromium Controller or X/iX
+2.4	
+Transfer GEMs
+2.5	
+GEM Incubation
+2.6	
+Quenching Reaction2
+
+
+--- Page 32 ---
+32
+Click to TOC
+Chromium Next GEM Single Cell Multiome ATAC + Gene Expression User Guide • Rev F
+2.0 
+GEM Generation & 
+Barcoding
+Step 2
+GEM Generation & Barcoding
+GET STARTED!
+Action
+Item
+10x PN
+Preparation & Handling
+Storage
+Equilibrate to
+Room
+Temperature
+Single Cell Multiome 
+Gel Beads 
+2000261
+Equilibrate to room 
+temperature 30 min 
+before loading the chip. 
+−80°C
+Template Switch 
+Oligo
+3000228
+Centrifuge briefly, 
+resuspend in 80 µl Low 
+TE Buffer. Vortex 15 sec 
+at maximum speed, 
+centrifuge briefly, leave 
+at room temperature 
+for ≥ 30 min. After 
+resuspension, store at 
+−80°C. Thaw at room 
+temperature for ≥ 30 
+minutes in subsequent 
+uses.
+−20°C
+Reducing Agent B
+2000087
+Thaw, vortex, verify no 
+precipitate, centrifuge 
+briefly.
+−20°C
+Barcoding Reagent 
+Mix
+2000267
+Thaw, vortex, verify no 
+precipitate, centrifuge 
+briefly.
+−20°C
+Place on Ice
+Barcoding Enzyme 
+Mix
+2000266/
+2000273
+Maintain on ice. Store at 
+−20°C immediately after 
+use.
+−20°C
+Obtain
+Partitioning Oil
+2000190
+-
+Ambient
+Low TE Buffer
+-
+Manufacturer’s 
+recommendations.
+-
+Chromium Next GEM 
+Chip J
+2000264
+See Tips & Best Practices. 
+Ambient
+10x Gasket
+370017/
+3000072
+See Tips & Best Practices. 
+Ambient
+10x Vortex Adapter
+330002
+See Tips & Best Practices.
+Ambient
+Chromium Next GEM 
+Secondary Holder
+3000332
+See Tips & Best Practices
+Ambient
+50% glycerol 
+solution 
+If using <8 reactions
+-
+See Tips & Best Practices. 
+-
+Firmware Version 4.0 or higher 
+is required in the Chromium 
+Controller or the Chromium 
+Single Cell Controller used for 
+the protocol.
+!
+Next GEM
+specific
+
+
+--- Page 33 ---
+33
+Click to TOC
+Chromium Next GEM Single Cell Multiome ATAC + Gene Expression User Guide • Rev F
+a.	Prepare Master Mix on ice. Pipette mix 10x and centrifuge briefly.  
+Master  Mix
+Add reagents in the order listed
+PN
+1X (μl)
+4X + 
+10% (μl)
+8X + 
+10% (μl)
+Barcoding Reagent Mix 
+2000267
+49.5
+217.8
+435.6
+Template Switch Oligo
+3000228
+1.1
+4.8
+9.7
+Reducing Agent B
+2000087
+1.9
+8.4
+16.7
+Barcoding Enzyme Mix
+2000266/
+2000273
+7.5
+33.0
+66.0
+Total
+-
+60.0
+264.0
+528.0
+2.1
+Prepare Master Mix
+Step 2
+GEM Generation & Barcoding
+For GEM generation, load the indicated 
+reagents only in the specified rows, 
+starting from row labeled 1, followed 
+by rows labeled 2 and 3.  DO NOT  load 
+reagents in the bottom row labeled 
+NO FILL. See step 2.2 for details. 
+!
+Assemble Chromium Next GEM Chip
+See Tips & Best Practices for chip handling instructions. 
+•	 Close the holder lid. Attach the gasket by holding the tongue (curved end, to the right) 
+and hook the gasket on the left-hand tabs of the holder. Gently pull the gasket toward the 
+right and hook it on the two right-hand tabs. 
+•	 DO NOT touch the smooth side of the gasket. 
+•	 Open the chip holder. 
+•	 Remove the chip from the sealed bag. Use the chip within ≤ 24 h.
+•	 Align notch on the chip (upper left corner) and the open holder with the gasket attached.
+•	 Slide the chip to the left until the chip is inserted under the guide on the holder.  Depress 
+the right hand side of the chip until the spring-loaded clip engages. 
+•	 Keep the assembled unit with the attached gasket open until ready for and while 
+dispensing reagents into the wells. DO NOT touch the smooth side of the gasket. After 
+loading reagents, close the chip holder. DO NOT press down on the top of the gasket.
+TIPS
+Chromium Next GEM
+Secondary Holder
+with Gasket
+Chip in Chromium Next GEM Secondary Holder
+Assembled Chip
+Notch
+Guide
+Clip
+
+
+--- Page 34 ---
+34
+Click to TOC
+Chromium Next GEM Single Cell Multiome ATAC + Gene Expression User Guide • Rev F
+2.2
+Load Chromium
+Next GEM Chip J
+Step 2
+GEM Generation & Barcoding
+After removing chip from the sealed bag, use in 
+≤24 h. Open the lid (gasket attached) of the assembled 
+chip and lay flat for loading. 
+When loading the chip, raising and depressing the 
+pipette plunger should each take ~5 sec.
+When dispensing, raise the pipette tips at the 
+same rate as the liquid is rising, keeping the tips 
+slightly submerged.
+a.   Add 50% glycerol solution to each unused well
+      (if processing <8 samples/chip)
+•	 70 µl in each unused well in row labeled 1
+•	 50 µl in each unused well in row labeled 2
+•	 45 µl in each unused well in row labeled 3
+DO NOT add 50% glycerol solution to the bottom row of NO FILL wells. 
+DO NOT use any substitute for 50% glycerol solution.
+Glycerol
+b.   Prepare Master Mix + Cell suspension
+•	 Add 60 µl Master Mix to each tube containing Transposed Nuclei for a total of 75 µl in each tube. 
+c.   Load Row Labeled 1
+•	 Gently pipette mix the Master Mix + Transposed Nuclei 5x
+•	 Using the same pipette tip, dispense 70 µl Master Mix + Transposed Nuclei into 
+the bottom center of each well in row labeled 1 without introducing bubbles. 
+Master Mix + Transposed Nuclei
+d.   Prepare Gel Beads
+•	 Snap the tube strip holder with the Gel Bead strip into a 10x Vortex Adapter. 
+Vortex 30 sec. 
+•	 Centrifuge the Gel Bead strip for ~5 sec.
+•	 Confirm there are no bubbles at the bottom of the tubes and the liquid levels are 
+even. 
+•	 Place the Gel Bead strip back in the holder. Secure the holder lid.
+Prep Gel Beads
+3
+2
+45 µl
+70 µl
+ 50 µl 
+1
+70 µl 1
+The illustrated chip is being loaded for 8 samples. 
+NO FILL
+Gel Bead Strip
+Holder
+Lid
+
+
+--- Page 35 ---
+35
+Click to TOC
+Chromium Next GEM Single Cell Multiome ATAC + Gene Expression User Guide • Rev F
+Step 2
+GEM Generation & Barcoding
+If using Chromium Controller:
+a.	Press the eject button on the Controller to 
+eject the tray.
+b.	Place the assembled chip with the gasket 
+in the tray, ensuring that the chip stays 
+horizontal. Press the button to retract the tray. 
+c.	Press the play button.
+d.	At completion of the run (~18 min), the 
+Controller will chime. Immediately proceed 
+to the next step.
+!
+2.3
+Run the Chromium
+Controller or X/iX
+Firmware Version 4.00 or higher is 
+required in the Chromium Controller or the 
+Chromium Single Cell Controller used for 
+the protocol.
+!
+e.   Load Row Labeled 2
+•	 Puncture the foil seal of the Gel Bead tubes. 
+•	 Slowly aspirate 50 µl Gel Beads. 
+•	 Dispense into the wells in row labeled 2 without introducing bubbles. 
+•	 Wait 30 sec. 
+Gel Beads
+f.    Load Row Labeled 3
+•	 Dispense 45 µl Partitioning Oil into the wells in row labeled 3 from a reagent 
+reservoir. 
+Failure to add Partitioning Oil to the top row labeled 3 will prevent GEM 
+generation and can damage the Chromium Controller or X/iX. 
+Partitioning Oil
+g. Prepare for Run
+•	 Close the lid (gasket already attached). DO NOT touch the smooth side of the 
+gasket. DO NOT press down on the top of the gasket.
+Run the chip in the Chromium Controller or X/iX immediately after loading the 
+Partitioning Oil
+50 µl 2
+NO FILL
+NO FILL
+45 µl 3
+Keep horizontal to avoid wetting the 
+gasket. DO NOT press down on the gasket.
+
+
+--- Page 36 ---
+36
+Click to TOC
+Chromium Next GEM Single Cell Multiome ATAC + Gene Expression User Guide • Rev F
+Step 2
+GEM Generation & Barcoding
+a.	Place a PCR 8-tube strip on ice. 
+b.	Press the eject button of the Controller to 
+remove the chip.
+c.	Discard the gasket. Open the chip holder. 
+Fold the lid back until it clicks to expose the 
+wells at 45 degrees.   
+d.	Visually compare the remaining volume in 
+rows labeled 1-2. Abnormally high volume in 
+one well relative to other wells may indicate 
+a clog.    
+e.	Slowly aspirate 100 µl GEMs from the lowest 
+points of the recovery wells in the top row 
+labeled 3 without creating a seal between 
+the pipette tips and the wells. 
+f.	 Withdraw pipette tips from the wells. GEMs 
+should appear opaque and uniform across 
+all channels. Excess Partitioning Oil (clear) in 
+the pipette tips indicates a potential clog. 
+g.	Over the course of ~20 sec, dispense GEMs 
+into the tube strip on ice with the pipette tips 
+against the sidewalls of the wells. 
+h.	If multiple chips are run back-to-back, cap/
+cover the GEM-containing tube strip or plate 
+and place on ice for no more than 1 h. 
+!
+2.4
+Transfer GEMs
+Expose Wells at 45 Degrees
+GEMs
+Transfer GEMs
+If using Chromium X/iX:
+a.	Press the eject button on Chromium X/iX to 
+eject the tray.
+If the eject button is not touched within 1 min, 
+tray will close automatically. System requires 
+a few seconds before the tray can be ejected 
+again.
+b.	Place the assembled chip with the gasket 
+in the tray, ensuring that the chip stays 
+horizontal Press the button to retract the 
+tray.
+c.	Press the play button.
+d.	At completion of the run (~18 min), Chromium 
+X/iX will chime. Immediately proceed to the 
+next step.
+!
+Consult the Chromium X 
+Series (X/iX) User Guide 
+(CG000396) for detailed 
+instrument operation 
+instructions and follow the 
+instrument touchscreen 
+prompts for execution.
+!
+ 
+
+
+--- Page 37 ---
+37
+Click to TOC
+Chromium Next GEM Single Cell Multiome ATAC + Gene Expression User Guide • Rev F
+	 Use a thermal cycler that can accommodate at least 100 µl volume. A volume of 
+125 µl is the preferred setting on Bio-Rad C1000 Touch. In alternate thermal cyclers, 
+use highest reaction volume setting.
+	 Incubate in a thermal cycler with the following protocol. 
+Lid Temperature
+Reaction Volume
+Run Time
+hh:mm:ss
+50°C
+100 µl
+75 min
+Step
+Temperature
+Time
+1
+37°C
+00:45:00
+2
+25°C
+00:30:00
+3
+4°C
+Hold
+(not overnight*)
+
+Retrieve Quenching Agent (     PN-2000269) from -20°C and equilibrate to room 
+temperature while the PCR program is running.
+	 *After GEM incubation, proceed immediately to the next step. 
+a.	Add 5 µl Quenching Agent to each sample to stop the reaction.
+b.	Slowly pipette mix 10x (pipette set to 90 µl). The solution will be viscous. 
+Ensure that no liquid remains along the tube sidewalls and pipette tips. If necessary, 
+aspirate the entire volume and dispense back slowly into the tube. 
+c.	Store at −80°C for up to 4 weeks, or proceed to the next step.
+!
+!
+STOP
+2.5
+GEM Incubation
+Step 2
+GEM Generation & Barcoding
+2.6
+Quenching Reaction
+
+
+--- Page 38 ---
+38
+Click to TOC
+Chromium Next GEM Single Cell Multiome ATAC + Gene Expression User Guide • Rev F
+3
+Step 3
+Post GEM Incubation Cleanup 
+3.1		
+Post GEM Incubation Cleanup – Dynabeads
+3.2	
+Post GEM Incubation Cleanup – SPRIselect
+
+
+--- Page 39 ---
+39
+Click to TOC
+Chromium Next GEM Single Cell Multiome ATAC + Gene Expression User Guide • Rev F
+3.0
+Post GEM Incubation 
+Cleanup
+GET STARTED!
+Action
+Item
+10x PN
+Preparation & Handling
+Storage
+Equilibrate to
+Room
+Temperature
+Reducing Agent B
+2000087
+Thaw, vortex, verify no 
+precipitate, centrifuge 
+briefly.
+−20°C
+Nuclease-free 
+Water
+-
+-
+-
+Dynabeads MyOne 
+SILANE
+2000048
+Vortex thoroughly 
+(≥30 sec) to resuspend 
+beads immediately before 
+use.
+4°C
+Beckman Coulter 
+SPRIselect 
+Reagent
+-
+Manufacturer’s 
+recommendations.
+-
+Thaw at 65°C
+Cleanup Buffer
+2000088
+Thaw for 10 min at 
+65°C at max speed on a 
+thermomixer. Verify there 
+are no visible crystals. 
+Cool to room temperature.
+−20°C
+Obtain
+Recovery Agent
+220016
+-
+Ambient
+Qiagen Buffer EB
+-
+Manufacturer’s 
+recommendations.
+-
+Bio-Rad 10% 
+Tween 20
+-
+Manufacturer’s 
+recommendations.
+-
+10x Magnetic 
+Separator 
+230003
+-
+Ambient
+Prepare 
+80% Ethanol
+Prepare 10 ml for
+8 reactions
+-
+Prepare fresh in nuclease 
+free water.  
+-
+Step 3
+Post GEM Incubation Cleanup
+
+
+--- Page 40 ---
+40
+Click to TOC
+Chromium Next GEM Single Cell Multiome ATAC + Gene Expression User Guide • Rev F
+a.	Add 125 µl Recovery Agent to each sample 
+at room temperature. DO NOT pipette mix 
+or vortex the biphasic mixture. Gently invert 
+tube 10x to mix. Centrifuge briefly.
+	 The resulting biphasic mixture contains 
+Recovery Agent/Partitioning Oil (pink) and 
+aqueous phase (clear), with no persisting 
+emulsion (opaque).
+	 A smaller aqueous phase volume indicates a 
+clog during GEM generation. 
+b.	Slowly remove and discard 125 µl Recovery 
+Agent/Partitioning Oil (pink) from the bottom 
+of the tube. DO NOT aspirate any aqueous 
+sample. 
+c.	Prepare Dynabeads Cleanup Mix. 
+!
+3.1
+Post GEM Incubation 
+Cleanup – Dynabeads
+Dynabeads Cleanup Mix
+Add reagents in the order listed
+PN
+1X (μl)
+4X + 
+10% (μl)
+8X + 
+10% (μl)
+Cleanup Buffer
+2000088
+182.0
+801.0
+1,602.0
+Dynabeads MyOne SILANE
+Vortex thoroughly (≥30 sec)
+immediately before adding to the 
+mix.
+
+Aspirate the full liquid volume with 
+a pipette tip to verify that the beads 
+have not settled in the bottom of the 
+tube. If clumps are present, pipette 
+mix to resuspend completely.
+DO NOT centrifuge before use.
+2000048
+13.0
+57.2
+114.4
+Reducing Agent B
+2000087
+5.0
+22.0
+44.0
+Total
+-
+200.0
+880.2
+1760.4
+!
+d.	Vortex and add 200 µl Dynabeads Cleanup 
+Mix to each sample. Pipette mix 10x (pipette 
+set to 200 µl).
+e.	Incubate 10 min at room temperature (keep 
+caps open). 
+Step 3
+Biphasic Mixture
+Remove Recovery Agent
+Add Dynabeads Cleanup Mix
+Post GEM Incubation Cleanup
+Resuspend
+clump
+
+
+--- Page 41 ---
+41
+Click to TOC
+Chromium Next GEM Single Cell Multiome ATAC + Gene Expression User Guide • Rev F
+f.	Prepare Elution Solution I. Vortex and centrifuge briefly.
+Elution Solution I*
+Add reagents in the order listed
+PN
+1X (μl)
+4X + 
+15% (μl)
+8X + 
+15% (μl)
+Buffer EB
+-
+98.0
+450.8
+901.6
+10% Tween 20
+-
+1
+4.6
+9.2
+Reducing Agent B
+200087
+1
+4.6
+9.2
+Total
+-
+100
+460
+920
+g.	At the end of 10 min incubation, place on the 10x Magnetic Separator, high position 
+(magnet•High) until the solution clears. 
+h.	Remove the supernatant.
+i.	 Add 300 µl freshly prepared 80% ethanol to the pellet while on the magnet•High. Wait 
+30 sec. 
+j.	 Remove the ethanol. 
+k.	 Add 200 µl 80% ethanol to pellet. Wait 30 sec. 
+l.	 Remove the ethanol.
+m.	Centrifuge briefly. Place on the magnet•Low.
+n.	Remove remaining ethanol. 
+o.	Remove from the magnet. Immediately add 50.5 µl Elution Solution I (prepared in step 
+3.1f) to avoid clumping.
+p.	Pipette mix (pipette set to 40 µl) without introducing bubbles.
+q.	Incubate 1 min at room temperature.
+r.	 Centrifuge briefly. Place on the magnet•Low until the solution clears.
+s.	Transfer 50 µl sample to a new tube strip.
+TIPS
+
+Step 3
+Post GEM Incubation Cleanup
+
+
+--- Page 42 ---
+42
+Click to TOC
+Chromium Next GEM Single Cell Multiome ATAC + Gene Expression User Guide • Rev F
+3.2
+Post GEM Incubation 
+Cleanup – SPRIselect
+Step 3
+Post GEM Incubation Cleanup 
+a.	Vortex the SPRIselect reagent until fully resuspended.  Add 90 µl SPRIselect reagent 
+to each sample. Pipette mix thoroughly. 
+b.	Incubate 5 min at room temperature.
+c.	Centrifuge briefly. Place on the magnet•High until the solution clears. 
+d.	Remove the supernatant.
+e.	Add 200 µl 80% ethanol to the pellet. Wait 30 sec. 
+f.	 Remove the ethanol. 
+g.	Repeat steps e and f for a total of 2 washes. 
+h.	Centrifuge briefly. Place on the magnet•Low.
+i.	 Remove any remaining ethanol. 
+Residual ethanol can inhibit Pre-Amplification PCR and impact assay performance. 
+j.	 Remove the tube strip from the magnet. Immediately add 46.5 µl Buffer EB.
+k.	Pipette mix (pipette set to 45 µl) without introducing bubbles.
+l.	 Incubate 2 min at room temperature.
+m.	Centrifuge briefly. Place on the magnet•Low until the solution clears. 
+n.	Transfer 46 µl sample to a new tube strip.
+!
+!
+Residual SPRI beads can inhibit Pre-Amplification PCR and impact assay performance. 
+
+
+--- Page 43 ---
+43
+Click to TOC
+Chromium Next GEM Single Cell Multiome ATAC + Gene Expression User Guide • Rev F
+Step 4
+Pre-Amplification PCR
+4.1		
+Prepare Pre-Amplification Mix
+4.2	
+Pre-Amplification PCR
+4.3	
+SPRI Cleanup
+4
+
+
+--- Page 44 ---
+44
+Click to TOC
+Chromium Next GEM Single Cell Multiome ATAC + Gene Expression User Guide • Rev F
+4.0 
+Pre-Amplification PCR
+Step 4
+Pre-Amplification PCR
+GET STARTED!
+Action
+Item
+10x PN
+Preparation & Handling
+Storage
+Equilibrate to
+Room
+Temperature
+Pre-Amp Primers
+2000271
+Vortex, centrifuge briefly.
+−20°C
+Beckman Coulter 
+SPRIselect Reagent
+-
+Manufacturer’s 
+recommendations.
+-
+Place on Ice
+Pre-Amp Mix
+2000270/
+2000274
+Gently pipette mix, 
+centrifuge briefly.
+−20°C
+Obtain
+Qiagen Buffer EB
+-
+-
+Ambient
+10x Magnetic 
+Separator
+230003
+See Tips & Best Practices.
+Ambient
+Prepare
+80% Ethanol 
+Prepare 10 ml for 8 
+reactions 
+-
+Prepare fresh. 
+Ambient
+Next GEM
+specific
+
+
+--- Page 45 ---
+45
+Click to TOC
+Chromium Next GEM Single Cell Multiome ATAC + Gene Expression User Guide • Rev F
+a.	Prepare Pre-Amplification Mix on ice. Pipette mix 10x and centrifuge briefly.  
+Master  Mix
+Add reagents in the order listed
+PN
+1X (μl)
+4X + 
+10% (μl)
+8X + 
+10% (μl)
+Pre-Amp Mix
+2000270/
+2000274
+50.0
+220.0
+440.0
+Pre-Amp Primers
+2000271
+4.0
+17.6
+35.2
+Total
+-
+54.0
+237.6
+475.2
+b.	Add 54 μl Pre-Amplification Mix to each sample. Pipette mix and centrifuge briefly.  
+4.1
+Prepare Pre-
+Amplification Mix
+Step 4
+Pre-Amplification PCR
+4.2
+Pre-Amplification PCR
+a.	Incubate in a thermal cycler with the following protocol. 
+Lid Temperature
+Reaction Volume
+Run Time
+hh:mm:ss
+105°C
+100 µl
+30 min
+Step
+Temperature
+Time
+1
+72°C
+00:05:00
+2
+98°C
+00:03:00
+3
+98°C
+00:00:20
+4
+63°C
+00:00:30
+5
+72°C
+00:01:00
+Go to step 3
+                     repeat 6X (Total 7 cycles)
+6
+72°C
+00:01:00
+7
+4°C
+Hold
+b.	Store at 4°C for up to 18 h or proceed to the next step.
+STOP
+
+
+--- Page 46 ---
+46
+Click to TOC
+Chromium Next GEM Single Cell Multiome ATAC + Gene Expression User Guide • Rev F
+4.3
+Pre-Amplification 
+SPRI Cleanup
+Step 4
+Pre-Amplification PCR
+a.	Vortex the SPRIselect reagent until fully resuspended.  Add 160 µl SPRIselect reagent 
+to each sample. Pipette mix thoroughly. 
+b.	Incubate 5 min at room temperature.
+c.	Centrifuge briefly. Place on the magnet•High until the solution clears. 
+d.	Remove the supernatant.
+e.	Add 300 µl 80% ethanol to the pellet. Wait 30 sec. 
+f.	 Remove the ethanol. 
+g.	Add 200 µl 80% ethanol to the pellet. Wait 30 sec. 
+h.	Remove the ethanol. 
+i.	 Centrifuge briefly. Place on the magnet•Low.
+j.	 Remove any remaining ethanol. 
+k.	Remove the tube strip from the magnet. Immediately add 160.5 µl Buffer EB.
+l.	 Pipette mix (pipette set to 150 µl) without introducing bubbles.
+m.	Incubate 2 min at room temperature.
+n.	Centrifuge briefly. Place on the magnet•High until the solution clears.
+o.	Transfer 160 µl sample to a new tube strip.
+p.	Store at 4°C for up to 72 h or at −20°C for long term storage, or proceed to the next 
+step.
+STOP
+
+
+--- Page 47 ---
+47
+Click to TOC
+Chromium Next GEM Single Cell Multiome ATAC + Gene Expression User Guide • Rev F
+Step 4
+Pre-Amplification PCR
+•	 160 µl pre-amplified, SPRI cleaned sample derived at step 4.3p includes barcoded 
+transposed DNA fragments and barcoded cDNA. 
+•	 The sample is divided and used as input for two separate steps. 
+I.	 40 µl sample is used for ATAC Library Construction (step 5)
+II.	35 µl sample is used for cDNA Amplification (step 6). 
+The amplified cDNA will be used for Gene Expression Library Construction. 
+	 Store the remaining pre-amplification product at −20°C long term for generating 
+additional libraries.
+Sample Split 
+Overview
+Barcoded cDNA
+Barcoded transposed DNA
+Pre-amplified sample (step 4.3p)
+40 µl sample
+35 µl sample 
+ATAC Library Construction
+5.1b Sample Index PCR
+cDNA Amplification 
+6.1b cDNA Amplification
+160 µl pre-amplified sample 
+
+
+--- Page 48 ---
+48
+Click to TOC
+Chromium Next GEM Single Cell Multiome ATAC + Gene Expression User Guide • Rev F
+5
+Step 5
+ATAC Library Construction
+5.1		
+Sample Index PCR
+5.2 	
+Post Sample Index Double Sided Size Selection – SPRIselect
+5.3	
+Post Library Construction QC
+
+
+--- Page 49 ---
+49
+Click to TOC
+Chromium Next GEM Single Cell Multiome ATAC + Gene Expression User Guide • Rev F
+5.0
+ATAC Library 
+Construction
+GET STARTED!
+Action
+Item
+10x PN
+Preparation & Handling
+Storage
+Equilibrate to
+Room
+Temperature
+Sample Index 
+Plate N, Set A
+3000427
+-
+−20°C
+Beckman Coulter 
+SPRIselect 
+Reagent
+-
+Manufacturer’s 
+recommendations.
+-
+Agilent 
+Bioanalyzer DNA 
+kit 
+If used for QC
+-
+Manufacturer’s 
+recommendations.
+-
+DNA High 
+Sensitivity
+Reagent Kit
+If LabChip used for 
+QC
+-
+Manufacturer’s 
+recommendations.
+-
+Place on Ice
+SI-PCR Primer B
+2000128
+Vortex, centrifuge briefly.
+−20°C
+Amp Mix
+2000047/
+2000103
+Vortex, centrifuge briefly.
+−20°C
+KAPA Library 
+Quantification Kit
+for Illumina® 
+Platforms
+-
+Manufacturer’s 
+recommendations.
+-
+Obtain
+Qiagen Buffer EB
+-
+-
+Ambient
+10x Magnetic 
+Separator
+230003
+See Tips & Best Practices.
+Ambient
+Prepare
+80% Ethanol 
+Prepare 10 ml 
+for 8 reactions 
+-
+Prepare fresh. 
+Ambient
+Step 5
+ATAC Library Construction
+
+
+--- Page 50 ---
+50
+Click to TOC
+Chromium Next GEM Single Cell Multiome ATAC + Gene Expression User Guide • Rev F
+Choose the appropriate sample index sets to ensure that no sample indices 
+overlap in a multiplexed sequencing run. 
+a.	Prepare Sample Index PCR Mix. 
+Sample Index PCR Mix
+Add reagents in the order listed
+PN
+1X (μl)
+4X + 
+10% (μl)
+8X + 
+10% (μl)
+Amp Mix
+2000047/
+2000103
+50
+220
+440
+SI- PCR Primer B
+2000128
+7.5
+33
+66
+Total
+-
+57.5
+253
+506
+b.	Transfer 40 µl pre-amplified sample from step 4.3p to a new tube strip (35 µl of the 
+remaining sample volume will be used for cDNA Amplification and the rest can be 
+stored at −20°C long term for generating additional libraries). Add 57.5 µl Sample 
+Index PCR Mix to the sample. Pipette mix and centrifuge briefly. 
+c.	Add 2.5 µl of an individual Sample Index N, Set A to each well. Record assignment. 
+Pipette mix and centrifuge briefly. 
+d.	Incubate in a thermal cycler with the following protocol.
+Lid Temperature
+Reaction Volume
+Run Time
+hh:mm:ss
+105°C
+100 µl
+~30 min
+Step
+Temperature
+Time
+1
+98°C
+00:00:45
+2
+98°C
+00:00:20
+3
+67°C
+00:00:30
+4
+72°C
+00:00:20 
+Go to step 2, see table below 
+for # cycles
+5
+72°C
+00:01:00
+6
+4°C
+Hold
+	
+	
+	
+	
+    	
+Cycle Number Optimization Table
+Targeted Nuclei Recovery
+Total Cycles
+≤2,000
+9
+2,001-6,000
+8
+6,001-10,000
+7
+The table recommends a starting point 
+for cycle number optimization for 
+based on Targeted Nuclei Recovery. 
+5.1
+Sample Index PCR
+Step 5
+ATAC Library Construction
+e.	Store at 4°C for up to 72 h or 
+proceed to the next step.
+STOP
+
+
+--- Page 51 ---
+51
+Click to TOC
+Chromium Next GEM Single Cell Multiome ATAC + Gene Expression User Guide • Rev F
+5.2
+Post Sample Index 
+Double Sided Size 
+Selection – SPRIselect
+a.	Vortex to resuspend SPRIselect reagent. Add 60 μl SPRIselect reagent (0.6X) to each 
+sample. Pipette mix. 
+b.	Incubate 5 min at room temperature.
+c.	Place on the magnet•High until the solution clears.
+d.	Transfer 150 µl supernatant to a new strip tube. DO NOT discard the supernatant.
+e.	Vortex to resuspend SPRIselect reagent. Add 95 µl SPRIselect reagent (1.55X) to each 
+sample (supernatant). Pipette mix. 
+f.	 Incubate 5 min at room temperature. 
+g.	Place on the magnet•High until the solution clears.
+h.	Remove the supernatant.
+i.	 Add 300 µl 80% ethanol to the pellet. Wait 30 sec.
+j.	 Remove the ethanol. 
+k.	Add 200 µl 80% ethanol to the pellet. Wait 30 sec.
+l.	 Remove the ethanol. 
+m.	Centrifuge briefly. Place on the magnet•Low. 
+n.	 Remove remaining ethanol. 
+o.	 Remove from the magnet. Immediately add 20.5 µl Buffer EB. Pipette mix. 
+p.	Incubate 2 min at room temperature.
+q.	Centrifuge briefly. Place on the magnet•Low until the solution clears.
+r.	 Transfer 20 µl sample to a new tube strip.
+s.	Store at 4°C for up to 72 h or at −20°C for long-term storage.
+TIPS
+STOP
+Step 5
+ATAC Library Construction
+
+
+--- Page 52 ---
+52
+Click to TOC
+Chromium Next GEM Single Cell Multiome ATAC + Gene Expression User Guide • Rev F
+a.	Run 1 μl sample on the Agilent Bioanalyzer High Sensitivity DNA chip to determine 
+fragment size. Select the region between 150-1000 bp to determine average size of 
+ATAC library. Lower molecular weight product (≤ 150 bp) and/or a high molecular 
+weight product (~2,000 bp) may be present. This does not affect sequencing.
+5.3
+Post Library Construction 
+QC
+Step 5
+ATAC Library Construction
+Representative Trace
+Alternate QC Methods (See Appendix for representative traces)
+•	
+Agilent TapeStation
+•	
+LabChip
+
+See Appendix for Post Library Construction Quantification 
+
+
+--- Page 53 ---
+Chromium Next GEM Single Cell Multiome ATAC + Gene Expression User Guide • Rev F
+53
+Click to TOC6
+Step 6
+cDNA Amplification 
+6.1 	
+cDNA Amplification
+6.2	
+cDNA Cleanup – SPRIselect
+6.3 	
+cDNA QC & Quantification
+
+
+--- Page 54 ---
+Chromium Next GEM Single Cell Multiome ATAC + Gene Expression User Guide • Rev F
+54
+Click to TOC
+6.0 
+GET STARTED!
+Action
+Item
+10x PN
+Preparation & Handling
+Storage
+Equilibrate to
+Room
+Temperature
+cDNA Primers
+2000089
+Vortex, centrifuge briefly.
+−20°C
+Beckman Coulter 
+SPRIselect 
+Reagent
+-
+Manufacturer’s 
+recommendations.
+-
+Agilent 
+Bioanalyzer High 
+Sensitivity Kit
+If used for QC and 
+quantification
+-
+Manufacturer’s 
+recommendations.
+-
+Agilent 
+TapeStation 
+ScreenTape and 
+Reagents
+If used for QC and 
+quantification
+-
+Manufacturer’s 
+recommendations.
+-
+Qubit dsDNA HS 
+Assay Kit
+If used for QC and 
+quantification
+-
+Manufacturer’s 
+recommendations.
+-
+Place on ice
+Amp Mix
+2000047/
+2000103
+Vortex, centrifuge briefly. 
+−20°C
+Obtain
+Qiagen Buffer EB
+-
+Manufacturer’s 
+recommendations.
+-
+10x Magnetic 
+Separator 
+230003
+-
+Ambient
+Prepare 80% Ethanol     -
+Prepare 15 ml
+for 8 reactions.
+-
+-
+Step 6
+cDNA Amplification
+cDNA Amplification 
+
+
+--- Page 55 ---
+Chromium Next GEM Single Cell Multiome ATAC + Gene Expression User Guide • Rev F
+55
+Click to TOC
+a.	Prepare cDNA Amplification Mix on ice. Vortex and centrifuge briefly.
+cDNA Amplification Reaction Mix
+Add reagents in the order listed
+PN
+1X (μl)
+4X + 
+10% (μl)
+8X + 
+10% (μl)
+Amp Mix
+2000047/
+2000103
+50
+220
+440
+cDNA Primers 
+2000089
+15
+66
+132
+Total
+-
+65
+286
+572
+b.	Transfer 35 µl pre-amplified sample from step 4.3p to a new tube strip (store the 
+remaining pre-amplification product at −20°C long term for generating additional 
+libraries). Add 65 µl cDNA Amplification Reaction Mix to the sample. 
+c.	Pipette mix 15x (pipette set to 90 µl). Centrifuge briefly.
+d.	Incubate in a thermal cycler with the following protocol. 
+Lid Temperature
+Reaction Volume
+Run Time
+105°C
+100 µl
+~30-45 min
+Step
+Temperature
+Time
+1
+98°C
+00:03:00
+2
+98°C
+00:00:15
+3
+63°C 
+00:00:20
+4
+72°C
+00:01:00
+5
+Go to Step 2, see table below for total # of cycles
+6
+72°C
+00:01:00
+7
+4°C
+Hold
+	
+	
+	
+	
+   	
+	
+	
+	
+Targeted Nuclei Recovery 
+Total Cycles
+≤2,000
+9
+2,001–6,000
+7
+≥6,001
+6
+e.	Store at 4°C for up to 72 h or or −20°C for ≤1 week, or proceed to the next step. 
+	
+Recommended starting point for cycle number optimization.
+STOP
+6.1 
+cDNA Amplification
+Step 6
+	
+The optimal number of 
+cycles is a trade-off between 
+generating sufficient final 
+mass for library construction 
+and minimizing PCR 
+amplification artifacts. The 
+number of cDNA cycles 
+should also be reduced if 
+large numbers of nuclei are 
+sampled.
+cDNA Amplification
+
+
+--- Page 56 ---
+Chromium Next GEM Single Cell Multiome ATAC + Gene Expression User Guide • Rev F
+56
+Click to TOC
+6.2 
+cDNA Cleanup – 
+SPRIselect
+a.	Vortex to resuspend the SPRIselect reagent. Add 60 μl SPRIselect reagent (0.6X) to 
+each sample and pipette mix 15x (pipette set to 150 µl).
+b.	Incubate 5 min at room temperature.
+c.	Place on the magnet•High until the solution clears. 
+d.	Remove the supernatant.
+e.	Add 200 µl 80% ethanol to the pellet. Wait 30 sec.
+f.	 Remove the ethanol. 
+g.	Repeat steps e and f for a total of 2 washes. 
+h.	Centrifuge briefly and place on the magnet•Low. 
+i.	 Remove any remaining ethanol. Air dry for 2 min. DO NOT exceed 2 min as this will 
+decrease elution efficiency. 
+j.	 Remove from the magnet. Add 40.5 µl Buffer EB. Pipette mix 15x.
+k.	Incubate 2 min at room temperature.
+l.	 Place the tube strip on the magnet•High until the solution clears.
+m.	Transfer 40 µl sample to a new tube strip.
+n.	Store at 4°C for up to 72 h or at −20°C for up to 4 weeks, or proceed to the next step.
+STOP
+Step 6
+cDNA Amplification & QC
+
+
+--- Page 57 ---
+Chromium Next GEM Single Cell Multiome ATAC + Gene Expression User Guide • Rev F
+57
+Click to TOC
+EXAMPLE CALCULATION
+i.	 Select Region
+Under the “Electropherogram” view choose the 
+“Region Table”. Manually select the region of 
+~200 – ~9000 bp
+iii. Calculate
+Multiply the cDNA concentration [pg/μl] 
+reported via the Agilent 2100 Expert Software 
+by the elution volume (40 μl) of the Post cDNA 
+Amplification Reaction Clean Up sample (taking 
+any dilution factors into account) and then divide 
+by 1000 to obtain the total cDNA yield in ng.
+Example Calculation of cDNA Total Yield
+Concentration: 6642.22 pg/µl
+Elution Volume: 40
+Dilution Factor: 1
+Total cDNA Yield 	
+Carry forward ONLY 25% of total cDNA 
+yield into 3ʹ Gene Expression Library 
+Construction (step 3)
+Refer to step 7.5 for appropriate number of 
+Sample Index PCR cycles based on carry 
+forward cDNA yield/input cDNA.
+ii.	Note Concentration [pg/µl]
+Alternate Quantification Methods (See Appendix for representative traces)
+•	
+Agilent TapeStation
+•	
+LabChip
+Agilent Bioanalyzer, Agilent TapeStation, or LabChip are the recommended methods for 
+accurate quantification. 
+(If using Qubit Fluorometer and Qubit dsDNA HS Assay Kit, see Appendix)
+= Conc’n (pg/µl) x Elution Volume (µl) x Dilution Factor 
+	
+	
+	
+1000 (pg/ng)
+=  6642.22 (pg/µl) x 40 (µl) x 1 = 265.69 ng
+	
+	
+1000 (pg/ng)
+!
+= 0.25 x Total cDNA yield 
+=  0.25 x 265.69= 66.42 ng
+6.3 
+cDNA QC & Quantification
+a.	Run 1 μl undiluted sample on an Agilent Bioanalyzer High Sensitivity chip.
+For input cells with low RNA content (<1 pg total RNA/cell), 1 µl undiluted product may be run. 
+Lower molecular weight product (35 – 150 bp) may be present. This is normal and does not affect sequencing or 
+application performance.
+Step 6
+cDNA Amplification & QC
+       Representative Trace
+
+
+--- Page 58 ---
+Chromium Next GEM Single Cell Multiome ATAC + Gene Expression User Guide • Rev F
+58
+Click to TOC
+Step 7
+Gene Expression Library Construction
+7.1		
+Fragmentation, End Repair & A-tailing
+7.2 	
+Post Fragmentation End Repair & A-tailing Double Sided Size Selection – SPRIselect
+7.3		
+Adaptor Ligation
+7.4		
+Post Ligation Cleanup – SPRIselect
+7.5		
+Sample Index PCR
+7.6 	
+Post Sample Index PCR Double Sided Size Selection – SPRIselect
+7.7		
+Post Library Construction QC
+7
+
+
+--- Page 59 ---
+Chromium Next GEM Single Cell 3ʹ Reagent Kits v3.1 User Guide • Rev A
+59
+Click to TOC
+7.0 
+GET STARTED!
+Action
+Item
+10x PN
+Preparation & Handling
+Storage
+Equilibrate to
+Room
+Temperature
+Fragmentation 
+Buffer
+2000091
+Vortex, verify no 
+precipitate, centrifuge 
+briefly.
+−20°C
+Adaptor Oligos
+2000094
+Vortex, centrifuge briefly.
+−20°C
+Ligation Buffer 
+2000092
+Vortex, verify no 
+precipitate, centrifuge 
+briefly.
+−20°C
+Dual Index Plate TT 
+Set A
+3000431
+-
+−20°C
+Beckman Coulter 
+SPRIselect Reagent
+-
+Manufacturer’s 
+recommendations.
+-
+Agilent TapeStation 
+Screen Tape and 
+Reagents
+If used for QC
+Manufacturer’s 
+recommendations.
+Agilent Bioanalyzer 
+High Sensitivity kit 
+If used for QC
+-
+Manufacturer’s 
+recommendations.
+-
+DNA High Sensitivity
+Reagent Kit
+If LabChip used for QC
+-
+Manufacturer’s 
+recommendations.
+-
+Place on Ice
+Fragmentation 
+Enzyme  
+2000090/
+2000104
+Centrifuge briefly.
+−20°C
+DNA Ligase
+220110/
+220131
+Centrifuge briefly.
+−20°C
+Amp Mix
+2000047/
+2000131
+Vortex, centrifuge briefly.
+−20°C
+KAPA Library 
+Quantification Kit
+for Illumina 
+Platforms
+-
+Manufacturer’s 
+recommendations.
+-
+Obtain
+Qiagen Buffer EB
+-
+-
+Ambient
+10x Magnetic Separator
+230003
+See Tips & Best Practices.
+Ambient
+Prepare 80% Ethanol 
+Prepare 20 ml 
+for 8 reactions 
+-
+Prepare fresh. 
+Ambient
+Step 7
+Gene Expression Library Construction
+Gene Expression 
+Library Construction
+
+
+--- Page 60 ---
+Chromium Next GEM Single Cell Multiome ATAC + Gene Expression User Guide • Rev F
+60
+Click to TOC
+Example: Library Construction Input Mass & SI PCR Cycles
+Cell Type
+Targeted 
+Nuclei 
+Recovery
+Total cDNA 
+Yield 
+(ng)
+cDNA Input into 
+Fragmentation 
+SI PCR
+Cycle 
+Number
+Volume 
+(µl)
+Mass 
+(ng)
+High RNA Content 
+150 ng
+10 µl
+37.5 ng
+14
+400 ng
+10 µl
+100 ng
+13
+Low RNA Content
+1 ng
+10 µl
+0.25 ng
+16
+100 ng
+10 µl
+25 ng
+14
+Step Overview
+(Step 7.1d)
+Correlation between input & library complexity
+A Single Cell Gene Expression library is generated using a fixed proportion 
+(10 µl, 25%) of the total cDNA (40 µl) obtained at step 6.2n. The complexity of this 
+library will be comparable to one generated using a higher proportion (>25%) of the 
+cDNA. The remaining proportion (30 µl, 75%) of the cDNA may be stored at 4°C for 
+up to 72 h or at −20°C for longer-term storage (up to 4 weeks). 
+ 
+Step 7
+Gene Expression Library Construction
+Correlation: cDNA input & Library Complexity	
+
+Recommended 
+cDNA Volume (µl)
+(% total cDNA)
+10 µl
+(25%)
+20 µl
+(50%)
+30 µl
+(75%)
+40 µl
+(100%)
+Library Complexity
+(Median genes/UMI’s)
+
+High
+
+Low
+Note that irrespective of the total cDNA yield (ng), which may vary based on cell 
+type, targeted nuclei recovery etc., this protocol has been optimized for a broad 
+range of input mass (ng), as shown in the example below. The total number 
+of SI PCR cycles (step 7.5d) should be optimized based on carrying forward a 
+fixed proportion (10 µl, 25%) of the total cDNA yield calculated during Post cDNA 
+Amplification QC & Quantification (step 6.3).
+
+High
+
+Low
+
+
+--- Page 61 ---
+Chromium Next GEM Single Cell Multiome ATAC + Gene Expression User Guide • Rev F
+61
+Click to TOC
+Step 7
+a.	Prepare a thermal cycler with the following incubation protocol. 
+Lid Temperature
+Reaction Volume
+Run Time
+hh:mm:ss
+65°C
+50 µl
+~35 min
+Step
+Temperature
+Time
+Pre-cool block
+Pre-cool block prior to
+preparing the Fragmentation Mix
+4°C
+Hold
+Fragmentation
+32°C
+00:05:00
+End Repair & A-tailing
+65°C
+00:30:00
+Hold
+4°C
+Hold
+b.	Vortex Fragmentation Buffer. Verify there is no precipitate.
+c.	Prepare Fragmentation Mix on ice. Pipette mix and centrifuge briefly. 
+Fragmentation Mix
+Add reagents in the order listed
+PN
+1X (μl)
+4X + 
+10% (μl)
+8X + 
+10% (μl)
+Fragmentation Buffer
+2000091
+5
+22
+44
+Fragmentation Enzyme  
+2000090/
+2000104
+10
+44
+88
+Total
+-
+15
+66
+132
+d.	Transfer ONLY 10 µl purified cDNA sample from cDNA Cleanup (step 6.2n) to a tube 
+strip.
+Note that only 10 µl (25%) cDNA sample is sufficient for generating 3ʹ Gene Expression library.
+The remaining 30 µl (75%) cDNA sample can be stored at 4°C for up to 72 h or at −20°C for up 
+to 4 weeks for generating additional Gene Expression libraries.
+e.	Add 25 µl Buffer EB to each sample.
+f.	 Add 15 µl Fragmentation Mix to each sample. 
+g.	Pipette mix 15x (pipette set to 35 µl) on ice. Centrifuge briefly.
+h.	Transfer into the pre-cooled thermal cycler (4°C) and press “SKIP” to initiate the 
+protocol.
+!
+7.1 
+Fragmentation, 
+End Repair & A-tailing
+Gene Expression Library Construction
+
+
+--- Page 62 ---
+Chromium Next GEM Single Cell Multiome ATAC + Gene Expression User Guide • Rev F
+62
+Click to TOC
+7.2 
+Post Fragmentation, 
+End Repair & A-tailing 
+Double Sided Size 
+Selection – SPRIselect
+a.	Vortex to resuspend SPRIselect reagent. Add 30 μl SPRIselect (0.6X) reagent to each 
+sample. Pipette mix 15x (pipette set to 75 μl). 
+b.	Incubate 5 min at room temperature.
+c.	Place on the magnet•High until the solution clears. DO NOT discard supernatant.  
+d.	Transfer 75 μl supernatant to a new tube strip.
+e.	Vortex to resuspend SPRIselect reagent. Add 10 μl SPRIselect reagent (0.8X)  to each 
+sample. Pipette mix 15x (pipette set to 80 μl). 
+f.	 Incubate 5 min at room temperature.
+g.	Place on the magnet•High until the solution clears. 
+h.	Remove 80 μl supernatant. DO NOT discard any beads.
+i.	 Add 125 μl 80% ethanol to the pellet. Wait 30 sec.
+j.	 Remove the ethanol.
+k.	Repeat steps i and j for a total of 2 washes. 
+l.	 Centrifuge briefly. Place on the magnet•Low until the solution clears. Remove 
+remaining ethanol. Air dry for 2 min. DO NOT exceed 2 min as this will decrease 
+elution efficiency. 
+m.	Remove from the magnet. Add 50.5 µl Buffer EB to each sample. Pipette mix 15x 
+(pipette set to 45 µl) .
+n.	Incubate 2 min at room temperature.
+o.	Place on the magnet•High until the solution clears.
+p.	Transfer 50 μl  sample to a new tube strip.
+Step 7
+Gene Expression Library Construction
+
+
+--- Page 63 ---
+Chromium Next GEM Single Cell Multiome ATAC + Gene Expression User Guide • Rev F
+63
+Click to TOC
+7.3 
+Adaptor Ligation
+Step 7
+a.	Prepare Adaptor Ligation Mix. Pipette mix and centrifuge briefly.
+Adaptor Ligation Mix
+Add reagents in the order listed
+PN
+1X (μl)
+4X + 
+10% (μl)
+8X + 
+10% (μl)
+Ligation Buffer
+2000092
+20
+88
+176
+DNA Ligase
+220110/
+220131
+10
+44
+88
+Adaptor Oligos
+2000094
+20
+88
+176
+Total
+-
+50
+220
+440
+b.	Add 50 µl Adaptor Ligation Mix to 50 µl sample. Pipette mix 15x (pipette set to 90 µl). 
+Centrifuge briefly.
+c.	Incubate in a thermal cycler with the following protocol.
+Lid Temperature
+Reaction Volume
+Run Time
+hh:mm:ss
+30°C
+100 µl
+15 min
+Step
+Temperature
+Time
+1
+20°C
+00:15:00 
+2
+4°C
+Hold
+Gene Expression Library Construction
+
+
+--- Page 64 ---
+Chromium Next GEM Single Cell Multiome ATAC + Gene Expression User Guide • Rev F
+64
+Click to TOC
+7.4 
+Post Ligation Cleanup – 
+SPRIselect
+Step 7
+a.	Vortex to resuspend SPRIselect Reagent. Add 80 μl SPRIselect Reagent (0.8X) to each  
+sample. Pipette mix 15x (pipette set to 150 µl).
+b.	 Incubate 5 min at room temperature.
+c.	 Place on the magnet•High until the solution clears.
+d.	 Remove the supernatant.
+e.	 Add 200 µl 80% ethanol to the pellet. Wait 30 sec.
+f.	 Remove the ethanol. 
+g.	 Repeat steps e and f for a total of 2 washes. 
+h.	 Centrifuge briefly. Place on the magnet•Low. 
+i.	 Remove any remaining ethanol. Air dry for 2 min. DO NOT exceed 2 min as this will 
+decrease elution efficiency.
+j.	 Remove from the magnet. Add 30.5 µl Buffer EB. Pipette mix 15x. 
+k.	 Incubate 2 min at room temperature.
+l.	 Place on the magnet•Low until the solution clears.
+m.	Transfer 30 µl sample to a new tube strip.
+3ʹ Gene Expression Library Construction
+
+
+--- Page 65 ---
+Chromium Next GEM Single Cell Multiome ATAC + Gene Expression User Guide • Rev F
+65
+Click to TOC
+7.5 
+Sample Index PCR
+Step 7
+a.	Choose the appropriate sample index sets to ensure that no sample indices overlap in 
+a multiplexed sequencing run. Record the 10x sample index name (PN-3000431 Dual 
+Index Plate TT Set A well ID) used.
+b.	Add 50 µl Amp Mix (PN-2000047/2000131) to 30 µl sample.
+c.	Add 20 µl of an individual Dual Index TT Set A to each well and record the well ID used. 
+Pipette mix 5x (pipette set to 90 µl). Centrifuge briefly.
+d.	Incubate in a thermal cycler with the following protocol.
+Lid Temperature
+Reaction Volume
+Run Time
+hh:mm:ss
+105°C
+100 µl
+~25-40 min
+Step
+Temperature
+Time
+1
+98°C
+00:00:45
+2
+98°C
+00:00:20
+3
+54°C
+00:00:30
+4
+72°C
+00:00:20
+5
+Go to step 2, see below for # of cycles
+6
+72°C
+00:01:00
+7
+4°C
+Hold
+
+cDNA Input
+Total Cycles
+0.25-25 ng
+14-16
+25-150 ng
+12-14
+150-500 ng
+10-12
+500-1,000 ng
+8-10
+1,000-1,500 ng
+6-8
+>1500 ng
+5
+!
+Recommended cycle numbers 
+e.	 	Store at 4°C for up to 72 h or proceed to the next step.
+STOP
+3ʹ Gene Expression Library Construction
+	
+The total cycles should be optimized based 
+on 25% carry forward cDNA yield/input 
+calculated during Post cDNA Amplification QC 
+& Quantification (step 6.3)
+!
+
+
+--- Page 66 ---
+Chromium Next GEM Single Cell Multiome ATAC + Gene Expression User Guide • Rev F
+66
+Click to TOC
+7.6 
+Post Sample Index 
+PCR Double Sided Size 
+Selection – SPRIselect
+a.	 Vortex to resuspend the SPRIselect reagent. Add 60 μl SPRIselect Reagent (0.6X) to 	
+      each sample. Pipette mix 15x (pipette set to 150 μl). 
+b.	 Incubate 5 min at room temperature.
+c.	 Place on the magnet•High until the solution clears. DO NOT discard supernatant.
+d.	 Transfer 150 μl supernatant to a new tube strip.
+e.	 Vortex to resuspend the SPRIselect reagent. Add 20 μl SPRIselect Reagent (0.8X) to     	
+      each sample (supernatant). Pipette mix 15x (pipette set to 150 μl). 
+f.	 Incubate 5 min at room temperature.
+g.	 Place the magnet•High until the solution clears. 
+h.	 Remove 165 μl supernatant. DO NOT discard any beads.
+i.	 With the tube still in the magnet, add 200 µl 80% ethanol to the pellet. Wait 30 sec. 
+j.	 Remove the ethanol.
+k.	 Repeat steps i and j for a total of 2 washes.
+l.	 Centrifuge briefly. Place on the magnet•Low. Remove remaining ethanol.
+      Air dry for  2 min. DO NOT exceed 2 min as this will decrease elution efficiency.
+m.	Remove from the magnet. Add 35.5 µl Buffer EB. Pipette mix 15x (pipette set to 35 µl).
+n.	 Incubate 2 min at room temperature.
+o.	 Place on the magnet•Low until the solution clears.
+p.	 Transfer 35 µl to a new tube strip.
+q.	 Store at 4°C for up to 72 h or at −20°C for long-term storage. 
+STOP
+Step 7
+3ʹ Gene Expression Library Construction
+
+
+--- Page 67 ---
+Chromium Next GEM Single Cell Multiome ATAC + Gene Expression User Guide • Rev F
+67
+Click to TOC
+7.7 
+Post Library Construction 
+QC
+Run 1 μl sample at 1:3 dilution on an Agilent Bioanalyzer High Sensitivity chip. 
+Step 7
+Determine the average fragment size from the Bioanalyzer trace. This will be used as 
+the insert size for library quantification.
+Alternate QC Methods (See Appendix for representative traces)
+•	
+Agilent TapeStation
+•	
+LabChip
+
+See Appendix for Post Library Construction Quantification 
+3ʹ Gene Expression Library Construction
+Representative Trace
+
+
+--- Page 68 ---
+Chromium Next GEM Single Cell Multiome ATAC + Gene Expression User Guide • Rev F
+68
+Click to TOC8
+Sequencing
+
+
+--- Page 69 ---
+Chromium Next GEM Single Cell Multiome ATAC + Gene Expression User Guide • Rev F
+69
+Click to TOC
+	 Chromium Single Cell Multiome ATAC libraries comprise double stranded DNA with 
+standard Illumina® paired-end constructs which begin with P5 and end with P7. 
+Sequencing these libraries produces a standard Illumina® BCL data output folder that 
+includes  paired-end Read 1N and Read 2N used for sequencing the DNA insert, 8 bp 
+sample index in the i7 read, and 24 bp in the i5 read to cover the 16 bp 10x Barcode 
+and 8 bp Spacer.
+	 
+Chromium Single Cell Multiome Gene Expression libraries comprise cDNA insert 
+with standard Illumina® paired-end constructs which begin with P5 and end with P7. 
+Sequencing these libraries produces a standard Illumina® BCL data output folder. 
+TruSeq Read 1 is used to sequence 16 bp 10x Barcodes and 12 bp UMI, while 10 bp i5 
+and i7 sample index sequences are the sample index reads. TruSeq Read 2 is used to 
+sequence the insert.
+ 
+
+
+
+
+
+The compatibility of the listed sequencers has been verified by 10x Genomics. Some 
+variation in assay performance is expected based on sequencer choice. For more 
+information about performance variation, visit the 10x Genomics Support website.
+•	 MiSeq™
+•	 NextSeq™ 500/550 (High Output)
+•	 NextSeq™ 1000/2000
+•	 HiSeq 2500™ (Rapid Run)
+•	 HiSeq™ 3000/4000
+•	 NovaSeq™
+
+Each sample index in the Dual Index Kit TT Set A (PN-1000215) is a mix of one unique 
+i7 and one unique i5 sample index. Each i7 sample index in the Single Index Kit N Set 
+A (PN-1000212) is a mix of 4 different sequences to balance across all 4 nucleotides. 
+If multiple samples are pooled in a sequence lane, the sample index name (i.e. Single 
+Index Plate_ Set_well ID) is needed in the sample sheet used for generating FASTQs 
+with Cell Ranger. Samples utilizing the same sample index should not be pooled 
+together or run on the same flow cell lane, as this would not enable correct sample 
+demultiplexing.
+Illumina® Sequencer 
+Compatibility
+Sample Indices
+Sequencing
+Sequencing Libraries
+Step 8
+Chromium Single Cell Multiome Gene Expression Library
+10x
+Barcode
+TruSeq Read 1
+ Poly(dT)VN
+UMI
+P5
+Sample
+Index (i7:10)
+P7
+TruSeq Read 2
+Read 2:90 
+Insert     
+Read 1:28
+10x BC+UMI
+Sample
+Index (i5:10)
+Read 1N:50
+Read 2N:49
+Sample
+Index N (i7:8)
+   Sample 
+Index (i5:16)
+Chromium Single Cell Multiome ATAC Library
+P7
+P5
+10x
+Barcode
+Read 1N
+Spacer
+ Insert
+Read 2N
+
+
+--- Page 70 ---
+Chromium Next GEM Single Cell Multiome ATAC + Gene Expression User Guide • Rev F
+70
+Click to TOC
+Sequencing
+Once quantified and normalized, ATAC libraries should be denatured and diluted 
+according to the table below. Consult the Technical Note on Sequencing Metrics and 
+Base Composition of Single Cell Multiome ATAC Libraries (CG000373), available at the 
+10x Genomics Support website, for more information. 
+Instrument
+Loading Concentration (pM) 
+PhiX (%)
+MiSeq™
+10
+1
+NextSeq™ 500/550
+1.5
+1
+NextSeq™ 1000/2000
+650
+1
+HiSeq™ 2500 (RR)
+10
+1
+HiSeq™ 4000
+180
+1
+NovaSeq™
+300
+1
+	
+ATAC Library Loading 
+Step 8
+ATAC Library Sequencing 
+Depth & Run Parameters
+     These sequencing parameters are specific for Chromium Single Cell Multiome ATAC libraries    
+and are different from the recommendations for standalone ATAC libraries. Ensure that these 
+specific recommendations are provided to the sequencing service provider.  
+Sequencing Depth
+25,000 read pairs per nucleus 
+(25,000 reads for Read 1N; 25,000 reads for Read 2N)
+Sequencing Type
+Paired-end, dual indexing
+Sequencing Read
+Read 1N
+i7 Index
+i5 Index
+Read 2N
+50 cycles
+8 cycles
+24 cycles*
+49 cycles
+!
+ 	 *Custom sequencing recipe:
+Sequencers that do not support 24 nt read in i5 (e.g. Nextseq™ 500/550) require a custom recipe 
+that includes 8 dark cycles and 16 nt cycles on i5. After installation of custom sequencing recipe, 
+input 16 cycles for i5 read. 
+It is imperative to use a custom recipe for these sequencers. Entering 16 cycles for i5 read 
+without the use of the custom recipe will cause the sequencing run to proceed but the data will 
+be unusable.
+	
+Custom recipe is NOT required for NextSeq™ 1000/2000.
+ 	 Contact Support@10xgenomics.com for any additional questions.
+!
+
+
+--- Page 71 ---
+Chromium Next GEM Single Cell Multiome ATAC + Gene Expression User Guide • Rev F
+71
+Click to TOC
+Sequencing
+Once quantified and normalized, libraries should be denatured and diluted according to 
+the table below. Refer to Illumina® documentation for denaturing and diluting libraries. 
+As the Multiome Gene Expression library is same as the Chromium Single Cell 3’ Gene 
+Expression Dual Index library, consult the Technical Note on Sequencing Metrics & Base 
+Composition of Single Cell 3’ v3.1 Dual Index Libraries (CG000374), available at the 10x 
+Genomics Support website, for more information. 
+Instrument
+Loading Concentration (pM) 
+PhiX (%)
+MiSeq™
+11
+1
+NextSeq™ 500/550
+1.8
+1
+NextSeq™ 1000/2000
+650
+1
+HiSeq™ 2500 (RR)
+11
+1
+HiSeq™ 4000
+240
+1
+NovaSeq™
+150*/300
+1
+	
+Single Cell Multiome ATAC libraries maybe pooled with other ATAC libraries only when 
+using forward strand Illumina® workflow. Single Cell Multiome Gene Expression libraries 
+maybe pooled for sequencing with other libraries, taking into account the differences 
+in cell number and per-cell read depth requirements between each library. Samples 
+utilizing the same sample index should not be pooled together, or run on the same 
+flow cell lane, as this would not enable correct sample demultiplexing. Refer to the 10x 
+Genomics Support website for more information. 
+ 	 *Use 150pM loading concentration for Illumina XP workflow
+Gene Expression Library 
+Loading 
+Step 8
+Gene Expression Library 
+Sequencing Depth & Run 
+Parameters
+Sequencing Depth
+20,000 read pairs per nucleus 
+Sequencing Type
+Paired-end, dual indexing
+Sequencing Read
+Recommended Cycles
+Read 1
+i7 Index
+i5 Index
+Read 2
+28 cycles
+10 cycles
+10 cycles
+90 cycles
+Library Pooling
+
+
+--- Page 72 ---
+Chromium Next GEM Single Cell Multiome ATAC + Gene Expression User Guide • Rev F
+72
+Click to TOC
+Troubleshooting
+	
+
+
+--- Page 73 ---
+Chromium Next GEM Single Cell Multiome ATAC + Gene Expression User Guide • Rev F
+73
+Click to TOC
+GEM Generation & 
+Barcoding
+Troubleshooting
+STEP
+NORMAL
+IMPACTED
+2.2
+Load Chromium 
+Next GEM Chip
+ 
+Gasket holes are aligned with the sample 
+and gel bead wells. 
+Gasket holes are misaligned with the gel 
+bead wells. Open and close the chip holder 
+slowly once. 
+2.4 d
+After Chip J is 
+removed from the 
+Controller or X/iX 
+and the wells are 
+exposed
+ 
+All 8 recovery wells are similar in volume 
+and opacity.
+Recovery well G indicates a reagent clog.
+Recovery well C and E indicate a wetting 
+failure. Recovery wells B, D, and F are 
+normal. Wells A and H contain 50% 
+Glycerol Solution.  
+2.4 e
+Transfer GEMs
+from Chip J
+Row Labeled 3
+All liquid levels are similar in volume and 
+opacity without air trapped in the pipette 
+tips.
+Pipette tip A shows normal GEM 
+generation, pipette tip B indicates a wetting 
+failure, and pipette tip C shows a clog and 
+wetting failure. 
+
+Consult the Best Practices to Minimize Chromium Next GEM Chip Clogs and Wetting Failures (Technical Note CG000479) for more 
+information.  
+ A      B     C      D      E     F     G      H
+ A      B     C      D      E     F     G      H
+Misaligned 
+gasket 
+holes & 
+chip wells
+A 
+B
+C
+Adequate emulsion volume 
+(no clog or wetting failure)
+Low emulsion volume (clog)
+Wetting failure
+
+
+--- Page 74 ---
+Chromium Next GEM Single Cell Multiome ATAC + Gene Expression User Guide • Rev F
+74
+Click to TOC
+STEP
+NORMAL
+IMPACTED
+3.1 a
+After transfer of the 
+GEMs +
+Recovery Agent 
+All liquid levels are similar in the 
+aqueous sample volume (clear) and 
+Recovery Agent/Partitioning Oil (pink).
+Tube G indicates a reagent clog has 
+occurred. There is a decreased volume of 
+aqueous layer (clear).
+Tube C and E indicate a wetting failure has 
+occurred. There is an abnormal volume of 
+Recovery Agent/Partitioning Oil (pink).
+3.1 b
+After aspiration of 
+Recovery Agent/
+Partitioning Oil
+All liquid volumes are similar in the 
+aqueous sample volume (clear) and 
+residual Recovery Agent/Partitioning Oil 
+(pink).
+Tube G indicates a reagent clog has 
+occurred. There is a decreased volume 
+of aqueous layer (clear). There is also 
+a greater residual volume of Recovery 
+Agent/Partitioning Oil (pink).
+Tube C and E indicate a wetting failure has 
+occurred. There is an abnormal residual 
+volume of Recovery Agent/Partitioning Oil 
+(pink).
+3.1 d
+After addition of 
+Dynabeads
+Cleanup Mix
+All liquid volumes are similar after 
+addition of the Dynabeads Cleanup Mix.
+Tube G indicates a reagent clog has 
+occurred. There is an abnormal ratio 
+of Dynabeads Cleanup Mix (brown) to 
+Recovery Agent/Partitioning Oil (appears 
+white).
+Tube C and E indicate a wetting failure 
+has occurred. There is an abnormal ratio 
+of Dynabeads Cleanup Mix (brown) to 
+Recovery Agent/Partitioning Oil (appears 
+white). 
+ 
+Troubleshooting
+If a channel clogs or wetting failure occurs during GEM generation, it is 
+recommended that the sample be remade. 
+If any of the listed issues occur, take a picture and send it to 
+support@10xgenomics.com for further assistance.
+A        B          C        D         E          F        G          H
+ A          B          C         D        E         F         G         H
+A         B          C        D          E        F         G          H
+A         B         C         D         E          F        G         H
+A         B         C         D         E          F        G         H
+A         B          C        D          E        F         G          H
+
+
+--- Page 75 ---
+Chromium Next GEM Single Cell Multiome ATAC + Gene Expression User Guide • Rev F
+75
+Click to TOC
+Troubleshooting
+Chromium Controller Errors
+	
+If the Chromium Controller or the Chromium Single Cell Controller fails to start, an error tone will sound and one of the following error messages will be 
+displayed:
+a.	 Chip not read – Try again: Eject the tray, remove and/or reposition the Chromium Next GEM Secondary Holder assembly and try again. If the error message 
+is still received after trying this more than twice, contact support@10xgenomics.com for further assistance.
+b.	 Check gasket: Eject the tray by pressing the eject button to check that the 10x Gasket is correctly installed on the Chromium Next GEM Chip. If the error 
+message persists, contact support@10xgenomics.com for further assistance.
+c.	 Error Detected: Row _ Pressure:
+i.	 If this message is received within a few seconds of starting a run, eject the tray by pressing the eject button and check for dirt or deposits on the 10x 
+Gasket. If dirt is observed, replace with a new 10x Gasket, open and close the lid to ensure the gasket is properly aligned, and try again. If the error 
+message is still received after trying this more than twice, contact support@10xgenomics.com for further assistance.
+ii.	 If this message is received after a few minutes into the run, the Chromium Next GEM Chip must be discarded. Do not try running this Chromium Next 
+GEM Chip again as this may damage the Chromium Controller.
+d.	 Invalid Chip CRC Value: This indicates that a Chromium Next GEM Chip has been used with an older firmware version. The chip must be discarded. Contact 
+support@10xgenomics.com for further assistance.
+e.	 Chip Holder Not Present: Open the controller drawer and check if chip holder is present. Insert chip properly into chip holder and retry.
+f.	 Unauthorized Chip: This indicates that an incompatible non-Next GEM chip has been used with an instrument that only can run Next GEM assays. Use only 
+Chromium Controller (PN-120223;120246) or Chromium Single Cell Controller (PN-120263;120212) to run that chip or chip must be discarded. Contact 
+support@10xgenomics.com for further assistance.
+g.	 Endpoint Reached Early: If this message is received, contact support@10xgenomics.com for further assistance.
+Chromium X/iX Errors
+	
+The Chromium X touchscreen will guide the user through recoverable errors. If the error continues, or if the instrument has seen critical or intermediate 
+errors, email support@10xgenomics.com with the displayed error code. Support will request a troubleshooting package. Upload pertinent logs to 10x Genomics by 
+navigating to the Logs menu option on screen.
+	
+There are two types of errors:
+	
+Critical Errors — When the instrument has seen a critical error, the run will immediately abort. Do not proceed with any further runs. Contact support@10xgenomics.
+com with the error code.
+a.	
+System Error
+b.	
+Pressure Error
+c.	
+Chip Error
+d.	
+Run Error
+e.	
+Temperature Error
+f.	
+Software Error
+        User Recoverable Errors — Follow error handling instructions through the touchscreen and continue the run.
+a.	
+Gasket Error
+b.	
+Tray Error
+c.	
+Chip Error
+d.	
+Unsupported Chip Error
+e.	
+Update Error
+!
+Consult the Chromium X Series (X/iX) User Guide (CG000396) for additional information and follow the Chromium X 
+touchscreen prompts for execution.
+
+
+--- Page 76 ---
+76
+Click to TOC
+Chromium Next GEM Single Cell Multiome ATAC + Gene Expression User Guide • Rev F
+Appendix
+Post Library Construction Quantification
+Agilent TapeStation Traces
+LabChip Traces
+Assay Scheme Overview
+Sequences  
+
+
+--- Page 77 ---
+77
+Click to TOC
+Chromium Next GEM Single Cell Multiome ATAC + Gene Expression User Guide • Rev F
+a.	Thaw KAPA Library Quantification Kit for Illumina Platforms. 
+b.	Dilute 2 µl sample with deionized water to appropriate dilutions that fall within the 
+linear detection range of the KAPA Library Quantification Kit for Illumina Platforms. 
+(For more accurate quantification, make the dilution(s) in duplicate).
+c.	Make enough Quantification Master Mix for the DNA dilutions per sample and the DNA 
+Standards (plus 10% excess) using the guidance for 1 reaction volume below.
+Quantification Master Mix
+1X (µl)
+SYBR Fast Master Mix + Primer
+12
+Water
+4
+Total
+16
+d.	Dispense 16 μl Quantification Master Mix for sample dilutions and DNA Standards into 
+a 96 well PCR plate.
+e.	Add 4 μl sample dilutions and 4 μl DNA Standards to appropriate wells. Centrifuge 
+briefly. 
+f.	 Incubate in a thermal cycler with the following protocol.
+Step
+Temperature
+Run Time
+1
+95°C
+00:03:00
+2
+95°C
+00:00:05
+3
+67°C
+00:00:30
+4
+Go to Step 2, 29X (Total 30 cycles)
+g.	Follow the manufacturer’s recommendations for qPCR-based quantification. For 
+library quantification for sequencer clustering, determine the concentration based on 
+insert size derived from the Bioanalyzer/TapeStation trace.
+Read signal
+ Post Library Construction 
+Quantification
+Appendix
+
+
+--- Page 78 ---
+78
+Click to TOC
+Chromium Next GEM Single Cell Multiome ATAC + Gene Expression User Guide • Rev F
+Agilent TapeStation Traces 
+Agilent TapeStation High Sensitivity D5000 ScreenTape  was used.
+Protocol steps correspond to the Chromium Next GEM Single Cell Multiome ATAC + Gene Expression User Guide (CG000338).
+Protocol Step 5.3 – Post Library Construction QC (ATAC Library)
+Appendix
+Agilent TapeStation Traces 
+Protocol Step 6.3 – cDNA QC & Quantification
+Protocol Step 7.7 – Post Library Construction QC (Gene Expression Library)
+All traces are representative. 
+Run 2 μl sample
+Run 2 μl sample
+Run 2 μl sample
+
+
+--- Page 79 ---
+79
+Click to TOC
+Chromium Next GEM Single Cell Multiome ATAC + Gene Expression User Guide • Rev F
+Appendix
+LabChip Traces 
+Run 10 µl undiluted sample 
+Run 10 µl undiluted sample 
+Run 10 µl undiluted sample
+LabChip Traces 
+DNA High Sensitivity Reagent Kit was used. Protocol steps correspond to the Chromium Next GEM Single Cell Multiome ATAC + GEX User Guide (CG000338).
+Protocol Step 5.3 – Post Library Construction QC (ATAC Library)
+Protocol Step 6.3 – cDNA QC & Quantification
+Protocol Step 7.7 – Post Library Construction QC (Gene Expression Library)
+All traces are representative. 
+Alternate QC Method:
+Qubit Fluorometer and Qubit dsDNA HS Assay Kit. Multiply the cDNA concentration reported via the Qubit Fluorometer by the 
+elution volume (40 µl) to obtain the total cDNA yield in ng. To determine the equivalent range using the Agilent 2100 Expert 
+Software, select the region encompassing 35-10,000 bp.
+
+
+--- Page 80 ---
+80
+Click to TOC
+Chromium Next GEM Single Cell Multiome ATAC + Gene Expression User Guide • Rev F
+Appendix
+Assay Scheme Overview
+
+
+--- Page 81 ---
+81
+Click to TOC
+Chromium Next GEM Single Cell Multiome ATAC + Gene Expression User Guide • Rev F
+Sequences
+Appendix
+Single Cell Multiome Gel Beads A (PN- 2000261)
+                                                                                        5’-CTACACGACGCTCTTCCGATCT-N16-N12-TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTVN-3’
+ 
+                                                   5’-AATGATACGGCGACCACCGAGATCTACAC-N16-CGCGTCTG-3’
+Chromium Single Cell Multiome ATAC Library 
+5ʹ-AATGATACGGCGACCACCGAGATCTACAC-N16-CGCGTCTG-TCGTCGGCAGCGTCAGATGTGTATAAGAGACAG---insert--CTGTCTCTTATACACATCTCCGAGCCCACGAGAC-N8-ATCTCGTATGCCGTCTTCTGCTTG-3ʹ
+3ʹ-TTACTATGCCGCTGGTGGCTCTAGATGTG-N16-GCGCAGAC-AGCAGCCGTCGCAGTCTACACATATTCTCTGTC---insert--GACAGAGAATATGTGTAGAGGCTCGGGTGCTCTG-N8-TAGAGCATACGGCAGAAGACGAAC-5ʹ
+Chromium Single Cell Multiome Gene Expression Library
+5’-AATGATACGGCGACCACCGAGATCTACAC-N10 -ACACTCTTTCCCTACACGACGCTCTTCCGATCT-N16-N12-TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTVN- cDNA_Insert-AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC-N10-ATCTCGTATGCCGTCTTCTGCTTG-3’
+3’-TTACTATGCCGCTGGTGGCTCTAGATGTG-N10-TGTGAGAAAGGGATGTGCTGCGAGAAGGCTAGA-N16-N12-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAABN- cDNA_Insert-TCTAGCCTTCTCGTGTGCAGACTTGAGGTCAGTG-N10-TAGAGCATACGGCAGAAGACGAAC-5’
+Gel
+Bead
+P5
+UMI
+Read 1
+Poly(dT)VN
+10x
+Barcode
+10x
+Barcode
+Spacer
+Read 2N
+P7
+P5
+10x
+Barcode
+Read 1N
+Spacer
+Sample
+Index N
+ Insert
+Sample
+Index (i7)
+Sample
+Index (i5)
+10x
+Barcode
+TruSeq Read 1
+ Poly(dT)VN
+UMI
+P5
+P7
+TruSeq Read 2
+ Insert

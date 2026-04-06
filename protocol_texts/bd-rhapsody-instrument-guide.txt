@@ -1,0 +1,5114 @@
+--- Page 1 ---
+23-21336-00
+02/2019
+Doc ID: 214062 Rev. 2.0
+Becton, Dickinson and Company
+BD Biosciences
+2350 Qume Drive
+San Jose, CA 95131  USA
+Tel 1.877.232.8995
+bdbiosciences.com
+ResearchApplications@bd.com
+BD Rhapsody™ Single-Cell
+Analysis System Instrument
+User Guide
+
+
+--- Page 2 ---
+Doc ID: 214062 Rev. 2.0
+Copyrights/trademarks
+Trademarks are the property of their respective owners.
+© 2019 BD. BD, the BD Logo and all other trademarks are property of Becton, Dickinson and Company. 
+The information in this guide is subject to change without notice. BD Biosciences reserves the right to change 
+its products and services at any time to incorporate the latest technological developments. Although this guide 
+has been prepared with every precaution to ensure accuracy, BD Biosciences assumes no liability for any errors 
+or omissions, nor for any damages resulting from the application or use of this information. BD Biosciences 
+welcomes customer input on corrections and suggestions for improvement.
+Regulatory information
+For Research Use Only. Not for use in diagnostic or therapeutic procedures.
+Limited use license for genome amplification
+The purchase price of this product may include a limited, non-transferable license under U.S. and foreign 
+patents owned by Kapa Biosystems, Inc., to use this product solely for genome amplification for research use 
+only. Any other use, including diagnostic purposes, therapeutic purposes and in vivo use is prohibited. No 
+other license under these patents is conveyed expressly or by implication to the buyer by the purchase of this 
+product.
+History
+Revision
+Date
+Change made
+Doc ID: 214062 Rev. 1.0
+07/2018
+Initial release
+Doc ID: 214062 Rev. 2.0
+23-21336-00
+02/2019
+Added information about the BD™ Mouse 
+Immune Single-Cell Multiplexing Kit.
+
+
+--- Page 3 ---
+Doc ID: 214062 Rev. 1.0
+Contents
+Chapter 1: Introduction
+7
+About this guide . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 8
+Intended use  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 8
+Safety symbols  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 10
+Safety data sheets  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 12
+Instrument technical support  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 13
+Chapter 2: Getting Started
+15
+BD Rhapsody™ targeted library workflow . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 16
+Site requirements  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 17
+Thermomixer settings . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 17
+Thermal cycler setup . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 17
+Pipette Settings  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 18
+BD Rhapsody™ Express instrument overview  . . . . . . . . . . . . . . . . . . . . . . . . . . 18
+BD Rhapsody™ Scanner overview  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 20
+Quick guide to the BD Rhapsody Scanner software  . . . . . . . . . . . . . . . . . . . . . . 23
+Best practices  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 27
+Chapter 3: Product information
+31
+Required kit and storage conditions  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 32
+Suggested kits . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 41
+Reagents . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 44
+Consumables  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 47
+Equipment  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 50
+
+
+--- Page 4 ---
+Doc ID: 214062 Rev. 1.0
+BD Rhapsody Single-Cell Analysis System Instrument User Guide
+4
+Software  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .54
+Chapter 4: Preparing the BD Rhapsody™ Cartridge
+55
+Priming the BD Rhapsody Cartridge . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .56
+Treating the surface of the cartridge  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .63
+Chapter 5: Processing cells with the BD Rhapsody™ Single-Cell Analysis system
+65
+Best practices for cell handling and cell counting . . . . . . . . . . . . . . . . . . . . . . . . .66
+Staining cells with viability markers  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .67
+Loading cells into the Hemocytometer Adapter . . . . . . . . . . . . . . . . . . . . . . . . . .68
+Counting cells with the BD Rhapsody Scanner  . . . . . . . . . . . . . . . . . . . . . . . . . .70
+Preparing a cell suspension and loading cells in the BD Rhapsody™ Cartridge . .77
+Imaging cells in a cartridge  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .87
+Preparing Cell Capture Beads  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .91
+Loading Cell Capture Beads and imaging  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .92
+Lysing cells and retrieving Cell Capture Beads  . . . . . . . . . . . . . . . . . . . . . . . . . .93
+Performing reverse transcription on the Cell Capture Beads  . . . . . . . . . . . . . . . .99
+Treating the sample with Exonuclease I  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .104
+Chapter 6: Troubleshooting
+107
+Scanning troubleshooting  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .108
+Cartridge loading troubleshooting . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .110
+BD Rhapsody Scanner software messages . . . . . . . . . . . . . . . . . . . . . . . . . . . . .114
+Appendix A: BD Rhapsody™ Scanner metrics   
+119
+Image analysis metrics . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .120
+Reviewing the analysis metrics  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .124
+Appendix B: Workflow with two BD Rhapsody™ Cartridges
+129
+Workflow with two cartridges  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .130
+Best practices with a two-cartridge workflow  . . . . . . . . . . . . . . . . . . . . . . . . . .131
+
+
+--- Page 5 ---
+Doc ID: 214062 Rev. 1.0
+ 
+5
+Appendix C: Updating the BD Rhapsody™ Scanner software
+133
+Introduction  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 134
+Uninstalling scanner software . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 134
+Installing scanner software  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 135
+Launching the scanner software  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 138
+Appendix D: Safety
+139
+General safety and limitations . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 140
+Chemical safety . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 140
+Physical safety . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 142
+Instrument waste disposal . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 142
+Glossary
+143
+
+
+--- Page 6 ---
+This page intentionally left blank
+
+
+--- Page 7 ---
+Doc ID: 214062 Rev. 2.0
+1
+Introduction
+•
+About this guide (page 8)
+•
+Intended use (page 8)
+•
+Safety symbols (page 10)
+•
+Safety data sheets (page 12)
+•
+Instrument technical support (page 13)
+
+
+--- Page 8 ---
+Doc ID: 214062 Rev. 2.0
+BD Rhapsody Single-Cell Analysis System Instrument User Guide
+8
+About this guide
+Introduction
+This guide provides instructions on operating the BD Rhapsody™ 
+Scanner, the BD Rhapsody™ Express instrument and supporting 
+materials. 
+To use the BD Rhapsody™ Single-Cell Analysis system without the 
+BD Rhapsody Scanner, see the BD Rhapsody™ Express Single-Cell 
+Analysis System Instrument User Guide (Doc ID: 214063). 
+Genomics technical publications are available for download from 
+the BD Genomics Resource Library at bd.com/genomics-resources.
+Intended use
+Intended use
+The BD Rhapsody Single-Cell Analysis system is intended for the 
+preparation of single cell sequencing libraries. The BD Rhapsody 
+Scanner uses brightfield and dual band fluorescence to count cells 
+and measure cell viability. Proprietary BD™ Molecular Indexing 
+technology is used to count individual mRNA molecules. Cells are 
+entirely contained in the BD Rhapsody™ Cartridge, which is a 
+single-use consumable.
+The system is intended for use by professional scientific users, such 
+as technicians and laboratory personnel, who are trained in the 
+operation of the BD Rhapsody Express instrument and 
+BD Rhapsody Scanner.
+For Research Use Only. Not for use in diagnostic or therapeutic 
+procedures.
+For more information on the purpose of the instruments, see the 
+BD Rhapsody™ Express instrument overview (page 18) and the 
+BD Rhapsody™ Scanner overview (page 20). 
+
+
+--- Page 9 ---
+Doc ID: 214062 Rev. 2.0
+Chapter 1: Introduction
+9
+Restrictions
+Any use of the BD Rhapsody Single-Cell Analysis system other 
+than the procedures described in this user guide might result in 
+damage to the instruments, loss of reagents or samples, or personal 
+injury.
+BD denies any responsibility for damage caused by the following:
+•
+Any use of a BD Rhapsody™ instrument that does not comply 
+with the procedures described in any guide used with the BD 
+Rhapsody Single-Cell Analysis system
+•
+Unauthorized alterations or adjustments to instrument 
+hardware or software
+•
+Any use of an instrument that violates locally applicable laws, 
+rules, or regulations
+•
+Evidence of any deviation from intended use voids the 
+BD Rhapsody instrument warranty
+Disclaimer
+The instrument, external components, software, and consumables 
+in the BD Rhapsody Single-Cell Analysis system are provided for 
+research purposes only. BD disclaims all express and implied 
+warranties, including, but not limited to, merchantability and 
+fitness for use for a particular purpose.
+
+
+--- Page 10 ---
+Doc ID: 214062 Rev. 2.0
+BD Rhapsody Single-Cell Analysis System Instrument User Guide
+10
+Safety symbols
+Introduction
+This topic describes the safety symbols used in this guide.
+For safety and limitations, see the BD Rhapsody™ Express 
+Instrument and BD Rhapsody™ Scanner Safety and Limitations 
+Guide (Doc ID: 42061).
+Safety symbols
+The following table lists the safety symbols used in this guide to 
+alert you to potential hazards.
+Symbol
+Meaning
+Caution. Indicates the need for the user to consult the 
+instructions for use for important cautionary information, 
+such as warnings and precautions that cannot, for a variety 
+of reasons, be presented on the device itself.
+Biological hazard. All surfaces that come in contact with 
+biological specimens can transmit potentially fatal disease. 
+Use universal precautions when cleaning surfaces. Wear 
+suitable protective clothing, eyewear, and gloves. 
+
+
+--- Page 11 ---
+Doc ID: 214062 Rev. 2.0
+Chapter 1: Introduction
+11
+Other symbols
+Symbol
+Meaning
+Part number
+Lot number
+Storage temperature range
+Expiration date
+Consult instructions for use
+
+
+--- Page 12 ---
+Doc ID: 214062 Rev. 2.0
+BD Rhapsody Single-Cell Analysis System Instrument User Guide
+12
+Safety data sheets
+Introduction
+This topic describes how to obtain safety data sheets (SDSs).
+Obtaining SDSs
+Before handling chemicals, read and understand the SDSs. To 
+obtain SDSs for chemicals ordered from BD Biosciences, go to 
+regdocs.bd.com, or contact BD Biosciences technical support at 
+researchapplications@bd.com.
+
+
+--- Page 13 ---
+Doc ID: 214062 Rev. 2.0
+Chapter 1: Introduction
+13
+Instrument technical support
+Introduction
+This topic describes how to get technical support for the 
+BD Rhapsody Express instrument and BD Rhapsody Scanner.
+Contacting 
+technical support
+If technical assistance is required, contact BD Biosciences technical 
+support at researchapplications@bd.com or 1.877.232.8995, 
+prompt 2, 2. You can contact technical support in Europe at 
+help.biosciences@europe.bd.com or at these telephone numbers:
+Location 
+Telephone number
+Location 
+Telephone number
+Worldwide
++32 2 40 09 895 
+—
+Austria
+01 92 80 465
+Netherlands
+010 71 14 800
+Belgium
+02 40 17 093
+Norway
+800 18 530
+Denmark
+80 88 21 93
+Portugal
+800 86 01 76
+Finland
+800 11 63 17
+South 
+Africa
+0800 98 10 08
+France
+01 70 70 81 93
+Spain
+91 41 46 250
+Germany
+069 22 22 25 60
+Sweden
+08 50 69 21 54
+Greece
+00800 12 75 06
+Switzerland
+044 58 04 373
+Italy
+02 36 00 36 85
+United 
+Kingdom
+0207 07 53 226
+
+
+--- Page 14 ---
+Doc ID: 214062 Rev. 2.0
+BD Rhapsody Single-Cell Analysis System Instrument User Guide
+14
+Before contacting BD Biosciences, have the following information 
+available:
+•
+Product name, part number, and serial number or lot number
+•
+Any error messages
+•
+Details of recent system performance
+•
+For the BD Rhapsody Scanner, the version of the software that 
+you are using
+
+
+--- Page 15 ---
+Doc ID: 214062 Rev. 2.0
+2
+Getting Started
+•
+BD Rhapsody™ targeted library workflow (page 16)
+•
+Site requirements (page 17)
+•
+Thermomixer settings (page 17)
+•
+Thermal cycler setup (page 17)
+•
+Pipette Settings (page 18)
+•
+BD Rhapsody™ Express instrument overview (page 18)
+•
+BD Rhapsody™ Scanner overview (page 20)
+•
+Quick guide to the BD Rhapsody Scanner software (page 23)
+•
+Best practices (page 27)
+
+
+--- Page 16 ---
+Doc ID: 214062 Rev. 2.0
+BD Rhapsody Single-Cell Analysis System Instrument User Guide
+16
+BD Rhapsody™ targeted library workflow 
+To perform the workflow, follow the Single Cell Analysis 
+Workflow with BD Rhapsody™ Systems (Doc ID: 220524).
+Note:  For use of two cartridges, see Workflow with two BD 
+Rhapsody™ Cartridges (page 129).
+""
+
+
+"""
+""""
+
+
+	
+	
+
+
+"""
+	
+&% $1!!(1
+	%%	%
+#1%'%&1
+%
+%
+!!1%*+&1
+(1
+
+
+
+
+
+	"""
+ """
+ "
+
+
+%#%
+!	"%
+&*1("%!1,*1
+-$#+!(101
+!
+
+
+ !!!!!!
+	!
+%"%%
+%
+%
+
+
+	
+
+$1(1#1
+&$&"1	11
+%%%
+"%%%
+
+%
+%
+%%
+
+%
+%
+
+
+
+
+
+
+!""
+		
+!
+
+	#%%!%
+(1
+
+
+
+ %%
+
+	
+
+
+%%%
+ $
+%
+
+!
+
+!"% %%
+%
+(1  1%)+'1
+
+(1
+
+'$&"11 #1
+%+&
+&$&"1#-11#1%+&1
++#*/1!&&.1+(#1+*1((.1
+%#$%
+&$&"1	1#1%+'001
++#)/1	1+(#1+*1((.1
+	
+
+!!
+	
+
+ 	
+
+
+±
+
+
+--- Page 17 ---
+Doc ID: 214062 Rev. 2.0
+Chapter 2: Getting Started
+17
+Site requirements
+Workspace 
+designation
+Dedicate two isolated workspaces in the laboratory to run 
+high-sensitivity, single cell sequencing experiments:
+•
+Pre-amplification workspace 
+•
+Post-amplification workspace
+For detailed site requirements and technical specifications, see the 
+BD Rhapsody™ Express Instrument and BD Rhapsody™ Scanner 
+Site Preparation Guide (Doc ID: 47391) and BD Rhapsody™ 
+Scanner metrics (page 119).
+For installation of the BD Rhapsody Express instrument and the 
+BD Rhapsody Scanner, see the BD Rhapsody™ Single-Cell 
+Analysis System Installation and Maintenance Guide 
+(Doc ID: 43084).
+Genomics technical publications are available for download from 
+the BD Genomics Resource Library at bd.com/genomics-resources.
+Thermomixer settings
+Settings
+Depending on the protocol, set the thermomixer from 
+37°C to 80°C and 0–1,200 rpm.
+Thermal cycler setup
+Recommendations
+•
+Use a properly calibrated thermal cycler for 0.2 mL tubes with 
+a maximum reaction volume of 50 µL. 
+•
+Use a heated lid set to ≥95°C.
+•
+Do not use fast cycling mode.
+
+
+--- Page 18 ---
+Doc ID: 214062 Rev. 2.0
+BD Rhapsody Single-Cell Analysis System Instrument User Guide
+18
+•
+For specific instrument operation, follow the instructions 
+provided by the manufacturer. 
+Pipette Settings
+Pipette programs
+BD Rhapsody™ P1200M and P5000M pipettes are provided pre-
+programmed for use during single cell mRNA capture from the BD 
+Rhapsody Cartridge. Do not change the settings, but confirm them 
+before use.
+ 
+BD Rhapsody™ Express instrument overview
+Introduction
+The BD Rhapsody Cartridge requires use of the BD Rhapsody 
+Express instrument. The station is used to load reagents, cells, and 
+Cell Capture Beads into the cartridge for bead capture and 
+retrieval of single cell mRNA.
+Safety
+For safety and limitations of the BD Rhapsody Express instrument, 
+see the BD Rhapsody™ Express Instrument and BD Rhapsody™ 
+Scanner Safety and Limitations Guide (Doc ID: 42061).
+Pipette
+Mode
+P1200M
+Prime/Treat
+P1200M
+Cell Load
+P1200M
+Bead Load
+P1200M
+Wash
+P1200M
+Lysis
+P5000M
+Retrieval
+
+
+--- Page 19 ---
+Doc ID: 214062 Rev. 2.0
+Chapter 2: Getting Started
+19
+Components
+The following figure shows the main components of the 
+BD Rhapsody Express instrument for operation. For maintenance 
+of the Express instrument, see the BD Rhapsody™ Single-Cell 
+Analysis System Installation and Maintenance Guide (Doc ID: 
+43084).
+No. 
+Component
+1
+Left slider to position Retrieval (top) and Lysis (bottom) 
+magnets. Slider shown in 0 (neutral) position: no magnets 
+applied to BD Rhapsody Cartridge
+2
+Cartridge tray to install the BD Rhapsody Cartridge
+3
+Retrieval (top) magnet in up position
+4
+Front slider to position Waste Collection Container (WASTE) 
+and 5 mL LoBind Tube for bead retrieval (BEADS) and for 
+Waste Collection Container and 5 mL LoBind Tube access 
+(OPEN)
+WASTE
+OPEN
+BEADS
+1
+4
+2
+ 3
+
+
+--- Page 20 ---
+Doc ID: 214062 Rev. 2.0
+BD Rhapsody Single-Cell Analysis System Instrument User Guide
+20
+BD Rhapsody™ Scanner overview
+Introduction
+The BD Rhapsody Scanner is used to count cells by brightfield and 
+dual band fluorescence imaging and calculate volumes of cells and 
+Sample Buffer needed to prepare single cell suspensions. 
+Safety
+For safety and limitations of the scanner, see the BD Rhapsody™ 
+Express Instrument and BD Rhapsody™ Scanner Safety and 
+Limitations Guide (Doc ID: 42061).
+Installation and 
+maintenance
+See the BD Rhapsody™ Single-Cell Analysis System Installation 
+and Maintenance Guide (Doc ID: 43084) to review critical 
+installation and periodic maintenance procedures on the scanner.
+Components
+The following figure shows the main components of the scanner 
+for operation:
+
+
+--- Page 21 ---
+Doc ID: 214062 Rev. 2.0
+Chapter 2: Getting Started
+21
+2
+3
+4
+1
+No. 
+Front component
+1
+Scanner touchscreen
+2
+Scanner front power button and standby 
+switch. Lit green: ON. Flashing: PC asleep.
+3
+USB 3.0 port
+4
+Cartridge loading door where a tray extends 
+and retracts
+
+
+--- Page 22 ---
+Doc ID: 214062 Rev. 2.0
+BD Rhapsody Single-Cell Analysis System Instrument User Guide
+22
+No. 
+Rear component
+1
+Master power switch
+2
+Fuse holder
+3
+24 VDC power input
+4
+USB 2.0 ports (2)a
+a.
+The USB 2.0 ports on the rear of the instrument are primarily used by 
+BD Biosciences technical support. 
+5
+Ethernet port
+3
+4
+1
+5
+2
+
+
+--- Page 23 ---
+Doc ID: 214062 Rev. 2.0
+Chapter 2: Getting Started
+23
+Quick guide to the BD Rhapsody Scanner software
+Navigation
+No. 
+Description
+1
+Tap an application (app) to navigate between 
+scan, analysis, and about screens.
+2
+Tap Rhapsody on any screen to return to the 
+main screen.
+3
+(Optional) Tap the eject icon to eject the tray 
+from the sample loading door of the scanner. 
+The scanner automatically ejects the tray.
+1
+2
+3
+
+
+--- Page 24 ---
+Doc ID: 214062 Rev. 2.0
+BD Rhapsody Single-Cell Analysis System Instrument User Guide
+24
+4
+ 5
+ 6
+ 7
+4
+
+
+--- Page 25 ---
+Doc ID: 214062 Rev. 2.0
+Chapter 2: Getting Started
+25
+No. 
+Description
+4
+Tap Select Samples to display the window for 
+selecting samples. Tap Calculate to calculate 
+volumes for preparing cell suspensions. Tap  
+Save on the Calculate tab to display saved 
+calculations.
+5
+Enter the total volume and desired number of 
+captured cells to prepare the cell suspension 
+for loading into the BD Rhapsody Cartridge.
+6
+(Optional) Enter the relative amounts of 
+samples that comprise the cell suspension. The 
+default is 1:1.
+7
+Obtain the volumes of buffer and stock cells 
+required to prepare the cell suspension for 
+cartridge loading.
+
+
+--- Page 26 ---
+Doc ID: 214062 Rev. 2.0
+BD Rhapsody Single-Cell Analysis System Instrument User Guide
+26
+BD Rhapsody 
+Scanner software 
+workflows
+Scan application workflow
+Analysis application workflow
+Step
+Screen
+1
+Main menu
+2
+Hemocytometer/cartridge placement on tray
+3
+Scan
+4
+Cartridge removal
+Step
+Screen
+1
+Main menu
+2
+Experiment details
+3
+Prepare sample
+4
+Select sample
+5
+Calculate cell suspension volumes
+6
+Save calculation
+7
+Analysis metrics
+
+
+--- Page 27 ---
+Doc ID: 214062 Rev. 2.0
+Chapter 2: Getting Started
+27
+Best practices
+Good laboratory 
+practices
+•
+Calibrate and service pipettes every 12 months to ensure 
+accurate sample volume transfer at each step. To clean and 
+calibrate the pipettes, see the BD Rhapsody™ Single-Cell 
+Analysis System Installation and Maintenance Guide 
+(Doc ID: 43084).
+•
+Unless otherwise specified, thaw reagents on ice. Store reagents 
+at their specified storage conditions.
+•
+Collect small volumes by briefly centrifuging samples. Brief or 
+pulse centrifugation is <1 second.
+•
+Gently vortex solutions containing enzymes. Minimize vortex 
+duration and keep the vortex speed low. Do not vortex 
+solutions containing Cell Capture Beads.
+•
+Gently pipet cells to avoid cell stress or death.
+•
+Work in designated pre- or post-amplification workspaces 
+according to the protocol.
+•
+Prepare reagent mixes in pre-amplification workspaces, and 
+conduct amplification in post-amplification workspaces.
+•
+Wear suitable protective clothing, eyewear, and gloves.
+RNase-free 
+technique
+Prevent the introduction of exogenous RNases into samples during 
+processing:
+•
+Use low-retention, RNase-free pipette tips and low-binding 
+reaction tubes when required for certain steps to prevent 
+absorption to plastic surfaces and minimize bead loss.
+•
+Wear disposable gloves, and change them frequently. 
+•
+Never reuse tips or tubes. 
+•
+Keep tip boxes, reagent containers, and sample tubes closed 
+when not in use. 
+•
+Always maintain a clean laboratory bench, and if necessary, 
+wipe work surface with a solution of 10% bleach.
+
+
+--- Page 28 ---
+Doc ID: 214062 Rev. 2.0
+BD Rhapsody Single-Cell Analysis System Instrument User Guide
+28
+Sterility
+•
+Clean cell culture surfaces in the laminar flow hood with 70% 
+ethyl alcohol, and appropriately sterilize the surfaces.
+•
+Use sterile serological pipettes to aseptically transfer media and 
+cells.
+•
+Place a flask in a cell culture hood one at a time to prevent 
+cross-cell contamination.
+Cell Capture Beads
+•
+Keep the Cell Capture Beads on ice before use. 
+Do not freeze Cell Capture Beads.
+•
+For maximum recovery, do not vortex samples containing Cell 
+Capture Beads. 
+•
+Gently mix suspensions with Cell Capture Beads by pipette 
+only.
+•
+Use low retention tips and LoBind tubes when handling Cell 
+Capture Beads.
+BD Rhapsody 
+Express instrument
+•
+The Express instrument contains strong magnets. Avoid having 
+metal pieces close to the station.
+•
+Wipe the Express instrument with 70% ethyl alcohol wipes 
+after each use.
+BD Rhapsody 
+Cartridge
+•
+Avoid pipetting bubbles into the cartridge. Before adding fluid 
+to the cartridge, ensure that the pipette tip does not contain air.
+•
+To ensure an air-tight seal with the BD Rhapsody™ P1200M 
+and P5000M pipettes, hold the pipette with one hand, and 
+slightly twist the pipette to firmly seat a pipette tip on the 
+pipette shaft.
+•
+Cells need to be prepared as close to cell loading in the 
+cartridge as possible. Begin cell preparation during or after the 
+prime or substrate treatment steps, and leave the cartridge in 
+Cartridge Wash Buffer 2 (Cat. No. 650000061) until ready to 
+proceed with cell loading.
+
+
+--- Page 29 ---
+Doc ID: 214062 Rev. 2.0
+Chapter 2: Getting Started
+29
+BD Rhapsody 
+Scanner software
+For easy access to analysis metrics, place the Rhapsody Data folder 
+into the Quick Access folder:
+1.
+Open a file explorer window.
+2.
+Enter Public Documents in the location box.
+3.
+Drag the Rhapsody Data folder to Quick Access.
+4.
+Open the Rhapsody Data folder.
+5.
+Open the folder for the appropriate experiment.
+6.
+Open the .csv files with Microsoft® Excel.
+
+
+--- Page 30 ---
+This page intentionally left blank
+
+
+--- Page 31 ---
+Doc ID: 214062 Rev. 2.0
+3
+Product information
+•
+Required kits and storage conditions (page 32)
+•
+Suggested kits (page 42)
+•
+Reagents (page 45)
+•
+Consumables (page 48)
+•
+Equipment (page 51)
+•
+Software (page 55)
+
+
+--- Page 32 ---
+Doc ID: 214062 Rev. 2.0
+BD Rhapsody Single-Cell Analysis System Instrument User Guide
+32
+Required kits and storage conditions
+Introduction
+The BD Rhapsody™ Targeted mRNA and AbSeq Reagent Kit—
+4 Pack (Cat. N. 633771) consists of four boxes: 
+•
+BD Rhapsody™ Cartridge Reagent Kit
+•
+BD Rhapsody™ Cartridge Kit
+•
+BD Rhapsody™ cDNA Kit
+•
+BD Rhapsody™ Targeted mRNA and AbSeq Amplification Kit
+The BD Rhapsody Targeted mRNA and AbSeq Amplification Kit 
+(Cat. No. 633774) contains sufficient amplification reagents to 
+prepare four libraries of each type, including targeted mRNA, 
+Sample Tag, and BD™ AbSeq libraries. Sub-sampling of the 
+Exonuclease I-treated Cell Capture Beads might require purchasing 
+additional BD Rhapsody Targeted mRNA and AbSeq 
+Amplification kits.
+To perform sample multiplexing with the BD Rhapsody™ system, 
+one of the following additional kits are required:
+•
+BD™ Human Single-Cell Multiplexing Kit
+(Cat. No. 633781)
+•
+BD™ Mouse Immune Single-Cell Multiplexing Kit
+(Cat. No. 633793)
+To perform antibody-oligonucleotide labelling, use additional these 
+components:
+•
+BD™ AbSeq Ab-Oligos (antibody-oligonucleotides)
+•
+BD Pharmingen™ Stain Buffer (FBS)
+•
+(Optional) BD Pharmingen™ Human BD Fc Block™, for use 
+with myeloid and B lymphocyte-containing samples
+Product information on the kits and reagents are in this chapter.
+
+
+--- Page 33 ---
+Doc ID: 214062 Rev. 2.0
+Chapter 3: Product information
+33
+BD Rhapsody 
+Targeted mRNA 
+and AbSeq Reagent 
+Kit—4 Pack (Cat. 
+No. 633771)
+•
+Store the four kit boxes at the specified storage temperatures. 
+Use only non-frost free freezers for reagent storage. 
+•
+Keep the reagents on ice unless instructed otherwise. 
+•
+The BD Rhapsody™ Cartridge is single-use only. 
+•
+Limit preparation of mixes to ≤20% overage.
+Box
+Component
+Cap 
+color
+Quantity
+Volume 
+per unit
+Storage
+BD 
+Rhapsody 
+Cartridge 
+Reagent Kit
+(Cat. 
+No. 633731)
+Cartridge Wash 
+Buffer 1
+Neutral
+1 bottle
+7 mL
+2°C to 8°C
+Cartridge Wash 
+Buffer 2
+Neutral
+1 bottle
+4 mL
+Sample Buffer
+Neutral
+1 bottle
+28 mL
+Lysis Buffer
+Neutral
+4 bottles
+15 mL
+Bead Wash Buffer
+Neutral
+1 bottle
+10 mL
+1 M DTT
+White
+1 vial
+400 µL
+Cell Capture 
+Beads
+Brown
+4 vials
+2 mL
+Waste Collection 
+Container
+Neutral
+4 each
+—
+Box
+Component
+Quantity
+Storage
+BD Rhapsody 
+Cartridge Kit
+(Cat. No. 633733)
+BD Rhapsody Cartridge
+4 each
+15°C to 25°C
+
+
+--- Page 34 ---
+Doc ID: 214062 Rev. 2.0
+BD Rhapsody Single-Cell Analysis System Instrument User Guide
+34
+Box
+Component
+Cap 
+color
+Quantity
+Volume 
+per unit
+Storage
+BD Rhapsody 
+cDNA Kit
+(Cat. 
+No. 633773)
+Nuclease-Free Water
+Neutral
+2 vials
+1 mL
+–25°C 
+to 
+–15°C
+RT Buffer
+Orange
+1 vial
+200 µL
+RT 0.1M DTT
+Orange
+1 vial
+50 µL
+Reverse Transcriptase
+Orange
+1 vial
+50 µL
+dNTP
+Orange
+1 vial
+100 µL
+RNase Inhibitor
+Orange
+1 vial
+50 µL
+Bead RT/PCR 
+Enhancer
+Black
+1 vial
+70 µL
+10X Exonuclease I 
+Buffer
+Yellow
+1 vial
+100 µL
+Exonuclease I
+Yellow
+1 vial
+50 µL
+Bead Resuspension 
+Buffer
+Black
+1 vial
+1 mL
+
+
+--- Page 35 ---
+Doc ID: 214062 Rev. 2.0
+Chapter 3: Product information
+35
+Box
+Component
+Cap 
+color
+Quantity
+Volume 
+per unit
+Storage
+BD Rhapsody 
+Targeted 
+mRNA and 
+AbSeq 
+Amplification 
+Kit
+(Cat. 
+No. 633774)
+Nuclease-Free Water
+Neutral
+1 vial
+1 mL
+–25°C 
+to 
+–15°C
+Bead RT/PCR 
+Enhancer
+Black
+1 vial
+70 µL
+PCR MasterMix
+White
+1 vial
+1.2 mL
+Elution Buffer
+Pink
+1 vial
+1.8 mL
+Universal Oligo
+White
+1 vial
+130 µL
+Library Forward 
+Primer
+Red
+1 vial
+40 µL
+Library Reverse 
+Primer 1
+Red
+1 vial
+20 µL
+Library Reverse 
+Primer 2
+Red
+1 vial
+20 µL
+Library Reverse 
+Primer 3
+Red
+1 vial
+20 µL
+Library Reverse 
+Primer 4
+Red
+1 vial
+20 µL
+Bead Resuspension 
+Buffer
+Black
+1 vial
+1 mL
+Sample Tag PCR1 
+Primer
+Purple
+1 vial
+20 µL
+Sample Tag PCR2 
+Primer
+Purple
+1 vial
+20 µL
+BD AbSeq Primer
+Green
+1 vial
+70 µL
+
+
+--- Page 36 ---
+Doc ID: 214062 Rev. 2.0
+BD Rhapsody Single-Cell Analysis System Instrument User Guide
+36
+Kit
+Components
+Quantity
+Volume 
+per unit
+Storage
+BD Human Single-Cell 
+Multiplexing Kit
+(Cat. No. 633781)
+Sample Tag 1—
+Human
+1 vial
+20 µL
+2°C to 
+8°C
+Sample Tag 2—
+Human
+1 vial
+20 µL
+Sample Tag 3—
+Human
+1 vial
+20 µL
+Sample Tag 4—
+Human
+1 vial
+20 µL
+Sample Tag 5—
+Human
+1 vial
+20 µL
+Sample Tag 6—
+Human
+1 vial
+20 µL
+Sample Tag 7—
+Human
+1 vial
+20 µL
+Sample Tag 8—
+Human
+1 vial
+20 µL
+Sample Tag 9—
+Human
+1 vial
+20 µL
+Sample Tag 10—
+Human
+1 vial
+20 µL
+Sample Tag 11—
+Human
+1 vial
+20 µL
+Sample Tag 12—
+Human
+1 vial
+20 µL
+
+
+--- Page 37 ---
+Doc ID: 214062 Rev. 2.0
+Chapter 3: Product information
+37
+Kit
+Components
+Quantity
+Volume 
+per unit
+Storage
+BD Mouse Immune Single-Cell 
+Multiplexing Kit
+(Cat. No. 633793)
+Sample Tag 1—
+Mouse Immune
+1 vial
+20 µL
+2°C to 
+8°C
+Sample Tag 2—
+Mouse Immune
+1 vial
+20 µL
+Sample Tag 3—
+Mouse Immune
+1 vial
+20 µL
+Sample Tag 4—
+Mouse Immune
+1 vial
+20 µL
+Sample Tag 5—
+Mouse Immune
+1 vial
+20 µL
+Sample Tag 6—
+Mouse Immune
+1 vial
+20 µL
+Sample Tag 7—
+Mouse Immune
+1 vial
+20 µL
+Sample Tag 8—
+Mouse Immune
+1 vial
+20 µL
+Sample Tag 9—
+Mouse Immune
+1 vial
+20 µL
+Sample Tag 10—
+Mouse Immune
+1 vial
+20 µL
+Sample Tag 11—
+Mouse Immune
+1 vial
+20 µL
+Sample Tag 12—
+Mouse Immune
+1 vial
+20 µL
+
+
+--- Page 38 ---
+Doc ID: 214062 Rev. 2.0
+BD Rhapsody Single-Cell Analysis System Instrument User Guide
+38
+BD Rhapsody™ 
+targeted primer 
+panels
+Each panel includes a set of primers designed to target human (Hs) 
+or mouse (Mm) genes. Each panel contains sufficient primers to 
+prepare four libraries.
+A supplement to a panel can be designed based on individual 
+needs. The BD Rhapsody™ Panel Supplement contains primer 
+pairs for additional targeted sequencing of selected genes. For more 
+information on BD Rhapsody Panel Supplements, contact 
+BD Biosciences technical support at researchapplications@bd.com 
+and see BD Rhapsody™ Panel Supplement (Cat. No. 633742) 
+(page 43).
+Panel
+Component
+Cap 
+color
+Quantity
+Vol. 
+(µL)
+Storage
+BD Rhapsody™ 
+Immune Response 
+Panel Hs 
+(Cat. No. 633750)
+PCR1 Primers-Immune 
+Response Panel Hs 
+(tube label: PCR1-Immune 
+Res. Hs)
+Blue
+1 vial
+210
+–25°C 
+to 
+–15°C
+PCR2 Primers-Immune 
+Response Panel Hs 
+(tube label: PCR2-Immune 
+Res. Hs)
+Blue
+1 vial
+50
+BD Rhapsody™ 
+T Cell Expression 
+Panel Hs 
+(Cat. No. 633751)
+PCR1 Primers-T Cell 
+Expression Panel Hs 
+(tube label: PCR1-T Cell 
+Expression Hs)
+Blue
+1 vial
+210
+–25°C 
+to 
+–15°C
+PCR2 Primers-T Cell 
+Expression Panel Hs 
+(tube label: PCR2-T Cell 
+Expression Hs)
+Blue
+1 vial
+50
+BD Rhapsody™ 
+Onco-BC Panel Hs 
+(Cat. No. 633752)
+PCR1 Primers-Onco-BC 
+Panel Hs (tube label: 
+PCR1-Onco-BC Hs)
+Blue
+1 vial
+210
+–25°C 
+to 
+–15°C
+PCR2 Primers-Onco-BC 
+Panel Hs (tube label: 
+PCR2-Onco-BC Hs)
+Blue
+1 vial
+50
+
+
+--- Page 39 ---
+Doc ID: 214062 Rev. 2.0
+Chapter 3: Product information
+39
+BD Rhapsody™ 
+Targeted mRNA 
+and AbSeq Training 
+Kit—4 Pack (Cat. 
+No. 633772)
+For detailed information on the kit components, see BD Rhapsody 
+Targeted mRNA and AbSeq Reagent Kit—4 Pack (Cat. 
+No. 633771) (page 33).
+BD Rhapsody™ 
+Immune Response 
+Panel Mm 
+(Cat. No. 633753)
+PCR1 Primers-Immune 
+Response Panel Mm (tube 
+label: PCR1-Immune Res. 
+Mm)
+Blue
+1 vial
+210
+–25°C 
+to 
+–15°C
+PCR2 Primers-Immune 
+Response Panel Mm (tube 
+label: PCR2-Immune Res. 
+Mm)
+Blue
+1 vial
+50
+Panel (continued)
+Component
+Cap 
+color
+Quantity
+Vol. 
+(µL)
+Storage
+
+
+--- Page 40 ---
+Doc ID: 214062 Rev. 2.0
+BD Rhapsody Single-Cell Analysis System Instrument User Guide
+40
+Component
+Quantity
+Storage
+BD Rhapsody Cartridge 
+Reagent Kit
+(Cat. No. 633731)
+1 kit
+2°C to 8°C
+BD Rhapsody Cartridge Kit
+(Cat. No. 633733)
+1 kit
+15°C to 
+25°C
+BD Rhapsody cDNA Kit
+(Cat. No. 633773)
+1 kit
+–25°C to 
+–15°C
+BD Rhapsody Targeted 
+mRNA and AbSeq 
+Amplification Kit
+(Cat. No. 633774)
+1 kit
+BD Rhapsody Immune 
+Response Panel Hs
+(Cat. No. 633750)
+1 kit
+BD Rhapsody™ Training 
+Cells
+(Cat. No. 633741)
+
+Jurkat
+
+Ramos
+
+2 vials, 1.0 mL 
+each
+
+2 vials, 1.0 mL 
+each
+Liquid 
+nitrogen
+
+
+--- Page 41 ---
+Doc ID: 214062 Rev. 2.0
+Chapter 3: Product information
+41
+Required kits from 
+other vendors
+Kit 
+Supplier
+Catalog no.
+Qubit™ dsDNA HS 
+Assay Kit
+Thermo Fisher 
+Scientific
+Q32851
+
+
+--- Page 42 ---
+Doc ID: 214062 Rev. 2.0
+BD Rhapsody Single-Cell Analysis System Instrument User Guide
+42
+Suggested kits
+BD Rhapsody™ 
+Custom Panel
+The BD Rhapsody Custom Panel contains a maximum of 
+500 custom primers. To order a BD Rhapsody Custom Panel, 
+contact BD Biosciences at researchapplications@bd.com.
+Panel
+Component
+Cap 
+color
+Quantity
+Volume 
+Storage
+BD 
+Rhapsody 
+Custom 
+Panel
+(U.S. only: 
+Cat. 
+No. 633743)
+BD Rhapsody™ 10X PCR1 
+Custom ID: xxxxxxa
+Blue
+1 vial
+1.4 mLb
+–25°C 
+to 
+–15°C
+BD Rhapsody™ 10X PCR2 
+Custom ID: xxxxxxa
+Blue
+1 vial
+350 µLb
+IDTE pH 8.0
+Blue
+1 vial
+2.0 mL
+BD 
+Rhapsody 
+Custom 
+Panel 2–99 
+genes
+(Outside 
+U.S.: Cat. 
+No. 633777)
+BD Rhapsody™ 10X PCR1 
+Custom ID: xxxxxxa
+Blue
+1 vial
+1.4 mLb
+–25°C 
+to 
+–15°C
+BD Rhapsody™ 10X PCR2 
+Custom ID: xxxxxxa
+Blue
+1 vial
+350 µLb
+IDTE pH 8.0
+Blue
+1 vial
+2.0 mL
+BD 
+Rhapsody 
+Custom 
+Panel 100–
+199 genes
+(Outside 
+U.S.: Cat. 
+No. 633778)
+BD Rhapsody™ 10X PCR1 
+Custom ID: xxxxxxa
+Blue
+1 vial
+1.4 mLb
+–25°C 
+to 
+–15°C
+BD Rhapsody™ 10X PCR2 
+Custom ID: xxxxxxa
+Blue
+1 vial
+350 µLb
+IDTE pH 8.0
+Blue
+1 vial
+2.0 mL
+
+
+--- Page 43 ---
+Doc ID: 214062 Rev. 2.0
+Chapter 3: Product information
+43
+BD Rhapsody™ 
+Panel Supplement 
+(Cat. No. 633742)
+Add up to 100 additional supplemental primers to the 
+BD Rhapsody targeted (predesigned) or custom panels for a 
+maximum of 500 primers that can be used in an experiment. To 
+order a BD Rhapsody Panel Supplement, contact BD Biosciences at 
+researchapplications@bd.com. 
+BD 
+Rhapsody 
+Custom 
+Panel 200–
+299 genes
+(Outside 
+U.S.: Cat. 
+No. 633779)
+BD Rhapsody™ 10X PCR1 
+Custom ID: xxxxxxa
+Blue
+1 vial
+1.4 mLb
+–25°C 
+to 
+–15°C
+BD Rhapsody™ 10X PCR2 
+Custom ID: xxxxxxa
+Blue
+1 vial
+350 µLb
+IDTE pH 8.0
+Blue
+1 vial
+2.0 mL
+BD 
+Rhapsody 
+Custom 
+Panel 300–
+399 genes
+(Outside 
+U.S.: Cat. 
+No. 633783)
+BD Rhapsody™ 10X PCR1 
+Custom ID: xxxxxxa
+Blue
+1 vial
+1.4 mLb
+–25°C 
+to 
+–15°C
+BD Rhapsody™ 10X PCR2 
+Custom ID: xxxxxxa
+Blue
+1 vial
+350 µLb
+IDTE pH 8.0
+Blue
+1 vial
+2.0 mL
+BD 
+Rhapsody 
+Custom 
+Panel 400–
+500+ genes
+(Outside 
+U.S.: Cat. 
+No. 633784)
+BD Rhapsody™ 10X PCR1 
+Custom ID: xxxxxxa
+Blue
+1 vial
+1.4 mLb
+–25°C 
+to 
+–15°C
+BD Rhapsody™ 10X PCR2 
+Custom ID: xxxxxxa
+Blue
+1 vial
+350 µLb
+IDTE pH 8.0
+Blue
+1 vial
+2.0 mL
+a.
+Each design has a unique identifier that is provided with your BD Rhapsody Custom Panel 
+primer design.
+b.
+To prepare a 1X dilution for use in the assay, dilute 1 part PCR primer to 9 parts of IDTE 
+buffer. Store the 1X dilution at –25°C to –15°C for ≤2 years.
+Panel
+Component
+Cap 
+color
+Quantity
+Volume 
+Storage
+
+
+--- Page 44 ---
+Doc ID: 214062 Rev. 2.0
+BD Rhapsody Single-Cell Analysis System Instrument User Guide
+44
+Up to two BD Rhapsody Panel Supplements can be added per 
+reaction provided that the total number of primers added is ≤500 
+(predesigned or custom panel plus panel supplement) and the 
+primers have been designed to be compatible.
+ 
+Panel
+Component 
+Cap 
+color
+Quantity
+Volume
+Storage
+BD Rhapsody 
+Panel 
+Supplement 
+(U.S. only: 
+Cat. 
+No. 633742)
+BD Rhapsody™ 10X 
+PCR1 Supp. ID: xxxxxxa
+Blue
+1 vial
+120 µLb
+–25°C 
+to 
+–15°C
+BD Rhapsody™ 10X 
+PCR2 Supp. ID: xxxxxxa
+Blue
+1 vial
+30 µLb
+IDTE pH 8.0
+Blue
+1 vial
+2.0 mL
+BD Rhapsody 
+Panel 
+Supplement 
+2–49 genes 
+(Outside U.S.: 
+Cat. 
+No. 633770)
+BD Rhapsody™ 10X 
+PCR1 Supp. ID: xxxxxxa
+Blue
+1 vial
+120 µLb
+–25°C 
+to 
+–15°C
+BD Rhapsody™ 10X 
+PCR2 Supp. ID: xxxxxxa
+Blue
+1 vial
+30 µLb
+IDTE pH 8.0
+Blue
+1 vial
+2.0 mL
+BD Rhapsody 
+Panel 
+Supplement 
+50–100 genes 
+(Outside U.S.: 
+Cat. 
+No. 633776)
+BD Rhapsody™ 10X 
+PCR1 Supp. ID: xxxxxxa
+Blue
+1 vial
+120 µLb
+–25°C 
+to 
+–15°C
+BD Rhapsody™ 10X 
+PCR2 Supp. ID: xxxxxxa
+Blue
+1 vial
+30 µLb
+IDTE pH 8.0
+Blue
+1 vial
+2.0 mL
+a.
+Each design has a unique identifier that is provided with your BD Rhapsody Panel Supplement 
+primer design.
+b.
+To prepare a 1X dilution for use in the assay, dilute 1 part PCR primer to 9 parts of IDTE 
+buffer. Store the 1X dilution at –25°C to –15°C for ≤2 years.
+
+
+--- Page 45 ---
+Doc ID: 214062 Rev. 2.0
+Chapter 3: Product information
+45
+Suggested kits 
+from other vendors
+Reagents
+Required reagent 
+for BD Rhapsody 
+Cartridge workflow
+Required reagents 
+for sample 
+multiplexing and/or 
+antibody-
+oligonucleotide 
+labelling
+Reagent 
+Supplier
+Catalog no.
+Agilent DNA High 
+Sensitivity Kit
+Agilent Technologies
+5067-4626
+High Sensitivity 
+D1000 ScreenTape
+Agilent Technologies
+5067-5584
+High Sensitivity 
+D1000 Reagents
+Agilent Technologies
+5067-5585
+Reagent 
+Supplier
+Catalog no.
+Absolute ethyl 
+alcohol, molecular 
+biology grade
+Major supplier
+—
+Nuclease-free water
+Major supplier
+—
+Material 
+Supplier
+Catalog no.
+BD Pharmingen Stain 
+Buffer (FBS)
+BD Biosciences
+554656
+BD AbSeq Ab-Oligos
+BD Biosciences
+Various
+
+
+--- Page 46 ---
+Doc ID: 214062 Rev. 2.0
+BD Rhapsody Single-Cell Analysis System Instrument User Guide
+46
+Required reagents 
+for cell preparation 
+and staining
+Required reagents 
+for PCR product 
+purification
+Reagent 
+Supplier
+Catalog no.
+Calcein AM cell-
+permeant dyea
+a.
+Protect Calcein AM and DRAQ7 from light. Avoid multiple freeze-thaw 
+cycles of Calcein AM. See manufacturer’s storage recommendations.
+Thermo Fisher 
+Scientific
+C1430
+DRAQ7™ a, 
+0.3 mM
+BD Biosciences
+564904
+Dimethyl sulfoxide 
+(DMSO)
+Major supplier
+—
+70% ethyl alcohol 
+or 70% isopropyl 
+alcoholb
+b.
+To clean the BD Rhapsody™ Express instrument and the 
+BD Rhapsody™ Scanner, see the BD Rhapsody™ Single-Cell Analysis 
+System Installation and Maintenance Guide (Doc ID: 43084). Instead 
+of 70% alcohol, 10% (v/v) bleach can be used.
+Major supplier
+—
+Reagent 
+Supplier
+Catalog no.
+Agencourt® 
+AMPure® XP 
+magnetic beads
+Beckman Coulter
+A63880
+Ethyl alcohol, Pure 
+(200 proof, 
+molecular biology 
+grade)
+Sigma-Aldrich
+E7023-500ML
+
+
+--- Page 47 ---
+Doc ID: 214062 Rev. 2.0
+Chapter 3: Product information
+47
+Suggested reagent 
+for cell suspension 
+preparation
+Suggested reagents 
+for sample 
+multiplexing and/or 
+antibody-
+oligonucleotide 
+labelling
+Reagent 
+Supplier
+Catalog no.
+1X RBC Lysis Buffer
+Thermo Fisher 
+Scientific
+00-4333-57
+Phosphate-buffered 
+saline (calcium- and 
+magnesium-free)
+Major supplier
+—
+Material 
+Supplier
+Catalog no.
+BD Pharmingen 
+Human BD Fc Blocka
+a.
+For use with myeloid and B lymphocyte-containing samples.
+BD Biosciences
+564220
+
+
+--- Page 48 ---
+Doc ID: 214062 Rev. 2.0
+BD Rhapsody Single-Cell Analysis System Instrument User Guide
+48
+Consumables
+Required 
+consumables
+Consumable  
+Supplier
+Catalog no.
+Falcon® Tube with 
+Cell Strainer Cap
+Corning
+352235
+Falcon tubes, 5 mL 
+Round Bottom 
+Polystyrene Test 
+Tubea
+Corning
+352054
+Improved Neubauer 
+Hemocytometer
+INCYTO
+DHC-N01-5
+DNA LoBind Tubes, 
+1.5 mLb
+Eppendorf
+0030108051
+DNA LoBind Tubes, 
+5 mL
+Note:  These are the 
+Bead Retrieval Tubes 
+to be used with the 
+BD Rhapsody 
+Express instrument.
+Eppendorf
+0030108310
+Low retention 
+filtered pipette tips, 
+10 µLb
+Major supplier
+—
+Low retention 
+filtered pipette tips, 
+200 µLb
+Major supplier
+—
+Low retention 
+filtered pipette tips, 
+1,000 µLb
+Major supplier
+—
+
+
+--- Page 49 ---
+Doc ID: 214062 Rev. 2.0
+Chapter 3: Product information
+49
+Gilson™ 
+PIPETMAN™ 
+Tipack™ Filter Tips, 
+100–1,200 µL for 
+BD Rhapsody™ 
+P1200M pipette
+Thermo Fisher 
+Scientific
+F171803G
+Gilson PIPETMAN 
+Tipack Racked Pipet 
+Tips, 500–5,000 µL 
+for BD Rhapsody™ 
+P5000M pipette
+Thermo Fisher 
+Scientific
+F161370G
+Qubit™ Assay Tubes
+Thermo Fisher 
+Scientific
+Q32856
+Empty Latch Racks 
+for 500 µL Tubesc
+Thermo Fisher 
+Scientific
+4900 (4890 is also 
+acceptable)
+0.2 mL PCR 12-strip 
+tubesa
+Major supplier
+—
+10 mL sterile 
+serological pipettes
+Major supplier
+—
+Premoistened 
+cleaning wipes with 
+70% ethyl alcohol 
+or 70% isopropyl 
+alcohol
+Major supplier
+—
+Lint-free wipers
+Major supplier
+—
+a.
+Required for sample multiplexing and/or antibody-oligonucleotide 
+labelling.
+b.
+Provide material in both pre- and post-amplification workspaces.
+c.
+Required for storing tubes of BD™ AbSeq Ab-Oligos and convenient 
+pooling of reagents.
+Consumable 
+(continued) 
+Supplier
+Catalog no.
+
+
+--- Page 50 ---
+Doc ID: 214062 Rev. 2.0
+BD Rhapsody Single-Cell Analysis System Instrument User Guide
+50
+Suggested 
+consumables
+Consumable item 
+Supplier
+Catalog no.
+BD Vacutainer® 
+CPT™ 
+Mononuclear Cell 
+Preparation Tube–
+Sodium Heparina
+a.
+For single cell preparation of peripheral blood mononuclear cells 
+(PBMCs).
+BD Biosciences
+362753
+
+
+--- Page 51 ---
+Doc ID: 214062 Rev. 2.0
+Chapter 3: Product information
+51
+Equipment
+Required 
+equipment
+Supply pre- and post-amplification workspaces with the required 
+equipment. You might need two sets of some equipment.
+Equipment
+Box
+Components
+BD Rhapsody™ 
+Single-Cell Analysis 
+system
+BD Rhapsody 
+Scanner 
+(Cat. No. 633701)
+
+BD Rhapsody 
+Scanner
+
+Power supply and 
+cable
+
+Hemocytometer 
+Adapter 
+(Cat. 
+No. 633703)
+
+BD Rhapsody 
+P1200M pipette 
+(Cat. 
+No. 633704)
+
+BD Rhapsody 
+P5000M pipette 
+(Cat. 
+No. 633705)
+BD Rhapsody 
+Express instrument 
+(Cat. No. 633702)
+
+BD Rhapsody 
+Express 
+instrument
+
+
+--- Page 52 ---
+Doc ID: 214062 Rev. 2.0
+BD Rhapsody Single-Cell Analysis System Instrument User Guide
+52
+Equipment
+Supplier
+Catalog no.
+6-Tube Magnetic 
+Separation Rack for 
+1.5 mL tubesa
+New England 
+Biolabs
+S1506S
+Large magnetic 
+separation stand
+V&P Scientific, Inc. 
+VP 772FB-1
+Clear acrylic 
+cylinder adapter for 
+15 mL tube magnetb
+V&P Scientific, Inc. 
+VP 772FB-1A
+Low-profile 
+magnetic separation 
+stand for 0.2 mL, 
+8-strip tubes
+V&P Scientific, Inc.
+OR
+VP 772F4-1
+Clontech
+635011
+Thermomixer 
+(37°C, 1,200 rpm):
+Eppendorf
+
+ThermoMixer® C 
+
+5382000023
+
+SmartBlock™ 
+Thermoblock 
+1.5 mL 
+
+5360000038
+Qubit™ 3.0 
+Fluorometer
+Thermo Fisher 
+Scientific
+Q33216 
+Heat block capable 
+of 80°C 
+Suggested:
+VWR® Advanced 
+Mini Dry Block 
+Heater with Heated 
+Lid
+VWR
+10153-348
+
+
+--- Page 53 ---
+Doc ID: 214062 Rev. 2.0
+Chapter 3: Product information
+53
+
+2100 Bioanalyzer 
+OR 
+
+4200 TapeStation 
+Instrument
+Agilent Technologies
+
+G2940CA
+
+G2991AA
+Thermal cycler with 
+heated lid
+Major supplier
+—
+Water bath OR 
+incubator at 37°C
+Major supplier
+—
+Laminar flow hood
+Major supplier
+—
+Digital timera
+Major supplier
+—
+Pipettes (P10, P20, 
+P200, P1000)a
+Major supplier
+—
+Multi-channel 
+pipette, 2–20 µL OR 
+20–200 µLa
+Major supplier
+—
+Microcentrifuge for 
+1.5–2.0 mL tubesa
+Major supplier
+—
+Microcentrifuge for 
+0.2  mL tubes
+Major supplier
+—
+Centrifuge and rotor 
+with adapters for 
+5 mL Falcon tubes 
+and 15 mL tubes
+Major supplier
+—
+Vortexera
+Major supplier
+—
+Pipet-Aid
+Major supplier
+—
+a.
+Provide material in both pre- and post-amplification workspaces.
+b.
+Holds 5 mL LoBind Tube in magnet. 
+Equipment 
+(continued)
+Supplier
+Catalog no.
+
+
+--- Page 54 ---
+Doc ID: 214062 Rev. 2.0
+BD Rhapsody Single-Cell Analysis System Instrument User Guide
+54
+Suggested 
+equipment
+Equipment
+Supplier
+Catalog no.
+Logitech® Wireless 
+Combo (keyboard 
+and mouse)
+Major supplier
+MK270
+Barcode reader with 
+keyboard wedge, 
+USB 2.0 OR 3.0 
+compatiblea
+a.
+The external barcode reader is optional. The scanner has an internal 
+barcode reader. To purchase an external barcode reader, 
+BD Biosciences recommends the USB Automatic Barcode Scanner 
+Scanning Barcode Reader with Hands-Free Adjustable Stand 
+(Brainydeal) or equivalent.
+Major supplier
+—
+Phase-contrast 
+microscope
+Major supplier
+—
+8-Channel Screw 
+Cap Tube Capper 
+Note: Optional for 
+antibody-
+oligonucleotide 
+labelling
+Thermo Fisher 
+Scientific
+4105MAT
+
+
+--- Page 55 ---
+Doc ID: 214062 Rev. 2.0
+Chapter 3: Product information
+55
+Software
+BD Rhapsody™ 
+Analysis pipeline
+The BD Rhapsody Analysis pipeline takes the FASTQ read files 
+and reference files for gene alignment. The pipeline filters by read 
+quality, annotates R1 and R2 reads, annotates molecules, 
+determines putative cells, determines the sample of origin (sample 
+multiplexing only), generates expression matrices, generates a 
+metrics summary, and performs clustering analysis. 
+For installation, see the BD Single Cell Genomics Analysis Setup 
+User Guide (Doc ID: 47383). 
+For detailed information on the BD Rhapsody Analysis pipeline, 
+see the BD Single Cell Genomics Bioinformatics Handbook 
+(Doc ID: 54169). 
+BD™ Data View
+BD Data View is a software tool for visualization and exploratory 
+analysis of output files generated following bioinformatics 
+analysis. The software is included with the purchase of the 
+BD Rhapsody™ Single-Cell Analysis system and is optional for 
+use.
+For installation, see the BD Single Cell Genomics Analysis Setup 
+User Guide (Doc ID: 47383).
+For detailed instructions on using BD Data View, see the BD Single 
+Cell Genomics Bioinformatics Handbook (Doc ID: 54169).
+
+
+--- Page 56 ---
+This page intentionally left blank
+
+
+--- Page 57 ---
+Doc ID: 214062 Rev. 2.0
+4
+Preparing the BD Rhapsody™ Cartridge
+•
+Priming the BD Rhapsody Cartridge (page 56)
+•
+Treating the surface of the cartridge (page 63)
+
+
+--- Page 58 ---
+Doc ID: 214062 Rev. 2.0
+BD Rhapsody Single-Cell Analysis System Instrument User Guide
+56
+Priming the BD Rhapsody Cartridge
+Before you begin
+After opening the cartridge packet, ensure that you prepare the 
+cartridge in ≤1 day. If you leave the cartridge at 2°C to 8°C, 
+equilibrate to room temperature (15°C to 25°C) for 5 minutes.
+If cell preparation takes ≥4 hours, begin preparing cells before 
+cartridge preparation. See the Single Cell Analysis Workflow with 
+BD Rhapsody™ Systems (Doc ID: 220524) to find the appropriate 
+protocol to follow.
+•
+Equilibrate these reagents at room temperature (15°C to 25°C) 
+for ≥30 minutes before use:
+–
+Cartridge Wash Buffer 1(Cat. No. 650000060)
+–
+Cartridge Wash Buffer 2 (Cat. No. 650000061)
+•
+Place these reagents on ice:
+–
+Sample Buffer (Cat. No. 650000062)
+–
+1 M DTT (Cat. No. 650000063)
+–
+Lysis Buffer (Cat. No. 650000064)
+–
+DRAQ7 (protected from light)
+•
+Once at room temperature (15°C to 25°C), resuspend 
+Calcein AM (1 mg; Thermo Fisher Scientific Cat. No. C1430) 
+in 503.0 µL of DMSO for a final stock concentration of 2 
+mM. Follow the manufacturer’s storage recommendations, 
+and protect it from light. 
+•
+Review pipette settings and operation. See Pipette Settings 
+(page 18).
+•
+For the use of two cartridges, see Workflow with two BD 
+Rhapsody™ Cartridges (page 129).
+
+
+--- Page 59 ---
+Doc ID: 214062 Rev. 2.0
+Chapter 4: Preparing the BD Rhapsody™ Cartridge
+57
+Procedure
+To ensure an air-tight seal with the BD Rhapsody™ P1200M or 
+P5000M pipette, hold the pipette with one hand, and slightly twist 
+the pipette to firmly seat a pipette tip on the pipette shaft:
+Avoid introducing bubbles while pipetting into the BD 
+Rhapsody™ Cartridge.
+
+
+--- Page 60 ---
+Doc ID: 214062 Rev. 2.0
+BD Rhapsody Single-Cell Analysis System Instrument User Guide
+58
+Change pipette tips before every pipetting step.
+1.
+Move the left slider to the middle (0) position on the Express 
+instrument. The Retrieval (top) magnet and Lysis (bottom) 
+magnets are away from the cartridge tray:
+
+
+--- Page 61 ---
+Doc ID: 214062 Rev. 2.0
+Chapter 4: Preparing the BD Rhapsody™ Cartridge
+59
+2.
+Move the front slider to OPEN:
+OPEN
+WASTE
+BEADS
+
+
+--- Page 62 ---
+Doc ID: 214062 Rev. 2.0
+BD Rhapsody Single-Cell Analysis System Instrument User Guide
+60
+3.
+Remove the cap of a Waste Collection Container (Cat. 
+No. 650000090), and insert both the container and a new 
+5 mL LoBind Tube (Eppendorf Cat. No. 0030108310) for 
+bead retrieval into the appropriate slots in the drawer. Secure 
+the cap of the 5 mL LoBind Tube to the holder:
+Waste Collection Container
+5 mL LoBind Tube for
+bead retrieval
+Secure cap of 5 mL 
+LoBind Tube here
+
+
+--- Page 63 ---
+Doc ID: 214062 Rev. 2.0
+Chapter 4: Preparing the BD Rhapsody™ Cartridge
+61
+4.
+Move the front slider to WASTE: 
+5.
+Push the cartridge into the far end of the tray to match 
+cartridge and tray notches. Lay the cartridge flat, and release 
+it. Ensure that the cartridge is flat in the tray and the barcode 
+faces out.
+Note:  To remove the cartridge from the Express instrument, 
+push in the cartridge, and lift it from the tray:
+OPEN
+WASTE
+BEADS
+Push and lift
+Metal clip
+
+
+--- Page 64 ---
+Doc ID: 214062 Rev. 2.0
+BD Rhapsody Single-Cell Analysis System Instrument User Guide
+62
+Before loading the reagent into the cartridge, align the pipette 
+tip with the inlet hole of the gasket, and then press down on 
+the P1200M pipette to seal the pipette tip against the gasket 
+and avoid leaks:
+Note:   In Prime/Treat mode, press the button once to aspirate 
+700 µL, and press the button again to dispense 700 µL. 
+6.
+Load the cartridge with 700 µL of 100% (absolute) ethyl 
+alcohol using the P1200M pipette in Prime/Treat mode. 
+7.
+Load the cartridge with 700 µL of air using the P1200M 
+pipette in Prime/Treat mode. 
+8.
+Load the cartridge with 700 µL of Cartridge Wash Buffer 1 
+(Cat. No. 650000060) with the P1200M pipette in Prime/
+Treat mode. 
+9.
+Leave the cartridge on the tray at room temperature (15°C to 
+25°C) for 1 minute.
+
+
+--- Page 65 ---
+Doc ID: 214062 Rev. 2.0
+Chapter 4: Preparing the BD Rhapsody™ Cartridge
+63
+Treating the surface of the cartridge
+Procedure
+1.
+Load the cartridge with 700 µL of air using the P1200M 
+pipette in Prime/Treat mode.
+2.
+Load the cartridge with 700 µL of Cartridge Wash Buffer 1 
+(Cat. No. 650000060) using the P1200M pipette in Prime/
+Treat mode. 
+3.
+Leave the cartridge on the tray at room temperature (15°C to 
+25°C) for 10 minutes.
+4.
+Load the cartridge with 700 µL of air using the P1200M 
+pipette in Prime/Treat mode.
+5.
+Load the cartridge with 700 µL of Cartridge Wash Buffer 2 
+(Cat. No. 650000061) using the P1200M pipette in Prime/
+Treat mode.
+Stopping point: The cartridge can be stored at room 
+temperature (15°C to 25°C) for ≤4 hours. You can leave the 
+cartridge on the tray. The performance of the cartridge has not 
+been validated at room temperature (15°C to 25°C) storage for 
+>4 hours.
+6.
+Prepare a single cell suspension.  See the Single Cell Analysis 
+Workflow with BD Rhapsody™ Systems (Doc ID: 220524) to 
+find the appropriate protocol to follow.
+
+
+--- Page 66 ---
+This page intentionally left blank
+
+
+--- Page 67 ---
+Doc ID: 214062 Rev. 2.0
+5
+Processing cells with the
+BD Rhapsody™ Single-Cell Analysis
+system
+•
+Best practices for cell handling and cell counting (page 66)
+•
+Staining cells with viability markers (page 67)
+•
+Loading cells into the Hemocytometer Adapter (page 68)
+•
+Counting cells with the BD Rhapsody Scanner (page 70)
+•
+Preparing a cell suspension and loading cells in the BD Rhapsody™ Cartridge 
+(page 77)
+•
+Imaging cells in a cartridge (page 87)
+•
+Preparing Cell Capture Beads (page 91)
+•
+Loading Cell Capture Beads and imaging (page 92)
+•
+Lysing cells and retrieving Cell Capture Beads (page 93)
+•
+Performing reverse transcription on the Cell Capture Beads (page 99)
+•
+Treating the sample with Exonuclease I (page 104)
+
+
+--- Page 68 ---
+Doc ID: 214062 Rev. 2.0
+BD Rhapsody Single-Cell Analysis System Instrument User Guide
+66
+Best practices for cell handling and cell counting
+Cell handling
+•
+Minimize cell handling to reduce cell loss and decline in cell 
+viability.
+•
+Keep cells on ice when not handling them.
+•
+Optimize centrifugation conditions according to cell number 
+and cell phenotype to see a cell pellet.
+•
+For high cell recovery, know the position of the cell pellet in 
+the tube after centrifugation.
+Cell counting
+•
+Filter cells to remove clumps and debris to ensure accurate cell 
+counting. Debris in suspensions of small cells can lead to 
+overestimated cell counts. Visually check filtered cell 
+suspensions for debris.
+•
+Avoid pipetting low volumes of cells (<2 µL). 
+•
+Cell counting the BD Rhapsody™ Scanner is most accurate 
+when the cell concentration is in the range of ~200–800 cells/
+µL. If the cell concentration is >1,000 cells/µL, dilute the cell 
+suspension in cold Sample Buffer (Cat. No. 650000062) to 
+~200–800 cells/µL.
+•
+Do not rely on FACS-based counts, because cell concentration 
+might be overestimated by this method. Always re-count cells 
+after FACS.
+
+
+--- Page 69 ---
+Doc ID: 214062 Rev. 2.0
+Chapter 5: Processing cells with the BD Rhapsody™ Single-Cell Analysis system
+67
+Staining cells with viability markers
+Before you begin
+•
+Prepare a single cell suspension. See the Single Cell Analysis 
+Workflow with BD Rhapsody™ Systems (Doc ID: 220524) to 
+find the appropriate protocol to follow. 
+If you are using biological samples that contain red blood cell 
+contamination, red blood cell lysis is required. See the 
+Preparing Single Cell Suspensions Protocol (Doc ID: 210964).
+•
+Thaw Calcein AM. Once at room temperature (15°C to 25°C), 
+resuspend Calcein AM (1 mg; Thermo Fisher Scientific Cat. 
+No. C1430) in 503.0 µL DMSO for a final stock concentration 
+of 2 mM. Follow manufacturer’s instructions, and protect 
+from light.
+Procedure
+1.
+If cells are not resuspended in cold Sample Buffer (Cat. 
+No. 650000062), centrifuge cell suspension at 400 × g for 
+5 minutes, aspirate supernatant, and leave ~20 µL of residual 
+supernatant. Add up to 620 µL total volume of cold Sample 
+Buffer, and then proceed to step 2. If the total expected cell 
+number is ≤30,000 cells in 610 µL, proceed to step 2.
+Performance might be impacted if samples are not in Sample 
+Buffer. For rare samples that are not resuspended in Sample 
+Buffer before cell loading, proceed at your own risk or contact 
+tech support.
+2.
+Add 3.1 µL of 2 mM Calcein AM (Thermo Fisher Scientific 
+Cat. No. C1430) and 3.1 µL of 0.3 mM DRAQ7™ (BD 
+Biosciences Cat. No. 564904) to 620 µL cell suspension (1:200 
+dilution) in cold Sample Buffer (Cat. No. 650000062).
+3.
+Gently pipet-mix.
+4.
+Incubate at 37°C in dark for 5 minutes. 
+
+
+--- Page 70 ---
+Doc ID: 214062 Rev. 2.0
+BD Rhapsody Single-Cell Analysis System Instrument User Guide
+68
+5.
+Filter cells through Falcon® Tube with Cell Strainer Cap 
+(Corning 352235). 
+For low abundance or low volume samples, filtering is 
+optional at this step. BD Biosciences recommends filtering the 
+final sample before loading cells into the cartridge.
+6.
+Proceed immediately to Loading cells into the Hemocytometer 
+Adapter.
+Loading cells into the Hemocytometer Adapter
+Before you begin
+Stain cells with viability markers. See Staining cells with viability 
+markers (page 67). 
+Count cells immediately.
+Loading cells
+Keep cells on ice, and protect them from light. 
+1.
+Gently mix cells well by pipette, and then gently pipet 10 µL of 
+the cell suspension into one chamber of the INCYTO™ 
+disposable hemocytometer (INCYTO Cat. No. DHC-N01-5).
+
+
+--- Page 71 ---
+Doc ID: 214062 Rev. 2.0
+Chapter 5: Processing cells with the BD Rhapsody™ Single-Cell Analysis system
+69
+2.
+Insert the hemocytometer into the Hemocytometer Adapter 
+(Cat. No. 633703) so that the A and B sides of the 
+hemocytometer align with A and B on the Hemocytometer 
+Adapter:
+3.
+Count the cells in the BD Rhapsody Scanner ≤5 minutes after 
+loading.
+A
+B
+
+
+--- Page 72 ---
+Doc ID: 214062 Rev. 2.0
+BD Rhapsody Single-Cell Analysis System Instrument User Guide
+70
+Counting cells with the BD Rhapsody Scanner
+Procedure
+1.
+Launch the scanner software so that the main menu displays:
+Eject 
+button
+
+
+--- Page 73 ---
+Doc ID: 214062 Rev. 2.0
+Chapter 5: Processing cells with the BD Rhapsody™ Single-Cell Analysis system
+71
+Notes:
+–
+To return to the main menu on any screen, tap the BD logo 
+in the upper left.
+–
+For updates to the BD Rhapsody Scanner software, contact 
+BD Biosciences technical support at 
+researchapplications@bd.com.
+–
+To troubleshoot scanner software error messages, see BD 
+Rhapsody Scanner software messages (page 114).
+2.
+Tap Scan. The tray door of the scanner opens automatically, 
+and the tray is ejected.
+3.
+Place the Hemocytometer Adapter on the scanner tray so that 
+the notch of the adapter matches the corner notch, and the 
+barcode faces toward the front of the instrument:
+Note:  
+–
+The scanner displays an alert if the adapter is in the wrong 
+orientation.
+–
+You can manually enter the barcode in the application.
+4.
+Tap Continue. The tray retracts, the door closes, and the 
+scanner displays the hemocytometer setup screen.
+Notches
+
+
+--- Page 74 ---
+Doc ID: 214062 Rev. 2.0
+BD Rhapsody Single-Cell Analysis System Instrument User Guide
+72
+5.
+Select the protocol from the drop-down menu. Enter the 
+experiment name, sample name, protocol, and user. (If an 
+experiment name was entered previously, select it from the 
+drop-down menu.) 
+Do not use commas in the experiment name, sample name, or 
+user. 
+For example:
+
+
+--- Page 75 ---
+Doc ID: 214062 Rev. 2.0
+Chapter 5: Processing cells with the BD Rhapsody™ Single-Cell Analysis system
+73
+Note:  Enter an experiment name that is appropriate for both 
+the hemocytometer and cartridge scans. If necessary, tap the 
+touch keyboard icon in the bottom right on the screen to enter 
+information. There are no character or length limits.
+6.
+Tap Side A or Side B, depending on which side the cells were 
+loaded, and then Select Start Side A Scan or Start Side B Scan, 
+as required.
+Note:  To stop the scan, tap Stop, and then tap Stop again. To 
+continue with the scan, tap Continue.
+7.
+After the scan is complete, tap OK:
+
+
+--- Page 76 ---
+Doc ID: 214062 Rev. 2.0
+BD Rhapsody Single-Cell Analysis System Instrument User Guide
+74
+8.
+Scan the other side of the hemocytometer, or eject it:
+–
+Scan the other side: Tap Scan, enter a new sample name, 
+and then repeat steps 6–7. The hemocytometer remains in 
+the scanner and saves time waiting for the tray to eject. For 
+example:
+–
+Eject the hemocytometer: Tap Eject. The Hemocytometer 
+Adapter is ejected from the scanner, and the remove 
+cartridge screen displays. 
+Note:  The analysis runs in the background. For example, 
+the cell scan step for Jurkat and Ramos cells is complete. 
+See step 11.
+9.
+Remove the Hemocytometer Adapter from the tray, and then 
+tap Done to retract the tray and return to the main menu.
+10. On the main menu, tap Analysis, and then tap the experiment. 
+If no results are displayed, tap Analyze. 
+
+
+--- Page 77 ---
+Doc ID: 214062 Rev. 2.0
+Chapter 5: Processing cells with the BD Rhapsody™ Single-Cell Analysis system
+75
+11. View the total cell concentration and cell viability on the 
+results screen. For example, cell concentrations and viabilities 
+are displayed for Jurkat and Ramos samples:
+
+
+--- Page 78 ---
+Doc ID: 214062 Rev. 2.0
+BD Rhapsody Single-Cell Analysis System Instrument User Guide
+76
+Note:  If no value could be calculated, then NaN (not a 
+number) is displayed. See Troubleshooting (page 107).
+12. Proceed as follows:
+–
+If the cell concentration is ≤1,000 cells/µL, proceed to 
+step 13.
+–
+If the cell concentration is >1,000 cells/µL, dilute the cell 
+suspension in cold Sample Buffer (Cat. No. 650000062) to 
+~200–800 cells/µL. Recount the cells in the hemocytometer 
+following steps 1–11, and then proceed to step 13.
+13. Tap Prepare at the top of the results screen to display the 
+Samples Calculator screen.
+14. Dispose of the hemocytometer according to local safety 
+regulations. See Preparing a cell suspension and loading cells in 
+the BD Rhapsody™ Cartridge (page 77).
+Minimize the time between cell pooling and single cell capture.
+
+
+--- Page 79 ---
+Doc ID: 214062 Rev. 2.0
+Chapter 5: Processing cells with the BD Rhapsody™ Single-Cell Analysis system
+77
+Preparing a cell suspension and loading cells in 
+the BD Rhapsody™ Cartridge
+Best practices
+•
+Always use low retention filtered pipette tips and LoBind 
+Tubes. 
+•
+Perform single cell capture and cDNA synthesis in a pre-
+amplification workspace.
+•
+Prepare cells as close to cell loading as possible. Keep other 
+reagents, including Sample Buffer (Cat. No. 650000062) on 
+ice unless instructed otherwise.
+•
+Change pipetting tips before every pipetting step.
+Before you begin
+•
+Prime and treat the BD Rhapsody Cartridge. See Preparing the 
+BD Rhapsody™ Cartridge (page 55).
+•
+Thaw reagents (not enzymes) in the BD Rhapsody™ cDNA 
+Kit at room temperature (15°C to 25°C), and then place them 
+on ice. Keep enzymes at –25°C to –15°C.
+•
+Prepare a single cell suspension for cartridge loading.
+•
+Place these reagents on ice:
+•
+Sample Buffer (Cat. No. 650000062)
+•
+1 M DTT (Cat. No. 650000063)
+•
+Lysis Buffer (Cat. No. 650000064)
+•
+Cell Capture Beads (Cat. No. 650000089)
+Loading cells into 
+the cartridge
+To ensure an air-tight seal with the BD Rhapsody™ P1200M and 
+P5000M pipettes, hold the pipette with one hand, and slightly 
+twist the pipette to firmly seat a pipette tip on the pipette shaft.
+1.
+Determine the desired number of cells to capture in the 
+BD Rhapsody Cartridge. The following table lists the 
+estimated multiplet rate based on the number of captured cells 
+on retrieved Cell Capture Beads: 
+
+
+--- Page 80 ---
+Doc ID: 214062 Rev. 2.0
+BD Rhapsody Single-Cell Analysis System Instrument User Guide
+78
+Estimated multiplet rate based on the number of captured 
+cells on retrieved Cell Capture Beads
+Number of captured cells on 
+retrieved Cell Capture Beads 
+(target)a,b
+Estimated multiplet rate 
+(%)
+100
+0.0
+500
+0.1
+1,000
+0.2
+2,000
+0.5
+3,000
+0.7
+4,000
+1.0
+5,000
+1.2
+6,000
+1.4
+7,000
+1.7
+8,000
+1.9
+9,000
+2.1
+10,000
+2.4
+11,000
+2.6
+12,000
+2.8
+13,000
+3.1
+14,000
+3.3
+15,000
+3.5
+16,000
+3.8
+17,000
+4.0
+
+
+--- Page 81 ---
+Doc ID: 214062 Rev. 2.0
+Chapter 5: Processing cells with the BD Rhapsody™ Single-Cell Analysis system
+79
+2.
+According to the number of captured cells chosen in step 1, use 
+the Samples Calculator on the scanner to obtain the volume(s) 
+of stock cell and volume of cold Sample Buffer (Cat. 
+No. 650000062) to prepare a cell suspension of 650 µL for 
+loading into a BD Rhapsody Cartridge.
+3.
+In the BD Rhapsody Scanner software, navigate to the 
+Analysis screen, and proceed to the next step. If you are on the 
+results screen that displays the viability and concentration of 
+cells, tap Prepare at the top of the screen, and skip to step c.
+a. On the Analysis screen, tap the experiment.
+b. On the results screen, tap Prepare.
+c. On the Samples Calculator screen, select the experiment 
+from the drop-down menu. 
+d. You can search an experiment on the current screen by 
+entering keywords in the search box.
+18,000
+4.2
+19,000
+4.5
+20,000
+4.7
+a.
+The number of cells sequenced might be less than the number of 
+cells captured due to bead loss during handling, panel choice, 
+and sample composition. The validated range of cells sequenced 
+is 100–10,000 cells.
+b.
+This sample calculator gives loading calculations based on total 
+cell count, which does not consider cell viability. The number of 
+viable cells captured in the cartridge might be less than the 
+targeted number of captured cells if the viability of the sample is 
+<100%.
+Number of captured cells on 
+retrieved Cell Capture Beads 
+(target)a,b (continued)
+Estimated multiplet rate 
+(%)
+
+
+--- Page 82 ---
+Doc ID: 214062 Rev. 2.0
+BD Rhapsody Single-Cell Analysis System Instrument User Guide
+80
+e. If necessary, tap the check boxes to de-select samples. For 
+example, two samples are selected:
+f.
+Tap Calculate.
+g. Select the cartridge type from the drop-down menu. The 
+cartridge type is the first four digits on the barcode label of 
+the cartridge. 
+
+
+--- Page 83 ---
+Doc ID: 214062 Rev. 2.0
+Chapter 5: Processing cells with the BD Rhapsody™ Single-Cell Analysis system
+81
+h. Enter the Desired total volume and the Desired number of 
+captured cells. For example, a desired total volume of 
+650 µL of a mixture of two samples and 10,000 cells 
+captured are entered:
+
+
+--- Page 84 ---
+Doc ID: 214062 Rev. 2.0
+BD Rhapsody Single-Cell Analysis System Instrument User Guide
+82
+i.
+If necessary, enter the relative amount of each sample 
+below the desired number of captured cells. For example, 
+equal amounts of two samples are entered:
+j.
+Obtain the calculated stock cell and buffer volumes to 
+prepare the cell suspension for loading into the cartridge. 
+
+
+--- Page 85 ---
+Doc ID: 214062 Rev. 2.0
+Chapter 5: Processing cells with the BD Rhapsody™ Single-Cell Analysis system
+83
+For example, two stock volumes and the buffer volume are 
+calculated:
+k. (Optional) Tap Save. You can view the calculation by 
+clicking the Rhapsody Data shortcut on the scanner screen 
+and navigating to the appropriate folder.
+
+
+--- Page 86 ---
+Doc ID: 214062 Rev. 2.0
+BD Rhapsody Single-Cell Analysis System Instrument User Guide
+84
+l.
+(Optional) Click Saved Calculations. You can click saved 
+calculations at any time. For example, the saved 
+calculations from one experiment with two samples are 
+displayed:
+
+
+--- Page 87 ---
+Doc ID: 214062 Rev. 2.0
+Chapter 5: Processing cells with the BD Rhapsody™ Single-Cell Analysis system
+85
+4.
+Prepare the cell suspension:
+Ensure the stock solution is well suspended by gently pipetting 
+cells up and down before transferring the appropriate volume 
+for dilution.
+5.
+If the samples were not filtered before counting cells, pass the 
+final dilution of the prepared single sample or pooled sample 
+through a Falcon® Tube with Cell Strainer Cap (Thermo 
+Fisher Scientific Cat. No. 352235) before loading the sample 
+into the cartridge.
+6.
+Load the cartridge on the tray with 700 µL of air using the 
+BD Rhapsody P1200M pipette in Prime/Treat mode. 
+7.
+Change the mode of the BD Rhapsody P1200M pipette to Cell 
+Load.
+Stock cell volume or cell 
+number
+Cell suspension preparation
+Calculated Stock Volume is 
+<610 µL
+In a new 1.5 mL LoBind 
+Tube, prepare the cell 
+suspension in cold Sample 
+Buffer (Cat. 
+No. 650000062) according 
+to the volumes obtained in 
+step 3.
+
+Calculated Stock Volume 
+≥610 µL, or
+
+Buffer volume is 
+negative, or
+
+Cell concentration too 
+low warning is displayed
+Use 610 µL of the cold cell 
+suspension for cartridge cell 
+loading.a
+a.
+If the ratio of cells and targeted number of cells cannot be 
+achieved, mix cells to prepare the maximum input of cells in 
+a total volume of 610 µL. For example, if the Samples 
+Calculator specifies mixing 700 µL of Jurkat cells and 30 µL 
+of Ramos cells, mix 580 µL of Jurkat cells with 30 µL of 
+Ramos cells. 
+
+
+--- Page 88 ---
+Doc ID: 214062 Rev. 2.0
+BD Rhapsody Single-Cell Analysis System Instrument User Guide
+86
+8.
+With a manual pipette, gently pipet the cell suspension up and 
+down to mix.
+9.
+On the BD Rhapsody P1200M pipette, press the pipette 
+button once to aspirate 40 µL of air, immerse the pipette tip in 
+cell suspension, and then press the button again to aspirate 
+575 µL of cold cell suspension.
+10. Insert the tip of the pipette perpendicular to the port, seal the 
+pipette tip against the gasket, and then press the button a third 
+time to dispense 615 µL of air and cells.
+Air bubbles that might appear at the inlet or outlet of the 
+cartridge do not affect cartridge performance.
+11. Incubate the cells by one of these methods:
+–
+On the BD Rhapsody™ Express instrument: Leave the 
+cartridge with loaded cells on the tray at room temperature 
+(15°C to 25°C) for 15 minutes. During incubation on the 
+laboratory bench, prepare the Cell Capture Beads (Cat. 
+No. 650000089). See Preparing Cell Capture Beads 
+(page 91). After preparing the Cell Capture Beads, proceed 
+to Imaging cells in a cartridge, or
+–
+In the scanner: Proceed immediately to Imaging cells in a 
+cartridge (page 87) to install the cartridge and enter a 
+15 minute run delay.
+
+
+--- Page 89 ---
+Doc ID: 214062 Rev. 2.0
+Chapter 5: Processing cells with the BD Rhapsody™ Single-Cell Analysis system
+87
+Imaging cells in a cartridge
+Procedure
+1.
+Navigate to the Scan application. The tray door of the scanner 
+opens automatically, and the tray is ejected.
+Note:  If the tray is not ejected, tap the eject button in the 
+upper right of the cartridge insertion screen. 
+2.
+Push the cartridge into the far end of the Express instrument 
+tray to match the cartridge and tray notches. Lay the cartridge 
+flat, and release it. Ensure that the cartridge is flat in the tray 
+and the barcode faces out.
+3.
+If necessary, wipe condensation from the top surface of the 
+cartridge with a lint-free wiper to ensure optimal scanning.
+4.
+Place the cartridge on the scanner tray so that the cartridge 
+and tray notches match and the barcode faces toward the front 
+of the instrument:
+Notches
+
+
+--- Page 90 ---
+Doc ID: 214062 Rev. 2.0
+BD Rhapsody Single-Cell Analysis System Instrument User Guide
+88
+Notes:
+–
+The scanner displays an alert if the cartridge is in the wrong 
+orientation.
+–
+You can manually enter the barcode in the application.
+5.
+Tap Continue. The tray retracts, the door closes, and the 
+scanner displays the experiment setup screen.
+6.
+Select from the drop-down menu or enter the experiment 
+name, sample name, protocol, and user.
+7.
+Tap Cell Load:
+
+
+--- Page 91 ---
+Doc ID: 214062 Rev. 2.0
+Chapter 5: Processing cells with the BD Rhapsody™ Single-Cell Analysis system
+89
+8.
+Proceed according to incubation location:
+–
+Express instrument (15 minute incubation completed): 
+Proceed to step 9.
+–
+Incubation in scanner: Enter a 15 minute time delay to 
+delay the start of the scan, and incubate the cartridge in the 
+scanner by proceeding to step 9. During incubation in the 
+scanner, prepare the Cell Capture Beads (Cat. 
+No. 650000089). See Preparing Cell Capture Beads 
+(page 91). After preparing the Cell Capture Beads, proceed 
+to step 10.
+9.
+Tap Start Cell Load Scan. The tray retracts into the scanner, 
+and the door closes. If entered, the 15 minute countdown time 
+displays in the Cell Load window. The scan proceeds after the 
+countdown completes. The scan takes an additional 
+~4 minutes to complete.
+Note:  To stop the scan, tap Stop, and then tap Stop again. You 
+can then scan the cartridge with a different step or rerun the 
+scan. To continue with the current scan, tap Continue.
+10. After the scan is complete, tap OK, and then Eject. The 
+cartridge is ejected from the scanner, and the remove cartridge 
+screen is displayed. 
+Note:  The analysis runs in the background.
+
+
+--- Page 92 ---
+Doc ID: 214062 Rev. 2.0
+BD Rhapsody Single-Cell Analysis System Instrument User Guide
+90
+11. Scan another cartridge, or retract the tray:
+–
+Scan another cartridge: Tap Scan, and proceed to step 4 to 
+place a new cartridge on the tray for scanning:
+–
+Retract the tray: Tap Done 
+12. To confirm that the analysis is running, navigate to the 
+Analysis screen, and then tap the experiment to view the 
+ongoing analysis on the results screen. Upon completion, the 
+results are listed: 
+Note:  If the analysis is not running, tap Analyze. To re-analyze 
+a scan, tap the row for the scan, and then tap Re-Analyze.
+
+
+--- Page 93 ---
+Doc ID: 214062 Rev. 2.0
+Chapter 5: Processing cells with the BD Rhapsody™ Single-Cell Analysis system
+91
+Preparing Cell Capture Beads
+Before you begin
+•
+Prepare the pre-amplification workspace for preparation of the 
+Cell Capture Beads for the BD Rhapsody Cartridge.
+•
+Keep the Cell Capture Beads on ice before use.
+•
+For maximum recovery, do not vortex samples containing Cell 
+Capture Beads. 
+•
+Gently mix suspensions with Cell Capture Beads by pipette 
+only.
+Preparing Cell 
+Capture Beads
+Use low retention pipette tips and LoBind Tubes when handling 
+Cell Capture Beads.
+1.
+Place the tube with Cell Capture Beads (Cat. No. 650000089) 
+(beads) on the 1.5 mL tube magnet for 1 minute.
+2.
+Carefully remove and appropriately discard the storage buffer 
+without disturbing the beads and while leaving the tube on the 
+magnet. 
+3.
+Remove the tube from the magnet, and then pipet 750 µL of 
+cold Sample Buffer (Cat. No. 650000062) into the tube of 
+beads.
+4.
+Pipet the bead suspension up and down to mix.
+5.
+Keep the beads on ice.
+6.
+After the Cell Load scan, and after you have confirmed that 
+the analysis is running, proceed to Loading Cell Capture Beads 
+and imaging (page 92).
+
+
+--- Page 94 ---
+Doc ID: 214062 Rev. 2.0
+BD Rhapsody Single-Cell Analysis System Instrument User Guide
+92
+Loading Cell Capture Beads and imaging
+1.
+Return the cartridge to the tray of the BD Rhapsody Express 
+instrument.
+2.
+Change the mode of the BD Rhapsody P1200M pipette to 
+Prime/Treat.
+3.
+Load the cartridge with 700 µL of air using the BD Rhapsody 
+P1200M pipette in Prime/Treat mode. 
+4.
+Change the mode of the BD Rhapsody P1200M pipette to 
+Bead Load.
+5.
+Use a P1000 standard pipette to gently pipet the Cell Capture 
+Beads in cold Sample Buffer (Cat. No. 650000062) up and 
+down to mix, and, using the BD Rhapsody P1200M pipette in 
+Bead Load mode, immediately load the cartridge with 630 µL 
+of beads. 
+6.
+Let the beads settle in the cartridge on the tray at room 
+temperature (15°C to 25°C) for 3 minutes.
+7.
+Image the cartridge with the scanner (Bead Load step). For 
+detailed instructions, see Imaging cells in a cartridge (page 87).
+8.
+Return the cartridge to the tray of the BD Rhapsody Express 
+instrument. 
+9.
+Change the mode of the BD Rhapsody P1200M pipette to 
+Wash.
+
+
+--- Page 95 ---
+Doc ID: 214062 Rev. 2.0
+Chapter 5: Processing cells with the BD Rhapsody™ Single-Cell Analysis system
+93
+Note:  In Wash mode, press the button once to aspirate 720 µL 
+of air or reagent. After aspiration, insert the tip into the 
+cartridge, and then press the button once to dispense 700 µL of 
+air or liquid. After removing the pipette tip from the cartridge 
+inlet, press the button once to dispense the remaining 20 µL of 
+air or liquid before ejecting the pipette tip.
+10. Load the cartridge with 700 µL of air using the BD Rhapsody 
+P1200M pipette in Wash mode. 
+11. Load the cartridge with 700 µL of cold Sample Buffer (Cat. 
+No. 650000062) using the BD Rhapsody P1200M pipette in 
+Wash mode.
+12. Repeat steps 10–11 once for a total of two washes.
+13. Image the cartridge with the scanner (Bead Wash step). For 
+detailed instructions, see Imaging cells in a cartridge (page 87).
+Lysing cells and retrieving Cell Capture Beads
+Lysing the cells
+Avoid bubbles. 
+1.
+Add 75.0 µL of 1 M DTT (Cat. No. 650000063) to one bottle 
+of 15 mL Lysis Buffer (Cat. No. 650000064), and then check 
+the Add DTT box on the Lysis Buffer label.
+Use the Lysis Buffer with DTT ≤24 hours, and then discard.
+2.
+Briefly vortex the lysis mix, and place it on ice.
+3.
+Return the cartridge to the tray of the BD Rhapsody Express 
+instrument.
+
+
+--- Page 96 ---
+Doc ID: 214062 Rev. 2.0
+BD Rhapsody Single-Cell Analysis System Instrument User Guide
+94
+4.
+Move the left slider to LYSIS. The (bottom) magnet is in the up 
+position and is in contact with the cartridge:
+5.
+Change the mode on the BD Rhapsody P1200M pipette to 
+Lysis.
+6.
+Load the cartridge with 550 µL of Lysis Buffer with DTT using 
+the BD Rhapsody P1200M pipette in Lysis mode.
+7.
+Leave the cartridge at room temperature (15°C to 25°C) on 
+the tray for 2 minutes.
+Maintain recommended lysis time for best performance.
+
+
+--- Page 97 ---
+Doc ID: 214062 Rev. 2.0
+Chapter 5: Processing cells with the BD Rhapsody™ Single-Cell Analysis system
+95
+Retrieving the Cell 
+Capture Beads from 
+the cartridge
+1.
+Ensure that a 5 mL LoBind Tube (Eppendorf Cat. 
+No. 0030108310) was inserted into the drawer for bead 
+retrieval.
+2.
+Confirm that the mode on the BD Rhapsody P5000M pipette 
+is Retrieval. The pipette is locked into this single mode.
+3.
+Move the front slider to BEADS:
+OPEN
+WASTE
+BEADS
+
+
+--- Page 98 ---
+Doc ID: 214062 Rev. 2.0
+BD Rhapsody Single-Cell Analysis System Instrument User Guide
+96
+4.
+Move the left slider to RETRIEVAL. The (top) magnet is in the 
+down position and is in contact with the cartridge:
+5.
+Leave the Retrieval magnet in the down position for 
+30 seconds.
+6.
+Use the BD Rhapsody P5000M pipette to aspirate 5,000 µL of 
+Lysis Buffer with DTT.
+7.
+Press down firmly on the BD Rhapsody P5000M pipette to 
+seal the pipette tip against the gasket of the cartridge to avoid 
+leaks.
+
+
+--- Page 99 ---
+Doc ID: 214062 Rev. 2.0
+Chapter 5: Processing cells with the BD Rhapsody™ Single-Cell Analysis system
+97
+8.
+Move the left slider to the middle (0) position, and 
+immediately load the cartridge with 4,950 µL of Lysis Buffer 
+with DTT using the BD Rhapsody P5000M pipette. The 
+Retrieval (top) magnet is in its full up position and is away 
+from the cartridge.
+The Cell Capture Beads (beads) are collected in the 5 mL 
+LoBind Tube.
+9.
+Remove the pipette tip from the inlet gasket of the cartridge 
+before pressing the dial button once to purge the tip. Discard 
+the pipette tip.
+10. Move the front slider to OPEN, and then remove and cap the 
+5 mL LoBind Tube.
+11. Uncap the 5 mL LoBind Tube, and place it on the large 
+magnetic separation stand fitted with the 15 mL tube adapter 
+for 1 minute. 
+During the 1 minute incubation, proceed to imaging the 
+cartridge in step 12.
+12. Image the cartridge with the scanner (Retrieval step). For 
+detailed instructions, see Imaging cells in a cartridge (page 87).
+13. Proceed immediately to Performing reverse transcription on 
+the Cell Capture Beads (page 99) to process the beads and 
+begin reverse transcription.
+14. Appropriately dispose of the BD Rhapsody Cartridge 
+according to biosafety level (BSL):
+–
+BSL-1. Discard the cartridge in a recycle container.
+–
+BSL-2. Discard the cartridge in a biosafety waste container.
+Dispose of waste using proper precautions and in accordance 
+with local regulations. For more information, see Waste 
+(page 140).
+Biological hazard. 
+
+
+--- Page 100 ---
+Doc ID: 214062 Rev. 2.0
+BD Rhapsody Single-Cell Analysis System Instrument User Guide
+98
+15. Appropriately dispose of the waste in the Waste Collection 
+Container. 
+16. Appropriately dispose of the Lysis Buffer with DTT.
+17. Wipe the Express instrument with 10% bleach or 70% ethyl 
+alcohol. See the BD Rhapsody™ Single-Cell Analysis System 
+Installation and Maintenance Guide (Doc ID 43084).
+
+
+--- Page 101 ---
+Doc ID: 214062 Rev. 2.0
+Chapter 5: Processing cells with the BD Rhapsody™ Single-Cell Analysis system
+99
+Performing reverse transcription on the Cell 
+Capture Beads
+Introduction
+Prepare the reverse transcription mix, wash the Cell Capture 
+Beads, and then perform reverse transcription on the beads with 
+captured polyadenylated targets.
+Univ: universal oligo; CL: cell label; UMI: Unique Molecular 
+Identifier.
+Best practices
+•
+Prepare the cDNA mix in the pre-amplification workspace.
+•
+Start reverse transcription ≤30 minutes after washing retrieved 
+beads with Bead Wash Buffer.
+Before you begin
+•
+Obtain the 5 mL LoBind Tube of retrieved beads. See 
+Retrieving the Cell Capture Beads from the cartridge 
+(page 95).
+•
+Ensure that the SmartBlock™ Thermoblock 1.5 mL or 
+equivalent is installed on the thermomixer and is set to 37°C 
+and 20 minutes.
+Cell Capture
+Bead
+7777
+$$$$
+Univ CL UMI
+mRNA
+3'
+3'
+5'
+Cell Capture
+Bead
+7777
+$$$$
+Univ CL UMI
+Reverse Transcription
+Exo I Inactivation
+mRNA
+cDNA
+3'
+5'
+3'
+mRNA
+
+
+--- Page 102 ---
+Doc ID: 214062 Rev. 2.0
+BD Rhapsody Single-Cell Analysis System Instrument User Guide
+100
+Washing the Cell 
+Capture Beads
+Keep the Cell Capture Beads cold during washes. 
+Use low retention tips to handle Cell Capture Beads.
+1.
+After the 1 minute incubation on the large magnet [see 
+Retrieving the Cell Capture Beads from the cartridge 
+(page 95)] and while leaving the 5 mL LoBind Tube on the 
+large magnet, use a pipette to carefully remove all but ~1 mL 
+of supernatant without disturbing the beads.
+2.
+Remove the tube from the large magnet, resuspend the ~1 mL 
+beads by gently pipetting the suspension up and down, and 
+then transfer the bead suspension to a new 1.5 mL LoBind 
+Tube.
+3.
+If beads remain in the 5 mL LoBind Tube, pipet an additional 
+0.5 mL of Lysis Buffer with DTT into the tube, rinse the 5 mL 
+tube, and transfer the suspension to the 1.5 mL LoBind Tube 
+of beads. 
+4.
+Place the tube on the 1.5 mL tube magnet for ≤2 minutes, and 
+then carefully remove and appropriately discard the 
+supernatant without disturbinog the beads and while leaving 
+the tube on the magnet.
+Avoid leaving Lysis Buffer or bubbles in the tube. Lysis Buffer 
+might cause the reverse transcription reaction to fail.
+5.
+Remove the 1.5 mL LoBind Tube from the magnet, and then 
+pipet 1.0 mL of cold Bead Wash Buffer (Cat. No. 650000065) 
+into the tube. Gently mix the suspension by pipette only. Do 
+not vortex.
+
+
+--- Page 103 ---
+Doc ID: 214062 Rev. 2.0
+Chapter 5: Processing cells with the BD Rhapsody™ Single-Cell Analysis system
+101
+6.
+Place the tube on the 1.5 mL tube magnet for ≤2 minutes, and 
+then carefully remove and appropriately discard the 
+supernatant without disturbing the beads and while leaving the 
+tube on the magnet.
+7.
+Remove the 1.5 mL LoBind Tube from the magnet, and then 
+pipet 1.0 mL of cold Bead Wash Buffer (Cat. No. 650000065) 
+into the tube. Gently mix the suspension by pipette only, and 
+place the tube on ice. Do not vortex.
+Start reverse transcription ≤30 minutes after washing retrieved 
+Cell Capture Beads with Bead Wash Buffer.
+Performing reverse 
+transcription
+When working with Cell Capture Beads (beads), use only low 
+retention tips and LoBind Tubes.
+Limit preparation of mixes to ≤20% overage.
+Prepare the cDNA mix on ice.
+1.
+Ensure that the SmartBlock Thermoblock for 
+ThermoMixer® C is at 37°C.
+2.
+In the pre-amplification workspace, into a new 1.5 mL LoBind 
+Tube that is on ice, pipet the components in the following 
+order to prepare the cDNA mix: 
+
+
+--- Page 104 ---
+Doc ID: 214062 Rev. 2.0
+BD Rhapsody Single-Cell Analysis System Instrument User Guide
+102
+cDNA mix
+3.
+Gently vortex and centrifuge the mix, and then place it back 
+on ice.
+Component
+1 library (µL)
+1 library + 20% 
+overage (µL)
+RT Buffer 
+(Cat. No. 650000067)
+  40.0
+  48.0
+dNTP 
+(Cat. No. 650000077)
+  20.0
+  24.0
+RT 0.1 M DTT 
+(Cat. No. 650000068)
+  10.0
+  12.0
+Bead RT/PCR 
+Enhancer 
+(Cat. No. 91-1082)
+ 12.0
+ 14.4
+RNase Inhibitor 
+(Cat. No. 650000078)
+  10.0
+  12.0
+Reverse Transcriptase 
+(Cat. No. 650000069)
+  10.0
+  12.0
+Nuclease-Free Water 
+(Cat. No. 650000076)
+98.0
+117.6
+Total
+ 200.0
+ 240.0
+
+
+--- Page 105 ---
+Doc ID: 214062 Rev. 2.0
+Chapter 5: Processing cells with the BD Rhapsody™ Single-Cell Analysis system
+103
+4.
+Place the tube of washed beads [see Washing the Cell Capture 
+Beads (page 100)] on the 1.5 mL tube magnet for ≤2 minutes, 
+and then carefully remove and appropriately discard the 
+supernatant without disturbing the beads and while leaving the 
+tube on the magnet.
+5.
+Use a low retention tip to pipet 200 µL of the cDNA mix to 
+resuspend the beads. Gently mix the suspension by pipette 
+only. Do not vortex.
+Prepared cDNA mix with beads should be kept on ice until the 
+suspension is transferred in the next step.
+6.
+Transfer the bead suspension to a new 1.5 mL LoBind Tube.
+7.
+Incubate the suspension on the thermomixer at 1,200 rpm and 
+37°C for 20 minutes.
+Shaking is critical for this incubation.
+During reverse transcription incubation, view the image 
+analysis to determine if the analysis metrics have passed. See 
+Reviewing the analysis metrics (page 124).
+8.
+After incubation, place the tube on ice. 
+
+
+--- Page 106 ---
+Doc ID: 214062 Rev. 2.0
+BD Rhapsody Single-Cell Analysis System Instrument User Guide
+104
+Treating the sample with Exonuclease I
+Before you begin
+•
+Ensure that the SmartBlock Thermoblock 1.5 mL or 
+equivalent is installed on the thermomixer and is set to 37°C 
+and 30 minutes.
+•
+Set a second thermomixer or heat block to 80°C.
+Preparing the 
+Exonuclease I mix
+When working with Cell Capture Beads, use only low retention 
+tips and LoBind Tubes.
+Limit preparation of mixes to ≤20% overage.
+Prepare the Exonuclease I mix on ice.
+1.
+In the pre-amplification workspace, prepare the Exonuclease I 
+mix in a new 1.5 mL LoBind Tube that is on ice by adding the 
+components in the following order:
+Exonuclease I mix
+2.
+Gently vortex and centrifuge the mix, and then place it back 
+on ice.
+Component
+1 library (µL)
+1 library + 20% 
+overage (µL)
+10X Exonuclease I 
+Buffer 
+(Cat. No. 650000071)
+   20.0
+   24.0
+Exonuclease I 
+(Cat. No. 650000072)
+   10.0
+   12.0
+Nuclease-Free Water 
+(Cat. No. 650000076)
+ 170.0
+ 204.0
+Total
+   200.0
+   240.0
+
+
+--- Page 107 ---
+Doc ID: 214062 Rev. 2.0
+Chapter 5: Processing cells with the BD Rhapsody™ Single-Cell Analysis system
+105
+Treating the Cell 
+Capture Beads with 
+Exonuclease I
+1.
+Place the tube of beads with cDNA mix on the 1.5 mL tube 
+magnet for ≤2 minutes, and then carefully remove and 
+appropriately discard the supernatant without disturbing the 
+beads and while leaving the tube on the magnet.
+2.
+Remove the tube from the magnet, and then use a low 
+retention tip to pipet 200 µL of Exonuclease I mix into the 
+tube, Gently resuspend the beads by pipette only. Do not 
+vortex.
+3.
+Incubate the suspension on the thermomixer at 1,200 rpm and 
+37°C for 30 minutes.
+4.
+If the thermomixer or heat block needs to preheat to a 
+different temperature (80°C thermomixer or heat block), place 
+the samples on ice until that temperature is reached.
+5.
+Immediately proceed to Inactivating Exonuclease I.
+Inactivating 
+Exonuclease I
+1.
+Transfer the bead suspension with Exonuclease I to the 
+thermomixer (no shaking) in the pre-amplification workspace 
+at 80°C for 20 minutes, or place the bead suspension in a heat 
+block at 80°C for 20 minutes.
+2.
+Place the bead suspension on ice for ~1 minute.
+3.
+Place the tube on the 1.5 mL tube magnet until the solution is 
+clear (≤1 minute).
+4.
+Carefully remove and appropriately discard the supernatant 
+without disturbing the beads and while leaving the tube on the 
+magnet. 
+
+
+--- Page 108 ---
+Doc ID: 214062 Rev. 2.0
+BD Rhapsody Single-Cell Analysis System Instrument User Guide
+106
+5.
+Remove the tube from the magnet, and with a low retention 
+tip, pipet 200 µL of cold Bead Resuspension Buffer (Cat. 
+No. 650000066) to gently resuspend the beads. Do not vortex.
+Stopping point: The Exonuclease I-treated beads can be stored 
+at 2°C to 8°C for ≤3 months.
+6.
+Proceed to library preparation. See the Single Cell Analysis 
+Workflow with BD Rhapsody™ Systems (Doc ID: 220524) to 
+find the appropriate protocol to follow.
+
+
+--- Page 109 ---
+Doc ID: 214062 Rev. 2.0
+6
+Troubleshooting
+•
+Scanning troubleshooting (page 108)
+•
+Cartridge loading troubleshooting (page 110)
+•
+BD Rhapsody Scanner software messages (page 114)
+
+
+--- Page 110 ---
+Doc ID: 214062 Rev. 2.0
+BD Rhapsody Single-Cell Analysis System Instrument User Guide
+108
+Scanning troubleshooting
+Introduction
+This topic describes possible problems and recommended solutions 
+for scanning issues.
+Incorrect alignment
+Tray not ejected 
+from BD 
+Rhapsody™ 
+Scanner
+BD Rhapsody 
+Scanner not 
+analyzing all 
+images
+Possible causes
+Recommended solutions
+Cartridge or 
+hemocytometer not 
+properly inserted on 
+BD Rhapsody™ 
+Express instrument 
+tray
+Ensure that the notched corner of the 
+cartridge or hemocytometer is aligned with 
+the notch of the tray, and the barcode is facing 
+toward the front of the instrument.
+Possible causes
+Recommended solutions
+Cartridge in 
+incorrect 
+orientation or no 
+cartridge
+Tap the eject button at the right top corner of 
+the cartridge insertion screen. Reinsert the 
+cartridge on the tray.
+Possible causes
+Recommended solutions
+Masked or 
+incompletely 
+processed wells
+The software automatically corrects for 
+masked or incompletely processed wells. No 
+manual extrapolation is necessary.
+
+
+--- Page 111 ---
+Doc ID: 214062 Rev. 2.0
+Chapter 6: Troubleshooting
+109
+Persistent scanning 
+artifacts
+Artifacts might include apparent cells in an empty hemocytometer, 
+consistently low capture rate warnings, auto-exposure errors, and 
+dirty optics cover. 
+Possible causes
+Recommended solutions
+Dirty optics
+Contact BD Biosciences technical support at 
+researchapplications@bd.com.
+
+
+--- Page 112 ---
+Doc ID: 214062 Rev. 2.0
+BD Rhapsody Single-Cell Analysis System Instrument User Guide
+110
+Cartridge loading troubleshooting
+Introduction
+This topic describes possible problems and recommended solutions 
+for BD Rhapsody™ Cartridge issues. These issues arise during 
+image analysis. Also see BD Rhapsody™ Scanner metrics 
+(page 119).
+Number of cells 
+captured too high 
+or cell doublet rate 
+too high (out of 
+range)
+Possible causes
+Recommended solutions
+Too many cells 
+loaded
+
+Confirm that the calculation of cell dilution 
+is correct.
+
+Reduce the number of cells loaded in the 
+cartridge.
+Improper counting 
+with 
+hemocytometer
+
+Recount cells with the BD Rhapsody 
+Scanner.
+
+Follow Processing cells with the 
+BD Rhapsody™ Single-Cell Analysis 
+system (page 65).
+Incorrect 
+calculation of cell 
+concentration
+
+Use the BD Rhapsody Scanner for cell 
+counting and analysis. 
+
+Use the Analysis app Sample Calculator for 
+preparing cell suspensions.
+
+
+--- Page 113 ---
+Doc ID: 214062 Rev. 2.0
+Chapter 6: Troubleshooting
+111
+Number of cells 
+captured lower 
+than anticipated
+Bead loading 
+density out of 
+range
+Image analysis fails 
+at Bead Wash, 
+indicating 
+insufficient 
+removal of excess 
+Cell Capture Beads
+Possible causes
+Recommended solutions
+Incorrect 
+calculation of cell 
+concentration
+
+Use the BD Rhapsody Scanner for cell 
+counting and analysis. 
+
+Use the Analysis app Sample Calculator for 
+preparing cell suspensions.
+Cell size larger than 
+recommended 
+range
+Cell capture efficiency is reduced in the 
+BD Rhapsody Cartridge if the cell diameter is 
+>20 µm.
+Possible causes
+Recommended solutions
+Insufficient number 
+of Cell Capture 
+Beads loaded
+
+Ensure that all of the beads are pelleted 
+before removing storage buffer and are 
+resuspended in Sample Buffer (Cat. 
+No. 650000062). 
+
+Use the Bead Load mode on the pipette.
+
+Ensure the beads are well suspended before 
+loading into the cartridge.
+Possible causes
+Recommended solutions
+Pipette mode 
+incorrect
+Ensure that the correct pipette mode is used 
+for the step. 
+Pipette step missed
+Review protocol, and repeat, if necessary.
+
+
+--- Page 114 ---
+Doc ID: 214062 Rev. 2.0
+BD Rhapsody Single-Cell Analysis System Instrument User Guide
+112
+Cell retention out 
+of range, indicating 
+cell loss during 
+cartridge workflow
+Bead retrieval 
+efficiency out of 
+range, indicating 
+poor retrieval
+Image analysis 
+does not start
+Dropped the 
+cartridge or hit it 
+against object
+Possible causes
+Recommended solutions
+Pipette mode 
+incorrect
+Ensure that the correct pipette mode is used 
+for the step.
+Cell viability low
+Use cells of high viability.
+Possible causes
+Recommended solutions
+Retrieval (top) 
+magnet not 
+positioned properly
+Check magnet position.
+Pipette mode 
+incorrect
+Ensure that the correct pipette mode is used 
+for the step. 
+Possible causes
+Recommended solutions
+Software does not 
+initiate analysis 
+after a scan
+1. On the BD Rhapsody Scanner main menu, 
+tap Analysis.
+2. Tap the experiment. 
+3. Tap Analyze to start the analysis. You can 
+analyze multiple scan steps at the same 
+time.
+Possible causes
+Recommended solutions
+Various
+
+If the cartridge was dropped, BD 
+recommends using a new cartridge; 
+otherwise, carefully review the imaging 
+metrics before proceeding.
+
+If the cartridge was struck, proceed at your 
+own risk, and carefully review the imaging 
+metrics before proceeding.
+
+
+--- Page 115 ---
+Doc ID: 214062 Rev. 2.0
+Chapter 6: Troubleshooting
+113
+Air bubble in 
+cartridge
+Image analysis fails
+Contact BD Biosciences technical support at 
+researchapplications@bd.com.
+Installation or 
+mechanical issues
+See the BD™ Rhapsody Single-Cell Analysis System Installation 
+and Maintenance Guide (Doc ID: 43084).
+Possible causes
+Recommended solutions
+Air bubble present 
+in pipette tip while 
+dispensing buffer
+Confirm that there is an air bubble in the 
+cartridge by examining an image of the 
+cartridge.
+Ensure that the pipette tip contains only 
+buffer and no air bubble is trapped in the 
+cartridge at the end of aspiration.
+Re-used pipette tip
+Use a new pipette tip at every pipetting step.
+
+
+--- Page 116 ---
+Doc ID: 214062 Rev. 2.0
+BD Rhapsody Single-Cell Analysis System Instrument User Guide
+114
+BD Rhapsody Scanner software messages
+Introduction
+This topic lists error and warning messages that you might 
+encounter while using the BD Rhapsody Scanner software. 
+If the recommended solutions do not resolve the problem, contact 
+BD Biosciences tech support at researchapplications@bd.com or 
+1.877.232.8995, prompt 2, 2.
+Error messages
+Error messages require you to perform an action, according to a 
+displayed dialog, before you can proceed. 
+Error message
+Possible causes
+Recommended solutions
+“Failed to open 
+door. Ensure 
+nothing is blocking 
+the door.”
+Obstruction
+Remove obstruction, and retry opening the 
+scanner cartridge door.
+“Failed to open 
+door.”
+Various; not an 
+obstruction
+Restart scanner.
+“Failed to close 
+door. Ensure 
+nothing is blocking 
+the door.”
+Obstruction
+Remove obstruction, and retry closing the 
+scanner cartridge door.
+“Failed to close 
+door.”
+Various; not an 
+obstruction
+Restart the scanner.
+“Obstruction 
+detected while 
+ejecting.”
+Obstruction or 
+calibration update 
+required
+Remove obstruction, and retry ejecting the 
+cartridge.
+“Obstruction 
+detected while 
+retracting stage.”
+Obstruction
+1. Remove obstruction, and retry retracting 
+cartridge into the scanner. 
+2. Click Cancel. 
+3. Restart the scanner.
+
+
+--- Page 117 ---
+Doc ID: 214062 Rev. 2.0
+Chapter 6: Troubleshooting
+115
+“Available disk 
+space is extremely 
+low.”
+Low disk space
+Contact BD tech support 
+researchapplications@bd.com or 
+1.877.232.8995, prompt 2, 2.
+“Failed to 
+initialize...”
+Various
+Contact BD tech support 
+researchapplications@bd.com or 
+1.877.232.8995, prompt 2, 2.
+“Requested move 
+not safe.”
+Various
+Contact BD tech support 
+researchapplications@bd.com or 
+1.877.232.8995, prompt 2, 2.
+“Unknown 
+cartridge barcode.”
+Unsupported 
+barcode scanned
+Contact BD tech support 
+researchapplications@bd.com or 
+1.877.232.8995, prompt 2, 2.
+“Failed to read 
+file.”
+Various
+Contact BD tech support 
+researchapplications@bd.com or 
+1.877.232.8995, prompt 2, 2.
+“Cartridge 
+alignment feature 
+not found.”
+
+Incorrect 
+cartridge
+
+Light failed
+Rescan the cartridge.
+Error message 
+(continued)
+Possible causes
+Recommended solutions
+
+
+--- Page 118 ---
+Doc ID: 214062 Rev. 2.0
+BD Rhapsody Single-Cell Analysis System Instrument User Guide
+116
+Warnings
+Warnings display in the Warnings box on the scanner display and 
+are mostly informative messages that require no action from you.
+Warning message
+Possible causes
+Recommended solutions
+“Barcode scan 
+failed. Please make 
+sure the cartridge is 
+inserted and aligned 
+correctly.”
+Barcode not read
+1. Reinsert the cartridge, and rescan the 
+cartridge. 
+2. If necessary, restart the scanner.
+“Available disk 
+space is running 
+low.”
+Limited disk space
+Contact BD tech support 
+researchapplications@bd.com or 
+1.877.232.8995, prompt 2, 2.
+“The protocol was 
+not found.”
+Protocol missing
+Contact BD tech support 
+researchapplications@bd.com or 
+1.877.232.8995, prompt 2, 2.
+“Auto-exposure is 
+not configured for 
+image type. Using 
+default value 
+instead.”
+Method not found
+Contact BD tech support 
+researchapplications@bd.com or 
+1.877.232.8995, prompt 2, 2.
+“Auto-exposure 
+resulted in images 
+darker than 
+normal.”
+
+No cell in image 
+tile
+
+Light failed
+Contact BD tech support 
+researchapplications@bd.com or 
+1.877.232.8995, prompt 2, 2.
+“Auto-exposure 
+resulted in images 
+brighter than 
+normal.”
+Various
+Contact BD tech support 
+researchapplications@bd.com or 
+1.877.232.8995, prompt 2, 2.
+“Auto-exposure 
+adjustment 
+unsuccessful. Using 
+nearest value.”
+Algorithm 
+calculation
+Contact BD tech support 
+researchapplications@bd.com or 
+1.877.232.8995, prompt 2, 2.
+
+
+--- Page 119 ---
+Doc ID: 214062 Rev. 2.0
+Chapter 6: Troubleshooting
+117
+“Autofocus did not 
+find perfect focus. 
+Using nearest 
+value.”
+
+Bubble in 
+cartridge
+
+Calibration 
+needs update
+Contact BD tech support 
+researchapplications@bd.com or 
+1.877.232.8995, prompt 2, 2.
+“Attempted to use 
+exposure time 
+greater than 
+maximum. Using 
+the maximum 
+instead.”
+Light failed
+Contact BD tech support 
+researchapplications@bd.com or 
+1.877.232.8995, prompt 2, 2.
+“No alignment 
+marks found. 
+Continuing without 
+cartridge specific 
+calibration.”
+Cartridge 
+misaligned
+Reinsert cartridge, and rescan.
+“Not enough local 
+alignment marks 
+detected.”
+
+Bead is covering 
+an alignment 
+mark
+
+Bad image
+Contact BD tech support 
+researchapplications@bd.com or 
+1.877.232.8995, prompt 2, 2.
+Warning message 
+(continued)
+Possible causes
+Recommended solutions
+
+
+--- Page 120 ---
+This page intentionally left blank
+
+
+--- Page 121 ---
+Doc ID: 214062 Rev. 2.0
+A
+BD Rhapsody™ Scanner metrics
+•
+Image analysis metrics (page 120)
+•
+Reviewing the analysis metrics (page 124) 
+
+
+--- Page 122 ---
+Doc ID: 214062 Rev. 2.0
+BD Rhapsody Single-Cell Analysis System Instrument User Guide
+120
+Image analysis metrics
+Understanding 
+analysis metrics
+The chart lists the steps and metrics measured during image analysis of 
+the hemocytometer or BD Rhapsody™ Cartridge.
+Step
+Metric
+Definition
+Use
+Passing 
+threshold
+Hemocytometer
+Total cell 
+concentration 
+(cell/µL)
+Number of 
+viable (Calcein 
+AM-positive) 
+and non-viable 
+(DRAQ7-
+positive) cells/µL
+Calculates 
+concentration of the 
+cell suspension to 
+determine the 
+volume of cell 
+suspension to use 
+for loading onto the 
+cartridge.
+Value
+Hemocytometer
+Cell viability 
+(%)
+Percent viable 
+(Calcein AM-
+positive) cells
+Assesses cell 
+viability to 
+determine if the cell 
+sample meets the 
+quality threshold.
+Value
+Cell Load
+Number of 
+wells with 
+viable cells at 
+Cell Load
+Number of wells 
+containing 
+viable (Calcein 
+AM-positive) 
+cells
+Provides a 
+preliminary 
+estimate of the 
+number of wells 
+with viable cells 
+captured.a
+—
+Cell Load
+Number of 
+viable cells 
+captured in 
+wells at Cell 
+Load
+Number of 
+viable (Calcein 
+AM-positive) 
+cells captured in 
+a well
+Provides a 
+preliminary 
+estimate of the total 
+number of viable 
+cells captured in the 
+cartridge.b
+—
+
+
+--- Page 123 ---
+Doc ID: 214062 Rev. 2.0
+Chapter A: BD Rhapsody™ Scanner metrics
+121
+Cell Load
+Cell multiplet 
+rate at Cell 
+Loadd (%)
+Number of wells 
+containing 
+multiple viable 
+(Calcein AM-
+positive) cells 
+versus the total 
+number of wells 
+containing one 
+or more viable 
+cells
+Provides a measure 
+of cell clumping.
+—
+Bead Wash
+Number of 
+wells with 
+viable cells 
+and a bead
+Total number of 
+wells with one 
+bead and ≥1 
+viable (Calcein 
+AM-positive) 
+cells
+Provides an 
+estimate of the 
+number of wells 
+with viable cells 
+captured with 
+beads.c
+Value
+Bead Wash
+Number of 
+viable cells 
+captured in 
+wells with a 
+bead
+Total number of 
+viable (Calcein 
+AM-positive) 
+cells captured in 
+a well with a 
+bead
+Estimates the total 
+number of viable 
+cells captured on a 
+Cell Capture Bead 
+at cell lysis.c
+—
+Bead Wash
+Cell multiplet 
+rated (%)
+Number of wells 
+containing one 
+bead and 
+multiple viable 
+(Calcein AM-
+positive) cells 
+versus the total 
+number of wells 
+containing one 
+bead and one or 
+more viable cells
+Provides an 
+estimate of the 
+occurrence of 
+multiple cells 
+captured by the 
+same bead in a well.
+Value
+Step (continued)
+Metric
+Definition
+Use
+Passing 
+threshold
+
+
+--- Page 124 ---
+Doc ID: 214062 Rev. 2.0
+BD Rhapsody Single-Cell Analysis System Instrument User Guide
+122
+Bead Wash
+Bead loading 
+efficiency (%)
+Percent wells 
+with one bead
+Indicates if the 
+cartridge is 
+significantly 
+underloaded with 
+beads.
+≥80%
+Bead Wash
+Cell retention 
+rate (%)
+Number of 
+viable (Calcein 
+AM-positive) 
+cells captured in 
+wells prior to 
+lysis versus 
+number of 
+viable cells 
+captured in 
+wells prior to 
+bead loading
+Indicates if a 
+significant number 
+of cells initially 
+loaded into wells 
+are lost or died 
+during the 
+workflow prior to 
+lysis.
+≥60%
+Retrieval
+Bead retrieval 
+efficiency (%)
+Percent of wells 
+with beads 
+removed
+Indicates if the 
+number of beads 
+retrieved is 
+significantly lower 
+than expected.
+≥90%
+a.
+The number of wells with viable cells is less than the total number of viable cells captured in 
+wells because of wells containing cell multiplets.
+b.
+Cell capture efficiency at Cell Load (%) = Number of viable cells captured in well at Cell Load/
+Total number of viable cells imaged * 100.
+c.
+The metric, the number of wells with viable cells and a bead, is less than the metric, the 
+number of viable cells captured in wells with a bead, due to wells containing cell multiplets. 
+Multiple cells captured with one bead will appear as one cell in sequencing data. Because of 
+this, the appropriate metric to use for an estimation of the number of cells that could be 
+recovered in sequencing is the metric, number of wells with viable cells and a bead.
+d.
+The estimated multiplet rate is calculated by Poisson distribution using the number of cells 
+loaded into the cartridge. See Processing cells with the BD Rhapsody™ Single-Cell Analysis 
+system (page 65). The cell multiplet rate reported by the BD Rhapsody Scanner is determined 
+by imaging. If the cell multiplet rate >> estimated multiplet rate, this might indicate cell 
+clumping.
+Step (continued)
+Metric
+Definition
+Use
+Passing 
+threshold
+
+
+--- Page 125 ---
+Doc ID: 214062 Rev. 2.0
+Chapter A: BD Rhapsody™ Scanner metrics
+123
+Viewing image 
+analysis metrics
+To view image analysis metrics in a spreadsheet, click the 
+Rhapsody Data shortcut on the BD Rhapsody Scanner screen. The 
+Rhapsody Data folder contains 
+ExperimentName_SampleName.csv, PrepareSampleResults.csv, 
+and Cell Count.csv. 
+
+
+--- Page 126 ---
+Doc ID: 214062 Rev. 2.0
+BD Rhapsody Single-Cell Analysis System Instrument User Guide
+124
+Reviewing the analysis metrics
+1.
+Navigate to the Analysis application.
+2.
+Tap the experiment to ensure that the analyses are completed. 
+For example:
+3.
+Review the analysis metrics. For PASS criteria, see Image 
+analysis metrics (page 120). For example:
+4.
+(Optional) View quantitative analysis metrics for each 
+experiment in a spreadsheet. For example, the .csv files from 
+the analysis of the Jurkat and Ramos cells are displayed:
+
+
+--- Page 127 ---
+Doc ID: 214062 Rev. 2.0
+Chapter A: BD Rhapsody™ Scanner metrics
+125
+Note:  To set up the shortcut to the Rhapsody Data folder in 
+Quick Access, see BD Rhapsody Scanner software (page 29).
+–
+(1) Analysis metrics (page 126)
+–
+(2) Cell count (page 127)
+–
+(3) Sample result (page 127)
+
+
+--- Page 128 ---
+Doc ID: 214062 Rev. 2.0
+BD Rhapsody Single-Cell Analysis System Instrument User Guide
+126
+(1) Analysis metrics
+Barcode
+0109034055A
+Experiment
+20180221_SL_XH
+Sample
+Dispense1-1
+Scan System ID
+R******-1017
+Scan start date and time
+2/21/2018 10:29
+Operator
+SL
+Cell load analysis last updated
+2/21/2018 10:34
+Total number of tiles
+26
+Cell load number of tiles processed
+26
+Number of wells with viable cells at cell load
+9118
+Number of viable cells captured in wells at cell load
+9344
+Cell multiplet rate at cell load
+2.40%
+Bead wash analysis last updated
+2/21/2018 11:20
+Bead wash number of tiles processed
+26
+Number of wells with viable cells and a bead
+7999
+Number of viable cells captured in wells with a bead
+8162
+Cell multiplet rate
+2.00%
+Bead loading efficiency
+94.40%
+Bead loading acceptance
+PASS
+Excess bead rate
+0.00%
+Excess bead acceptance
+PASS
+Cell retention rate
+90.20%
+Cell retention acceptance
+PASS
+Bead retrieval analysis last updated
+2/21/2018 11:37
+Bead retrieval number of tiles processed
+26
+Bead retrieval efficiency
+94.80%
+Bead retrieval acceptance
+PASS
+
+
+--- Page 129 ---
+Doc ID: 214062 Rev. 2.0
+Chapter A: BD Rhapsody™ Scanner metrics
+127
+(2) Cell count
+(3) Sample result
+Analysis software version
+1.0.8.7
+Experiment
+20180221_SL_XH
+Sample
+Ramos
+Barcode
+0107001030A
+Protocol step
+Side B
+Scan System ID
+R******-1017
+Operator
+SL
+Scan start date and time
+2/21/2018 10:06
+Analysis last updated
+2/21/2018 10:06
+Total cell concentration (live and dead)
+331.67
+Cell viability
+91.87
+Experiment
+20180221_SL_XH
+Cartridge type
+109
+Cartridge volume (uL)
+575
+Total volume to prepare (uL)
+3000
+Desired number of captured cells
+10000
+Sample buffer volume (uL)
+2816.8
+Loading cell concentration
+19.9
+Cell doublet rate (%)
+2.4
+Sample
+Operator
+Scan Date and Time
+Concentration
+Viable Cells
+Relative Amount Stock Volume (uL)
+Jurkat
+SL
+06:09.4
+320.2
+50.63
+1
+93.2
+Ramos
+SL
+06:28.8
+331.7
+91.87
+1
+90
+
+
+--- Page 130 ---
+This page intentionally left blank
+
+
+--- Page 131 ---
+Doc ID: 214062 Rev. 2.0
+B
+Workflow with two BD Rhapsody™ Cartridges
+•
+Workflow with two cartridges (page 130)
+•
+Best practices with a two-cartridge workflow (page 131) 
+
+
+--- Page 132 ---
+Doc ID: 214062 Rev. 2.0
+BD Rhapsody Single-Cell Analysis System Instrument User Guide
+130
+Workflow with two cartridges 
+Staggered boxes indicate staggering the start of like steps.
+(N
+N
+N
+L&N
+N
+(N
+N
+N
+L'N
+(N
+N
+N
+L&N
+
+(N
+N
+N
+L&N
+#"#+#'#+
+++
+=27*N"8)NB=*"BN
+
+=17*N"8)NB=*"BN
+ ++"'(#+
++	
+
+
++ +
+"'! +
++)$%+
++&'  + +!( ' +
+++
+B"18NG1B0N"4%*28NN
+"8)N="<
+
+
+	
+
+9D8BN%*45AN
+
+
+*E1*GN=*AD4BAN98N
+%"88*>N
+>*;
+49")N%*44AN
+"8)N;=*;"=*N
+*44N";BD=*N*")AN
+7"/*N98N%"88*=N
+		
+
+9")N$*")AN"8)N
+17"/*N98N%"88*>N
+
+
+*>,:=7NN$*")N
+G"A0*AN"8)N17"/*N
+98N%"88*=N
+
+IA*N"8)N=*B=1*E*N
+$*")AN
+7"/*N98N%"88*=N
++C?3+F#6N
+!"A0N*44N";BD=*N
+*")AN
+
+
+
+
+
+
+
+=*;
+59")N%*44AN
+7"/*N98N%"88*>N
+9")N$*")AN"8)N
+"8)N;=*;">*N
+		
+
+17"/*N98N%"88*>N
+*45N";BD=*N*")AN
+
+
+
+
+
+
+
+
+
+
+
+	
+
+
+ 	
+
+*=,:=7N=*E*=A*N
+B="8A%=1;B198N
+ @*"BNA"7;4*NG2B0N
+H98D%5*"A*NN
+
+
+
+	
+
+
+
+
+*=,:=7NN$*")N
+G"A0*AN"8)N17"/*N
+98N%"88*=N
+
+
+
+
+	##*+"#"#'! +
++
+*=-9=7NNN "8)N
+;D=1,INN
+
+
+
+IA*N"8)N>*B=1*E*N
+$*")AN
+7"/*N98N%"88*>N
++C?3+F#6N
+
+!"A0N*44N";BD=*N
+*")AN
+
+
+
+
+
+*@,9>7NN"8)N;D=1,IMMN
+D"8B1,JNNDA18/ND$1BN"AA"IN
+*@,9=7N18)*HNN"8)N;D=2,INN
+D"8B1,IN42$="=INDA28/ND$1BN"AA"IN
+"8)N19"8"4IK*>	N
+
+
+--- Page 133 ---
+Doc ID: 214062 Rev. 2.0
+Chapter B: Workflow with two BD Rhapsody™ Cartridges
+131
+Best practices with a two-cartridge workflow
+Reagent 
+preparation
+To prepare a master mix of sufficient volume for two cartridges, 
+follow the volumes for two libraries plus 10% overage listed for 
+preparing a master mix.
+To perform the workflow, follow the Single Cell Analysis 
+Workflow with BD Rhapsody™ Systems (Doc ID: 220524).
+
+
+--- Page 134 ---
+This page intentionally left blank
+
+
+--- Page 135 ---
+Doc ID: 214062 Rev. 2.0
+C
+Updating the BD Rhapsody™ Scanner software
+•
+Introduction (page 134)
+•
+Uninstalling scanner software (page 134)
+•
+Installing scanner software (page 135)
+•
+Launching the scanner software (page 138)
+
+
+--- Page 136 ---
+Doc ID: 214062 Rev. 2.0
+BD Rhapsody Single-Cell Analysis System Instrument User Guide
+134
+Introduction
+BD Biosciences recommends updating the scanner software by 
+navigating the installation with keyboard and mouse. For 
+recommended peripherals, see a BD Rhapsody™ user guide.
+This appendix provides information for:
+•
+Uninstalling scanner software (page 134)
+•
+Installing scanner software (page 135)
+•
+Launching the scanner software (page 138)
+Uninstalling scanner software
+Procedure
+If BD Rhapsody™ Scanner software v1.0.8 or earlier is installed, 
+follow this procedure. If the installed version is later than v1.0.8, 
+proceed to Installing scanner software (page 135).
+1.
+On the scanner desktop, click Start in the lower left corner, 
+and then click Settings. The Settings window is displayed.
+2.
+Click System. A System window is displayed.
+3.
+Select the Apps and features menu item. 
+4.
+In the Apps and features pane, select Rhapsody Scanner - Scan 
+1.0.8.
+5.
+Click Uninstall, and click Uninstall again in the warning 
+dialog. A User Account Control dialog is displayed.
+6.
+Click Yes, and click Yes again in the Scan Uninstall warning 
+dialog.
+7.
+After the uninstall task is complete, click OK.
+
+
+--- Page 137 ---
+Doc ID: 214062 Rev. 2.0
+Chapter C: Updating the BD Rhapsody™ Scanner software
+135
+8.
+Repeat steps 4–7 to uninstall Select Rhapsody Scanner - 
+Analysis 1.0.8.
+9.
+Close the Settings window.
+Installing scanner software
+For successful installation of the software, install the Scan software 
+before installing the Analysis software. If you install the Analysis 
+software first, uninstall it, and then install the Scan software.
+1.
+Insert the USB drive with the scanner software into one of the 
+ports of the scanner.
+2.
+In Microsoft® Windows®, Open a File Explorer window, and 
+navigate to the USB drive directory.
+3.
+Double-click Scan 1.1.0.2 Setup.exe or later. A User Account 
+Control dialog is displayed.
+4.
+Click Yes. The Select Destination Location dialog is displayed. 
+
+
+--- Page 138 ---
+Doc ID: 214062 Rev. 2.0
+BD Rhapsody Single-Cell Analysis System Instrument User Guide
+136
+5.
+Click Next. The Select Start Menu Folder dialog is displayed.
+6.
+Click Next. The Select Additional Tasks dialog is displayed.
+
+
+--- Page 139 ---
+Doc ID: 214062 Rev. 2.0
+Chapter C: Updating the BD Rhapsody™ Scanner software
+137
+7.
+Select the Create a desktop shortcut checkbox, and then click 
+Next. The Ready to Install dialog is displayed.
+8.
+Click Install. The Completing the Scan Setup Wizard window 
+is displayed.
+9.
+Click Finish.
+
+
+--- Page 140 ---
+Doc ID: 214062 Rev. 2.0
+BD Rhapsody Single-Cell Analysis System Instrument User Guide
+138
+10. Repeat steps 1–9 to install Analysis 1.1.0.2 Setup.exe or later.
+11. Remove the USB drive from the scanner, and store it.
+Launching the scanner software
+1.
+On the scanner desktop, double-click Scan. The scanner 
+software home page is displayed. 
+2.
+Tap About, and confirm the scanner software version.
+
+
+--- Page 141 ---
+Doc ID: 214062 Rev. 2.0
+D
+Safety
+•
+General safety and limitations (page 140)
+•
+Chemical safety (page 140)
+•
+Physical safety (page 142)
+•
+Instrument waste disposal (page 142)
+
+
+--- Page 142 ---
+Doc ID: 214062 Rev. 2.0
+BD Rhapsody Single-Cell Analysis System Instrument User Guide
+140
+General safety and limitations
+For instrument safety, see the BD Rhapsody™ Express Instrument 
+and BD Rhapsody™ Scanner Safety and Limitations Guide 
+(Doc ID: 42061).
+Genomics technical publications are available for download from 
+the BD Genomics Resource Library at bd.com/genomics-resources.
+Chemical safety
+Requirements
+•
+Read and comprehend all safety data sheets (SDSs) by 
+chemical manufacturers before you use, store, or handle any 
+chemicals or hazardous materials.
+•
+Wear personal protective equipment (gloves, safety glasses, 
+fully enclosed shoes, lab coats) when handling chemicals.
+•
+Do not inhale fumes from chemicals. Use adequate ventilation, 
+and return caps to bottles immediately after use.
+•
+Check regularly for chemical spills or leaks. Follow SDS 
+recommendations for cleaning up spills or leaks.
+Waste
+The BD Rhapsody™ system has two waste types or streams. Each 
+waste stream requires individual consideration for safe and 
+responsible disposal:
+
+
+--- Page 143 ---
+Doc ID: 214062 Rev. 2.0
+Chapter D: Safety
+141
+Waste
+Description
+Stream 1: 
+Waste Collection 
+Container
+
+Frequency of Handling: every 
+BD Rhapsody™ experiment
+
+Content: ethanol (11%), polymer 
+microparticles (<1%), cells (trace)
+
+Main Risk Constituent: cells (trace)
+
+Collect and dispose of all waste in the 
+Waste Collection Container using proper 
+precautions and according to local safety 
+regulations.
+Stream 2: 
+BD Rhapsody™ 
+Cartridge
+
+Frequency of Handling: every 
+BD Rhapsody experiment
+
+Content: polymer (99%), polymer 
+microparticles (<1%), lysis buffer (<1%)
+
+Main Risk Constituent(s): lysis buffer
+
+Collect and dispose of all used 
+BD Rhapsody™ Cartridges using proper 
+precautions and according to local safety 
+regulations.
+
+
+--- Page 144 ---
+Doc ID: 214062 Rev. 2.0
+BD Rhapsody Single-Cell Analysis System Instrument User Guide
+142
+Physical safety
+See the BD Rhapsody™ Express Instrument and BD Rhapsody™ 
+Scanner Safety and Limitations Guide (Doc ID: 42061).
+Genomics technical publications are available for download from 
+the BD Genomics Resource Library at bd.com/genomics-resources.
+Instrument waste disposal
+Disposal of the 
+instrument
+Contact BD Biosciences technical support at 
+researchapplications@bd.com before moving the BD Rhapsody 
+Scanner or disposing of the BD Rhapsody™ Express instrument or 
+the BD Rhapsody Scanner. For more information, see Instrument 
+technical support (page 13).
+
+
+--- Page 145 ---
+Doc ID: 214062 Rev. 2.0
+Glossary
+
+
+--- Page 146 ---
+Doc ID: 214062 Rev. 2.0
+BD Rhapsody Single-Cell Analysis System Instrument User Guide
+144
+B
+BD Rhapsody™ 
+Express instrument 
+Mechanical station used for loading Cell Capture Beads and cells 
+into the BD Rhapsody™ Cartridge.
+BD Rhapsody™ 
+Scanner
+Instrument used for counting cells on a hemocytometer and 
+counting viable cells in the cartridge workflow.
+BD Rhapsody™ 
+Single-Cell Analysis 
+system
+The system includes:
+•
+BD Rhapsody Express instrument 
+•
+BD Rhapsody™ P1200M pipette
+•
+BD Rhapsody™ P5000M pipette
+•
+BD Rhapsody Scanner
+•
+Hemocytometer Adapter
+•
+Bioinformatics software and sequencing analysis
+L
+load
+To add a reagent to the BD Rhapsody Cartridge.
+P
+protocol
+The protocol files for the BD Rhapsody Scanner describe all 
+instrument settings for a cartridge scan and the order in which the 
+scans occur.
+S
+scan
+A series of images taken of the Hemocytometer Adapter or 
+BD Rhapsody Cartridge by the BD Rhapsody Scanner at multiple 
+predetermined locations.

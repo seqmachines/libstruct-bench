@@ -1,0 +1,701 @@
+--- Page 1 ---
+BD Rhapsody™System
+Whole transcriptome analysis alpha protocol
+12/2018
+Overview
+This protocol is intended to provide a method to screen RNA expression of single cells using a 3' whole 
+transcriptome analysis (WTA) approach using both BD-orderable reagents and third-party reagents as outlined in 
+this document. The data set generated from this protocol can be input to generate a custom panel for subsequent 3' 
+targeted mRNA-seq. Specifically, the protocol outlines how to generate whole transcriptome libraries from BD 
+Rhapsody™ Cell Capture Beads for 5,000-10,000 single cells per sample. The procedure described herein is not 
+currently compatible with the BD™ AbSeq assay and the BD™ Single Cell Multiplexing Kit.
+IMPORTANT: The protocol described herein has not been thoroughly tested or optimized and is provided as is 
+and without warranty. Any use of this protocol is at the risk of the user. BD reserves the right to change 
+specifications at any time. Information in the protocol is subject to change without notice. BD assumes no 
+responsibility for any errors or omissions. In no event shall BD be liable for any damages in connection with or 
+arising from the use of this protocol.
+References
+•
+BD Rhapsody™ Single-Cell Analysis System Instrument User Guide - Doc ID 214062 Rev.1.0.
+•
+BD Rhapsody™ Express Single-Cell Analysis System Instrument User Guide - Doc ID 214063 Rev.1.0.
+•
+Single Cell Targeted Library Preparation with the BD Rhapsody™ Single-Cell Analysis System User Guide - 
+Doc ID 47395 Rev.3.0.
+
+
+--- Page 2 ---
+2
+ 
+Required and recommended materials
+Store the reagents at the storage temperature specified on the label.
+Required Reagents
+Recommended Consumables
+Material
+Supplier
+Catalog No.
+BD Rhapsody™ Targeted mRNA and AbSeq Amplification Kit
+BD Biosciences
+633774
+SPRIselect reagent
+Beckman Coulter Life 
+Sciences
+B23318
+100% ethyl alcohol
+Major supplier
+-
+10 mM Tris-HCl with 0.05% Tween-20, pH 8.0 (Tris-Tween20)
+Teknova
+T1485
+DNA Suspension Buffer
+Teknova
+T0223
+Nuclease-Free Water
+Major supplier
+-
+Randomer (5' TCA GAC GTG TGC TCT TCC GAT CTNNNNNNNNN 3') 
+Stock concentration of Randomer is 100 µM in 10 mM Tris, 0.1 mM EDTA, pH 
+8.0. Mixed bases achieved by handmixing of 25% per nucleotide content
+Major supplier
+-
+Klenow Fragment (3' -> 5' exo-) (includes NEBuffer 2)
+New England Biolabs
+M0212L
+10 mM dNTP
+New England Biolabs
+N0447L
+Qubit™ dsDNA HS Assay Kit
+Thermo Fisher Scientific
+Q32851
+• Agilent DNA High Sensitivity Kit
+OR
+• Agilent High Sensitivity D5000 ScreenTape
+• Agilent High Sensitivity D5000 Reagents
+Agilent Technologies
+Agilent Technologies
+Agilent Technologies
+5067-4626
+5067-5592
+5067-5593
+Material
+Supplier
+Catalog No.
+Pipettes (P10, P20, P200, P1000)
+Major supplier
+-
+Low-retention filtered pipette tips
+Major supplier
+-
+0.2 mL PCR strip tubes
+Major supplier
+-
+15 mL conical tube
+Major supplier
+-
+1.5 mL microcentrifuge tubes
+Eppendorf
+022431021
+DNA LoBind Tubes, 1.5 mL
+Eppendorf
+0030108051
+
+
+--- Page 3 ---
+3
+Equipment
+Procedure
+Perform the experiment on the BD Rhapsody™ Single-Cell Analysis system following either the BD Rhapsody™ 
+Single-Cell Analysis System Instrument User Guide (Doc ID: 214062) or the BD Rhapsody™ Express Single-Cell 
+Analysis System Instrument User Guide (Doc ID: 214063) for cell capture, reverse transcription, and Exonuclease 
+treatment. Please ensure that the intended total cell load is between 5000-10000 single cells for this protocol. Cell 
+load below or above this recommendation may not be suitable for current protocol configuration. Then proceed as 
+described in the following procedure.
+Performing random priming and extension (RPE) on BD Rhapsody Cell Capture Beads with
+cDNA
+NOTE
+This section should be performed in the pre-amplification workspace.
+1
+Set a heat block to 95°C, one thermomixer to 37°C, and one thermomixer to 25°C.
+2
+In a new 1.5 mL LoBind tube, pipet the following reagents:
+Material
+Supplier
+Catalog No.
+Microcentrifuge for 1.5-2.0 mL tubes
+Major supplier
+-
+Microcentrifuge for 0.2 mL tubes
+Major supplier
+-
+Vortexer
+Major supplier
+-
+Pipet-Aid
+Major supplier
+-
+Digital timer
+Major supplier
+-
+Multi-channel pipettes (P20, P200)
+Major supplier
+-
+Heat block
+Major supplier
+-
+Eppendorf ThermoMixer® C
+Eppendorf
+5382000023
+SmartBlock Thermoblock 1.5 mL to fit on the ThermoMixer® C
+Eppendorf
+5360000038
+6-tube magnetic separation rack for 1.5 mL tubes
+New England Biolabs
+S1506S
+Low-profile magnetic separation stand for 0.2 mL, 8-strip tubes
+V&P Scientific, Inc.
+OR
+Clontech
+VP772F4-1
+635011
+Qubit™ 3.0 Fluorometer
+Thermo Fisher Scientific
+Q33216
+• Agilent 2100 Bioanalyzer
+OR
+• Agilent 4200 TapeStation Instrument
+Agilent Technologies
+Agilent Technologies
+G2940CA
+G2991AA
+
+
+--- Page 4 ---
+4
+ 
+Random Primer Mix
+3
+Pipet-mix the Random Primer Mix and keep at room temperature.
+4
+Choose between using the entire sample or a subsample of the Exonuclease I-treated BD Rhapsody Cell 
+Capture Beads. If using the entire sample of Exonuclease I-treated beads, skip to step 6. If using a subsample, 
+proceed to step 5.
+5
+Subsample the Exonclease I-treated BD Rhapsody Cell Capture Beads:
+•
+Based on the expected number of viable cells captured on beads in the final bead-resuspension volume, 
+determine the volume of beads to subsample for sequencing.
+•
+Completely resuspend the beads by pipet-mixing and then pipet the calculated volume of bead 
+suspension into a new 1.5 mL LoBind tube. If needed, bring the total volume up to 200 µL with Tris-
+Tween20 buffer.
+NOTE
+The remaining beads can be stored in Bead Resuspension Buffer at 4°C for up to 3 months.
+6
+Resuspend beads with a pipette. Place the tube with beads in a 95°C heat block for 2 minutes (no shaking).
+7
+Afterwards, briefly centrifuge the tube, and then immediately place the tube in the 1.5 mL magnetic 
+separation rack. Remove and discard supernatant. Avoid drying out the BD Rhapsody Cell Capture Beads.
+8
+Remove the tube from the magnet, and use a low retention tip to pipet 174 µL of Random Primer Mix into 
+the tube. Pipet-mix 10 times to resuspend beads.
+9
+Incubate the tube in the following order:
+•
+Heat block with no shaking and at 95°C for 2 minutes
+•
+Thermomixer at 1,200 rpm and at 37°C for 5 minutes
+•
+Thermomixer at 1,200 rpm and at 25°C for 5 minutes
+10
+Briefly centrifuge the tube and keep at room temperature.
+11
+In a new 1.5 mL LoBind tube, pipet the following reagents:
+Component
+For 1 library
+(µL)
+For 1 library with 20% overage
+(µL)
+For 2 libraries with 20%
+overage (µL)
+Nuclease-free water
+134
+160.8
+294.8
+NEBuffer 2
+20
+24
+44
+Randomer
+20
+24
+44
+Total
+174
+208.8
+382.8
+
+
+--- Page 5 ---
+5
+Primer Extension Enzyme Mix
+12
+Pipet-mix the Primer Extension Enzyme Mix. 
+13
+Pipet 26 µL of the Primer Extension Enzyme Mix into the sample tube containing the beads (for a total 
+volume of 200 µL).
+14
+Place the tube in the thermomixer at 1,200 rpm and 37°C for 30 minutes. Remove the tube, but keep the 
+thermomixer shaking at 1,200 rpm and at 37°C to use later in step 17.
+15
+Place the tube in a 1.5 mL tube magnet and remove the supernatant.
+16
+Remove the tube from the magnet and resuspend the beads in 200 µL of Tris-Tween20 buffer.
+17
+To denature the random priming products off the beads, incubate the tube in the following order:
+•
+Ensure that the beads are resuspended. Pipet to resuspend, if needed.
+•
+Incubate the sample at 95°C in a heat block (no shaking) for 2 minutes.
+•
+Place the tube in the shaking thermomixer (from step 14) and continue to shake for 10 seconds to 
+resuspend beads.
+18
+Place the tube in a 1.5 mL tube magnet. Immediately transfer the supernatant containing the Random Primer 
+Extension Product (RPE Product) to a new 1.5 mL LoBind tube and keep at room temperature.
+(Optional) Pipet 200 µL of cold Bead Resuspension Buffer to the tube with leftover beads. Gently resuspend 
+the beads by pipet-mixing only. Do not vortex. Store the beads at 4°C in the pre-amplification workspace.
+Component
+For 1 library
+(µL)
+For 1 library with 50% overage
+(µL)
+For 2 libraries with 30%
+overage (µL)
+dNTP
+8
+12
+20
+Bead RT/PCR 
+Enhancer
+12
+18
+31
+Klenow Fragment 
+(3’ -> 5’ exo-)
+6
+9
+16
+Total
+26
+39
+67
+
+
+--- Page 6 ---
+6
+ 
+Purifying RPE product
+NOTE
+This section should be performed in the pre-amplification workspace.
+1
+In a new 15 mL conical tube, prepare 10 mL of fresh 80% (v/v) ethyl alcohol by pipetting 8.0 mL of absolute 
+ethyl alcohol to 2.0 mL of nuclease-free water. Vortex the tube for 10 seconds.
+NOTE
+Make fresh 80% ethyl alcohol, and use in <24 hours.
+2
+Vortex the SPRIselect beads at high speed for 1 minute until beads are fully resuspended.
+3
+Pipet 320 µL of SPRIselect beads into the tube containing the 200 µL of RPE Product supernatant. Pipet-mix 
+at least 10 times and then briefly centrifuge.
+4
+Incubate the suspension at room temperature for 10 minutes.
+5
+Place the suspension on the 1.5 mL tube magnet for 5 minutes. Remove the supernatant.
+6
+Keeping the tube on the magnet, gently add 1 mL of fresh 80% ethyl alcohol to the tube.
+7
+Incubate the sample on the magnet for 30 seconds. Remove supernatant.
+8
+Repeat the 80% ethyl alcohol wash for a total of two washes.
+9
+Keeping the tube on the magnet, use a small-volume pipette to remove any residual supernatant from the 
+tube and discard.
+10
+Air-dry the beads at room temperature for 5 minutes or until the beads no longer look glossy.
+11
+Remove the tube from the magnet and pipet 30 µL of Elution Buffer into the tube. Vigorously pipet-mix until 
+the beads are uniformly dispersed. Small clumps do not affect performance.
+12
+Incubate the sample at room temperature for 2 minutes. Briefly centrifuge the tube to collect the contents at 
+the bottom.
+13
+Place the tube on the magnet until the solution is clear, usually ~30 seconds.
+14
+Pipet the eluate (~30 µL) to a new PCR tube. This is the purified RPE Product.
+Stopping point: Store the RPE product in a LoBind tube on ice or at 4°C for up to 24 hours until PCR.
+
+
+--- Page 7 ---
+7
+Performing RPE PCR
+1
+In the pre-amplification workspace, in a new 1.5 mL LoBind tube, pipet the following components:
+RPE PCR Mix
+2
+Add 70 µL of the RPE PCR Mix to the tube with the 30 µL of Purified RPE product. Pipet-mix 10 times.
+3
+Split the RPE PCR Reaction into 2 PCR tubes with 50 µL of reaction mix per tube.
+4
+Bring the reaction to the post-amplification workspace and run the following PCR program.
+5
+When the RPE PCR reaction is complete, briefly centrifuge to collect contents at the bottom of the tubes.
+Component
+For 1 library
+(µL)
+For 1 library with 20%
+overage (µL)
+For 2 libraries with 10%
+overage (µL)
+PCR MasterMix
+50
+60
+110
+Universal Oligo
+10
+12
+22
+BD™ AbSeq Primer
+10
+12
+22
+Total
+70
+84
+154
+Step
+Cycles
+Temperature
+Time
+Hot start
+1
+95°C
+3 min
+Denaturation
+95°C
+30 s
+Annealing
+13
+60°C
+1 min
+Extension
+72°C
+1 min
+Final extension
+1
+72°C
+2 min
+Hold
+1
+4°C
+෱
+
+
+--- Page 8 ---
+8
+ 
+Purification of the RPE PCR amplification product (single-sided cleanup)
+NOTE
+This section should be performed in the post-amplification workspace.
+1
+Combine the two RPE PCR reactions into a new 0.2 mL PCR tube.
+2
+Briefly centrifuge the tubes with the RPE PCR product. 
+3
+Vortex the SPRIselect beads at high speed for 1 minute until the beads are fully resuspended.
+4
+Pipet 100 µL of SPRIselect beads into the tube containing 100 µL of RPE PCR product. Pipet-mix at least 10 
+times and then briefly centrifuge the samples.
+5
+Incubate the suspension at room temperature for 5 minutes.
+6
+Place the suspension on the strip tube magnet for 3-5 minutes. Discard the supernatant.
+7
+Keeping the tubes on the magnet, gently pipet 200 µL of fresh 80% ethyl alcohol to the tube.
+8
+Incubate the samples for 30 seconds on the magnet. Remove the supernatant.
+9
+Repeat the 80% ethyl alcohol wash for a total of two washes.
+10
+Keeping the tubes on the magnet, use a small-volume pipette to remove any residual supernatant from the 
+tube.
+11
+Air-dry the beads at room temperature for 5 minutes or until the beads no longer look glossy.
+12
+Remove the tube from the magnet and pipet 30 µL of Elution Buffer into the tube. Pipet-mix the suspension 
+at least 10 times until beads are fully suspended.
+13
+Incubate the samples at room temperature for 2 minutes. Briefly centrifuge the tubes to collect the contents at 
+the bottom.
+14
+Place the tubes on the magnet until the solution is clear, usually ~30 seconds. 
+15
+Pipet the eluate (~30 µL) into new 1.5 mL LoBind tubes. The RPE PCR product is ready for Index PCR.
+Stopping point: The RPE PCR libraries can be stored at –20°C for ื 6 months or 4°C for ื 6 weeks.
+16
+Quantify and perform quality control of the RPE PCR products with a Qubit Fluorometer using the Qubit 
+dsDNA HS Assay and an Agilent 2100 Bioanalyzer using the Agilent High Sensitivity DNA Kit or an Agilent 
+4200 TapeStation system using the Agilent High Sensitivity D5000 ScreenTape Assay.
+a
+The expected concentration from the Qubit Fluorometer is ~0.5–10 ng/µL.
+b
+The Bioanalyzer/TapeStation trace should show a broad peak from ~200 to 2000 bp. Use the 
+concentration from 150 to 600 bp to calculate how much template to add into Index PCR. Refer to the 
+red-boxed regions in the sample trace images on page 9.
+
+
+--- Page 9 ---
+9
+NOTES
+1
+Although there are products > 600 bp, these products should be removed in the double-sided cleanup 
+after the next PCR.
+2
+Peaks around 170 and 200 bp have also been observed in samples with PBMCs. These peaks should not 
+negatively impact assay sensitivity.
+Sample Bioanalyzer High Sensitivity DNA trace:
+Sample TapeStation High Sensitivity D5000 trace:
+
+
+--- Page 10 ---
+10
+ 
+Performing WTA Index PCR
+NOTE
+This section should be performed in the post-amplification workspace.
+1
+Dilute the RPE PCR products in Teknova DNA Suspension Buffer such that the concentration of the 150-600 
+bp peak is 2 nM. If product concentration is < 2 nM, do not dilute and continue.
+For example: If the Bioanalyzer measurement of the 150-600 bp peak is 6 nM, then dilute the sample three-
+fold with Teknova DNA Suspension Buffer to 2 nM.
+2
+In a new 1.5 mL tube, pipet the following components:
+WTA Index PCR Mix
+* For more than one library, use different Library Reverse Primers for each library.
+3
+Gently vortex mix, briefly centrifuge, and place back on ice.
+4
+In a new 0.2 mL PCR tube, combine WTA Index PCR Mix with diluted RPE PCR products as follows:
+a
+For 1 sample, combine 40 µL of WTA Index PCR Mix with 10 µL of 2 nM of RPE PCR products.
+b
+For multiple samples, combine 35 µL of WTA Index PCR Mix with 5 µL of Library Reverse Primer and 
+10 µL of 2 nM of RPE PCR products.
+5
+Pipet-mix 10 times.
+Component
+For 1 library
+(µL)
+For 1 library with 20%
+overage (µL)
+For 2 libraries with 10%
+overage (µL)
+PCR MasterMix
+25
+30
+55
+Library Forward Primer
+5
+6
+11
+*Library Reverse Primer (1-4)
+5
+6
+-
+Nuclease-free water
+5
+6
+11
+Total
+40
+48
+77
+
+
+--- Page 11 ---
+11
+6
+Run the following PCR program:
+Table 1
+7
+When the WTA Index PCR is complete, briefly centrifuge to collect contents at the bottom of the tubes.
+Purification of the WTA Index PCR product (dual-sided cleanup)
+NOTE
+This section should be performed in the post-amplification workspace.
+1
+Add 60 µL of nuclease-free water to the WTA Index PCR product for a final volume of 110 µL.
+2
+Transfer 100 µL of WTA Index PCR product into a new 0.2 mL PCR tube.
+3
+Vortex the SPRIselect beads at high speed for 1 minute. The beads should appear homogeneous and uniform 
+in color.
+4
+Add 60 µL of SPRIselect beads to the 0.2 mL PCR tube from step 2.
+5
+Pipet-mix at least 10 times and then briefly centrifuge the samples.
+6
+Incubate the suspensions at room temperature for 5 minutes, and then place on the 0.2 mL strip tube magnet 
+for 2 minutes.
+7
+Pipet 10 µL of SPRIselect beads into a different strip tube.
+8
+While the strip tube in step 6 is still on the magnet, carefully, without disturbing the beads, remove and 
+transfer the 160 µL of supernatant into the 0.2 mL strip tube with SPRIselect beads (from step 7) and
+pipet-mix 10 times.
+Step
+Cycles
+Temperature
+Time
+Hot start
+1
+95°C
+3 min
+Denaturation
+Refer to Table 1
+95°C
+30 s
+Annealing
+60°C
+30 s
+Extension
+72°C
+30 s
+Final extension
+1
+72°C
+1 min
+Hold
+1
+4°C
+෱
+Concentration of diluted RPE PCR products
+Recommended no. of PCR cycles
+1–2 nM
+9
+> 2 nM
+8
+
+
+--- Page 12 ---
+12
+ 
+9
+Incubate the suspension at room temperature for 5 minutes, and then place the new tube on a 0.2 mL tube 
+magnet for 1 minute.
+10
+While on the magnet, carefully remove and appropriately discard only the supernatant without disturbing 
+the SPRIselect beads.
+11
+Keeping the tubes on the magnet, gently pipet 200 uL of fresh 80% ethyl alcohol. 
+12
+Incubate the samples for 30 seconds on the magnet. 
+13
+While on the magnet, carefully remove and appropriately discard only the supernatant without disturbing 
+the SPRIselect beads.
+14
+Repeat the 80% ethyl alcohol wash for a total of two washes.
+15
+Keeping the tubes on the magnet, use a small-volume pipette to remove any residual supernatant from the 
+tube.
+16
+Leave the tubes open on the magnet to dry the SPRIselect beads at room temperature for ~2 minutes or until 
+the beads no longer look glossy.
+17
+Pipet 30 µL of Elution Buffer into the tubes and pulse vortex to completely resuspend the SPRIselect beads.
+18
+Incubate the samples at room temperature for 2 minutes.
+19
+Briefly centrifuge the tubes to collect the contents at the bottom.
+20
+Place the tubes on the magnet until the solution is clear, usually ~30 seconds.
+21
+Pipet the eluate (~30 µL) into new 1.5 mL LoBind tubes. The WTA Index PCR eluate is the final sequencing 
+libraries.
+Stopping point: The Index PCR libraries can be stored at –20°C for ื 6 months until sequencing.
+22
+Quantify and perform quality control of the Index PCR libraries with a Qubit Fluorometer using the Qubit 
+dsDNA HS Assay and an Agilent 2100 Bioanalyzer using the Agilent High Sensitivity DNA Kit or an Agilent 
+4200 TapeStation system using the Agilent High Sensitivity D1000 or D5000 ScreenTape Assay.
+a
+The expected concentration from the Qubit Fluorometer is > 1 ng/µL.
+b
+The Bioanalyzer/TapeStation trace should show a peak from ~ 300–700 bp. Refer to the sample trace 
+images on page 13.
+
+
+--- Page 13 ---
+13
+Sample Bioanalyzer High Sensitivity DNA trace:
+Sample TapeStation High Sensitivity D1000 trace:
+
+
+--- Page 14 ---
+14
+ 
+Sequencing Recommendations
+•
+For a NextSeq High or Mid Output and MiniSeq High or Mid Output runs, load the flow cell at a 
+concentration between 1–1.2 pM with 20% PhiX for a sequencing run.
+•
+Sequencing depth can vary depending on whether the sample contains high- or low-content RNA cells. For 
+resting PBMCs, we recommend:
+-
+10,000 reads per cell for shallow sequencing. Genes per cell and UMI per cell detected is generally lower 
+but can be useful for cell type identification
+-
+50,000 reads per cell for moderate sequencing
+-
+100,000 reads per cell for deep sequencing to harvest the majority of UMIs in the library
+Sequencing Analysis Pipeline
+Contact customer support at SCOMIX@bd.com for access to the latest whole transcriptome sequencing analysis 
+pipeline.
+
+
+--- Page 15 ---
+THIS PAGE INTENTIONALLY LEFT BLANK
+
+
+--- Page 16 ---
+23-21179-00
+12/2018
+Becton, Dickinson and Company
+BD Biosciences
+2350 Qume Drive
+San Jose, CA 95131 USA
+bdbiosciences.com
+ResearchApplications@bd.com
+BD Biosciences
+European Customer Support
+Tel +32.2.400.98.95
+Fax +32.2.401.70.94
+help.biosciences@europe.bd.com
+For Research Use Only
+Copyrights
+© 2018, Becton, Dickinson and Company. All rights reserved. No part of this publication may be reproduced, transmitted, transcribed, stored in retrieval systems, 
+or translated into any language or computer language, in any form or by any means: electronic, mechanical, magnetic, optical, chemical, manual, or otherwise, 
+without prior written permission from BD Biosciences.
+The information in this document is subject to change without notice. BD Biosciences reserves the right to change its products and services at any time to 
+incorporate the latest technological developments. Although this guide has been prepared with every precaution to ensure accuracy, BD Biosciences assumes no 
+liability for any errors or omissions, nor for any damages resulting from the application or use of this information. BD Biosciences welcomes customer input on 
+corrections and suggestions for improvement.
+Trademarks
+Trademarks are the property of their respective owners.
+© 2018 BD. BD, the BD Logo and all other trademarks are property of Becton, Dickinson and Company.
+Regulatory Information
+For Research Use Only. Not for use in diagnostic or therapeutic procedures.
+History
+Revision
+Date
+Changes Made
+23-21179-00
+12/2018
+Initial release
