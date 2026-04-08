@@ -179,7 +179,7 @@ def download_document(
         return "skipped", f"{record.protocol_id}: no protocol_link URL"
 
     existing_target = resolve_target(record, output_dir)
-    if existing_target is not None and not overwrite:
+    if existing_target is not None and existing_target.exists() and not overwrite:
         return "skipped", f"{record.protocol_id}: {existing_target} already exists"
 
     req = request.Request(record.url, headers={"User-Agent": USER_AGENT})
