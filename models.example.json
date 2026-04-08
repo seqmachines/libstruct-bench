@@ -1,0 +1,14 @@
+{
+  "models": [
+    {
+      "name": "gemini-3.1-pro",
+      "model": "google/gemini-3.1-pro-preview",
+      "api": "http://localhost:3000/api/benchmark"
+    },
+    {
+      "name": "claude-sonnet-4",
+      "model": "anthropic/claude-sonnet-4",
+      "api": "http://localhost:3000/api/benchmark"
+    }
+  ]
+}

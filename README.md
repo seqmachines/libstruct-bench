@@ -49,6 +49,67 @@ On Apple Silicon, use Metal via PyTorch MPS:
 PYTORCH_ENABLE_MPS_FALLBACK=1 ../.venv/bin/python run_ocr.py --device mps
 ```
 
+## Benchmarking cDNA extraction
+
+`parsing_scripts/benchmark_protocol_parsing.py` benchmarks the cDNA `/api/benchmark`
+endpoint against the curated protocol JSON files in `protocols/`.
+
+The runner uses the protocol PDF by default, sends each protocol to the configured
+benchmark API for every model in `models.json`, then scores:
+
+- full `library_sequence` reconstruction
+- ordered segment recovery
+- region-stratified performance for `known`, `barcode`, `umi`, `index`,
+  `ligation`, `rt_barcode`, `tn5_barcode`, `linker`, and `capture`
+
+Example `models.json`:
+
+```json
+{
+  "models": [
+    {
+      "name": "gemini-3.1-pro",
+      "model": "google/gemini-3.1-pro-preview",
+      "api": "http://localhost:3000/api/benchmark"
+    }
+  ]
+}
+```
+
+You can start from `models.example.json`.
+
+Run the benchmark from `librarystructdb/`:
+
+```bash
+../.venv/bin/python parsing_scripts/benchmark_protocol_parsing.py \
+  --models models.example.json
+```
+
+Useful flags:
+
+```bash
+../.venv/bin/python parsing_scripts/benchmark_protocol_parsing.py \
+  --models models.example.json \
+  --protocol 10x-chromium-3prime-v3 \
+  --protocol split-seq
+
+../.venv/bin/python parsing_scripts/benchmark_protocol_parsing.py \
+  --models models.example.json \
+  --input-mode auto \
+  --limit 5 \
+  --include-raw
+```
+
+Outputs are written to `benchmark_results/`:
+
+- `benchmark-<timestamp>.json`: full run payload, predictions, and summaries
+- `benchmark-runs-<timestamp>.csv`: one row per model x protocol run
+- `benchmark-regions-<timestamp>.csv`: one row per ground-truth segment comparison
+
+`--input-mode pdf` is the default and is the mode to use when you want to measure
+LLM reconstruction directly from protocol PDFs. `auto` falls back to OCR/text/URL
+only when needed.
+
 ## Notes
 
 - Files without a `protocol_link` URL are skipped.
