@@ -4,7 +4,8 @@
   "references": {
     "scg_lib_structs": "https://teichlab.github.io/scg_lib_structs/methods_html/Drop-seq.html",
     "paper": "https://www.cell.com/fulltext/S0092-8674(15)00549-8",
-    "protocol_pdf": "https://mccarrolllab.org/wp-content/uploads/2015/05/Online-Dropseq-Protocol-v.-3.1-Dec-2015.pdf"
+    "protocol_link": "https://mccarrolllab.org/wp-content/uploads/2015/05/Online-Dropseq-Protocol-v.-3.1-Dec-2015.pdf",
+    "protocol_pdf": "protocol_sources/drop-seq.pdf"
   },
   "library_sequence": "AATGATACGGCGACCACCGAGATCTACACGCCTGTCCGCGGAAGCAGTGGTATCAACGCAGAGTACGTBBBBBBBBBBBBUUUUUUUUCTGTCTCTTATACACATCTCCGAGCCCACGAGACIIIIIIIIATCTCGTATGCCGTCTTCTGCTTG",
   "segments": [

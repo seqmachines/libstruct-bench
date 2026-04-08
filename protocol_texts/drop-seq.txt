@@ -1,0 +1,616 @@
+Drop-seq IdD ProLcor version 5.1; vecemuer Lo, LUID
+Evan Macosko and Melissa Goldman, McCarroll Lab
+page 1
+Drop-Seq Laboratory Protocol
+version 3.1 (12/28/15)
+Evan Macosko and Melissa Goldman
+Steve McCarroll's lab, Harvard Medical School
+The following is our most current protocol for Drop-seq. It should also help you find all the equipment
+and reagents you need to get started.
+We have continued to optimize this protocol since doing the experiments in the Macosko et al. Cell
+paper. What we are sharing here is our current, optimized protocol. As a result, this protocol will not
+precisely match the methods section of the paper, which is a description of the experiments done in
+the paper. Please feel free to use these optimizations without author consideration - just
+acknowledge "helpful advice from Evan Macosko, Melissa Goldman and Steve McCarroll", and please
+also include the URL and version number of the protocol in your methods section. This protocol also
+includes hints, suggestions and images that we could not fit into the the methods section of the
+paper.
+As scientists begin to adopt Drop-seq and we learn about their experiences, we will add additional
+hints and tips to the protocol, and release updated protocols with a new date (you are reading
+version 3.1, posted December 2015). We will increment the version number whenever we change
+something substantive about the recommendation for a protocol step. Ifyou would like to be notified
+of future protocol updates, please send us an email at dropseq@gmail.com.
+Starting with a species-mixing experiment is a critical first step for validating that your experimental
+setup is successfully producing libraries with high single-cell integrity. It is critical to do a successful
+species-mixing experiment before doing any other single-cell experiment. The protocol here includes
+step-by-step instructions for performing Drop-seq analysis of a human and mouse cell mixture (HEK
+and 3T3 cells). Successful demonstration that cell barcodes yield organism-specific libraries in such an
+experiment will ensure that you have all the experimental and computational components in place to
+produce high-quality single-cell libraries.
+We will maintain a website with protocol updates and other information:
+www.mccarrolllab.com/dropseq
+We plan to start a question-and-answer forum as users get started; we will monitor the forum to
+answer new users' questions as they begin working with the technology.
+
+
+
+Drop-seq IdD ProLcor version 5.1; vecemuer Lo, LUID
+Evan Macosko and Melissa Goldman, McCarroll Lab
+page 2
+Necessary start-up equipment:
+An inverted microscope to view the device (we use the Motic AE31)
+Three syringe pumps (we use KD Scientific Legato 100)
+AI highly controllable, powerful magnetic mixing system; I have looked at options extensively
+and the VP Scientific (Part #710D2) magnetic stirrer is both sufficiently powerful and gentle to
+keep the beads suspended while not breaking them. You may consider buying a second mixer
+if you think it will be necessary to also mix your cells while they are sitting in the syringe, but
+typically we do not mix our cells. We load one mixing disc into the beads syringe to stir the
+beads, which you can also get from VP (VP cat # 772DP-N42-5-2). These mixing discs are
+thicker than the ones we had recommended previously, and therefore are better at keeping
+the beads uniformly suspended.
+31 mL syringes (we use BD #309657)
+Tubing to connect syringes to the device: Scientific Commodities, inc. (cat # BB31695-PE/2)
+Luer lock 26-gage needles. The connection between the tubing and the needle is
+intentionally quite snug; I do not use 27G needles (though the fit is easier) because the beads
+are more likely to clog in the smaller bore.
+PDMS co-flow microfluidic droplet generation device. We provide a CAD file with the Cell
+paper for the devices we used for all experiments in the paper. These devices were designed
+by our collaborator Anindita (Oni) Basu. Though many ideas and much optimization went into
+their design, their construction is straightforwardly accomplished in any academic or
+commercial microfluidics facility, as they are passive PDMS devices. Some commercial
+microfluidics companies that will make custom devices from CAD files include FlowJem,
+Nanoshitt, and Dolomite Microfluidics.
+100 micron cell strainers for beads (VWR cat #21008-950)
+40 micron cell strainers for cells (VWR cat #21008-949)
+Fuchs-Rosenthal hemocytometer (Incyto # DHC-F01)
+
+
+
+Drop-seq IdD ProLcor version 5.1; vecemuer Lo, LUID
+Evan Macosko and Melissa Goldman, McCarroll Lab
+page 3
+Required primers:
+Name in this protocol Name in Macosko, et. al Sequence
+Barcoded Bead SeqB
+Barcoded Bead SeqB
+5'
+-Bead-Linker-TITITTTTTAAGCAGTGGTATCAA
+CGCAGAGTACJJJJJJJJJJJJJNNNNNNNNN
+TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT-3
+TSO
+Template_ Switch_Oligo
+AAGCAGTGGTATCAACGCAGAGTGAATTGrGr
+G
+SMART PCR primer
+TSO_PCR
+AAGCAGTGGTATCAACGCAGAGT
+New-P5-SMART PCR
+P5-TSO_Hybrid
+AATGATACGGCGACCACCGAGATCTACACGCC
+hybrid oligo
+TGTCCGCGGAAGCAGTGGTATCAACGCAGAG
+T*A*C
+Custom Read 1 primer ReadiCustomSeqB
+GCCTGTCCGCGGAAGCAGTGGTATCAACGCA
+GAGTAC
+Ordering the beads and what to do when they arrive:
+We taught scientists at a local company, Chemgenes, how to do the split-and-pool synthesis described
+in the Cell paper. We have extensively tested these beads and in fact used them for all the
+experiments in the paper. Chemgenes http://www.chemgenes.com) has made these "Barcoded
+Bead SeqB" beads available for purchase (you can ask them for the beads used in Macosko et al.)
+The beads arrive as a dry resin. Wash the resin once with 30 mL ethanol, then twice with 30 mL
+TE-TW. Resuspend in 20 mL TE-TW, pass through a 100 micron strainer, and count the beads using a
+Fuchs-Rosenthal hemocytometer. Store the counted beads at 4 C. We have stored beads in this way
+for >6 months without any apparent loss of activity.
+Note: to pellet the beads when washing, we centrifuge at 1000xg for 1 min. Your centrifuge
+may require more time, or an adjustment of brake speed, which can kick up beads from the
+bottom if it is too high.
+
+
+
+Drop-seq IdD ProLcor version 5.1; vecemuer Lo, LUID
+Evan Macosko and Melissa Goldman, McCarroll Lab
+page 4
+Arranging and connecting your droplet generation set-up:
+Set up the three syringe pumps next to the inverted microscope. It is best to have the bead pump
+resting on its side SO that the syringe is angled down (rather than positioned horizontally, see figure
+below). We accomplish this by resting the bead pump on a shelf above the microscope. Your
+magnetic stirrer should be positioned close to the barrel of the bead syringe; once you find a good
+angle to get good mixing in the syringe you can fix the magnet in place, although it can be helpful to
+be able to move the magnet away from the syringe as the volume decreases in order to prevent the
+mixing disc from getting stuck in a vertical position.
+Arrangement of components
+Beads
+Cells
+Outflow (droplets)
+Microscopes stage
+Attachment of tubing into the device
+Tubing is attached by pressing the tip of the tube into the circular punched holes.
+
+
+
+Drop-seq IdD ProLcor version 5.1; vecemuer Lo, LUID
+Evan Macosko and Melissa Goldman, McCarroll Lab
+page 5
+-
+-
+T
+T
+OIL
+CELLS
+BEADS
+OUTFLOW
+Chemical reagents:
+For cells
+TrypLE Express Enzyme (Life Technologies, #12604013)
+BSA: make a 10% solution using BSA powder (Sigma #A8806), store aliquots at -20 C
+PBS-BSA: make this fresh before each experiment
+1X PBS
+0.01% BSA (use the 10% stock)
+For beads
+Lysis Buffer (makes 1 mL): can store large stocks without DTT at room temperature
+500 ul H20
+300 ul 20% Ficoll PM-400 (GE healthcare)
+10 ul 20% Sarkosyl (Sigma #L7414))
+40 ul 0.5 M EDTA (Life Technologies)
+100 ul 2 M Tris pH 7.5 (Sigma)
+50 ul 1 M DTT - add this just prior to starting each Drop-seq experiment
+Droplet generation oil
+Bio-Rad, catalog # 186-4006
+Post droplet generation
+6X SSC
+
+
+
+vrop-sey IdD ProLcor version 5.1; vecemuer Lo, LUID
+Evan Macosko and Melissa Goldman, McCarroll Lab
+page 6
+Perfluorooctanol (PFO) (Sigma #370533)
+TE-SDS (makes 50 mL):
+10 mM Tris pH 8.0 + 1 mM EDTA
+.5% SDS
+TE-TW solution:
+10 mM Tris pH 8.0 + 1 mM EDTA
+0.01% Tween-20
+10 mM Tris pH 8.0
+Your first Drop-seq run:
+The first experiment you should perform in your lab is with a mixture of intact human (HEK) and
+mouse (3T3) cells as we did in the Cell paper. Using a mixture of human and mouse cells will allow
+you to evaluate whether the loading concentration, droplet quality, and downstream library
+preparation are all working to give you data that is single-cell-resolution. It will also allow you to
+measure the single-cell purity of your libraries and your cell doublet rate. We cannot emphasize
+strongly enough that it is critical to start with species-mixing experiments in order to evaluate the
+quality of the data you are generating and know whether it is truly single-cell.
+Using HEK and 3T3 cells (rather than a different mouse and human cell line) will also allow you to
+compare your transcript yield to the data in Macosko et al. 2015, to evaluate sensitivity (capture
+rates).
+Once you have been successful, please email us a plot of your species-mixing results analogous to the
+plot in Figure 3A of the Cell paper. We would love to keep a gallery of people's successful Barnyard
+plots (and, with permission, to post it online). You can email us at dropsea@gmail.com.
+Anticipating your yield of STAMPS
+The number of STAMPS generated per hour is a product of three factors:
+1. The concentration of cells used. A higher concentration of cells yields higher
+throughput, but also introduces more doublets and impurities (see Figure S3B in
+Macosko et al. 2015).
+2. The concentration of beads used. We keep this fixed at around 120 beads/ul, which
+generates fewer than 5% bead doublets.
+3. The size of droplets used. For the Cell paper, we used a microfluidic device that
+
+
+
+Drop-seq IdD ProLcor version 5.1; vecemuer Lo, LUID
+Evan Macosko and Melissa Goldman, McCarroll Lab
+page 7
+generates droplets that are 125-microns in diameter (almost exactly 1 nL). However,
+since the paper's publication, we have learned from our own experience, and from
+that of colleagues, that home-made microfluidic devices can have significant
+variations in droplet diameter, based on several factors related to microfluidic device
+master fabrication. We therefore recommend that you perform a test of droplet
+volume for devices fabricated with a particular master (the procedure for measuring
+droplet volume can be found at the end of this protocol). Please also note that if
+your droplet size differs significantly from 125-microns, you may need to adjust your
+flow rates from the numbers recommended in this protocol. We have used devices
+that produce as small as 90 micron droplets without observing any major change in
+Drop-seq data quality. We anticipate that droplet sizes in the range of 90-140 microns
+in diameter should produce perfectly fine data.
+We recommend starting with a cell concentration of 100 cells/ul (final concentration in droplets will
+be 50 cells / ul when mixed 1:1 with lysis buffer and beads). At this concentration, ~5% of beads
+collected will have been exposed to a cell (a.k.a. STAMPS). If beads are flowed in at a concentration of
+120 beads/ul, this yields 30,000 STAMPS (4 mL/hr * 120000 beads/mL * 0.05 = 24,000). Only 20-40%
+of beads are recovered after all washing and enzymatic steps, meaning that, practically speaking,
+10,000 STAMPS can be generated in 1-2 hours of droplet generation.
+Pre-run setup
+1. Load oil into a 10 mL syringe. Affix needle to tubing, push up slightly on the plunger to expel
+all the air bubbles, then load the syringe into the pump as shown below (we use a 20 mL
+syringe for bigger experiments). Set the flow rate to 30,000 ul/hr, and press run until you see
+oil dripping out of the tubing. Set the flow rate to 15,000 ul/hr. Once you are certain that the
+oil is no longer dripping out of the tubing, insert the free end of the tubing into the left-most
+channel of a clean device (see figure on page 4).
+Hint: cut the tubing on a sharp angle to facilitate its insertion into the device
+
+
+
+Drop-seq IdD ProLcor version 5.1; vecemuer Lo, LUID
+Evan Macosko and Melissa Goldman, McCarroll Lab
+page 8
+Ocalls
+0, Oi
+
+EnDa
+BE 00 h
+2. Cut a shorter bit of tubing for an outflow channel, and insert it into the right-most channel of
+the same device. Let the free end hang into a designated waste container.
+3. Prepare the beads:
+Take out an aliquot of beads (remember that you want a final concentration of about
+120,000 beads/mL). Spin down in a tabletop centrifuge, remove the TE-TW, and
+resuspend in Lysis buffer.
+For a standard drop-seq requiring 1 mL of bead flow, resuspend the beads in 950uL
+Lysis buffer and mix in 50 ul of 1 M DTT just prior to starting droplet formation.
+4. Prepare the cells: (the following is for HEK and 3T3 cells only)
+Trypsinize for 5 min with TrypLE. Collect + spin down at 300xg for 5 min.
+After spinning down post-trypsinization, resuspend in 1 mL of PBS-BSA.
+Hint: while non-stick tubes work best for later parts of the protocol, regular tubes perform
+better during this step.
+Spin in microcentrifuge at 300xg for 3 minutes.
+Remove supernatant, and resuspend in 1 ml of plain PBS. Pass through a 40 micron
+filter, and count.
+
+
+
+Drop-seq IdD ProLcor version 5.1; vecemuer Lo, LUID
+Evan Macosko and Melissa Goldman, McCarroll Lab
+page 9
+Prepare a 1:1 mix of the two cells types (1:1 HEK to 3T3 cells) at a final combined
+concentration of 100 cells/ul. Use PBS-BSA to make this final dilution.
+Loading cells and beads
+1. Position your device on the microscope stage. Make sure you select a device that is clean and
+free of any defects or large particles of dust.
+2. Draw up the cell suspension into a 3 mL luer-lock syringe. While holding the syringe in a
+vertical orientation, gently push out the air and bubbles. Affix a 26G needle, and cut a piece of
+tubing to connect the syringe to the device.
+Hint: to load the syringe, firmly press the tip of a 1mL pipet into the head of the syringe and slowly
+pull back on the plunger to draw in the solution. Pressing the tip in firmly helps reduce the
+introduction of bubbles.
+Hint: when inserting the needle into one end of the tubing be careful not to pierce the tubing
+even ifi the nick is in the part of the tubing that ends up being higher up on the needle, it is better to
+entirely cut off that portion of the tubing and try again.
+3. Place a magnetic mixing disc into the barrel of a second 3 mL luer-lock syringe. Draw up the
+bead suspension, push out the excess air and bubbles, and affix a 26G needle. Cut a piece of
+tubing to connect the bead syringe to the device.
+4. The next step is to load the cell syringe into the device (the beads should always be loaded
+last). Place the cell syringe into its pump SO that the plunger is flush with the moving pump
+surface (the same way you did with the oil). Adjust the flow rate to 30,000 ul/hr and briefly
+run to push all air out of the system until you see a small bead of liquid dripping from the free
+end of the tubing. Stop the pump, set it to 4,000 ul/hr, and insert the free end of the tubing
+into the cell channel of the microfluidic device (see figure on page 2).
+5. Turn on the magnetic mixer (for the VP mixer, use a speed of 25-30. Never go above 35 as
+this can lead to significant shearing of beads). Begin mixing the beads in the bead syringe SO
+that they are evenly distributed. Then load the syringe into the syringe pump (remember that
+the orientation of this syringe will be facing vertically down), and again set the flow rate to
+30,000 ul/hr to push out all air from the tubing. Once you see the bead of liquid, stop the
+pump, adjust the flow rate to 4,000 ul/hr, and insert the free end of the tubing into the bead
+channel of the microfluidic device.
+Hint: be sure that thel bead tube is not dripping when you insert it into the device - since this
+solution contains the lysis buffer, you do not want any of it flowing back into the cell channels prior
+to starting the run.
+
+
+
+vrop-sey IdD ProLcor version 5.1; vecemuer Lo, LUID
+Evan Macosko and Melissa Goldman, McCarroll Lab
+page 10
+Flow rates
+oil: 15,000 ul/hr
+cells: 4,000 ul/hr
+beads: 4,000 ul/hr
+Starting your run
+START order: cells beads - oil
+STOP order: beads * cells - - oil
+Begin by pressing start on the cell pump, then the beads, and then finally the oil. The logic behind this
+order is that you do not want any of the bead solution flowing back into the cell channels, because the
+bead solution contains lysis agents that could lyse incoming cells before they ever reach the droplet
+generation junction. For the same reason, if you ever need to stop the flows mid-experiment or are
+planning on reusing the device, stop the bead flow first. It is also helpful to simultanouesly pull out
+the oil, cells, and beads tubing from the device a few seconds after stopping the flows (while leaving
+the outflow tubing in) if you are planning on reloading more cells and beads for a larger experiment,
+or simply to help preserve it for reuse in the future.
+It will take some time for the flow to stabilize (typically it takes about 10-40 seconds). The outflow
+tube should be positioned in a waste container during this time. You can monitor the emulsion
+quality by eye by allowing the ejected droplets (coming out of the outflow tube) to run down the side
+of the container. When stable, this should appear as a hazy yet uniform line since all the droplets will
+be the same size (this line will usually be the width of about five columns of droplets). Under the
+microscope, droplet stability can be assessed by seeing a faint "flickering" pattern at the droplet
+generation junction (which looks like an elongated triangle). In addition, the flow to the right of this
+junction will appear "blurry" because the droplets are moving SO quickly. If the outflow to the right of
+the droplet generation looks like a clear. stream and is not blurry, this means that you are notj forming
+droplets. This clear. stream will be very obvious if you are set on a higher objective than 10x, you may
+see a narrow stream of oil flowing in the center, but the surroundings should be blurry if droplets are
+forming. Once you are sure that you are forming stable droplets (and see that they have made their
+way to the end of the outflow tubing via the run down method), you can transfer the end of the
+outflow tubing into a falcon tube to begin collecting usable droplets.
+On occasion, if droplets are not being formed after a few minutes, it may be necessary to stop and
+re-start some of the flows. have empirically found that stopping the bead and cell flows while
+allowing the oil to continue flowing for a few seconds, and then re-starting cells and beads, can be
+very helpful in generating good quality emulsions.
+Collect droplets in 50 mL falcon tubes. Collect 1 mL of aqueous flow into each falcon tube, which
+should take about 15 minutes. Note that the 1 mL refers to the amount of cells and beads you're
+flowing in (1 mL of cells and 1 mL of beads). Collecting more than 1 mL in each falcon will negatively
+
+
+
+Drop-seq IdD ProLcor version 5.1; vecemuer Lo, LUID
+Evan Macosko and Melissa Goldman, McCarroll Lab
+page 11
+impact the breakage step.
+Assessment of droplet quality and bead doublets
+Place 17 ul of oil into a Fuchs-Rosenthal hemocytometer chamber. Add ~3 ul of emulsion and gently
+rock back and forth a few times to distribute the droplets. Set a microscope to 10x and adjust the
+focus until you can clearly see the droplets with the beads inside. (The droplets will be transparent,
+and the beads will be smaller dark circles inside them). You will not be able to see any cells, since
+they were lysed once they came into contact with the lysis buffer upon droplet formation.
+High quality emulsions are ones where all of the droplets will be the same size. You can also assess
+the overall quality of the droplets by holding the Falcon tube over a dark surface, tilting it slightly to
+the side, and then slowly returning it to a vertical position - you should see a uniform wall of droplets
+slowly falling down along the edge.
+Count the number of bead singlets and doublets - droplets that contain only a single bead VS those
+that contain two beads. You should get a doublet rate that is 5% or lower.
+Breakage
+This is what your droplets should look like, prior to breakage. At one time the batches of oil we
+received were more opaque, causing the interface to look like the one pictured below to the left (the
+beads are in the whiter layer on top). The picture to the right is what your interface will most likely
+look like (with clear oil). Both types of oil work equally well.
+
+
+
+Drop-seq IdD ProLcor version 5.1; vecemuer Lo, LUID
+Evan Macosko and Melissa Goldman, McCarroll Lab
+page 12
+1. Remove the oil layer from the bottom of the falcon by pressing a P1000 down to its first stop,
+pushing through the droplets to the bottom of the tube, pressing down to the second stop to
+expel any droplets, and then after waiting several seconds for the droplets to float back up to
+the droplet layer, sucking out the oil. You do not need to remove every last bit of oil - just
+remove most of it.
+2. Add 30 mL of room temperature 6X SSC.
+3. Add 1 mL of Perfluorooctanol (PFO) in a fume hood. Shake by hand to break the droplets (3-4
+forceful vertical shakes).
+4. Spin at 1000xg for 1 minute.
+Hint: to prevent the beads from floating up off thei interface after spinning, it can be helpful to
+slightly loosen the caps off the tubes right before you place them into the centrifuge. It is also
+helpful to pre-punch holes in the ice with an empty Falcon tube.
+A clean break: (the white beads are sitting on the interface)
+
+
+
+Drop-seq IdD ProLcor version 5.1; vecemuer Lo, LUID
+Evan Macosko and Melissa Goldman, McCarroll Lab
+page 13
+40
+35
+5
+15
+10
+7.5
+5. Carefully remove the tube from the centrifuge into an ice bucket. Use a pipette to remove
+and discard the supernatant on top until there are only a few mL remaining above the
+interface.
+6. Add 30 mL of 6X SSC to kick up the beads into solution. Wait a few seconds to allow the
+majority of the oil to sink to the bottom, then transfer the supernatant to a new Falcon tube.
+Avoid transferring any oil or interface precipitate material. You should be able to see the
+white beads floating around in the supernatant during this step (see image on next page).
+
+
+
+Drop-seq IdD ProLcor version 5.1; vecemuer Lo, LUID
+Evan Macosko and Melissa Goldman, McCarroll Lab
+page 14
+Falling oil
+7. Spin at 1000xg for 1 minute.
+Hint: this is a good time to add the maxima h- to your RT mix!
+8. The beads are now pelleted to the very bottom of the Falcon tube, although you may not be
+able to see them yet. Carefully remove all but 1 mL of liquid. With a pipette, mix this
+remaining 1 mL a few times to kick up the beads, then transfer it to an eppendorf. Spin down
+in a tabletop centrifuge. Remove and discard the supernatant.
+9. Wash 2x with 1 mL of 6X SSC, then once with 300 ul of 5X RT buffer. Remove as much of the
+5X RT wash as you can without taking up any beads. You are now ready to begin the reverse
+transcription.
+Hint: it can be helpful to set up two sets of eppendorf tubes per: sample, since there will sometimes
+be some residual oil when you first transfer to an eppendorf. To get rid ofi it, simply add 1 mL of 6X
+SSC and watch as the clear oil rapidly falls to the bottom of the tube (this only takes about a
+second), then suck up the beads and transfer them to a clean tube.
+
+
+
+Drop-seq IdD ProLcor version 5.1; vecemuer Lo, LUID
+Evan Macosko and Melissa Goldman, McCarroll Lab
+page 15
+Reverse transcription
+This step generates CDNA strands on the RNA hybridized to the bead primers. One RT mix below is
+sufficient for the processing of ~90,000 beads.
+Note: 90,000 beads is the maximum number of beads that we've tested in a TechDev experiment.
+RT mix recipe (makes 200 ul): (can be prepared in advance without RTase)
+75 ul H20
+40 ul Maxima 5x RT Buffer
+40 ul 20 % Ficoll PM-400
+20 ul 10 mM dNTPS (Clontech)
+5 ul RNase Inhibitor (Lucigen)
+10 ul 50 UM Template Switch Oligo
+10 ul Maxima H- RTase (add after you've begun the breakage portion of the protocol)
+1. Add 200 ul of RT mix to the beads.
+2. Incubate at room temperature for 30 minutes with rotation.
+3. Incubate at 42 Cfor 90 minutes with rotation.
+4. Wash the beads once with 1 mL TE-SDS, twice with 1 mL TE-TW*, and then if proceeding to
+exonuclease I treatment wash once more with 1 mL 10 mM Tris pH 8.0.
+THIS IS A STOPPING POINT - + beads can be stored at 4 C in TE-TW.
+Exonuclease Itreatment
+
+
+
+Drop-seq IdD ProLcor version 5.1; vecemuer Lo, LUID
+Evan Macosko and Melissa Goldman, McCarroll Lab
+page 16
+This step chews back the excess bead primers that did not capture an RNA molecule. One RT mix
+below is sufficient for the processing of ~90,000 beads.
+Exonuclease mix recipe (makes 200 uL):
+20 ul 10x Exo I Buffer
+170 ul H20
+10 ul Exo I
+1. After washing once with 1 mL 10 mM Tris pH 8.0, resuspend in 200 ul of exonuclease mix.
+2. Incubate at 37 Cfor 45 minutes with rotation.
+3. Wash the beads once with 1 mL TE-SDS, twice with 1 mL TE-TW*, and then if proceeding to
+PCR, wash once more with 1 mL H20.
+THIS IS A STOPPING POINT + beads can be stored at 4 C in TE-TW.
+Preparing for PCR
+1. After washing once with 1 mL H20, spin down, remove supernatant, and add another 1 mL of
+H20.
+2. Mix well to evenly resuspend the beads, then quickly remove 20 ul and pipette into a
+Fuchs-Rosenthal hemocytometer chamber.
+3. Count all 16 boxes. The concentration (in beads/ul) is equal to: (# beads counted/16) * 5.
+4. Apportion 2,000 beads into each PCR tube. This will yield 100 STAMPS per PCR tube.
+5. Spin down the tubes, and add the following PCR mix (per tube):
+24.6 ul H20
+0.4 ul 100 UM SMART PCR PRIMER
+25 ul 2x Kapa HiFi Hotstart Readymix
+6. Mix well and proceed to PCR.
+STORE REMAINING BEADS AT 4 C IN TE-TW. We have stored beads successfully for >3 months without obvious CDNA degradation.
+PCR program
+
+
+
+vrop-sey IdD ProLcor version 5.1; vecemuer Lo, LUID
+Evan Macosko and Melissa Goldman, McCarroll Lab
+page 17
+95 C3 minutes
+4 cycles of:
+98 C20: S
+65 C45 S
+72 C3 min
+9 cycles of:
+98 C20 S
+67 C20: S
+72 C3 min
+Then:
+72 C5 min
+4 Cforever
+Hint: the recommendation of 13 cycles applies to the cells and conditions above. The number of cycles will
+need to be adjusted depending on the cell types assayed.
+Purification of the CDNA library and analysis on the BioAnalyzer
+1. Vortex the bottle of AMPure beads to mix.
+2. Add 30 ul of room temperature AMPure XP beads to each PCR tube of sample. This is a .6x
+beads to sample ratio.
+3. Purify according to manufacturer's instructions.
+4. Elute in 10 ul H20.
+5. Run a BioAnalyzer High Sensitivity Chip according to the manufacturer's instructions. Use 1 ul
+of the purified CDNA sample as input.
+Your CDNA library should be fairly smooth and have an average size of 1300-2000 bp.
+The yield for 2000 beads generated from a 50 cell/ul final cell concentration should be 400-1000 pg /
+ul. Do not be too concerned if there is some yield variation from run-to-run. There is some variability
+in counting the beads, and cell concentration, which can lead to more or less cells per amplification.
+Tagmentation of CDNA with Nextera XT
+
+
+
+Drop-seq IdD ProLcor version 5.1; vecemuer Lo, LUID
+Evan Macosko and Melissa Goldman, McCarroll Lab
+page 18
+1. Preheat a thermocycler to 55 degrees.
+2. For each sample, combine 600 pg of purified CDNA with H20 in a total volume of 5 ul.
+3. To each tube, add 10 ul of Nextera TD buffer and 5 ul of Amplicon Tagment enzyme (the total
+volume of the reaction is now 20 ul). Mix by pipetting 5 times. Spin down.
+4. Incubate at 55 C for 5 minutes.
+5. Add 5 ul of Neutralization Buffer. Mix by pipetting 5 times. Spin down. Bubbles are normal.
+6. Incubate at room temperature for 5 minutes.
+7. Add to each PCR tube in the following order:
+15 ul of Nextera PCR mix
+8 ul H20
+1 ul of 10 UM New-P5-SMART PCR hybrid oligo
+1 ul of 10 UM Nextera N70X oligo
+8. Run this PCR program:
+95 C30 sec
+12 cycles of:
+95 C10 seconds
+55 C30 seconds
+72 C 30 seconds
+Then:
+72 C5 minutes
+4 Cf forever
+Purification of the tagmented library and analysis on the BioAnalyzer
+
+
+
+Drop-seq IdD ProLcor version 5.1; vecemuer Lo, LUID
+Evan Macosko and Melissa Goldman, McCarroll Lab
+page 19
+1. Vortex the bottle of AMPure beads to mix.
+2. Add 30 ul of room temperature AMPure XP beads to each PCR tube of sample. This is a .6x
+beads to sample ratio.
+3. Purify according to manufacturer's instructions.
+4. Elute in 10 ul H20.
+5. Run a BioAnalyzer High Sensitivity Chip according to the manufacturer's instructions. Use 1 ul
+of the purified CDNA sample as input.
+Your tagmented library should be fairly smooth, with an average bp size of 500-680bp. Smaller-sized
+libraries will have more polyA reads; larger libraries may have lower sequence cluster density and
+cluster quality. Note that we have successfully sequenced libraries from 420-700bp.
+For a HEK/3T3 experiment, the expected yield will be in the range of 10-30 nM.
+Sequencing your sample
+If using the MiSeq, make a 10 ul library pool at 3 nM (as quantified by the BIOAnalyzer) as input for
+denaturation. For the final dilution, combine 400 ul sample with 600 ul of HT1 buffer.
+If using the NextSeq 500 - High Output, make a 10 ul library pool at 3 nM (as quantified by the
+BioAnalyzer) as input for denaturation. For the final dilution, combine 85 ul of sample with 1215 ul of
+HT1 buffer.
+Note: above are our most current standard dilutions, which produce optimal cluster density and % of
+clusters that pass filter. For the MiSeq, we tweak the sample input from 300 - 500 ul in 1000 ul total,
+depending on average tagmentation library size. For the NextSeq we vary the sample input from 70 ul 100
+ul in 1300 ul total. The smaller your library, the less sample you want to add to your final dilution.
+Sequencing specifications for the MiSeq or NextSeq:
+Read 1: 20 bp
+Read 2: 50 bp
+Read 1 Index: 8 bp 1 only necessary if you are multiplexing samples
+Custom Read 1 primer
+
+
+
+vrop-sey IdD ProLcor version 5.1; vecemuer Lo, LUID
+Evan Macosko and Melissa Goldman, McCarroll Lab
+page 20
+Troubleshooting:
+Low-quality droplets
+From time to time, we experience runs where droplet size is not uniform. We have identified three
+potential causes:
+1) Failure to wait long enough for the flow to stabilize. It takes time to push all the destabilized
+flow through the outflow tube. You may need to wait longer to avoid having this volume in
+your sample.
+2) Device imperfections. We generally use around 4,000 ul/hr as our flow rate for the cell and
+bead channels. However, we have seen batch-to-batch variation in droplet quality produced
+from individual devices. If you notice droplet quality problems, reduce the flow rate of cells
+and beads to 3,500 ul/hr, and decrease the oil flow rate proportionally. If this still does not
+produce good-quality droplets, consider switching to a new device.
+3) Devices are old (>3 months). Over time, our experience is that the Aquapel coating somehow
+degrades, which causes droplet quality to also decline. You may need fresh devices, or to
+re-treat your old devices with Aquapel.
+4) Air bubbles in the microfluidic device. If you observed air bubbles accumulating in the
+microfluidic channels during droplet generation, this likely explains poor emulsion quality.
+Avoid storing cell suspension buffers on ice--when the buffer is brought up to room
+temperature, it can release gas (gas is more soluble in liquids at lower temperatures).
+Beads breaking during droplet formation
+It is mportant to mix the beads to prevent them from settling; however, overly vigorous mixing will
+shear the beads. We strongly recommend using the V&P Scientific Mixing System described in the
+protocol, at the speeds described. A small amount of bead fragmentation during droplet generation
+is expected, but these fragments should be nearly absent from the bead pool once you are counting
+beads for PCR amplification.
+Droplets break poorly/precipitate at oil-aqueous interface
+The amount of protein in your cell suspension strongly influences the "cleanliness" of the oil-aqueous
+interface after droplet breakage. For example, a lot of BSA (e.x. 0.2%) can produce a snow-like
+precipitate (though it does not appear to affect the library quality). Serum is strongly inhibitory to
+Drop-seq and must be washed out completely before running cells. Serum will also produce a lot of
+precipitate at the oil-aqueous interface.
+
+
+
+Drop-seq IdD ProLcor version 5.1; vecemuer Lo, LUID
+Evan Macosko and Melissa Goldman, McCarroll Lab
+page 21
+Next steps:
+Once you've gotten through to the sequencing step, you'll want to generate digital expression data, as
+well as basic metrics about the sequencing run. Jim Nemesh in our lab, with help from Alec Wysoker,
+has developed software for orocessing sequence data. Download the latest informatics guide on our
+webpage to learn more.
