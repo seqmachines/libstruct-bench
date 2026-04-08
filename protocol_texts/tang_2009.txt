@@ -1,554 +1,289 @@
---- Page 1 ---
-516 | VOL.5 NO.3 | 2010 | nature protocols
-protocol
-  
-p
-u
-o
-r
-G
- 
-g
-n
-i
-h
-s
-il
-b
-u
-P
- 
-e
-r
-u
-t
-a
-N
- 
-0
-1
-0
-2
-©
-natureprotocols
-/
-m
-o
-c
-.
-e
-r
-u
-t
-a
-n
-.
-w
-w
-w
-//:
-p
-tt
-h
+PROTOCOL
+RNA-Seq analysis to capture the transcriptome
+landscape of a single cell
+Fuchou Tang', Catalin Barbacioru', Ellen Nordman, Bin Li?, Nanlan Xu', Vladimir I Bashkirov, Kaiqin Lao2 &
+M. Azim Surani'
+Wellcome Trust/Cancer Research UK Gurdon Institute of Cancer and Developmental Biology, University of Cambridge, Cambridge, UK. Genetic Systems,
+Applied Biosystems,] part ofl Life Technologies, Foster City, California, USA. Correspondence should be addressed to M.A.S. (a.surani@gurdon.cam.ac.uk)or
+K.L. (kailao@lifetech.com).
+Published online 25 February 2010; doi:10.1038/nprot.2009.236
+We describe here a protocol for digital transcriptome analysis in a
+mouse
+and blastomere
+-
+single
+oocyte
+using a deep-sequencing
+in approach. In this method, individual cells are isolated and transferred into lysate buffer by mouth pipette, followed by reverse
+transcription carried out directly on the whole cell lysate. Free primers are removed by exonuclease I and a poly(A) tail is added
+to the 3' end of the first-strand CDNAS by terminal deoxynucleotidyl transferase. Single-cell CDNAS are then amplified by 20 + 9
+cycles of PCR. The resulting 100-200 ng of amplified CDNAS are used to construct a sequencing library, which can be used for deep
+sequencing using the SOLID
+with CDNA
+our
+I
+system. Compared
+microarray techniques, assay can capture up to 75% more genes
+€ expressed in early embryos. This protocol can generate deep-sequencing libraries for 16 single-cell samples within 6 d.
 INTRODUCTION
 Developing tools for transcriptome analysis
-The identity and function of a cell is determined by its entire RNA 
-component, which is called the transcriptome1,2. The transcrip­
-tome is the functional readout of the genome and epigenome. In 
-an organism, essentially every cell has the same genome, although 
-every cell type and potentially each individual cell has a unique 
-transcriptome. Ideally, transcriptome analysis should capture the 
-exact quantity of all full length RNAs of all classes at single-base 
-resolution in the smallest functional unit of an organism, i.e., an 
-individual cell2. Eventually, the transcriptome analysis may even 
-become non-invasive, allowing us to read the sequences of every 
-RNA molecule of a living cell without destroying the cell. During 
-the past decade, the most successful and widely used transcriptome 
-analysis method has been the cDNA microarray3–8, and this tech­
-nique is now applicable to virtually any model organisms with a 
-known genome. These arrays represent a powerful way to capture 
-the expression pattern of tens of thousands of known genes through 
-hybridization. However, this technology has significant drawbacks 
-and limitations1,2, including (1) cross-hybridization between genes 
-of similar sequence; (2) detection of expression levels limited to 
-the 1,000-fold range or three orders of magnitude, compared with 
-actual cellular dynamic range of gene expression that spans six 
-orders of magnitude; (3) lack of information about the exact length 
-and sequence of the mRNAs being analyzed; and (4) inability to 
+development!53.) However, the sensitivity of the method generally
+Thei identity and function of a cell is determined by its entire RNA requires microgram amounts of total RNA as the starting material,
+component, which is called the transcriptomel2, The transcrip- and most RNA-Seq studies have used tissues containing a mixture
+tome is the functional readout of the genome and epigenome. In of different types of cells or cell lines, which are at least a mixture
+an organism, essentially every cell has the same genome, although of cells at different stages of the cell cycle. Recent investigations
+every cell type and potentially each individual cell has a unique into thes stochastic nature oftranscription and gene expression have
+transcriptome. Ideally, transcriptome analysis should capture the shown that even in the same cell type at the same cell cycle stage,
+exact quantity of all full length RNAS of all classes at single-base the mRNA copy number from an expressed gene can be affected
+resolution in the smallest functional unit of an organism, i.e., an byboth the microenvironment and the intrinsic noise of the trans-
+individual cell?. Eventually, the transcriptome analysis may even cription process24-29. Ideally, the RNA-seq transcriptome analysis
+become non-invasive, allowing us to read the sequences of every should be done using individual cells or even the sub-compartment
+RNA molecule of a living cell without destroying the cell. During of a cell, such as the cytoplasm or nucleus. For the study of early
+the past decade, the most successful and widely used transcriptome embryonic development or stem cells in vivo,iti is extremely difficult
+analysis method has been the CDNA microarray2s, and this tech- or even practically impossible to isolate millions of cells of a single
+nique is now applicable to virtually any model organisms with a type. RNA-Seq at single-cell resolution will greatly promote the
+known genome. These arrays represent a powerful way to capture development oft fthese fields by permitting comprehensive capture of
+the expression pattern of tens ofthousands ofl known genes through the expression dynamics of all genes at all developmental stages.
+hybridization. However, this technology has significant drawbacks During the past few years, people have developed CDNA micro-
+and limitations'2,i including (1) cross-hybridization between genes array techniques for working with a small amount of starting
+of similar sequence; (2) detection of expression levels limited to material, or even a single cell3031, through either in vitro transcrip-
+the 1,000-fold range or three orders of magnitude, compared with tion (IVT)-based linear amplification2-3 PCR-based exponen-
+actual cellular dynamic range of gene expression that spans six tial amplification6-39 or a combination of the two methods 540,41.
+orders ofr magnitude; (3) lack ofinformation about the exact length However, these approaches have inherited the limitations of the
+and sequence of the mRNAs being analyzed; and (4) inability to microarray platform. In recent work*, our group described how we
 detect novel transcripts.
-Use of a tiling array can resolve some of these problems9,10, but 
-recently developed methods for deep-sequencing-based transcrip­
-tome analysis or RNA-Seq, can potentially overcome all of these 
-problems1,2,11–14. RNA-Seq can achieve single-base resolution, and 
-the dynamic range of gene expression levels that it can capture is 
-theoretically unlimited, depending only on the depth of sequenc­
-ing. More importantly, with the help of complete genome infor­
-mation, the exact length and sequence of all RNAs analyzed can 
-be captured accurately. The past 2 years have seen astonishingly 
-fast development of the RNA-Seq technique and deepening of 
-our understanding of the complexity of the eukaryotic transcrip­
-tome, from yeast to humans and from adult tissues to embryonic 
-development15–23. However, the sensitivity of the method generally 
-requires microgram amounts of total RNA as the starting material, 
-and most RNA-Seq studies have used tissues containing a mixture 
-of different types of cells or cell lines, which are at least a mixture 
-of cells at different stages of the cell cycle. Recent investigations 
-into the stochastic nature of transcription and gene expression have 
-shown that even in the same cell type at the same cell cycle stage, 
-the mRNA copy number from an expressed gene can be affected 
-by both the microenvironment and the intrinsic noise of the trans­
-cription process24–29. Ideally, the RNA-seq transcriptome analysis 
-should be done using individual cells or even the sub-compartment 
-of a cell, such as the cytoplasm or nucleus. For the study of early 
-embryonic development or stem cells in vivo, it is extremely difficult 
-or even practically impossible to isolate millions of cells of a single 
-type. RNA-Seq at single-cell resolution will greatly promote the 
-development of these fields by permitting compre­hensive capture of 
-the expression dynamics of all genes at all developmental stages.
-During the past few years, people have developed cDNA micro­
-array techniques for working with a small amount of starting 
-material, or even a single cell30,31, through either in vitro transcrip­
-tion (IVT)-based linear amplification32–35, PCR-based exponen­
-tial amplification36–39 or a combination of the two methods40,41. 
-However, these approaches have inherited the limitations of the 
-microarray platform. In recent work42, our group described how we 
-improved a widely used single-cell cDNA amplification strategy and 
-combined it with the SOLiD deep-sequencing system to develop 
-a digital transcriptome analysis method, single-cell RNA-Seq.
-Strengths and limitations of single-cell RNA-Seq
-We have demonstrated that single-cell RNA-Seq has greater accu­
-racy than single-cell cDNA microarrays40,42. There are two reasons 
-for this. First, owing to the greater sensitivity of the deep sequenc­
-ing compared with the cDNA microarray, IVT is unnecessary, thus 
-eliminating the amplification bias introduced by this step. Second, 
-the greater dynamic range of the deep-sequencing method means 
-that RNA-Seq more accurately captures levels of gene expression. 
-Using this method, we captured 5,270 (75%) more genes than 
-RNA-Seq analysis to capture the transcriptome 
-landscape of a single cell
-Fuchou Tang1, Catalin Barbacioru2, Ellen Nordman2, Bin Li2, Nanlan Xu2, Vladimir I Bashkirov2, Kaiqin Lao2 & 
-M Azim Surani1
-1Wellcome Trust/Cancer Research UK Gurdon Institute of Cancer and Developmental Biology, University of Cambridge, Cambridge, UK. 2Genetic Systems, 
-Applied Biosystems, part of Life Technologies, Foster City, California, USA. Correspondence should be addressed to M.A.S. (a.surani@gurdon.cam.ac.uk) or 
-K.L. (kai.lao@lifetech.com).
-Published online 25 February 2010; doi:10.1038/nprot.2009.236
-We describe here a protocol for digital transcriptome analysis in a single mouse oocyte and blastomere using a deep-sequencing 
-approach. In this method, individual cells are isolated and transferred into lysate buffer by mouth pipette, followed by reverse 
-transcription carried out directly on the whole cell lysate. Free primers are removed by exonuclease I and a poly(A) tail is added 
-to the 3’ end of the first-strand cDNAs by terminal deoxynucleotidyl transferase. Single-cell cDNAs are then amplified by 20  +  9 
-cycles of PCR. The resulting 100–200 ng of amplified cDNAs are used to construct a sequencing library, which can be used for deep 
-sequencing using the SOLiD system. Compared with cDNA microarray techniques, our assay can capture up to 75% more genes 
-expressed in early embryos. This protocol can generate deep-sequencing libraries for 16 single-cell samples within 6 d.
+improved a widelyused single-cell CDNA amplification strategyand
+Use of a tiling array can resolve some of these problems9.10, but combined it with the SOLID deep-sequencing system to develop
+recently developed methods for deep-sequencing-based transcrip- a digital transcriptome analysis method, single-cell RNA-Seq.
+tome analysis or RNA-Seg, can potentially overcome all of these
+problems4211-14. RNA-Seq can achieve single-base resolution, and Strengths and limitations of single-cell RNA-Seq
+the dynamic range of gene expression levels that it can capture is We have demonstrated that single-cell RNA-Seq has greater accu-
+theoretically unlimited, depending only on the depth of sequenc- racy than single-cell CDNA microarrayst0.42. There are two reasons
+ing. More importantly, with the help of complete genome infor- for this. First, owing to the greater sensitivity of the deep sequenc-
+mation, the exact length and sequence of all RNAS analyzed can ing compared with the CDNA microarray, IVTi is unnecessary, thus
+be captured accurately. The past 2 years have seen astonishingly eliminating the amplification bias introduced by this step.Second,
+fast development of the RNA-Seq technique and deepening of the greater dynamic range of the deep-sequencing method means
+our understanding of the complexity ofthe eukaryotic transcrip- that RNA-Seq more accurately captures levels of gene expression.
+tome, from yeast to humans and from adult tissues to embryonic Using this method, we captured 5,270 (75%) more genes than
+516 I VOL.5 NO.3 I 2010 I NATURE PROTOCOLS
 
 
---- Page 2 ---
-nature protocols | VOL.5 NO.3 | 2010 | 517
-protocol
-  
-p
-u
-o
-r
-G
- 
-g
-n
-i
-h
-s
-il
-b
-u
-P
- 
-e
-r
-u
-t
+
+PROTOCOL
+the CDNA microarray (i.e., the commercial array (Affymetrix It is crucial to make sure that the individual cells to be analyzed
+Mouse Genome 4302.0 array)), expanding the transcriptome ofa have actually been transferred into the lysis buffer from the drop of
+blastomere of a four-cell stage mouse embryo from 7,050 expressed PBS-BSA via the micropipette. Initially, the operator can practice
+genes to 11,920 expressed genest2 (i.e., we detected 5,270 more genes by transferring individual cells into a 4-5 ul drop of PBS-BSA on
+than microarray, but we also missed 400 genes from the 7,050 genes a 6-cm cell culture dish, and then recovering it to ascertain whether
+detected by microarray). We observed that around 10% of genes they can accurately transfer an individual cell.
+with multiple known transcript isoforms express more than two We use a relatively mild lysis buffer41,42, which enables efficient
+different transcript isoforms in the same blastomere at the same cell lysis without severely interfering with reverse transcription
+time point, which has never been detectable by single-cell CDNA efficiency. If more than one cell is used for each lysate reaction,
+microarray"?. We also identified thousands of previously unknown dissociated individual cells must still be used rather than a clump
+splicejunctions from already known genes, indicating the extent to of cells to make sure that all the cells aret thoroughly and completely
+which our previous appreciation ofthe complexity of the eukaryo- lysed under these conditions. As the method is extremely sensitive,
+tic transcriptome was limited based on the CDNA microarray*?. iti is essential to include a negative control sample, which involves
+This strategyl has many possible future applications. It creates the repeating all of the steps described above, but without any cells.
+in possibility of isolating one or several cells from patient organs or This negative control will ensure the absence of contamination at
+tumorsand: analyzing their transcriptome by RNA-seq,.reducing the all steps from the start to the end ofthe whole procedure. The UPI
+invasiveness of biopsies and clarifying the diagnosis of diseases. In primer used here for first-strand CDNA synthesis contains a 24-nt
+addition, the subcellular distribution of mRNAS could potentiallybe poly(dT) tail at the 3' end, which permits priming of the reverse
+I
+explored by comparing, e.g., the axon and cell body of a neuron. transcription of all mRNAs with poly(A) tails and a 24-nt anchor
+€
+sequence to add a universal tail to the CDNAS*.
 a
-N
- 
-0
-1
-0
-2
-©
-natureprotocols
-/
-m
-o
-c
-.
-e
-r
-u
-t
-a
-n
-.
-w
-w
-w
-//:
-p
-tt
-h
-the cDNA microarray (i.e., the commercial array (Affymetrix 
-Mouse Genome 430 2.0 array))43, expanding the transcriptome of a 
-blastomere of a four-cell stage mouse embryo from 7,050 expressed 
-genes to 11,920 expressed genes42 (i.e., we detected 5,270 more genes 
-than microarray, but we also missed 400 genes from the 7,050 genes 
-detected by microarray). We observed that around 10% of genes 
-with multiple known transcript isoforms express more than two 
-different transcript isoforms in the same blastomere at the same 
-time point, which has never been detectable by single-cell cDNA 
-microarray42. We also identified thousands of previously unknown 
-splice junctions from already known genes, indicating the extent to 
-which our previous appreciation of the complexity of the eukaryo­
-tic transcriptome was limited based on the cDNA microarray42.
-This strategy has many possible future applications. It creates the 
-possibility of isolating one or several cells from patient organs or 
-tumors and analyzing their transcriptome by RNA-seq, reducing the 
-invasiveness of biopsies and clarifying the diagnosis of diseases. In 
-addition, the subcellular distribution of mRNAs could potentially be 
-explored by comparing, e.g., the axon and cell body of a neuron.
-Current limitations of single-cell RNA-Seq include42:
-(1)	 The assay can only capture mRNAs with a poly(A) tail. Those 
-mRNAs without poly(A) tails or other classes of RNAs, such 
-as small non-coding RNAs, will not be detected.
-(2)	 The assay cannot discriminate sense from antisense transcripts.
-(3)	 The assay can only capture cDNA fragments extending upto 
-3 kb from the 3′ end of a mRNA. For genes with mRNAs long­
-er than 3 kb, which constitute about 36% of all known genes, 
-the 5′ end part of the mRNA can not be detected. We are at 
-present improving the method to overcome these limitations.
+Current limitations of single-cell RNA-Seq include*2.
+Le
+The protocol can also be carried out with purified total RNA
+(1) The assay can only capture mRNAs with a poly(A) tail. Those instead of single cells. In such cases, simply use total RNA to
+mRNAs
+replace
+without poly(A) tails or other classes of RNAS, such
+the single cell and keep the final volume of the reverse transcription
+as: small non-coding RNAS, will not be detected.
+reaction at 5 ul (although the volume of water in the lysis buffer
+(2) The assay cannot discriminate sense from antisense transcripts. should be adjusted accordingly). For each sample, 20 pg-1 ng of
+(3) The assay can only capture CDNA fragments extending upto total RNA should work.
+3k kb from the 3' end of a mRNA. For genes with mRNAs long-
+Before CDNA synthesis, prepare the master mix based on the
+er than 3. kb, which constitute about 36% of all known genes, number of samples to be analyzed. In order to minimize pipetting
+the 5' end part of the mRNA can not be detected. We are at
+error, prepare an excess stock solution of master mix, atl least 12x of
+present improving the method to overcome these limitations. reagents for ten samples for all steps except poly-A tailing and PCR
+step, for which an 11x master mix is sufficient. For the reverse tran-
 RNA isolation and preparation
-The use of this technique requires efficient and reliable methods 
-for dissociating the embryos or tissues into a single-cell suspen­
-sion. Any suitable strategies can be used to disaggregate the tissues 
-into single-cell suspension while maintaining the integrity of living 
-single cells under physiological conditions. In general, quicker and 
-milder dissociation processes should be adopted. These will depend 
-on the type of cells and which stage the embryos are at.
-For picking up and transferring individual cells, we usually use a 
-mouth tube to control an attached micropipette under a dissection 
-microscope, which permits swift and efficient control of individual 
-cell collection and release41,44. In this method, four-cell stage mouse 
-embryos are isolated from the oviduct45. Acidic Tyrode’s solution 
-is used to dissolve and remove the zona pellucida and the embryos 
-are then transferred to a calcium-free medium to dissociate the 
-zona-free embryos into individual blastomeres. PBS–BSA is used 
-to wash and hold individual blastomeres; the use of PBS alone will 
-cause the blastomeres to attach tightly to the bottom of the dish or 
-inside wall of the micropipette, leading to rupture or loss of these 
-cells. The individual blastomeres should be placed in a small drop 
-of PBS–BSA, usually only 50–150 µl on a 6-cm cell culture dish; this 
-will allow accurate and reliable manipulation of single cells. The 
-portion of the micropipette outside the mouth tube should be long 
-enough (>4 cm) to permit the tip of it to dip into the lysis buffer at 
-the bottom of the tube without the mouth tube touching the lid or 
-rim of the tube, thus avoiding any potential contamination. Gloves 
-should be worn during the manipulation of single cells to prevent 
+scription step, iti is essential to add the 0.45 ul of RT mix accurately
+The use of this technique requires efficient and reliable methods into each reaction tube. In the free primer removal step and poly(A)
+for dissociating the embryos or tissues into a single-cell suspen- tailing step, it isi important to prepare the master mixes immediately
+sion.. Any suitable strategies can be used to disaggregate the tissues before adding them into the reaction tube. For the PCR step, it is cru-
+into single-cell suspension while: maintaining thei integrity ofliving cial to usel hot-start Ex Taq to minimize background amplification of
+single cells under physiological conditions. In general, quicker and single-cell cDNAsduring1 pipettingand mixing.And for all the steps,it
+milder dissociation processes should be adopted. These will depend is veryimportant to mix the reaction solutions mildlyl but thoroughly
+on thet type of cells and which stage the embryos are at.
+to ensuret that all the reactions are efficient and that the amplification
+For picking up and transferring individual cells, we usually use a of CDNAS is accurate and quantitative. The UP2 primer used here
+mouth tube to control an attached micropipette under a dissection has a 24-nt poly(dT) at the 3' end, which permits priming during
+microscope, which permits swift and efficient control ofi individual the second-strand CDNA synthesis and the 24-nt anchor sequence
+cell collection and release41,44. In this method, four-cell stage mouse adds a universal tail to the second-strand CDNAS". During PCR, the
+embryos are isolated from the oviduct*5. Acidic Tyrode's solution extension time isi increasedby6safter each cycle to compensate for the
+is used to dissolve and remove the zona pellucida and the embryos reduced efficiencyofl PCR: amplification because of the accumulation
+are then transferred to a calcium-free medium to dissociate the ofbyproducts and consumption ofthe active reagents.
+zona-free embryos into individual blastomeres. PBS-BSA is used After the first 20 cycles of PCR, the PCR product is purified and
+to wash and hold individual blastomeres; the use ofl PBS alone will part of it is used as the template for an additional 9 cycles of PCR.
+cause thel blastomeres to attach tightly to the bottom of the dish or There are two purposes for this step: (1) to increase both the total
+inside wall of the micropipette, leading to rupture or loss of these amount and concentration of the amplified CDNAs for construc-
+cells. The individual blastomeres should be placed in a small drop tion of the deep-sequencing library and other relevant analysis
+of PBS-BSA, usually only 50-150 ul on a 6-cm cell culture dish; this and (2) to shift the primers from unmodified UP1 and UP2 to
+will allow accurate and reliable manipulation of single cells. The 5'-amine (NH2)-blocked AUP1 and AUP2 to suppress the conta-
+portion of the micropipette outside the mouth tube should bel long mination of primer dimers in the deep-sequencing library. The
+enough (>4 cm) toj permit the tipofi it to dipinto thel lysis buffer at AUP1 and AUP2 primers havean NH2-modification at their 5' ends
+thel bottom oft thetube without the mouth tube touching the lid or with a C linker that prevents ligation ofthe 5'-end fragments ofthe
+rim ofthe tube, thus avoiding any potential contamination. Gloves double-stranded CDNA (after shearing) to the SOLID library P1/P2
+should be worn during the manipulation of single cells to prevent adaptors. Becauseofthis, any undesired small amplification products
 potential contamination.
-It is crucial to make sure that the individual cells to be analyzed 
-have actually been transferred into the lysis buffer from the drop of 
-PBS–BSA via the micropipette. Initially, the operator can practice 
-by transferring individual cells into a 4–5 µl drop of PBS–BSA on 
-a 6-cm cell culture dish, and then recovering it to ascertain whether 
-they can accurately transfer an individual cell.
-We use a relatively mild lysis buffer41,42, which enables efficient 
-cell lysis without severely interfering with reverse transcription 
-efficiency. If more than one cell is used for each lysate reaction, 
-dissociated individual cells must still be used rather than a clump 
-of cells to make sure that all the cells are thoroughly and completely 
-lysed under these conditions. As the method is extremely sensitive, 
-it is essential to include a negative control sample, which involves 
-repeating all of the steps described above, but without any cells. 
-This negative control will ensure the absence of contamination at 
-all steps from the start to the end of the whole procedure. The UP1 
-primer used here for first-strand cDNA synthesis contains a 24-nt 
-poly(dT) tail at the 3′ end, which permits priming of the reverse 
-transcription of all mRNAs with poly(A) tails and a 24-nt anchor 
-sequence to add a universal tail to the cDNAs41.
-The protocol can also be carried out with purified total RNA 
-instead of single cells. In such cases, simply use total RNA to replace 
-the single cell and keep the final volume of the reverse transcription 
-reaction at 5 µl (although the volume of water in the lysis buffer 
-should be adjusted accordingly). For each sample, 20 pg–1 ng of 
-total RNA should work.
-Before cDNA synthesis, prepare the master mix based on the 
-number of samples to be analyzed. In order to minimize pipetting 
-error, prepare an excess stock solution of master mix, at least 12× of 
-reagents for ten samples for all steps except poly-A tailing and PCR 
-step, for which an 11× master mix is sufficient. For the reverse tran­
-scription step, it is essential to add the 0.45 µl of RT mix accurately 
-into each reaction tube. In the free primer removal step and poly(A) 
-tailing step, it is important to prepare the master mixes immediately 
-before adding them into the reaction tube. For the PCR step, it is cru­
-cial to use hot-start Ex Taq to minimize background amplification of 
-single-cell cDNAs during pipetting and mixing. And for all the steps, it 
-is very important to mix the reaction solutions mildly but thoroughly 
-to ensure that all the reactions are efficient and that the amplification 
-of cDNAs is accurate and quantitative. The UP2 primer used here 
-has a 24-nt poly(dT) at the 3′ end, which permits priming during 
-the second-strand cDNA synthesis and the 24-nt anchor sequence 
-adds a universal tail to the second-strand cDNAs41. During PCR, the 
-extension time is increased by 6 s after each cycle to compensate for the 
-reduced efficiency of PCR amplification because of the accumulation 
-of byproducts and consumption of the active reagents.
-After the first 20 cycles of PCR, the PCR product is purified and 
-part of it is used as the template for an additional 9 cycles of PCR. 
-There are two purposes for this step: (1) to increase both the total 
-amount and concentration of the amplified cDNAs for construc­
-tion of the deep-sequencing library and other relevant analysis 
-and (2) to shift the primers from unmodified UP1 and UP2 to 
-5′-amine (NH2)-blocked AUP1 and AUP2 to suppress the conta­
-mination of primer dimers in the deep-sequencing library. The 
-AUP1 and AUP2 primers have an NH2-modification at their 5′ ends 
-with a C6 linker that prevents ligation of the 5′-end fragments of the 
-double-stranded cDNA (after shearing) to the SOLiD library P1/P2 
-adaptors. Because of this, any undesired small amplification products 
-that may have been formed will not be carried over into the library.
+that mayl havel been formed will not be carried over into the library.
+NATURE PROTOCOLS I VOL.5 NO.3 I 2010 - 517
 
 
---- Page 3 ---
-518 | VOL.5 NO.3 | 2010 | nature protocols
-protocol
-  
-p
-u
-o
-r
-G
- 
-g
-n
-i
-h
-s
-il
-b
-u
-P
- 
-e
-r
-u
-t
-a
-N
- 
-0
-1
-0
-2
-©
-natureprotocols
-/
-m
-o
-c
-.
-e
-r
-u
-t
-a
-n
-.
-w
-w
-w
-//:
-p
-tt
-h
-The number of PCR amplification cycles can be adjusted accord­
-ing to the size or mRNA content of the cell under investigation; 
-for a blastomere from a four-cell stage embryo we use 20 cycles 
-of PCR, whereas for a mature oocyte we use 18 cycles of PCR. 
-The template amount used for the second round of PCR can also 
-be flexible. Out of 50 µl of the purified first round PCR product, 
-1–4 µl can be used for each 90-µl PCR reaction. This round of PCR 
-amplification can also be adjusted according to the final amount 
-of cDNA needed; the number of cycles can be between 6 and 12, 
-but should be minimized to reduce bias. The combined number of 
-cycles in the first and second rounds of PCR should be  < 30. The 
-final PCR product should be gel purified to remove primer dimers 
-and any other potential non-specific amplification byproducts. In 
-our experience, from one blastomere of a four-cell stage embryo 
-(or 20 pg of input total RNA), 20  +  9 cycles of PCR will yield at 
-least 200 ng of gel-purified cDNA.
-Library preparation
-For a workflow of this part of the process, consult Figure 1. 
-The primary steps are as follows:
-The prepared cDNA samples are sheared using sonication, with 
-the majority of fragments between 80–130 bp (see Fig. 2a). Fine-
-tuning the shearing protocol may be necessary for certain DNA 
-samples. We have tested the conditions described below in Steps 
-43 and 44 for shearing 50 ng–10 µg of DNA in a total volume of 
-•
-100 µl in a Covaris S2 System. For this system, it is important to 
-use the appropriate tube holder, program the instrument cor­
-respondingly and set the chiller temperature at 2–5 °C. This en­
-sures that the water bath stays around 5 °C, preventing excessive 
-heating of the sample during sonication.
-Fragment ends are repaired to enable ligation of double-stranded 
-adaptors. The quantity of double-stranded adaptors must be 
-calculated based on the quantity of cDNA sample that was 
-sonicated. For a fragment library, P1 and P2 adaptors are ligated 
-to the fragment ends. All oligonucleotides needed for fragment 
-library construction are included in the SOLiD Fragment Library 
-Oligo Kit. Alternatively, multiplexed P1 and P2 adaptors can 
-be used for large sample sets, allowing the user to prepare a 
-multiplexed library for emulsion PCR and running on the SOLiD 
-instrument. A multiplexed library reduces workflow and allows 
-the user to run (in this protocol) up to 16 samples in parallel 
-on SOLiD, which reduces sequencing time and reagents. All 
-multiplexed oligonucleotides must be ordered (see Table 1) and 
-pair-wise annealed (see Procedure, Box 1) to create double-
-stranded adaptors.
-•
+
+PROTOCOL
 Sonication
+Figure 1 Workflow for SOLID System Express library preparation for
+V
+fragment libraries and multiplexed fragment libraries. Following generation
 Repair DNA ends
+of CDNA from a single cell, typically 100-200 ng is used for standard
+fragment-library preparation. Using the Covaris S2 system, CDNA (0.5-3 kb)
 Ligation of adaptors
+is sheared into short 80-130 bp fragments. The ends of the fragments
+are repaired and subsequently ligated to SOLID P1 and P2 adaptors. The
 AMPure purification
-Nick translation
+fractionated, adaptor-ligated DNA is then subjected to 8-10 cycles of PCR
+amplification. Ultimately, emulsion PCR reactions are carried out by mixing
+Nick translation V
+1-2 ng of single-cell libraries with 1.6 billion 1-um diameter beads with
+P1 primers covalently attached to their surfaces. The 50-base sequences
+were obtained using Applied Biosystems SOLID sequencing.
 AMPure purification
 Quantitation (Qubit or qPCR)
-Quantitation (Qubit or qPCR)
-Sample ready for emPCR
-If sample concentrations inadequate
-PCR amplification
-Quantitation (Qubit or qPCR)
-Pool samples
-AMPure purification
+100 ul in a Covaris S2 System. For this system, it is important to
+a
+-
+*
+use the
+tube holder, program the instrument cor-
+X
+appropriate
+O
 If sample concentration adequate
-Figure 1 | Workflow for SOLiD System Express library preparation for 
-fragment libraries and multiplexed fragment libraries. Following generation 
-of cDNA from a single cell, typically 100–200 ng is used for standard 
-fragment-library preparation. Using the Covaris S2 system, cDNA (0.5–3 kb) 
-is sheared into short 80–130 bp fragments. The ends of the fragments 
-are repaired and subsequently ligated to SOLiD P1 and P2 adaptors. The 
-fractionated, adaptor-ligated DNA is then subjected to 8–10 cycles of PCR 
-amplification. Ultimately, emulsion PCR reactions are carried out by mixing 
-1-2 ng of single-cell libraries with 1.6 billion 1-µm diameter beads with 
-P1 primers covalently attached to their surfaces. The 50-base sequences 
-were obtained using Applied Biosystems SOLiD sequencing.
-[FU]
-400
-350
-300
-250
-200
-150
-100
-50
-0
-15 50
-100 150200
-300
-25 bp
-ladder
-cDNA libraries
-P1–P2 primer dimer
-400 500
-700
-1,500
+If sample concentrations inadequate
+respondingly and set the chiller temperature at 2-5 °C. This en-
+sures that the water bath stays around 5 °C,
+excessive
+I
+preventing
+PCR amplification
+heating of the sample during sonication.
+Fragment ends are repaired to enable ligation of double-stranded
+Quantitation (Qubit or qPCR)
+adaptors. The quantity of double-stranded adaptors must be
+I
+calculated based on the quantity of CDNA sample that was
+sonicated. For a fragment library, P1 and P2 adaptors are ligated
+Pool samples
+to the fragment ends. All oligonucleotides needed for fragment
+libraryconstruction are included in the SOLID Fragment Library
+AMPure purification
+Oligo Kit. Alternatively, multiplexed Pl and P2 adaptors can
+be used for large sample sets, allowing the user to prepare a
+Quantitation (Qubit or qPCR)
+multiplexed library for emulsion PCRand running on the SOLID
+Y
+instrument. A multiplexed library reduces workflow and allows
+Sample ready fore emPCR
+the user to run (in this protocol) up to 16 samples in parallel
+on SOLID, which reduces sequencing time and reagents. All
+The number of PCR amplification cycles can be adjusted accord- multiplexed oligonucleotides must be ordered (see Table 1) and
+ing to the size or mRNA content of the cell under investigation; pair-wise annealed (see Procedure, Box 1) to create double-
+for a blastomere from a four-cell stage embryo we use 20 cycles stranded adaptors.
+of PCR, whereas for a mature oocyte we use 18 cycles of PCR.
+The template amount used for the second round of PCR can also a [FUI
 Sample 1
-1,500
-15
-102
-[bp]
-a
-b
-Figure 2 | cDNA library fragment QC. (a) Electropherogram of DNA sheared 
-in C4011-10 tubes generated using Agilent’s Bioanalyzer. (b) Gel picture of 
-library cDNAs. The 68 bp bands are P1–P2 primer-dimer products, whereas 
-the cDNA libraries are bands between 150 bp and 200 bp. (The size of the 
-sheared cDNA is 80–130 bp. After ligation of the two adaptors, totaling 
-68 bp, the size of the DNA is 150-200 bp).
-
-
---- Page 4 ---
-nature protocols | VOL.5 NO.3 | 2010 | 519
-protocol
-  
-p
-u
-o
-r
-G
- 
-g
-n
-i
-h
-s
-il
-b
-u
-P
- 
-e
-r
-u
-t
-a
-N
- 
-0
+be flexible. Out of 50 ul of thej purified first round PCR product,
+A0
+1-4 ul can be used for each 90-ul PCR reaction. This round of PCR
+400-
+amplification can also be adjusted according to the final amount
+350-
+> - of CDNA needed; the number of cycles can be between 6 and 12,
+300-
+but should bei minimized to reduce bias. The combined number of
+250
+cycles in the first and second rounds of PCR should be < 30. The
+200-
+final PCR product should be gel purified to removej primer dimers
+150-
+and any other potential non-specific amplification byproducts. In
+100-
 1
-0
-2
-©
-natureprotocols
-/
-m
-o
-c
-.
-e
-r
-u
-t
-a
-n
-.
-w
-w
-w
-//:
-p
-tt
-h
-Table 1 | All oligos needed for the single cell RNA-Seq protocol.
+50
+our experience, from one blastomere of a four-cell stage embryo
+50.
+(or 20 pg ofi input total RNA), 20 + 9 cycles of PCR will yield at
+least 200 ng of gel-purified CDNA.
+1550 100 150200 300 400 500 700 1,500 [bp]
+Library preparation
+b
+25bp ladder
+For a workflow of this part of the process, consult Figure 1.
+The primary steps are as follows:
+- The prepared CDNA samples are sheared using sonication, with
+the majority of fragments between 80-130 bp (see Fig. 2a). Fine-
+tuning the shearing protocol may be necessary for certain DNA
+samples. We have tested the conditions described below in Steps
+CDNA libraries
+43 and 44 for shearing 50 ng-10 ug of DNA in a total volume of
+P1-P2 primer dimer
+Figure 2 I CDNA library fragment QC. (a) Electropherogram of DNA sheared
+in C4011-10 tubes generated using Agilent's Bioanalyzer. (b) Gel picture of
+library CDNAS. The 68 bp bands are P1-P2 primer-dimer products, whereas
+the CDNA libraries are bands between 150 bp and 200 bp. (The size of the
+sheared CDNA is 80-130 bp. After ligation of the two adaptors, totaling
+68 bp, the size of the DNA is 150-200 bp).
+518 I VOL.5 NO.3 I 2010 I NATURE PROTOCOLS
+
+
+
+PROTOCOL
+TABLE 1 I - All oligos needed for the single cell RNA-Seq protocol.
 Oligo name
-Oligo sequence (all oligos sequence read 5′→3′)
+Oligo sequence (all oligos sequence read 5'->3)
 UP1
-ATATGGATCCGGCGCGCCGTCGACTTTTTTTTTTTTTTTTTTTTTTTT
+ATATGGATCCGGCGCGCCGTCGACTITITTTTTTTTTTTTTTTTTTTTTTTTT
 UP2
 ATATCTCGAGGGCGCGCCGGATCCTTTTTTTTTTTTTTTTTTTTTTTT
-AUP1a
-(NH2)ATATGGATCCGGCGCGCCGTCGACTTTTTTTTTTTTTTTTTTTTTTTT
+AUP1
+(NH2)ATATGGATCCGGCGCGCCGTCGACTTTTTTTITTTTTTTTTTTTTTTTTTTIT
 AUP2a
-(NH2)ATATCTCGAGGGCGCGCCGGATCCTTTTTTTTTTTTTTTTTTTTTTTT
+(NH2)ATATCTCGAGGGCGCGCCGGATCCTTTITITITITTITTITTTITETITTTT
 Fragment Library P1 PCR Primer
 CCACTACGCCTCCGCTTTCCTCTCTATG
 Fragment Library P2 PCR Primer
 CTGCCCCGGGTTCCTCATTCT
-Fragment Library P1 Adaptor -5′end
-CCACTACGCCTCCGCTTTCCTCTCTATGGGCAGTCGGTGAT
-Fragment Library P1 Adaptor 3′ end
+Fragment Library P1 Adaptor -5'end
+CCACTACGCCTCCGCTTTCCTCTCTCTATGGGCAGTCGGTGAT
+o
+8 Fragment Library P1 Adaptor 3' end
 ATCACCGACTGCCCATAGAGAGGAAAGCGGAGGCGTAGTGGTT
-Fragment Library P2 Adaptor 5′ end
+Fragment Library P2 Adaptor 5' end
 AGAGAATGAGGAACCCGGGGCAGTT
-Fragment Library P2 Adaptor 3′ end
+Fragment Library P2 Adaptor 3' end
 CTGCCCCGGGTTCCTCATTCTCT
 P1-Adaptor-5-end
-ATCACCGACTGCCCATAGAGAGGTT
+ATCACCGACTGCCCATAGAGAGGIT
 P1-Adaptor-3-end
-CCTCTCTATGGGCAGTCGGTGAT
+CCTCTCTATGGGCAGTCGGIGAT
 P2-Bar-1-5-end
 CGCCTTGGCCGTACAGCAGGGGCTTAGAGAATGAGGAACCCGGGGCAGTT
 P2-Bar-1-3-end
@@ -556,27 +291,30 @@ CTGCCCCGGGTTCCTCATTCTCTAAGCCCCTGCTGTACGGCCAAGGCG
 P2-Bar-2-5-end
 CGCCTTGGCCGTACAGCAGGGTGTGAGAGAATGAGGAACCCGGGGCAGTT
 P2-Bar-2-3-end
-CTGCCCCGGGTTCCTCATTCTCTCACACCCTGCTGTACGGCCAAGGCG
+CTGCCCCGGGTTCCTCATTCTCTCTCACACCCTGCTGTACGGCCAAGGCG
+I
 P2-Bar-3-5-end
 CGCCTTGGCCGTACAGCAGAAGGGGAGAGAATGAGGAACCCGGGGCAGTT
-P2-Bar-3-3-end
+I P2-Bar-3-3-end
 CTGCCCCGGGTTCCTCATTCTCTCCCCTTCTGCTGTACGGCCAAGGCG
 P2-Bar-4-5-end
 CGCCTTGGCCGTACAGCAGCCGATGAGAGAATGAGGAACCCGGGGCAGTT
 P2-Bar-4-3-end
-CTGCCCCGGGTTCCTCATTCTCTCATCGGCTGCTGTACGGCCAAGGCG
+CTGCCCCGGGTTCCTCATTCTCICATCGGCTGCIGTGCTGTACGGCCAAGGCG
 P2-Bar-5-5-end
 CGCCTTGGCCGTACAGCAGCAACGAAGAGAATGAGGAACCCGGGGCAGTT
-P2-Bar-5-3-end
-CTGCCCCGGGTTCCTCATTCTCTTCGTTGCTGCTGTACGGCCAAGGCG
+- P2-Bar-5-3-end
+CTGCCCCGGGTTCCTCATICICTTCGTTGCTGCTGTACGGCCAAGGCG
+L -
 P2-Bar-6-5-end
 CGCCTTGGCCGTACAGCAGGTGCCCAGAGAATGAGGAACCCGGGGCAGTT
 P2-Bar-6-3-end
 CTGCCCCGGGTTCCTCATTCTCTGGGCACCTGCTGTACGGCCAAGGCG
 P2-Bar-7-5-end
 CGCCTTGGCCGTACAGCAGGTCTGGAGAGAATGAGGAACCCGGGGCAGTT
-P2-Bar-7-3-end
+- P2-Bar-7-3-end
 CTGCCCCGGGTTCCTCATTCTCTCCAGACCTGCTGTACGGCCAAGGCG
+5
 P2-Bar-8-5-end
 CGCCTTGGCCGTACAGCAGACGGAGAGAGAATGAGGAACCCGGGGCAGTT
 P2-Bar-8-3-end
@@ -590,9 +328,9 @@ CGCCTTGGCCGTACAGCAGGACCGCAGAGAATGAGGAACCCGGGGCAGTT
 P2-Bar-10-3-end
 CTGCCCCGGGTTCCTCATTCTCTGCGGTCCTGCTGTACGGCCAAGGCG
 P2-Bar-11-5-end
-CGCCTTGGCCGTACAGCAGCTCAGGAGAGAATGAGGAACCCGGGGCAGTT
+CGCCTIGGCCGIACAGCAGCTCAGGAGAGAAIGAGGAACCCGGGGCAGIT
 P2-Bar-11-3-end
-CTGCCCCGGGTTCCTCATTCTCTCCTGAGCTGCTGTACGGCCAAGGCG
+CTGCCCCGGGTTCCTCATICICICCTGAGCTGCTGTACGGCCAAGGCG
 P2-Bar-12-5-end
 CGCCTTGGCCGTACAGCAGAGCGTTAGAGAATGAGGAACCCGGGGCAGTT
 P2-Bar-12-3-end
@@ -600,451 +338,228 @@ CTGCCCCGGGTTCCTCATTCTCTAACGCTCTGCTGTACGGCCAAGGCG
 P2-Bar-13-5-end
 CGCCTTGGCCGTACAGCAGCGGGTCAGAGAATGAGGAACCCGGGGCAGTT
 P2-Bar-13-3-end
-CTGCCCCGGGTTCCTCATTCTCTGACCCGCTGCTGTACGGCCAAGGCG
+CTGCCCCGGGTTCCTCATTCTCIGACCCGCTGCTGTACGGCCAAGGCG
 P2-Bar-14-5-end
 CGCCTTGGCCGTACAGCAGCGTCTGAGAGAATGAGGAACCCGGGGCAGTT
 P2-Bar-14-3-end
-CTGCCCCGGGTTCCTCATTCTCTCAGACGCTGCTGTACGGCCAAGGCG
+CTGCCCCGGGTTCCTCATICTCTCICAGACGCTGCTGTACGGCCAAGGCG
 P2-Bar-15-5-end
 CGCCTTGGCCGTACAGCAGTAGCGTAGAGAATGAGGAACCCGGGGCAGTT
 P2-Bar-15-3-end
-CTGCCCCGGGTTCCTCATTCTCTACGCTACTGCTGTACGGCCAAGGCG
+CTGCCCCGGGTTCCTCATTCTCTACGCTACTGCTGTACGGCCAAGGOG
 P2-Bar-16-5-end
 CGCCTTGGCCGTACAGCAGGCGTTTAGAGAATGAGGAACCCGGGGCAGTT
 P2-Bar-16-3-end
 CTGCCCCGGGTTCCTCATTCTCTAAACGCCTGCTGTACGGCCAAGGCG
 (continued)
+NATURE PROTOCOLS VOL.5 NO.3 I 2010 - 519
 
 
---- Page 5 ---
-520 | VOL.5 NO.3 | 2010 | nature protocols
-protocol
-  
-p
-u
-o
-r
-G
- 
-g
-n
-i
-h
-s
-il
-b
-u
-P
- 
-e
-r
-u
-t
-a
-N
- 
-0
-1
-0
-2
-©
-natureprotocols
-/
-m
-o
-c
-.
-e
-r
-u
-t
-a
-n
-.
-w
-w
-w
-//:
-p
-tt
-h
-The ligated samples are purified using the Agencourt AMPure kit. 
-This system utilizes reversible immobilization of DNA on para­
-magnetic beads, with reaction conditions optimized to selectively 
-bind DNA fragments 100 bp and larger. Excess oligonucleotides, 
-nucleotides, salts and enzymes are removed by a simple wash­
-ing procedure. Purification will eliminate 68-bp primer-dimer 
-contamination and reduce carryover of this product into the 
-fragment libraries (Fig. 2b).
-Purified samples are subjected to nick translation. If the operator 
-has multiplexed libraries and wishes to conserve reagents, they 
-may quantitate their samples and pool the multiplexed libraries 
-so that they are of equal concentration, then continue on to nick 
-translation. Alternatively, if the operator has fragment libraries 
-or does not wish to pool at this stage, they may directly proceed 
-with nick translation.
-Multiplexed libraries must be quantitated. This can be done using 
-either Qubit (according to the manufacturer’s protocol) or ­using 
-quantitative real-time PCR. For multiplexed samples analyzed 
-by real-time quantitative PCR, normalize the Ct values and pool 
-­accordingly. For determining relative concentrations, two titration 
-points are adequate per multiplexed sample. When quantitating sam­
-ples for pooling by real-time qPCR, make sure that all SYBR Green 
-PCR assay reactions are assembled and run on the same plate to 
-avoid variation that can occur between plates and instruments. If the 
-library concentration is determined to be too low for emulsion PCR 
-( < 1 ng µl − 1), it can be subjected to additional PCR ­amplification. 
-For the final pooled multiplexed library, Qubit may also be used to 
-determine the final concentration of the pooled samples, following 
-the manufacturer’s protocol. For a fragment library sample, either 
-Qubit or qPCR may be used to determine the final concentration. 
-•
-•
-•
-For qPCR of fragment libraries, a Standard Library is used to gener­
-ate a standard curve. Throughout this protocol, for all steps requir­
-ing the use of a 1.5 ml tube, the ­operator should use 1.5 ml Lo-Bind 
-tubes (Eppendorf, Hamburg, ­Germany). For all centrifugation steps, 
-adjust according to the g-forces specified in the protocol.
-Sample analysis
-Sequence data collected from the SOLiD instrument (Applied 
-Biosystems, Foster City, CA, USA) are subjected to a whole 
-transcriptome analysis pipeline that we have developed, which 
-is an off-instrument software package for the analysis of experi­
-ment runs. The software and a more detailed description can be 
-found at http://solidsoftwaretools.com/gf/project/transcriptome/
-docman/?subdir=43.
-The pipeline maps 50 base reads from the transcript sample to 
-the mouse genome. It starts from the assumption that transcrip­
-tome reads may cross an exon–exon boundary. To overcome this 
-issue, we use an ‘anchor-extend’ method, in which subsequences 
-from the beginning and end of the read are selected as ‘anchors’. 
-These ‘anchors’ are then mapped to the reference genome sequence, 
-finding global alignments with an upper limit for the maximum 
-number of mismatches. The next step is to extend the global align­
-ment of the anchors as a local alignment of the entire read with the 
-reference. A simple ungapped alignment algorithm is applied to 
-find the shortest alignment with the maximum score. Reads that 
-have a unique alignment or have multiple alignments, where the 
-second-best alignment contains at least two more mismatches than 
-the best alignment, are considered to be unambiguously aligned 
-and used in downstream analysis. These reads are sorted according 
-to their genomic locations and stored in a separate file.
-Table 1 | Continued.
+
+PROTOCOL
+TABLE 1 I Continued.
 Oligo name
-Oligo sequence (all oligos sequence read 5′→3′)
+Oligo sequence (all oligos sequence read 5'->3)
 16Barcode Library PCR Primer-1
-CCACTACGCCTCCGCTTTCCTCTCTATGGGCAGTCGGTGAT
+CCACTACGCCTCCGCTTTCCTCTCTCTATGGGCAGTCGGTGAT
 16Barcode Library PCR Primer-2
 CTGCCCCGGGTTCCTCATTCT
-Bold–indicates barcode sequence. Underline–16Barcode Library PCR primer-2 sequence for amplification during emulsion PCR. Italics–segment of 16Barcode Library PCR Primer-1 that matches P1 adaptor.
-aThe amine group is covalently linked to the 5′ end bases with a C6 linker.
- Box 1 | MULTIPLEX SAMPLE PREPARATION 
-1. Hybridization of 16 Barcode Library adaptor oligonucleotides for multiplexing (● TIMING 30 min). Prepare 1 mM stock of multi­
+Bold-indicates barcode sequence. Undertine-16Barcodel Library PCR primer-2 sequence fora amplification during emulsion PCR. Italics-segment of 16Barcode Library PCR Primer-1 that matches P1 adaptor.
+The amine group is covalently linked tot the 5' end bases with a C6 linker.
+The ligated samples are purified using the Agencourt AMPure kit. For qPCR of fragment libraries, a Standard Libraryis used to gener-
+This system utilizes reversible immobilization of DNA on para- ate a standard curve. Throughout this protocol, for all steps requir-
+magnetic beads, with reaction conditions optimized to selectively ing the use of a 1.51 ml tube, the operator should use 1.5 ml Lo-Bind
+bind DNA
+100 and
+Excess
+D
+fragments bp larger.
+oligonucleotides, tubes (Eppendorf, Hamburg, Germany). For all centrifugation steps,
+nucleotides, salts and enzymes are removed by a simple wash- adjust according to the g-forces specified in the protocol.
+ing procedure. Purification will eliminate 68-bp primer-dimer
+contamination and reduce carryover of this product into the Sample analysis
+fragment libraries (Fig. .2b).
+Sequence data collected from the SOLID instrument (Applied
+Purified samples are subjected to nick translation. If the operator Biosystems, Foster City, CA, USA) are subjected to a whole
+has multiplexed libraries and wishes to conserve reagents, they transcriptome analysis pipeline that we have developed, which
+may quantitate their samples and pool the multiplexed libraries is an off-instrument software package for the analysis of experi-
+I
+sO that they are of concentration, then continue on to nick ment runs. The software
+detailed
+N
+equal
+and a more
+can be
+2
+description
+N 2
+translation. Alternatively, if the operator has fragment libraries found at http://solidsoftwaretools.com/gf/project/transcriptome/
+N > or does not wish to pool at this stage, they may directly proceed docman/subdir-43.
+with nick translation.
+The pipeline maps 50 base reads from the transcript sample to
+Multiplexed libraries must be quantitated. This can be done using the mouse genome. It starts from the assumption that transcrip-
+either Qubit (according to the manufacturer's protocol) or using tome reads may cross an exon-exon boundary. To overcome this
+quantitative real-time PCR. For multiplexed samples analyzed issue, we use an anchor-extend' method, in which subsequences
+by real-time quantitative PCR, normalize the Ct values and pool from the beginning and end of the read are selected as anchors.
+accordingly. For determining relative concentrations, two titration These anchors' are then mapped to the reference genome sequence,
+pointsareadequate) pern multiplexed: sample.Whenquantitatingsam- finding global alignments with an upper limit for the maximum
+ples for pooling by real-time qPCR, make sure that all SYBR Green number of mismatches. The next step is to extend the global align-
+PCR assay reactions are assembled and run on the same plate to ment oft the anchors as a local alignment of the entire read with the
+avoid variation that can occur between plates and instruments. Ifthe reference. A simple ungapped alignment algorithm is applied to
+library concentration is determined to be too low for emulsion PCR find the shortest alignment with the maximum score. Reads that
+(<1 ng ul-), it can be subjected to additional PCR amplification. have a unique alignment or have multiple alignments, where the
+For the final pooled multiplexed library, Qubit may also be used to second-best alignment contains at least two more mismatches than
+determine the final concentration of the pooled samples, following the best alignment, are considered to be unambiguously aligned
+the manufacturer's protocol. For a fragment library sample, either and used in downstream analysis. These reads are sorted according
+Qubit or qPCR may be used to determine the final concentration. to their genomic locations and stored in a separate file.
+BOX 1 MULTIPLEX SAMPLE PREPARATION
+1. Hybridization of 16 Barcode Library adaptor oligonucleotides for multiplexing O TIMING 30 min). Prepare 1 mM stock of multi-
 plexed oligonucleotides (see Table 1 for oligo sequences of the 16 Barcode Library adaptors).
-2. Mix equal volumes of 1 mM 5′ end and 3′ end oligonucleotides with enough 5× ligase buffer for a final concentration of 1× ligase 
+2. Mix equal volumes of 1 mM 5' end and 3' end oligonucleotides with enough 5x ligase buffer for a final concentration of 1x ligase
 buffer.
 3. Hybridize the oligonucleotides by the following thermocycler program:
-Temperature  Time
-95 °C        5 min
-72 °C        5 min
-60 °C        5 min
-50 °C        3 min
-40 °C        3 min
-30 °C        3 min
-20 °C        3 min
-10 °C        3 min
-  4 °C        —
-4. Store hybridized multiplexed oligonucleotides at  − 20 °C until ready for use.
+Temperature Time
+95 C
+5 min
+72 C
+5 min
+60 C
+5 min
+50 °C
+3 min
+40 °C
+3 min
+30 C
+3 min
+20 C
+3 min
+10 °C
+3 min
+4 °C
+4. Store hybridized multiplexed oligonucleotides at -20 C until ready for use.
+520 I VOL.5 NO.3 I 2010 I NATURE PROTOCOLS
 
 
---- Page 6 ---
-nature protocols | VOL.5 NO.3 | 2010 | 521
-protocol
-  
-p
-u
-o
-r
-G
- 
-g
-n
-i
-h
-s
-il
-b
-u
-P
- 
-e
-r
-u
-t
-a
-N
- 
-0
-1
-0
-2
-©
-natureprotocols
-/
-m
-o
-c
-.
-e
-r
-u
-t
-a
-n
-.
-w
-w
-w
-//:
-p
-tt
-h
-These data are used to generate feature (exons/transcripts/genes) 
-counts, which can be normalized using the r.p.m. (read per million 
-counts) method20. The same reads are used to generate base 
-coverage files (in a wiggle format) that can be viewed directly in 
+
+PROTOCOL
+These data are used to generate feature (exons/transcripts/genes) a component part of any transcript. Each exon-exon junction
+counts, which can be normalized using thei r.p.m. (read per million present in this reference is represented by 84 nucleotides, 42 on
+counts) method20. The same reads are used to generate base each side of the junction. Junctions that are covered by at least
+coverage files (in a wiggle format) that can be viewed directly in five reads are considered to represent new exon-exon junctions.
 the UCSC genome browser.
-Unambiguously mapped reads can also be used to detect new 
-exon–exon junctions by aligning them to a reference containing 
-all exon–exon junctions not reported in RefSeq and Ensembl as 
-a component part of any transcript. Each exon–exon junction 
-present in this reference is represented by 84 nucleotides, 42 on 
-each side of the junction. Junctions that are covered by at least 
-five reads are considered to represent new exon–exon junctions. 
-Typically, 20–40 million reads are needed to cover the entire 
-transcriptome for complex genomes (such as mouse or human). 
-However, 100 million reads would be ideal for alternative splicing 
-and new junction studies.
+Typically, 20-40 million reads are needed to cover the entire
+Unambiguously mapped reads can also be used to detect new transcriptome for complex genomes (such as mouse or human).
+exon-exon junctions by aligning them to a reference containing However, 100 million reads would be ideal for alternative splicing
+all exon-exon junctions not reported in RefSeq and Ensembl as and new junction studies.
 MATERIALS
 REAGENTS
-Mouse blastomeres  CRITICAL All experiments that use human and ani­
-mals should comply with the institutional and national guidelines.
-Primers (sequences of UP1, UP2, AUP1, AUP2 and all multiplexed adaptors 
-and primers are provided in Table 1; these can be synthesized at Sigma or 
-IDT at 0.2 µM scale and HPLC purified)
-Ac-BSA (Sigma, cat. no. B8894)
-Acidic Tyrode’s solution (Sigma, cat. no. T1788)
-1× PBS (pH 7.2) (Gibco, cat. no. 14249-95)
-10× PCR buffer II and 25 mM MgCl2 (Applied Biosystems, cat. no. 4379878)
-Nonidet P-40 SP (Roche, cat. no. 11332473001) ! CAUTION Harmful; irritat­
-ing to the skin, the eyes and the respiratory tract. Handle using appropriate 
-safety equipment.
-SuperScript III reverse transcriptase with 0.1 M DTT (Invitrogen, cat. no. 
-18080-044 or 18080-085)
-RNase inhibitor (cloned) (40 U µl − 1) (Applied Biosystems, cat. no. AM2682)
-SUPERase-In (20 U µl − 1) (Applied Biosystems, cat. no. AM2694)
-T4 gene 32 protein (Roche, cat. no. 972983)
-Exonuclease I (New England Biolabs, cat. no. M0293S)
-Terminal deoxynucleotidyl transferase (TdT) (Invitrogen, cat. no. 
-10533-065 or 10533-073)
-100 mM dATP (Promega, cat. no. U1201)
-RNase H (Invitrogen, cat. no. 18021-014 or 18021-071)
-TaKaRa ExTaq HS (with 10× ExTaq buffer with Mg2 +  and 2.5 mM each 
-dNTP mix) (Takara Bio, cat. no. RR006A or RR006B)  CRITICAL Hot Start 
-ExTaq is necessary to minimize background amplification of single-cell 
-cDNAs during pipetting and mixing. Takara labels their dNTP mix as 
-‘2.5 mM each dNTP’, meaning it contains 2.5 mM dATP, 2.5 mM dTTP, 
-2.5 mM dCTP and 2.5 mM dGTP
-QIAquick PCR purification kit (Qiagen, cat. no. 28106)
-QIAquick gel extraction kit (Qiagen, cat. no. 28706)
-GeneAmp dNTP blend (100 mM) (Applied Biosystems, cat. no. N8080261)
-3 M sodium acetate (pH 5.5) (Ambion, cat. no. AM9740) ! CAUTION Harm­
-ful if swallowed or inhaled, causes irritation to the skin, the eyes and the 
-respiratory tract. Handle using appropriate safety equipment.  CRITICAL 
-This reagent is required for carrying purification using the QIAGEN kit.
-1 M Tris, pH 8.0 (100 ml) (Ambion, cat. no. AM9855G)
-Nuclease-free water (1 liter) (Ambion, cat. no. AM9932)
-10× NEB buffer 2 (New England Biolabs, cat. no. B7002S)
-Ethanol (Sigma-Aldrich, cat. no. E7023) ! CAUTION Flammable. Handle 
-using appropriate safety equipment.
-Ethylene glycol (American Bioanalytical, cat. no. AB00455-01000)
-End-It DNA end-repair kit (Epicentre, cat. no. ER0720)
-0.5 M EDTA, pH 8.0 (Ambion, cat. no. AM9260G)
-DNA polymerase I (E. coli), (10 U µl − 1) (New England Biolabs, 
-cat. no. M0209L)
-•
-•
-•
-•
-•
-•
-•
-•
-•
-•
-•
-•
-•
-•
-•
-•
-•
-•
-•
-•
-•
-•
-•
-•
-•
-•
-•
-•
 Quick ligation kit (New England Biolabs, cat. no. M2200L)
-SYBR GreenER qPCR SuperMix Universal (Invitrogen, cat. no. 11762-100) 
-or SYBR Green PCR master mix (Applied Biosystems, cat. no. 4309155) 
-! CAUTION Harmful and combustable. It is readily absorbed through 
-skin and may cause eye, skin and respiratory irritation. Handle using 
-appropriate safety equipment and keep away from heat sources as well as 
+Mouse blastomeres A CRITICAL. All experiments that use human and ani-
+SYBR GreenER qPCR SuperMix Universal (Invitrogen, cat. no. 11762-100)
+mals should comply with the institutional and national guidelines.
+or SYBR Green PCR: master mix (Applied Biosystems, cat. no. 4309155)
+- Primers (sequences of UP1, UP2, AUPI,AUP2and all multiplexed adaptors  CAUTION Harmful and combustable. It is readily absorbed through
+and primers arej provided in Table 1; these can be synthesized at Sigma or
+skin and may cause eye, skin and respiratory irritation. Handle using
+IDT at 0.2 LM scale and HPLC purified)
+appropriate safety equipment and keep away from heat sources as well as
+Ac-BSA (Sigma, cat. no. B8894)
 open flames.
+Acidic Tyrode's solution (Sigma, cat. no. T1788)
 Agilent DNA 1,000 kit (Agilent Technologies, cat. no. 5067-1504)
+1x1 PBS (pH7.2) (Gibco, cat. no. 14249-95)
 Agencourt AMPure 60 ml kit (Agencourt, cat. no. 000130)
-AmpliTaq DNA polymerase, LD with buffer I (Applied Biosystems, 
-cat. no. N8080157)
-Cloned Pfu polymerase (2.5 U µl − 1) (Stratagene, cat. no. 600153)
+10x PCR buffer II and 25 mM MgCI, (Applied Biosystems, cat. no. 4379878) AmpliTaq DNA polymerase, LD with buffer I (Applied Biosystems,
+- Nonidet P-40 SP (Roche, cat. no. 11332473001) ! CAUTION Harmful; irritat- cat. no. N8080157)
+ing to the skin, the eyes and the respiratory tract. Handle using appropriate
+Cloned Pfu polymerase (2.5 U ul- ') (Stratagene, cat. no. 600153)
+safety equipment.
 Invitrogen Platinum PCR SuperMix (Invitrogen, cat. no. 11306-016)
-Quant-iT dsDNA HS assay kit (Invitrogen, cat. no. Q32854)
-SOLiD fragment library oligos kit (includes P1 and P2 adaptors, P1 and P2 
-library PCR primers) (Applied Biosystems, cat. no. 4401151)
+SuperScript III reverse transcriptase with 0.1 M DTT (Invitrogen, cat. no.
+Quant-iT dsDNA HS: assay kit (Invitrogen, cat. no. Q32854)
+18080-085)
+I
+18080-044 or
+SOLID fragment library oligos kit (includes Pl and P2 adaptors, Pl and P2
+RNase inhibitor (cloned) (40 U ul-1) (Applied Biosystems, cat. no.. AM2682) library PCR primers) (Applied Biosystems, cat. no. 4401151)
+SUPERase-In (20 U ul ') (Applied Biosystems, cat. no.AM2694)
 4% NuSieve 3:1 plus agarose TBE gel (Lonza, cat. no. 54927)
+- -T4 gene 32 protein (Roche, cat. no.' 972983)
 2% E-Gel (Invitrogen, cat. no. G4010-02)
+Exonucleasel I (New England Biolabs, cat. no. M0293S)
 2.2% FlashGel DNA cassette (Lonza, cat. no. 57031)
+Terminal deoxynucleotidyl transferase (TdT) (Invitrogen, cat. no.
 EQUIPMENT
-PCR tubes, 0.5 ml thin-wall (Applied Biosystems, cat. no. N8010180)
+10533-065 or 10533-073)
+PCR tubes, 0.5 ml thin-wall (Applied Biosystems, cat.: no. N8010180)
+1001 mM dATP (Promega, cat. no. U1201)
 DNA LoBind Tubes, 1.5 ml (Eppendorf, cat. no. 022431021)
+RNasel H (Invitrogen, cat. no. 18021-014 or 18021-071)
 Brown-flaming micropipette puller (Sutter Instrument, P-80)
-Covaris S2 System (Covaris, cat. no. 4387833) (110 V)
-Microcentrifuge (5417R, refrigerated, without rotor 120 V/60 Hz; 
+TaKaRa ExTaq HS (with 10x ExTaql buffer with Mg2+ and 2.5 mM each
+Covaris S2 System (Covaris, cat. no. 4387833) (110V)
+dNTP mix) (Takara Bio, cat. no. RRO06A or RRO06B) A CRITICAL Hot Start Microcentrifuge (5417R, refrigerated, without rotor 120 V/60 Hz;
+ExTaqi is necessary to minimize background amplification of single-cell
 Eppendorf, cat. no. 022621807)
-PCR system (96-Well GeneAmp 9700; Applied Biosystems, 
+CDNAS during pipetting and mixing. Takara labels their dNTP mix as
+PCR system (96-Well GeneAmp 9700; Applied Biosystems,
+'2.5 mM each dNTP, meaning it contains 2.5 mM dATP, 2.51 mM dTTP,
 cat. no. N8050200)
-Real-time PCR system with 96-well block (ABI PRISM 7500, 7900HT 
+2.5 mM dCTP and 2.51 mM dGTP
+Real-time PCR system with 96-well block (ABI PRISM 7500, 7900HT
+5 QIAquick PCR purification kit (Qiagen, cat. no. 28106)
 real-time PCR systems; Applied Biosystems, cat. nos. 4366605 and 4329001)
-Spectrophotometer (computer required) (NanoDrop ND1000; Thermo 
-Scientific, cat. no. ND-1000)
-Rotating tube mixer (Barnstead/Thermolyne Labquake Rotisserie rotator; 
-VWR, cat. no. 56264–312)
+QIAquick gel extraction kit (Qiagen, cat. no. 28706)
+Spectrophotometer (computer required) (NanoDrop ND1000; Thermo
+GeneAmp dNTP blend (100 mM) (Applied Biosystems, cat. no. N8080261) Scientific, cat. no. ND-1000)
+.31 M sodium acetate (pH 5.5) (Ambion, cat. no.AM9740) ! CAUTION Harm- Rotating tube mixer (Barnstead/Thermolyne Labquake Rotisserie rotator;
+ful ifs swallowed ori inhaled, causes irritation to the skin, the eyes and the
+VWR, cat. no. 56264-312)
+respiratory tract. Handle using appropriate safety equipment. A CRITICAL
 Qubit fluorometer (Invitrogen, cat. no. Q32857)
+This reagent is required for carrying purification using the QIAGEN kit.
 6-tube Magnetic stand (Applied Biosystems, cat. no. AM10055)
+- 1 M Tris, pH 8.0 (100 ml) (Ambion, cat. no. AM9855G)
 Agilent 2100 bioanalyzer (Agilent Technologies, cat. no. G2938C)
+Nuclease-free water (1 liter) (Ambion, cat. no.AM9932)
 Covaris microTUBE with AFA fiber and Snap-Cap with pre-slit Teflon/
+10x NEB buffer 2 (New England Biolabs, cat. no. B7002S)
 silicone/Teflon septa (Covaris, cat. no. 520045)
+Ethanol (Sigma-Aldrich, cat. no. E7023) ! CAUTION Flammable. Handle
 Heating block (VWR, cat no. 13259)
-FlashGel Dock system (Lonza, cat. no. 57025)
-E-Gel iBase power system (Invitrogen, cat. no. G6400)
+using appropriate safety equipment.
+FlashGel Dock system (Lonza, cat. no.! 57025)
+Ethylene glycol (American Bioanalytical, cat. no. AB00455-01000)
+E-Geli iBase power system (Invitrogen, cat. no. G6400)
+End-It DNA end-repair kit (Epicentre, cat. no. ER0720)
 REAGENT SETUP
-PBS–BSA  Dissolve Ac-BSA (20 mg ml − 1) in PBS at 1 mg ml − 1 and aliquot 
-into 1.5 ml Eppendorf tubes. The solution can be stored at  − 20 °C for at 
-least 6 months.
-•
-•
-•
-•
-•
-•
-•
-•
-•
-•
-•
-•
-•
-•
-•
-•
-•
-•
-•
-•
-•
-•
-•
-•
-•
-•
-•
-•
+-0.51 M EDTA, pH 8.0 (Ambion, cat. no. AM9260G)
+PBS-BSA Dissolve. Ac-BSA (20 mg ml -') in PBS at 1 mg ml -1 and aliquot
+-DNA polymerase I(E. coli), (101 U ul ') (New England Biolabs,
+into 1.5 ml Eppendorf tubes. The solution can be stored at - 20 °C for at
+cat. no.. M0209L)
+least 61 months.
 PROCEDURE
- CRITICAL STEP Use a thermal cycler with heated lid for all incubations throughout this protocol.
-Single-cell lysis ● TIMING 3h
-1|	 Dilute the UP1 Primer to 0.5 µM by adding 1 µl of 100 µM UP1 Primer and 199 µl of nuclease-free water to a tube and 
-mix well. (All primer sequences are listed in Table 1).
-2|	 Prepare cell lysis buffer (4.45 µl per sample) in a 0.5 ml thin-wall PCR tube by combining and mixing the following 
+A CRITICAL STEP Use a thermal cycler with heated lid for all incubations throughout this protocol.
+Single-cell lysis 0 TIMING 3h
+11 Dilute the UP1 Primer to 0.5 LM by adding 1 ul of 100 LM UP1 Primer and 199 ul of nuclease-free water to a tube and
+mix well. (AlL primer sequences are listed in Table 1).
+21 Prepare cell lysis buffer (4.45 ul per sample) in a 0.5 ml thin-wall PCR tube by combining and mixing the following
 components:
+NATURE PROTOCOLS VOL.5 NO.3 I 2010 I 521
 
 
---- Page 7 ---
-522 | VOL.5 NO.3 | 2010 | nature protocols
-protocol
-  
-p
-u
-o
-r
-G
- 
-g
-n
-i
-h
-s
-il
-b
-u
-P
- 
-e
-r
-u
-t
-a
-N
- 
-0
-1
-0
-2
-©
-natureprotocols
-/
-m
-o
-c
-.
-e
-r
-u
-t
-a
-n
-.
-w
-w
-w
-//:
-p
-tt
-h
+
+PROTOCOL
+Final
+Volume (ul)
 Component
-Final 
 concentration
-Volume (µl) 
-(1×)
-10× PCR buffer II (without MgCl2)
-0.9×
+(1x)
+10x PCR buffer II (without MgCL)
+0.9x
 0.45
-25 mM MgCl2
+25 mM MgCL
 1.35 mM
 0.27
 10% NP40
@@ -1053,506 +568,297 @@ Volume (µl)
 0.1 M DTT
 4.5 mM
 0.225
-SUPERase-In (20 U µl − 1)
-0.18 U µl − 1
+SUPERase-In (20 U ul-1)
+0.18 U ul -1
 0.045
-RNase inhibitor (40 U µl − 1)
-0.36 U µl − 1
+RNase inhibitor (40 U ul-)
+0.36 U ul- -1
 0.045
-0.5 µM UP1 Primer
+0.5 LM UP1 Primer
 12.5 nM
 0.125
 dNTP mix (2.5 mM each)
 0.045 mM (each)
 0.09
 Nuclease-free water
-—
 2.975
-Total volume
-—
+a Total volume
 4.45
-! CAUTION Nonidet P-40 is harmful if swallowed or inhaled and is irritating to the skin, the eyes and the respiratory tract. 
-Handle using appropriate safety equipment.
-3|	 Isolate four-cell stage embryos from the oviduct (see ref. 45 for details) and transfer by mouth pipette to a drop of 
-acidic Tyrode’s solution to remove the zona pellucida.
- CRITICAL STEP All experiments that use human and animals should comply with the institutional and national guidelines.
- CRITICAL STEP In all transfer steps, ensure that no bubbles are formed in the drops by the micropipette before 
+/ U ! CAUTION Nonidet P-40 is harmful if swallowed or inhaled and is irritating to the skin, the eyes and the respiratory tract.
+8 Handle using appropriate safety equipment.
+=
+31 Isolate four-cell stage embryos from the oviduct (see ref. 45 for details) and transfer by mouth pipette to a drop of
+acidic Tyrode's solution to remove the zona pellucida.
+- CRITICAL STEP All experiments that use human and animals should comply with the institutional and national guidelines.
+A CRITICAL STEP In all transfer steps, ensure that no bubbles are formed in the drops by the micropipette before
 transferring a single cell into the lysate buffer.
-4|	 Transfer the embryos into calcium-free medium and gently pipette until the individual blastomeres separate.
-5|	 Sequentially transfer the blastomeres into three drops (typical volume per drop  =  50–150 µl) of PBS–BSA to wash 
-them. Then, transfer blastomeres into a final drop of PBS–BSA for picking.
-6|	 Seed each single cell (with PBS–BSA carryover) into a 0.5 ml thin-wall PCR tube containing 4.45 µl of freshly prepared 
-cell lysis buffer. Suck a small volume of PBS–BSA using the mouth pipette, then gently suck the single cell into the 
-micropipette so that the cell is inside the micropipette but still near the tip. When pushing the cell out of the micropipette 
-into the lysis buffer, eject all carryover PBS–BSA as well.
- CRITICAL STEP Each micropipette can be used only once for transferring each individual cell into lysis buffer. Never use 
+41 Transfer the embryos into calcium-free medium and gently pipette until the individual blastomeres separate.
+51 Sequentially transfer the blastomeres into three drops (typical volume per drop I 50-150 ul) of PBS-BSA to wash
+them. Then, transfer blastomeres into a final drop of PBS-BSA for picking.
+61 Seed each single cell (with PBS-BSA carryover) into a 0.5 ml thin-wall PCR tube containing 4.45 ul of freshly prepared
+cell lysis buffer. Suck a small volume of PBS-BSA using the mouth pipette, then gently suck the single cell into the
+micropipette sO that the cell is inside the micropipette but still near the tip. When pushing the cell out of the micropipette
+into the lysis buffer, eject all carryover PBS-BSA as well.
+A CRITICAL STEP Each micropipette can be used only once for transferring each individual cell into lysis buffer. Never use
 the same micropipette repeatedly for transferring multiple cells into lysis buffer.
- CRITICAL STEP It is essential to include a negative control sample, in which no individual cell is picked; instead, transfer 
-PBS–BSA solution equivalent to the carryover volume collected during single-cell transfer into lysis buffer. This negative 
+A CRITICAL STEP It is essential to include a negative control sample, in which no individual cell is picked; instead, transfer
+PBS-BSA solution equivalent to the carryover volume collected during single-cell transfer into lysis buffer. This negative
 control will enable detection of contamination in subsequent steps of the procedure.
 ? TROUBLESHOOTING
-7|	 Centrifuge samples for 30 s at 7,500g at 4 °C and put on ice immediately.
-8|	 Incubate at 70 °C for 90 s, then immediately transfer to ice.
-9|	 Centrifuge tubes for 30 s at 7,500g at 4 °C, then immediately transfer to ice for 1 min. After this step, all mRNAs 
+71 Centrifuge samples for 30 S at 7,500g at 4 C and put on ice immediately.
+81 Incubate at 70 C for 90 S, then immediately transfer to ice.
+91 Centrifuge tubes for 30 S at 7,500g at 4 °C, then immediately transfer to ice for 1 min. After this step, all mRNAS
 will be released from the single cells.
-Reverse transcription ● TIMING 2 h
-10| Prepare and add 0.45 µl RT mix (recipe below) to each tube, so that total volume of each RT reaction is 5 µl per tube: 
-4.45 µl lysis buffer, ~0.1 µl PBS–BSA carryover and 0.45 µl RT mix.
+Reverse transcription 0 TIMING 2 h
+101 Prepare and add 0.45 ul RT mix (recipe below) to each tube, so that total volume of each RT reaction is 5 ul per tube:
+4.45 ul lysis buffer, ~0.1 ul PBS-BSA carryover and 0.45 ul RT mix.
+Final concentration 1x Volume
 Component
-Final concentration 
-(U µl − 1)
-1× Volume 
-(µl)
-SuperScript III reverse transcriptase (200 U µl − 1)
+(Uul-)
+(ul)
+SuperScript III reverse transcriptase (200 U ul-1)
 13.2
 0.33
-RNase inhibitor (40 U µl − 1)
+RNase inhibitor (40 U ul-1)
 0.4
 0.05
-T4 gene 32 protein (1–10 U µl − 1)
+T4 gene 32 protein (1-10 U ul-)
 0.07 U
 0.07
 Total volume
-—
 0.45
+522 I VOL.5 NO.3 I 2010 I NATURE PROTOCOLS
 
 
---- Page 8 ---
-nature protocols | VOL.5 NO.3 | 2010 | 523
-protocol
-  
-p
-u
-o
-r
-G
- 
-g
-n
-i
-h
-s
-il
-b
-u
-P
- 
-e
-r
-u
-t
-a
-N
- 
-0
-1
-0
-2
-©
-natureprotocols
-/
-m
-o
-c
-.
-e
-r
-u
-t
-a
-n
-.
-w
-w
-w
-//:
-p
-tt
-h
-11| Incubate at 50 °C for 30 min.
-12| Inactivate the reverse transcriptase at 70 °C for 15 min.
-13| Centrifuge tubes for 30 s at 7,500g at 4 °C and immediately place on ice for 1 min. After this step, first strand cDNAs 
+
+PROTOCOL
+111 Incubate at 50 C for 30 min.
+121 Inactivate the reverse transcriptase at 70 C for 15 min.
+131 Centrifuge tubes for 30 S at 7,500g at 4 C and immediately place on ice for 1 min. After this step, first strand CDNAS
 for all mRNAs are synthesized.
-Free primer removal ● TIMING 2 h
-14| Prepare the exonuclease I mix by combining and mixing the following components, and add 1.0 µl of mix to each reaction:
+Free primer removal 0 TIMING 2 h
+141 Prepare the exonuclease I mix by combining and mixing the following components, and add 1.0 ul of mix to each reaction:
 Component
 Final concentration
-1× Volume (µl)
-10× Exonuclease I buffer
-1×
+1x Volume (ul)
+10x Exonuclease I buffer
+1x
 0.1
 Nuclease-free water
-—
 0.8
-Exonuclease I (5 U µl − 1)
-0.5 U µl − 1
+e Exonuclease I (5 U ul-1)
+0.5 U ul-1
 0.1
-Total volume
-—
+a Total volume
 1
-15| Incubate at 37 °C for 30 min.
-16| Inactivate the exonuclease I at 80 °C for 25 min.
-17| Centrifuge the tubes for 30 sec at 7,500g at 4 °C and immediately place on ice for 1 min. After this step, all free UP1 
-primers are destroyed, leaving 5′ cDNA ends (UP1 sequence) intact.
-3′ Poly(A) tailing ● TIMING 1h
-18| Prepare TdT reaction mix by combining and mixing the following components, and add 6.0 µl of mixture to each reaction:
+Incubate
+I
+151
+at 37 °C for 30 min.
+E
+I a 161 Inactivate the exonuclease I at 80 C for 25 min.
+171 Centrifuge the tubes for 30 sec at 7,500g at 4 C and immediately place on ice for 1 min. After this step, all free UP1
+primers are destroyed, leaving 5' CDNA ends (UP1 sequence) intact.
+3' Poly(A) tailing 0 TIMING 1h
+181 Prepare TdT reaction mix by combining and mixing the following components, and add 6.0 ul of mixture to each reaction:
 Component
-Final concentration
-1× Volume (µl)
-10× PCR buffer II (without MgCl2)
-1×
+Final concentration 1x Volume (ul)
+10x PCR buffer II (without MgCL)
+1x
 0.6
-25 mM MgCl2
+25 mM MgCL
 1.5 mM
 0.36
 100 mM dATP
 3 mM
 0.18
 Nuclease-free water
-—
 4.26
-Terminal transferase (15 U µl − 1)
-0.75 U µl − 1
+Terminal transferase (15 U ul-)
+0.75 U ul-1
 0.3
-RNase H (2 U µl − 1)
-0.1 U µl − 1
+RNase H (2 U ul-)
+0.1 U ul-1
 0.3
 Total volume
-—
 6
-19| Incubate at 37 °C for 15 min.
-20| Inactivate the TdT at 70 °C for 10 min.
-21| Centrifuge tubes for 30 s at 7,500g at 4 °C and immediately place on ice for 1 min. After this step, the 3′end of the 
-first-stranded cDNAs has a poly(dA) tail.
-Second strand synthesis ● TIMING 1 h
-22| Prepare 76 µl PCR mix 1 for each reaction by combining and mixing the following components:
+191 Incubate at 37 °C for 15 min.
+201 Inactivate the TdT at 70 C for 10 min.
+211 Centrifuge tubes for 30 S at 7,500g at 4 C and immediately place on ice for 1 min. After this step, the 3'end of the
+first-stranded CDNAS has a poly(dA) tail.
+Second strand synthesis 0 TIMING 1 h
+221 Prepare 76 ul PCR mix 1 for each reaction by combining and mixing the following components:
 Component
-Final concentration
-1× Volume (µl)
-10× Ex Taq buffer (with MgCl2)
-1×
+Final concentration 1x Volume (ul)
+10x Ex Taq buffer (with MgCL)
+1x
 7.6
 dNTP mix (2.5 mM each)
 0.25 mM
 7.6
-UP2 primer (100 µM)
-1 µM
+UP2 primer (100 UM)
+1 LM
 0.76
 Nuclease-free water
-—
 59.28
-TaKaRa Ex Taq HS (5 U µl − 1)
-0.05 U µl − 1
+TakaRa Ex Taq HS (5 U ul-)
+0.05 U ul-1
 0.76
 Total volume
-—
 76
-23| Divide the poly(dA) tailed RT product into four empty 0.2 ml thin-wall PCR tubes (3 µl for each tube).
+231 Divide the poly(dA) tailed RT product into four empty 0.2 ml thin-wall PCR tubes (3 ul for each tube).
+NATURE PROTOCOLS VOL.5 NO.3 I 2010 I 523
 
 
---- Page 9 ---
-524 | VOL.5 NO.3 | 2010 | nature protocols
-protocol
-  
-p
-u
-o
-r
-G
- 
-g
-n
-i
-h
-s
-il
-b
-u
-P
- 
-e
-r
-u
-t
-a
-N
- 
-0
-1
-0
-2
-©
-natureprotocols
-/
-m
-o
-c
-.
-e
-r
-u
-t
-a
-n
-.
-w
-w
-w
-//:
-p
-tt
-h
-24| Add 19 µl PCR mix 1 to each tube.
-25| Carry out the following PCR program in the thermal cycler: one cycle of 95 °C for 3 min, 50 °C for 2 min and 72 °C 
+
+PROTOCOL
+241 Add 19 ul PCR mix 1 to each tube.
+251 Carry out the following PCR program in the thermal cycler: one cycle of 95 C for 3 min, 50 °C for 2 min and 72 °C
 for 10 min.
-26| Put tubes on ice for 1 min.
-27| Centrifuge tubes for 30 s at 7,500g at 4 °C and immediately place on ice. After this step, the second-strand cDNAs are 
-5′-UP2-(T)n-cDNA-(A)n-UP1-3′.
-PCR amplification ● TIMING 5 h
-28| Prepare 76 µl PCR Mix 2 for each reaction by combining and mixing the following components:
+261 Put tubes on ice for 1 min.
+271 Centrifuge tubes for 30 S at 7,500g at 4 C and immediately place on ice. After this step, the second-strand CDNAS are
+5-UP2-(T)-CDNA-(A).-UP1-3.
+PCR amplification 0 TIMING 5 h
+281 Prepare 76 ul PCR Mix 2 for each reaction by combining and mixing the following components:
 Component
-Final concentration
-1× Volume (µl)
-10× Ex Taq buffer (with MgCl2)
-1×
+Final concentration 1x Volume (ul)
+10x Ex Taq buffer (with MgCL)
+1x
 7.6
 dNTP mix (2.5 mM each)
 0.25 mM (each)
 7.6
-100 µM UP1 primer
-1 µM
+100 uM UP1 primer
+1 LM
 0.76
 Nuclease-free water
-—
 59.28
-TaKaRa Ex Taq HS (5 U µl − 1)
-0.05 U µl − 1
+TaKaRa Ex Taq HS (5 U ul-1)
+0.05 U ul-1
 0.76
+I
 Total volume
-—
 76
-29| Add 19 µl PCR mix 2 to each tube.
-30| Carry out the following PCR program: 95 °C for 3 min, then 20 cycles of 95 °C for 30 sec, 67 °C for 1 min and 72 °C for 
-6 min ( +  6 s each cycle), with a 4 °C hold. After this step, all cDNAs have been amplified. Save the PCR product at –80 °C 
+291 Add 19 ul PCR mix 2 to each tube.
+301 Carry out the following PCR program: 95 C for 3 min, then 20 cycles of 95 C for 30 sec, 67 C for 1 min and 72 C for
+6 min (+ 6: S each cycle), with a 4 °C hold. After this step, all CDNAS have been amplified. Save the PCR product at -80 C
 or transfer to ice if continuing to Step 31 immediately.
- PAUSE POINT The single-cell cDNA PCR product can be saved at –80 °C for 6 months.
- CRITICAL STEP 1st cycle  =  6 min, 2nd cycle  =  6 min and 6 s, 3rd cycle  =  6 minutes and 12 seconds and so on.
-DNA purification ● TIMING 3–7 h
-31| Combine the four PCR reactions for each individual sample.
-32| Take 10 µl from each combined single-cell PCR product and combine with 90 µl nuclease-free water to dilute ten-fold. 
-Use 1 µl or 2 µl of this diluted PCR product as a template for a 20 µl SYBR Green real-time PCR reaction to check the 
-expression of housekeeping genes (such as GAPDH, HPRT and ACTB).
-! CAUTION SYBR Green master mix is harmful and combustible. It is readily absorbed through the skin and may cause eye, 
+PAUSE POINT The single-cell CDNA PCR product can be saved at -80 °C for 6 months.
+- CRITICAL STEP 1st cycle = 6 min, 2nd cycle = 6 min and 6 S, 3rd cycle = 6 minutes and 12 seconds and so on.
+DNA purification 0 TIMING 3-7 h
+311 Combine the four PCR reactions for each individual sample.
+321 Take 10 ul from each combined single-cell PCR product and combine with 90 ul nuclease-free water to dilute ten-fold.
+Use 1 ul or 2 ul of this diluted PCR product as a template for a 20 ul SYBR Green real-time PCR reaction to check the
+- expression of nousekeeping genes (such as GAPDH, HPRT and ACTB).
+! CAUTION SYBR Green master mix is harmful and combustible. It is readily absorbed through the skin and may cause eye,
 skin and respiratory irritation. Handle using appropriate safety equipment and keep away from heat sources and open flames.
 ? TROUBLESHOOTING
-33| Purify the remaining undiluted PCR product by QIAquick PCR purification kit and elute with 50 µl EB buffer.
-34| Store at  − 80 °C.
- PAUSE POINT The purified PCR product can be saved at  − 80 °C for 6 months.
+331 Purify the remaining undiluted PCR product by QIAquick PCR purification kit and elute with 50 ul EB buffer.
+341 Store at -80 °C.
+PAUSE POINT The purified PCR product can be saved at 80 C for 6 months.
 Second round of PCR
-35| For each sample, setup four 90 µl PCR reactions as follows:
+351 For each sample, setup four 90 ul PCR reactions as follows:
 Component
-Final concentration
-1× Volume (µl)
+Final concentration 1x Volume (ul)
 Purified first-round PCR products
-—
 1.2
-10× Ex Taq buffer
-1×
+10x Ex Taq buffer
+1x
 9
 dNTP mix (2.5 mM each)
 0.25 mM (each)
 9
-Amine-blocked UP1 (AUP1) (100 µM)
-1 µM
+Amine-blocked UP1 (AUP1) (100 UM)
+1 LM
 0.9
-Amine-blocked UP2 (AUP2) (100 µM)
-1 µM
+Amine-blocked UP2 (AUP2) (100 LM)
+1 LM
 0.9
 Nuclease-free water
-—
 68.1
-TaKaRa Ex Taq HS (5 U µl − 1)
-0.05 U µl − 1
+TakaRa Ex Taq HS (5 U ul-)
+0.05 U ul-1
 0.9
 Total volume
-—
 90
+524 I VOL.5 NO.3 I 2010 I NATURE PROTOCOLS
 
 
---- Page 10 ---
-nature protocols | VOL.5 NO.3 | 2010 | 525
-protocol
-  
-p
-u
-o
-r
-G
- 
-g
-n
-i
-h
-s
-il
-b
-u
-P
- 
-e
-r
-u
-t
-a
-N
- 
-0
-1
-0
-2
-©
-natureprotocols
-/
-m
-o
-c
-.
-e
-r
-u
-t
-a
-n
-.
-w
-w
-w
-//:
-p
-tt
-h
-36| Run the following PCR program: 95 °C for 3 min, then 9 cycles of 95 °C for 30 s, 67 °C for 1 min and 72 °C for 6 min 
-( +  6 s each cycle) with a 4 °C hold. Combine the four 90 µl PCR reactions from each sample and save at  − 80 °C.
- PAUSE POINT The second round PCR product can be saved at  − 80 °C for 6 months.
-Quality check ● TIMING 1 h
-37| Optional: Perform QC on PCR products by running 20 µl of each sample on a 2% E-Gel.
-Purification of PCR production ● TIMING 2 h
-38| Purify amplified cDNAs using QIAquick PCR purification kit. Elute in 30 µl EB buffer and quantify by Nanodrop. The total 
-amount of cDNAs should be more than 200 ng.
-39| Store at  − 80 °C.
- PAUSE POINT The purified PCR product can be stored at  − 80 °C for 6 months.
-Gel purification ● TIMING 6–7 h
-40| Load cDNA on a 1% agarose gel alongside an appropriate size standard and run the gel until the bromophenol blue dye 
-marker is 2 cm from the well. Excise cDNA from the size range 0.5–3 kb and purify by QIAquick gel extraction kit. Elute the 
-cDNA in 30 µl EB buffer and quantify using Quant-it HS dsDNA kit.
-41| Store at  − 80 °C.
- PAUSE POINT The gel purified PCR product can be saved at  − 80 °C for 6 months.
- CRITICAL STEP The cDNA may be weakly stained if the primer dimer band saturates the ethidium bromide. If this happens, 
-simply cut the gel between 0.5 kb and 3 kb and proceed to gel extraction; alternately, the operator can stain the gel with 
-ethidium bromide to see the cDNA smear.
- CRITICAL STEP Do not over-stain or over-irradiate DNA; long exposure of ethidium bromide stained DNA to UV light 
-causes DNA damage, including strand breaks and base modifications, which affect the efficiency of polymerase-mediated 
+
+PROTOCOL
+361 Run the following PCR program: 95 C for 3 min, then 9 cycles of 95 C for 30 S, 67 C for 1 min and 72 C for 6 min
+(+ 6s each cycle) with a 4 C hold. Combine the four 90 ul PCR reactions from each sample and save at -80 °C.
+PAUSE POINT The second round PCR product can be saved at - 80 C for 6 months.
+Quality check 0 TIMING 1 h
+371 Optional: Perform QC on PCR products by running 20 ul of each sample on a 2% E-Gel.
+Purification of PCR production 0 TIMING 2 h
+381 Purify amplified CDNAS using QIAquick PCR purification kit. Elute in 30 ul EB buffer and quantify by Nanodrop. The total
+amount of CDNAS should be more than 200 ng.
+391 Store at -80 °C.
+PAUSE POINT The purified PCR product can be stored at - 80 C for 6 months.
+Gel purification 0 TIMING 6-7 h
+a 401 Load CDNA on a 1% agarose gel alongside an appropriate size standard and run the gel until the bromophenol blue dye
+€ marker is 2 cm from the well. Excise CDNA from the size range 0.5-3 kb and purify by QIAquick gel extraction kit. Elute the
+CDNA in 30 ul EB buffer and quantify using Quant-it HS dsDNA kit.
+à
+Le
+411 Store at -80 °C.
+PAUSE POINT The gel purified PCR product can be saved at -80 C for 6 months.
+A CRITICAL STEP The CDNA may be weakly stained if the primer dimer band saturates the ethidium bromide. If this happens,
+simply cut the gel between 0.5 kb and 3 kb and proceed to gel extraction; alternately, the operator can stain the gel with
+ethidium bromide to see the CDNA smear.
+A CRITICAL STEP Do not over-stain or over-irradiate DNA; long exposure of ethidium bromide stained DNA to UV light
+causes DNA damage, including strand breaks and base modifications, which affect the efficiency of polymerase-mediated
 reactions. SYBR safe gel staining and blue light transillumination can be used instead of ethidium bromide and UV light.
 ? TROUBLESHOOTING
-Quality check ● TIMING 1.5 h
-42| Check quality of the gel-purified cDNA by running 50–100 ng of the purified cDNA on a 2% agarose gel (see Fig. 3).
-Library fragment preparation ● TIMING 30–60 min
-43| In borosilicate glass microTUBE, dilute about 200 ng of each DNA sample into a final volume of 100 µl of 10 mM Tris, pH 7.5.
-44| Shear the DNA using the Covaris S2 shearing program described below:
+Quality check 0 TIMING 1.5 h
+421 Check quality of the gel-purified CDNA by running 50-100 ng of the purified CDNA on a 2% agarose gel (see Fig. 3).
+Library fragment preparation 0 TIMING 30-60 min
+431 In borosilicate glass microTUBE, dilute about 200 ng of each DNA sample into a final volume of 100 ul of 10 mM Tris, pH 7.5.
+441 Shear the DNA using the Covaris S2 shearing program described below:
 No. of cycles: 15
-Bath temperature: 5 °C
-Bath temperature limit: 30 °C
+Bath temperature: 5 C
+3.0kb
+Bath temperature limit: 30 C
+0.5-3.0kb
 Mode: frequency sweeping
+1.0kb
+CDNAS
 Water quality testing function: off
+0.5kb
 Treatment 1:
 Duty cycle: 20%
 Intensity: 5
 Cycles/burst: 200
-Time: 60 s
-45| Transfer the sheared DNA into a clean 1.5 ml LoBind tube.
-46| For QC, 2 µl of the reaction should be saved and used 
-to confirm that shearing has created the desired range of 
-fragment sizes using the Agilent 2100 Bioanalyzer.
-3.0 kb
-1.0 kb
-0.5–3.0 kb
-cDNAs
-0.5 kb
 Single cells
-DNA ladder
-Buffer
-Figure 3 | PCR amplified single-cell cDNA libraries. Typical agarose gel 
-electrophoresis for single-cell cDNAs after 20  +  9 cycles of PCR post-gel 
-purification. From left to right, lane #1 is the 1-kb DNA ladder (the size of 
-three representative bands is labeled at the left side of the figure); lane #2 
-is a negative control (picking buffer only) showing no contamination; lane 
-#3–#8 are individual cell-derived libraries. The cDNA products are evenly 
+Time: 60s
+6
+Figure 3 I PCR amplified single-cell CDNA libraries. Typical agarose gel
+451 Transfer the sheared DNA into a clean 1.5 ml LoBind tube. electrophoresis for single-cell CDNAS after 20 + 9 cycles of PCR post-gel
+purification. From left to right, lane #1 is the 1-kb DNA ladder (the size of
+461 For QC, 2 ul of the reaction should be saved and used
+three representative bands is labeled at the left side of the figure); lane #2
+is a negative control (picking buffer only) showing no contamination; lane
+to confirm that shearing has created the desired range of
+#3-#8 are individual cell-derived libraries. The CDNA products are evenly
+fragment sizes using the Agilent 2100 Bioanalyzer.
 distributed as a smear between 0.5 kb and 3.0 kb.
+NATURE PROTOCOLS VOL.5 NO.3 I 2010 I 525
 
 
---- Page 11 ---
-526 | VOL.5 NO.3 | 2010 | nature protocols
-protocol
-  
-p
-u
-o
-r
-G
- 
-g
-n
-i
-h
-s
-il
-b
-u
-P
- 
-e
-r
-u
-t
-a
-N
- 
-0
-1
-0
-2
-©
-natureprotocols
-/
-m
-o
-c
-.
-e
-r
-u
-t
-a
-n
-.
-w
-w
-w
-//:
-p
-tt
-h
-Repair DNA ends ● TIMING 1 h
-47| Add the following to the sheared DNA:
+
+PROTOCOL
+Repair DNA ends 0 TIMING 1 h
+471 Add the following to the sheared DNA:
 Component
-Volume (µl)
+Volume (ul)
 Sheared DNA
 98
-10× End-it buffer
+10x End-it buffer
 14
 End-it ATP (10 mM)
 7
-End-it dNTPs (2.5 mM)
+End-it dNTPS (2.5 mM)
 14
 End-it enzyme mix
 2
@@ -1560,31 +866,33 @@ Nuclease-free water
 5
 Total volume
 140
-48| Incubate at room temperature (20–25 °C) for 30 min.
-49| Inactivate End-it Enzymes by transferring the tube to heating block and incubating for 20 min at 65 °C. Centrifuge the 
+481 Incubate at room temperature (20-25 °C) for 30 min.
+L
+€ 491 Inactivate End-it Enzymes by transterring the tube to heating block and incubating for 20 min at 65 °C. Centnifuge the
 tube for 5 sec at 7,500g at 4 °C.
-Ligate library adaptors to DNA ● TIMING 20 min
-50| (Note: for multiplex adaptor preparation, see Box 1) Thaw P1 and P2 adaptors on ice or at room temperature.
-51| Use the information below to calculate the pmoles of adaptor needed for the reaction. Average insert fragment size is 
+L
+Ligate library adaptors to DNA 0 TIMING 20 min
+501 (Note: for multiplex adaptor preparation, see Box 1) Thaw P1 and P2 adaptors on ice or at room temperature.
+511 Use the information below to calculate the pmoles of adaptor needed for the reaction. Average insert fragment size is
 the size that the sample was sonicated to; if the provided sonication parameters were used, the average should be 105 bp.
-1 µg DNA × 106 pg µg − 1 × 1 pmol 660pg − 1 × 1/(average insert fragment size)  =  X pmoles
-(# µg DNA) × (X pmoles DNA)  =  (# pmoles DNA for adaptor ligation)
-(# pmoles DNA for adaptor ligation) × (30)  =  (# pmoles adaptors needed)
-(# pmoles adaptors needed) / (# pmoles µl − 1 stock)  =  (# µl adaptor needed)
-52| In a tube containing the end-repaired DNA from the previous step, combine and mix the following components. For DNA 
-inputs higher than 2 µg, scale up the total volume of the reaction and amount of components (buffer, adaptors, ATP and 
-ligase) proportionally. Add 1 µl of Quick Ligase per 20 µl of reaction volume. Use one adaptor set per sample.
+1 ug DNA x 106 pg ug 1x 1 pmol 660pg - x 1/(average insert fragment size) = X pmoles
+(# ug DNA) x (X pmoles DNA) = (# pmoles DNA for adaptor ligation)
+(# pmoles DNA for adaptor ligation) x (30) = (# pmoles adaptors needed)
+(# pmoles adaptors needed) / (# pmoles ul-1 stock) = (# ul adaptor needed)
+521 In a tube containing the end-repaired DNA from the previous step, combine and mix the following components. For DNA
+inputs higher than 2 ug, scale up the total volume of the reaction and amount of components (buffer, adaptors, ATP and
+ligase) proportionally. Add 1 ul of Quick Ligase per 20 ul of reaction volume. Use one adaptor set per sample.
+i.e., Volume for
 Component
-Volume (µl)
-i.e., Volume for 
-2 µg input DNA (µl)
-P1 (ds) Adaptor (500 pmol µl − 1)
+Volume (ul)
+2 ug input DNA (ul)
+P1 (ds) Adaptor (500 pmol ul-)
 As determined above
 1.8
-P2 (ds) Adaptor (500 pmol µl − 1)
+P2 (ds) Adaptor (500 pmol ul-1)
 As determined above
 1.8
-10× End-it buffer
+10x End-it buffer
 2
 2
 End-it ATP (10 mM)
@@ -1602,954 +910,579 @@ Variable
 Total volume
 160
 160
-53| Incubate at room temperature for 10–15 min.
-Purification of ligated DNA ● TIMING 1h
-54| Add 1.8× volumes of Agencourt AMPure beads to the sample (e.g., 288 µl of beads for 160 µl) and incubate for 5 min 
+531 Incubate at room temperature for 10-15 min.
+Purification of ligated DNA 0 TIMING 1h
+541 Add 1.8x volumes of Agencourt AMPure beads to the sample (e.g., 288 ul of beads for 160 ul) and incubate for 5 min
 at room temperature on a rotator.
-55| Prepare 70% ethanol (~650 µl per sample).
+551 Prepare 70% ethanol (~650 ul per: sample).
 ! CAUTION Ethanol is flammable. Handle using appropriate safety equipment.
- CRITICAL STEP Using precisely 70% freshly prepared ethanol is critical, as a higher percentage will result in inefficient 
-washing of smaller-sized molecules, whereas  < 70% ethanol could cause loss of sample.
+A CRITICAL STEP Using precisely 70% freshly prepared ethanol is critical, as a higher percentage will result in inefficient
+washing of smaller-sized molecules, whereas <70% ethanol could cause loss of sample.
+526 I VOL.5 NO.3 I 2010 I NATURE PROTOCOLS
 
 
---- Page 12 ---
-nature protocols | VOL.5 NO.3 | 2010 | 527
-protocol
-  
-p
-u
-o
-r
-G
- 
-g
-n
-i
-h
-s
-il
-b
-u
-P
- 
-e
-r
-u
-t
-a
-N
- 
-0
-1
-0
-2
-©
-natureprotocols
-/
-m
-o
-c
-.
-e
-r
-u
-t
-a
-n
-.
-w
-w
-w
-//:
-p
-tt
-h
-56| Place the tube of beads in the magnetic rack to separate beads from solution. Wait for the solution to clear before 
+
+PROTOCOL
+561 Place the tube of beads in the magnetic rack to separate beads from solution. Wait for the solution to clear before
 proceeding to the next step.
-57| Remove the supernatant and discard.
-58| Dispense 200 µl of freshly prepared 70% ethanol, vortex the tube thoroughly and incubate for 30 s at room temperature.
-59| Place the tube of beads in the magnetic rack to separate beads from solution. Wait for the solution to clear before 
+571 Remove the supernatant and discard.
+581 Dispense 200 ul of freshly prepared 70% ethanol, vortex the tube thoroughly and incubate for 30 S at room temperature.
+591 Place the tube of beads in the magnetic rack to separate beads from solution. Wait for the solution to clear before
 proceeding to the next step.
-60| Aspirate out the ethanol and discard.
-61| Repeat Steps 58–60 two more times.
-62| Place the tube of beads in the magnetic rack and remove the supernatant and pulse-spin to remove the residual ethanol.
-63| Repeat Step 62 for two to three more times to remove the residual ethanol.
-64| Dry the beads at room temperature for ~5 min.
-65| Elute the DNA by adding 36 µl 10 mM Tris pH 8, vortexing for 10 s and ensuring homogeneity by pipetting the solution 
-up and down for several times.
-66| Place the tube of beads in the magnetic rack to separate beads from solution. Wait for the solution to clear before 
+601 Aspirate out the ethanol and discard.
+611 Repeat Steps 58-60 two more times.
+621 Place the tube of beads in the magnetic rack and remove the supernatant and pulse-spin to remove the residual ethanol.
+631 Repeat Step 62 for two to three more times to remove the residual ethanol.
+L 641 Dry the beads at room temperature for ~5 min.
+€
+L 651 Elute the DNA adding 36 ul 10 mM Tris 8, vortexing for 10 S and
+solution
+=
+by
+pH
+ensuring homogeneity by pipetting the
+L I up and down for several times.
+661 Place the tube of beads in the magnetic rack to separate beads from solution. Wait for the solution to clear before
 proceeding to the next step.
-67| Transfer the eluant to a 1.5 ml LoBind tube.
-68| Place the eluted sample in the magnetic rack again to separate any remaining beads from solution. Wait for the solution 
+671 Transfer the eluant to a 1.5 ml LoBind tube.
+681 Place the eluted sample in the magnetic rack again to separate any remaining beads from solution. Wait for the solution
 to clear before proceeding to the next step.
-69| Transfer the eluted sample in a new 1.5 ml LoBind tube.
-70| Repeat Steps 68–69 once.
-71| Store DNA in a 1.5 ml LoBind tube.
-72| Save 2 µl of the AMPure-purified ligated library DNA. The aliquot can be used for running a library QC for 
+691 Transfer the eluted sample in a new 1.5 ml LoBind tube.
+701 Repeat Steps 68-69 once.
+711 Store DNA in a 1.5 ml LoBind tube.
+721 Save 2 ul of the AMPure-purified ligated library DNA. The aliquot can be used for running a library QC for
 troubleshooting purposes.
- PAUSE POINT The sample(s) may be stored at  − 20 °C overnight or upto 6 months.
-Quantification of multiplexed samples ● TIMING 1 h
-73| Optional: Quantitation of multiplexed samples. Using Qubit (following the manufacturer’s protocol) or qPCR 
-(see Steps 79–84) determine the concentration of each of the multiplexed samples.
-Pooling multiplexed samples ● TIMING 1 h
-74| Optional: Pooling multiplexed samples. Pool equal concentrations of the samples and purify with AMPure beads as 
-above, eluting with 34 µl of 10 mM Tris, pH 8 solution and continue with nick translation.
- CRITICAL STEP For fragment libraries or multiplexed libraries that are not yet pooled, the operator may skip quantitation 
+PAUSE POINT The sample(s) may be stored at -20 °C overnight or upto 6 months.
+Quantification of multiplexed samples 0 TIMING 1 h
+731 Optional: Quantitation of multiplexed samples. Using Qubit (following the manufacturer's protocol) or qPCR
+(see Steps 79-84) determine the concentration of each of the multiplexed samples.
+Pooling multiplexed samples 0 TIMING 1 h
+741 Optional: Pooling multiplexed samples. Pool equal concentrations of the samples and purify with AMPure beads as
+above, eluting with 34 ul of 10 mM Tris, pH 8 solution and continue with nick translation.
+A CRITICAL STEP For fragment libraries or multiplexed libraries that are not yet pooled, the operator may skip quantitation
 and go directly on to nick translation; pooling before nick translation is primarily to conserve reagents.
-Nick-translation of DNA ● TIMING 1.5 h
-75| Combine and mix the following components in a LoBind tube:
+Nick-translation of DNA 0 TIMING 1.5 h
+751 Combine and mix the following components in a LoBind tube:
 Component
-Volume (µl)
+Volume (ul)
 P1 (ds) and P2 (ds) adapter ligated fragment DNA
 34
-10× NEBuffer 2
+10x NEBuffer 2
 4
 GeneAmp dNTP Blend (100 mM)
 0.8
-DNA Polymerase I (10 U µl − 1)
+DNA Polymerase I (10 U ul-)
 1.0
 Nuclease-free water
 Variable
 Total volume
 40
+NATURE PROTOCOLS I VOL.5 NO.3 I 2010 I 527
 
 
---- Page 13 ---
-528 | VOL.5 NO.3 | 2010 | nature protocols
-protocol
-  
-p
-u
-o
-r
-G
- 
-g
-n
-i
-h
-s
-il
-b
-u
-P
- 
-e
-r
-u
-t
-a
-N
- 
-0
-1
-0
-2
-©
-natureprotocols
-/
-m
-o
-c
-.
-e
-r
-u
-t
-a
-n
-.
-w
-w
-w
-//:
-p
-tt
-h
-76| Incubate at 16 °C for 30 min.
-77| Stop the reaction by adding 0.5 µl 0.5 M EDTA pH 8.0.
-78| Purify the nick-translated DNA with the Agencourt AMPure Kit as before (see Steps 54–72), eluting with 40 µl of 10 mM 
+
+PROTOCOL
+761 Incubate at 16 °C for 30 min.
+771 Stop the reaction by adding 0.5 ul 0.5 M EDTA pH 8.0.
+781 Purify the nick-translated DNA with the Agencourt AMPure Kit as before (see Steps 54-72), eluting with 40 ul of 10 mM
 Tris, pH 8.0 solution.
- CRITICAL STEP Save 2 µl of the AMPure-purified ligated library DNA. The aliquot can be used for running a library QC for 
+A CRITICAL STEP Save 2 ul of the AMPure-purified ligated library DNA. The aliquot can be used for running a library QC for
 troubleshooting purposes.
- PAUSE POINT The sample(s) may be stored at  − 20 °C overnight or upto 6 months.
-Quantification of library by qPCR ● TIMING 2 h
-79| Dilute EB-eluted library 1:10 in H2O (final volume 30 µl) and use this solution to prepare further serial ten-fold dilutions 
-ranging from 10 − 2 to 10 − 6 (final volume 50 µl each).
-80| Prepare samples containing 390 fg, 39 fg, 3.9 fg, 0.39 fg and 0.039 fg of Standard Library (E. coli DH10B fragment 
-library, 150 bp mean fragment size) in 5 µl H2O. These values should be used for absolute quantification when programming 
-the 7900HT fast real-time PCR system to generate a standard curve. For each reaction, prepare Pre-Mix:
-Final concentration
-1× Volume (µl)
-2× SYBR Green master mix (ABI)
-1×
+PAUSE POINT The sample(s) may be stored at - 20 °C overnight or upto 6 months.
+Quantification of library by qPCR 0 TIMING 2 h
+791 Dilute EB-eluted library 1:10 in H,O (final volume 30 ul) and use this solution to prepare further serial ten-fold dilutions
+ranging from 10-2. to 10-6 (final volume 50 ul each).
+801 Prepare samples containing 390 fg, 39 fg, 3.9 fg, 0.39 fg and 0.039 fg of Standard Library (E. coli DH10B fragment
+library, 150 bp mean fragment size) in 5 ul H,0. These values should be used for absolute quantification when programming
+€ the 7900HT fast real-time PCR system to generate a standard curve. For each reaction, prepare Pre-Mix:
+L = L
+I
+Final concentration 1x Volume
+a
+(ul)
+2x SYBR Green master mix (ABI)
+1x
 15
-Library PCR primer 1 (50 µM)
-0.9 µM
+Library PCR primer 1 (50 UM)
+0.9 LM
 0.54
-Library PCR primer 2 (50 µM)
-0.9 µM
+Library PCR primer 2 (50 LM)
+0.9 LM
 0.54
-H2O
+H,0
 8.92
 Total volume
 25
- CRITICAL STEP If the sample is multiplexed, use 16Barcode Library PCR primers 1 and 2 for qPCR. If the sample is a 
+A CRITICAL STEP If the sample is multiplexed, use 16Barcode Library PCR primers 1 and 2 for qPCR. If the sample is a
 fragment library, use Fragment Library PCR primers 1 and 2.
-81| Distribute 25 µl Pre-Mix in corresponding wells. Then, add 5 µl of the serially diluted template DNA (or H2O for 
-negative control). Two serial dilutions per sample are adequate for quantitation. Seal the plate with adhesive optical 
+811 Distribute 25 ul Pre-Mix in corresponding wells. Then, add 5 ul of the serially diluted template DNA (or H,0 for
+negative control). Two serial dilutions per sample are adequate for quantitation. Seal the plate with adhesive optical
 cover.
-82| When carrying out absolute quantification with 7900HT fast real-time PCR system, set up the following thermal profile:
+821 When carrying out absolute quantification with 7900HT fast real-time PCR system, set up the following thermal profile:
 95 °C
 2 min
 95 °C
-15 s
+15 S
+62 C
+15 S
 40 cycles
-62 °C
-15 s
-}
 70 °C
 1 min
 Also set:
 Thermal cycler protocol mode: standard
 Data Collection: at 70 °C (extension step)
-83| Run qPCR and quantify the amount of library DNA/number of P1-insert-P2 molecules. Typical standard curve and 
+831 Run qPCR and quantify the amount of library DNA/number of P1-insert-P2 molecules. Typical standard curve and
 amplification plots for standards and Library samples are shown in Figure 4.
-84| If the sample concentration is adequate (above 1 ng µl − 1), the sample is then ready for emulsion PCR. Otherwise 
-continue with PCR amplification, Steps 85–89.
-(Optional) PCR amplification ● TIMING 4 h
-85| Amplify 25 µl of sample using reaction conditions described below. For a fragment library, use the Fragment Library PCR 
-primers 1 and 2 provided in the Fragment Library oligo kit; for a multiplexed library, use the 16 Barcode Library PCR primers 
+841 If the sample concentration is adequate (above 1 ng ul-), the sample is then ready for emulsion PCR. Otherwise
+continue with PCR amplification, Steps 85-89.
+(Optional) PCR amplification 0 TIMING 4 h
+851 Amplify 25 ul of sample using reaction conditions described below. For a fragment library, use the Fragment Library PCR
+primers 1 and 2 provided in the Fragment Library oligo kit; for a multiplexed library, use the 16 Barcode Library PCR primers
 1 and 2.
+528 I VOL.5 NO.3 I 2010 I NATURE PROTOCOLS
 
 
---- Page 14 ---
-nature protocols | VOL.5 NO.3 | 2010 | 529
-protocol
-  
-p
-u
-o
-r
-G
- 
-g
-n
-i
-h
-s
-il
-b
-u
-P
- 
-e
-r
-u
-t
-a
-N
- 
-0
-1
-0
-2
-©
-natureprotocols
-/
-m
-o
-c
-.
-e
-r
-u
-t
-a
-n
-.
-w
-w
-w
-//:
-p
-tt
-h
+
+PROTOCOL
 Component
-Volume (µl)
+Volume (ul)
+a StandardCarvePix
+Detector SYER -
 Sample
 25
+Slandard/Curve/Plot
 Invitrogen SuperMix
 75
 Library PCR Primer 1
 1.5
+le pe 9583 103
+42
 Library PCR Primer 2
 1.5
+8ie
 Pfu polymerase
 0.25
+16
 AmpliTaq
 0.2
 Total volume
 103.45
-  
+1.062 1.051 1.0 1.0E41 1.0E42 1.0E3 10E4
+Quantity
 Temperature (°C)
 Time
 Condition/note
+b AmphicationPlt
+- in
+Amplification/Plet
 95
 5 min
 Hold
 95
-15 s
+15 S
 62
-15 s }
-8–16 cycles
+15 S
+8-16 cycles
 70
 1 min
+:
 70
 5 min
 Hold
 4
-—
 Hold
- CRITICAL STEP The number of cycles should be decided 
-based on the amount of starting material used for shearing. 
-Minimal cycling is desirable for avoiding over-amplification. 
-Use the table below as a guideline to determine the number 
+.000 63
+I
+- CRITICAL STEP The number of cycles should be decided
+based on the amount of starting material used for shearing.
+Minimal cycling is desirable for avoiding over-amplification.
+1 Mot ORr
+1 The olt 03961545
+Use the table below as a guideline to determine the number
+mp
 of PCR cycles based on the amount of input DNA:
-  
 Starting amount of DNA
 Number of PCR cycles
-1–2 µg
-8–10
-100 ng–1 µg
-10–12
-20–100 ng
-13–16
-86| To determine if amplification was adequate, load and 
-run 4 µl of sample on a 2.2% Lonza FlashGel cassette for 
-6 min at 275 V to ensure amplification after a minimal 
+1-2 ug
+8-10
+000 63
+100 ng-1 ug
+10-12
+20-100 ng
+13-16
+SYER pora
+- 0.53974333
+861 To determine if amplification was adequate, load and
+Figure 4 Standard curve of CDNAS following qPCR quantification.
+run 41 ul of sample on a 2.2% Lonza FlashGel cassette for
+(a): Standard curve. (b) Standard plot. (c) Library plot. Quantitative PCR was
+6 min at 275 Vi to ensure amplification after a minimal
+carried out using real-time SYBR Green assay, with the Standard Library used
 number of cycles as described above.
+to generate a standard curve. In all, 5 ul of each library sample and standard
 ? TROUBLESHOOTING
-87| If fairly robust amplification products are visible, pro­
-ceed with Step 88. If little or no amplification products are 
-observed at this point, return the tubes to the thermal cycler 
+were used per PCR reaction; the no-template control uses H,O instead of
+template. All samples were prepared in triplicate as follows. (1) Prepare
+871 If fairly robust amplification products are visible, pro-
+serial tenfold dilutions of the library eluted in EB at the previous step.
+ceed with Step 88. If little or no amplification products are (2) Prepare standard samples containing 390, 39, 3.9, 0.39 and 0.039 fg of
+Standard Library (E. coli DH10B fragment library, 150 bp mean fragment size)
+observed at this point, return the tubes to the thermal cycler in 5 ul H,0. These values should be used for absolute quantification when
 and run the PCR cycling program below:
+programming PCR instruments to generate a standard curve. (3) Assay is
+carried out in 96-well plates in 30 ul final volume with an AB7500 real-time
 Temperature (°C)
 Time
 Condition
+PCR instrument.
 95
-5 min
+51 min
 Hold
 95
-15 s
-2–3 cycles
+15 S
 62
-15 s }
+15 S
+2-3 cycles
 70
 1 min
 70
 5 min
 Hold
 4
-—
 Hold
-88| Repeat AMPure purification as in Steps 54–72.
-89| Quantify sample(s) with either Qubit quantitation or qPCR.
-a
-b
-c
-Figure 4 | Standard curve of cDNAs following qPCR quantification. 
-(a) Standard curve. (b) Standard plot. (c) Library plot. Quantitative PCR was 
-carried out using real-time SYBR Green assay, with the Standard Library used 
-to generate a standard curve. In all, 5 µl of each library sample and standard 
-were used per PCR reaction; the no-template control uses H2O instead of 
-template. All samples were prepared in triplicate as follows. (1) Prepare 
-serial tenfold dilutions of the library eluted in EB at the previous step. 
-(2) Prepare standard samples containing 390, 39, 3.9, 0.39 and 0.039 fg of 
-Standard Library (E. coli DH10B fragment library, 150 bp mean fragment size) 
-in 5 µl H2O. These values should be used for absolute quantification when 
-programming PCR instruments to generate a standard curve. (3) Assay is 
-carried out in 96-well plates in 30 µl final volume with an AB7500 real-time 
-PCR instrument.
+881 Repeat AMPure purification as in Steps 54-72.
+891 Quantify sample(s) with either Qubit quantitation or qPCR.
+NATURE PROTOCOLS I VOL.5 NO.3 I 2010 I 529
 
 
---- Page 15 ---
-530 | VOL.5 NO.3 | 2010 | nature protocols
-protocol
-  
-p
-u
+
+PROTOCOL
+11
+12
+13
+14
+$ 15
+of 16
+17
+GO
+I
+18
+0 19.
+20
+21
 o
-r
-G
- 
-g
-n
-i
-h
-s
-il
-b
-u
-P
- 
-e
-r
-u
-t
-a
-N
- 
+did idd dfo ddfe ide idfe do d 8  - sie soele cie de se ceie de 82 2
+Figure 5 Single mouse embryonic stem (ES) cells in a PBS-BSA drop. Black
+Onen
+
+5 arrowheads indicate individual ES cells. Black arrow indicates the tip of
+6 GAPDH
+mouse
+stem
 0
-1
-0
-2
-©
-natureprotocols
-/
-m
-o
-c
-.
-e
-r
-u
-t
-a
-n
-.
-w
-w
-w
-//:
-p
-tt
-h
-● TIMING
-Day 1
-Steps 1–9, Single-cell lysis: 3 h
-Steps 10–13, Reverse transcription: 2 h
-Steps 14–17, Free primer removal: 2 h
-Steps 18–21, 3′ Poly(A) tailing: 1 h
-Steps 22–27, Second-strand cDNA synthesis: 1 h
-Steps 28–30, PCR amplification: 5 h
+for
+Figure
+expression in
+embryonic (ES) cells measured
+micropipette picking single cells. The inner diameter of the micropipette by real-time PCR. One or ten ES cells were picked into each tube to
+to
+amplify
+is about two- threefold greater than the diameter of an individual ES cell. CDNAS by 20 cycles of PCR. The PCR products were then diluted ten-fold (take
+Scale bar: 30 um.
+20 ul out of 164 ul PCR product to dilute to 200 ul), with 2 ul of the diluted
+PCR product used as template for a 20 ul real-time PCR reaction. The error
+bar represents standard deviation of technical duplicates of real-time PCR.
+€
+TIMING
+= L I
+a Day 1
+Steps 1-9, Single-cell lysis: 3 h
+Steps 10-13, Reverse transcription: 2 h
+Steps 14-17, Free primer removal: 2 h
+Steps 18-21, 3' Poly(A) tailing: 1 h
+Steps 22-27, Second-strand CDNA synthesis: 1 h
+Steps 28-30, PCR amplification: 5 h
 Day 2
-Steps 31–34, DNA purification: 3–7 h
+Steps 31-34, DNA purification: 3-7 h
 Day 3
 Steps 35 and 36, Second round of PCR: 3 h
-Step 37, (optional) Quality check: 1 h
+Step 37, (optional) Quality check: 11 h
 Steps 38 and 39, Purification of PCR product: 2 h
 Day 4
 Steps 40 and 41, Gel purification: 5 h
 Step 42, Quality check: 1.5 h
 Day 5
-Steps 43–46, Library fragment preparation: 30–60 min, if bioanalyzer is used
-Steps 47–49, Repair DNA ends: 1 h
+Steps 43-46, Library fragment preparation: 30-60 min, if bioanalyzer is used
+Steps 47-49, Repair DNA ends: 1 h
 Box 1 (optional), Hybridization of oligonucleotides for multiplexing: 30 min
-Steps 50–53, Ligate library adaptors to DNA: 20 min
-Steps 54–72, Purification of ligated DNA: 1 h (time depends on sample numbers; for 16 samples, ~1 h)
+Steps 50-53, Ligate library adaptors to DNA: 20 min
+Steps 54-72, Purification of ligated DNA: 1 h (time depends on sample numbers; for 16 samples, ~1 h)
 Step 73, (optional) Quantification of multiplexed samples: 1 h
 Step 74, (optional) Pooling multiplexed samples: 1 h
-Steps 75–77, Nick-translation of DNA: 1.5 h
+Steps 75-77, Nick-translation of DNA: 1.5 h
 Step 78, Purify nick-translated DNA: 1 h (time depends on sample numbers; for 16 samples, ~1 h)
-Steps 79–84, Quantification of library by qPCR: 2 h
+Steps 79-84, Quantification of library by qPCR: 2 h
 Day 6
-Steps 85–89, (optional) PCR amplification: 4 h
+Steps 85-89, (optional) PCR amplification: 4 h
 ? TROUBLESHOOTING
 Troubleshooting advice can be found in Table 2.
-Figure 5 | Single mouse embryonic stem (ES) cells in a PBS–BSA drop. Black 
-arrowheads indicate individual ES cells. Black arrow indicates the tip of 
-micropipette for picking single cells. The inner diameter of the micropipette 
-is about two- to threefold greater than the diameter of an individual ES cell. 
-Scale bar: 30 µm.
-11
-12
-13
-14
-Ct values of GAPDH
-15
-16
-17
-18
-19
-20
-21
-One-#1
-One-#2
-One-#3
-One-#4
-One-#5
-One-#6
-One-#8
-One-#7
-One-#9
-One-#10
-Ten-#1
-Ten-#2
-Ten-#3
-Ten-#4
-Ten-#5
-Ten-#6
-Ten-#7
-Ten-#8
-Ten-#9
-Ten-#10
-Ten-average
-One-average
-Figure 6 | GAPDH expression in mouse embryonic stem (ES) cells measured 
-by real-time PCR. One or ten ES cells were picked into each tube to amplify 
-cDNAs by 20 cycles of PCR. The PCR products were then diluted ten-fold (take 
-20 µl out of 164 µl PCR product to dilute to 200 µl), with 2 µl of the diluted 
-PCR product used as template for a 20 µl real-time PCR reaction. The error 
-bar represents standard deviation of technical duplicates of real-time PCR.
+530 I VOL.5 NO.3 I 2010 I NATURE PROTOCOLS
 
 
---- Page 16 ---
-nature protocols | VOL.5 NO.3 | 2010 | 531
-protocol
-  
-p
-u
-o
-r
-G
- 
-g
-n
-i
-h
-s
-il
-b
-u
-P
- 
-e
-r
-u
-t
-a
-N
- 
-0
-1
-0
-2
-©
-natureprotocols
-/
-m
-o
-c
-.
-e
-r
-u
-t
-a
-n
-.
-w
-w
-w
-//:
-p
-tt
-h
-Table 2 | Troubleshooting table.
-Step
-Problem
+
+PROTOCOL
+TABLE 2 Troubleshooting table.
+Step Problem
 Possible reason
 Solution
 6
-Cell not transferred into 
+Cell not transferred into Cell stuck to the inside wall First, suck a small volume of PBS-BSA using the mouth pipette, then
 lysis tube
-Cell stuck to the inside wall 
-of the glass capillary 
+of the glass capillary
+suck the single cell into the glass capillary gently to keep the cell
 (micropipette)
-First, suck a small volume of PBS–BSA using the mouth pipette, then 
-suck the single cell into the glass capillary gently to keep the cell 
-already inside the capillary but still near the tip of the capillary. 
-When pushing the cell out of the capillary into the lysis, push all the 
-carryover PBS–BSA until a bubble is visible from the capillary into 
+already inside the capillary but still near the tip of the capillary.
+When pushing the cell out of the capillary into the lysis, push all the
+carryover PBS-BSA until a bubble is visible from the capillary into
 the lysis buffer
 32
-Picking buffer, only con­
-trol, shows positive sig­
-nal when using real-time 
-PCR to check expression 
-of housekeeping genes
-PBS–BSA drop is contami­
+Picking buffer, only con- PBS-BSA drop is contami- Make sure the PBS-BSA drop for holding single cells is not contami-
+trol, shows positive sig- nated by lysed cells
 nated by lysed cells
-Make sure the PBS–BSA drop for holding single cells is not contami­
-nated by lysed cells 
-Wash the single cells through several PBS–BSA drops before picking 
-them. Aliquot all reagents for lysis, RT, cutting, tailing and PCR steps 
-in small batches 
-Ensure that each aliquot is only used once and the remainder is 
-discarded. Only load the exact number of single cells that will be 
-picked into the final PBS–BSA drop. After picking each of them, check 
-the number of remaining single cells to make sure every cell is 
-correctly picked and no cell is by chance lysed or incorrectly picked
-The expression level of 
-housekeeping genes 
-is much lower than 
-expected in some single-
-cell cDNA samples
-Some dead or partially 
-damaged single cells 
-were picked
-Before picking, try to check the quality of the single cells by either 
+nal when using real-time
+Wash the single cells through several PBS-BSA drops before picking
+PCR to check expression
+them. Aliquot all reagents for lysis, RT, cutting, tailing and PCR steps
+of housekeeping genes
+in small batches
+Ensure that each aliquot is only used once and the remainder is
+discarded. Only load the exact number of single cells that will be
+E
+a
+picked into the final PBS-BSA
+After
+each
+check
+o
+drop. picking of them,
+o
+the number of remaining single cells to make sure every cell is
+= L
+correctly
+and no cell is chance
+I
+picked
+by
+lysed or incorrectly picked
+a
+The expression level of Some dead or partially
+Before picking, try to check the quality of the single cells by either
+nousekeeping genes
+damaged single cells
 morphology or trypan blue staining. Only pick healthy single cells
-RNase contamination during 
-the lysate and reverse 
+is much lower than
+were picked
+expected in some single-
+cell CDNA samples
+RNase contamination during Keep the bench and surrounding area very clean
+the lysate and reverse
+Wear a dust mask to avoid breathing contaminants into reaction
 transcription step
-Keep the bench and surrounding area very clean 
-Wear a dust mask to avoid breathing contaminants into reaction 
-reagents 
-Change gloves regularly during these steps 
+reagents
+Change gloves regularly during these steps
 Try to do all manipulations in a clean hood
-Loss of activity of some 
+Loss of activity of some
+Some reagents are not very stable, such as dATP, dNTPS or primers at
 enzymes and reagents
-Some reagents are not very stable, such as dATP, dNTPs or primers at 
-low concentrations—aliquot them into small batches. Avoid repeated 
-freeze–thaws. Make sure reagents are not expired
+low concentrations- - aliquot them into small batches. Avoid repeated
+freeze-thaws. Make sure reagents are not expired
 41
-Low recovery of gel 
+Low recovery of gel
+Gel fragment recovered more Try to cut the gel fragment containing the CDNA smear as accurately
 purification
-Gel fragment recovered more 
 than the kit requested
-Try to cut the gel fragment containing the cDNA smear as accurately 
-as possible. If too much gel is already cut, divide it between two gel 
-purification columns and combine the purified cDNAs. Each QIAGEN 
+as possible. If too much gel is already cut, divide it between two gel
+purification columns and combine the purified CDNAS. Each QIAGEN
 column can hold upto 400 mg of gel
 86
-Primer dimers present on 
+Primer dimers present on Too many cycles of PCR
+Gel purification must be done to remove primer dimers. SOLID Fragment
 Lonza gel
-Too many cycles of PCR 
-were done or the amount 
-of adaptors added was too 
-large relative to sample size
-Gel purification must be done to remove primer dimers. SOLiD Fragment 
-Library protocol recommends the use of 3% or 4% agarose gel run in 
-1× TAE, using a 25 bp Track-It ladder as reference. Cut the gel between 
-125 bp and 200 bp and purify using QIAGEN MinElute gel extraction kit 
-following the manufacturer’s instructions
-Size distribution of frag­
-ment after shearing is 
-not in the desired range
-Sonication protocol was not 
-calibrated correctly for the 
-sample
-Readjust shearing protocol and redo shearing. Make sure the Covaris S2 
-System is properly setup
-Low yield after AMPure 
+were done or the amount Library protocol recommends the use of 3% or 4% agarose gel run in
+of adaptors added was too 1x TAE, using a 25 bp Track-It ladder as reference. Cut the gel between
+large relative to sample size 125 bp and 200 bp and purify using QIAGEN MinElute gel extraction kit
+following the manufacturer's instructions
+Size distribution of frag- Sonication protocol was not Readjust shearing protocol and redo shearing. Make sure the Covaris S2
+ment after shearing is calibrated correctly for the System is properly setup
+not in the desired range sample
+Low yield after AMPure Ethanol was not freshly
+If there is adequate sample remaining, PCR can be done to increase
 purification
-Ethanol was not freshly 
-prepared and/or was not 
+prepared and/or was not the quantity, see Steps 85-87. If not, protocol must be redone, using
 at 70%
-If there is adequate sample remaining, PCR can be done to increase 
-the quantity, see Steps 85–87. If not, protocol must be redone, using 
 freshly prepared 70% ethanol
 Overall yield is low
 Sample quality was poor
-Confirm quality of sample before beginning Express protocol using a 
-housekeeping gene assay or use Qubit to confirm that the sample’s 
+Confirm quality of sample before beginning Express protocol using a
+housekeeping gene assay or use Qubit to confirm that the sample's
 concentration is adequate for input
-Sample loss occurred during 
+Sample loss occurred during See above. Check QC aliquots using Qubit or NanoDrop to determine
 AMPure purification
-See above. Check QC aliquots using Qubit or NanoDrop to determine 
 where has loss occurred
-Loss of sample can occur during steps when sample is transferred or 
-purified. Take care to transfer the entire volume during purification 
-steps and minimize transferring of samples. Sample input may need to 
+Loss of sample can occur during steps when sample is transferred or
+purified. Take care to transfer the entire volume during purification
+steps and minimize transferring of samples. Sample input may need to
 be increased if initial input was low and loss occurs
+NATURE PROTOCOLS VOL.5 NO.3 I 2010 - 531
 
 
---- Page 17 ---
-532 | VOL.5 NO.3 | 2010 | nature protocols
-protocol
-  
-p
-u
-o
-r
-G
- 
-g
-n
-i
-h
-s
-il
-b
-u
-P
- 
-e
-r
-u
-t
-a
-N
- 
-0
-1
-0
-2
-©
-natureprotocols
-/
-m
-o
-c
-.
-e
-r
-u
-t
-a
-n
-.
-w
-w
-w
-//:
-p
-tt
-h
-ANTICIPATED RESULTS
-We first used relatively small cells—mouse embryonic stem (ES) cells, which only contain 10–20 pg of total RNA in each 
-individual cell—to show that the method is sensitive and reproducible. We picked into each tube either one individual 
-ES cell or ten ES cells together (Fig. 5) and then ran the single-cell cDNA amplification procedure and real-time PCR to 
-analyze the expression of the housekeeping gene GAPDH (Fig. 6). The results show that variation in the measurement 
-of the expression of GAPDH is reasonably minimal and the expression differences between one cell and ten cells are as 
-expected.
-We then confirmed the accuracy of the method by analyzing the correlation efficiency between two separately processed 
-biological replicates. Based on our previous single-cell cDNA microarray results (unpublished) and results from other 
-laboratories, undifferentiated ES cells have strong sub-populations with dramatic differences in gene expression46–48, and 
-so we analyzed biological replicates of mature oocytes, as we know that these represent a much more homogeneous 
-population42. We can achieve correlation coefficients as high as 0.986 (Fig. 7), which is comparable to that achieved using 
+
+PROTOCOL
+E
+à
+à
+E
 Four-cell blastomere
-r = 0.303
-r = 0.989
-Dicer KO #2
-r = 0.943
-r = 0.962
-r = 0.932
-r = 0.920
-r = 0.924
-r = 0.943
-WT oocyte #1
-r = 0.986
-WT oocyte #2
+8
+8
+8
+8
+8
+100 10,000
+100 10,000
+100 10,000
+100 10,000
+100 10,000
+:
+0
+10
+* :
+E
+à
+I
+Dicer
+:
+0.303
+KO #1 8
+8
+:
+à
+E
+a
+CHT
+1 100 10,000
+1es01 1e+021 1e:031 1e+04 1e+05 1es01 1e+021 1e:031 1e+04 1e+05
+100 10,000
+8
+S
+0
+a
+e
+0.312
+0.989
+Dicer KO #2 8
+8
+8
+I
+a
+5
+I a
+100 10,000
+100 10,000
+100 10,000
+:
+à de
+E
+a
+0.278
+r=0.943
+=0.962
 Ago2 KO
-r = 0.905
-r = 0.893
-r = 0.312
-r = 0.278
-r = 0.287
-r = 0.289
-Dicer KO #1
-1
-1
-100
-100
-10,000
-1
-100
-1e+01
-1e+01
-1e+02
-1e+02
-1e+03
-1e+03
-1e+01 1e+02 1e+03
-1e+04
-1e+04
-1e+04
-1e+05
-1e+01 1e+02 1e+03 1e+04 1e+05
-1e+01 1e+02 1e+03 1e+04 1e+05
-1e+05
-1e+05
-10,000
-1
-100
-10,000
-1
-100
-10,000
-1
-100
-10,000
-1
-100
-10,000
-1
-100
-10,000
-1
-100
-10,000
-1
-100
-10,000
-1
-100
-10,000
-1
-100
-10,000
-1
-100
-10,000
-10,000
-1
-100
-10,000
-1
-100
-10,000
-1
-100
-10,000
-1
-100
-10,000
-1
-100
-10,000
-1
-100
-10,000
-1
-100
-10,000
-1
-100
-10,000
-1
-100
-10,000
-1
-100
-10,000
-1
-100
-10,000
-1e+01 1e+02 1e+03 1e+04 1e+05
-Figure 7 | Assessing accuracy and reproducibility of the single-cell RNA-Seq method. Pearson’s coefficient plots for single-cell RNA-Seq of one blastomere of a 
-four-cell stage embryo, two wild-type mature oocytes, two Dicer-knockout mature oocytes and one Ago2-knockout mature oocyte. The reads mapped to RefSeq 
-were used for the scattering plots. The values of correlation coefficients, r, are listed in the corresponding boxes and the red lines indicate >2- or  < 0.5-fold 
-changes in expression. The labels of x axis and y axis are the log2 of the reads.
-
-
---- Page 18 ---
-nature protocols | VOL.5 NO.3 | 2010 | 533
-protocol
-  
-p
-u
-o
-r
-G
- 
-g
-n
-i
-h
-s
-il
-b
-u
-P
- 
-e
-r
-u
-t
+:
 a
-N
- 
-0
-1
-0
-2
-©
-natureprotocols
+a
+8
+ing
+: Ain
+1e+01 1e:02 1e+031 1e+04 1e+05
+100 10,000
+8
+e
+0.287
+0.905
+0.932
+=0.943
+WT oocyte #1
+8
 /
-m
-o
-c
-.
-e
-r
-u
-t
-a
-n
-.
-w
-w
-w
-//:
-p
-tt
-h
-bulk amount of cells, confirming the accuracy and reproducibility of our single-cell RNA-Seq analysis. The coverage plots42 
-of several individual genes are shown in Figure 8, clearly showing the single-exon resolution of the RNA-Seq reads and that 
-the reads can cover up to 3 kb of the 3′end of the cDNAs. The top 20 most abundant genes42 in the mature oocyte and the 
-blastomere of a four-cell stage embryo respectively are shown in Table 3. The majority of the most abundantly expressed 
-genes in oocytes and blastomeres are not housekeeping genes, but rather developmental stage-specific genes, which show 
-upto several-hundred-fold variability between these two types of cells.
+100 10,000
+0.289
+0.893
+0.920
+=0.924
+0.986
+WT oocyte #2
+Figure 7 Assessing accuracy and reproducibility of the single-cell RNA-Seq method. Pearson's coefficient plots for single-cell RNA-Seq of one blastomere of a
+four-cell stage embryo, two wild-type mature oocytes, two Dicer-knockout mature oocytes and one Ago2-knockout mature oocyte. The reads mapped to RefSeq
+were used for the scattering plots. The values of correlation coefficients, r, are listed in the corresponding boxes and the red lines indicate >2- or <0.5-fold
+changes in expression. The labels of x axis and y axis are the log2 of the reads.
+ANTICIPATED RESULTS
+We first used relatively small cells-mouse embryonic stem (ES) cells, which only contain 10-20 pg of total RNA in each
+individual cell-to show that the method is sensitive and reproducible. We picked into each tube either one individual
+ES cell or ten ES cells together (Fig. 5) and then ran the single-cell CDNA amplification procedure and real-time PCR to
+analyze the expression of the housekeeping gene GAPDH (Fig. 6). The results show that variation in the measurement
+of the expression of GAPDH is reasonably minimal and the expression differences between one cell and ten cells are as
+expected.
+We then confirmed the accuracy of the method by analyzing the correlation efficiency between two separately processed
+biological replicates. Based on our previous single-cell CDNA microarray results (unpublished) and results from other
+laboratories, undifferentiated ES cells have strong sub-populations with dramatic differences in gene expression46-68, and
+sO we analyzed biological replicates of mature oocytes, as we know that these represent a much more homogeneous
+population42. We can achieve correlation coefficients as high as 0.986 (Fig. 7), which is comparable to that achieved using
+532 I VOL.5 NO.3 I 2010 I NATURE PROTOCOLS
+
+
+
+PROTOCOL
 Scale
-35,077,000
-107,445,000
-21,100,000
-21,105,000
-109,085,000
-109,090,000
-109,095,000
-21,115,000
-21,110,000
-107,445,500
-107,446,000 107,446,500
-107,447,000
-107,447,500 107,448,000
-35,078,000
-35,079,000
-35,080,000
-35,081,000
-35,082,000
-35,083,000
-2 kb
-1 kb
-5 kb
-5 kb
+2kbH
+chr9:
+3 35,077,000 35,078,000 35,079,000/ 35,080,000/ 35,081,0001 35,082,0001 35,083,0001
+102.
 Rpusd4
 Scale
+1kbH
+chr9: 1107450001074455001 107,446,000/ 107,446,5001 senanrmolnmnansolazsasol
+61-
 Tusc4
-chr9:
-chr9:
-102 -
-1
-61
+dalil
 Scale
-Aplm2
-Aplm2
-chr9:
+5kbH
+chr9: 21,100,00b
+21,105,000l
+21,110,0001
+21,115,000l
 28
+I
+U
+Aplm2
+Aplm2
 Scale
-Fbxw13
+5kbH
 chr9:
+109,085,0001
+109,090,000
+109,095,0001
 394
-1
-1
-1
-Figure 8 | Coverage plots of RNA-Seq reads from a single wild-type mature oocyte. Analysis was performed using the UCSC genome browser. Depicted here are 
-the base coverage files for Rpusd4, Tusc4, Ap1m2 and Fbxw13 on chromosome 9.
-Table 3 | Top 20 most abundant genes in the mature oocyte and the blastomere of four-cell stage embryos, respectively.
+Fbxw13
+Figure 8 Coverage plots of RNA-Seq reads from a single wild-type mature oocyte. Analysis was performed using the UCSC genome browser. Depicted here are
+thel base coverage files for Rpusd4, Tusc4, Ap1m2 and Fbxw13 on chromosome 9.
+bulk amount of cells, confirming the accuracy and reproducibility of our single-cell RNA-Seq analysis. The coverage plots42
+of several individual genes are shown in Figure 8, clearly showing the single-exon resolution of the RNA-Seq reads and that
+the reads can cover up to 3 kb of the 3'end of the CDNAS. The top 20 most abundant genes42 in the mature oocyte and the
+blastomere of a four-cell stage embryo respectively are shown in Table 3. The majority of the most abundantly expressed
+genes in oocytes and blastomeres are not housekeeping genes, but rather developmental stage-specific genes, which show
+upto several-hundred-fold variability between these two types of cells.
+TABLE 3 I Top 20 most abundant genes in the mature oocyte and the blastomere of four-cell stage embryos, respectively.
 Gene name
 RefSeq ID
 Counts in mature oocyte
@@ -2591,91 +1524,12 @@ NM_205822
 122,678
 258,088
 (continued)
+NATURE PROTOCOLS VOL.5 NO.3 I 2010 I 533
 
 
---- Page 19 ---
-534 | VOL.5 NO.3 | 2010 | nature protocols
-protocol
-  
-p
-u
-o
-r
-G
- 
-g
-n
-i
-h
-s
-il
-b
-u
-P
- 
-e
-r
-u
-t
-a
-N
- 
-0
-1
-0
-2
-©
-natureprotocols
-/
-m
-o
-c
-.
-e
-r
-u
-t
-a
-n
-.
-w
-w
-w
-//:
-p
-tt
-h
-Acknowledgments We thank John Bodeau, Clarence Lee, Yangzhou Wang, 
-Umberto Ulmanella, Karen Li, Cinna Monighetti and Swati Rande for their 
-generous help.
-COMPETING INTERESTS Statement  The authors declare competing financial 
-interests (see the HTML version of this article for details). C.B., E.N., B.L., N.X., 
-V.I.B. and K.L. are currently employees of Applied Biosystems (part of Life 
-Technologies).
-AUTHOR CONTRIBUTIONS  K.L. designed the project; F.T. and E.N. carried out the 
-experiments; C.B. analyzed the data; B.L., V.I.B. and N.X. improved the protocols; F.T., 
-E.N., K.L. and M.A.S. wrote the manuscript with contributions from all the authors.
-Published online at http://www.natureprotocols.com/. 	
 
-Reprints and permissions information is available online at http://npg.nature.com/
-reprintsandpermissions/.
-1.	 Wang, Z., Gerstein, M. & Snyder, M. RNA-Seq: a revolutionary tool for 
-transcriptomics. Nat. Rev. Genet. 10, 57–63 (2009).
-2.	 Cloonan, N. & Grimmond, S.M. Transcriptome content and dynamics at 
-single-nucleotide resolution. Genome Biol. 9, 234 (2008).
-3.	 Schena, M., Shalon, D., Davis, R.W. & Brown, P.O. Quantitative monitoring 
-of gene expression patterns with a complementary DNA microarray. 
-Science 270, 467–470 (1995).
-4.	 DeRisi, J. et al. Use of a cDNA microarray to analyse gene expression 
-patterns in human cancer. Nat. Genet. 14, 457–460 (1996).
-5.	 Lockhart, D.J. et al. Expression monitoring by hybridization to 
-high-density oligonucleotide arrays. Nat. Biotechnol. 14, 1675–1680 
-(1996).
-6.	 Duggan, D.J., Bittner, M., Chen, Y., Meltzer, P. & Trent, J.M. Expression 
-profiling using cDNA microarrays. Nat. Genet. 21, 10–14 (1999).
-7.	 Lipshutz, R.J., Fodor, S.P., Gingeras, T.R. & Lockhart, D.J. High density 
-synthetic oligonucleotide arrays. Nat. Genet. 21, 20–24 (1999).
-Table 3 | Continued.
+PROTOCOL
+TABLE 3 Continued.
 Gene name
 RefSeq ID
 Counts in mature oocyte
@@ -2708,6 +1562,7 @@ Tcl1b5
 NM_013776
 95,977
 68,387
+8
 Khdc1b
 NM_001113187
 95,938
@@ -2740,6 +1595,8 @@ Oaz1
 NM_008753
 30,967
 165,822
+I
+0
 Rplp0
 NM_007475
 1,844
@@ -2804,153 +1661,131 @@ Ccnb1
 NM_172301
 35,328
 87,846
+ACKNOWLEDGMENTS We thank John Bodeau, Clarence Lee, Yangzhou Wang,
+1. Wang, Z., Gerstein, M. & Snyder, M. RNA-Seq: a revolutionary tool for
+Umberto Ulmanella, Karen Li, Cinna Monighetti and Swati Rande for their
+transcriptomics. Nat. Rev. Genet. 10, 57-63 (2009).
+generous help.
+2. Cloonan, N. & Grimmond, S.M. Transcriptome content and dynamics at
+single-nucleotide resolution. Genome Biol. 9, 234 (2008).
+COMPETING INTERESTS STATEMENT The authors declare competing financial
+3. Schena, M., Shalon, D., Davis, R.W. & Brown, P.0. Quantitative monitoring
+interests (seet the HTML version ofthis article for details). C.B., E.N., B.L., N.X.,
+of gene expression patterns with a complementary DNA microarray.
+V.I.B. and K.L. are currently employees of Applied Biosystems (part of Life
+Science 270, 467-470 (1995).
+Technologies).
+4. DeRisi, J. et al. Use of a CDNA microarray to analyse gene expression
+patterns in human cancer. Nat. Genet. 14, 457-460 (1996).
+AUTHOR CONTRIBUTIONS K.L. designed the project; F.T. and E.N. carried out the
+5. Lockhart, D.J. et al. Expression monitoring by hybridization to
+experiments; C.B. analyzed the data; B.L., V.I.B. and N.X. improved the protocols; F.T.,
+high-density oligonucleotide arrays. Nat. Biotechnol. 14, 1675-1680
+E.N., K.L. and M.A.S. wrote the manuscript with contributions from all the authors.
+(1996).
+6. Duggan, D.J., Bittner, M., Chen, Y., Meltzer, P. & Trent, J.M. Expression
+Published online at http://www.natureprotocols.com/.
+profiling using CDNA microarrays. Nat. Genet. 21, 10-14 (1999).
+Reprints and permissions information is available online at http/npg.nature.com/ 7. Lipshutz, R.J., Fodor, S.P., Gingeras, T.R. & Lockhart, D.J. High density
+reprintsandpermissions/.
+synthetic oligonucleotide arrays. Nat. Genet. 21, 20-24 (1999).
+534 I VOL.5 NO.3 I 2010 I NATURE PROTOCOLS
 
 
---- Page 20 ---
-nature protocols | VOL.5 NO.3 | 2010 | 535
-protocol
-  
-p
-u
-o
-r
-G
- 
-g
-n
-i
-h
-s
-il
-b
-u
-P
- 
-e
-r
-u
-t
-a
-N
- 
-0
-1
-0
-2
-©
-natureprotocols
-/
-m
-o
-c
-.
-e
-r
-u
-t
-a
-n
-.
-w
-w
-w
-//:
-p
-tt
-h
-8.	 Blackshaw, S. & Livesey, R. Applying genomics technologies to neural 
-development. Curr. Opin. Neurobiol. 12, 110–114 (2002).
-9.	 Royce, T.E. et al. Issues in the analysis of oligonucleotide tiling 
-microarrays for transcript mapping. Trends Genet. 21, 466–475 (2005).
-10.	 Preker, P. et al. RNA exosome depletion reveals transcription upstream of 
-active human promoters. Science 322, 1851–1854 (2008).
-11.	 Mardis, E.R. The impact of next-generation sequencing technology on 
-genetics. Trends Genet. 24, 133–141 (2008).
-12.	 Wold, B. & Myers, R.M. Sequence census methods for functional genomics. 
-Nat. Methods 5, 19–21 (2008).
-13.	 Schuster, S.C. Next-generation sequencing transforms today′s biology. 
-Nat. Methods 5, 16–18 (2008).
-14.	 Shendure, J. The beginning of the end for microarrays? Nat. Methods 5, 
-585–587 (2008).
-15.	 Wilhelm, B.T. et al. Dynamic repertoire of a eukaryotic transcriptome 
-surveyed at single-nucleotide resolution. Nature 453, 1239–1243 (2008).
-16.	 Nagalakshmi, U. et al. The transcriptional landscape of the yeast genome 
-defined by RNA sequencing. Science 320, 1344–1349 (2008).
-17.	 Sultan, M. et al. A global view of gene activity and alternative splicing by 
-deep sequencing of the human transcriptome. Science 321, 956–960 (2008).
-18.	 Wang, E.T. et al. Alternative isoform regulation in human tissue trans­
-criptomes. Nature 456, 470–476 (2008).
-19.	 Cloonan, N. et al. Stem cell transcriptome profiling via massive-scale 
-mRNA sequencing. Nat. Methods 5, 613–619 (2008).
-20.	 Mortazavi, A., Williams, B.A., McCue, K., Schaeffer, L. & Wold, B. Mapping 
-and quantifying mammalian transcriptomes by RNA-Seq. Nat. Methods 5, 
-621–628 (2008).
-21.	 Marioni, J.C., Mason, C.E., Mane, S.M., Stephens, M. & Gilad, Y. RNA-seq: 
-an assessment of technical reproducibility and comparison with gene 
-expression arrays. Genome Res. 18, 1509–1517 (2008).
-22.	 Pan, Q., Shai, O., Lee, L.J., Frey, B.J. & Blencowe, B.J. Deep surveying of 
-alternative splicing complexity in the human transcriptome by high-
-throughput sequencing. Nat. Genet. 40, 1413–1415 (2008).
-23.	 Li, H. et al. Determination of tag density required for digital 
-transcriptome analysis: application to an androgen-sensitive prostate 
-cancer model. Proc. Natl. Acad. Sci. USA. 105, 20179–20184 (2008).
-24.	 Blake, W.J., Kærn, M., Cantor, C.R. & Collins, J.J. Noise in eukaryotic gene 
-expression. Nature 422, 633–637 (2003).
-25.	 Raser, J.M. & O′Shea, E.K. Noise in gene expression: origins, conse­
-quences, and control. Science 309, 2010–2013 (2005).
-26.	 Arias, A.M. & Hayward, P. Filtering transcriptional noise during deve­
-lopment: concepts and mechanisms. Nat. Rev. Genet. 7, 34–44 (2006).
-27.	 Raj, A. & van Oudenaarden, A. Nature, nurture, or chance: stochastic gene 
-expression and its consequences. Cell 135, 216–226 (2008).
-28.	 Losick, R. & Desplan, C. Stochasticity and cell fate. Science 320, 65–68 
-(2008).
-29.	 Shahrezaei, V. & Swain, P.S. The stochastic nature of biochemical 
-networks. Curr. Opin. Biotechnol. 19, 369–374 (2008).
-30.	 Kawasaki, E.S. Microarrays and the gene expression profile of a single cell. 
-Ann. N Y Acad. Sci. 1020, 92–100 (2004).
-31.	 Livesey, F.J. Strategies for microarray analysis of limiting amounts of RNA. 
-Brief. Funct. Genomic Proteomic. 2, 31–36 (2003).
-32.	 Hamatani, T., Carter, M.G., Sharov, A.A. & Ko, M.S. Dynamics of global 
-gene expression changes during mouse preimplantation development. 
-Dev. Cell 6, 117–131 (2004).
-33.	 Wang, Q.T. et al. A genome-wide study of gene activity reveals 
-developmental signaling pathways in the preimplantation mouse embryo. 
-Dev. Cell 6, 133–144 (2004).
-34.	 Zeng, F., Baldwin, D.A. & Schultz, R.M. Transcript profiling during 
-preimplantation mouse development. Dev. Biol. 272, 483–96 (2004).
-35.	 Bontoux, N. et al. Integrating whole transcriptome assays on a lab-on-a-
-chip for single cell gene profiling. Lab Chip 8, 443–450 (2008).
-36.	 Iscove, N.N. et al. Representation is faithfully preserved in global cDNA 
-amplified exponentially from sub-picogram quantities of mRNA. Nat. 
-Biotechnol. 20, 940–943 (2002).
-37.	 Klein, C.A. et al. Combined transcriptome and genome analysis of single 
-micrometastatic cells. Nat. Biotechnol. 20, 387–392 (2002).
-38.	 Hartmann, C.H. & Klein, C.A. Gene expression profiling of single cells on 
+
+PROTOCOL
+8. Blackshaw, S. & Livesey, R. Applying genomics technologies to neural
+30. Kawasaki, E.S. Microarrays and the gene expression profile of a single cell.
+development. Curr. Opin. Neurobiol. 12, 110-114 (2002).
+Ann. N Y Acad. Sci. 1020, 92-100 (2004).
+9. Royce, T.E. et al. Issues in the analysis of oligonucleotide tiling
+31. Livesey, F.J. Strategies for microarray analysis of limiting amounts of RNA.
+microarrays for transcript mapping. Trends Genet. 21, 466-475 (2005).
+Brief. Funct. Genomic Proteomic. 2, 31-36 (2003).
+10. Preker, P. et al. RNA exosome depletion reveals transcription upstream of 32. Hamatani, T., Carter, M.G., Sharov, A.A. & Ko, M.S. Dynamics of global
+active human promoters. Science 322, 1851-1854 (2008).
+gene expression changes during mouse preimplantation development.
+11. Mardis, E.R. The impact of next-generation sequencing technology on
+Dev. Cell 6, 117-131 (2004).
+genetics. Trends Genet. 24, 133-141 (2008).
+33. Wang, Q.T. et al. A genome-wide study of gene activity reveals
+12. Wold, B. & Myers, R.M. Sequence census methods for functional genomics.
+developmental signaling pathways in the preimplantation mouse embryo.
+Nat. Methods 5, 19-21 (2008).
+Dev. Cell 6, 133-144 (2004).
+13. Schuster, S.C. Next-generation sequencing transforms today's biology.
+34. Zeng, F., Baldwin, D.A. & Schultz, R.M. Transcript profiling during
+Nat. Methods 5, 16-18 (2008).
+preimplantation mouse development. Dev. Biol. 272, 483-96 (2004).
+14. Shendure, J. The beginning of the end for microarrays? Nat. Methods 5,
+35. Bontoux, N. et al. Integrating whole transcriptome assays on a lab-on-a-
+585-587 (2008).
+chip for single cell gene profiling. Lab Chip 8, 443-450 (2008).
+15. Wilhelm, B.T. et al. Dynamic repertoire of a eukaryotic transcriptome
+36. Iscove, N.N. et al. Representation is faithfully preserved in global CDNA
+surveyed at single-nucleotide resolution. Nature 453, 1239-1243 (2008).
+amplified exponentially from sub-picogram quantities of mRNA. Nat.
+16. Nagalakshmi, U. et al. The transcriptional landscape of the yeast genome
+Biotechnol. 20, 940-943 (2002).
+defined by RNA sequencing. Science 320, 1344-1349 (2008).
+37. Klein, C.A. et al. Combined transcriptome and genome analysis of single
+17. Sultan, M. et al. A global view of gene activity and alternative splicing by
+micrometastatic cells. Nat. Biotechnol. 20, 387-392 (2002).
+deep sequencing of the human transcriptome. Science 321, 956-960 (2008). 38. Hartmann, C.H. & Klein, C.A. Gene expression profiling of single cells on
+18. Wang, E.T. et al. Alternative isoform regulation in human tissue trans-
 large-scale oligonucleotide arrays. Nucleic Acids Res. 34, e143 (2006).
-39.	 Jensen, K.B. & Watt, F.M. Single-cell expression profiling of human 
-epidermal stem and transit-amplifying cells: Lrig1 is a regulator of stem 
-cell quiescence. Proc. Natl. Acad. Sci. USA 103, 11958–11963 (2006).
-40.	 Kurimoto, K. et al. An improved single-cell cDNA amplification method for 
-efficient high-density oligonucleotide microarray analysis. Nucleic Acids 
+criptomes. Nature 456, 470-476 (2008).
+39. Jensen, K.B. & Watt, F.M. Single-cell expression profiling of human
+19. Cloonan, N. et al. Stem cell transcriptome profiling via massive-scale
+epidermal stem and transit-amplifying cells: Lrig1 is a regulator of stem
+mRNA sequencing. Nat. Methods 5, 613-619 (2008).
+cell quiescence. Proc. Natl. Acad. Sci. USA 103, 11958-11963 (2006).
+20. Mortazavi, A., Williams, B.A., McCue, K., Schaeffer, L. & Wold, B. Mapping 40. Kurimoto, K. et al. An improved single-cell CDNA amplification method for
+and quantifying mammalian transcriptomes by RNA-Seq. Nat. Methods 5,
+efficient high-density oligonucleotide microarray analysis. Nucleic Acids
+621-628 (2008).
 Res. 34, e42 (2006).
-41.	 Kurimoto, K., Yabuta, Y., Ohinata, Y. & Saitou, M. Global single-cell cDNA 
-amplification to provide a template for representative high-density 
-oligonucleotide microarray analysis. Nat Protoc. 2, 739–752 (2007).
-42.	 Tang, F. et al. mRNA-Seq whole-transcriptome analysis of a single cell. 
-Nat. Methods 6, 377–382 (2009).
-43.	 Maekawa, M., Yamamoto, T., Kohno, M., Takeichi, M. & Nishida, E. 
-Requirement for ERK MAP kinase in mouse preimplantation development. 
-Development 134, 2751–2759 (2007).
-44.	 Tang, F. et al. 220-plex microRNA expression profile of a single cell. 
-Nat. Protoc. 1, 1154–1159 (2006).
-45.	 Nagy, A., Gertsenstein, M., Vintersten, K. & Behringer, R. Manipulating 
-the mouse embryo. 3rd ed., 194–200 (Cold Spring Harbor Laboratory 
+21. Marioni, J.C., Mason, C.E., Mane, S.M., Stephens, M. & Gilad, Y. RNA-seq: 41. Kurimoto, K., Yabuta, Y., Ohinata, Y. & Saitou, M. Global single-cell CDNA
+an assessment of technical reproducibility and comparison with gene
+amplification to provide a template for representative high-density
+expression arrays. Genome Res. 18, 1509-1517 (2008).
+Nat Protoc. 2, 739-752
+I
+oligonucleotide microarray analysis.
+a
+(2007).
+22. Pan, Q., Shai, 0., Lee, L.J., Frey, B.J. & Blencowe, B.J. Deep surveying of 42. Tang, F. et al. mRNA-Seq whole-transcriptome analysis of a single cell.
+alternative splicing complexity in the human transcriptome by high-
+Nat. Methods 6, 377-382 (2009).
+throughput sequencing. Nat. Genet. 40, 1413-1415 (2008).
+43. Maekawa, M., Yamamoto, T., Kohno, M., Takeichi, M. & Nishida, E.
+23. Li, H. et al. Determination of tag density required for digital
+Requirement for ERK MAP kinase in mouse preimplantation development.
+transcriptome analysis: application to an androgen-sensitive prostate
+Development 134, 2751-2759 (2007).
+cancer model. Proc. Natl. Acad. Sci. USA. 105, 20179-20184 (2008).
+44. Tang, F. et al. 220-plex microRNA expression profile of a single cell.
+24. Blake, W.J., Kaern, M., Cantor, C.R. & Collins, J.J. Noise in eukaryotic gene
+Nat. Protoc. 1, 1154-1159 (2006).
+expression. Nature 422, 633-637 (2003).
+45. Nagy, A., Gertsenstein, M., Vintersten, K. & Behringer, R. Manipulating
+25. Raser, J.M. & 0'Shea, E.K. Noise in gene expression: origins, conse-
+the mouse embryo. 3rd ed., 194-200 (Cold Spring Harbor Laboratory
+quences, and control. Science 309, 2010-2013 (2005).
 Press, Cold Spring Harbor, New York, USA, 2003).
-46.	 Chambers, I. et al. Nanog safeguards pluripotency and mediates germline 
-development. Nature 450, 1230–1234 (2007).
-47.	 Toyooka, Y., Shimosato, D., Murakami, K., Takahashi, K. & Niwa, H. 
-Identification and characterization of subpopulations in undifferentiated 
-ES cell culture. Development 135, 909–918 (2008).
-48.	 Hayashi, K., Lopes, S.M., Tang, F. & Surani, M.A. Dynamic equilibrium and 
-heterogeneity of mouse pluripotent stem cells with distinct functional and 
-epigenetic states. Cell Stem Cell 3, 391–401 (2008).
+26. Arias, A.M. & Hayward, P. Filtering transcriptional noise during deve-
+46. Chambers, I. et al. Nanog safeguards pluripotency and mediates germline
+lopment: concepts and mechanisms. Nat. Rev. Genet. 7, 34-44 (2006).
+development. Nature 450, 1230-1234 (2007).
+27. Raj, A. & van Oudenaarden, A. Nature, nurture, or chance: stochastic gene 47. Toyooka, Y., Shimosato, D., Murakami, K., Takahashi, K. & Niwa, H.
+expression and its consequences. Cell 135, 216-226 (2008).
+Identification and characterization of subpopulations in undifferentiated
+28. Losick, R. & Desplan, C. Stochasticity and cell fate. Science 320, 65-68
+ES cell culture. Development 135, 909-918 (2008).
+(2008).
+48. Hayashi, K., Lopes, S.M., Tang, F. & Surani, M.A. Dynamic equilibrium and
+29. Shahrezaei, V. & Swain, P.S. The stochastic nature of biochemical
+heterogeneity of mouse pluripotent stem cells with distinct functional and
+networks. Curr. Opin. Biotechnol. 19, 369-374 (2008).
+epigenetic states. Cell Stem Cell 3, 391-401 (2008).
+NATURE PROTOCOLS I VOL.5 NO.3 I 2010 I 535

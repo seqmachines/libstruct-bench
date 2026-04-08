@@ -1,0 +1,422 @@
+Smart-seq2 Version 6.1 (SS2-M)
+INTRODUCTION
+The aim of this protocol is to apply a modified version of Smart-Seq2 (Picelli S, et al. Nat Protocols, 2014) to obtain
+full-length transcriptomic data from single cells.
+Until amplification is done, always use low-retention Rainin pipette tips.
+MATERIALS
+Sorting Samples
+Buffer TCL (Qiagen, Cat. No. 1031576)
+2-Mercaptoethanol (Sigma-Aldrich, Cat. No. M3148-25ML)
+twin.tec PCR Plate 96, skirted, colorless (Eppendorf, Cat. No. 951020401)
+Microseal 'F' foil seals (Bio-Rad, Cat. No. MSF1001) for storage
+Microseal 'B' transparent seals (Bio-Rad, Cat. No. MSB1001) - for thermocyclers
+Isolate nuclei acids from cell lysate
+RNaseZap RNase Decontamination Solution ThermoFisher Scientific, Cat. No. AM9780)
+Agencourt RNAClean XP, 40 mL (Beckman Coulter, Cat. No. A63987)
+100% Ethanol (VWR, Cat. No. 89125-170)
+UltraPure DNase/RNase-Free Distilled Water ThermoFisher Scientific, Cat. No. 10977015)
+VWR Reagent Reservoir (VWR, Cat. No. 89094-662)
+DynaMag-96 Side Magnet (ThermoFisher Scientific, Cat. No. 12331D)
+3' RT primer (100 pM) [5'- AAGCAGTGGTATCAACGCAGAGTACT(30)VN - 3']
+dNTPs, 10 mM each ThermoFisher Scientific, Cat. No. R0192)
+Recombinant RNase Inhibitor (Takara, Cat. No. 2313B)
+1M Trehalose Solution, Sterile (Life Sciences Advanced Technologies, Cat. No. TS1M-100)
+First strand CDNA synthesis
+Maxima H-minus Reverse Transcriptase (200 U/pl) (ThermoFisher Scientific, Cat. No. EP0753)
+0.1 M MgCl2 (Sigma-Aldrich, Cat. No. M1028-10X1ML)
+TSO (100 pM) from Exiqon [5' AAGCAGTGGTATCAACGCAGAGTACrGrG+G - 3']
+Amplify CDNA
+KAPA HiFi HotStart PCR ReadyMix (KAPA Biosystems, Cat. No. KK2602)
+1
+
+
+
+ISPCR (10 UM) [5' AAGCAGTGGTATCAACGCAGAGT - 3']
+Purify the WTA products
+AMPureXP SPRI (DNA SPRI beads) (Beckman-Coulter, Cat. No. A63881)
+TE Buffer (Teknova, Cat. No. TO228)
+WTA QC
+Qubit dsDNA HS Assay Kit ThermoFisher Scientific, Cat. No. Q32851)
+Assay Plate, 384 Well, No Lid, Flat Bottom, Low Flange, Non-Binding Surface, Black Polystyrene (Corning,
+Cat. No. 3575)
+High Sensitivity DNA BioAnalyzer Kit (Agilent Technologies, Cat. No. 5067-4626)
+Library Preparation
+Nextera XT DNA Library Preparation Kit (96 samples) (Illumina, Cat. No. FC-131-1096)
+Pool, clean up, and library QC
+Tape station HS DNA Reagents (Agilent Technologies, Cat. No. D1000HISENSREA112)
+High Sensitivity D1000 ScreenTape (Agilent Technologies, Cat. No. 5067-5584)
+Protocol I I SS2-M
+2
+
+
+
+METHODS
+Sorting samples
+1. Request FACS time with the Broad's flow core (calendar: Astrios) and specify the quote number for billing.
+The current flow techs are Stephanie Saldi and Chelsea Otis.
+2. Working in a fume hood, aliquot freshly prepared 5 ul of Buffer TCL containing 1% 2-Mercaptoethanol into
+96-well plates.
+3. Seal plates with Microseal 'F' foils, barcode plates with Regev Lab stickers, label plates with sharpie, and
+spin down. Keep at RT until sorting.
+Some people sort. in 10 pl and it is necessary to know how much lysis buffer is used (as this affects
+the volume of SPRI beads required).
+4. Sort samples into 96-well plates. Immediately spin at 2000 RPM for up to 1 min and flash freeze on dry ice.
+Store plates indefinitely at -80°C.
+Iti is very helpful to sort a no-cell control into wells H11 and H12, and a positive control of 10-20
+cells into wells A1 and. A2.
+Isolate nucleic acids from cell lysate
+5. RNaseZap all work surfaces and pipettes (except multi-channel pipettes). Let sit - 3-5 min, then wipe down
+and re-spray everything with 70% ethanol. Let sit - 3-5 min and wipe clean.
+6. Start thermal cycler program (but hit PAUSE after START) to ensure lid temperature rises to 105°C.
+7. Equilibrate RNA-SPRI beads to RT ( 30 min).
+8. Make fresh 80% ethanol.
+9. Prepare/open pipette tip boxes So that they are ready for use.
+10. Thaw out reagents used for Mix 1 and Mix 2 (excluding enzymes).
+You can prepare Mix 1 and Mix 2 at this time, adding everything except for reverse transcriptase.
+Keep stored on ice until time of use.
+11. Thaw cell lysate samples on ice. Once thawed, spin down.
+It is important to know how much lysate volume exists per well, as this determines the amount of
+SPRI beads to use. We commonly work with a lysate volume of 5 pl.
+12. Vortex RNA-SPRI beads and pipette the amount to be used into a trough.
+Remove the total amount of SPRI beads required with a serological pipette and place into trough.
+This helps minimize contamination that can result from re-dipping the pipette in and out of the stock
+solution.
+13. Working at RT, add 2.2X RNA-SPRI beads (i.e. 11 pli if 5 pl of lysate). Gently and SLOWLY mix - 5 times.
+Do not form bubbles during the mixing process (bubbles on the top of the surface are okay). The
+presence of bubbles minimizes the interaction between beads and DNA/RNA molecules and will
+result. in less capture off nucleotides.
+Protocol I I SS2-M
+3
+
+
+
+14. Incubate at RT for 10 min. Always cover plate with the lid of a tip box to prevent dust/aerosols from
+contaminating wells.
+DNA/RNA precipitates out of high PEG-solution and adheres to the beads; interactions between
+negatively-charged carboxyl groups on surface of SPRI beads and negatively-charged DNA/RNA
+are mediated by Na+ ions).
+15. Incubate at RT on magnet for 5 min.
+16. With plate on magnet, slowly aspirate and discard remaining supernatant. Leave 10 pl supernatant in well.
+17. With plate on magnet, add 100 pl of 80% ethanol. Let sit - 30 sec.
+18. Remove 100 pl of solution and repeat ethanol wash. Let sit - 30 sec.
+19. After second wash, remove and discard supernatant.
+20. Use the p20 multi-channel pipette to ensure that all ethanol is removed.
+Residual ethanol will interfere with downstream enzymatic reactions.
+21. Keep plate on magnet and slightly covered. Dry out at RT for - 2-3 min.
+Ifnota already done, prepare Mix 1 and Mix 2 (without RT enzyme) during this period and store on
+ice. Immediately prior to use, aliquot Mixes into a row of a new: 96-well plate.
+22. Carefully remove plate from magnet and resuspend beads in 4 pl of Mix 1 using ow-retention tips. Solution
+should be a homogenous, chocolate-brown color after resuspension.
+23. Seal plate with Microseal 'F' and spin down. Place on ice.
+Reagent
+1 sample (ul) 11 plate (ul) 21 plates (pl) 3p plates (ul) 4p plates (ul)
+3' RTp primer (100 UM)
+0.1
+11
+22
+33
+44
+dNTPI Mix (10 mM each dNTP)
+1.0
+110
+220
+330
+440
+RNase inhibitor (40 U/pl)
+0.1
+11
+22
+33
+44
+Trehalose (1M)
+2.8
+308
+616
+924
+1232
+Total
+4.0
+440
+880
+1320
+1760
+Mix 1
+First strand CDNA synthesis
+24. Immediately incubate plate at 72°C (Lid Temp - 105°C) for 3 min and immediately place on ice for at least 1
+min. Spin down plate.
+This step dissolves secondary structures and linearizes RNA molecules, and the RT primer associates
+with its complementary region. Trehalose adds viscosity to the master mix and stabilizes the linearized
+RNA. Immediately, place samples on ice to minimize the reformation of secondary structures. At this
+step, RNA is out of its stable secondary structure and is especially susceptible to degradation - keep on
+ice and work quickly.
+25. Add reverse transcriptase into Mix 2 and aliquot across a row in a 96-well plate.
+26. On ice, add 6 pl ofl Mix 2 using low retention tips to each sample and gently mix - 3 times.
+27. Seal plate tightly with a Microseal 'B' and spin down.
+Protocol I I SS2-M
+4
+
+
+
+28. Incubate in thermal cycler:
+Lid Temp - 105°C
+50°C for 90 min
+Heat inactivate at 85°C for 5 min
+Hold at 4°C
+Reagent
+1 sample (pl) 1 plate (ul) 21 plates (pl) 31 plates (pl) 41 plates (pl)
+5X Maxima RT. Buffer
+2.0
+220
+440
+660
+880
+Trehalose (1M)
+3.45
+379.5
+759
+1138.5
+1518
+MgCl2 (11 M)
+0.1
+11
+22
+33
+44
+TSO (100 pM)
+0.1
+11
+22
+33
+44
+RNase-Inhibitor (40 Ulpl)
+0.25
+27.5
+55
+82.5
+110
+Maxima RNase H-minus RT( (200 U/pl)
+0.1
+11
+22
+33
+44
+Total
+6.0
+660
+1320
+1980
+2640
+Mix 2
+Amplify CDNA
+29. Add 15 pl of Mix 3 using low retention tips and mixing a 5 times.
+Reagent
+1 sample (pl)
+1 plate (ul)
+21 plates (ul)
+31 plates (ul)
+41 plates (ul)
+UltraPure DI Water
+2
+220
+440
+660
+880
+ISPCR Primer (10 pM)
+0.5
+55
+110
+165
+220
+2X KAPA HiFil HotStart ReadyMix
+12.5
+1375
+2750
+4125
+5500
+Total
+15
+1650
+3300
+4950
+6600
+Mix 3
+30. Incubate in thermal cycler:
+Lid Temp = 105°C
+98°C for 3 min (denatures CDNA)
+21 cycles of {**Ifs samples are nuclei, run 22. PCR cycles instead of 21**
+98°C for 15 sec (denature)
+67°C for 20 sec (primers anneal)
+72°C for 6 min (polymerase elongation)}
+Final extension at 72°C for 5 min
+Hold at 4°C
+Safe stopping point after this PCR. Place samples in -20°C until further processing.
+Protocol I I SS2-M
+5
+
+
+
+Purify the WTA products
+The WTA is our whole transcriptome amplified product. In this portion of the protocol, a smaller volume of SPRI
+beads is used to exclude smaller nucleotide fragments (i.e. primer-dimers and off-target amplicons). The 70% ethanol
+is important here (as opposed to 80% ethanol) because it helps solubilize CDNA, thereby making it harder to retain
+the small primer dimers on the beads.
+31. Equilibrate DNA-SPRI beads to RT (-30 min).
+32. Spin plate down after removing from thermal cycler.
+33. Vortex DNA-SPRI beads and pipette the amount to be used into a trough.
+34. At RT, add 0.7X DNA-SPRI beads (i.e. 17.5 pl into each 25 pl-existing well) and mix a 10 times.
+Nucleotide fragments are pushed out of the PEG solution and adhere to the SPRI beads in a
+length-dependent manner (i.e. longer DNA fragments precipitate out preferentially and adhere to
+beads first), and SO using SPRI bead concentrations less than 1X excludes smaller fragments (i.e.
+- < 200 bp) from adhering to beads.
+35. Cover and incubate at RT for 5 min.
+36. Incubate on magnet for 6 min at RT.
+37. With plate on magnet, gently aspirate and discard supernatant. Leave about 10 ul of supernatant left in each
+well.
+38. With plate on magnet, add 100 pl of 70% ethanol. Let sit a 30 sec.
+39. Remove 100 pl of solution and repeat ethanol wash. Let sit - 30 sec.
+40. After second wash, remove and discard supernatant.
+41. Use the p20 multi-channel pipette to ensure that all ethanol is removed.
+42. Keep plate on magnet and slightly covered. Dry out at RT for a 3-4 min.
+43. Gently remove plate from magnet and gently resuspend in 20 pl of TE buffer. Let sit for - 1 min.
+Once TE buffer is added, the WTA products dissolve into solution. We now care about the
+supernatant!
+44. Place plate back on magnet and let sit for - 1 min.
+45. Label a new 96-well plate: WTA, experiment description, name/date. Subsequent plates (i.e. NDP and NTA)
+should have consistent nomenclature.
+46. Transfer supernatant into WTA plate.
+For 20 pl of solution, collect 19 pli to avoid taking beads. Discard the original plate. It is okay if some
+residual SPRI beads are carried over though every time we take solution from WTA plate we
+leave the WTA plate on a magnet.
+47. A second SPRI clean up may be helpful to perform at this step if primer dimers are a big issue.
+The presence of primer dimers increases the detected DNA concentration by Qubit and will result
+in us under loading the amount of CDNA in the Nextera portion (i.e. we will think we have more
+CDNA than we do in reality and thereby load less in the Nextera plate). Primer dimers may "soak
+up" Tn5 during tagmentation and also reduce the effective concentration of Tn5 used to shear
+CDNA molecules from MRNA transcripts this can produce a spiky, hedgehog pattern in the final
+Nextera library fragment distribution trace.
+Protocol I I SS2-M
+6
+
+
+
+WTA QC 1. - Qubit
+To obtain CDNA concentrations for a 96-well plate using the Qubit assay, each plate will be combined into a 384-well
+opaque plate. The 384-well plate is divided into 4 quadrants, and up to 3. X 96-well plates can be assayed at once (the
+standard curve is placed in the 4th quadrant.
+48. Prepare standard curve in 6 X 200 pl PCR tubes:
+a. Tube 1:: 31 ul of Standard 2
+b. Tube 2: 3 ul of TE + 31 pl of Standard 2
+C. Tube 3:: 3 pl of TE + 3 pl of Tube 2
+d. Tube 4: 31 ul of TE + 3 pl of Tube 3
+e. Tube 5: 3 pl of TE + 3 pl of Tube 4
+f. Tube 6: 3 pl of Standard 1
+49. For each 96-well plate to assay, mix 4.8 ml of buffer with 24 pl of dye. Vortex well and dispense into trough.
+50. Pipette 39 pl of buffer/dye into 384-well plate.
+51. With WTA plate on magnet, add 1 pl of sample to each well in 384-well plate.
+52. Seal tightly, vortex, spin down, and run assay in plate reader at 485 nm / 528 nm.
+WTA QC 2. I Bioanalyzer
+Run a range of samples (based on their qubit concentrations) on the bioanalyzer. Ensure that the samples loaded on
+the bioanalyzer are < 5 ng/ul for consistent results, and dilute in TE if necessary. Speaking with Agilent Technologies,
+the bioanalyzer dye does not need to be warmed up to room temperature prior to use (note: they state to do SO in
+their protocol because their gDNA bioanalyzer chip does require warming up and they wanted to keep the preparation
+instructions fixed across their different methods).
+Dilute WTA plate
+Use the robot to dilute WTA samples to 0.15 - 0.2 ng/ul in TE. Typically, we add 3 pl of sample into a variable
+amount of TE to bring the final concentration to 0.2 ng/ul. Prepare this diluted portion in a newly labeled plate, NDP
+(Nextera dilution plate). Save this plate after the experiment is completed, although if freezer space is limiting you
+may discard the NDP.
+Library Preparation 1 - Tagmentation
+At this point, we have amplified CDNA fragments that are about 2 kb length. We will use a hyperactive transposase
+enzyme (Tn5) to fragment the CDNA into 300-1000 bp fragments. The Tn5 simultaneously adds a pair of universal
+"tag" sequences to each end oft the fragment (except for the 5'and 3' ends, as one of these ends is not knicked;
+these ends will inevitably be lost). Our Nextera XT protocol is done in a 384-well plate because our reaction volumes
+are 1/8th the volume recommended by Illumina. 41 plates will be processed in this protocol, and each plate is mapped
+to either quadrant 1, 2, 3, or 4.
+53. Label a new 384-well plate as NTA (Nextera plate).
+54. Prepare tagmentation master mix by mixing 600 pl of TD Buffer with 300 pl of ATM.
+55. Dispense 73 pl of master mix across 12-well snap-strip PCR tubes.
+56. Using a multi-dispense multi-channel pipette, add 1.87 pl of master mix to every well in 384-well plate.
+57. Add 0.63 pl of sample to each well in 384-well plate.
+Protocol I I SS2-M
+7
+
+
+
+58. Seal NTA plate and spin down. Do not vortex enzymes.
+59. Store NDP indefinitely at -20°C.
+60. Run tagmentation program on thermal cycler:
+Lid Temp = 105°C
+55°C for 10 min
+Hold at 4°C
+61. Dispense 34 pl of NT (Neutralize Tagment) Buffer across 12-well snap-strip PCR tubes or 1 row of a
+reusable 96-well plate.
+62. At RT, immediately add 0.63 pl of NT Buffer. Gently mix, spin down, and incubate at RT for 5 min.
+The transposase enzyme cuts and stays attached to DNA, unlike typical restriction enzymes that
+migrate and cut different sites over time. To remove Tn5 aftert tagmentation, NT Buffer containing
+SDS detergent is added to strip off the Tn5 from DNA. NT Buffer is stored at RT.
+Library Preparation 2 - Indexing and low-cycle amplification
+After tagmentation, all of our digested CDNA fragments have two universal tag-priming regions. We will amplify our
+tagments with a primer containing (1) the priming region complementary to the universal tags, (2) a unique index nt
+sequence "barcode", and (3) "adaptors' that complementary hybridize to surface oligos on the Illumina flow cell
+(called the P5 orl P7 adaptors). Note that only the P5 end binds to its complementary oligo on the flow cell at the start
+of sequencing.
+63. Thaw pre-aliquoted plate of nextera barcodes at RT. Spin down prior to opening.
+To minimize contamination in barcodes, open plate only mmediately prior to use and seal plate
+directly after use.
+64. At RT, add 1.25 ul of barcodes mix (i.e. adding 0.63 pl, or 10 pM, of each i5 and i7 index) to NTA plate.
+65. Dispense 78 pl of NPM (Nextera PCR Master Mix) across 12-well snap-strip PCR tubes.
+66. Add 1.88 pl ofl NPM to each sample and gently mix. Spin plate down.
+67. Incubate in thermal cycler:
+Lid Temp = 105°C
+72°C for 3 min (completes elongation at ends of tagmented strands, see Fig. 1)
+95°C for 30 sec
+12 cycles of {
+95°C for 10 sec
+55°C for 30 sec
+72°C for 1 min] }
+72°C for 5 min (final extension)
+Hold at 4°C
+Protocol I I SS2-M
+8
+
+
+
+68. Equilibrate DNA-SPRI beads to RT - 30 min prior to use and prepare fresh 80% ethanol.
+Figure 1 Tagments have spaces at the ends of the strand, and these spaces
+must be filled in before we initiate PCR so that we don't loose adaptors on
+either strand.
+Pool, clean up, and library QC
+69. Remove 21 pl from each well and combine into a new 1.5 ml tube.
+Samples are uniquely barcoded at this point, which allows us to mix everything together.
+70. Save NTA plate indefinitely at -20°C for future experiments.
+71. Vortex DNA-SPRI beads.
+72. Add 0.9X DNA- beads into tube and gently mix.
+73. Incubate at RT for 5 min.
+74. Incubate on tube magnet at RT for 5 min.
+75. With tube on magnet, carefully aspirate and discard supernatant (leave 10 pl behind).
+76. Add 1 ml of 80% ethanol (enough to submerge all beads).
+77. Let sit - 30 sec, then carefully aspirate and discard supernatant.
+78. Repeat 1 more wash cycle. Aspirate final wash and use a p20 to remove any residual ethanol.
+79. Remove tube from magnet and dry at RT for - 3-4 min.
+80. Resuspend beads off the magnet in 30 ul of TE. Let sit at RT (off magnet) for 1 min.
+81. Place tube on magnet and incubate at RT for 1 min.
+82. Pipette 28 pl of supernatant into a newly labeled 1.5 ml tube. Include library information on this tube.
+83. Perform Qubit and Tape Station QCs for library. Ensure that sample concentrations are < 10 ng/ul when
+running the Tape Station.
+84. Library tube is ready for sequencing. Store at -20°C until sequencing procedure.
+Be sure to label the sample name, indices, DNA concentration, and average bp length on library
+tube. You will need this information for the MiSeq/NextSeq preparation.
+Protocol I I SS2-M
+9
+
+
+
+APPENDIX
+Finances
+Some prices to keep in mind: (1) Nextera kit - $2400; Regev Lab uses 1 kit for 81 plates and therefore the price
+becomes - $300 / Nextera plate. (2) BioA chip - $50. (3) Without sequencing, 1 plate - $700 total cost, including
+Nextera step. (4) Next-Seq run costs - $2200; with multiplexing plates, each plate - $400 to sequence. (5) From cell
+lysate to sequencing, 1 plate - $1100. Keep in mind that with all external purchases, the Regev Lab pays an extra
+83% of indirect costs (i.e. this money goes to the Broad Institute to help pay for matters like shipping/receiving, etc.).
+Protocol I I SS2-M
+10

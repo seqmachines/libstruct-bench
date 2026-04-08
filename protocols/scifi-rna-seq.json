@@ -4,7 +4,7 @@
   "references": {
     "scg_lib_structs": "https://teichlab.github.io/scg_lib_structs/methods_html/scifi-RNA-seq.html",
     "paper": "https://www.nature.com/articles/s41592-021-01153-z",
-    "protocol_pdf": null
+    "protocol_pdf": "Supplementary_Protocol_scifi-RNA-seq_step-by-step_protocol_v17.pdf"
   },
   "library_sequence": "AATGATACGGCGACCACCGAGATCTACACBBBBBBBBBBBBBBBBTCGTCGGCAGCGTCACACTCTTTCCCTACACGACGCTCTTCCGATCTUUUUUUUURRRRRRRRRRRRRCTGTCTCTTATACACATCTCCGAGCCCACGAGACIIIIIIIIATCTCGTATGCCGTCTTCTGCTTG",
   "segments": [

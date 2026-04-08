@@ -4,7 +4,8 @@
   "references": {
     "scg_lib_structs": "https://teichlab.github.io/scg_lib_structs/methods_html/10xChromium5.html",
     "paper": "https://www.nature.com/articles/ncomms14049",
-    "protocol_pdf": "https://cdn.10xgenomics.com/image/upload/v1710230393/support-documents/CG000733_ChromiumGEM-X_SingleCell5_ReagentKitsv3_UserGuide_RevA.pdf"
+    "protocol_link": "https://cdn.10xgenomics.com/image/upload/v1710230393/support-documents/CG000733_ChromiumGEM-X_SingleCell5_ReagentKitsv3_UserGuide_RevA.pdf",
+    "protocol_pdf": "protocol_sources/10x-chromium-5prime-v3.pdf"
   },
   "library_sequence": "AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCTBBBBBBBBBBBBBBBBUUUUUUUUUUUUTTTCTTATATGGGGATCGGAAGAGCACACGTCTGAACTCCAGTCACIIIIIIIIATCTCGTATGCCGTCTTCTGCTTG",
   "segments": [

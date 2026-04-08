@@ -1,0 +1,67 @@
+{
+  "protocol_id": "strt-seq",
+  "protocol_name": "STRT-seq",
+  "references": {
+    "scg_lib_structs": "https://teichlab.github.io/scg_lib_structs/methods_html/STRT-seq_family.html",
+    "paper": "http://genome.cshlp.org/content/21/7/1160.full",
+    "protocol_pdf": null
+  },
+  "library_sequence": "AATGATACGGCGACCACCGAGATCTAAGCAGTGGTATCAACGCAGAGTGCAGTGCTBBBBBBGGGGATCGGAAGAGCTCGTATGCCGTCTTCTGCTTG",
+  "segments": [
+    {
+      "name": "Solexa P1",
+      "type": "known",
+      "sequence": "AATGATACGGCGACCACCGA",
+      "length": 20
+    },
+    {
+      "name": "Linker",
+      "type": "known",
+      "sequence": "GATCT",
+      "length": 5
+    },
+    {
+      "name": "TSO/ISPCR",
+      "type": "known",
+      "sequence": "AAGCAGTGGTATCAACGCAGAGT",
+      "length": 23
+    },
+    {
+      "name": "Linker",
+      "type": "known",
+      "sequence": "GCAGTGCT",
+      "length": 8
+    },
+    {
+      "name": "Cell barcode",
+      "type": "barcode",
+      "char": "B",
+      "sequence": "BBBBBB",
+      "length": 6,
+      "role": "6bp cell barcode on bead"
+    },
+    {
+      "name": "Linker",
+      "type": "known",
+      "sequence": "GGGG",
+      "length": 4
+    },
+    {
+      "name": "Linker",
+      "type": "known",
+      "sequence": "ATCGGAAGAGC",
+      "length": 11
+    },
+    {
+      "name": "Solexa P2",
+      "type": "known",
+      "sequence": "TCGTATGCCGTCTTCTGCTTG",
+      "length": 21
+    }
+  ],
+  "placeholder_key": {
+    "B": "cell barcode"
+  },
+  "total_length": 98,
+  "notes": "Original STRT-seq (2011). Uses Solexa adapters. No UMI. 5' tag-based method. cDNA insert dropped."
+}

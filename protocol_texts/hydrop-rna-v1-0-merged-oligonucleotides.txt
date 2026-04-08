@@ -1,0 +1,1038 @@
+protocols.io Part of SPRINGERI NATURE
+Feb 11, 2022 Version 2
+à HyDrop-RNA v1.0 V.2
+DOI
+nttps://dx.doi.org/10.17504/protocols.io.b4xwqxpe
+Florian De Rop12, I Suresh Poovathingall2, I Stein Aerts' 1,2
+VIB-KU Leuven Center for Brain & Disease Research;
+2Laboratory of Computational Biology, Department of Human Genetics, KU Leuven
+Aertslab
+Florian De Rop
+Aerts Lab for Computational Biology, VIB/KU Leuven Centre fo...
+Create & collaborate more with a free account
+Edit and publish protocols, collaborate in communities, share insights through comments, and
+track progress with run records.
+Create free account
+OPEN a ACCESS
+DOI: https://dx.doi.org/10.17504/protocols.io.b4xwgxpe
+Protocol Citation: Florian De Rop, Suresh Poovathingal, Stein Aerts 2022. HyDrop-RNA v1.0. protocols.io
+https://dx.doi.org/10.17504/protocols.io.b4xwgxpeVersion created by Florian De Rop
+License: This is an open access protocol distributed under the terms of the Creative Commons Attribution License, which
+permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited
+protocols.io I https:/dx.doi.org/10.17504/protocols.io.b4xwgxpe
+February 11, 2022
+1/17
+
+
+
+protocols.io Part of SPRINGER NATURE
+Protocol status: Working
+We use this protocol and it's working
+Created: February 11, 2022
+Last Modified: February 11, 2022
+Protocol Integer ID: 58070
+Keywords: SCRNA-seq, hydrop, hydrogel, rna-seq, rna, single-cell, single cell, single, cell, droplet microfluidics, HyDrop,
+HyDrop-RNA, ASAPCRN, performing hydrop, hydrop, rna, step protocol, time for each step, protocol, duration of each step
+Abstract
+Step-by-step protocol for performing HyDrop-RNA. The duration of each step assumes an experienced protocol
+user. For a first-time user, we recommend doubling the expected time for each step.
+Troubleshooting
+protocols.io I https:/dx.doi.org/10.17504/protocols.io.b4xwgxpe
+February 11, 2022
+2/17
+
+
+
+protocols.io Part of SPRINGER NATURE
+1
+List of reagents:
+reagents.xlsx
+List of oligonucleotides:
+20210712_supp_methods_table_hy...
+Please don't hesitate to contact us at nydrop.aertslab@gmai.ccom for any questions or
+remarks.
+Microfluidics Preparation
+30m
+2
+Setting up the Microfluidic Framework
+30m
+These steps need to happen in advance before the run can be started, as time between
+the preparation of the cell resuspension in RT mix and actual encapsulation needs to be
+minimised to preserve cell viability.
+2.1 Boot up Droplet Genomics onyx.
+5m
+Check syringe diameters in Onyx program. Any deviations from the true syringe diameter
+will result in biased flow rates, as the pump converts imposed flow rates to linear motion
+of the syringe plunger.
+Connect laptop or tablet to Onyx
+2.2 Fill two 3 mL syringes with 1 mL fresh mineral oil each using a 1r mL pipette. Connect a
+10m
+needle after the syringes are filled. Do not fill the syringes by aspirating mineral oil
+through a pipette as this technique can introduce unwanted air bubbles. Moreover,
+mineral oil on the syringe needle will complicate connecting the tubing. Tap the syringe
+SO that bubbles rise to the top, then push all air out. The syringe should be free of air
+bubbles.
+Connect a ~15 cm piece of 1 mm inner diameter tubing to each syringe. The tubing
+should be long enough to comfortably reach from the syringe when it is in position to the
+inlet of the microfluidic chip. If the tubing is too long, it may get in the way during
+operation. If the tubing is too short, it may tear or come undone when you move the
+microfluidic chip around.
+Using a 6 mm and 1 mm biopsy needle, punch out a small donut-shaped plug out of a ~1
+cm thick PDMS slab. The outer diameter should snugly fit into the filterless pipette tip,
+and the inner diameter should firmly accomodate the microfluidic tubing.
+protocols.io I https:/dx.doi.org/10.17504/protocols.io.b4xwgxpe
+February 11, 2022
+3/17
+
+
+
+protocols.io Part of SPRINGERI NATURE
+Connect the syringe's tubing to the pipette tip through the PDMS plug. Now, mineral oil
+out of the syringe into the tubing until the micropipette tip is completely filled. Then, fix
+the syringes in the DG Onyx pump system, including the aspiration clamps. These
+syringes are now ready to aspirate the beads and cell sample respectively.
+Later on, we will aspirate the cell and bead mix into the micropipette tip (NOT into the
+syringe, if we were to aspirate into the syringe, we would have too much dead volume in
+the tubing). When fixing the syringes to the DG Onyx pumps, some liquid may be pushed
+out or sucked in. This is normal and can be corrected later
+2.3 Fill a 3 mL syringe with ~1.5 mL of RAN Biotech emulsion oil using a pipette tip, connect a
+5m
+needle and a piece of 1 mm tubing. Push the carrier oil all the way to the end of the
+tubing, and insert the syringe into the DG Onyx pump.
+When fixing the syringes to the DG Onyx pumps, some liquid may be pushed out or
+sucked in. This is normal and can be corrected later
+2.4 Take a HyDrop High Aspect 65/80 microfluidic chip and inspect each channel under a
+5m
+microscope for defects or dust. Fix the chip to the moving platform above the DG Onyx
+microscope using the chip holder. Make sure that at least 3 sets of channels are available
+for the run in case an error occurs.
+2.5 Connect a short piece of tubing to the outlet. Then, take a DNA lo-bind 1.5 mL eppendorf,
+5m
+put it in a tube rack, and position it on top of the microscope platform. Put the outlet tube
+into the Eppendorf. This first outlet tube will be a "waste" tube used to collect the outlet
+until a stable emulsion is formed.
+Keep 200 ul PCR strip tubes ready to collect samples in. Each tube will contain 50 uL of
+emulsion after the run ends.
+Don't take a piece of tubing that is too long. This leads to a time delay between the end
+of the chip and the end of the outlet tube. Every now and then, during the run, you want
+to sample the droplets by touching a microscopy slide with the end of the tube and
+inspecting the droplets under the microscope. If you change flow parameters during the
+run, you want to be able to inspect the new droplet sizes and bead loading ASAP.
+2.6 A finished set-up look should like so:
+protocols.io I https:/dx.doi.org/10.17504/protocols.io.b4xwgxpe
+February 11, 2022
+4/17
+
+
+
+protocols.io Part of SPRINGER NATURE
+Note that we use a cover from a pipette tip box as a seating for the samples. For longer
+runs (10 minutes or more), we recommend that you use a small ice box or cold block to
+seat the samples as they are produced.
+The plugged-in chip should look like so:
+In this orientation, from north to south, you have the cell mixture, the oil, the outlet tube
+and finally the beads at the bottom.
+protocols.io I https:/dx.doi.org/10.17504/protocols.io.b4xwgxpe
+February 11, 2022
+5/17
+
+
+
+protocols.io Part of SPRINGER NATURE
+Reagent Preparation
+1h30m
+3
+Preparing the reagents
+1h 30m
+Now, we will prepare beads, cells and RT mix, which will then be aspirated into the
+nicrofluidic tubing.
+3.1 Prepare a fresh volume of Bead Lysis Buffer (BLB):
+15m
+A
+B
+C
+D
+E
+F
+BLB
+Stock
+Volume
+Final
+Final in
+Unit
+(uL)
+drop
+Tris-HCI
+1000
+625
+125
+25
+mM
+(pH7)
+NaCI
+5000
+150
+150
+30
+mM
+MgC12
+1000
+62.5
+12.5
+2.5
+mM
+Tween-20 100
+200
+4
+0.80
+%
+TX-100
+10
+375
+0.75
+0.15
+%
+Glycerol
+100
+1250
+25
+5.00
+%
+BSA
+10
+500
+1
+0.20
+%
+dH20
+1837.5
+Total
+5000
+Take a fresh aliquot of frozen HyDrop-RNA beads from the -80 C stock, thaw at room
+temperature for ~1 minute. Transfer the beads to a 1 mL tube. Rinse the bead stock
+aliquot tube using bead lysis buffer.
+Wash the beads by resuspending them in BLB, centrifuging at 1000 xg for 1 minute,
+taking the supernatant and resuspending them again in BLB. Perform this step a total of
+three times. After the last wash, take as much supernatant as possible without aspirating
+any beads. The best way to do this is to remove most of the BLB using a 1 mL pipette, re-
+centrifuging, and then using a 200 and 10 uL pipette to remove the rest.
+Keep the beads on ice until you need them.
+If you do not remove all of the supernatant BLB, the beads will be sparse during the first
+stage of your HyDrop run, resulting in a loss of cells.
+protocols.io I https:/dx.doi.org/10.17504/protocols.io.b4xwgxpe
+February 11, 2022
+6/17
+
+
+
+protocols.io Part of SPRINGER NATURE
+3.2 Load the beads into the correct mineral-oil filled pipette tip in the single-cell room as
+15m
+described below.
+1. Take the mineral oil-filled pipette tip destined for beads and make sure no large air
+bubbles are present.
+2. Prime the mineral oil all the way to the very end of the tip using a flow of 10 000
+uL/hour
+3. Put the micropipette tip into the eppendorf with the centrifuged beads
+4. At a rate of 5000 to 10 000 ul/hour, ASPIRATE the beads into the tube. If you blow in
+air bubbles by accident, centrifuge and resuspend again.
+5. Stop aspirating beads into the tube once air bubbles are formed. If you do it right, only
+a small amount of beads should be left at the bottom of the tube.
+6. Remove any air and prime the pumps by dispensing at 5000 UL/h until no air is left in
+the micropipette tip.
+7. Plug the pipette tip into the designated bead inlet.
+Any large air bubbles in the bead stock should rise to the interface between water and
+mineral oil. This is not a problem if the bubbles are small.
+It is best to do this before preparing the cells in order to save time later on.
+3.3 Prepare a single-cell suspension according to the appropriate protocol for your sample.
+30m
+Resuspend the cells in 0.04% to 1% BSA in PBS. Be sure to filter the cells to remove cell
+clumps. Generally it is best to use the lowest concentration of BSA that will prevent
+clumping of your cells. Concentrations higher than 1% may lead to aggregation nof BSA
+with other reagents within the RT mix, leading to blockage of the microfluidic channels.
+Aim for a cell concentration of at least 1 M/mL
+3.4 The following step is crucial for cell recovery. Here, we want to resuspend a number of
+30m
+cells equal to ~1.5x the number of cells you ultimately want to recover in the data into the
+RT mix. However, the volumetric space that we have reserved for cells suspension is
+limited. In this example case, for a total volume of 170 uL of RT mix, we reserve 31 UL for
+cell suspension/water.
+For example, if you want to recover 14 000 cells, you would want to take a volume of
+single-cell suspension containing 21000 cells. If your single cell suspension has a
+concentration of 1 M/mL, you would need 21 UL of your cell suspension. You would add
+139 ul of RT pre-Mix (RT mix without any water or cell suspension) to your 21 uL of cell
+pellet and top off to 170 UL using 10 UL of water.
+protocols.io I https:/dx.doi.org/10.17504/protocols.io.b4xwgxpe
+February 11, 2022
+7/17
+
+
+
+protocols.io Part of SPRINGERI NATURE
+A
+B
+E
+F
+RT Mix
+Stock
+volume
+Final
+Final in
+Unit
+(uL)
+droplet
+Maxima RT 5
+44.2
+1.3
+1
+X
+buffer
+dNTP
+10
+15.3
+0.9
+0.75
+mM
+DTT
+1000
+4.3
+25
+20
+mM
+GTP
+100
+2.2
+1.3
+1
+mM
+Optiprep
+100
+25.5
+15
+15
+%
+Rnase
+40
+5.5
+1.3
+1
+U/ul
+Inhibitor
+(RRI)
+Max H- RT 200
+12.8
+15
+12
+U/ul
+TSO-
+250
+8.5
+12.5
+10
+UM
+Dropseq
+(add prior
+to run)
+PEG-8K
+40
+18.7
+4.4
+3.50
+%
+Cells in 1%
+21
+BSA-PBS
+dH20
+10
+Total:
+170
+Proceed to HyDrop run immediately with the cells kept on ice.
+HyDrop Run Stage
+2h 30m
+4
+HyDrop Run
+30m
+Now, we will proceed to the actual HyDrop run. Before proceeding, make sure that the
+following steps are ready:
+Outlet connected to waste
+Beads loaded into micropipette tip, and connected to chip
+Microscope and pumps ready to go
+PCR machine available for RT
+4.1 Load the cells as follows (identical to bead loading):
+15m
+1. Take the mineral oil-filled pipette tip destined for RT mix and make sure no large air
+bubbles are present.
+protocols.io I https:/dx.doi.org/10.17504/protocols.io.b4xwgxpe
+February 11, 2022
+8/17
+
+
+
+protocols.io Part of SPRINGER NATURE
+2. Prime the mineral oil all the way to the very end of the tip using a flow of 10 000
+uL/hour
+3. Put the micropipette tip into the eppendorf with the centrifuged beads
+4. At a rate of 5000 to 10 000 ul/hour, ASPIRATE the RT mix into the tube. If you blow in
+air bubbles by accident, centrifuge and resuspend again.
+5. Stop aspirating beads into the tube once air bubbles are formed. If you do it right, only
+a small amount of RT mix should be left at the bottom of the tube.
+6. Remove any air and prime the pumps by dispensing at 5000 uL/h until no air is left in
+the micropipette tip.
+7. Plug the pipette tip into the designated inlet.
+4.2 Start the HyDrop run by priming all flows as follows:
+15m
+Cells: 200 ul/h
+Beads: 200 ul/h
+Oil: 100 ul/h
+Oil will show up first, as it is least viscous. When it does, reduce the oil flow to 50.
+Next, RT mix will show up. Put RT mix to 50 UL in order to not lose any sample while the
+beads are priming into the microfluidic chip.
+Once all three flows have reached the flow focusing point, increase the flow rates:
+Cells: 600 ul/h
+Beads; 150 ul/h
+Oil: 950 ul/h
+It is always up to the user to adjust the flow rates as necessary. When droplets are too
+large, either decrease cell and bead flow, or increase oil flow. When the total flow of the
+system is too high, delamination of the PDMS chip from the glass may occur.
+Now, when the droplet formation is stable, be ready to change the waste collection
+Eppendorf tube to the actual sample collection Eppendorf tubes. Put 50 uL total of
+emulsion into each 200 uL PCR tube. This can be calculated as follows, assuming you
+use flows as we describe above:
+Cell/RT flow + bead flow = 600 UL/h + 150 UL/h = 750 UL/h
+The cell/RT flow fraction = 600 UL/h / 750 UL/h = 0.8
+We can read the volume that a specific channel has pumped through on the DG Onyx
+control screen. We desire a total volume of 50 uL, thus:
+protocols.io I https:/dx.doi.org/10.17504/protocols.io.b4xwgxpe
+February 11, 2022
+9/17
+
+
+
+protocols.io Part of SPRINGER NATURE
+The volume of cell/RT in 50 uL of emulsion = 0.8 * 50 uL = 40 UL
+Thus, we monitor the cell/RT flow volume, and every time 40 UL has been dispensed, we
+switch the outlet to a new 200 uL PCR tube.
+Alternatively, you can collect everything into a 1.5 mL eppendorf tube, and aliquot your
+desired volumes to your PCR tubes. We try to avoid it as it may lead to merging droplets
+if you are not careful. Additionally, you will lose some of the emulsion to your pipetting as
+well as to the original 1.5 mL eppendorf tube.
+The run ends when the RT mix runs out. When this happens, you will see a change from
+aqeous RT mix to viscous mineral oil in the flow focus. Unplug the sample outlet tube and
+let the remains flow into the sample collection tubes.
+5
+Reverse Transcription
+2h
+Transfer the emulsions to a PCR block for the following program:
+A
+B
+C
+RT
+Prog
+ram
+42 C 90
+min
+Cycl
+e:
+50 C 2
+x11
+min
+42 C 2
+min
+85 C 5
+min
+4 C inf
+While RT is on, you can prepare GITC buffer and other components necessary in the
+later steps.
+CDNA Clean-up Stage
+3h
+6
+3h
+Droplet Breaking and Purification
+protocols.io I https:/dx.doi.org/10.17504/protocols.io.b4xwgxpe
+February 11, 2022
+10/17
+
+
+
+protocols.io Part of SPRINGER NATURE
+Now, we will break all the droplets and purify the CDNA, which is the result of our in-
+droplet reverse transcription reaction.
+6.1 Remove the bottom oil phase without disturbing the emulsion. It is not harmful to leave
+10m
+~10 UL of oil.
+Add 55 UL of the GITC Buffer and mix well.
+A
+B
+E
+GITC Buffer Stock
+Volume (uL) Final
+Unit
+GITC
+6
+834
+5
+M
+Tris HCL -
+1
+50
+50
+mM
+7.4
+EDTA
+0.5
+50
+25
+mM
+dH20
+66
+Add 125 ul of droplet breaking solution (20% PFO in HFE) to each sample. The emulsion
+will now break up into a single separated water/oil phase system. You can also use
+leftover 10x droplet breaking solution if you have it.
+Incubate at room temperature for 5 mins.
+Remove and discard the the oil phase without losing any of the aqeous phase. It's ok if
+some oil remains.
+6.2 Produce EB-DTT-Tween and EB-DTT. Keep in mind that you need at least 30 UL per
+20m
+sample.
+A
+B
+C
+D
+E
+EB-DTT-TW Stock
+Volume (uL) Final
+Unit
+DTT
+1000
+2
+10
+mM
+Tw
+10
+2
+0.1
+%
+EB
+196
+A
+B
+C
+D
+E
+EB-DTT-TW Stock
+Volume (uL) Final
+Unit
+DTT
+1000
+2
+10
+mM
+protocols.io I https:/dx.doi.org/10.17504/protocols.io.b4xwgxpe
+February 11, 2022
+11/17
+
+
+
+protocols.io Part of SPRINGERI NATURE
+A
+B
+E
+EB
+198
+Proceed with 0.9X Ampure XP purification as follows:
+1. Add 0.9 volumes of Ampure XP beads to the aqueous phase (99 UL).
+2. Mix well and incubate for 5 minutes at room temperature, mix again, and incubate for
+5 minutes more.
+3. Put the samples on a Nd magnet, wait a few minutes until the magnets separate well
+and the solution turns clear
+4. Discard the supernatant
+5. Gently add 300 uL of 80% EtOH, wait for 30 seconds, and remove. Perform this wash
+a total of 2 times. Make sure to not resuspend the Ampure beads during this step and
+to remove as much 80% EtOH after the last wash as possible.
+6. Air-dry the samples for 2 minutes.
+7. Resuspend the Ampure bead pellet in 30 ul of EB-DTT-T-Tween and transfer the
+supernatant to a fresh PCR tube
+6.3 Perform Exol clean-up to remove unused barcode primers. Prepare the following Exol
+15m
+mix per sample:
+A
+B
+C
+D
+Library
+Stock
+V (ul)
+Final
+NEBuffer 3.1 10X
+4
+1X
+Thermolabil
+4
+el Exo-I
+Library
+30
+dH20
+2
+Incubate at 37 C for 5 minutes followed by a denaturing heat shock at 80 C for 1 minute.
+6.4 Add 2 ul of 1M DTT to each sample and perform a second ampure purification on the
+15m
+samples, but now with 0.8 X volume (33.6 UL) of Ampure beads:
+1. Add 0.8 volumes of Ampure XP beads to the aqueous phase (33.6 UL).
+2. Mix well and incubate for 5 minutes at room temperature
+3. Put the samples on a Nd magnet, wait a few minutes until the magnets separate well
+and the solution turns clear
+4. Discard the supernatant
+protocols.io I https:/dx.doi.org/10.17504/protocols.io.b4xwgxpe
+February 11, 2022
+12/17
+
+
+
+protocols.io Part of SPRINGER NATURE
+5. Gently add 300 uL of 80% EtOH, wait for 30 seconds, and remove. Perform this wash
+a total of 2 times. Make sure to not resuspend the Ampure beads during this step and
+to remove as much 80% EtOH after the last wash as possible.
+6. Air-dry the samples for 2 minutes.
+7. Resuspend the SPRI bead pellet in 30 uL of EB-DTT and transfer the supernatant to a
+fresh PCR tube
+6.5 Perform S-PCR by preparing the following reaction mix for each sample:
+1h 15m
+A
+B
+Stock
+V (ul)
+2X KAPA
+200
+50
+HiFi PCR
+mix
+Library
+40
+SMART
+10
+10
+PCR primer
+(10 uM)
+Total:
+50
+Thermocycle the PCR mixes according to the following program:
+A
+B
+95 C
+3 min.
+13 cycles
+of:
+98 C
+20 S
+63 C
+20 S
+72 C
+3 min.
+Final cycle
+of:
+72 C
+5 min.
+4C
+Hold
+6.6 Add 2 ul of 1M DTT to each sample and perform a SPRI ourification on the samples, but
+15m
+now with 0.6 X volume (60 UL) of SPRI beads:
+protocols.io I https:/dx.doi.org/10.17504/protocols.io.b4xwgxpe
+February 11, 2022
+13/17
+
+
+
+protocols.io Part of SPRINGERI NATURE
+1. Add 0.8 volumes of SPRI beads to the aqueous phase (33.6 UL).
+2. Mix well and incubate for 5 minutes at room temperature
+3. Put the samples on a Nd magnet, wait a few minutes until the magnets separate well
+and the solution turns clear
+4. Discard the supernatant
+5. Gently add 200 uL of 80% EtOH, wait for 30 seconds, and remove. Perform this wash
+a total of 2 times. Make sure to not resuspend the SPRI beads during this step and to
+remove as much 80% EtOH after the last wash as possible.
+6. Air-dry the samples for 2 minutes.
+7. Resuspend the SPRI bead pellet in 28 UL of EB-DTT and transfer the supernatant to a
+fresh PCR tube
+6.7 Perform Qubit quantification and Agilent BioAnalyzer (or equivalent) quality control on
+30m
+the CDNA libraries. A good CDNA yield for 10k cells is 20 ng/ul or higher.
+NEB Ultra Library Preparation
+3h 45m
+7 NEB Ultra Library Preparation
+Here, we will follow a slightly modified NEB Ultra II protocol for samples of <= 100 ng of
+CDNA.
+7.1 Ensure that the Ultra Il FS Reaction Buffer is completely thawed. If a precipitate is seen in
+the buffer, pipette up and down several times to break it up, and quickly vortex to mix.
+Place on ice until use.
+Vortex the Ultra II FS Enzyme Mix 5-8 seconds prior to use and place on ice.
+Prepare the fragmentation reaction buffer as detailed below. Add a volume of CDNA
+library that corresponds to > 100 ng of CDNA total. 80 is a good number. If ~50-80 ng
+cannot be attained, use as much as you can, but be aware that the resulting library may
+not be of good quality.
+A
+B
+Volume (uL)
+(yellow) NEBNext Ultra II FS Reaction
+7
+Buffer
+(yellow) NEBNext Ultra II FS Enzyme Mix 2
+CDNA sample
+X
+EB buffer
+26-x
+protocols.io I https:/dx.doi.org/10.17504/protocols.io.b4xwgxpe
+February 11, 2022
+14/17
+
+
+
+protocols.io Part of SPRINGER NATURE
+A
+B
+Total:
+35
+Pipette mix the component well and incubate the tubes for fragmentation according to
+the following program:
+A
+B
+37 C
+10 min.
+65 C
+30 min.
+4 C
+Hold
+7.2 Add 15 ul of EB to each sample and perform a SPRI purification on the samples, but now
+with 0.8 X volume (40 uL) of SPRI beads:
+1. Add 0.8 volumes of SPRI beads to the aqueous phase (40 uL).
+2. Mix well and incubate for 5 minutes at room temperature
+3. Put the samples on a Nd magnet, wait a few minutes until the magnets separate well
+and the solution turns clear
+4. Discard the supernatant
+5. Gently add 200 uL of 80% EtOH, wait for 30 seconds, and remove. Perform this wash
+a total of 2 times. Make sure to not resuspend the SPRI beads during this step and to
+remove as much 80% EtOH after the last wash as possible.
+6. Air-dry the samples for 2 minutes.
+7. Resuspend the SPRI bead pellet in 35 UL of EB and transfer the supernatant to a fresh
+PCR tube
+7.3 Before use, mix the NEBNext Ultra II Ligation Master Mix and Ligation Enhancer by
+45m
+pipetting up and down. Prepare the adapter ligation mix as follows:
+A
+B
+Volume
+Fragmented DNA
+35
+(red) NEBNext Ultra II Ligation Master 30
+Mix
+protocols.io I https:/dx.doi.org/10.17504/protocols.io.b4xwgxpe
+February 11, 2022
+15/17
+
+
+
+protocols.io Part of SPRINGER NATURE
+A
+B
+(red) NEBNext Ligation Enhancer
+1
+(red) NEBNext Adaptor for Illumina
+2.5
+Total
+68.5
+Centrifuge briefly and mix the contents well by pipetting up and down.
+Incubate at 20°C for 15 minutes in a thermocycler with the heated lid off.
+Add 3 ul of (red) USERO Enzyme to the ligation mixture.
+Mix well and incubate at 37°C for 15 minutes with the heated lid set to 45°C
+7.4 Add 31.5 ul of EB buffer to top the samples off to 100 UL. Perform a SPRI purification on
+15m
+the samples, now with 0.8 X volume (80 UL) of SPRI beads:
+1. Add 0.8 volumes of SPRI beads to the aqueous phase (40 uL).
+2. Mix well and incubate for 5 minutes at room temperature
+3. Put the samples on a Nd magnet, wait a few minutes until the magnets separate well
+and the solution turns clear
+4. Discard the supernatant
+5. Gently add 200 ul of 80% EtOH, wait for 30 seconds, and remove. Perform this wash
+a total of 2 times. Make sure to not resuspend the SPRI beads during this step and to
+remove as much 80% EtOH after the last wash as possible.
+6. Air-dry the samples for 2 minutes.
+7. Resuspend the SPRI bead pellet in 30 UL of EB and transfer the supernatant to a fresh
+PCR tube
+7.5 Perform the final PCR with the following PCR mix:
+45m
+A
+B
+E
+Stock
+Volume
+Final
+Unit
+KAPA HiFi
+200
+50
+100
+%
+Hyi7-X
+10
+10
+1
+UM
+Hyi5-TS-X 10
+10
+1
+UM
+Library
+30
+Total:
+100
+Be sure to use a different i5 index for every sample!
+protocols.io I https:/dx.doi.org/10.17504/protocols.io.b4xwgxpe
+February 11, 2022
+16/17
+
+
+
+protocols.io Part of SPRINGER NATURE
+Perform the following thermocycling program:
+A
+B
+95 C
+3 min.
+13 cycles
+of:
+98 C
+20 S
+64 C
+30 S
+72 C
+30 S
+Final cycle:
+72 C
+5 min.
+4 C
+Hold
+7.6 Perform a SPRI purification on the samples, now with 0.8 X volume (80 UL) of SPRI
+15m
+beads:
+1. Add 0.8 volumes of SPRI beads to the aqueous phase (40 uL).
+2. Mix well and incubate for 5 minutes at room temperature
+3. Put the samples on a Nd magnet, wait a few minutes until the magnets separate well
+and the solution turns clear
+4. Discard the supernatant
+5. Gently add 200 ul of 80% EtOH, wait for 30 seconds, and remove. Perform this wash
+a total of 2 times. Make sure to not resuspend the SPRI beads during this step and to
+remove as much 80% EtOH after the last wash as possible.
+6. Air-dry the samples for 2 minutes.
+7. Resuspend the SPRI bead pellet in 30 UL of EB and transfer the supernatant to a fresh
+PCR tube
+7.7 Perform QuBit and BioAnalyzer quality control.
+30m
+The library is ready for sequencing.
+protocols.io I https:/dx.doi.org/10.17504/protocols.io.b4xwgxpe
+February 11, 2022
+17/17
+
+
+
+Sequence name
+Acrydite_primer
+TSO
+TSO-P
+HY17_1_CGCTCAGTTC
+HY17_2_TATCTGACCT
+HY17_3_ATATGAGACG
+HY17_4_CTTATGGAAT
+HY17_5_TAATCTCGTC
+HY17_6_GCGCGATGTT
+HY17_7_AGAGCACTAG
+HY17_8_TGCCTTGATC
+HY17_9_CTACTCAGTC
+HY17_10_TCGTCTGACT
+HY17_11_GAACATACGG
+HY17_12_CCTATGACTC
+HY17_13_TAATGGCAAG
+HY17_14_GTGCCGCTTC
+HY17_15_CGGCAATGGA
+HY17 16_ GCCGTAACCG
+HY15_1_TCGTGGAGCG
+HY15_2_CTACAAGATA
+HY15_3_TATAGTAGCT
+HY15_4_TGCCTGGTGG
+HY15_5_ACATTATCCT
+HY15_6_GTCCACTTGT
+HY15_7_TGGAACAGTA
+HY15_8_CCTTGTTAAT
+HY15_9_GTTGATAGTG
+HY15_10_ ACCAGCGACA
+HY15_11_CATACACTGT
+HY15_12_GTGTGGCGCT
+HY15_13_ATCACGAAGG
+HY15_14_CGGCTCTACT
+HY15_15_GAATGCACGA
+HYi5 16_ AAGACTATAG
+HY15_TruSeq_1_TCGTGGAGCG
+HY15_TruSeq_2_CTACAAGATA
+HY15_TruSeq_3_TATAGTAGCT
+HY15_TruSeq_4_TGCCTGGTGG
+HYi5 TruSeq 5 ACATTATCCT
+HY15_ATAC P_1_1 TCGTGGAGCG
+HY15_ATAC_P_2_CTACAAGATA
+HY15_ATAC_P_3_TATAGTAGCT
+HY15_ATAC_P_A_TGCCTGGTGG
+
+
+
+HY15 ATAC P 5 ACATTATCCT
+HyDrop_CustSeq_Short
+HyDrop CustSeq R2
+Anti-Acrydite_FAM
+Anti-ATAC_FAM
+Anti-RNA_FAM
+Anti-BC1_FAM
+Anti-BC2_FAM
+Anti-BC3 FAM
+
+
+
+Sequence
+75Acryd//iThioMC6-D/TTTTTTTTAATACGACTCACTATAGGGAAGCAGTGGTATCAACGCAGAGTAC
+AAGCAGTGGTATCAACGCAGAGAGTGAATrGrGrG
+AAGCAGTGGTATCAACGCAGAGT
+CAAGCAGAAGACGGCATACGAGAGATCGCTCAGTTCCTGTCCGCGCGGAAGCAGTGGTATATCAACGCAGAGT*A*C
+CAAGCAGAAGACGGCATACGAGAGATTATCTGACCTCTGTCCGCGCGGAAGCAGTGGTATATCAACGCAGAGT*A*C
+CAAGCAGAAGACGGCATACGAGAGATATATGAGAGACGCTGTCCGCGGAAGCAGTGGTATCAACGCAGAGT*A*C
+CAAGCAGAAGACGGCATACGAGAGATCTTATGGAATCTGTCCGCGGAAGCAGTGGTATCAACGCGCAGAGT*A*C
+CAAGCAGAAGACGGCATACGAGATTAATCTCGTCCTGTCCGCGCGGAAGCAGTGGTATCAACGCAGAGT*A*C
+CAAGCAGAAGACGGCATACGAGATGCGCGATGTTCTGTCCGCGGAAGCAGTGGTATCAACGCAGAGT*A*C
+CAAGCAGAAGACGGCATACGAGAGATAGAGCACTAGCTGTCCGCGCGGAAGCAGTGGTATCAACGCAGAGT*A*C
+CAAGCAGAAGACGGCATACGAGAGATTGCCTTGATCCTGTCCGCGCGGAAGCAGTGGTATCAACGCAGAGT*A*C
+CAAGCAGAAGACGGCATACGAGATCTACTCAGTCCTGTCCGCGGAAGCAGTGGTATCAACGCGCAGAGT*A*C
+CAAGCAGAAGACGGCATACGAGAGATTCGTCTGACTCTGTCCGCGCGGAAGCAGTGGTATCAACGCAGAGT*A*C
+CAAGCAGAAGACGGCATACGAGATGAACATACGGCTGTCCGCGCGGAAGCAGTGGTATATCAACGCAGAGT*A*C
+CAAGCAGAAGACGGCATACGAGAGATCCTATGACTCCTGTCCGCGGAAGCAGTGGTATCAACGCGCAGAGT*A*C
+CAAGCAGAAGACGGCATACGAGATTAATGGCAAGCTGTCCGCGGAAGCAGTGGTATCAACGCAGAGT*A*C
+CAAGCAGAAGACGGCATACGAGAGATGTGCCGCTTCCTGTCCGCGCGGAAGCAGTGGTATATCAACGCAGAGT*A*C
+CAAGCAGAAGACGGCATACGAGATCGGCAATGGACTGTCCGCGCGGAAGCAGTGGTATCAACGCAGAGT*A*C
+CAAGCAGAAGACGGCATACGAGATGCCGTAACCGCTGTCCGCGGAAGCAGTGGTATCAACGCAGAGT*A*C
+AATGATACGGCGACCACCGAGAGATCTACACTCTCGTGGAGCGTCGTCGGCAGCGTCAGATGTG
+AATGATACGGCGACCACCGAGATCTACACCTACAAGATATCGTCGGCAGCGTCAGATGTG
+AATGATACGGCGACCACCGAGATCTACACTATAGTAGCTTCGTCGGCAGCGTCAGATGTG
+AATGATACGGCGACCACCGAGATCTACACTGCCTGGTGGTCGTCGGCAGCGTCAGATGTG
+AATGATACGGCGACCACCGAGATCTACACACACATTATCCTTCGTCGGCAGCGTCAGATGTG
+AATGATACGGCGACCACCGAGAGATCTACACGTCCACTTGTTCGTCGGCAGCGTCAGATGTG
+AATGATACGGCGACCACCGAGATCTACACTGGAACAGTATCGTCGGCAGCGTCAGATGTG
+AATGATACGGCGACCACCGAGATCTACACCCTTGTTAATTCGTCGGCAGCGTCAGATGTG
+AATGATACGGCGACCACCGAGATCTACACGTTGATAGTGTCGTCGGCAGCGTCAGATGTG
+AATGATACGGCGACCACCGAGATCTACACACCAGCGACATCGTCGGCAGCGTCAGATGTG
+AATGATACGGCGACCACCGAGAGATCTACACCATACACTGTTCGTCGGCAGCGTCAGATGTG
+AATGATACGGCGACCACCGAGATCTACACGTGTGGCGCTTCGTCGGCAGCGTCAGATGTG
+AATGATACGGCGACCACCGAGATCTACACACATCACGAAGGTCGTCGGCAGCGTCAGATGTG
+AATGATACGGCGACCACCGAGATCTACACCGGCTCTACTTCGTCGGCAGCGTCAGATGTG
+AATGATACGGCGACCACCGAGATCTACACGAATGCACGATCGTCGGCAGCGTCAGATGTG
+AATGATACGGCGACCACCGAGAGATCTACACAAGACTATAGTCGTCGGCAGCGTCAGATGTG
+AATGATACGGCGACCACCGAGATCTACACTCGTGGAGCGACACACTCTTTCCCTACACACGACGCT
+AATGATACGGCGACCACCGAGATCTACACCTACAAGATAACACTCTTTCCTACACGACGCT
+AATGATACGGCGACCACCGAGATCTACACTATAGTAGCTACACACTCTTTCCCTACACACGACGCT
+AATGATACGGCGACCACCGAGATCTACACTGCCTGGTGGACACTCTTTCCTACACGACGCT
+AATGATACGGCGACCACCGAGAGATCTACACACACATTATCCTACACTCTTTCCCTACACGACGCT
+AATGATACGGCGACCACCGAGATCTACACTCGTGGAGCGTCGTCGGCAGCGTCAGAGATG*T*G
+AATGATACGGCGACCACCGAGATCTACACCTACAAGATATCGTCGGCAGCGTCAGATG*T*G
+AATGATACGGCGACCACCGAGATCTACACTATAGTAGCTTCGTCGGCAGCGTCAGAGATG*T*G
+AATGATACGGCGACCACCGAGATCTACACTGCCTGGTGGTCGTCGGCAGCGTCAGATG*T*G
+
+
+
+AATGATACGGCGACCACCGAGATCTACACACATTATCCTTCGTCGGCAGCGTCAGAGATG*T*G
+CTGTCCGCGGAAGCAGTGGTATCAACGCAGAGTAC
+GTACTCTGCGTTGATACCACTGCTTCCGCGGACAG
+/56-FAM/TTTTTGTACTCTGCGTTGATACCAC
+/56-FAM/AAAAAAACCGAGCCCCACGAGAC
+756-FAM/AAAAAAAAAAAAAAAAAAAAAA
+756-FAM/TTTTTCTATCCGTCAGTAC
+56-FAM/TTTTTACACGTTGTGGCAG
+/56-FAM/TTTTTCTCCTATCATAGGG
+V
+
+
+
+Purification Description
+HPLC
+Used when generating unbarcoded hydrogel beads. The barcode oligos anneal here during beac
+HPLC
+template: switching oligo present during in-droplet RT reaction in HyDrop-RNA
+STD
+primer for post-RT ISPCR (not yet indexing)
+STD
+i7 indexed primers used in HyDrop-ATAC and HyDrop-RNA
+STD
+STD
+STD
+STD
+STD
+STD
+STD
+STD
+STD
+STD
+STD
+STD
+STD
+STD
+STD
+STD
+i5-index primers used in PCR2 ofHyDrop-ATAC
+STD
+STD
+STD
+STD
+STD
+STD
+STD
+STD
+STD
+STD
+STD
+STD
+STD
+STD
+STD
+STD
+i5-index primers used to index hydrop-rna libraries after fragmentation
+STD
+STD
+STD
+STD
+STD
+i5-index primers used in PCR2 off HyDrop-ATAC, phosphorylated version (not used currently)
+STD
+STD
+STD
+
+
+
+STD
+HPLC
+custom i7 read primer forl hydrop-rna
+HPLC
+custom read 2 read primer for hydrop-rna
+STD
+fluorescent QC oligo against acrydite primer stub on unbarcoded beads. Used to quantify basel
+STD
+fluorescent QC oligo against ATAC capture site on ATAC beads
+STD
+fluorescent QC oligo against polyT capture site on RNA beads
+STD
+fluorescent QC oligo against a single barcode out of96 possibilities for BC1
+STD
+fluorescent QC oligo against a single barcode out of96 possibilities for BC2
+STD
+fluorescent QC oligo against a single barcode out of96 possibilities for BC3
+
+
+
+i barcoding.
+
+
+
+inel levels offluorescence on beads.

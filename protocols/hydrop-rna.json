@@ -4,7 +4,8 @@
   "references": {
     "scg_lib_structs": "https://teichlab.github.io/scg_lib_structs/methods_html/HyDrop_RNA.html",
     "paper": "https://elifesciences.org/articles/73971",
-    "protocol_pdf": null
+    "protocol_link": "https://www.protocols.io/view/hydrop-rna-v1-0-b4xwqxpe.pdf",
+    "protocol_pdf": "protocol_sources/hydrop-rna-v1-0-merged-oligonucleotides.pdf"
   },
   "library_sequence": "AATGATACGGCGACCACCGAGATCTACACIIIIIIIIIIACACTCTTTCCCTACACGACGCTCTTCCGATCTUUUUUUUUBBBBBBBBBBAGGGTACTCGBBBBBBBBBBGCAGTAGCTGBBBBBBBBBBGTACTCTGCGTTGATACCACTGCTTCCGCGGACAGIIIIIIIIIIATCTCGTATGCCGTCTTCTGCTTG",
   "segments": [

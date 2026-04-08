@@ -1,0 +1,1538 @@
+scifi-RNA-seq step-by-step protocol (v2021-01-25)
+Authors: Paul Datlinger (pdatinger@cemm.oeaw.acat), Thorina Boenke and Christoph Bock
+(cbock@cemm.oeaw.ac.at)
+Future updates of the protocol will be shared via http://scifi-rna-seq.bocklab.org and announced via
+https://twitter.com/Bocklab.
+Preparations prior to the experiment
+Prepare custom i7 transposome (Appendix A) and corresponding buffers (Appendix F), alternatively Illumina Nextera
+XT reagents can be used as described in step 10B
+For fixing cells, cool a 50 ml aliquot of 100% methanol at 4 °C
+Cool a 500 ml bottle of 1x PBS at 41 °C
+Thaw an aliquot of 10% BSA at 4 C overnight in the fridge
+Prepare 10%1 IGEPAL CA-630 solution 5 mli in 15 ml Falcon, vortex some minutes to dissolve, store in the dark at 4°C)
+Prepare plates with barcoded reverse transcription primers (1 ul of 25 LM per well, store at 20°)
+Buffer preparations on the day oft the experiment
+For scifi-RNA-seq without fixation, use the tables in Appendix D to prepare:
+PBS-BSA-SUPERase
+Nuclei Preparation Buffer
+Nuclei Wash Buffer
+Iff following the nuclei fixation protocol, use the tables in Appendix E to prepare:
+Nuclei Preparation Buffer without Digitonin and without Tween-20
+Nuclei Wash Buffer without Tween-20
+1% Formaldehyde in 1xPBS
+PBS-BSA-SUPERase
+DAY1 1
+1A Whole cell fixation (for cell lines)
+<Note> Cool centrifuge to 4 C and pellet cells at 300 rcf for 51 min throughout
+Transfer 5 million cells in growth medium to a 15 ml tube and pellet
+Wash once: with 10 ml of ice-cold 1x PBS (resuspending carefully) and pellet
+Fix cells in 5 ml ice-cold methanol at -20 °C for 10 min
+Wash 2x with. 5 ml ice-cold PBS-BSA-SUPERase
+Resuspend cells in 200 ul ofi ice-cold PBS-BSA-SUPERase
+Filter through cell strainer (40 um or 70 um depending on cell size)
+Use 5 ul of the sample for cell counting (in duplicates), dilute to 5,000 cells/ul with ice-cold PBS-BSA-SUPERase
+Proceed mmediately to step 2 (reverse transcription)
+1B Nuclei isolation (for cell lines)
+Transfer 5 million cells in growth medium to a 15 ml tube and pellet (300 rcf, 5 min, room temperature)
+Wash once with 10 ml ofi ice-cold 1x PBS and pellet (300 rcf, 5 min, 4 °C)
+Resuspend in 500 uli ice-cold Nuclei Preparation Buffer
+Incubate on ice for 5 min to lyse plasma membrane
+Add 5 ml ofi ice-cold Nuclei Wash Buffer and pellet (500 rcf, 5 min, 4 °C)
+Resuspend nuclei in 200 ul of ice-cold PBS-BSA-SUPERase
+Filter through cell strainer (40 um or 70 um depending on cell size)
+Use 5 ul of the sample for nuclei counting (in duplicates), dilute to 5,000 nuclei/ul with ice-cold PBS-BSA-SUPERase
+Proceed immediately to step 2 (reverse transcription)
+scifi-RNA-seq step-by-step protocol
+1
+
+
+
+1C Nuclei isolation with formaldehyde fixation (for primary cells, allows freezing)
+Transfer 5 million cells in growth medium to a 15 ml tube and pellet (300 rcf, 5 min, room temperature)
+Wash once with 10 ml ofi ice-cold 1x PBS and pellet (300 rcf, 5 min, 4 °C)
+Carefully resuspend in 500 uli ice-cold Nuclei Preparation Buffer without Digitonin and without Tween-20
+Incubate on ice for 5 min to lyse plasma membrane
+Add 5 ml ofi ice-cold Nuclei Wash Buffer without Tween-20 and pellet (500 rcf, 5 min, 41 °C)
+Remove: supernatant, resuspend in 5 ml of ice-cold 1% Formaldehyde in 1x PBS
+<Note> The exact percentage ofj formaldehyde should be optimized for the cell type and sample processed
+Fix on ice for 15 min, then: spin immediately (500 rcf, 5 min, 4 °C)
+Remove: supernatant (pellet is hard to see in this step)
+Add 1.5 ml ofi ice-cold Nuclei Wash Buffer without Tween-20, mix and transfer to 1.5 ml tube
+Spin (500 rcf, 5 min, 4 °C)
+Wash one more time with 1.5 ml of ice-cold Nuclei Wash Buffer without Tween-20
+Spin (500 rcf, 5 min, 4 °C)
+Remove: supernatant, carefully resuspend pellet in 200 ul ofi ice-cold Nuclei Wash Buffer without Tween-20
+<Note> Do not use. stickers to label the tubes. They come off during the snap-freezing.
+Snap-freeze in liquid nitrogen, then store at -80 °C <Safe Stopping Point>
+Thaw frozen samples in a water bath at 37 °C for exactly 1 min, then immediately place on ice
+Spin (500 rcf, 5 min, 4 °C)
+Remove: supernatant, and resuspend pellet in 250 ul ofi ice-cold Permeabilization Buffer, incubate for 5 min on ice
+Add 250 ul ofi ice-cold Nuclei Wash Buffer without Tween-20 per: sample
+Spin (500 rcf, 5 min, 4 °C)
+Wash with 250 ul ofi ice-cold Nuclei Wash Buffer without Tween-20 per sample
+Spin (500 rcf, 5 min, 4 °C)
+Take up in 100 ul of ice-cold PBS-BSA-SUPERase
+Use 5 ul of the sample for nuclei counting (in duplicates), dilute to 5,000 nuclei/ul with ice-cold PBS-BSA-SUPERase
+Proceed immediately to step 2 (reverse transcription)
+2F Reverse transcription (round 1 indexing)
+<Note>, Avoid harsh centrijugation, spin down platesj for a maximum of 30 sec at 50 rcf
+Set thermocycler to 55 C (incubation mode, with heated lid set to 60 °C)
+Thaw plate containing barcoded reverse transcription primers (1 ul of 25 LM per well) and place on ice
+Add 10,000 cells or nuclei (2 ul per well) to thej pre-dispensed primer, record well assignments
+Incubate for 5 min at 55 °C, then place on ice immediately (denaturation of RNA: secondary structures)
+Prepare Reverse Transcription Master Mix as described below and distribute into 12-tube strip on ice
+Reverse Transcription Master Mix
+Per reaction
+Number of 96WP
+384WP
+Component
+Volume (ul) Amount 1 2 3
+4
+Nuclease-free water
+3
+to 10 ul 330 660 990 1320 1416
+RTI buffer, 5x
+2
+1x
+220 440 660 880 944
+DTT, 100 mM
+0.5
+5 mM 55 110 165 220 236
+dNTPS, 10 mM
+0.5
+0.5 mM 55 110 165 220 236
+RNaseOUT RNase inhibitor (40 U/ul)
+0.5
+201 U
+55 110 165 220 236
+Maxima H Minus reverse transcriptase (200 U/ul)
+0.5
+100 U 55 110 165 220 236
+Dispense into 12-tube: strip for multichannel
+62 123 185 246 250
+Add 7 ul of Reverse Transcription Master Mix with a multichannel pipette and slowly pipette two times to mix
+Seal and spin plate (maximum of 30 sec at 50 rcf)
+scifi-RNA-seq step-by-step protocol
+2
+
+
+
+Incubate (with heated lid set to 60 °C):
+50 C for 10 min
+3 Cycles { 8 °Cf for 12 sec
+15 C for 45 sec
+20 °C for 45 sec
+30 C for 30 sec
+42 °C for 2 min
+50 °C for 3 min }
+50 °C for 5 min
+store at 4 °C
+3 Pooling and cell counting
+Cool two centrifuges suitable for 15 ml tubes and 1.5 ml tubes to 4 °C, thaw 10x Ampligase Buffer (Lucigen)
+Remove reverse transcription plate(s) from thermocycler, place on ice
+Add 40 ul (96WP) or 20 ul 384WP) of 1xPBS-1%BSA per well, then pool via a tube strip in a 15 ml tube on ice
+Wash with an additional 40 ul (96WP) or 20 ul (384WP) of 1xPBS-1%BSA per well, add to pool for maximum recovery
+Fill up to 15 ml with 1xPBS-1%BSA
+Pellet for 5 min at! 500 rcf at 4 °C and carefully remove: supernatant
+Slowly resuspend nuclei in 1.0 ml of 1x Ampligase Buffer (dilute Lucigen stock 1/10 with H20)
+Filter through cell strainer (40 um or 70 um depending on cell size) into 1.5 ml tube
+Pellet for 5 min at! 500 rcf at 4 °C and remove supernatant almost completely without disturbing the pellet
+<Note>, Aim for a remaining volume < 15 ul, which is the maximum input for the Thermocycling Ligation
+Centrifuge for 30 sec at! 500 rcf at 4 °Ct tol bring the remaining liquid to the bottom of the tube
+Dilute: sample prior to cell counting (typically a 1:200 dilution of 1 uls sample + 199 ul 1x Ampligase Buffer is countable)
+Load 20 ul into a Fuchs Rosenthal counting chamber (Incyto DHC-F01)
+Count five squares pers sample and calculate the cell concentration as follows
+Cells per ul= [(Cells int five: squares, / 5) x 200 (dilution factor): X 5000 (volume factor)] / 1000 (converts to cells per ul)
+4A Thermocycling ligation (round 2i indexing) using Chromium SCATACV1.0 reagents
+<Note>: Some parts of this section were adaptedj from the 10x Genomics documentation:
+CG000168 ChromiumSingleCellATAC_ ReagentKits_ UserGuide_ RevA.pdf
+<Note>. scifi-RNA-seq was tested for loading amounts of up to 765,000 nuclei per microfluidic channel
+<Note> The number of single-cell transcriptomes recovered depends on quality and transcript content of the sample
+Transfer up to 765,000 pre-indexed cells/nuclei to a tube-strip on ice
+Bring the volume to 15 ul with 1x Ampligase Buffer
+Thaw the following reagents from the 10x Chromium Single Cell ATAC v1.0 kit:
+SCATAC Gel Beads v1.0, Reducing Agent B
+Place Chromium Chip Ei in 10x Chip Holder and close
+For unused channels: add 75 ul (row 1), 40 ul (row 2) and 240 ul (row 3) of 50% glycerol solution
+Prepare Thermoligation Master Mix as described below, keep on ice
+Thermoligation Master Mix for SCATAC v1.0 chips and reagents
+Per reaction
+Number of channels (+ 10% overhead)
+Component
+Volume (ul) 1
+2
+3
+4
+5
+6
+7
+8
+Nuclease-free water
+47.4
+47.4 104.3 156.4 208.6 260.7 312.8 365.0 417.1
+Ampligase Buffer, 10x
+11.5
+11.5 25.3 38.0 50.6 63.3 75.9 88.6 101.2
+Ampligase Enzyme (100 U/ul)
+2.3
+2.3 5.1 7.6 10.1 12.7 15.2 17.7 20.2
+Reducing Agent B
+1.5
+1.5 3.3 5.0 6.6 8.3 9.9 11.6 13.2
+Bridge Oligo, 100 LM
+2.3
+2.3 5.1 7.6 10.1 12.7 15.2 17.7 20.2
+scifi-RNA-seq step-by-step protocol
+3
+
+
+
+Add 65 ul of Thermoligation Master Mix to each sample, bringing the volume to 80 ul
+Mix gently, then load 75 uli into Row 1 of the chip (bottom center, avoid air bubbles), wait > 30 sec to allow priming
+In the meantime, vortex 10x Gel Beads for 30: sec (use 10x Vortex Adapter) and bring contents tol bottom of the wells
+Load 40 ul of Gel Beads into Row 2 of the chip (bottom center, avoid air bubbles)
+Dispense 240 ul of Partitioning Oil into Row 3 of the chip (pipette along the wall of the inlet)
+Attach gasket, aligning the notch with the top left-hand corner of the chip
+Run chip on the 10x Chromium Controller (takes - 7 minutes, immediately proceed with next step)
+Place 8-tube strip on ice
+Remove chip from instrument, discard gasket and fold back chip holder lid to present wells at 45 degrees
+Transfer 100 ul of the emulsion into the tube strip on ice (very slowly, should take 20 sec in both directions)
+Incubate emulsion droplets in thermocycler (lid: 105 °C, volume: 100 ul) according to the program below:
+12 Cycles { 95 °C for 30 sec
+59 °C for 21 min
+store at 15 °C
+During the incubation:
+Thaw Cleanup Buffer for 10 min at 65 °C, check for precipitate, cool to room temperature
+Equilibrate to room temperature: Reducing Agent B, Dynabeads MyOne Silane, SPRIselect beads
+Proceed immediately with the cleanup steps
+4B Thermocycling ligation (round 2i indexing) using Chromium SCATACV1.1 (Next GEM) reagents
+<Note>. Some parts of this section were adaptedj from the 10x Genomics documentation:
+CG000209 Chromium_ NextGEM SingleCell_ ATAC ReagentKits v1.1_ UserGuide_ RevD.pdf
+<Note> We confirmedcompatibility with up to 100-fold droplet overloading (1.53 million nuclei per microfluidic chan-
+nel) and our thermoligation mechanism for the new Next GEM chip (Chromium chip H) and reagents
+<Note> The number of single-cell transcriptomes recovered depends on quality and transcript content of the sample
+Transfer up to 765,000 pre-indexed cells/nuclei to a tube-strip on ice
+Bring the volume to 15 ul with 1x Ampligase Buffer
+Thaw the following reagents from the 10x Chromium Single Cell ATAC v1.1 (Next GEM) kit:
+SCATAC Gel Beads v1.1 (Next GEM), Reducing Agent B
+Place Chromium Chip H in 10x Next GEM Chip Holder and close
+For unused channels: add 70 ul (row 1), 50 ul (row 2) and 40 ul (row 3) of 50% glycerol solution
+Prepare Thermoligation Master Mix as described below, keep on ice
+Thermoligation Master Mix for SCATAC v1.1 (Next GEM) chips and reagents
+Per reaction
+Number of channels (+ 10% overhead)
+Component
+Volume (ul) 1
+2
+3
+4
+5
+6
+7
+8
+Nuclease-free water
+41.9
+41.9 92.2 138.3 184.4 230.5 276.5 322.6 368.7
+Ampligase Buffer, 10x
+12
+12 26.4 39.6 52.8 66.0 79.2 92.4 105.6
+Ampligase Enzyme (100 U/ul)
+2.3
+2.3 5.1 7.6 10.1 12.7 15.2 17.7 20.2
+Reducing Agent B
+1.5
+1.5 3.3 5.0 6.6 8.3 9.9 11.6 13.2
+Bridge Oligo, 100 LM
+2.3
+2.3 5.1 7.6 10.1 12.7 15.2 17.7 20.2
+Add 60 ul of Thermoligation Master Mix to each sample, bringing the volume to 75 ul
+Mix gently, then load 70 uli into Row 1 of the chip (bottom center, avoid air bubbles), wait > 30 sec to allow priming
+In the meantime, vortex SCATAC Gel Beads v1.1 (Next GEM) for 30 sec (use 10x Vortex Adapter) and bring contents
+to bottom of the wells
+Load 50 ul of Gel Beads into Row 2 of the chip (bottom center, avoid air bubbles)
+Dispense 40 ul of Partitioning Oil into the outlet of the chip (labelled as Row3, bottom center, avoid air bubbles)
+scifi-RNA-seq step-by-step protocol
+4
+
+
+
+Attach gasket, aligning the notch with the top left-hand corner of the chip
+Run chip on the 10x Chromium Controller (takes - 18 minutes, immediately proceed with next step)
+Place 8-tube strip on ice
+Remove chip from instrument, discard gasket and fold back chip holder lid to present wells at 45 degrees
+Transfer 100 ul of the emulsion into the tube strip on ice (very slowly, should take 20 sec in both directions)
+Incubate emulsion droplets in thermocycler (lid: 105 °C, volume: 100 ul) according to the program below:
+12 Cycles { 95 Cf for 30 sec
+59 °C for 2 min
+store at 15 °C
+During the ncubation:
+Thaw Cleanup Buffer for 10 min at 65 °C, check for precipitate, cool to room temperature
+Equilibrate to room temperature: Reducing Agent B, Dynabeads MyOne Silane, SPRIselect beads
+Proceed immediately with the cleanup steps
+5.1 Silane bead cleanup
+<Note> From here onwards, the protocol is identical for SCATACV1.0 and v1.1 (Next GEM) reagents
+Add 125ul of Recovery. Agent to each sample at room temperature
+Invert ten times to mix, centrifuge briefly
+<Note> This results in a pink oil phase ati the bottom and a smaller aqueous phase containing the: sample on top
+Slowly remove 125 ul off the pink oil phase from the bottom of the tube, discard
+Prepare Dynabead Cleanup Master Mix as described below
+Dynabead Cleanup Mix
+Per reaction
+Number of channels (+ 10% overhead)
+Component
+Volume (ul) 1
+2
+3
+4
+5
+6
+7
+8
+Cleanup Buffer
+182
+182 400.4 600.6 800.8 1001.0 1201.2 1401.4 1601.6
+Dynabeads MyOne SILANE
+8
+8 17.6 26.4 35.2 44.0
+52.8
+61.6 70.4
+Reducing Agent B
+5
+5 11.0 16.5 22.0 27.5
+33.0 38.5
+44.0
+Nuclease-free water
+5
+5 11.0 16.5 22.0 27.5
+33.0 38.5 44.0
+Add 200 ul of Dynabead Cleanup Mix per sample, pipet mix
+Incubate for 10 min at room temperature
+Prepare Elution Solution as described below
+Elution. Solution I
+Per reaction
+Number of channels (+ 10% overhead)
+Component
+Volume (ul) 1
+2
+3
+4
+5
+6
+7
+8
+Buffer EB
+49
+49 107.8 161.7 215.6 269.5 323.4 377.3 431.2
+10% Tween 20
+0.5
+0.5 1.1 1.65 2.2 2.75
+3.3
+3.85
+4.4
+Reducing Agent B
+0.5
+0.5 1.1 1.65 2.2 2.75
+3.3
+3.85
+4.4
+Place tube strip on magnetic separator (position: high) until supernatant clears
+Remove and discard supernatant along with white precipitate at thel bottom of the tube
+Wash with 300 ul of 80% ethanol for 5 seconds, then wash with 200 ul of 80% ethanol for 5 seconds
+Spin tube strip, place on magnetic separator (position: low) and remove residual ethanol
+Remove from magnet and immediately add 40.5 ul Elution Solution! I
+<Note> Depending on the: sample and number of cells/nuclei, clumps can form. Shear them with a thin pipette tip. If
+clumps cannot be: suspended this way, try the column-based cleanup described in Appendix G.
+Incubate for 1 min at room temperature to elute sample from beads
+Place on magnetic separator (position: low) and transfer 40 ul of each sample to a fresh tube strip
+scifi-RNA-seq step-by-step protocol
+5
+
+
+
+5.2SPRI cleanup
+Add 40 ul of SPRIselect beads (ratio 1.0x) per: sample
+Pipet mix andi incubate for 51 min at room temperature to allow DNA binding to the beads
+Place on magnetic separator (position: high) until supernatant clears
+Wash twice with 200 ul of 80% ethanol
+Spin tube strip briefly, then place on magnetic separator (position: low) and remove residual ethanol
+Resuspend beads in 22 ul of EB Buffer, and incubate 21 min at room temperature to elute sample from beads
+Place on magnetic separator (position: low) and transfer 20 ul of each sample to a fresh tube strip
+6T Template switching
+Prepare Template Switching Master Mix as described below
+Template: Switching Master Mix
+Per reaction
+Number of reactions (+ 10% overhead)
+Component
+Volume (ul) 1
+2
+3
+4
+5
+6
+7
+8
+RTI buffer, 5x
+10
+10
+22
+33
+44
+55
+66
+77
+88
+Ficoll PM-400, 20%
+10
+10
+22
+33
+44
+55
+66
+77
+88
+dNTPS, 10 mM
+5
+5
+11 16.5 22 27.5 33 38.5 44
+Recombinant Ribonuclease Inhibitor
+1.25
+1.25 2.75 4.13 5.5 6.88 8.25 9.63 11
+Template Switching Oligo, 100 LM
+1.25
+1.25 2.75 4.13 5.5 6.88 8.25 9.63 11
+Maxima H Minus reverse transcrip-
+2.5
+2.5 5.5 8.25 11 13.75 16.5 19.25 22
+tase (200 U/ul)
+Add 30 ul of Template Switching Master Mix per: sample, mix and incubate (heated lid: 60 °C):
+25 °C for 30 min
+42 C for 90 min
+store at 4 °C
+<Safe stopping point> Samples can be left in the thermocycler overnight, and stored at 4 °Cfor several days.
+scifi-RNA-seq step-by-step protocol
+6
+
+
+
+DAY 2
+7SPRI cleanup (1.0x)
+Add 50 ul of AMPure XP beads (ratio 1.0x) per: sample
+Pipet mix and incubate for 10 min at room temperature to allow DNA binding to the beads
+Place on magnetic separator until supernatant clears
+Wash two times with 100 ul of 80% ethanol
+Remove residual ethanol by pipetting
+Resuspend beads in 17 ul of EB Buffer, and incubate 2 min at room temperature to elute sample from beads
+Place on magnetic separator and transfer 15 ul of each sample to a fresh tube strip
+80 CDNA enrichment
+Prepare CDNA Enrichment Master Mix as described below
+CDNA Enrichment Master Mix
+Per reaction
+Number of reactions (+ 10% overhead)
+Component
+Volume (ul) 1
+2
+3
+4
+5
+6
+7
+8
+Nuclease-free water
+33
+33 72.6 108.9 145.2 181.5 217.8 254.1 290.4
+NEBNext High Fidelity 2x Master Mix
+50
+50 110 165 220 275 330 385 440
+Partial-P5 Primer, 100 LM
+0.5
+0.5 1.1 1.65 2.2 2.75 3.3 3.85 4.4
+TSO Enrichment Primer, 100 LM
+0.5
+0.5 1.1 1.65 2.2 2.75 3.3 3.85 4.4
+SYBR Green, 100x in DMSO
+1
+1 2.2 3.3 4.4 5.5 6.6 7.7 8.8
+Add 85 ul of CDNA Enrichment Master Mix per sample, bringing the volume to 100 ul
+Run reactions in qPCR cycler (heated lid: 105 °C)
+<Note> When. samples reach. > 1000 RFU, pause run after the plate read andt transfer samples to second thermocycler.
+Then resume runj for any remaining samples that needj further enrichment. We are using a BioRad C1000 Touch ther-
+mocycler and CFX96 qPCR module. RFU values corresponding to sufficient CDNA might be system-specijic.
+98 °Cfor 30 sec
+Cycle and stop when RFU > 1000 RFU { 98 °C for 20 sec
+65 °C for 30 sec
+72 °C for 3 min, plate read }
+72 °Cf for 5 min (in second thermocycler)
+store at 4 C
+90 CDNA cleanup (0.8x, 0.6x) and quality control
+Add 80 ul of AMPure XP beads (ratio 0.8x) per: sample
+Pipet mix and incubate for 10 min at room temperature to allow DNA binding to the beads
+Place on magnetic separator until supernatant clears
+Wash two times with 100 ul of 80% ethanol and remove residual ethanol by pipetting
+Resuspend beads in 42 ul of EB Buffer, and incubate 2 min at room: temperature to elute sample from beads
+Place on magnetic separator and transfer 40 ul of each sample to a fresh tube strip
+Add 60 ul of nuclease-free water to bring the sample volume to 100 ul
+Add 60 ul of AMPure XP beads (ratio 0.6x) per: sample
+Pipet mix andi incubate for 10 min at room temperature to allow DNA binding to the beads
+Place on magnetic separator until supernatant clears
+Wash two times with 100 ul of 80% ethanol and remove residual ethanol by pipetting
+Resuspend beads in 17 ul of EB Buffer, and incubate 2 min at room temperature to elute sample from beads
+Place on magnetic separator and transfer 15 ul of each sample to a fresh tube strip
+Use 1 ul of each: sample to measure the concentration of double-stranded DNA with the Qubit HS assay
+Load 1.5 ng on the Bioanalyzer High Sensitivity DNA chip to check the size distribution of the CDNA
+<Note> The size distribution of a typical CDNA library is shown in Appendix B, Figure 1a
+scifi-RNA-seq step-by-step protocol
+7
+
+
+
+10A Tagmentation with i7-only transposome
+<Note> Wel haver tested thel Illumina Nextera. XTK kit (Illumina #15032350) as replacement) for the custom i7-only trans-
+posome, and obtained comparable results. The use of Nextera reagents (which are a mix of i5 and i7 transposomes)
+results in a 50% loss of library, fragments, but this does not seem to affect the library quality since CDNA is already
+enriched at this point. In this step, we describe the i7-only tagmentation, which we consider conceptually cleaner,
+cheaper and more versatile. In. step 10B, we describe the tagmentation with Illumina Nextera XT reagents.
+Dilute CDNA to 0.2 ng/ul with nuclease-free water
+Per tagmentation reaction, distribute 5 ul (1 ng) into a 96-well plate on ice
+<Note> Tagment entire: sample forr maximum library complexity. Typically, 6-15 tagmentations of 1 ng are required.
+Prepare Tagmentation Master Mix as described below
+Tagmentation Master Mix
+Component
+Per reaction [ul] Number of reactions (+ 10% overhead)
+X
+Nuclease-free water
+11.25
+Tn5 Reaction Buffer, 5x
+5
+Dimethylformamide
+2.5
+Freshly diluted i7-only transposome
+1.25
+(1:4.5 in Tn5 Dilution Buffer)
+Add 20 ul of Tagmentation Master Mix per well and mix by pipetting
+Incubate for 10 min at 55 C
+Place reactions on ice for 1 min
+Add 2.5 ul of 1% SDS: solution, mix by pipetting and incubate for 5 min at room temperature
+Add 22.5 ul of nuclease-free water per well
+Add 50 ul of AMPure XP beads (ratio 1.0x) per: sample
+Pipet mix and incubate for 10 min at room temperature to allow DNA binding to the beads
+Place on magnetic separator until supernatant clears
+Wash two times with 100 ul of 80% ethanol, then remove residual ethanol by pipetting
+Resuspend beads in 17 ul of EB Buffer, and incubate 2 min at room temperature to elute sample from beads
+Place on magnetic separator and transfer 15 ul of each: sample to a fresh plate
+Add! 5 ul of 10 LM barcoded P7 primer per well
+<Note> If processing samples for a 2-color. sequencer (such as the Illumina NovaSeq 6000 platform) sequencing com-
+plexity of Index1 can be increased by using multiple P7 primers per. sample.
+Prepare Enrichment PCR Master Mix as described below
+Enrichment PCR Master Mix
+Component
+Per reaction [ul] Number of reactions (+: 10% overhead)
+NEBNext High Fidelity 2x Master Mix
+50
+Partial-P5 Primer, 100 LM
+0.5
+SYBR Green, 100x in DMSO
+1
+Nuclease-free water
+28.5
+Primer name
+Sequence
+Index*
+Partial-P5
+AATGATACGGCGACCACCGAGA
+Noi index
+P7-001
+CAAGCAGAAGACGGCATACGAGATTCGCCTTAGTCTCGTGGGCTCGG
+TAAGGCGA
+P7-002
+CAAGCAGAAGACGGCATACGAGATCTAGTACGGTCTCGTGGGCTCGG
+CGTACTAG
+P7-003
+CAAGCAGAAGACGGCATACGAGATTTCTGCCTGTCTCGTGGGCTCGG
+AGGCAGAA
+P7-004
+CAAGCAGAAGACGGCATACGAGATGCTCAGGAGTCTCGTGGGCTCGG
+TCCTGAGC
+P7-005
+CAAGCAGAAGACGGCATACGAGATAGGAGTCCGTCTCGTGGGCTCGG
+GGACTCCT
+scifi-RNA-seq step-by-step protocol
+8
+
+
+
+P7-006
+CAAGCAGAAGACGGCATACGAGATCATGCCTAGTCTCGTGGGCTCGG
+TAGGCATG
+P7-007
+CAAGCAGAAGACGGCATACGAGATGTAGAGAGGTCTCGTGGGCTCGG
+CTCTCTAC
+P7-008
+CAAGCAGAAGACGGCATACGAGATCAGCCTCGGTCTCGTGGGCTCGG
+CGA AGGCTG
+Samplei index (17, Index1); *Index sequences: are colored according to thel lasers used by the NovaSeq 6000 2-color sequencing
+chemistry, red: red laser, green: green laser, yellow: both lasers, black: dark cycle.
+Add 80 ul of Enrichment PCR Master Mix per well and mix by pipetting
+Run reactions in qPCR cycler (heated lid: 105 °C)
+<Note> When samples reach > 4000 RFU, pause run after thej plate. read and transfer samples to: second thermocycler.
+Then resume runj for any remaining: samples that needj further enrichment. We are using a BioRad C1000 Touch ther-
+mocycler and CFX96 qPCR module. RFU values corresponding to: sufficient library might be system-specific.
+72 °Cf for 3 min (for end fill-in after tagmentation)
+98 °Cf for 30 sec
+Cycle and stop when >> 4000 RFU {
+98 °C for 10 sec
+65 °C for 30 sec
+72 °C for 30 sec, plate read
+72 °Cfor 5 min (in second thermocycler)
+store at 4 C
+10B Tagmentation with Illumina Nextera XT reagents
+Dilute CDNA to 0.2 ng/ul with nuclease-free water
+Peri tagmentation reaction, distribute 5 ul (1 ng) into a 96-well plate on ice
+<Note> Tagment entire sample for maximum library complexity. Typically, 6-15 tagmentations of 1 ng are required.
+Prepare Tagmentation Master Mix with reagents from the Nextera XT kit (Illumina #15032350) as described below
+Tagmentation Master Mix
+Component
+Per reaction [ul] Number of reactions (+: 10% overhead)
+X
+Nextera TD buffer
+10
+Amplicon Tagment Enzyme
+5
+Add 15 ul of Tagmentation Master Mix per well and mix by pipetting
+Incubate for 5 min at 55 °C
+Add 51 ul of Neutralization Buffer per well (Nextera XT kit, #15032350) and incubate for 5 min at room temperature
+Place reactions on ice for 1 min
+Add 2.5 ul of 10 UM barcoded P7 primer per well
+<Note> If processing: samplesj for a 2-color. sequencer (such as the Illumina NovaSeq 6000 platform). sequencing com-
+plexity ofl Index1 can be increased by using multiple P7 primers per. sample.
+Prepare Enrichment PCR Master Mix as described below
+Enrichment PCR Master Mix
+Component
+Per reaction [ul] Number of reactions (+: 10% overhead)
+X
+Nuclease-free water
+6.75
+Nextera PCR mix
+15
+Partial-P5 Primer, 100 UM
+0.25
+SYBR Green, 100x in DMSO
+0.5
+Add 22.5 ul of Enrichment PCR Master Mix per well and mix by pipetting
+Run reactions in qPCR cycler (heated lid: 105 °C)
+scifi-RNA-seq step-by-step protocol
+9
+
+
+
+<Note> When. samples reach > 4000 RFU, pause run after the plate read and transfer samples tosecondt thermocycler.
+Then resume runj for any remaining samples that needf further enrichment. We are using a BioRad C1000 Touch ther-
+mocycler and CFX96 qPCR module. RFU values corresponding to: sufficient library might be system-specific.
+72 °Cf for 3 min (for end fill-in after tagmentation)
+98 °C for 30 sec
+Cycle and stop when > 4000 RFU{
+98 °C for 10 sec
+65 C for 30 sec
+72 °C for 30 sec, plate read
+72 °C for 5 min (in second thermocycler)
+store at 4 C
+11 Library cleanup (0.7x, 0.8x) and quality control
+Add 70 ul of AMPure XP beads to each PCR reaction (0.7x ratio)
+Pipet mix, and incubate for 10 min at room temperature to allow DNA binding to the beads
+Wash twice with 200 ul 80% ethanol, then remove residual ethanol
+Resuspend bead pellets in 27 ul ofl EB Buffer, incubate for 2 min at room temperature to elute
+Place on magnetic separator, transfer 251 ul of sample to a fresh plate
+Pool all reactions with the same P7 index in a 1.5 ml tube
+Add. AMPure. XP beads at a ratio of 0.8x
+Pipet mix, and incubate for 10 min at room temperature to allow DNA binding to the beads
+Wash twice with 200 ul 80% ethanol, then remove residual ethanol
+Resuspend bead pellets in 0.21 bead volumes, incubate for 2 min at room temperature to elute
+Place on magnetic separator, transfer sample to a fresh tube
+Measure final library concentration with the Qubit High-Sensitivity DNA assay
+Run 1.5 ng on a Bioanalyzer High Sensitivity DNA chip
+<Note> The size distribution of a typical scifi-RNA-seq library. is shown in Appendix B, Figure 1b
+121 Next-generation sequencing on the Illumina NovaSeq 6000 platform
+Dilute libraryt to 2.0 nM with EB + 0.1% Tween-20 and submit for sequencing
+The volume of 2.0 nM library required for loading differs between flow cells
+<Note> Choose reagent kit depending on the number of cells in the library. Aim for at least 10,000 reads per cell.
+NovaSeq 6000
+Flow Cell Type Loading Volume [ul]
+SP
+100
+S1
+100
+S2
+150
+Illuminal NovaSeq 6000 Run Parameters
+NovaSeq 6000: SPI Reagent Kit (100 Cycles), Illumina #20027464
+Reagent Kits
+NovaSeq 6000: S1 Reagent Kit (100 Cycles), Illumina #20012865
+NovaSeq 6000: S2 Reagent Kit (100 Cycles), Illumina #20012862
+Read 1:: 21 bases
+Index 1 (17): 81 bases
+Read Structure
+Index 2 (5): 161 bases
+Read 2: 78 bases
+scifi-RNA-seq step-by-step protocol
+10
+
+
+
+Appendix A Preparation of the custom i7-only transposome and activity check
+<Note> Nextera XT reagents can be used as replacement for the i7-only transposome with comparable results
+Oligonucleotides for custom i7-only transposome: assembly
+Oligol ID
+Oligo sequence (5'>3 3']
+Tn5-top_ME
+[5PhOos]CTGTCTCTTATACACATCT
+Tn5-bottom_ Read2N GTCTCGTGTGGGCTCGGAGATGTGTATAAGAGAGACAG
+Functional elements
+5' phosphorylation (required for transposition: mechanism)
+mosaic end for association with Tn5 transposase
+i7 primer binding site: for enrichment PCR
+Step 1 Anneal oligonucleotides
+Prepare Annealing Buffer as described in Appendix F
+Dissolve lyophilized oligonucleotides at 100 LM in EB buffer
+Set up annealing reactions according to the table below
+Anneal oligonucleotides for transposome assembly
+Per reaction
+Component
+Volume
+Amount
+Tn5-top_ME, 100 LM
+22.51 ul
+45 LM
+Tn5-bottom Read2N, 100 uM
+22.5 ul
+45 uM
+Annealing Buffer, 10x
+5ul
+1x
+Anneal in thermocycler: 95 °C for 3 min, 70 °C for 3 min, ramp to 25 C at a rate of 2' C per minute
+Add 180 ul of nuclease-free water to the annealed oligonucleotides and mix
+<Safe stopping point> The diluted oligo cassette can be aliquoted andj frozen for future transposome assemblies
+Step 21 Load Tn5 transposase
+Mix 201 ul off the diluted oligo cassette from the previous step with 20 ul of 100% glycerol
+<Note> Glycerol is extremely viscous, use slow reverse pipetting
+Add 10 ul of EZ-Tn5 Transposase (Lucigen #TNP92110) and mix well by pipetting
+Incubate for 30 min at 25 Ci in a thermocycler
+Store at -20 C until ready to use
+Step 3 (Optional) Test activity of custom i7-only transposome in a qPCR assay
+<Note> This optional test allows to compare the activity of the custom i7-only Tn5 with that of the ATAC Enzyme
+provided by. 10x Genomics as a reference. Generally, a 1:4.5 dilution of custom Tn5 works well, but in case of prob-
+lems with the tagmentation step this test can bei performed.
+<Note> Tagmented DNA flanked by two Illumina i7 adapters is suppressed in PCR reactions due to competition be-
+tween intramolecular annealing and primer binding. Our custom i7-only transposome is therefore tested in a nega-
+tive qPCR assay. Briefly, a defined PCR product is subjected to one tagmentation reaction and one no-enzyme con-
+trol reaction. Both samples are then re-amplified with the. same primers in a second qPCR reaction. Since the tag-
+mentation fragments the PCR product, the corresponding reaction should yield higher Ct values. The tagmentation
+efficiency can then be calculated from the shift of Ct values.
+scifi-RNA-seq step-by-step protocol
+11
+
+
+
+Set up PCR reactions as indicated in the table below
+PCR product for tagmentation test
+Per reaction
+Component
+Volume per 6.6 reactions Amount per reaction
+pUC19 plasmid (NEB, 50 pg/ul)
+33ul
+250 pg
+Q51 HotStart High-Fidelity Master Mix, 2x
+165 ul
+1x
+pUC19-FWD AAGTGCCACCTGACGTCTAAG), 100 uM
+1.65 ul
+500 nM
+PUC19-REV CAACAATTAATAGACTGGATGGAGGCGG), 100 LM
+1.65 ul
+500 nM
+Nuclease-free water
+128.7 ul
+to 50 ul
+Distribute 50 uli into: six wells of a tube strip
+Run PCR in a thermocycler:
+98 °Cfor 30 sec
+31 cycles { 98 °C for 10 sec
+68 °Cfor 30 sec
+72 °C for 1 min }
+72 °C for 2 min, storage at 12 C
+To each 50 ul PCR reaction, add 6.25 ul of CutSmart Buffer (10x) and 6.25 ul of Dpnl
+Incubate at 37 °Cfor 1 hour, 80 °C for 20 min, storage at 12 °C
+<Note> This step digests the template plasmid
+Pool the six PCR reactions in a 2 ml tube, add 5 volumes (1500 ul) of PB Buffer (QiaQuick PCR Purification Kit), mix
+Continue with QiaQuick PCR purification using two columns, elute in 30 ul EB buffer each and pool
+Measure Qubit HS of a 1/10 dilution and dilute the PCR product to 25 ng/ul with EB buffer
+<Note> This typically results in about 400 ul of 25 ng/ul solution
+Run 100 ng (4 ul) of PCR product on a 1% agarose gel containing ethidium bromide, next to 500 ng (1 ul) of Gene-
+Ruler 1 kb DNA Ladder
+<Note> The size of the desired band is 1961 bp
+Set up tagmentation reactions as indicated below
+Tagmentation Test Master Mix
+Per 3.3 reactions
+Component
+Volume
+Amount per reaction
+pUC19 PCR product from above (25 ng/ul)
+6.6ul
+50r ng
+ATAC Buffer from 10x Genomics Single Cell ATAC Kit
+23.1 ul
+N/A
+Transfer 9 ul of Tagmentation Test Master Mix to three wells of a tube strip on ice
+Add nuclease-free water and Tn5 enzymes as indicated below
+Tagmentation Test Conditions
+Tagmentation
+Positive Negative
+Component
+Control Control
+Test
+ATAC Enzyme from 10x Genomics Single Cell ATAC Kit
+3
+Custom i7 transposome
+6
+Nuclease-free water
+3
+6
+Incubate at 37 °C for 60 min, storage at 4 °C
+Add 1.75 ul of 1%: SDS solution and incubate at 70 °C for 10 min to dissociate Tn5 from the DNA
+Dilute reactions 1/100 with EB buffer
+scifi-RNA-seq step-by-step protocol
+12
+
+
+
+Run qPCR reactions in triplicates, as indicated below
+qPCR reactions for transposome activity check
+Per reaction
+Component
+Volume
+Amount
+Tagmentation reaction (1/100 diluted)
+2ul
+GoTaq qPCR Master Mix, 2x
+10ul
+1x
+FWD primer (AAGTGCCACCTGACGTCTAAG), 100 LM
+0.1ul
+500 nM
+REV primer CAACAATTAATAGACTGGATGGAGGCGG), 100 LM
+0.1ul
+500 nM
+Nuclease-free water
+7.8 ul
+to 201 ul
+Run qPCR reactions in thermocycler:
+95 °Cfor 2 min
+40 cycles { 95 °Cfor 30 sec
+68 C for 30 sec
+72 °Cfor 2 min + plate read }
+stop when plateau is reached
+Calculate tagmentation efficiency for each condition as:
+Tagmentation efficiencyl [%] = 100- (100 /(2 (average CtSample. - average CtNegative Controly)
+scifi-RNA-seq step-by-step protocol
+13
+
+
+
+Appendix B Expected results
+a Enriched CDNA, typical size distrib tion
+Illumina NovaSeq6 6000: percent base
+Nucleir recovery after reverse transcription
+80- -
+50
+10.0- Material type
+100-
+60-
+Celli lines
+40
+7.5. Primary cells
+75
+40-
+[
+2
+& 30
+20-
+% 20
+Iso
+50-
+
+10
+8
+0 of
+a
+35 150 300 500 1000 10380
+0 20 40 60 80 100 120 2.5-
+*
+25-
+Fragment length [bp]
+I
+Sequencing cycle
+:
+0.0-
+b Finals scifi-RNA-S seql library, typical size distribution
+d Illuminal NovaSeq 6000: Qscore
+%Max 0.0 2.5 5.0 7.5 10.0 Cell Primary
+40
+Input nucleif for reverset transcription (million) lines cells
+60
+30
+2 40-
+8 20
+Nucleiw with pre- indexedt transcriptome under microscope
+20-
+8
+10
+10x
+35 150 300 600 10380
+0 20 40 60 80 100 120
+Fragment length [bp]
+Sequencing cycle
+e Illuminal NovaSeq 6000: Sequencing Metrics
+3
+B
+à
+E
+o
+in En
+I 5
+40x
+SP BSF_ 0666 Human/Mouse3 383k
+05 93.
+SP BSF_0684 Human,primaryTcells
+1.8 0.78 89.5% 61.3% 84.2%
+SP BSF_ 0693 MeOH fixed cells, nuclei, fixed nuclei
+2.4 1.00 37. 7% 78.4 4% 93.1%
+SP BSF_0726 scifi-RNA-seqvs.1 10xGenomics
+2.0 1.00 86.5% 78.2% 94.8%
+S1 BSF_ 0670 Human/Mouse 383k
+1.8 2.05 34. .0% 80.1 1% 92.7 %
+S1 BSF_0758 sdf-RNA-e@sCATACLOV. NextGEM
+2.0 2.06 90.3% 80.5% 93.5%
+S2 BSF_0674 human cell lines 383k
+2.0 4.14 93.5% 71.8% 91.29 %
+Human/Mouse7 765k
+S2 BSF_0678 4human.cell Human/Mouse7 lines 765k 383k
+2.1 4.19 95.0% 72.8% 91.3%
+S2 BSF_ 0688 Humanp primary cells
+7 4.34 92.0% 75.4% 92.2%
+S2 BSF_0774 4humance cell lines 7.5k(intacto cells, nuclei, MeOH-f fixedo cells) 2.2 4.16 94.4% 72.2% 92.7%
+Single-cell CRISPRS screenforT TCRA activation
+Figure 1 Expected results for scifi-RNA-seq. a) Typical size distribution of enriched CDNA obtained using
+scifi-RNA-seq. b) Typical size distribution of a final scifi-RNA-seq libraryreadyi for next-generation sequenc-
+ing. c) Distribution of DNA bases along scifi-RNA-seq sequencing reads, showing the characteristic se-
+quence patterns of the UMI, round1 barcode, round2 barcode, sample barcode, and transcript. d)
+Heatmap showing sequencing quality (Qscore) for each sequencing cycle. e) Table summarizing all No-
+vaSeq 6000 sequencing runs performed for the scifi-RNA-seq paper. scifi-RNA-seq was thoroughly tested
+with NovaSeq SP, S1, and S2 reagents. The table also contains information on the type of samples that
+were pooled for a particular run. f) Nuclei recovery after pre-indexing of the whole transcriptome by re-
+verse transcription. scifi-RNA-seq achieves high recovery rates for both cell lines and primary material. g)
+Nuclei with pre-indexed transcriptome, prior to microfluidic device loading, visualized under a microscope
+in a counting chamber. The selected images show nuclei derived from human primary T cells.
+scifi-RNA-seq step-by-step protocol
+14
+
+
+
+Appendix CI Materials
+Reagent (alphabeticalorder)
+Supplier
+Cat. No.
+Commento onuse
+Agarose
+Sigma
+A9539-1 100G customi i7-only Tn5 activity check
+Agilent Bioanalyzer Highs Sensitivity DNA chip
+Agilent
+5067-4626 scifi-RNA-S seql library prep
+Ampligase Enzyme &E Buffer, Higho Concentration( (100U U/ul)
+Lucigen
+A0102K
+scifi-RNA- seqli libraryp prep
+AMPure> XPE beads
+Beckman Coulter
+A63880
+scifi-RNA- seql library prep
+BSA
+Sigma
+A7030-5 50G scifi- RNA- -seq library prep
+Cells strainer 40u um
+A. Hartenstein
+Z540
+scifi- RNA- seql library prep
+Cells strainer7 70L um
+A. Hartenstein
+ZS70
+scifi- RNA- seqli library prep
+Chromiums Single CellA ATACI Library & Gel Beadk Kit, 16n rxns
+10x Genomics
+1000110
+scifi-F i-RNA- seqli library,prep
+Chromium Single Celle EChip Kit, 48n rxns
+10xG Genomics
+1000082
+scifi- RNA- seql library prep
+Counting Chamber, Fuchs Rosenthal
+Incyto
+DHC-F01
+scifi-F RNA- seql library prep
+Digitonin, 2%
+Promega
+G944A
+scifi-RNA- seql library prep
+Dimethyfformamide
+Sigma
+D4551-2 250ML scifi-RNA- seqli library prep
+dNTPs, 10mM
+Thermo Fisher Scientific R0193
+scifi-RNA- seql library prep
+Dpnl
+NEB
+RO176L
+custom i7- only Tn5 activityd check
+DTT
+Sigma
+646563- -10x5ML scifi-F RNA- seqli library prep
+EBBuffer
+Qjagen
+19086
+scifi- -RNA- -seqli libraryprep
+EDTA, 0.5M
+Invitrogen
+AM9260G
+custom i7- -only Tn5 activity check
+Ethanol, absolute
+Merck
+603-002-00-5 scifi- -RNA- -seq! library prep
+Ethidium bromide
+AppliChem
+A2273,0015 custom i7- -only Tn5 activity check
+EZ-Tn5 Transposase
+Lucigen
+TNP92110 scifi-RNA- -seqli library prep
+Ficoll PM-400
+Sigma
+F5415-50ML scifi-RNA- -seqli library prep
+Formaldehyde, 16%
+ThermoF Fisher Scientific 28908
+scifi-RNA-S seql library prep
+GeneRuler 1kb DNAI Ladder
+Thermo Fisher Scientific M0311
+custom i7- -only Tn5 activityd check
+Glycerol
+Sigma
+G5516- 100ML scifi- RNA- seql library prep
+GoTaq QPCRN Master Mix
+Promega
+A600A
+custom i7-only Tn5 activity check
+IGEPAL CA-6 630
+Sigma
+18896-5 50ML scifi-F i-RNA-S -seqli library,prep
+Maxima HN Minus Reverse Transcriptase, 1x 10000U
+Thermo Fisher Scientific EP0753
+scifi-RNA-S seql library prep
+Methanol
+Fisher Scientific
+M/4000/17 scifi- RNA- seql library prep
+MgC12, 1M
+Ambion
+AM9530G
+scifi-RNA- seql library prep
+MinElute PCR Purification Kit (optional cleanup in case of extreme clumping)
+Qiagen
+28004
+scifi-RNA- seql library prep
+Nac, 5M
+Sigma
+S5150-1 1L
+scifi-RNA- seql library prep
+NaOH, 10M
+Sigma
+72068- 100ML scifi- RNA -seq! library prep
+NEBNext High Fidelity 2xM Master Mix
+NEB
+MO5415
+scifi-F RNA- seql library prep
+Nextera> XT Kit, 24 rxns (optionalr replacement for customi i7-c onlyt transposome) Illumina
+15032350
+scifi- RNA- seqli library prep
+NovaSeq6 6000 S1 Reagent Kit( (100 Cycles)
+Illumina
+20012865
+next-generations sequencing
+NovaSeq 6000 S2R Reagent Kit( (100-Cycles)
+Illumina
+20012862 next-g generations sequencing
+NovaSeq 6000 SPI Reagent Kit( (100 Cycles)
+Illumina
+20027464
+next- generations sequencing
+PBS,1 1x
+Gibco
+14190-094 scifi-RNA- -seq! library prep
+pUC19 plasmid
+NEB
+N3041A
+custom i7- only Tn5 activity check
+Puradisc 251 mm Polyethersulfone Syringe Filter, 0.2 um, sterile
+GEI Healthcare
+6780- 2502
+scifi- RNA- seql library prep
+Q5H HotStarth High-Fidelity 2x1 Master Mix, 500rxns
+NEB
+M0494L
+custom 7- -only Tn5 activity check
+QiaQuick PCRF Purification Kit
+Qiagen
+28106
+custom i7-only Tn5 activity check
+Qubit dsDNA HS Assay Kit
+Thermo Fisher Scientific Q32854
+scifi- RNA- seqli libraryp prep
+Recombinant RNase inhibitor
+Takara
+2313A
+scifi-RNA- seqli library yprep
+RNaseOUT RNasei inhibitor
+Invitrogen
+10777019
+scifi- -RNA- seql library prep
+SDS solution, 10% in water
+Sigma
+71736- 100ML custom 7- only Tn5 activity check
+SPRIselect beads
+Beckman Coulter
+B23318
+scifi-RNA- -seqli library prep
+SUPERasel In RNasel Inhibitor
+Thermo Fisher Scientific AM2696
+scifi-RNA- seql library prep
+SYBR Green, 10000xi in DMSO
+Life Technologies S7563
+scifi- RNA seql library prep, custom i7-only Tn5 activity check
+TAPS
+Sigma
+T9659- 100G scifi-F RNA- seqli library prep
+Tris-HC, pH7 7.5, 2M
+Sigma
+T2944- 100ML scifi- RNA- seql library prep
+TritonX-1 100
+Sigma
+X100-1 100ML scifi- RNA- -seqli library prep
+Tween- 20
+Sigma
+P7949-5 500ML scifi-RNA- seql library prep
+scifi-RNA-seq step-by-step protocol
+15
+
+
+
+Appendix D Buffers for isolation of nuclei or whole cells without fixation
+PBS-BSA-SUPERase
+Component
+Stock Unit Final Unit Per! 5 Mio Nuclei Per 5 Mio Whole Cells
+PBS, 1x
+890
+9790
+BSA, 10% (w/v)
+10 % (w/v)
+1 % (w/v)
+100
+1100
+SUPERase In Rnase Inhibitor (20 U/ul)
+20 U/ul
+0.2 U/ul
+10
+110
+Nuclei Preparation Buffer
+Component
+Stock Unit Final Unit Per 51 Mio Nuclei
+Nuclease-free water
+470.25
+Tris-HCI, pH7.5, 2M
+2M
+10 mM
+2.75
+Nac, 5M
+5M
+10 mM
+1.1
+MgCI2, 1M
+1 M
+3 mM
+1.65
+BSA, 10% (w/v)
+10 % (w/v)
+1 % (w/v)
+55
+SUPERase In Rnase Inhibitor (20 U/ul)
+20 U/ul
+0.2 U/ul
+5.5
+Tween-20
+10 % (v/v)
+0.1 % (v/v)
+5.5
+IGEPAL CA-630, 10% (v/v)
+10 % (v/v)
+0.1 % (v/v)
+5.5
+Digitonin
+2 % (v/v)
+0.01 % (v/v)
+2.75
+Nuclei Wash Buffer
+Component
+Stock Unit Final Unit Per! 5 Mio Nuclei
+Nuclease-free water
+4785
+Tris-HCI, pH7 7.5, 2M
+2M
+10 mM
+27.5
+Nac, 5M
+5M
+10 mM
+11
+MgC12, 1M
+1M
+31 mM
+16.5
+BSA, 10% (w/v)
+10 % (w/v)
+1 % (w/v)
+550
+SUPERase In Rnase Inhibitor (20 U/ul)
+20 U/ul
+0.2 U/ul
+55
+Tween-20
+10 % (v/v)
+0.1 % (v/v)
+55
+scifi-RNA-seq step-by-step protocol
+16
+
+
+
+Appendix E Buffers for isolation of nuclei with formaldehyde fixation and permeabilization
+DAY1: Nuclei isolation, fixation and flash-freezing
+Nuclei Preparation Buffer without Digitonin and without Tween-20
+Component
+Stock Unit Final Unit Per 5 Mio Nuclei
+Nuclease-free water
+478.5
+Tris-HCI, pH7.5, 2M
+2M
+10 mM
+2.75
+NaCI, 5M
+5 M
+10 mM
+1.1
+MgCI2, 1M
+1 M
+3 mM
+1.65
+BSA, 10% (w/v)
+10 % (w/v)
+1 % (w/v)
+55
+SUPERase In Rnasel Inhibitor (20 U/ul)
+20 U/ul
+0.2 U/ul
+5.5
+IGEPAL CA-630, 10% (v/v)
+10 % (v/v)
+0.1 % (v/v)
+5.5
+Nuclei Wash Buffer without Tween-20
+Component
+Stock Unit Final Unit Per. 5 Mio Nuclei
+Nuclease-free water
+7937.6
+Tris-HCI, pH7.5, 2M
+2M
+10 mM
+45.1
+NacI, 5M
+5 M
+10 mM
+18.04
+MgCI2, 1M
+1 M
+3 mM
+27.06
+BSA, 10% (w/v)
+10 % (w/v)
+1 % (w/v)
+902
+SUPERase In Rnase Inhibitor (20 U/ul)
+20 U/ul
+0.2 U/ul
+90.2
+1%1 Formaldehyde in 1x PBS
+Component
+Stock Unit Final Unit Per 5 Mio Nuclei
+PBS, 1x
+5156
+Formaldehyde, 16%
+16 %
+1 %
+344
+PBS-BSA-SUPERase
+Component
+Stock Unit Final Unit Per 5 Mio Nuclei
+PBS, 1x
+890
+BSA, 10% (w/v)
+10 % (w/v)
+1 % (w/v)
+100
+SUPERase In Rnase Inhibitor (20 U/ul)
+20 U/ul
+0.2 U/ul
+10
+DAY2: Thawing, nuclei permeabilization
+Nuclei Wash Buffer without Tween- 20
+Component
+Stock Unit Final Unit Per 5 Mio Nuclei
+Nuclease-free water
+748
+Tris-HCI, pH7.5, 2M
+2M
+10 mM
+4.25
+NaCI, 5M
+5 M
+10 mM
+1.7
+MgCI2, 1M
+1 M
+3 mM
+2.55
+BSA, 10% (w/v)
+10 % (w/v)
+1 % (w/v)
+85
+SUPERase In Rnase Inhibitor (20 U/ul)
+20 U/ul
+0.2 U/ul
+8.5
+Permeabilization Buffer
+Component
+Stock Unit Final Unit Per 5 Mio Nuclei
+Nuclei Wash Buffer without Tween-20 (from above)
+270.875
+Digitonin
+2%
+0.019 %
+1.375
+Tween-20
+10 %
+0.1%
+2.75
+PBS-BSA-SUPERase
+Component
+Stock Unit Final Unit Per 5 Mio Nuclei
+PBS, 1x
+489.5
+BSA, 10% (w/v)
+10 % (w/v)
+1 % (w/v)
+55
+SUPERase In Rnase Inhibitor (20 U/ul)
+20 U/ul
+0.2 U/ul
+5.5
+scifi-RNA-seq step-by-step protocol
+17
+
+
+
+Appendix F Buffers for transposome assembly and tagmentation
+Annealing Buffer, 10x
+Component
+Stock
+Unit
+Final
+Unit
+Per1ml
+Unit
+Nuclease-freer water
+875ul
+Tris-HCI,pH7.5,: 2M
+2M
+10 mM
+5 ul
+Nac, 5M
+5M
+500 mM
+100 ul
+EDTA, 0.5M
+0.5 M
+10 mM
+20 ul
+Tn5 Reaction Buffer, 5x
+Component
+Stock
+Unit
+Final
+Unit
+Per1 100ml
+Unit
+Nuclease-free water
+87.5 ml
+TAPS
+powder
+50 mM
+1.216 g
+MgC12, 11 M
+1M
+25 mM
+2.5 ml
+adjust pH to 8.5 with 101 MI NaOH, then fill up to 100 ml with nuclease-free water
+filter through 0.21 um filter under a cell culture hood and aliquot
+Tn5 Dilution Buffer
+Component
+Stock
+Unit
+Final
+Unit
+Per1 10ml
+Unit
+Nuclease-free water
+4538 ul
+Glycerol
+100%
+509 %
+5000 ul
+Tris-HCI, pH7.5, 2M
+2M
+50 mM
+250 ul
+Naci,5M
+5M
+100 mM
+200 ul
+EDTA, 0.5M
+0.51 M
+0.1 mM
+2 ul
+TritonX-100
+100 %
+0.1 %
+10 ul
+Before using this buffer, add 1/100 volumes of fresh 0.1M DT
+0.1 M
+1 mM
+scifi-RNA-seq step-by-step protocol
+18
+
+
+
+Appendix G Column-based post GEM incubation cleanup
+<Note> For some samples, and when loading extremely high numbers of pre-indexed cells/nuclei per microfluidic
+channel, we have observed clumping of MyOne Silane Dynabeads. This is presumably due to the high amounts of
+genomic DNA in the sample. As mentioned in step 5.1, shearing the clumps with a thin pipette tip is often sufficient
+to resolve the problem. If the problem persists or if this is a common problem with a particular type of sample, we
+recommend to replace step 5.1 with thej following instructions.
+Replace step 5.1 with instructions below for column-based post GEM incubation cleanup
+Add 125ul of Recovery Agent to each sample at room temperature
+Invert ten times to mix, centrifuge briefly
+<Note> This results in a pink oil phase ati the bottom and a smaller aqueous phase containing the sample on top
+Slowly remove 125 ul off the pink oil phase from the bottom of the tube, discard
+Prepare Cleanup Master Mix without Dynabeads as described below
+Cleanup Master Mix without Dynabeads
+Per reaction
+Number of channels (+ 10% overhead)
+Component
+Volume (ul)
+1
+2
+3
+4
+5
+6
+7
+8
+Cleanup Buffer
+182
+182.0 400.4 600.6 800.8 1001.0 1201.2 1401.4 1601.6
+Reducing Agent B
+5
+5.0
+11.0
+16.5
+22.0 27.5
+33.0
+38.5
+44.0
+Nuclease-free water
+13
+13.0
+28.6 42.9
+57.2
+71.5
+85.8 100.1 114.4
+Add 200 ul of Dynabead Cleanup Mix without Dynabeads per sample, pipet mix
+Load sample in Cleanup Master Mix without Dynabeads onto MinElute column, centrifuge for 1 min at 15,000 rcf
+<Note> Do not add PB buffer to the sample, the Cleanup Master Mix without Dynabeads is sufficient to allow DNA
+binding to the column
+Discard flow-through
+Wash once with 700 ul of PE buffer containing ethanol)
+Discard flow-through, place column in empty collection tube, spin for 1 min at 15,000 rcf to remove residual ethanol
+Elute in 11 ul of EB buffer, this should result in an eluate of about 10 ul
+Add 30 ul of nuclease-free water to bring the sample volume to 40 ul
+Proceed with step 5.2 (SPRI cleanup)
+scifi-RNA-seq step-by-step protocol
+19
+
+
+
+Appendix H Thermoligation in SCATAC Barcoding Reagent supplemented with NAD+ and magnesium
+For some samples, wel have observed an unstable droplet emulsion when loading the microfluidic droplet generator
+with Ampligase Reaction buffer, as described in steps 4A and 4B of this protocol. In these cases we recommend to
+perform the thermoligation in SCATAC Barcoding Reagent supplemented with NAD+ and magnesium for compatibil-
+ity with the Ampligase enzyme.
+<Note> This procedure has been tested for SCATAC v1.0 reagents only.
+Add pre-indexed cells/nuclei to tube strip on ice
+Add Barcoding Reagent to a total volume of 9.2 ul
+Prepare Thermoligation Master Mix as described below
+Thermoligation Master Mix for SCATAC v1.0 chips and reagents
+Per reaction
+Number of channels (+ 10% overhead)
+Component
+Volume (ul) 1
+2
+3
+4
+5
+6
+7
+8
+Barcoding Reagent
+61.5
+61.5 135.3 203.0 270.6 338.3 405.9 473.6 541.2
+Reducing Agent B
+1.5
+1.5 3.3 5.0 6.6 8.3 9.9 11.6 13.2
+Ampligase Enzyme (100 U/ul)
+2.3
+2.3 5.1 7.6 10.1 12.7 15.2 17.7 20.2
+Bridge Oligo, 100 LM
+2.3
+2.3 5.1 7.6 10.1 12.7 15.2 17.7 20.2
+NAD+, 50 mM
+1.6
+1.6 3.5 5.3 7.0 8.8 10.6 12.3 14.1
+MgClz, 500 mM
+1.6
+1.6 3.5 5.3 7.0 8.8 10.6 12.3 14.1
+Add 70.8 ul of Thermoligation Master Mix per sample, and mix by pipetting. This brings the volume to 80 ul.
+Continue with microfluidic chip loading as described in step 4A.
+scifi-RNA-seq step-by-step protocol
+20

@@ -1,0 +1,1838 @@
+Seq-Well Master Protocol
+June 2019
+Shalek & Love Labs, MIT
+Seq-Well S13 Master Protocol
+As outlined in:
+Highly efficient, massively-parallel single-cell RNA-Seq reveals cellular and molecular
+features of human skin pathology
+Travis K Hughes 1,2,3,4,5,8 1 Marc H Wadsworth 111.3.4,5,8 Todd M Gierahn5.8 , Feiyang Mas, Tran Do6,
+David Weisso, Priscilla Andrade6, Bruno Andrade6, 1 Shuai Shao', Lam C Tsoi', Johann E
+Gudjonsson', , Robert L Modlino, J Christopher Love' 1,3,4,5,9 and Alex K Shalek12.3.4.5.9,
+-
+Affiliations:
+8
+1 Institute for Medical Engineering & Science (IMES) and Department of Chemistry, MIT,
+Cambridge, Massachusetts, USA
+2 Department of Immunology, Harvard Medical School, Boston, Massachusetts, USA
+3 Broad Institute of MIT and Harvard, Cambridge, Massachusetts, USA
+4 Ragon Institute of MGH, MIT and Harvard, Cambridge, Massachusetts, USA
+5 Koch Institute for Integrative Cancer Research, MIT, Cambridge, Massachusetts, USA
+61 Division of Dermatology and Department of Microbiology, Immunology and Molecular Biology,
+-
+David Geffen School of Medicine, UCLA, Los Angeles, California, USA
+7 Department of Dermatology, University of Michigan, Ann Arbor, Michigan, USA
+-
+8These authors contributed equally to this work
+L
+9These senior authors contributed equally to this work
+9To whom correspondence should be addressed: shalek@mit.edu (AKS), clove@mit.edu (JCL)
+Sna
+*For the latest protocol see Shalek Lab website (www.shaleklab. .com/Seq-Well)
+1
+
+
+
+Seq-Well Master Protocol
+June 2019
+Shalek & Love Labs, MIT
+Table of Contents
+In-Depth Protocol
+3
+Membrane Preparation
+7
+Bead Loading
+11
+Cell Loading
+12
+Membrane Sealing
+16
+Cell
+and
+VIT
+Lysis
+Hybridization
+17
+Bead Removal Method 1
+
+18
+Reverse Transcription & Exonuclease Digestion
+19
+Second Strand Synthesis & PCR
+22
+Library Preparation
+24
+Sequencing
+Appendices
+ove
+25
+A: Array Synthesis
+29
+B: Synthesis Protocol Checklist
+31
+C: Mounting the Master
+32
+D: Buffer Guide
+35
+E: Bead Removal Method 2
+36
+F: Imaging in Array
+37
+G: Shopping List
+2
+
+
+
+Seq-Well Master Protocol
+June 2019
+Shalek & Love Labs, MIT
+Membrane Preparation
+1.
+Carefully place a pre-cut (22 X 66 mm) polycarbonate membrane onto a glass slide
+using a gloved finger and tweezers to separate the membrane and paper.
+Note 1: Make certain the shiny side of the polycarbonate membrane is facing up to be in
+contact with the oxygen plasma and eventually the surface of the array.
+Note 2: Discard any membranes that have creases or other large-scale imperfections.
+IT
+2051
+-
+2.
+Place membranes onto a shelf in the plasma cleaner.
+Note 1: Shelves are not provided, but any piece of glass will do.
+Note 2 (optional): If you have two shelves, place membranes on the bottom shelf to
+reduce risk of them flying after vacuum is removed.
+PLASMACL
+108090
+
+FLDL
+HARRIC
+PLASM
+3.
+Close the plasma cleaner door, then turn on the main power and pump switch. To
+3
+
+
+
+Seq-Well Master Protocol
+June 2019
+Shalek & Love Labs, MIT
+form a vacuum, ensure that the 3-way valve lever is at the 9:00 position as shown below
+and that the door is completely shut.
+PLASMA CLEANER
+PDC-001-HP
+LOW MED
+OFF,
+RF LEVEL
+ON
+OFF
+VIT
+PUMP
+POWER
+HARRICK
+PLASMA
+1051
+4.
+Allow vacuum to form for 2-3 minutes. Once the vacuum has formed, simultaneously
+turn the valve to 12:00 while turning the power to the His setting (shown below).
+Note: The plasma should be a bright pink. If not, adjust the air valve to increase or
+decrease the amount of oxygen entering the chamber.
+à
+PLASMA CLEANER
+PDC-001-HP
+2
+LOW MED
+OFF,
+RFL LEVEL
+ON
+OFF
+PUMP
+POWER
+a
+&
+# HARRICK
+a PLASMA
+4
+
+
+
+Seq-Well Master Protocol
+June 2019
+Shalek & Love Labs, MIT
+5.
+Treat membranes with plasma for 5-7 minutes.
+Note: We treat membranes for 7 minutes, but treatment times can vary.
+VIT
+1051
+6.
+Critical - After treatment, in the following order: (1) turn the RF level valve from HIGH to
+OFF, (2) turn the air valve from the 12:00 position to the 9:00 position, and (3) then turn
+off the power followed by turning off the vacuum. Then slowly open the valve until air can
+be heard entering the chamber (approximate valve position shown below). Leave until
+door opens (-5 min).
+PLASMA CLEANER
+PDC-001-HP
+OFF, LOW MED HI
+RFI LEVEL
+ON
+I - OFF
+PUMP
+POWER
+HARRICK
+PLASMA
+7.
+Remove slides (with membranes) from the plasma clean and transfer to a 4-well dish.
+Note 1: If membranes have slightly folded over, slowly flip the membrane back using
+needle nose tweezers.
+Note 2: If membranes have blown off the slide entirely, repeat above procedure to
+ensure you know which side was exposed to plasma.
+5
+
+
+
+Seq-Well Master Protocol
+June 2019
+Shalek & Love Labs, MIT
+8.
+Using a P1000 pipette, gently hydrate one end of the membrane with a single drop of
+1xPBS SO that it adheres to the slide before dispensing the entire volume. Once the
+membrane is hydrated, continuing add 1xPBS until you reach 5 mL (use either a
+serological pipette or P1000 pipette to complete hydration).
+VIT
+2051
+9.
+Remove any air bubbles underneath the membrane using wafer forceps or a pipette tip.
+10. Membranes are now functionalized and ready for use.
+Note 1: Membranes solvated with 1xPBS should be used within 48 hours.
+Note 2: If transporting solvated membranes (e.g. between buildings), remove all but ~1
+mL of 1xPBS to prevent membranes from flipping within the dish.
+Note 3: Alternatively, membranes initially solvated in 1xPBS can be dried and stored for
+4 weeks at room temperature. To dry them out, carefully remove membranes, keeping
+them on their glass slides, from the 1xPBS solution, transfer the membranes to the
+benchtop, cover them with a tip box, and let them dry for 15-20 minutes. As the
+membranes dry they'll become opaque which is normal.
+Note 4: Before use the membranes should be rehydrated with 5 mL of 1xPBS. Drying out
+membranes is helpful when traveling or when running seq-well in a laboratory without
+accesstoa plasma cleaner.
+EXPERIMENTAL NOTES
+6
+
+
+
+Seq-Well Master Protocol
+June 2019
+Shalek & Love Labs, MIT
+Bead Loading
+1.
+Aspirate storage solution and solvate each array with 5 mL of bead loading buffer (BLB;
+See Appendix D: Buffers Guide).
+2.
+Place array(s) under vacuum with rotation (50 RPM) for 10 minutes to remove air
+bubbles in wells. Note: Rotation is optional
+VIT
+051
+3.
+Aliquot ~110,000 beads from stock into a 1.5 mL tube and spin on a tabletop centrifuge
+for 15 seconds to form a pellet.
+4.
+Aspirate storage buffer and wash beads twice in 500 ul of BLB.
+5.
+Pellet beads, aspirate BLB, and resuspend beads in 200 uL of BLB.
+Note: For each array, it's recommended to load ~110,000 beads.
+6.
+Before loading beads, thoroughly aspirate BLB from the dish containing the array(s),
+being careful not to aspirate or dry the PDMS surface of the array(s).
+7
+
+
+
+Seq-Well Master Protocol
+June 2019
+Shalek & Love Labs, MIT
+7.
+Using a P200 pipette, apply 200 ul containing 110,000 beads, in a drop-wise fashion, to
+the surface of each array (see image below and Bead Loading Diagram on page 10).
+VIT
+8.
+Allow the arrays to sit for 5 minutes, rocking them intermittently in the X & y direction.
+Pro-Tip: This step can be extended to 10 minutes to allow thel beads more time to settle.
+However, make sure to monitor the surface of the arrayso that it doesn't dry out.
+9. Thoroughly wash array(s) to remove excess beads from the surface. For each wash:
+1. Position each array SO that it sits in the center ofthe 4-well dish.
+2. Dispense 500 ul of BLB in the upper right corner of each array and 500 uL in the
+bottom right corner of each array. Be careful not to directly pipette onto the
+microwells, as it can dislodge beads.
+3. Using wafer forceps or a pipette tip, push each array against the left side of the 4-
+well dish to create a capillary flow; this will help remove beads from the surface.
+4. Aspirate the liquid, réposition each array, and repeat on the other side.
+10. Repeat step 9 as necessary. Periodically examine the array(s) under microscope to
+confirm that no loose beads are present on the surface, as this will interfere with
+membrane attachment. Usually it takes 4 washes/side to thoroughly remove excess
+beads (this depends on your original loading density).
+8
+
+
+
+Seq-Well Master Protocol
+June 2019
+Shalek & Love Labs, MIT
+11. Once excess beads have been removed from the surface, solvate each array with 5 mL
+of BLB and proceed to cell loading.
+Notes:
+1.
+If continuing to cell loading immediately (i.e., within 6 hours), loaded arrays
+should be stored in 5 mL of BLB.
+2.
+If you are not going to use the arrays on the day they're loaded, remove the BLB
+buffer, rinse the arrays once with 5 mL of 1xPBS, and then solvate the arrays with
+5 mL of quenching buffer. Arrays can be stored in quenching buffer for 10 days
+(See Appendix D: Buffers Guide).
+-
+EXPERIMENTAL NOTES
+-
+-
+Laei
+Love
+U
+Sue
+9
+
+
+
+Seq-Well Master Protocol
+June 2019
+Shalek & Love Labs, MIT
+Bead Loading Diagrams
+1. Rotate aray wihin dih
+2.A0S beada to array surlace n a
+3 Rotne amays to move
+. Examine Bead Occupancy
+diop-aise manner
+tre bends around the surtace
+or ago0p
+Reb 9go00
+PE o0 ERR: a
+-
+P a a
+d a
+d
+a
+D
+a a a 9
+a
+a
+2
+D a
+R 5
+8 a a le
+L
+a
+a a GC 9 9e
+Dr . a
+R D 201 DE 04 BO
+I
+8 d
+De 8 a 99
+D a D I o 888 ot
+t
+00
+GD a 3 d
+a P
+a a DPC
+299
+a a
+7 a L
+De a a
+a
+dt o 90 D
+-
+Dr a
+8 a d5
+a
+4 0D a
+a a 8
+D
+PE a & 8 D a our a
+d E
+ur a a 9 a a la a
+o
+de
+74 a 8 D
+2 go D
+P 2 a De 9 a a a
+D
+g9 9 a 21
+1
+90 D a
+a
+so
+P
+0
+D
+a
+B
+a
+a a e
+1 a 8
+D
+8888 500 8888 de 9 a
+8
+a 0
+-
+1. Pipette 11 mL off BLB onto array 2.F Reposition array adjacent tot the 3. Aspirate excess beads from the 4. Rotate array and repeat washing
+surface (500 UL at corners)
+edge of the dish to create a
+left side of the array surface and until alle excess beads are removed
+capillary flow across the array
+bottom oft the dish
+8000000
+DE D D - D DE D0 D D0
+D000 000 0000
+8000000
+000000
+00 D D
+0 000 0000 D DE 25 3008 DE DE
+000000
+880008
+00 D a D J D
+0000 D0
+J
+000 0000
+0OC a D DE DI
+00 a D
+1280
+000
+233588
+DE
+888888
+aE
+8000000
+000
+D
+800000
+:
+8088
+0000
+000000
+EE
+D0 D D 00 0
+0000 D D
+D 0
+88
+00 D0 I
+0
+8
+3088 000 a
+000 90
+0
+E
+D0 000
+B388E8
+00
+0
+a0 D
+E
+D
+00
+D
+8
+00 D 00 D
+.
+D
+80000 0 DOL I D
+D
+Ln
+O0
+883E
+a .
+D
+00
+D
+13008
+D 0000 D
+a
+a
+or D0 D D
+388
+00 00 D 9
+00
+D DE - D
+I
+D
+D
+000
+00
+B3818EE
+800000
+DE
+0
+0088
+000
+0000 D
+a
+D
+o
+0000 J a
+D0
+I
+00
+D0 -
+300000E
+000 a D
+D0 00 00 DE -
+D
+DE
+8808 D 01
+D D0
+D L1
+DE 00 DE D o D
+I
+8
+3993888
+B00000E
+DO0
+D
+I
+000 D 00
+000 o
+I
+800000
+0000
+0
+00
+0000 0E D
+or a
+a
+0000000
+0000
+0O0 0000 000
+000 90 - 00
+08 a
+D
+0 a a a
+0000
+7 a
+D0 00
+888888 8
+I
+000 000
+0OC
+0
+00 0 D D
+D 000
+09
+000 a D
+I
+D
+-
+J
+D
+D 00 00 JI
+D D D a
+0
+a 0 a 0E a D
+DL 0
+8
+D00 g00 D D o a D
+9
+I
+00C D0
+D0
+0000
+000 a
+100 D
+I
+8
+D 0r 00
+D
+8
+000
+00 D a 8
+00 00000 000 0 00 a 9
+D
+D
+a
+000 00 o
+00 D a
+00
+00 D B
+D D D - o
+L
+0
+8080000
+D a D 0 - 8
+DE
+DE
+D
+000 2 00 a
+-
+D
+00L
+D a 00 o
+I
+00
+00 D
+a
+0000
+DE
+0 DE
+a 0 a
+0 OD a B
+a 0
+D .
+8038
+D
+D0
+DC D0 I I
+00
+:
+DE
+-
+19
+D
+B8B8
+D0 J D
+
+0000008
+00
+000000 000000
+000000 D D0 00
+o
+8
+00000 8
+0000008 0000 00 0 D0
+10
+
+
+
+Seq-Well Master Protocol
+June 2019
+Shalek & Love Labs, MIT
+Cell Loading (Without Imaging)
+Ifj you want to image cells in the array, please refer to Appendix F
+1.
+At this point, your array should be loaded with beads and sitting in 5 mL of BLB.
+2.
+Obtain the cell or tissue sample and prepare a single cell suspension using an optimized
+protocol for tissue dissociation.
+3.
+While preparing your single-cell suspension, aspirate the BLB from each array (or
+quenching buffer) and rinse the array twice in 5 mL of 1xPBS to bring the solution in the
+four-well dish to physiological pH.
+4.
+After the second wash, aspirate the 1xPBS and soak the loaded array in 5 mL of RPMI +
+10% (RP-10) FBS for 5 minutes.
+Note 1: This step is performed to mitigate non-specific adhesion of cells to primary amines
+on the top surface of the array.
+Note 2: Any supplemented media can be used in place of RP-10.
+5.
+After obtaining a single-cell suspension, count cells using a nemocytometer and make a
+new solution of 10,000-15,000 cells in 200 ul of RP-10.
+Note 1: You can use your preferred media for prepping the cell loading solution.
+Note 2: Be sure to not use automated cell counters, particularly following tissue
+dissociation. This can provide an inaccurate cell count, compromising the experiment.
+6.
+Thoroughly aspirate the RP-10/supplemented media (to ensure the array will not move
+during cell loading).
+7.
+Center your array in the well and then apply the cell loading solution onto the surface in
+a dropwise fashion (similar to how beads were applied in the previous section).
+8.
+Allow cells to settle for 10 minutes, intermittently rock the array in the X & y direction.
+9.
+Wash array 4x with 5 mL of 1xPBS to remove the serum. For each wash, gently rock
+the array in the X & y direction, and then aspirate the 1xPBS. Once you have aspirated
+the 1xPBS out of the dish, gently tilt the 4-well dish toward you and aspirate directly off
+the bottom border of the array; this will help to completely remove the excess serum on
+the surface of the array
+Note: These washes are critical to remove excess serum which can interfere with
+successful membrane attachment.
+10. Aspirate the final 1xPBS wash and replace with 5 mL of RPMI media without FBS.
+Note: You can use any media here as long as it does not contain serum.
+EXPERIMENTAL NOTES
+11
+
+
+
+Seq-Well Master Protocol
+June 2019
+Shalek & Love Labs, MIT
+Membrane Sealing
+1.
+Gather the following materials before sealing the array(s):
+VIT
+loaded with beads and cells
+1051
+Array
+(See Bead/Cell Loading)
+Pre-treated membrane (See Membrane Preparation)
+Wafer forceps (or P1000 pipette tip)
+towels
+C
+Paper
+-
+Agilent clamp
+Clean microscope slides
+2.
+Use the wafer forceps to transfer the array from media to the lid of a 4-well dish, being
+careful to ensure that the array is not tilted.
+12
+
+
+
+Seq-Well Master Protocol
+June 2019
+Shalek & Love Labs, MIT
+3.
+Once the array is positioned on the lid of a 4-well dish, carefully aspirate excess liquid
+from around the edge of the array and the exposed surface of the glass slide. (Note: Be
+careful not to aspirate directly from the PDMS surface).
+4.
+Using wafer forceps or a pipette tip, remove a pre-treated membrane from the 4-well dish.
+5.
+Gently dab away moisture from the glass slide on the paper towel until the membrane
+does not spontaneously change position on the glass slide.
+6.
+Carefully position the membrane on the center of the microscope slide, leaving a small
+membrane overhang (2-3 mm) beyond the edge of slide.
+7.
+Holding the membrane in your left hand, invert the microscope slide SO that the
+treated surface of the membrane is facing down.
+EXPERIMETNAL NOTES
+13
+
+
+
+Seq-Well Master Protocol
+June 2019
+Shalek & Love Labs, MIT
+8.
+Place the overhang of the membrane in contact with the PDMS surface of the array just
+beyond the boundary of the microwells.
+VIT
+L05
+9.
+Using a clean slide held in your right hand, firmly hold down the overhang of the
+membrane against the PDMS surface of the array.
+10. Critical Step: While maintaining pressure with your right hand to hold the membrane in
+place, gently apply the membrane.
+Note 1: For optimal results, use only the weight of the slide to apply the membrane with
+the left hand.
+Note 2: Attempts to manually-seal the microwell device using excess pressure result in a
+'squeegee' effect, effectively removing moisture from the membrane while fixing
+membrane creases in place.
+Note 3: As you apply the membrane you should see a fluid interface form and expand as
+direct, uniform contact between the slide and the array will naturally remove some of the
+media as the membrane is applied.
+Note 4: You can use either your left or right hand for membrane-sealing (most people use
+their dominant hand to apply the membrane). Please practice this step before the actual
+experiment to figure out which hand you're most comfortable with.
+11. After applying the membrane, carefully pry the array and membrane from the surface of
+the lid and transfer to an Agilent clamp.
+12. After transferring the sealed array to the clamp, place a glass slide on top of the sealed
+array.
+14
+
+
+
+Seq-Well Master Protocol
+June 2019
+Shalek & Love Labs, MIT
+13. Close the clamp and tighten to the point of resistance, then place it in a 37C incubator
+for 30-40 minutes.
+Note: This time is flexible and depends on the incubator. If you want to decrease this
+incubation time, please optimize on cell lines before proceeding with precious samples.
+14. Repeat membrane-sealing protocol procedure if running multiple arrays.
+EXPERIMETNAL NOTES
+VIT
+Laseoi
+Love
+U
+Sue
+15
+
+
+
+Seq-Well Master Protocol
+June 2019
+Shalek & Love Labs, MIT
+Cell Lysis & Hybridization
+1.
+Remove the clamp from the incubator, and then remove the array from the Agilent
+clamp. (Note: At this point, the glass slide will be attached to the array and membrane).
+2.
+Submerge the array, with top slide still attached, in 5 mL of complete lysis buffer (See
+Appendix D: Buffers Guide).
+3.
+Gently rock the array in lysis buffer until the top glass slide spontaneously detaches.
+Note 1: Do not pry the top slide off as this can reverse membrane sealing. The time
+necessary for detachment of the top slide varies (10 seconds - 10 minutes).
+Note 2: If the top slide does not release after 10 minutes, gently pry the topslide off using
+wafer forceps or a pipette tip. Just be careful.
+4.
+Once the top slide has detached, place the arrays on a horizontal rotator for 20 minutes
+at 50-60 rpm.
+5.
+After 20 minutes, remove the lysis buffer and wash each array with 5 mL of hybridization
+Buffer (See Appendix C: Buffers Guide).
+Note 1: Use a separate waste container for lysis buffer because guanidine
+thiocyanate can react with bleach in TC traps to create cyanide gas.
+Note 2: The hybridization buffer used to wash the array post-lysis may contain trace
+amounts of guanidine thiocyanate and should, therefore, be disposed of in the lysis
+buffer waste container.
+6.
+Aspirate hybridization buffer and add another 5 mL of hybridization buffer to each array
+and rotate for 40 minutes at 50-60 rpm.
+7.
+While the arrays are rocking in hybridization buffer, prepare RT master mix. (See Reverse
+Transcription & Exonuclease Digestion)
+EXPERIMENTAL NOTES
+Sne
+16
+
+
+
+Seq-Well Master Protocol
+June 2019
+Shalek & Love Labs, MIT
+Bead Removal Method 1
+1.
+After the arrays have rocked in hybridization buffer for 40 minutes, carefully peel back
+each membrane using fine-tipped tweezers.
+2.
+Place array into a 50 mL conical containing 30-40 mL of Wash 1 solution.
+3.
+Holding the array above the 50mL conical (shown below), repeatedly dispense
+approximately 1 mL of Wash 1 solution from the conical across the surface of the array to
+dislodge beads (See Appendix D: Buffers Guide).
+Note: Vigorously dispense Wash 1 buffer to remove beads.
+4.
+Repeat these 10 times, periodically checking to see if beads are dislodging.
+LaDey
+bve
+5.
+After repeatedly rinsing the array from top to bottom, use a clean glass slide to gently
+scrape the array to remove any beads that remain in the array.
+Note: At this point it is possible to visually inspect the array to assess bead removal.
+6.
+Once youare satisfied with bead removal, place the empty array back in the 4-well disk,
+cap the 50 mL conical, and pellet beads for 5 minutes at 1000xg.
+Note 1:You can visually inspect the success of your bead removal by looking at the arrays
+under a light microscope.
+Note 2: Where possible, use a swinging bucket centrifuge to collect beads. The use of a
+fixed-rotor centrifuge can lead to the formation of a bead pellet on the elbow rather than
+the bottom of the conical tube, which can lead to inefficient recovery.
+7.
+After centrifugation, aspirate all but ~1 mL of excess Wash Buffer, collect the beads using
+a P1000 pipette, and transfer beads suspended in wash buffer to a separate 1.5 mL
+eppendorf tube for each array.
+17
+
+
+
+Seq-Well Master Protocol
+June 2019
+Shalek & Love Labs, MIT
+Reverse Transcription & Exonuclease Digestion
+Reverse Transcription (RT)
+1.
+Prepare the following RT mastermix during the hybridization step:
+40 uL
+H20
+40 ul
+Maxima 5X RT Buffer
+80 uL
+30% PEG8K
+20 ul
+10 mM dNTPS (Clontech)
+51 uL
+RNase Inhibitor (Lucigen)
+5u ul
+100 UM Template Switch Oligo
+10 ul
+Maxima H-RT
+Note: Add the Maxima H-RT enzyme to the mastermix immediately before adding to beads.
+2.
+Centrifuge eppendorf tubes containing collected beads for 1 minute at 1000xg.
+3.
+Remove supernatant and resuspend in 250 ul of 1X Maxima RT Buffer and centrifuge
+beads for 1 minute at 1000xg.
+4.
+Aspirate 1X Maxima RT Buffer and resuspend beads in200 ul of the RT mastermix.
+5.
+Incubate at room temperature for 30 minutes with end-over-end rotation. After 30 minutes,
+incubate at 52C for 90 minutes with end-over-end rotation.
+Note: The reverse transcription reaction can proceed overnight, if necessary.
+7.
+Following the RT reaction, wash beads once with 500 uL of TE-SDS, and twice with
+500 ul of TE-Tween (TE-TW). Following Reverse Transcription, beads can be stored
+at 4C in TE-TW.
+Exonuclease Treatment
+1.
+Prepare the following Exonuclease I Mix:
+20 uL
+10x Exol Buffer
+170 uL
+H20
+10 ul
+Exol
+2.
+Centrifuge beads for 1 minute at 1000xg and aspirate the TE-TW solution.
+3.
+Resuspend in 500 ul of 10 mM Tris-HCI pH 8.0.
+4.
+Centrifuge beads again, remove supernatant and resuspend beads in 200 uL of
+exonuclease I mix.
+5.
+Incubate at 37C for 50 minutes with end-over-end rotation.
+6.
+Wash the beads once with 500 ul of TE-SDS, twice with 500 ul TE-TW.
+Beads can be stored at 4C in TE-TW.
+18
+
+
+
+Seq-Well Master Protocol
+June 2019
+Shalek & Love Labs, MIT
+Second Strand Synthesis & PCR
+Second Strand Synthesis (Beginning after 2nd wash of TE-TW after Exo treatment)
+1.
+Prepare the following 2nd strand synthesis mix:
+40 ul
+Maxima 5X RT Buffer
+80 ul
+30% PEG8000
+20 uL
+10 mM dNTPS (Clontech)
+2 uL
+1 mM dN-SMRT oligo
+5 ul
+Klenow Enzyme
+-
+53 ul
+H20
+Note: Add the Klenow enzyme immediately before adding to beads.
+2.
+After aspiration of 2nd TE-TW wash, resuspend beads in 500 ul 0.1 M NaOH.
+Note: Make the 0.1 M NaOH solution fresh each time you perform second strand
+synthesis.
+3.
+Rotate tube for 5 min at room temp, then spin (800xg for 1 minute) and aspirate
+supernatant.
+4.
+Wash once with 500 ul of TE-TW, and once with 500 ul 1XTE
+5.
+Resuspend beads in 200 ul 2nd strand synthesis reaction and rotate end-over-end at
+37C for 1 hr.
+6.
+Wash beads twice with 500 uL TE-Tween and once with 500 uL TE
+7.
+Proceed directly with the PCR protocol.
+PCR (Whole Transcriptome Amplification (WTA))
+1.
+Prepare the following PCR mastermix:
+25 ul
+2X KAPA HiFi Hotstart Readymix
+14.6 ul
+H20
+0.4 ul
+100 UM SMART PCR Primer
+40 ul
+per reaction
+2.
+Wash beads once with 500 ul of water, pellet beads, remove supernatant and
+resuspend in 500 ul of water.
+Note 1: If you do not want to count the beads then after the 500 ul water wash in step 2,
+resuspend the beads in 240 uL of water and proceed to step 6.
+Note 2: If you choose this path, prepare mastermix for 24 PCR reactions for each array
+being processed.
+19
+
+
+
+Seq-Well Master Protocol
+June 2019
+Shalek & Love Labs, MIT
+3.
+Mix well (do not vortex) to evenly resuspend beads and transfer 20 uL of beads to a
+separate 1.5 mL tube to count the beads.
+Note: Don't vortex beads as this can result in bead fragmentation.
+4.
+Pellet the small aliquot of beads, aspirate the supernatant, and resuspend in 20 uL of
+bead counting solution (10% PEG, 2.5 M NaCI).
+Note: The bead counting solution aids in even dispersion of beads across a
+nemocytometer.
+5.
+Count the beads using a nemocytometer.
+6.
+Add 40 uL of PCR mastermix per reaction to 96-well plate.
+VIT
+7.
+Add 1,500 2,000 beads per reaction in 10 ul of water for a total volume of 50 ul per
+PCR reaction, making certain to PCR the entire array.
+8.
+Use the following cycling conditions to perform whole-transcriptome amplification:
+Start:
+95C
+3 minutes
+4 Cycles:
+98C
+20 seconds
+65C
+45 seconds
+72C
+3 minutes
+9-12 Cycles:
+ave
+98C
+20 seconds
+67C
+20 seconds
+72C
+3 minutes
+Final Extension:
+72C
+5 minutes
+4 C
+Infinite hold
+Note: The total number of PCR cycles necessary for amplification depends on the cell
+type used.
+13 cycles are optimal for cell lines or larger cells (e.g. macrophages)
+16 cycles are optimal for primary cells
+EXPERIMENTAL NOTES
+20
+
+
+
+Seq-Well Master Protocol
+June 2019
+Shalek & Love Labs, MIT
+Purification of PCR products and analysis on the BioAnalyzer or Agilent TapeStation
+1.
+Pool PCR products from between 6 and 8 PCR reactions in a 1.5 mL microcentrifuge tube
+SO that you have 10-12,000 beads/1.5 mL microcentrifuge tube.
+2.
+Purify PCR products using Ampure SPRI beads and the following protocol:
+Note: Please refer to the Ampure SPRI bead official protocol for more details.
+A.
+Spri at 0.6x volumetric ratio.
+B.
+Allow the tubes to sit on the tube-rack off the magnet for 5 minutes, and then place
+the rack on the magnet for 5 minutes.
+C.
+Perform 3 washes with 80% ethanol.
+Note: At each wash step rotate each tube 180 degrees 6 times to allow beads
+to pass through the ethanol solution to the opposite side of thetube.
+D.
+After the third wash, remove the 80% ethanol wash solution. Further, use a P200
+with fresh tips to remove any residual ethanol and allow beads to dry for 10-15
+minutes. (Note: Beads will have a cracked appearance once dry). Remove the
+rack from the magnet, elute dried beads in 100 UL, place the rack on the magnet
+and then transfer the 100 ul supernatant whichcontains eluted DNA to a new 1.5
+mL microcentrifuge tube or 96-well plate.
+E.
+Spri the 100 ul at 1.0x volumetric ratio and repeat steps b and C
+F.
+After the third wash, allow the beads to dry for 15 minutes, remove the rack from
+the magnetic, elute the beads in 15 uL, place the rack back on the magnet and
+then transfer the 15 uL to a new 1.5 mL microcentrifuge tube or 96-well plate.
+3.
+Run a BioAnalyzer High Sensitivity Chip or Agilent D5000 High Sensitivity Screentape
+according to the manufacturer's instructions.
+Use 1 ul of the purified CDNA sample as input.
+Your WTA library should be fairly smooth, with an average bp size of 0.7-2 kbps.
+4.
+Proceed to library preparation or store the WTA product at 4C (short-term) or -20C
+(long-term).
+EXPERIMENTAL NOTES
+Snc
+21
+
+
+
+Seq-Well Master Protocol
+June 2019
+Shalek & Love Labs, MIT
+Library Preparation
+Tagmentation of CDNA with Nextera XT
+1.
+Ensure your thermocyclers are setup for lagmentation (step 5) & PCR (step 9).
+2.
+For each sample, combine 1000 pg of purified CDNA with water in a total volume of 5 UL.
+It's ideal to dilute your PCR product in a separate tube/plate SO that you can add 5 uL of
+that for tagmentation.
+Example: For 1000 pg reactions, dilute PCR product, in a new plate, to 200 pg/ul, then
+you can add 5 ul of this to a reaction tube for a 1000 pg reaction.
+Note 1: We typically perform Nextera reactions in duplicate for WTA product from each
+pool of 6-8 PCR reactions. For example, if you recover 3 pools/array, you would run a
+total of 6 nextera reactions.
+Note 2: These volumes can be reduced by half to reduce reagent costs, if desired.
+3.
+To each tube, add 11 ul of Nextera TD buffer, then 4 ul of ATM buffer (the total
+volume of the reaction is now 20 UL).
+4.
+Mix by pipetting ~5 times. Centrifuge plate at 1000x g for 10-15 seconds.
+5.
+Incubate at 55C for 5 minutes.
+6.
+Add 5 ul of Neutralization Buffer. Mix by pipetting ~5 times. Note: Bubbles are normal.
+7.
+Incubate at room temperature for 5minutes.
+8.
+Add to each PCR tube:
+15 uL
+Nextera PCRmix
+8 uL
+H20
+1 ul
+10 UM New-P5-SMART PCR hybrid oligo
+1 uL
+10uM Nextera N7XX oligo
+9.
+After sealing and centrifuging (1 minute at 1000xg) the PCR plate, run the
+following PCR program:
+Start:
+72C
+3 minutes
+95C
+30 seconds
+12 cycles:
+95C
+10 seconds
+55C
+30 seconds
+72C
+30 seconds
+Final Extension:
+72C
+5 minutes
+4C
+Infinite hold
+22
+
+
+
+Seq-Well Master Protocol
+June 2019
+Shalek & Love Labs, MIT
+Purification of PCR products and analysis on the BioAnalyzer or Agilent TapeStation
+1.
+Ify you performed Nextera reactions in duplicates, please pool duplicates before proceeding
+with step 2. If you ran a single Nextera reaction for each pooled WTA, proceed directly to
+step 2.
+2.
+Purify PCR products using Ampure SPRI beads and the following protocol:
+Note: Please refer to the Ampure SPRI bead official protocol for more details.
+A.
+Spri at 0.6x volumetric ratio.
+B.
+Allow the tubes to sit on the tube-rack off the magnet for 5 minutes, and then place
+the rack on the magnet for 5 minutes.
+C.
+Perform 3 washes with 80% ethanol.
+Note: At each wash step rotate each tube 180 degrees 6 times toallow beads
+to pass through the ethanol solution to the opposite side of the tube.
+D.
+After the third wash, remove the 80% ethanol wash solution. Further, use a P200
+with fresh tips to remove any residual ethanol and allow beads to dry for 10-15
+minutes. (Note: Beads will have a cracked appearance once dry). Remove the
+rack from the magnet, elute dried beads in 100 uL, place the rack on the magnet
+and then transfer the 100 ul supernatant which contains eluted DNA to a new 1.5
+mL microcentrifuge tube or 96-well plate.
+E.
+Spri the 100 ul at 1.0x volumetric ratio and repeat steps b and C
+F.
+After the third wash, allow the beads to dry for 15 minutes, remove the rack from
+the magnetic, elute the beads in 15 UL, place the rack back on the magnet and
+then transfer the 15 ul to a new1 1.5 mL microcentrifuge tube or 96-well plate.
+3.
+Run a BioAnalyzer High Sensitivity Chip or Agilent D1000 High Sensitivity Screentape
+according to the manufacturer's instructions.
+Use 1 uL of the purified CDNA sample as input.
+Your tagmented library should be fairly smooth, with an average bp size of 400-800
+bp.
+Smaller-sized libraries might have more polyA reads
+Larger libraries may have lower sequence cluster density and cluster quality.
+Note: We have successfully sequenced libraries from 400-800bp.
+5.
+Proceedi to sequencing.
+23
+
+
+
+Seq-Well Master Protocol
+June 2019
+Shalek & Love Labs, MIT
+Sequencing
+Once your sequencing library has passed the proper quality controls, you're ready to proceed to
+sequencing. For a detailed loading protocol, please consult the Illumina website for a step-by-
+step manual. (https://support.illumina.com/downloads.html)
+NextSeq500 - Shalek Lab protocol
+1.
+Make a 5 ul library pool at 4 nM as input for denaturation.
+2.
+To this 5 uL library, add 5 ul of 0.2 N NaOH (make this solution fresh).
+3.
+Flick to mix, then spin down and let tube sit for 5 minutes at room temperature.
+4.
+After 5 minutes, add 5 ul of 0.2 M Tris-HCI pH 7.5.
+5.
+Add 985 ul of HT1 Buffer to make a 1 mL, 20 pM library (solution 1).
+6.
+In a new tube (solution 2), add 165 ul of solution 1 and dilute to 1.5 mLwith HT1 buffer
+to make a 2.2 pM solution - this is the recommended loading concentration.
+Note: Optimal loading concentration is 1.8-2.5 pM
+7.
+Follow Illumina's guide for loading a NextSeq500 Kit
+9
+Sequencing specifications for the MiSeq or NextSeq: a
+Read 1: 20 bp
+Read 2: 50 bp
+Read 1 Index: 8 bp + only necessary if you are multiplexing samples
+Custom Read 1 primer
+Sequencing specifications for the Nova-Seq:
+Read 1: 20 bp *
+Read 2: 50-80 bp
+Read 1 Index: 8 bp
+-
+Read 2 Index: 8 bp (optional, but recommended)
+Custom Read 1 primer
+Note 1: If you're loading on a Nova-Seq you'll want to use dual-indexing to mitigate
+index switching.
+Note 2: Read1 cansometimes be 21 base pairs; this depends on the company and
+bead lot you are ordering from. Please consult with your bead provider to determine which read
+length to use.
+NextSeq500:
+(http/supportillumina.com/content/dam/illumina-support/documents/documentation/system documentation/nextseq/nextseq:
+custom-primers-guide-15057456-01.pdf)
+(Follow Illumina's 's guide for custom primers)
+MiSeq:
+(httpillsupportillumina.com/content/damillumina-support/documents/documentation/system documentation/miseq/miseq-system-
+custom-primers-quide-15041638-01.pdf)
+24
+
+
+
+Seq-Well Master Protocol
+June 2019
+Shalek & Love Labs, MIT
+Appendix A: Array Synthesis
+Day 0: Pouring PDMS Arrays
+Note: If you need to mount your master, please refer to appendix F
+1.
+Combine Sylgard crosslinker with Sylgard base at a 1:10 ratio and mix vigorously for 5
+minutes to create a PDMS master mix.
+2.
+Once mixing is complete, put your PDMS master mix under vacuum for 20 minutes to
+remove any air bubbles.
+3.
+Use a 10 mL syringe to inject 6-10 mL of PDMS master mix into molds with mounted
+PDMS masters.
+4.
+Incubate at 70C for 2.5 hours.
+- -
+Day 1: Array Functionalization Part 1
+Note: For this section, make all solutions fresh!
+1.
+Remove excess PDMS from edges of the glassslide.
+20s
+2.
+Use scotch tape to remove excess PDMS from the surface of the array and the glass
+slide.
+25
+
+
+
+Seq-Well Master Protocol
+June 2019
+Shalek & Love Labs, MIT
+3.
+Place clean arrays into a metal slide basket
+VIT
+AO51
+4.
+Rinse arrays in 100% ethanol for 5 minutes, then let dryatroom temperature (RT) for 15
+minutes.
+DRERELTNS
+anume MORM
+5.
+Plasma treat arrays on high for 5-7 minutes.
+Note 1: Adjust the air valve SO that the plasma is pink.
+6.
+Following plasma treatment, immediately submerge arrays in 350 mL of 0.05% APTES
+in 95% ethanol for 15 minutes.
+7.
+Spin dry arrays (500 RPM for 1 minute).
+Note: Our rotor model is TX-10000 75003017 (Thermo) with a rotor radius of 209 mm.
+500 RPM on this instrument is a 60xg.
+26
+
+
+
+Seq-Well Master Protocol
+June 2019
+Shalek & Love Labs, MIT
+8.
+Incubate at room temperature for 10 minutes.
+9.
+Submerge in 300 mL of acetone and rock until all bubbles are out of the wells; this
+typically takes approximately 5 minutes.
+10. Place in 350 mL of 0.2% PDITC/10% pyridine/90% DMF solution in a glass chamber (or
+polypropylene tip box) for 2 hours at room temperature.
+Note: While this is rocking, prepare your chitosan solution (See Appendix D)
+M
+
+Laei
+ive
+11. After the PDITC soak, wash arrays briefly in two boxes of 300 mL DMF.
+Note: For each briefwash, simply dunk the arrays in the solution 5-10 times and then
+transfer to the new solution.
+12. Dunk and wash the arrays in 300 mL of acetone.
+13. Move toa fresh 350 mL of acetone and rock for 20 minutes.
+14. Spin dry arrays (500 RPM for 1 minute).
+15. Place arrays at 70C for 2 hours.
+16. Remove from oven and let sit at room temperature for 20 minutes.
+17. Submerge arrays in 350 mL of 0.2% chitosan solution (pH 6.0-6.1; See Appendix D) and
+incubate at 37C for 1.5 hours.
+27
+
+
+
+Seq-Well Master Protocol
+June 2019
+Shalek & Love Labs, MIT
+18. Wash arrays 4x in separate 300 mL distilled water baths.
+19. Submerge in 350 mL of 20 ug/mL aspartic acid, 2 M NaCI, and 100 mM sodium
+carbonate solution (pH 10.0)
+20. Place in vacuum chamber and apply house vacuum.
+Note: You should see bubbles form indicating the solvation of wells.
+21. Place vacuum chamber (still connected to house vacuum) on a rocker and rock (50-70
+RPM) overnight at room temperature.
+Day 2: Array Functionalization - Part 2
+1.
+The following morning, remove arrays from vacuum and rotate at 50-60 RPM for 3 hours
+at room temperature.
+2.
+Place arrays at 4C and soak 24 hours before use.
+Note: Arrays can be stored in the aspartic acid solution for3 months at 4C.
+EXPERIMENTAL NOTES
+-
+Love
+a
+Sue
+28
+
+
+
+Seq-Well Master Protocol
+June 2019
+Shalek & Love Labs, MIT
+Appendix B: Synthesis Protocol Checklist
+Date:
+Synthesizer:
+Number of Arrays:
+Start time:
+End time:
+2
+Before you start:
+1.
+Pull the PDITC from the fridge (this takes ~1hr to come to room temperature)
+2.
+Make certain you have enough boxes for the various incubations
+3.
+Clean a 1L bottle, add stir bar, and dissolve 1 gram of chitosan in 500mLof DI water
+Step 1: Plasma treatment of the arrays
+.
+1.
+Soak the arrays in 300mL of 95% ethanol for 5 minutes (50 rpm)
+2.
+Dry the arrays for 5 minutes @ 500 rpm (60xg)
+3.
+Plasma treat two trays at a time
+A.
+Form seal for 3 minutes
+B.
+Plasma treat for 5-7 minutes.
+C.
+What color was the plasma? (circle one):
+No Color
+Light purple
+Light pink
+D. While the arrays are, being treated, prep the APTES solution
+APTES Solution: 180ul ofAPTES stock in 350mL of 95% ethanol
+4.
+Proceed with protocol
+Step 2: PDITC Soak
+**Autoclave the chitosan solution after starting the PDITC incubation
+1.
+Volume of PDITC solution you're prepping:
+liters (Standard: 350 mL)
+2.
+Mass of PDITC added:
+grams (Standard: 0.72
+grams)
+3.
+Volumeof pyridine added:
+liters (Standard: 35 mL)
+4.
+Length of incubation:
+hours (Standard: 2 hours)
+5.
+Number of DMF washes:
+(Standard: 2 washes)
+6.
+Number of acetone washes:
+(Standard: 1 wash, and then transfer
+to new acetone box for a 20-minute soak)
+7. Proceed with protocol
+29
+
+
+
+Seq-Well Master Protocol
+June 2019
+Shalek & Love Labs, MIT
+Step 3: Oven incubation and chitosan preparation
+1.
+After 20-minute soak, remove arrays from acetone and spin down (1 min. @ 500 rpm)
+2.
+Length of 70C incubation:
+hrs (Standard: 2 hrs)
+3.
+Chitosan protocol checklist: Did you... (YIN responses)
+A.
+Autoclave chitosan (40-minute sterilization, 20-minute drying):
+B.
+Let solution come to room temperature (can also do this @ 4C):
+C.
+Calibrate the pH Meter with appropriate buffers:
+D.
+Add 4 mL of glacial acetic acid (solution should be on stir plate):
+E.
+Let solution stand for 5 minutes:
+F.
+Add 50 mL of 5 M NaCl:
+G.
+Titrate with 5 M NaOH:
+H.
+Achieve pH of 6.0 I 6.1:
+I.
+Remember, it is critical to make certain the you achieve a pH of 6.0 I- 6.1 and
+that it holds. Parts A-H should be completed before the completion of the 2 hr 70C
+incubation.
+4.
+Length of room temperature incubation:
+minutes (Standard: 20
+minutes)
+A.
+Second check of chitosan pH:
+5.
+Length of chitosan incubation:
+(Standard: 1.5 hrs)
+A.
+Temperature = 37C, Rotation = 70 rpm
+Step 4: In-well functionalization
+1.
+Number of DI water rinses:
+(Standard: 4)
+2.
+pH of aspartic acid solution:
+(Standard: pH 10)
+3.
+Length of overnightincubation:
+(Standard: 12-16 hrs)
+4.
+Day 2: length of room temperature incubation @ 50 rpm:
+(Standard: 4 hrs)
+Array Lot: <Your initials> <Synthesis Date> <Box Number>
+30
+
+
+
+Seq-Well Master Protocol
+June 2019
+Shalek & Love Labs, MIT
+Appendix C: Master Mounting Protocol
+1.
+Mix and degas PDMS in normal 1:10 ratio
+2.
+While PDMS degases, use sandpaper to gently score back of silicon master and base
+plate to improve adhesion. Careful - silicon masters are brittle.
+3.
+Wash back of master and base plate with 95% ethanol until no more dust is removed
+when wiping surface clean with paper towel.
+4.
+Use gloved finger to spread vacuum grease on bottom of BasePlate2 aroundsquare
+holes where the nanowell arrays will be cast. You want a relatively thick layer, even on
+skinny parts between array holes, to make sure there is a seal between master and plate.
+5.
+Carefully lower BasePlate2 onto the array side of the master making sure to not touch
+the array area with any of the greased surface. 4 array mastersshould fit into the 4 square
+holes. Gently slide plate against master to center thearrays.
+6.
+Place Base Plate 1 on paper towels to catch PDMS running off plate.
+7.
+Pour ~30 mL of mixed PDMS in center of Base Plate 1.
+8.
+Place master/BasePlate2 sandwich ont top of the PDMS.
+9.
+Gently apply pressure in the center of the master while making circular motions to push
+PDMS out from between layers. You want to see PDMS coming out of all sides to ensure
+a complete coat.
+10. Screw 6/32 screws into respective holes on base plate very gently. Too much pressure
+too fast may crack master. Do not fully tighten. Do your best to make screws even = look
+at width of crack between base plates on all sides and make equal.
+11. Place both top plates on top.
+12. Screw 10/24 screws into their holes just enough such that they catch. Again, do not fully
+tighten.
+13. Place in 90C oven for 3 hours.
+14. May need to do one dummy round of arrays to remove any PDMS or grease that got
+onto the nanowell features.
+31
+
+
+
+Seq-Well Master Protocol
+June 2019
+Shalek & Love Labs, MIT
+Appendix D: Buffers Guide
+CellCover10
+Reagents
+CellCover (Anacyte Art. No. 800-125)
+FBS (Thermo Fisher Scientific Cat. No. 10437028)
+Sodium Carbonate (Sigma Cat. No. 223530-500G)
+Working Concentrations
+10% FBS
+100 mM Sodium Carbonate
+Bead Loading Buffer
+VIT
+Reagents
+Sodium Carbonate (Sigma Cat No. 223530-500G)
+BSA (Sigma Cat No. A9418-100G)
+Water (Thermo Fisher Scientific Cat No. 10977023)
+Quick Preparation Guide (50 mL)
+1. 2.5 mL 2 M Sodium Carbonate
+2. 42.5 mL H20
+205
+3. Add 5 mL BSA (100 mg/mL)
+4. Titrate with glacial acetic acid to achieve al pH of 10.0
+Working Concentrations
+100 mM Sodium Carbonate
+10% BSA
+Complete Lysis Buffer
+Reagents
+Pre-lysis buffer
+10% Sarkosyl (Sigma Cat No. L7414)
+100% 2-Mercaptoethano (Sigma Cat No. M3148-25ML)
+Quick Preparation Guide (50 mL)
+1. 47.25 mL Pre-Lysis Buffer
+2. 250 ul 10%.Sarkosyl
+3. 500 ul BME
+Working Concentrations
+5M Guanidine Thiocyanate
+1 mM EDTA
+0.50% Sarkosyl
+1.0% BME
+32
+
+
+
+Seq-Well Master Protocol
+June 2019
+Shalek & Love Labs, MIT
+Hybridization Buffer
+Reagents
+51 M NaCI (Thermo Fisher Scientific Cat No. 24740011)
+1x PBS (Thermo Fisher Scientific Cat No. 10010023)
+8% (v/v) PEG8000 (Sigma Cat No. 83271-500ML-F)
+Quick Preparation Guide (50 mL)
+1. 20 mL 5 M NaCI
+2. 26 mL of PBS
+3. 4 mL PEG8000
+Working Concentrations
+21 M NaCI
+Wash Buffer
+VIT
+Reagents
+5 M NaCI (Thermo Fisher Scientific Cat No. 24740011)
+G
+1 MI MgCl2 (Sigma Cat No.63069-100ML)
+1 M Tris-HCI pH 8.0 (Thermo Fisher Scientific Cat No. 15568025)
+Water (Thermo Fisher Scientific Cat No. 10977023)
+8% (v/v) PEG8000 (Sigma Cat No. 83271-500ML-F)
+Quick Preparation Guide (50 mL)
+1. 20 mL 5 M NaCI
+2. 150 uL 1 M MgCl2
+3. 1 mL 1 M Tris-HCI pH 8.0
+4. 24.85 mL H20
+5. 4 mL PEG8000
+Concentrations
+ove
+Working
+2 M NaCl
+3 mM MgCl2
+20 mM Tris-HCI pH 8.0
+Array Quenching Buffers
+Reagents
+Sodium Carbonate (Sigma Cat No. 223530-500G)
+1 MTris-HCI pH 8.0 (Thermo Fisher Scientific Cat No. 15568025)
+Water (Thermo Fisher Scientific Cat No. 10977023)
+Quick Preparation Guide (50 mL)
+1. 2.5 mL 2 M Sodium Carbonate
+2. 500 uL 1 M Tris-HCI pH 8.0
+3. 47 mL H20
+Working Concentrations
+100 mM Sodium Carbonate
+10 mM Tris-HCI pH 8.0
+33
+
+
+
+Seq-Well Master Protocol
+June 2019
+Shalek & Love Labs, MIT
+0.2% Chitosan Solution
+Reagents
+Chitosan (Sigma Cat No. C3646-100G)
+Water (Thermo Fisher Scientific Cat No. 10977023)
+Quick Preparation Guide
+1. Add 1 gram of chitosan to 500 mL of DI water
+2. Autoclave solution (40 minutes sterilization, 20 minutes dry)
+3. Allow chitosan solution to come to room temperature, and then add 2-3 mL of glacial acetic
+acid.
+Note: The chitosan will not start dissolving until the pH is acidic, and even then itwillnot
+fully dissolve. This is ok.
+4. Add 50 mL 5 M NaCl, then titrate the chitosan solution with NaOH to bring the pH to
+6.2.
+TE - Tween Storage Solution
+- -
+10 mM Tris pH 8.0 + 1 mM EDTA
+0.01% Tween-20
+Quick Preparation Guide (50 mL)
+1. 49.95 mL H20
+2. 5 uL Tween-20
+Vasei
+TE - SDS Solution
+10 mM Tris pH 8.0 + 1 mM EDTA
+0.5% SDS
+Quick Preparation Guide (50 mL)
+ove
+1. 49.75 mL H20
+-
+2. 50 ul SDS
+-
+SOe
+34
+
+
+
+Seq-Well Master Protocol
+June 2019
+Shalek & Love Labs, MIT
+Appendix E: Bead Removal Method 2 ("Spin-Out")
+1.
+Remove membrane and place array into an empty 50 mL conical tube.
+2.
+Ensure that the array is angled within the tube as shown below.
+Note: The array might move around at this point, which isn't something to worry about.
+-
+3.
+Add 48-50 mL of Wash 1 solution (See Buffers Guide)
+4.
+Place the insert SO the array is secured angled as shown in the image below.
+5.
+Secure the lid and seal with parafilm, if necessary.
+6.
+Put the sealed conical in a centrifuge, making certain the PDMS surface of the array is
+facing away from the rotor arm (See Diagram Below).
+7.
+Centrifuge at 2000 X g for 5 minutes to remove the beads.
+8.
+At this point you should see a small, but visible, pelletof beads at the bottom of the tube.
+9.
+Aspirate 5 - 10 mL of Wash 1 solution to enableeasier removal of the array.
+10. Remove the array and carefully position it over the top of the 50 mL tube.
+11. Repeatedly wash any remaining beads from the surface of the array over the surface of
+the 50 mL falcon tube using 1 mL of Wash 1 remaining in the tube.
+12. Spin again at 2000 X g for 5 minutes to pellet beads.
+13. Aspirate all wash 1 solution except for - 1mL.
+Note: Be carefulto not disturb the pellet of beads.
+14. Transfer beads to a 1.5 mL centrifuge tube and proceed to reverse transcription.
+on
+35
+
+
+
+Seq-Well Master Protocol
+June 2019
+Shalek & Love Labs, MIT
+Appendix F: Imaging in Array
+1.
+When pre-imaging cells, cells should be loaded first as beads will obstruct view of many
+cells and beads autofluorescence can interfere with the signal.
+2.
+Obtain a cell or tissue sample and prepare a single cell suspension using your preferred
+protocol.
+3. Count cells using a nemocytometer and resuspend 10,000 cells in 200 uL of cold
+CellCover (Anacyte).
+4.
+Incubate cells in at 4C for 1 hour.
+5.
+After the cells have been fixed, perform antibody staining at 4C.
+AA
+Note: Some epitopes may no longer be available as a result of the fixation process.
+6.
+Wash cells twice with 1x PBS, resuspend in 200 ul of CellCover10 buffer (pH 10 + 10%
+FBS; See Appendix D: Buffers Guide), and place on ice. -
+Note: CellCover != CellCover10.
+7.
+Obtain empty functionalized array(s), aspiratestorage solution and soak each array in 5
+mL of CellCover10 buffer (See Appendix D: Buffers Guide).
+8.
+Aspirate media and load your fixed cells onto each array in a dropwise format.
+9.
+Gently rock the array(s) in the X & y direction for 5 minutes.
+10. Wash each array twice with5 mL of CellCover10 (pH 10 + 10% FBS), then solvate each
+them in 5 mL of CellCover (No FBS).
+11. Place a lift slipone each array, then image with a microscope.
+12. After imaging, wash each array in 5 mL of CellCover10 media.
+13. Immediately load beads using the bead loading protocol provided above.
+Note: In the protocol provided above, beads are washed and loaded in BLB. When
+loading cells first, you will replace BLB with CellCover10 for all steps. After beads are loaded and
+sufficiently washed, you will wash the array 4x with CellCover10 without FBS and solvate arrays
+in CellCover.
+14. Proceed with membrane sealing.
+36
+
+
+
+Seq-Well Master Protocol
+June 2019
+Shalek & Love Labs, MIT
+Appendix G: Shopping List
+Device Manufacturing
+Equipment
+Dow Corning Sylgard 184 Silicone Encapsulant Clear 0.5 kg kit (Part No. 184 SIL
+ELAST KIT 0.5 PG)
+Protolabs Custom Array Molding Plates (Please refer to www.shaleklab.com/seq-well
+Make out of aluminum and make sure to tap holes only on base plateBasePlate1
+v3.1 (Bottom plate you mount the wafer to)
+BasePlate2 v3.1 (Divider for arrays)
+TopPlate1 V3.1 (Plate that holds the glass slides)
+TopPlate2 v3.1 (Top plate)
+45 micron Silicon Master Wafer Size (Please refer to www.shaleklab.com/seq-well)
+Master, pre-silanized - (FlowJem, Inc. Toronto, Canada)
+Corning 72x25 Microscope Slides (Corning Life Sciences Cat. No. 2947)
+6/32 Ya" Hex Screws
+-
+5/8" Hex 10/24 Screws
+Hex Screwdriver
+0
+Vacuum grease
+80 grit sandpaper
+95% ethanol in spray bottle
+Array Functionalization
+Equipment
+ve
+Plasma Oven (Harrick Plasma PDC-001-HP)
+2x: 30-slide rack slotted (VWR Cat No. 25461-014)
+16x20 cm staining dish (VWR Cat No. 25461-018)
+Vacuum Desiccator (VWR Cat No. 24988-164)
+Sterile 4-well dishes (Thermo Fisher Scientific Cat No. 267061)
+Reagents
+200 proof ethanol (VWR Cat No. 89125-188)
+3-Aminopropyltriethoxysilane (Sigma Cat No. A3648)
+Acetone (Avantor Product No. 2440-10)
+p-Phenylene Diisothiocyanate (PDITC) (Sigma Cat No. 258555-5G)
+Pyridine (Sigma 270970-1L)
+Dimethyfformamide (DMF) (Sigma Cat No. 227056-1L)
+Chitosan (Sigma Cat No. C3646-100G)
+Poly(L-glutamic) acid sodium solution (Sigma Cat No. P4761-100MG)
+5M NaCl (Sigma Cat No. S6546-1L)
+Sodium Carbonate (Sigma Cat No. S2127-500G)
+37
+
+
+
+Seq-Well Master Protocol
+June 2019
+Shalek & Love Labs, MIT
+Buffer Reagents
+Bead Loading Buffer
+Sodium Carbonate (Sigma Cat No. 223530-500G)
+BSA (Sigma Cat No. A9418-100G)
+Water (Thermo Fisher Scientific Cat No. 10977023)
+Complete Lysis
+Guanidine Thiocyanate, (Sigma Cat No. AM9422)
+0.5 M EDTA (Thermo Fisher Scientific Cat No. 15575020)
+Water (Thermo Fisher Scientific Cat No. 10977023)
+10% Sarkosyl (Sigma Cat No. L7414)
+100% 2-Mercaptoethanol (Sigma Cat No. M3148-25ML)
+Hybridization Buffer
+
+51 M NaCI (Thermo Fisher Scientific Cat No. 24740011)
+1x PBS (Thermo Fisher Scientific Cat No. 10010023)
+-
+C
+PEG-8K (50%) (Fisher Scientific Cat No. BP337-100ML)
+Wash Buffer
+5 M NaCl (Thermo Fisher Scientific Cat No. 24740011)
+1 M MgCl (Sigma Cat No.63069-100ML)
+1 M Tris-HCI pH 8.0 (Thermo Fisher Scientific Cat No. 15568025)
+Water (Thermo Fisher Scientific Cat No. 10977023)
+Array Quenching Buffer
+Sodium Carbonate (Sigma Cat No. 223530-500G)
+1 M Tris-HCI pH 8.0 (Thermo Fisher Scientific Cat No. 15568025)
+Water (Thermo Fisher Scientific Cat No. 10977023)
+RT Reagents
+UltraPure Distilled Water (Thermo Fisher Scientific Cat No. 10977023)
+Maxima 5x RT Buffer/Maxima H-RT (Thermo Fisher Scientific Cat No. EPO0753)
+20% Ficoll PM-400 (Sigma Cat No. F5415-50mL)
+10 mM dNTPS (New England BioLabs Cat No. N0447L)
+RNAse Inhibitor (Thermo Fisher Scientific Cat No. AM2696)
+Template Switching Oligo (Order from IDT)
+Exonuclease Reagents
+Exonuclease I (E. coli) (New England Biolabs Cat No. MO293S)
+Second Strand Synthesis Reagents
+Maxima 5x RT Buffer/Maxima H-RT (Thermo Fisher Scientific Cat No. EPO0753)
+10 mM dNTPS (New England BioLabs Cat No. N0447L)
+dN-SMART Oligo (Order from IDT)
+UltraPure Distilled Water (Thermo Fisher Scientific Cat No. 10977023)
+Klenow Exo- (New England BioLabs Cat No. M0212S)
+30% PEG8000 (Sigma-Aldrich 89510-1KG-F)
+38
+
+
+
+Seq-Well Master Protocol
+June 2019
+Shalek & Love Labs, MIT
+PCR Reagents
+IS PCR Primer (Order from IDT)
+KAPA HiFi Hotstart Readymix PCR Kit (Kapa Biosystems Cat No. KK-2602)
+Nextera Reagents
+Nextera XT DNA Library Preparation Kit (96 samples) (Illumina FC-131-1096)
+New-P5-SMART PCR Hybrid Oligo (Order from IDT)
+Nextera N70X Oligo (Order from Illumina)
+Operating Equipment
+Polycarbonate (PCTE) 0.01 micron 62x22 mm precut membranes, 100 count (Sterlitech
+Custom Order)
+mRNA Capture Beads (Chemgenes Cat No. MACOSKO-2011-10)
+Lifter Slips, 25x60mm (Electron Microscopy Science Cat No. 72186-60)
+Agilent Clamps (Agilent Technologies Cat No. G2534A)
+Sequences
+2
+Barcoded Bead SeqB:
+5-Bead-Linker--TTTTTTTAAGCAGTGTGGTATCAACGCAGAGTAC-
+JJJJJJJJJJJJJNNNNNNNNTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT-3
+Template Switching Oligo (TSO):
+AAGCAGTGGTATCAACGCAGAGTGAATTGrGrG
+dN-Smart Randomer (dN-SMRT):
+AAGCAGTGGTATCAACGCAGAGTGANNNGGNNNB
+Smart PCR Primer (TSO PCR):
+AAGCAGTGTGGTATATCAACGCAGAGT
+New-P5-SMART PCRHybrid Oligo (P5-TSO Hybrid):
+AATGATACGGCGCGACCACCGAGATCTACACACGCCTGTC-
+CGCGGAAGCAGTGGTATCAACGCAGAGT*A*C
+Custom Read 1 Primer (Read 1 Custom SeqB):
+GCCTGTCCGCGGAAGCAGTGGTATCAACGCAGAGTAC
+39

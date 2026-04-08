@@ -1,0 +1,79 @@
+{
+  "protocol_id": "mcscrb-seq",
+  "protocol_name": "mcSCRB-seq",
+  "references": {
+    "scg_lib_structs": "https://teichlab.github.io/scg_lib_structs/methods_html/SCRB-seq.html",
+    "paper": "https://www.biorxiv.org/content/early/2017/10/18/188367",
+    "protocol_pdf": null
+  },
+  "library_sequence": "AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCTBBBBBBUUUUUUUUUUCTGTCTCTTATACACATCTCCGAGCCCACGAGACIIIIIIIIATCTCGTATGCCGTCTTCTGCTTG",
+  "segments": [
+    {
+      "name": "P5 adapter",
+      "type": "known",
+      "sequence": "AATGATACGGCGACCACCGAGATCTACAC",
+      "length": 29
+    },
+    {
+      "name": "TruSeq Read 1",
+      "type": "known",
+      "sequence": "TCTTTCCCTACACGACGC",
+      "length": 18
+    },
+    {
+      "name": "Linker",
+      "type": "known",
+      "sequence": "TCTTCCGATCT",
+      "length": 11
+    },
+    {
+      "name": "Cell barcode",
+      "type": "barcode",
+      "char": "B",
+      "sequence": "BBBBBB",
+      "length": 6,
+      "role": "6bp cell barcode"
+    },
+    {
+      "name": "UMI",
+      "type": "umi",
+      "char": "U",
+      "sequence": "UUUUUUUUUU",
+      "length": 10,
+      "role": "10bp UMI for PCR deduplication"
+    },
+    {
+      "name": "ME (Mosaic End)",
+      "type": "known",
+      "sequence": "CTGTCTCTTATACACATCT",
+      "length": 19
+    },
+    {
+      "name": "s7",
+      "type": "known",
+      "sequence": "CCGAGCCCACGAGAC",
+      "length": 15
+    },
+    {
+      "name": "Sample index",
+      "type": "index",
+      "char": "I",
+      "sequence": "IIIIIIII",
+      "length": 8,
+      "role": "i7 sample index for demultiplexing"
+    },
+    {
+      "name": "P7 adapter",
+      "type": "known",
+      "sequence": "ATCTCGTATGCCGTCTTCTGCTTG",
+      "length": 24
+    }
+  ],
+  "placeholder_key": {
+    "B": "cell barcode",
+    "U": "UMI",
+    "I": "sample index"
+  },
+  "total_length": 140,
+  "notes": "mcSCRB-seq (molecular crowding SCRB-seq). 6bp cell barcode, 10bp UMI. Nextera Tn5 tagmentation. cDNA insert dropped."
+}

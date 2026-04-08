@@ -19,6 +19,7 @@ USER_AGENT = "librarystructdb/1.0"
 class ProtocolPDF:
     protocol_id: str
     source_path: Path
+    target_path: Path | None
     url: str | None
 
 
@@ -77,13 +78,34 @@ def load_protocols(protocol_dir: Path) -> tuple[list[ProtocolPDF], list[str]]:
         if not isinstance(protocol_id, str) or not protocol_id.strip():
             protocol_id = path.stem
 
-        url = references.get("protocol_pdf")
-        if url is not None and not isinstance(url, str):
+        protocol_link = references.get("protocol_link")
+        protocol_pdf = references.get("protocol_pdf")
+        if protocol_link is not None and not isinstance(protocol_link, str):
+            issues.append(f"{path}: references.protocol_link must be a string or null")
+            continue
+        if protocol_pdf is not None and not isinstance(protocol_pdf, str):
             issues.append(f"{path}: references.protocol_pdf must be a string or null")
             continue
 
+        # Backward compatibility: legacy records stored the remote source URL in protocol_pdf.
+        if protocol_link is None and isinstance(protocol_pdf, str):
+            if parse.urlparse(protocol_pdf).scheme in {"http", "https"}:
+                url = protocol_pdf
+                target_path = None
+            else:
+                url = None
+                target_path = Path(protocol_pdf)
+        else:
+            url = protocol_link
+            target_path = Path(protocol_pdf) if isinstance(protocol_pdf, str) else None
+
         records.append(
-            ProtocolPDF(protocol_id=protocol_id.strip(), source_path=path, url=url)
+            ProtocolPDF(
+                protocol_id=protocol_id.strip(),
+                source_path=path,
+                target_path=target_path,
+                url=url,
+            )
         )
 
     return records, issues
@@ -130,13 +152,33 @@ def find_existing_target(output_dir: Path, protocol_id: str) -> Path | None:
     return matches[0] if matches else None
 
 
+def resolve_target(record: ProtocolPDF, output_dir: Path, extension: str | None = None) -> Path:
+    if record.target_path is not None:
+        target = record.target_path
+        if not target.is_absolute():
+            target = record.source_path.parent.parent / target
+        if extension is not None and target.suffix.lower() != extension.lower():
+            raise ValueError(
+                f"{record.protocol_id}: target path {target} does not match downloaded extension {extension}"
+            )
+        return target
+
+    if extension is None:
+        existing = find_existing_target(output_dir, record.protocol_id)
+        if existing is not None:
+            return existing
+        return output_dir / safe_filename(record.protocol_id)
+
+    return output_dir / f"{safe_filename(record.protocol_id)}{extension}"
+
+
 def download_document(
     record: ProtocolPDF, output_dir: Path, overwrite: bool, timeout: int
 ) -> tuple[str, str]:
     if not record.url:
-        return "skipped", f"{record.protocol_id}: no protocol_pdf URL"
+        return "skipped", f"{record.protocol_id}: no protocol_link URL"
 
-    existing_target = find_existing_target(output_dir, record.protocol_id)
+    existing_target = resolve_target(record, output_dir)
     if existing_target is not None and not overwrite:
         return "skipped", f"{record.protocol_id}: {existing_target} already exists"
 
@@ -153,9 +195,12 @@ def download_document(
     if not payload:
         return "error", f"{record.protocol_id}: empty response from {record.url}"
 
-    output_dir.mkdir(parents=True, exist_ok=True)
     extension = guess_extension(content_type, final_url)
-    target = output_dir / f"{safe_filename(record.protocol_id)}{extension}"
+    try:
+        target = resolve_target(record, output_dir, extension=extension)
+    except ValueError as exc:
+        return "error", str(exc)
+    target.parent.mkdir(parents=True, exist_ok=True)
     if overwrite and existing_target is not None and existing_target != target:
         existing_target.unlink()
     tmp_target = target.with_name(f"{target.name}.part")

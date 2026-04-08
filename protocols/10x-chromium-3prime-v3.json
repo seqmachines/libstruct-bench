@@ -4,7 +4,8 @@
   "references": {
     "scg_lib_structs": "https://teichlab.github.io/scg_lib_structs/methods_html/10xChromium3.html",
     "paper": "https://www.nature.com/articles/ncomms14049",
-    "protocol_pdf": "https://teichlab.github.io/scg_lib_structs/data/10X-Genomics/CG000183_ChromiumSingleCell3__v3_UG_Rev-A.pdf"
+    "protocol_link": "https://teichlab.github.io/scg_lib_structs/data/10X-Genomics/CG000183_ChromiumSingleCell3__v3_UG_Rev-A.pdf",
+    "protocol_pdf": "protocol_sources/10x-chromium-3prime-v3.pdf"
   },
   "library_sequence": "AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCTBBBBBBBBBBBBBBBBUUUUUUUUUUUUGATCGGAAGAGCACACGTCTGAACTCCAGTCACIIIIIIIIATCTCGTATGCCGTCTTCTGCTTG",
   "segments": [

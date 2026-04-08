@@ -4,7 +4,8 @@
   "references": {
     "scg_lib_structs": "https://teichlab.github.io/scg_lib_structs/methods_html/PIP-seq.html",
     "paper": "https://www.nature.com/articles/s41587-023-01685-z",
-    "protocol_pdf": null
+    "protocol_link": "https://crtp.ccr.cancer.gov/wp-content/uploads/fsgc-protocols/PIPseq-V-T2-3-Single-Cell-RNA-Kit-User-Guide-1-4.pdf",
+    "protocol_pdf": "protocol_sources/PIPseq-V-T2-3-Single-Cell-RNA-Kit-User-Guide-1-4.pdf"
   },
   "library_sequence": "AATGATACGGCGACCACCGAGATCTACACGCCTGTCCGCGGAAGCAGTGGTATCAACGCAGAGTACGACTCCTCTTTCCCTACACGACGCTCTTCCGATCTBBBBBBBBATGCATCBBBBBBBBCCTCGAGBBBBBBBBUUUUUUUUUUUUCTGTCTCTTATACACATCTCCGAGCCCACGAGACIIIIIIIIATCTCGTATGCCGTCTTCTGCTTG",
   "segments": [

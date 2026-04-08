@@ -1,0 +1,2856 @@
+Fluent
+BioSciences
+-
+PIPseq TM VT2: 3' Single Cell
+RNA Kit
+User Guide
+For use with the PIPseq V T23 3' Single Cell RNA Kit Bundle which contains:
+PIPseq V T2 Capture & Barcoding Kit, FB0005356
+PIPseq VI Library Prep Kit, FB0005372
+Doc ID: FB0005260
+Revision: 1.5
+State: Release
+
+
+
+Table of Contents
+1. Introduction
+4
+1.1. Protocol Timing
+4
+1.2. PIPseq Platform Overview
+5
+1.2.1.] PIPseq VT23 3' Capture and Barcoding Kit
+5
+1.2.2. PIPseq V Universal Starter Equipment Kit
+6
+1.2.3. PIPseq V T23' Capture & Barcoding Consumables Kit
+7
+1.2.4. PIPseq V T23' Capture & Barcoding Ambient Kit
+7
+1.2.5. PIPseq VT23 3' Capture & Barcoding -20°C Kit
+7
+1.2.6. PIPseq VT23 3' Capture & Barcoding -80°C Kit
+8
+1.2.7. PIPseq VI Library Prep Kit
+8
+1.2.8. PIPseq VI Library Prep Ambient Kit
+8
+1.2.9. PIPseq VI Library Prep -20°C Kit
+8
+1.3. Third Party Reagent, Equipment and Consumable Requirements
+9
+1.3.1 Required Third Party Reagents
+9
+1.3.2 Required Third Party Consumables
+9
+1.3.3. Required Third Party Equipment
+10
+1.3.4. PIPseq-Compatible Alternative RNase Inhibitors
+11
+1.4 Guide to Protocol Notes
+11
+2. Best Practices
+12
+2.1. Working with RNA
+12
+2.2. Working with PCR Products
+12
+2.3. Centrifuge Steps
+13
+2.4. Thermocycler Lid Pressure
+13
+2.5. Cell Loading
+13
+3. PIPseq Equipment Preparation
+14
+3.1. PIPseq Vortexer Operation
+14
+3.2. PIPseq Dry Bath Operation
+15
+3.2.1. PIPseq Dry Bath
+15
+3.2.2. PIPseq Dry Bath Lid Settings and Control
+15
+3.2.3. PIPseq Dry Bath Control
+15
+3.2.4. PIPseq Dry Bath Protocols
+16
+4. Sample Preparation
+17
+4.1. Cell Preparation
+17
+4.1.2 Working with Fixed Cells
+19
+4.2. Nuclei Preparation
+20
+4.2.1. Nuclei Isolation
+20
+4.2.2. Working with Fixed Nuclei
+21
+4.2.3. Nuclei Suspension Buffer Preparation
+21
+5. PIPseq VT21 Protocol
+22
+5.1. Capture and Lysis
+22
+Fluent
+BioSciences
+PIPseq V T23' Single Cell RNA Kit User Guide I 2
+
+
+
+5.2. mRNA Isolation
+27
+5.2.1. Reagent Preparation
+27
+5.2.2. Breaking Emulsions
+28
+5.2.3. Washing PIPS with 1X Washing Buffer
+30
+5.2.4. Normalize PIP volume to 39 UL
+31
+5.3. CDNA Synthesis
+32
+5.3.1. Reverse Transcription
+33
+5.3.2. Washing PIPS with 0.5X Washing Buffer
+33
+5.4. CDNA Whole Transcriptome Amplification
+35
+5.5. Isolate CDNA from PIPS
+36
+5.5.1. CDNA Isolation
+36
+5.5.2. Magnetic Bead Purification
+37
+5.6. CDNA QC
+39
+5.6.1. CDNA Amplification for QC
+39
+5.6.2. CDNA Isolation for QC
+40
+5.6.3. Qubit Quantification
+42
+5.6.4. Fragment Analysis
+42
+5.7.1 Library Preparation
+43
+5.7.1. Fragmentation, End Repair & A-Tailing
+43
+5.7.2. Adapter Ligation
+45
+5.7.3. Post Ligation Cleanup
+45
+5.7.4. Sample Index PCR
+47
+5.7.5. Post Sample Index PCR Cleanup (one-sided)
+48
+5.8. Post Library Preparation QC
+49
+5.8.1. Qubit Quantification
+49
+5.8.2. Fragment Analysis
+49
+6. Sequencing
+50
+6.1. Library Structure
+50
+6.2. Recommended Sequencing Depth
+50
+6.3. Sequencer Compatibility
+51
+6.4. Pooling for Illumina Sequencers
+51
+6.5. Informatics Analysis
+51
+6.6. PIPseq 3' Index Sequences
+52
+7. Appendix I - CDNA Reamplification with the SEA Kit
+52
+8. Appendix II - Oligonucleotide Sequences
+53
+9.Appendix III - Abbreviations
+53
+10. Appendix IV - Troubleshooting
+54
+11. Document Revision Summary
+55
+12. Legal Notices
+55
+Support
+55
+Fluent
+PIPseq V T23'
+Cell RNA Kit User Guide I 3
+BioSciences
+Single
+
+
+
+1.Introduction
+The Fluent BioSciences PIPseqTM V' T23' Single Cell RNA Kit uses Particle-templated Instant Partitions
+(PIPS) to combine single cell or nuclei suspensions with barcoded beads to produce sequencing-ready
+libraries in less than 2 days. This kit is configured with 8 individual reactions, in which up to 2,000 cells
+or nuclei can be profiled per reaction. Sequencing data can be processed through PIPseekerTM, a
+comprehensive analysis solution that provides users with detailed metrics, gene expression profiles, basic
+cell quality and clustering. The "Getting Started with PIPseeker tutorial" can be downloaded at
+https://www.fluentbio.com/products/pipseeker-software-for-data-analysis!.
+1.1. Protocol Timing
+Hands
+Stage
+Steps
+Duration
+Stopping Point
+On Time
+Reagent Preparation
+~30 min
+General Cell Preparation
+~21 hrs
+-1-1.5 hrs
+(user cell type dependent)
+mRNA
+Capture Capture and Lysis
+1 hr 40 min 20°C for up to 96 hrs -10 min
+mRNA Isolation
+Breaking Emulsions
+15 min
+Washing PIPS with 1X Washing Buffer
+30 min
+~45 min
+CDNA Synthesis
+Reverse Transcription
+21 hr 30 min 4°C overnight
+Washing PIPS with 0.5X Washing Buffer
+30 min
+-30 min
+CDNA Whole Transcriptome Amplification
+1 hr
+4°C overnight
+CDNA
+Isolate CDNA from PIPS
+Preparation CDNA Isolation
+20 min
+PIPS pellet -80°C
+-50 min
+Magnetic Bead Purification
+30 min CDNA -80°C <721 hrs
+CDNA QC: and Quantification
+QC PCR
+1 hr 20 min
+-30 min
+Magnetic Bead Purification
+30 min
+Quantification & Fragment Size Analysis 20 min
+Library Preparation
+Fragmentation, End Repair & A-Tailing
+50 min
+2 hrs
+Adapter Ligation
+30 min
+Library
+Post Ligation Cleanup
+20 min
+Sample Index PCR
+1 hr
+4°C overnight
+Preparation
+Post Sample Index PCR Cleanup
+30 min
+-20°C long-term
+~30 min
+Post Library Preparation QC
+Quantification & Fragment Size Analysis 25 min
+Fluent BioSciences
+PIPseq V T23' Single Cell RNA Kit User Guide I 4
+
+
+
+1.2. PIPseq Platform Overview
+The PIPseq V T23' Single Cell RNA workflow requires a reagent kit for single cell capture and
+barcoding, a library preparation kit for preparing sequencing-ready libraries, and a starter kit containing
+required equipment. The PIPseq VT23 3' Capture & Barcoding Kit consists of three reagent kits (Ambient,
+-20°C, and -80°C) and a Consumables kit. Users planning to prepare libraries for short-read sequencing
+should purchase the PIPseq V Library Prep Kit. All PIPseq kits require a single-purchase Starter
+Equipment Kit containing the required equipment to run the workflow. Be sure to review and store
+reagents at appropriate temperatures according to instructions below.
+Storage requirements upon receiving the PIPseq V T23' Single Cell RNA kits:
+Remove the Capture & Barcoding -80°C Kit containing the TSO aliquots (FB0005108) and PIP
+tubes (FB0005086) from the dry ice shipping container and store at -85°C to -75°C.
+Remove the Breaking Buffer (FB0005065),Washing Buffer (FB0004787), and Fluent Magnetic
+Cleanup Beads (FB0004980) from the Capture & Barcoding Ambient Kit and store at 2°C to 8°C.
+Store the remaining components in the PIPseq V' T2 Capture & Barcoding Ambient Kit between
+15°C to 30°C. From the VLibrary Prep Ambient Kit, store the Nuclease-Free Water (FB0005085)
+between 15°C to 30°Cand the Fluent Magnetic Cleanup Beads (FB0005079) at 2°Cto 8°C. Store
+the PIPseq V T2 Capture & Barcoding -20°C Kit and the V Library Prep -20°C Kit-25°Cto-15°C.
+1.2.1. PIPseq V T23' Capture and Barcoding Kit
+Kit
+Full Kit] Name
+Catalog Number
+Storage
+15°C to 30°C
+(store Washing Buffer, Breaking
+Ambient Kit
+PIPseq VT23' Capture &
+FB0005360
+Buffer, and Fluent Magnetic
+Barcoding Ambient Kit
+Cleanup Beads at 2°C to 8°C
+upon receipt)
+-20°C Kit
+PIPseq VT23' Capture &
+FB0005364
+25°Cto-15°C
+Barcoding -20C Kit
+-80°C Kit
+PIPseq VT23' Capture &
+FB0005368
+-85°C to -75°C
+Barcoding -80C Kit
+Consumables Kit
+PIPseq VT23' Capture &
+FB0005380
+15°Cto30°C
+Barcoding Consumables Kit
+PIPseq V Universal Starter
+Starter Kit
+FB0005379
+15°C to 30°C
+Equipment Kit
+Fluent BioSciences
+PIPseq V T23' Single Cell RNA Kit User Guide I 5
+
+
+
+1.2.2. PIPseq V Universal Starter Equipment Kit
+Used for
+Component Name
+Part Number
+Units
+Kit: size
+PIPseq Vortex Mixer
+FBS-SCR-DVM
+1
+All
+PIPseq rotating vortex assembly for 5 mL tubes
+FB0003848
+1
+T100
+PIPseq rotating vortex assembly for 1.5 mL tubes
+FB0002100
+1
+T20
+PIPseq rotating vortex assembly for 0.51 mL tubes
+FB0002084
+1
+T2&T10
+Rotating vortex base assembly
+FB0003847
+2
+All
+User manual for PIPseq Vortex Mixer
+FB0002745
+1
+All
+US Power Supplies for Vortex Mixer
+FB0002353
+1
+All
+PIPseq Combination 1.5 mL: and 0.5 mL tube stand
+FB0004993
+2
+T2,T10,T20
+PIPseq 8-tube stand, black, for 0.2 mL tubes
+FB0001024
+1
+T2
+PIPseq guide rack, red
+FB0001549
+1
+T2
+International Plug Converter
+FB0005397
+2
+All
+PIPseql Dry Bath 5 mL block
+FB0002675
+1
+T100
+PIPseql Dry Bath 1.5 mL block
+FB0002498
+1
+T20
+PIPseq Dry Bath 0.5 mL block
+FB0002497
+1
+T2&T10
+US Power Supplies for PIPseq Dry Bath
+FB0002363
+1
+All
+User Manual for PIPseq Dry Bath
+FB0002664
+1
+All
+PIPseq Dry Bath with heated lid
+FBS-SCR-PDB
+1
+All
+With below materials enclosed within the Dry Bath box
+2.5 mm Allen key wrench, silver
+FB0002666
+1
+PIPseq Dry Bath Stylus
+FB0002667
+1
+Replacement tips for PIPseq Dry Bath Stylus
+FB0002668
+1
+5x20 mm 5A 250V Fast blow fuse for PIPseq Dry
+1
+Bath
+FB0002669
+Dry block removal tool, white
+FB0002670
+1
+Fluent
+PIPseq V T23'
+Cell RNA Kit User Guide I 6
+BioSciences
+Single
+
+
+
+1.2.3. PIPseq V T23' Capture & Barcoding Consumables Kit
+WARNING: The materials below are necessary for the PIPseq V' T23' Single Cell RNA
+workflow. The specific brands of plastic consumables have been validated for stability of
+PIP emulsions. Substituting these materials may adversely affect performance.
+Component Name
+Part Number
+Units
+1.5 mL Safe-Lock PCR Clean tubes, Eppendorf 022363212
+FB0001870
+1 Bag of 8
+0.51 mL Safe-Lock PCR Clean tubes, Eppendorf 022363719
+FB0001841
+1 Bag of 8
+0.2 mL PCR 8-tube strip without Cap, Greiner Bio-One, 673210
+FB0002076
+1 strip of 8
+PCR 8-Cap strips, domed cap, Greiner Bio-One, 373270
+FB0001055
+3 Strips of 8
+1.2.4. PIPseq V' T23' Capture & Barcoding Ambient Kit
+Component Name
+Storage
+Part Number
+Units
+Partitioning Reagent
+15°C to 30°C
+FB0004795
+1
+Chemical Lysis Buffer 3 (CLB3)
+15°Cto 30°C
+FB0005087
+1
+De-Partitioning Reagent
+15°Cto30°C
+FB0005105
+1
+Fluent Magnetic Cleanup Beads
+2°C to 8°C
+FB0004980
+1
+CE Buffer
+15°Cto 30°C
+FB0005064
+1
+Breaking Buffer
+2°Cto8°C
+FB0005065
+1
+Washing Buffer
+2°C to 8°C
+FB0004787
+1
+1.2.5. PIPseq V T23' Capture & Barcoding -20°C Kit
+Component Name
+Storage
+Part. Number
+Units
+6X Nuclei Suspension Buffer
+-25°Cto-15°C
+FB0005066
+1
+RT Enzyme Mix
+-25°Cto-15°C
+FB0005089
+1
+RT. Additive Mix V
+-25°Cto-15°C
+FB0005106
+1
+4X PCR Master Mix
+-25°Cto-15°C
+FB0005090
+1
+WTA Primer
+-25°Cto-15°C
+FB0005091
+1
+RNase Inhibitor (40U/UL)
+-25°Cto-15°C
+FB0005096
+1
+Cell Suspension Buffer
+-25°Cto-15°C
+FB0005067
+1
+Fluent BioSciences
+PIPseq V T23' Single Cell RNA Kit User Guide I 7
+
+
+
+1.2.6. PIPseq V' T23' Capture & Barcoding -80°C Kit
+Component Name
+Storage
+Part Number
+Units
+T2 PIPS
+-85°Cto-75°C
+FB0005086
+8
+TSO
+-85°Cto-75°C
+FB0005108
+4
+25% BSA
+-85°Cto-75°C
+FB0005088
+1
+1.2.7. PIPseq V Library Prep Kit
+Kit
+Full Kit Name
+Catalog Number
+Storage
+Ambient Kit
+PIPseq V Library Prep Ambient Kit
+FB0005373
+15°C to 30°C
+-20°C Kit
+PIPseq VI Library Prep -20°C Kit
+FB0005374
+-25°Cto-15°C
+1.2.8. PIPseq V Library Prep Ambient Kit
+Component Name
+Storage
+Part Number
+Units
+Fluent Magnetic Cleanup Beads
+2°Cto 8°C
+FB0005079
+1
+Nuclease-free Water
+15°Cto30°C
+FB0005085
+1
+1.2.9. PIPseq V Library Prep -20°C Kit
+Component Name
+Storage
+Part Number
+Units
+Library Prep Buffer
+-25°Cto-15°C
+FB0005080
+1
+Library Prep Enzymes
+-25°Cto-15°C
+FB0005081
+1
+Library Prep Mix A
+-25°Cto-15°C
+FB0005082
+1
+Library Adapter Mix
+-25°Cto-15°C
+FB0005083
+1
+4X PCR Master Mix
+-25°Cto-15°C
+FB0005084
+1
+UDI Library Index Mix Strip
+-25°Cto-15°C
+FB0005121
+1
+Fluent BioSciences
+PIPseq V T23' Single Cell RNA Kit User Guide I 8
+
+
+
+1.3. Third Party Reagent, Equipment and Consumable
+Requirements
+WARNING: The recommendations for third party materials below have been validated
+in the PIPseq V3' Single Cell RNA workflow. Substituting these materials may adversely
+affect performance.
+1.3.1 Required Third Party Reagents
+Reagent
+Supplier
+Cell Counting Materials using laboratory's preferred method (e.g.
+Preferred Vendor
+AO/PI)
+Thermo Fisher; Cat # AM9937 or
+Nuclease-free water
+preferred
+laboratory supplier
+Nuclease-free 1X low EDTA TE Buffer (IDTE), pH 8.0
+IDT; Cat # 11-05-01-09 or preferred
+10 mM Tris, 0.1 mM EDTA
+laboratory supplier
+Qubit 1X dsDNA High Sensitivity Assay Kit
+Thermo Fisher; Cat #Q33230 or Q33231
+BioAnalyzer High Sensitivity DNA kit or
+Agilent;
+Tapestation HS-D5000 for CDNA and HS-D1000 for NGS library BioAnalyzer 5067-4626,
+(The standard kits may be used in place of the high-sensitivity kits HS-D5000 5067-5592 and 5067-5593,
+depending on the Qubit CDNA QC concentration)
+HS-D1000 5067-5584 and 5067-5585
+100% Ethanol, molecular biology grade
+General Laboratory supplier
+Molecular-Biology Grade BSA
+Highly recommended for customers using their own nuclei
+Preferred Vendor
+isolation protocols.
+1.3.2 Required Third Party Consumables
+Item
+Supplier
+*NOTE* Sterile, low retention tips are required for this protocol. Various suppliers may be used; however only the
+below listed suppliers have been validated in this protocol*
+Rainin; Cat # 30389226
+Sterile Tips 20 HL, filtered, low retention
+Filtrous; Cat # PTF-LS-0020
+VWR; Cat #76322-528
+Rainin; Cat # 30389240
+Sterile Tips 200 pL, filtered, low retention
+Filtrous; Cat # PTF-LS-0200
+VWR; Cat # 76322-150
+Sterile Tips 1000 UL, filtered, low retention
+Rainin; Cat # 30389213
+Fluent
+PIPseq V T23'
+Cell RNA Kit User Guide I 9
+BioSciences
+Single
+
+
+
+Item
+Supplier
+Filtrous; Cat # PTF-LS-1000
+VWR; Cat # 76322-154
+Sterile Tips 200 pL, wide bore, filtered, low retention
+Rainin; Cat # 30389241
+Pipette Tips RT LTS 200UL FLW 960A/10
+Sterile Tips 1000 UL, wide bore, filtered, low retention
+Rainin; Cat # 30389218
+Pipette Tips RT LTS 1000UL FLW 768A/8
+General laboratory supplier, recommend
+15: mL centrifuge tubes, sterile
+Corning # 430790
+Qubit Assay Tubes
+Thermo Fisher; Cat # Q32856
+PCR strip tubes and caps, or PCR reaction plates (if you have a
+compatible magnetic bead rack) for workflow after CDNA
+General laboratory supplier
+amplification. *NOTE* Specific consumables may be required for
+certain steps, see warnings in protocol.
+Optional: 40 um Bel-Art FlomiTm Cell Strainers
+Sigma; Cat #BAH136800040
+1.3.3. Required Third Party Equipment
+Description
+Supplier
+Permagen, MSR1224B or equivalent from
+0.2 mL. / 1.5 mL Magnetic Separation Combo Rack
+alternative supplier
+Ice bucket or cold blocks, suitable for 0.2mL and 0.5mL PCR
+General laboratory supplier
+tubes and 1.5mL microcentrifuge tubes
+Hemocytometer or automated cell counter
+General laboratory supplier
+Micropipettes, 1UL-1000UL capabilities
+General laboratory supplier
+Qubit Fluorometer
+Thermo Fisher
+Bioanalyzer 2100 or TapeStation 4200
+Agilent
+Benchtop mini microcentrifuge 2000xg, suitable for 1.5 mL tubes, General laboratory supplier
+0.5 mL tubes and PCR strip tubes. *NOTE* The microcentrifuge e.g. USA Scientific; Cat # 2631-0006
+should decelerate before stopping in order to prevent beads from OR Eppendorf 5420
+returning to the solution*
+The minifuge should be set to no higher than 2000xg.
+Inserts for benchtop mini microcentrifuge that allow compatibility Provided accessory with USA Scientific
+with 0.5 mL tubes
+2631-0006
+Thermocycler
+General laboratory supplier
+General laboratory supplier
+Swinging bucket rotor centrifuge
+e.g. Thermo Scientific ST40
+Fluent 8
+PIPseq V T23'
+Cell RNA Kit User Guide I 10
+BioSciences
+Single
+
+
+
+1.3.4. PIPseq-Compatible Alternative RNase Inhibitors
+The PIPseq VT23' Single Cell RNA Kit contains FB0005096 RNase Inhibitor (40U/UL) to be added
+during step 6 of Capture and Lysis. Alternative RNase Inhibitors may be used during sample preparation;
+the following alternatives are compatible with the assay:
+Description
+Supplier
+SUPERase RNase Inhibitor (20 U/UL)
+Thermo Fisher; Cat #AM2694
+Protector RNase Inhibitor (40 U/UL)
+Sigma; Cat #RNAINH-RO
+RiboGrip RNase Inhibitor (220 U/UL)
+Solis Biodyne; Cat #06-26-4000U
+Murine RNase Inhibitor (40 U/UL)
+Watchmaker Genomics; Cat #7K0088
+1.4 Guide to Protocol Notes
+STOP
+Stop Point
+WARNING
+Workflow Tip
+Troubleshooting
+OPTIONAL: STEP
+Optional and provided Critical experimental Tips are throughout the Guidelines on how to These steps may improve
+for convenience.
+step instructions which if protocol to provide the avoid and recover from
+results, and can be
+performed improperly users information on experimental situations included by the useri if
+desired.
+Instructions for sample
+may result in
+how to optimize and that need to be resolved
+storage conditions and compromised results. simplify their PIPseq to: avoid compromised
+maximum storage time
+experience.
+results.
+are stated at each stop
+point.
+Fluent
+PIPseq V T23' Single Cell RNA Kit User Guide I 11
+BioSciences
+
+
+
+2. Best Practices
+2.1. Working with RNA
+Before executing this protocol, become familiar with working with RNA. The following section provides
+general guidelines for working with RNA, but the guidelines below are not all-inclusive.
+Due to the ubiquitous presence of RNases, RNA is susceptible to degradation. RNases are robust
+nucleases specific to RNA. Unlike DNases, they are not easily denatured or inactivated.
+Maintain reagents, pipettes, and a work space specifically for working with RNA. An
+enclosed space such as a PCR hood is recommended. Wipe down pipettes and the working
+space regularly with a laboratory alcohol cleaning solution (70% alcohol). Periodically (once a
+week to once a month), clean surfaces with a 10% sodium hypochlorite solution. Alternatively,
+commercial solutions are available to inactivate RNases.
+Only use consumables and reagents that are nuclease-free and dedicated for RNA use. Handle
+reagents carefully to avoid RNase contamination.
+The most common external RNase contamination comes from the skin. Therefore, any item that
+will be used for RNA work should be not handled without gloves to maintain nuclease-free
+surfaces. Wear a clean laboratory coat or gown to prevent shedding of skin or hair in and around
+the RNA work surface.
+Dust and bacteria are also sources of RNases. Keep surfaces and items free of dust and work with
+RNA away from bacterial processes.
+Refrigerator and freezer handles should be treated as RNase-free surfaces and should only be
+opened with gloved hands.
+Exercise all standard laboratory best practices such as always wearing PPE, not touching rims of
+open tubes, and not reusing pipette tips. Seal consumable bags and reagent tubes tightly when not
+in use.
+2.2. Working with PCR Products
+Before executing this protocol, become familiar with the process of unidirectional PCR workflow and
+managing PCR amplicon products. All steps in the PIPseq workflow should be completed in a
+pre-PCR workspace until after the thermocycling step during Sample Index PCR. All remaining
+steps should be completed in the post-PCR workspace. One exception is the magnetic bead purification
+following the CDNA QC amplification, which should also be completed in the post-PCR workspace. The
+following section provides general guidelines for working with PCR products, but the guidelines below
+are not all-inclusive.
+Fluent BioSciences
+PIPseq V T23' Single Cell RNA Kit User Guide I 12
+
+
+
+PCR by design creates a large number of amplicons, copies of the input material. This strength of
+PCR also comes with the risk of amplicon contamination of workspaces and materials.
+It is best practice to maintain two separate workspaces for pre and post PCR work. Ideally these
+spaces would be physically divided and each would have a dedicated set of equipment and
+materials. All work before a PCR amplification would be performed in the pre-PCR workspace
+and the sample would then be transferred to the post-PCR workspace for further processing. No
+material from the post-PCR workspace would ever come back into the pre-PCR workspace.
+For some reagents and consumables, multiple sets may be required for pre-PCR and post-PCR
+workspace use to avoid carryover contamination.
+Ifi it is not possible to maintain two separate workspaces for pre and post PCR work, it is still
+highly recommended to keep two separate sets of consumable materials and to maintain strict
+workplace sterility. Make sure all benches and equipment are regularly cleaned with a bleach
+solution or a commercial DNA degrader to reduce contaminating amplicons and always wear
+clean gloves.
+2.3. Centrifuge Steps
+All centrifuge steps in the PIPseq V workflow after sample preparation should be completed with a
+benchtop minifuge using speeds of 2000 X g or less.
+2.4. Thermocycler Lid Pressure
+Be sure to follow the manufacturer's instructions for using PCR strip tubes with your brand of
+thermocycler. Thermocyclers with a lot of lid pressure can cause the 8-tube strip to collapse during Whole
+Transcriptome Amplification or Sample Index PCR when only one is used. It is recommended to use
+empty strip tubes as braces surrounding both sides of the 8-tube strip to help balance the lid pressure for
+brands that do not include plastic frame supports.
+2.5. Cell Loading
+This protocol describes addition of 5,000 cells into each PIPseqreaction, resulting in recovery of > 2,000
+cells and a multiplet rate of < 8%* * - The optimal input cell concentration is 1,250 live cells per microliter
+when adding 4 UL of cells plus 20-40 Units of RNase inhibitor into each PIP tube (refer to section 5.1.5).
+If it is not possible to concentrate cells to 1,250 cells/uL, a lower concentration may be used (up to 5,000
+live cells total) if the total loading volume including RNase inhibitor is S 6 UL. It is important to note that
+increased cell input will increase the observed multiplet rate.
+Fluent BioSciences
+PIPseq V T23' Single Cell RNA Kit User Guide I 13
+
+
+
+3. PIPseq Equipment Preparation
+3.1. PIPseq Vortexer Operation
+The PIPseq Vortexer and accessories provided in the Starter Equipment Kit are critical for the carefully
+controlled vortexing that produces high-quality Particle-templated Instant Partitions (PIPS).
+WARNING: Make sure that the 0.5 mL tube vortexer head is installed on the PIPseq
+Vortexer before starting the protocol.
+The vortex adapter head (yellow) is attached to the vortex base (gray) with a thumbscrew. The
+thumbscrew should be fastened from the front of the vortex mixer (see below). For further information on
+proper installation, review FB0003717 PIPseq Vortex Adapter Installation Guide.
+Metal Threads
+Metal Threads
+9
+9
+0
+X
+8
+9
+V
+Speed
+Spend
+SNTeEE
+in
+-
+SNTOTEE
+PesMlive Mier)
+Tim
+reMixe Mixer) I
+The thumbscrew should be just tight enough sO the adapter does not rotate during vortexing, but not tight
+enough to make rotating from horizontal to vertical orientation difficult. The tightness of the thumbscrew
+may need to be periodically adjusted.
+Users will be required to change the: rotating vortex adapter from horizontal to vertical position during the
+PIPseq protocol. It is recommended that users practice this rotation before starting the protocol SO the
+process can be completed in under 30 seconds.
+Fluent BioSciences
+PIPseq V T23' Single Cell RNA Kit User Guide I 14
+
+
+
+3.2. PIPseq Dry Bath Operation
+3.2.1. PIPseq Dry Bath
+The PIPseq Dry Bath (Figure 1) and accessories enable precise, programmable thermal incubation of
+samples in 0.5 mL - 5 mL tubes, essential for sample scalability beyond volumes a standard thermocycler
+is capable of. The PIPseq Dry Bath is pre-programmed with the necessary incubation protocols. It is
+important to familiarize yourself with the protocol usages and PIPseq Dry Bath operation before use.
+WARNING: Make sure the 0.5 mL tube block is installed in the PIPseq Dry Bath before
+starting the protocol.
+3.2.2. PIPseq Dry Bath Lid Settings and Control
+The PIPseq Dry Bath lid temperature will need to be manually programmed before use to maintain proper
+temperature control separate from thel heating block temperature. Please note the lid heating mode is
+independent of the set programs. This mode applies across all programs, regardless of thermal profiles
+settings. The indicator light will flash when the PIPseq Dry Bath is preheating, and turn solid when the
+designated temperature has been reached.
+There are two primary modes to control the temperature of the lid:
+Mode 1: Specific temperature control. This mode enables the lid to be held at a specific temperature. For
+example, the user requires the temperature to be held at 105°C. This mode is used for nuclei lysis.
+Mode 2: Offset temperature control to heat block. This mode enables the user to set the lid temperature to
+be a specific number of degrees greater than thel block temperature, which can vary according to the
+temperature profile that is selected. For example, a setting of"+5" will set the lid temperature 5°C greater
+than the block temperature. Thus, when the block is set at 37°C the lid will be set at 42°C. This mode is
+used exclusively for cell lysis.
+Workflow Tip: Please note that with expected operation the lid temperature will only climb to 105 °C
+during incubation temperatures ofhigher than 35 °C or higher:
+3.2.3. PIPseq Dry Bath Control
+Changing the lid temperature and lid heating mode:
+1. Determine if the lid temperature control is on or off by checking the button on the bottom-right
+corner of the screen. The button will display "LidOff" if the lid is ON or "LidOn" if the lid is
+OFF. If the lid button is set to "LidOn",  press the button to turn ON the lid heating feature.
+2. Press the "Edit" button located in the upper right corner of the screen.
+3. Press the "Lid Mode" button located at thel bottom left of the screen to switch between Mode 1
+and Mode 2.
+a. To confirm which mode is set, refer to the "Lid Temperature" window on the screen. If
+the window displays a number with no characters (e.g. 105) then Mode 1 is enabled. If
+Fluent 8 BioSciences
+PIPseq V T23' Single Cell RNA Kit User Guide I 15
+
+
+
+the window displays a plus sign (+) followed by a number (e.g. +5) then Mode 2is
+enabled.
+4. To change the value used in Mode 1 or Mode 2, press the "Lid" window located near the top-left
+portion of the screen.
+5. A new window will appear to set the value. Set the value and press the "Enter" button.
+6. Press the "Save/Return" button located at the top-right corner of the screen to save the value.
+Dry Bath interface:
+1. Both "preheat" and "hold" are depicted as "00:00."
+2. In order to begin the program from the "preheat" setting, you must press "skip to next step."
+3.2.4. PIPseq Dry Bath Protocols
+Program
+B
+Application
+Cell Lysis
+Nuclei Lysis
+Lid Setting
++5°C
+105°C
+Step 1
+25°C - preheat
+66°C - preheat
+"Skip" then confirm skip by pressing "yes" to proceed to next
+press
+step
+Step 2
+25°C - 15 min
+66°C - 45 min
+Step 3
+37°C - 45 min
+25°C- 10: min
+Step 4
+25°C - 10 min
+20°C hold
+Step5
+20°C - hold
+Prog.l Lid 35.6 20.7 00:00 00:00:00 Edit
+Figure 1. Dry Bath interface programmed for cell lysis
+protocol. Both "preheat" and "hold" functions are depicted
+Prehe
+Hold
+as "00:00" on the Dry Bath interface. In order to start
+250 25.0 45:00 37.0 25.0 20.0
+pre-heating, one must first
+"lid on" and
+When
+00:00
+press
+"run".
+15:00
+10:00 00:00
+op 55
+samples are inserted, press the "Skip"and then "yes"to
+continue the protocol.
+Lidoff Run Left Right Pause Skip
+Fluent BioSciences
+PIPseq V T23' Single Cell RNA Kit User Guide I 16
+
+
+
+4. Sample Preparation
+The PIPseq single cell protocol requires a suspension of high-quality single cells or nuclei as input which
+may be derived from cell cultures, dissociated tissues, cell sorting, or other isolation methods. Users
+should minimize the presence of dead cells or aggregates to ensure the highest quality data. Minimize the
+amount of time it takes for sample preparation through Capture and Lysis, and add RNase inhibitor at
+0.4-1 U/uL final concentration to buffers being used in lengthy steps (e.g., dissociation, enrichment,
+sorting collection tubes, or sample suspension buffers). Use higher RNase inhibitor concentrations for
+challenging sample types. When processing many samples together at once, it is recommended to process
+sample preparations in batches through Capture and Lysis to prevent mRNA degradation. See section 4.1
+for cell or 4.2 for nuclei sample preparation instructions.
+It is recommended to complete Reagent and Material Preparation for Capture and Lysis (section 5.1) prior
+to starting sample preparation. The PIP tubes can be thawed and stored on ice for up to 5 hours. It is best
+practice to start Capture and Lysis as soon as possible after diluting samples to the target concentration.
+4.1. Cell Preparation
+This section describes a generic protocol for thawing, washing, and resuspending mammalian fresh or
+cryopreserved cell lines; however, this protocol may not be generalizable to all cell types. Preparation of
+single cell suspensions from tissues or fragile cell types may require additional dissociation or cell
+handling steps which are not described here. For single nuclei preparation, refer to section 4.2.
+Users may substitute their own cell preparation protocol; however, the final cell dilution step must be
+performed with the Fluent Cell Suspension Buffer. Usage of wide-bore pipette tips is recommended to
+minimize cell damage.
+Reagent and Material Preparation
+Component Name
+Part Number
+Kit
+Preparation
+Cell Suspension Buffer
+FB0005067
+-20°C Kit Warm to 37 C: in a water bath
+Cryopreserved cells
+Customer provided
+N/A
+Keep frozen until use
+Thawing media
+Customer provided, specific
+N/A
+Warm to 37 C in a water
+to cell type of choice
+bath
+Wide-bore P1000
+Customer provided
+N/A
+Obtain
+pipette tips
+Flo-Mi 40 UM pipette Optional, customer provided
+N/A
+Obtain
+tip strainers
+Fluent 8 BioSciences
+PIPseq V T23' Single Cell RNA Kit User Guide I 17
+
+
+
+Reagent and Material Preparation
+Component Name
+Part Number
+Kit
+Preparation
+Cell counting materials
+Customer provided
+N/A
+Obtain
+1. Obtain cryopreserved cell vial from liquid nitrogen storage. If starting from fresh cells
+and/or substituting your own cell preparation protocol, skip to step 6. With fresh cells,
+cold Cell Suspension Buffer can be substituted for pre-warmed.
+2. Place the cryopreserved cell vial and an aliquot of Cell Suspension Buffer in a water bath
+set to 37 °C.
+3. After 1-1.5 minutes of thawing, when only a small ice chunk remains (60-70% thawed),
+remove the vial from the water bath, decontaminate the outside with 70% isopropyl
+alcohol, and move it into the biosafety cabinet.
+Workflow Tip: The remaining ice will thaw over the next 30-60 seconds at room
+temperature.
+4. Use a wide-bore P1000 or 2 mL serological pipette to gently mix and transfer the cell
+suspension to a 15 mL conical tube. Make sure to collect all cell contents from the vial.
+5. Slowly add 9 mL of warmed thawing media to the cell suspension in the 15 mL conical
+tube and mix by inversion three to five times.
+Workflow Tip: The initial 2. mL ofwarmed thawing media should be added to the cell
+suspension slowly over at least 30 seconds.
+6. Centrifuge cells at 200 X g for 5 min at room temperature to pellet.
+WARNING: Swinging bucket rotors are highly recommended for pelleting to minimize
+cell shearing and sample loss.
+Centrifugation speed and time is cell type specific, optimization may be necessary to find
+the minimum speed and time required for pelletting. Generally, up to 350 g X 5 min can be
+used for smaller cell types.
+7. Aspirate as much of the supernatant as possible without disturbing the cell pellet.
+WARNING: The wash step is required to remove reagents inhibitory to PIPseq from the
+cell suspension (e.g., FBS, BSA >1%, high salts, calcium, etc.) If unable to leave less than
+100 UL supernatant remaining, the wash volume should be increased to 2 mL pre-warmed
+Cell Suspension Buffer.
+8. Add 1 mL pre-warmed Cell Suspension Buffer and gently mix to resuspend the pellet 5
+times with a wide-bore P1000 pipette tip. Place the remaining Cell Suspension Buffer on
+ice to cool.
+9. Centrifuge cells at 200 X g for 3 min at room temperature to pellet.
+Fluent 8
+PIPseq V T23'
+Cell RNA Kit User Guide I 18
+BioSciences
+Single
+
+
+
+10. Aspirate as much of the supernatant as possible without disturbing the cell pellet.
+11. Using a standard bore pipette tip, add 200-400 pL of cold Cell Suspension Buffer and
+gently mix 10-15 times until the cells are completely resuspended.
+Workflow Tip: Ifclumps are visible, increase the amount offorce used during pipet mixing.
+Use the minimum force necessary to create a homogeneous cell suspension.
+Optional Step: Passing the cell suspension through a 40 micron FlowMi tip strainer will help
+remove debris and dead cells, and is highly recommended for cell types prone to forming
+aggregates. Please note that up to 30% of cells may be lost during filtration and this process adds
+further stress to the cells. Users may choose to skip filtration if their cell type is not prone to
+clumping, since instrument clogging is not an issue with PIPseq.
+Using a wide-bore pipette tip, withdraw 200 UL of the cell suspension and add a
+40 micron FlowMi tip strainer onto the end of the tip.
+Gently dispense the cell suspension through the tip strainer into a fresh 1.5 mL tube.
+Workflow Tip: Do not "blow out" " while pushing the cell suspension through the. strainer
+as this will push unwanted debris through.
+12. Determine cell concentration using the laboratory's preferred method (e.g. trypan blue or
+AO/PI staining on an automated cell counter).
+WARNING: Cells should have >90% viability to proceed. Perform filtration as described
+in the optional steps above or an additional wash step to remove debris and improve
+viability if necessary. Always perform a final count.
+13. Using a wide-bore low retention pipette tip, prepare 1,250 live cells/ul suspension in Cell
+Suspension Buffer to achieve an input volume of 4 UL (5,000 live cells) into a PIP reaction
+(refer to step 5.1.5). Ifit is not possible to concentrate cells to 1250 cells/uL, a lower
+concentration may be used (up to 5,000 live cells total) if the total loading volume
+including RNase inhibitor is S 61 UL.
+14. Repeat the cell count described in step 12 to confirm the final concentration in the prepared
+suspension. Adjust concentration and repeat count as necessary.
+15. Once the required concentration is achieved, place the cells on ice and proceed directly to
+section 5: PIPseq V T2 protocol.
+4.1.2 Working with Fixed Cells
+Fixed cells generated according to FB0004708 DSP-Methanol Fixation for Cells are compatible with
+PIPseq. If cells are in media containing FBS or BSA, complete a 1 mL wash step using Cell Suspension
+Buffer, then resuspend in Cell Suspension Buffer that does not include additional BSA or RNase inhibitor
+prior to starting the fixation protocol. This fixative yields comparable performance as fresh cells. Fixed
+Fluent BioSciences
+PIPseq V T23' Single Cell RNA Kit User Guide I 19
+
+
+
+cells may be stored for up to 7 days at -20°C. Please note alternative fixation approaches (e.g.
+formaldehyde) have not yet been validated in PIPseq and are not recommended.
+4.2. Nuclei Preparation
+4.2.1. Nuclei Isolation
+Fluent recommends that users prepare nuclei suspensions using the Fluent V Nuclei Isolation Kit
+(FB0005375) to ensure consistent, high-quality nuclei across a diversity of tissues. See FB0003716 Fluent
+V Nuclei Isolation Kit User Guide for instructions. If using an alternative nuclei isolation protocol, users
+must use the provided FB0005066 6X Nuclei Suspension Buffer (NSB) to prepare complete 1X NSB
+(see section 4.2.3) for the final nuclei suspension. Users are strongly advised to substitute 1X NSB for
+the wash steps in the alternative nuclei isolation protocol (at least 1 mL of 1X NSB in up to two wash
+steps) as described in further detail below. This kit only includes enough BSA for the final nuclei
+suspension, SO customers using alternative nuclei isolation protocols will need to add their own BSA (1%
+final concentration) and RNase inhibitor (0.8U/UL final concentration) if they want these included for the
+wash steps.
+WARNING: The wash step is required to remove reagents inhibitory to PIPseq from the
+nuclei suspension (e.g., FBS, BSA >1%) If unable to leave less than 100 UL supernatant
+remaining, the wash volume should be increased to 2 mL.
+Alternative nuclei isolation protocols:
+When using alternative nuclei isolation protocols it is necessary to include 0.8 U/UL RNase
+inhibitor final concentration and 1X protease inhibitor into the nuclei extraction buffer/nuclei lysis
+buffer during tissue lysis.
+Once nuclei extraction is done, centrifuge nuclei suspension (preferably, 500 X g for 5 minutes at
+4C) to pellet and aspirate supernatant. Use a P200 to carefully remove as much supernatant as
+possible without disturbing the pellet.
+Workflow Tip: Using aj fixed angle centrifuge for pelleting nuclei for wash steps can result in
+excessive sample loss. Tubes compatible with swinging bucket rotor centrifuges should be used to
+ensure a flat pellet.
+Add 1 mL of 1X. NSB, mix well and spin at 500 X g for 5 minutes at 4°C.
+Next, aspirate supernatant without disturbing the pellet and resuspend nuclei using 1X NSB.
+Best practices for all nuclei isolation protocols: Count with a fluorescent nucleic acid stain (e.g. AO/PI)
+using size gating and assess morphology of nuclei using a fluorescent-capable automated counter, then
+dilute in 1X NSB to the target concentration of 1,250 nuclei/uL for a 5,000 nuclei input when adding 4 UL
+of nuclei plus 20-40 Units of RNAse inhibitor into each PIP tube, refer to step 5.1.5. Ifi it is not possible to
+concentrate nuclei to 1250 nuclei/uL, a lower concentration may be used (up to 5,000 nuclei total) if the
+total loading volume including RNase inhibitor is S 61 UL.
+Fluent 8 BioSciences
+PIPseq V T23' Single Cell RNA Kit User Guide I 20
+
+
+
+Place samples on ice and proceed immediately to Capture and Lysis. Do not freeze isolated nuclei. If not
+proceeding directly to Capture and Lysis, it is recommended to fix nuclei to prevent mRNA degradation.
+Refer to Section 4.2.2 for further details.
+See section 4.2.3 below for instruction on preparing Nuclei Suspension Buffer for various applications.
+See FB0003716 PIPseq Nuclei Isolation Kit User Guide for recommendations on the resuspension
+volume per mg tissue for various tissue types. Please note: it is not recommended to process more than
+50 mg of tissue per sample at once in order to achieve optimal lysis.
+4.2.2. Working with Fixed Nuclei
+WARNING: It is critical to use Nuclei Suspension Buffer without BSA and RNase
+inhibitor for resuspending nuclei prior to fixation.
+Fixed nuclei are compatible with PIPseq. Prior to starting the fixation protocol nuclei must be
+resuspended in Nuclei Suspension Buffer without BSA or RNase inhibitor. Please refer to FB0004745 for
+instructions on fixing isolated nuclei. Users are strongly advised to substitute 1X NSB for the wash steps
+in the alternative nuclei fixation protocol (at least 1 mL of 1X. NSB without BSA or RNAse inhibitor in up
+to two wash steps and the final resuspension prior to fixation). Fixed nuclei may be stored for up to 2
+months at -20°C.
+4.2.3. Nuclei Suspension Buffer Preparation
+Nuclei Suspension Buffer for Fresh Nuclei: Combine 167 uL of kit provided 6X Nuclei Suspension
+Buffer (FB0005066), 40 pL of kit provided BSA (FB0005088), 773 ul of customer provided nuclease-free
+water, and 20 uL of RNase inhibitor (40 U/UL) (FB0005096) (or 40 UL of RNase inhibitor if provided at
+20 U/UL: and 753 UL of nuclease-free water, refer to RNase inhibitor recommendations in section 1.3.4) to
+prepare 1 mL of complete 1X Nuclei Suspension Buffer. Prepare sufficient volume for at least 2: X 1 mL
+washes and the final suspension with complete 1X Nuclei Suspension Buffer per sample. Note that exact
+volumes required may be sample size and type specific to achieve optimal nuclei concentration.
+Nuclei Suspension Buffer for Fixed Nuclei: Combine 167 UL of kit provided 6X Nuclei Suspension
+Buffer (FB0005066) and 833 uL of customer provided nuclease-free water to prepare 1 mL of
+BSA/RNase Inhibitor-Free 1X Nuclei Suspension Buffer. Prepare sufficient volume for at least 2 X 1 mL
+washes and the final suspension (refer to FB0004745 for the volume to use for the final suspension prior
+to fixation) with BSA/RNase Inhibitor-Free 1X Nuclei Suspension Buffer per nuclei sample. Note that
+exact volumes required may be sample size and type specific to achieve optimal nuclei concentration.
+Fresh Nuclei
+Fixed Nuclei
+Component Name
+Part Number
+1XNSB Volume (UL)
+1X NSB Volume (UL)
+6X Nuclei Suspension Buffer
+FB0005066
+167
+167
+Nuclease-Free Water
+Customer Provided
+773
+833
+BSA (25%)
+FB0005088
+40
+N/A
+Fluent BioSciences
+PIPseq V T23' Single Cell RNA Kit User Guide I 21
+
+
+
+Fresh Nuclei
+Fixed Nuclei
+RNase Inhibitor (40 U/UL)
+FB0005096
+20
+N/A
+Total
+1000
+1000
+5. PIPseq V T2 Protocol
+5.1. Capture and Lysis
+Capture Video Link
+Lysis Video Link
+Reagent and Material Preparation
+Component Name
+Part Number
+Kit
+Preparation
+Thaw one tube per sample on ice
+T2 PIPS
+FB0005086
+-80°C Kit
+(-15-30 minutes), centrifuge for -5
+seconds.
+RNase Inhibitor
+FB0005096
+-20°C. Kit
+Thaw on ice
+Partitioning Reagent
+FB0004795
+Ambient Kit Obtain, keep at room temperature
+Chemical Lysis Buffer 3 (CLB3)
+FB0005087
+Ambient Kit
+Obtain, keep at room temperature
+PIPseq Dry Bath with heated
+Preheat with appropriate Cell or Nuclei
+FBS-SCR-PDB
+Starter Kit
+lid
+Lysis program (refer to section 3.2.4)
+Ensure the 0.5 mL block is installed in
+PIPseq Dry Bath 0.5 mL block FBS-SCR-PDB
+Starter Kit
+PIPseq Dry Bath
+Place head in horizontal position (Figure
+PIPseq Vortex Mixer
+FBS-SCR-DVM
+Starter Kit
+2A)
+Combination 1.5 mL and 0.5
+Starter Kit
+Obtain
+FB0004993
+mL tube stand
+Wide-bore and standard-bore Customer provided
+N/A
+Obtain
+P200 pipette tips
+0.5 mL Safe-Lock PCR Clean
+Consumables
+Obtain, one tube per sample
+FB0001841
+tubes, Eppendorf 022363212
+Kit
+Fluent
+PIPseq V T23'
+Cell RNA Kit User Guide I 22
+BioSciences
+Single
+
+
+
+1. Prepare a single cell or nuclei suspension at your targeted concentration (refer to Section
+4.1.1.13) in the provided Cell Suspension Buffer or appropriately prepared Nuclei
+Suspension Buffer (refer to Section 4.2.3).
+2. Thaw one PIP tube for each sample to be processed on ice. Once fully thawed, centrifuge
+PIP tubes for ~5 seconds on a benchtop mini microcentrifuge (minifuge) and return to ice.
+Workflow Tip: It is highly recommended to process at least 2. samples at once, to balance
+centrifuge and vortexing steps. If only processing 1 sample, make sure to use carefully
+weighted balance tubes.
+3. Preheat the PIPseq Dry bath and lid with the 0.5 mL tube block to hold at the appropriate
+temperature depending on sample input type (cells or nuclei). Refer to section 3.2 PIPseq
+Dry Bath Operation for sample type specific programs.
+4. Gently mix the cell or nuclei suspension 10 times with a wide-bore P200 tip.
+5. Add 4 pL cell or nuclei suspension at 1250 cells/uL (5,000 total) directly into the PIPS. Ifit
+is not possible to concentrate cells or nuclei to 1250 cells/uL, a lower concentration may be
+used (up to 5,000 live cells or nuclei total) if the total loading volume including RNase
+inhibitor (see Step 6) is S 6 UL.
+6. Add 20-40 units of RNase inhibitor directly into the PIPS. Dispense slowly to avoid
+forming bubbles.
+Workflow Tip: Ensure cells are dispensed into the PIPS layer and not just on the surface of
+the PIPS. Ifp performing multiple reactions, add cells to all PIP tubes before proceeding to
+the next step.
+WARNING: It is required to add 20-40 units of RNase Inhibitor. If preferred, alternative
+brands of RNase Inhibitors may be used, see section 1.3.4 for recommendations.
+7. Mix the cell:PIP mixture 10 times using a standard bore, low-retention P200 tip at 25 pL
+stroke to ensure even dispersal of sample in PIPS (Figure 2).
+Workflow Tip: To mix multiple PIP tubes at once, use a pipette tip on every other channel
+of a P200 multichannel pipette in a staggered' configuration.
+Troubleshooting: Avoid creating foam, mix the viscous cell:PIP mixture slowly and do not
+blow out the pipette tip. If excessive foam forms, centrifuge the PIP tubes on a minifuge for
+- 5 seconds and repeat the mixing in step 5.
+Fluent BioSciences
+PIPseq V T23' Single Cell RNA Kit User Guide I 23
+
+
+
+WITH
+PIPETTE TIP
+1.Mix 2. Mix
+up down
+Figure 2. (A) PIP:cell mixture
+following pipette mixing with no
+apparent bubbles.
+(B) PIP:cell mixture following pipette
+mixing with an acceptable amount of
+B
+bubbles (left) and unacceptable
+amount of bubbles and frothing
+(right).
+8. Add 280 UL Partitioning Reagent down the side wall of the PIP tube using a P1000 pipette.
+9. Tightly cap tubes and place in the rotating vortex adapter in the horizontal configuration
+(Figure 3A). Ensure the tubes are fully inserted into the adapter and vortex at 3000 RPM
+for 15 seconds.
+10. Rotate the vortex adapter into the vertical configuration (Figure 3B) and vortex vertically
+at 3000 RPM for 2 minutes.
+Figure 3. (A) Vortex
+adapter in horizontal
+3O00
+3000
+position (B) Vortex
+adapter in vertical
+DOIS
+0200
+position.
+o
+Fluent
+Fluent BioSciences
+PIPseq V T23' Single Cell RNA Kit User Guide I 24
+
+
+
+11. Remove the PIP tubes from the vortexer and place in the 0.5 mL side of the combination
+tube stand (FB0004993). Let the emulsion stabilize for 30 seconds before proceeding.
+Workflow Tip: The cloudy reaction will separate into two phases, PIPs+cells emulsion on
+top and Partitioning Reagent on the bottom. (Figure 4).
+Figure 4. Emulsified
+PIPS and cells are
+PIPs
+Figure 5. PIPS
+seen in the top phase
+emulsion
+following
+while the excess
+removal of
+Excess
+waste Partitioning
+bottom phase.
+artitioning
+Reagent is in the
+Reagent
+bottom phase.
+12. Place a low-retention P200 pipette tip toward the bottom of the tube, wait for five seconds,
+and then aspirate out 115 UL twice to remove a total of 230 UL of Partitioning Reagent in
+the bottom phase. Be careful not to aspirate any emulsion.
+Workflow Tip: Use following best practices for pipetting through an emulsion. Slowly
+lower the tip through the emulsion to the bottom oft the tube, wait forj five seconds, and then
+aspirate the bottom phase (Figure 5).. As you remove the tip, wipe on the side of the tube to
+ensure no sample is lost prior to discarding the excess Partitioning Reagent.
+Troubleshooting: Prior to use, visually inspect CLB3 tubes for any indication of
+crystallization (the presence of a translucent, crystal lattice structure). If crystals are
+apparent, equilibrate the tubes to room temperature using the provided Dry Bath set to
+25°C, vortex the tubes for 10 seconds, and briefly centrifuge on a benchtop minifuge.
+13. Prepare one Chemical Lysis Emulsion tube per reaction. Label one of the provided 0.5 mL
+Eppendorf Safe-Lock tubes from the Consumables kit per sample being processed as
+"CLB3". Aliquot 40 UL of Chemical Lysis Buffer 3 (CLB3) (FB0005087) into each of the
+labeled CLB3 tubes. Then add 120 UL of Partitioning Reagent to each 0.5 mL tube
+containing CLB3 to prepare the Chemical Lysis Emulsion.
+WARNING: Do not prepare chemical lysis emulsion in bulk; CLB3 must be aliquoted into
+individual 0.5 mL tubes and Partitioning Reagent must be individually added to each
+aliquot.
+14. Vortex the Chemical Lysis Emulsion for 10 seconds and immediately pipette (with P200
+low retention tip) the whole volume of one Chemical Lysis Emulsion to each of the PIP
+tubes.
+Workflow Tip: Use one full tube of Chemical Lysis Emulsion for each PIP tube. Vortexing
+Fluent 8
+PIPseq V T23'
+Cell RNA Kit User Guide I 25
+BioSciences
+Single
+
+
+
+thoroughly before addition is important to. form the emulsion.
+15. Mix the cloudy combined emulsions gently by inversion at least 10 times.
+16. Verify the PIPseq Dry Bath is preheated to the appropriate temperature for the sample type
+(see diagrams below) with a lid temperature of +5°C for cells or 105°C for nuclei.
++50for cells
+105 forr nuclei
+Dry Bath Incubator
+Dry Bath Incubator
+Sample Time Total
+Sample Time Total
+ProgA
+245 0000 0000 yve/Retu
+Progi
+4 9 00
+660 660
+370
+0000 4500
+250 250 4500 250 200
+250 200
+0000 1500
+1000 0000
+1000 0000
+LidMode Step Let Right Cycle Delete
+UdMode Step Left Right Cycle Delete
+Fluent
+Fluent
+BieSciences
+BioSciences
+Cell Lysis Program
+Nuclei Lysis Program
+17. Insert the samples into PIPseq Dry Bath and select skip and yes to begin the lysis
+incubation.
+18. Stop Point: Once incubation is complete samples can be held at 20°C for up to 96 hours.
+STOP
+Alternatively, you can proceed immediately to mRNA isolation.
+Workflow Tip: If continuing to mRNA isolation step, complete 5.2.1 Reagent Preparation
+during the incubation.
+WARNING: Do not refrigerate or freeze samples.
+Troubleshooting: Some condensation may appear on the tubes, which is not a concern.
+DO NOT centrifuge the emulsion. If liquid remains on the tube cap, invert the sample 3
+times.
+Fluent
+PIPseq V T23'
+Cell RNA Kit User Guide I 26
+BioSciences
+Single
+
+
+
+5.2. mRNA Isolation
+Reagent and Material Preparation
+Component Name
+Part Number
+Kit
+Preparation
+Ambient Kit
+Warm to room temperature (at
+Breaking Buffer
+FB0005065
+(stored at 2°C to
+least 20 minutes before use)
+8°C)
+Ambient Kit Keep chilled on ice at all times.
+Washing Buffer
+FB0003139 (stored at 2°C to Prepare 1X Washing Buffer
+8°C)
+aliquots.
+De-Partitioning Reagent
+FB0005105
+Ambient Kit Obtain, keep room temperature
+Thaw on ice, pipette mix
+Additive
+RT
+Mix V
+FB0005106
+20°C Kit
+prior
+to use
+Thaw one tube per two samples
+TSO
+FB0005108
+-80°C Kit
+on ice
+1.5 mL Safe-Lock PCR Clean tubes,
+FB0001870 Consumables Kit
+Obtain
+Eppendorf 022363212
+Combination 1.5 mL and 0.5 mL tube
+FB0004993
+Starter kit
+Obtain
+stand
+PIPseq guide rack, red
+FB0001549
+Starter kit
+Obtain
+0.2 mL PCR 8-tube strip without Cap,
+FB0002076 Consumables Kit
+Obtain
+Greiner Bio-One, 673210
+PCR 8-Cap strips, domed cap, Greiner
+FB0001055 Consumables Kit
+Obtain
+Bio-One, 373270
+5.2.1. Reagent Preparation
+1. Warm Breaking Buffer to room temperature for at least 20 minutes.
+2. Make one 1 mL aliquot of 1X Washing Buffer per sample in a 1.5 mL Eppendorf
+Safe-Lock tube (FB0001870). Label as Wash 1 and store on ice until use. Place the stock
+bottle of 1X Washing Buffer back at 4°C or store on ice.
+3. Thaw one tube of TSO per two samples on ice.
+WARNING: For best results, do not attempt to rapidly thaw TSO at ambient
+temperature or by hand.
+4. If desired, prepare the CDNA synthesis reaction master mix (without the RT Enzyme
+Mix) in advance as described in Section 5.3.1, and place it on ice.
+Fluent
+PIPseq V T23'
+Cell RNA Kit User Guide I 27
+BioSciences
+Single
+
+
+
+5.2.2. Breaking Emulsions
+WARNING: Do not centrifuge the emulsion.
+Breaking Video Link
+1. Remove PIP tubes from the Dry Bath and place into the 0.5 mL combination stand
+(FB0004993).
+2. Discard the remaining Partitioning Reagent by aspirating ~130 UL from the bottom of
+each tube. The opaque PIP phase on top should remain (Figure 6A), while as much of the
+bottom phase should be removed as possible (Figure 6B).
+WARNING: Do not discard any of the PIP layer! Use the following best practices
+when pipetting through an emulsion. Slowly lower the tip through the emulsion to the
+bottom of the tube, wait for five seconds, and then aspirate out the bottom phase (Figure
+6A). While aspirating, keep the pipette tip at the bottom of the tube to avoid aspiration of
+any PIPS! As you remove the tip, wipe it on the inside of the tube to ensure no sample is
+lost. Move slowly to avoid mixing the PIPS into the Partitioning Reagent layer. Remove
+as much of the bottom layer (Partitioning Reagent) as possible.
+A
+B
+Figure 6. PIP tubes after
+removing them from the Dry Bath
+(A) and after discarding the
+PIP
+remaining excess Partitioning
+Reagent (B).
+a
+leager
+3. Add 200 UL of Breaking Buffer (clear) to each sample, along the side wall of the tube.
+4. Add 40 UL of De-Partitioning Reagent (pink) to each sample, along the side wall of the
+tube (Figure 7A).
+5. Securely close the tube, then fully invert the tube 10-20 times to break the emulsion.
+(Figure 7B).
+Fluent 8 BioSciences
+PIPseq V T23' Single Cell RNA Kit User Guide I 28
+
+
+
+WARNING: DO NOT vortex the tube during breaking.
+6. Centrifuge for 10 seconds on a benchtop minifuge (2000 X g or less).
+WARNING: Ensure the emulsion is completely broken by visually confirming a distinct
+interface between the pink bottom phase (Figure 6B, lower) and the upper homogeneous
+aqueous layer containing the PIPS (Figure 6B, upper).
+Workflow Tip: Confirm whether there is any inhomogeneity in the opaque upper phase
+which is a sign of unbroken PIPS (see Appendix IVforj further information). If unbroken
+PIPS are observed, add 4 pL additional De-Partitioning Reagent and repeat Steps 5 and 6
+to ensure all PIPS are broken. If unbroken PIPS still remain, users can add 20 pL
+additional De-Partitioning Reagent and repeat Steps 5 and 6.
+A
+PIPs
+PIPs
+Waste
+Figure 7. PIPS after addition of Breaking Buffer and De-Partitioning Reagent (A)
+and after inverting and spinning down (B). The PIPS are now suspended in the
+opaque top phase. Take note of the red droplet of waste that must be completely
+removed (white arrow).
+7. Remove ALL of the pink-colored bottom phase using a P200 pipette.
+Workflow Tip: Ifa red droplet is observed in between the two layers, remove it first, then
+proceed to removal oft the remaining pink bottom phase (Figure 7B). Customers can
+optionally remove the red droplet last (step 9) if they. find that to be easier
+8. Centrifuge for 10 seconds on a benchtop minifuge (2000 X g or less).
+9. Remove ALL remaining pink-colored bottom phase with a P20 pipette.
+Workflow Tip: Move the pipette tip in very slow circular motions at the bottom of the tube
+to ensure you aspirate all of the bottom pink phase.
+WARNING: It is critical to ensure all of the pink bottom phase is removed. It is
+acceptable to remove a small amount of the clear aqueous to ensure complete removal. If
+there are unbroken PIPS or pink waste remaining, it can inhibit reverse transcription and
+cause lower CDNA yield and fragment sizes.
+Fluent 8 BioSciences
+PIPseq V T23' Single Cell RNA Kit User Guide I 29
+
+
+
+10. Place the tubes on ice and then proceed immediately to the: next step.
+WARNING: Do not allow the PIP tubes to freeze. This will negatively impact assay
+performance.
+5.2.3. Washing PIPS with 1X Washing Buffer
+Washing Video Link
+Volume Regulation
+1. Using a P200 low retention tip, slowly transfer the PIPS (180 UL twice) into the chilled
+Wash 1 aliquots prepared earlier.
+2. Briefly centrifuge the 0.5 mL tube on a benchtop minifuge for ~2 seconds after the first
+transfer to collect all remaining PIPS. Transfer remaining PIPS from the 0.5 mL tube into
+the respective 1.5 mL tube containing the previously transferred PIPS (Wash 1).
+WARNING: Make sure all PIPS have been transferred to the 1.5 mL tube, with none left in
+the 0.5 mL tube or pipette tip. Wash the pipette tip inside the 1.5 mL wash tube by mixing
+up and down at least three times.
+3. Place the 1.5 mL tubes of washed PIPS into the 1.5 mL stand (FB0004993). Vortex mix by
+holding the stand horizontally on a flat-head vortex mixer for a 3 seconds.
+4. Centrifuge the tubes for 1 minute on a benchtop minifuge.
+WARNING: Always use the power button to turn the benchtop minifuge off for a gradual
+stop that will ensure well packed beads. Do not apply standard brakes, like opening the lid.
+Supernatant
+to be removed
+Figure 8. Packed PIPS after centrifuging.
+Packed PIPs
+5. Gently place the 1.5 mL tubes back into the 1.5 mL stand (FB0004993) to aid in supernatant
+removal (Figure 8). Do not disturb the PIPS pellet.
+Fluent 8
+PIPseq V T23'
+Cell RNA Kit User Guide I 30
+BioSciences
+Single
+
+
+
+6. Aspirate and discard the aqueous supernatant to the 0.1 mL "4" or "L" marker on the tube
+stand WITHOUT disturbing PIPS pellet.
+WARNING: Do not aspirate below the "4" mark on the tube stand to avoid loss of
+PIPS. Aspirate slowly and carefully while keeping the tip at the top of the liquid level;
+don't disturb the pellet.
+Wash Checklist
+7. Add 1 mL of 1X Washing Buffer from the stock
+Wash 1
+bottle directly into the Wash 1 tubes containing
+packed PIPS and repeat steps 3-7 for Wash 2 and
+Wash 2
+Wash 3 and repeat steps 3. - 6 for Wash 4 (for a
+total of 4 washes).
+Wash 3
+Wash 4
+5.2.4. Normalize PIP volume to 39 UL
+WARNING: It is critical to perform the following normalization steps to ensure accurate
+concentrations of reagents in the CDNA synthesis reaction.
+1. Move the entire volume (- 100 UL) of the PIP mixture into one new 0.2 mL Greiner
+Bio-One PCR tube per sample (FB0002076). Seal the strip securely with the 8-strip cap
+(FB0001055).
+2. Spin for 5 seconds on a benchtop minifuge, then place the strip into the FB0001549 red
+PIPseq guide rack. The PIPS will be loosely packed at an angle at the bottom of the tubes.
+WARNING: Always use the power button to turn off the benchtop minifuge to ensure a
+gradual stop.
+3. Tap the strip seated in the red guide rack 3 times. Let the PIPS settle for at least 1 minute
+(Figure 9A) SO they are below the guide wire before reducing the volume to the guide wire
+(Figure 9B).
+Workflow Tip: If after 1 minute PIPS are not settling below the guidewire, you may tap
+against the bench up to 10 additional times and wait at least another minute for the PIPS
+to settle.
+Fluent BioSciences
+PIPseq V T23' Single Cell RNA Kit User Guide I 31
+
+
+
+L
+Figure 9. Packed PIPS in a 0.5 mL tube after PIPS settling (A) and after volume
+normalization (B).
+4. Place tubes on ice and proceed directly to CDNA synthesis.
+WARNING: Do not disturb packed PIPS.
+5.3. CDNA Synthesis
+Reagent and Material Preparation
+Component Name Part Number
+Kit
+Preparation
+RT Enzyme Mix
+FB0005089
+20°C Kit
+Thaw on ice; pipette mix prior to use
+Ifr not prepared earlier, thaw on ice, pipette mix
+Additive
+prior
+RT.
+Mix V
+FB0005106
+-20°C Kit
+to use
+If not prepared earlier, thaw one tube per 2 samples
+TSO
+FB0005108
+-80°C Kit
+on ice
+Ambient
+Keep chilled on ice at all times. Prepare 0.5X
+Kit (stored
+Washing Buffer
+FB0004787
+Washing Buffer (600 pL per sample) with
+at 2°Cto
+nuclease-free water (1:1 dilution)
+8°C)
+Nuclease-free Water Customer provided
+N/A
+Obtain
+Fluent 8
+PIPseq V T23'
+Cell RNA Kit User Guide I 32
+BioSciences
+Single
+
+
+
+5.3.1. Reverse Transcription
+Reagent
+Volume Per Reaction 4.4x Reaction Master 8.8x Reaction Master Mix
+(UL)
+Mix (UL)
+(UL)
+RT. Additive Mix V
+31.1
+136.8
+273.7
+TSO
+3.1
+13.6
+27.3
+RT Enzyme Mix
+4.8
+21.1
+42.2
+Total
+39.0
+171.5
+343.2
+1. Prepare the RT master mix or add the RT Enzyme Mix to the master mix prepared
+earlier and mix well by pipette mixing. Centrifuge briefly to bring liquid to the bottom of
+the tube.
+Workflow Tip: Do not exceed 10% reaction overage when creating a master mix.
+2. Add 39 UL of the master mix to each 0.2 mL tube of PIPS.
+3. Seal the strip and mix well by pulse vortexing for 5 seconds.
+4. Briefly centrifuge the tube on a benchtop minifuge (< 1 second) without pelleting PIPS.
+Workflow Tip: If PIPS are pelleted in centrifuge, repeat mixing and centrifuge steps.
+5. Perform CDNA synthesis with the following protocol in a thermocycler with the heated lid
+set to 105°C and a reaction volume of ~78 UL.
+25°C
+30 minutes
+42°C
+90 minutes
+85°C
+10 minutes
+4°C
+Hold
+6. Stop Point: The samples can be stored overnight at 4°Cin the thermocycler or the fridge
+STOP
+before proceeding to the next step if desired.
+5.3.2. Washing PIPS with 0.5X Washing Buffer
+1. Prepare a 1:1 dilution of 1X Washing Buffer with nuclease-free water to make 600 pL of
+0.5X Washing Buffer per sample. (At least 5 mL of 0.5X Washing Buffer for 8 samples.)
+2. Briefly spin down PIP tubes. Add 120 UL 0.5X Washing Buffer to each PIP tube and seal
+with a new lid.
+3. Vortex mix each PIP tube for 5 seconds.
+Fluent 8
+PIPseq V T23'
+Cell RNA Kit User Guide I 33
+BioSciences
+Single
+
+
+
+4. Centrifuge for 5 seconds on a benchtop minifuge and return the tubes to the red PIPseq
+guide rack (FB0001549). Always use the power button to turn the benchtop minifuge off
+for a gradual stop that will ensure well packed beads.
+5. Tap the red guide rack on the bench 3 times.
+6. Let the PIPS settle for at least 1 minute SO they are below the guide wire.
+Workflow Tip: Ifafter 1 minute PIPS are not settling below the guidewire, you may tap
+against the bench up to 10 additional times and wait at least another minute for the. PIPS
+to settle.
+7. Aspirate and discard 150 UL supernatant. Do not disturb the PIPS pellet.
+8. Repeat steps 2-7 three more times using 150 UL of 0.5X
+Washing Buffer for the addition and removal steps for a total of
+Wash Checklist
+4 washes.
+Wash 1
+9. After the last wash, spin down the 0.2 mL tubes in a benchtop
+Wash 2
+minifuge for 5 seconds. Let the PIPS settle for at least 1 minute
+Wash 3
+SO they are below the guide wire.
+Wash 4
+10. Reduce the volume to the guide wire.
+11. Store samples on ice and proceed promptly to CDNA amplitication.
+Fluent BioSciences
+PIPseq V T23' Single Cell RNA Kit User Guide I 34
+
+
+
+5.4. CDNA Whole Transcriptome Amplification
+Reagent and Material Preparation
+Component Name
+Part Number
+Kit
+Preparation
+4X PCR Master Mix
+FB0005090
+-20°C Kit
+Thaw on ice, pipette mix 10X, and
+centrifuge briefly
+Thaw on ice, pipette mix 10X, and
+WTA Primer
+FB0005091
+-20°C Kit
+centrifuge briefly
+1.5 mL tube
+Customer provided, see
+N/A
+Obtain
+recommendations.
+Nuclease-free Water
+Customer provided
+N/A
+Obtain
+1. In a separate customer provided 1.5 mL tube, dilute the provided WTA primer ten-fold
+with nuclease-free water with sufficient overage for the necessary number of reactions. At
+the minimum, make 30 UL of diluted WTA Primer (3 pL stock primer, 27 UL nuclease-free
+water). For 8 reactions, add 6 UL of the provided WTA primer into 54 UL of nuclease-free
+water.
+2. Prepare whole transcriptome amplification (WTA) master mix as described in the table
+below, vortex mix for 10 seconds, and briefly centrifuge.
+Workflow Tip: Do not exceed 10% reaction overage when creating a mastermix.
+Volume Per Reaction
+4.4x Reaction
+8.8x Reaction
+Reagent
+(UL)
+Master Mix (UL)
+Master Mix (UL)
+4X PCR Master Mix
+15
+66
+132
+WTA Primer (Tenfold diluted)
+5
+26.4
+52.8
+Total
+21
+92.4
+184.8
+3. Add 21 UL of WTA master mix into each sample tube containing 39 UL of washed PIPS for
+at total reaction volume of 60 UL.
+4. Mix well by pulse vortexing while in the black tube stand (FB0001024) for 5: seconds and
+perform a quick spin down in a benchtop minifuge.
+5. Run the program below with the thermocycler lid set to 105°C.
+WARNING: Do not change the PCR cycle number. The specified parameters are
+critical for assay performance, any alterations will result in unusable results.
+Fluent BioSciences
+PIPseq V T23' Single Cell RNA Kit User Guide I 35
+
+
+
+Temperature (°C)
+Time
+Cycle Number
+95
+31 min
+x1
+98
+15 sec
+x5
+69
+10 min
+72
+51 min
+x1
+4
+hold
+NOTE: Annealing and extension both occur at 69°C in this WTA profile.
+STOP 6. Stop Point: Samples can be stored overnight at 4°C before proceeding to the next step.
+Briefly spin down tubes before proceeding with the next step.
+5.5. Isolate CDNA from PIPS
+The remaining steps in the protocol will be performed using plasticware from a general laboratory
+supplier. These supplies are not included in the kit. There are multiple options for the 0.2 mL sample
+tubes used in the remaining steps, depending on your preference. These include 0.2 mL strip tubes or a
+PCR reaction plate (requires aj plate-compatible magnetic bead rack).
+Reagent and Material Preparation
+Component Name
+Part Number
+Kit
+Preparation
+CE Buffer
+FB0005064
+Ambient Kit Obtain, keep room temperature
+Ambient Kit Warm to room temperature (at
+Fluent Magnetic Cleanup Beads
+FB0004980
+(stored at 2°C to least 20 minutes before use,
+8°C)
+limit light exposure)
+Nuclease-free water
+Customer provided, see
+N/A
+Obtain, keep room temperature
+recommendation
+IDTE Buffer, pH 8.0
+(or similar low EDTA TE
+Customer provided, see
+N/A
+Obtain
+recommendations
+Buffer)
+0.21 mL strip tubes or PCR
+Customer provided, see
+N/A
+Obtain
+reaction plates
+recommendations.
+0.21 mL/ 1.5 mL Magnetic
+Customer provided, see
+N/A
+Obtain
+Separation Combo Rack
+recommendations
+5.5.1. CDNA Isolation
+1. Remove Fluent Magnetic Cleanup Beads from 4 °C storage to warm to room temperature
+for at least 20 minutes before use.
+2. Add 40 UL of CE Buffer to each WTA reaction in the 0.2 mL tube strip and seal with a new
+strip tube lid.
+: Fluent
+PIPseq V T23'
+Cell RNA Kit User Guide I 36
+BioSciences
+Single
+
+
+
+3. Pulse vortex mix the WTA reactions with CE Buffer thoroughly and spin down the 0.2 mL
+strip for 5 seconds in a benchtop minifuge.
+4. Load the strip into the guide rack. Tap on the bench and wait at least 1 minute for the PIPS
+to settle below the guide wire.
+5. Transfer 60 pL of the supernatant into a NEW labeled 0.2 mL strip tube without disturbing
+the PIP pellet.
+6. Add another 60 UL of CE Buffer to the original 0.2 mL tube containing the PIP pellet.
+7. Pulse vortex mix the WTA reactions with CE Buffer thoroughly and centrifuge the 0.2 mL
+strip for 5 seconds in a benchtop minifuge (or 2000 X g in a microcentrifuge, see section
+1.3.3 for recommendations) to pack the PIPS.
+8. Load the strip into the guide rack. Tap on the bench and wait at least 1 minute for the PIPS
+to settle below the guide wire.
+9. Transfer 60 UL of the supernatant into the tube containing the supernatant from step 5. This
+will generate a total of 120 UL supernatant from each sample.
+10. Briefly centrifuge the PCR strip containing the supernatant and examine the bottom ofthe
+tube for PIPS. Ifp present, transfer the supernatant into a new tube strip without disturbing
+PIPS at the bottom.
+Workflow Tip: Measure the final volume ofsupernatant by pipette and adjust the magnetic
+bead volume used in step 3 in the next section if it is not 120 UL.
+11. Save the remaining PIP pellet at -80°C as backup for CDNA recovery (see Section 7
+Appendix I) or to use for targeted applications with the SEA kit.
+WARNING: The leftover PIP pellet is the only way to recover CDNA if library
+preparation fails to produce sequence-quality libraries and it must be retained if
+planning to use for SEA kit applications.
+5.5.2. Magnetic Bead Purification
+1. Prepare at least 400 UL of a fresh 85% ethanol solution in nuclease-free water for each
+reaction.
+2. Resuspend the Fluent Magnetic Cleanup Beads by vortexing thoroughly (< 30 seconds) to
+ensure al homogeneous mixture.
+3. For each 120 UL reaction volume, add 96 pL of Fluent Magnetic Cleanup Beads. This is a
+0.8x ratio of Fluent Magnetic Cleanup Beads.
+Workflow Tip: For a 0.8x ratio: measured supernatant volume * 0.8 i new magnetic bead
+UL volume to add.
+4. Ensure the tubes are capped tightly and vortex until thoroughly mixed and nomogenous,
+then pulse centrifuge to bring the liquid to the bottom of the tube.
+Fluent 8 BioSciences
+PIPseq V T23' Single Cell RNA Kit User Guide I 37
+
+
+
+5. Incubate for 5 minutes at ambient temperature.
+6. Place the 0.2 mL tubes in the magnetic stand and bind to the magnet for 5 minutes. The
+magnetic beads will pellet on the side of the tube and the aqueous solution should be fully
+clear.
+Workflow Tip: Ifmagnetic beads do not pellet after 5 minutes there may be PIP carry over
+from the previous step. Leave tubes on the magnet long enough toj facilitate magnetic bead
+separation.
+7. Once the aqueous solution is clear, discard the supernatant. Do not disturb the magnetic
+beads.
+8. Carefully wash the bound magnetic beads twice with 200 UL of 85% ethanol for 30
+seconds each. Do not disturb the magnetic bead pellet.
+Workflow Tip: To wash magnetic beads with 85% ethanol, carefully add. 200 uL of 85%
+ethanol to the tube without disturbing beads, let sit for 30 seconds, and then remove the
+200 uL of 85% ethanol. Repeat for two washes.
+9. Remove final traces of ethanol with a P20 pipette, taking care not to disturb the magnetic
+beads.
+10. Air dry for a maximum of 5 minutes with the top open to remove any residual ethanol.
+WARNING: Do not overdry beads. Proceed to the next step when the magnetic beads have
+air dried to the point of only a slight gloss remaining, but before they show cracks. This
+can take as: few as 2 minutes depending on the humidity level. Overdrying the beads
+can significantly decrease elution efficiency resulting in reduced CDNA yield.
+11. Remove tubes from the magnetic rack and add 421 pL IDTE Buffer (or similar low EDTA
+TE. Buffer ). Mix the IDTE Buffer and magnetic beads thoroughly by pipette mixing,
+ensuring that the bead pellet is fully resuspended in the IDTE Buffer.
+Workflow Tip: Wash the IDTE Buffer over the magnetic bead pellet on the. side of the tube
+until the pellet is fully washed off the tube, then pipette mix at least 10. times.
+12. If necessary, do a pulse centrifuge on a benchtop minifuge.
+13. Incubate for 5 minutes at room temperature.
+Workflow Tip: Ifbead pellets are accidentally overdried and are showing cracks, it is
+recommended to pipette mix frequently during this incubation to minimize sample loss.
+14. Place tubes into the magnetic rack and bind to the magnet for 2 minutes.
+15. Remove and SAVE 40 pL of supernatant in a new PCR tube strip and place the strip
+immediately on ice. This CDNA should be used as input for library preparation in Section
+5.7.
+16. Do not remove the PCR strip from the magnet. The remaining 2 pL of supernatant
+will be used for QC (Section 5.6).
+Fluent BioSciences
+PIPseq V T23' Single Cell RNA Kit User Guide I 38
+
+
+
+Stop Point: Store purified CDNA on ice until ready for library preparation (see Section
+STOP
+5.7). Alternatively, CDNA may be stored at -80°C <72 hours. Do not store at -20°C.
+WARNING: Storing CDNA in a high amplicon-contaminated area may affect the quality of
+your samples. Make sure your samples are well contained before storing in a -80°C freezer.
+Please see section 2.2 for more information.
+5.6. CDNA QC
+Reagent and Material Preparation
+Component Name
+Part Number
+Kit
+Preparation
+Thaw on ice, pipette mix 10x, and
+4X PCR Master Mix
+FB0005090
+-20°C Kit
+centrifuge briefly
+Thaw on ice, pipette mix 10x, and
+WTA Primer
+FB0005091
+-20°C Kit
+centrifuge briefly
+Ambient Kit Keep chilled on ice. Prepare 0.5X
+Washing Buffer
+FB0004787
+(stored at
+Washing Buffer (7.75 pL per
+2°C to 8°C) sample) with nuclease-free water.
+Customer
+0.2 mL strip tubes or PCR
+N/A
+provided, see
+Obtain
+reaction plates
+recommendations
+5.6.1. CDNA Amplification for QC
+1. Use the remaining elution volume (2 UL) from the magnetic bead pellet (5.5.2.16) to
+perform this CDNA QC.
+2. Keep the tubes on the magnet.
+3. Add 9 UL of nuclease-free water into the tube with the remaining 2 UL from the previous
+elution and mix well without disturbing the bead pellet.
+4. Incubate on the magnet for 1 minute at ambient temperature.
+5. Remove 10 UL of the remaining CDNA without disturbing the bead pellet and transfer into
+al new 0.2 mL PCR strip tube. Place the sample on ice.
+6. Prepare the QC: master mix as described in the table below, mix briefly by vortexing, and
+briefly centrifuge on a benchtop minifuge to collect.
+Workflow Tip: Do not exceed 10%. reaction overage when creating a master mix.
+Reagent
+Volume Per
+4.4x Reaction
+8.8x Reaction
+Reaction (UL)
+Master Mix (UL) Master Mix (UL)
+4X PCR Master Mix
+6.25
+27.5
+55
+WTA Primer (undiluted)
+I
+4.4
+8.8
+0.5X Washing Buffer
+7.75
+34.1
+68.2
+Total
+15
+66
+132
+Fluent BioSciences
+PIPseq V T23' Single Cell RNA Kit User Guide I 39
+
+
+
+7. Add 15 UL of QC master mix into each 10 UL sample for a total reaction volume of 25 UL.
+8. Mix well by pulse vortexing and centrifuge briefly in a benchtop minifuge for 2 seconds to
+collect the reaction volume at the bottom of the tube.
+9. Run the program below with the thermocycler lid set to 105°C.
+Temperature (°C)
+Time
+Cycle Number
+95
+31 min
+x1
+98
+15 sec
+x10-13
+69
+41 min
+72
+51 min
+x1
+4
+hold
+NOTE: Annealing and extension both occur at 69°C in this profile.
+Sample Input
+Recommended Cycle Number for QC
+High RNA sample types (eg: cell lines)
+10
+Low RNA sample types (eg: primary cells and nuclei)
+13
+10. Stop Point: Samples may be stored at 4°C overnight or proceed immediately to CDNA
+Isolation for QC (Section 5.6.2). It is recommended to conduct QC prior to proceeding
+STOP
+with library preparation in order to ensure CDNA sample quality and integrity.
+5.6.2. CDNA Isolation for QC
+Reagent and Material Preparation
+Component Name
+Part Number
+Kit
+Preparation
+CEI Buffer
+FB0005064
+Ambient Kit Obtain, keep room temperature
+Ambient Kit Warm to room temperature (at
+Fluent Magnetic Cleanup Beads
+FB0004980
+(stored at least 20 minutes before use, limit
+2°C to 8°C)
+light exposure)
+Nuclease-free water
+Customer provided, see
+N/A
+Obtain.
+recommendation
+IDTE Buffer, pH 8.0
+(or similar low EDTA TE
+Customer provided, see
+N/A
+Obtain
+recommendations
+Buffer)
+Bioanalyzer 2100 or
+Customer provided, Agilent
+N/A
+Prepare according to
+manufacturer's S recommendations,
+Fluent BioSciences
+PIPseq V T23' Single Cell RNA Kit User Guide I 40
+
+
+
+Reagent and Material Preparation
+TapeStation 4200 and
+HSD5000 ScreenTape
+Reagents
+recommended for TapeStation
+0.2 mL strip tubes or PCR
+Customer provided, see
+N/A
+Obtain
+reaction plates
+recommendations.
+0.2 mL / 1.5 mL Magnetic
+Customer provided, see
+N/A
+Obtain
+Separation Combo Rack
+recommendations
+1. Prepare at least 400 UL fresh 85% ethanol in nuclease-free water per reaction.
+2. Dilute the PCR reaction to 40 UL by addition of 15 pL nuclease-free water.
+3. For 40 UL reaction volumes: add 32 UL Fluent Magnetic Cleanup Beads to samples in the
+PCR strip. This is a 0.8x ratio of Fluent Magnetic Cleanup Beads.
+4. Mix thoroughly by pipetting up and down 15 times at 67 UL stroke.
+5. Incubate for 5 minutes at: room temperature.
+6. Place tubes into the magnetic rack and bind to the magnet for 5 minutes.
+7. Once the aqueous solution is clear, discard the supernatant being careful not to touch the
+magnetic beads.
+8. Carefully wash twice with 200 UL 85% ethanol for 30 seconds each. Do not disturb the
+magnetic bead pellet.
+9. Remove final traces of ethanol with a P20 pipette, taking care not to disturb the magnetic
+beads.
+10. Air dry for a maximum of 5 minutes with the top open to remove any residual ethanol,
+taking care not to overdry. The magnetic beads should still look glossy, not cracked.
+WARNING: Do not overdry beads. Proceed to the next step when the magnetic beads have
+air dried to the point of only a slight gloss remaining, but before they show cracks. This
+can take as few as 2 minutes depending on the humidity level. Overdrying the beads
+can significantly decrease elution efficiency resulting in reduced CDNA yield.
+11. Remove tubes from the magnetic rack and add 11 UL IDTE Buffer, pH 8.0. Mix the IDTE
+Buffer, pH 8.0 and Fluent Magnetic Cleanup Beads by pipette mixing, ensuring that the
+bead pellet is fully resuspended in the IDTE Buffer, pH 8.0.
+Workflow Tip: Wash the IDTE Buffer (pH 8.0) over the magnetic bead pellet on the side of
+the tube until the pellet is fully washed off the tube, then pipette up and down at least 10
+times.
+12. If necessary, do a pulse centrifuge on a benchtop minifuge.
+13. Incubate for 5 minutes at: room emperature.
+Workflow Tip: Ifbead pellets are accidentally overdried and are showing cracks, iti is
+recommended to pipette mix frequently during this incubation to minimize sample loss.
+Fluent 8 BioSciences
+PIPseq V T23' Single Cell RNA Kit User Guide I 41
+
+
+
+14. Place tubes into the magnetic rack and bind to the magnet for 2 minutes.
+15. Remove and SAVE 10 UL of supernatant in a new PCR tube strip for QC.
+WARNING: Do not use QC product as input into library preparation. This will result in
+unusable results.
+5.6.3. Qubit Quantification
+1. Using a Qubit High Sensitivity kit, quantify 2 UL of each sample according to the
+manufacturer's instructions.
+5.6.4. Fragment Analysis
+1. Users may use an Agilent BioAnalyzer or TapeStation. Dilute samples if necessary to
+ensure they are within the appropriate range of the device.
+2. Load an appropriate volume of the purified library on the fragment analyzer.
+Recommended loading concentration is 1-10 ng/uL on Tapestation and 1-2 ng/uL on
+Bioanalyzer (Figure 9). Loading less than 1 ng/uL may not give accurate results.
+3. Proceed to library preparation upon successful CDNA QC. The average
+fragment size for CDNA should be over 500 bp as determined by the fragment
+analyzer region table (set for 200 - 5k bp). Average size may vary depending on
+cell type and experimental condition.
+Lor
+à
+A 
+SPP
+4000
+E 3000
+I
+2
+2000
+I
+I 1000
+a
+Size
+a
+8l A a 8
+&
+a I
+[bp]
+Figure 9. Representative CDNA traces for a 5,000 cell input human/mouse cell
+mixture (HEK 293T/NIH 3T3) using a high sensitivity D5000 ScreenTape.
+: Fluent
+PIPseq V T23'
+Cell RNA Kit User Guide I 42
+BioSciences
+Single
+
+
+
+5.7.1 Library Preparation
+Reagent and Material Preparation
+Component Name
+Part Number
+Kit
+Preparation
+Fluent Magnetic Cleanup
+Library Ambient Kit Warm to room temperature (at least 20
+FB0005079
+(stored at 2°C to
+Beads
+minutes before use, limit light exposure)
+8°C)
+Customer provided,
+Obtain and use to dilute the EtOH in the
+Nuclease-free water
+N/A
+see recommendation
+magnetic-bead purification step
+Customer provided,
+IDTE Buffer, pH 8.0
+N/A
+Obtain
+see recommendations
+Thaw on ice, vortex for 5 seconds,
+Buffer
+FB0005080
+Library Prep
+Library -20°C Kit
+briefly
+centrifuge, store on ice
+Library Prep Enzymes
+FB0005081
+Library -20°C Kit
+Thaw on ice, pipette mix, briefly
+centrifuge, store on ice
+Library Prep Mix A
+FB0005082
+Library -20°C Kit
+Thaw on ice, pipette mix, briefly
+centrifuge, store on ice
+Library Adapter Mix
+FB0005083
+Library -20°C Kit
+Thaw on ice
+Obtain and use to dilute Library Adapter
+Nuclease-free water
+FB0005085
+Library Ambient Kit mix and to elute during the Post Ligation
+Cleanup
+4X PCR Master Mix
+FB0005084
+Library -20°C Kit
+Thaw on ice, pipette mix, briefly
+centrifuge, store on ice
+UDI Library Index Mix Strip
+FB0005121
+Library -20°C Kit
+Thaw on ice
+5.7.1. Fragmentation, End Repair & A-Tailing
+WARNING: It is critical to use the total 40 pL volume of CDNA recovered in section
+5.5.2. for library preparation for optimal assay performance. See Appendix I - CDNA
+reamplification for troubleshooting options if library preparation is unsuccessful.
+1. Obtain the 40 UL of CDNA (8-strip tube) generated in section 5.5.2.15 and place on ice.
+2. Pre-chill the thermocycler with the program in step 6, to hold at 4°C or chill to 4°C in the
+time it will take to prepare the reactions (-10 minutes) with the heated lid set to 105°C.
+3. Create a master mix of the Library Prep Buffer and Enzymes according to the table below.
+Homogenize by vortexing at a moderate intensity (avoid bubbling) for 5: seconds, and
+briefly centrifuge on a benchtop minifuge.
+Workflow Tip: Add 10% reaction overage when calculating volumes for the master mix to
+accountj for standard pipetting error
+Fluent 8 BioSciences
+PIPseq V T23' Single Cell RNA Kit User Guide I 43
+
+
+
+Volume Per
+4.4x Reaction
+8.8x Reaction
+Reagent
+Sample (UL)
+Master Mix
+Master Mix
+(UL)
+(UL)
+Library Prep Buffer
+4
+17.6
+35.2
+Library Prep Enzymes
+6
+26.4
+52.8
+Total
+10
+44
+88
+4. Add 10 UL of the master mix from step 3 to each 40 UL CDNA sample for a total reaction
+volume of 50 pL as shown in the table below.
+Reagent
+Volume Per Sample (UL)
+CDNA
+40
+Library Master Mix
+10
+Total
+50
+5. Vortex the samples at a moderate intensity for 5-10 seconds to homogenize (avoid
+bubbling), and briefly centrifuge to collect. Keep samples on ice!
+WARNING: Complete mixing is crucial; users may vortex or pipette mix 10 times at the
+25 UL stroke.
+6. Place samples in the thermocycler with the 4°C block and 105°C lid at the designated
+temperatures. Use the skip step' function on the thermocycler to start the 30°C step and run
+the program below.
+Temperature (°C)
+Time
+4
+HOLD
+30
+6n min
+65
+30 min
+4
+HOLD
+Workflow Tip: During this incubation prepare the Library Adapter Mix dilution according
+to the next section and place it on ice.
+7. Proceed immediately to Adapter Ligation after the program has finished and the samples
+have returned to 4°C.
+Fluent 8
+PIPseq V T23'
+Cell RNA Kit User Guide I 44
+BioSciences
+Single
+
+
+
+5.7.2. Adapter Ligation
+1. Prepare a dilution of the Library Adapter Mix (100 UM) to a final concentration of 15 UM
+using the nuclease-free water provided in the kit as described in the table below.
+Library Adapter Mix Per
+Nuclease-free water Per
+Total Volume Per Sample
+Sample (UL)
+Sample (UL)
+(UL)
+0.75
+4.25
+5
+Workflow Tip: Add a 10% reaction overage when calculating volumes for multiple
+reactions for the dilutions to account for standard pipetting error
+WARNING: Store dilutions of the Library Adapter Mix for less than 1 week at -20°C.
+2. Remove the samples from the thermocycler immediately upon return to 4°C.
+3. Add 5 UL of diluted Library Adapter Mix to each reaction, mix thoroughly by brief
+vortexing or pipetting, and briefly centrifugation to collect at the bottom of the tube.
+4. Pipette mix (do not vortex) Library Prep Mix A 15 times at the 130 UL stroke to
+homogenize and place on ice.
+5. Add 20 UL of Library Prep Mix A to each sample for a total reaction volume of 75 UL.
+WARNING: Library Prep Mix A is viscous, pipette slowly to ensure proper volumes are
+dispensed.
+6. Pipette mix the reactions 10 times at the 40 UL stroke, and briefly centrifuge to collect.
+7. Place samples in the thermocycler and run the program below (20°C for 20 min), with the
+heated lid OFF
+Temperature (°C)
+Time
+20
+20 min
+8. Proceed immediately to the Post Ligation Cleanup.
+5.7.3. Post Ligation Cleanup
+1. Prepare at least 400 UL of a fresh 85% ethanol solution in customer-provided
+nuclease-free water for each reaction.
+Fluent BioSciences
+PIPseq V T23' Single Cell RNA Kit User Guide I 45
+
+
+
+2. Resuspend the Fluent Magnetic Cleanup Beads by vortexing thoroughly (<30 seconds) to
+ensure al homogeneous mixture.
+3. Remove the ligation reaction from the thermocycler.
+4. Add 60 UL (0.8x) of resuspended Fluent Magnetic Cleanup Beads to each sample in the
+PCR strip. Mix thoroughly by pipetting up and down 15 times at 125 UL stroke.
+5. Incubate samples at room temperature for 5 min.
+6. Place the PCR strip into the magnetic rack and bind beads to the magnet for 5 minutes,
+until the solution is clear and all beads have collected on the tube wall.
+7. Remove and discard the supernatant from each tube (-135 UL), being careful to not disturb
+the beads.
+8. Carefully wash beads twice with 200 UL of 85% ethanol for 30 seconds each.
+WARNING: Do not disturb beads. Add 85% ethanol slowly, let stand for 30 seconds, and
+remove the full volume of 85% ethanol keeping the pipette tip away from the bead pellet.
+9. Remove any final traces of ethanol with a P20 pipette without disturbing beads.
+10. Air dry beads for a maximum of 5 minutes with the top open. Do not overdry.
+Workflow Tip: The beads should still look glossy, not cracked. This can take as few as 2
+minutes depending on the humidity level.
+11. Remove tubes from the magnetic rack and add 34 UL of the nuclease-free water provided
+in the kit.
+12. Pipette mix to thoroughly resuspend the Fluent Magnetic Cleanup Beads in nuclease-free
+water at least 10 times at the 32.5 UL stroke.
+Workflow Tip: Wash the water over the bead pellet on the side of the tube until the pellet is
+fully washed off, then pipette mix at least 10 times.
+13. Incubate tubes at room temperature for 5 min.
+14. Place tubes into the magnetic rack and bind to the magnet for 2 min, or until the solution is
+clear.
+15. Carefully transfer 32.5 pL of each library-containing supernatant to a new 0.2 mL PCR
+tube strip.
+Fluent BioSciences
+PIPseq V T23' Single Cell RNA Kit User Guide I 46
+
+
+
+5.7.4. Sample Index PCR
+Choose and record a unique index mix for each sample to ensure no sample index combinations
+overlap in a multiplexed sequencing run. Be sure to align the orientation of the hole on the side of
+the strip containing the indices with the: index map in the box lid and in the diagram below. Pierce
+the foil with a P20 pipette before aspirating.
+Library Library Library Lbrary Library Library Library Library
+Index Index Index Index Index Index Index Index
+Mix 1
+Mix 2
+Mix:
+Mix
+Mix 5 Mix o Mix7 7 Mix a
+CRITICAL: Check orientation of index strip tube to ensure the
+correct index combination is added and recorded for sequencing.
+There are 8 index mixes provided with this kit to allow for unique dual indexing of 8 samples. To
+pool more than 8 PIPseq libraries together in a sequencing run, ask about the PIPseq UDI-96 Kit
+(FBS-UDI-96).
+1. Thaw 4X PCR Master Mix on ice. Once thawed, flick the tubes several times, pipette mix
+10 times (do not vortex), and then briefly centrifuge to collect.
+2. To the 32.5 UL of each cleaned library, add the following individually, in the order in which
+they appear in the table below.
+Reagent
+Volume Per Sample (UL)
+Cleaned library DNA
+32.5
+Unique UDI Library Index Mix
+5.0
+4X PCR Master Mix
+12.5
+Total
+50
+3. Pipette mix the reactions 10 times at the 32 UL stroke, and briefly centrifuge to collect.
+4. Place samples in the thermocycler and run the program below, with the heated lid set to
+105°C.
+Fluent BioSciences
+PIPseq V T23' Single Cell RNA Kit User Guide I 47
+
+
+
+Temperature (°C)
+Time
+Cycles
+98
+45 sec
+x1
+98
+15 sec
+67
+30 sec
+x10-16
+69
+45 sec
+72
+1 min
+x1
+4
+Hold
+Hold
+Workflow Tip: The number of sample index PCR cycles should be optimized for a given sample
+type. Starting recommendations based on general RNA content of cell types are provided below.
+Library Preparation DNA Input
+Recommended Sample Index
+(ng)
+PCR Cycles
+High RNA sample types (eg: cell lines)
+10
+Low RNA sample types (eg: primary cells
+16
+and nuclei)
+5. Stop Point: Samples may be stored at 4°C overnight or proceed immediately to Post
+STOP
+Sample Index PCR Cleanup. Briefly spin down the tubes before proceeding with the next
+step.
+5.7.5. Post Sample Index PCR Cleanup (one-sided)
+1. Prepare at least 400 UL of fresh 85% ethanol solution in customer-provided nuclease-free
+water per reaction.
+2. Resuspend the Fluent Magnetic Cleanup Beads by vortexing thoroughly (<30 seconds) to
+ensure a homogeneous mixture.
+3. Dilute thel PCR reaction to 95 UL by addition of 45 pL customer-provided nuclease-free
+water.
+4. For 95 UL reaction volumes, add 76 UL Fluent Magnetic Cleanup Beads. This is a 0.8x
+ratio of magnetic beads. Adjust as necessary if reaction volume is not 95 UL.
+5. Mix thoroughly by pipetting up and down 15 times at a 160 UL stroke and incubate for at
+least. 5 minutes at room temperature.
+6. If necessary, do a final pulse centrifuge of the beads.
+7. Place tubes onto the magnetic rack and bind for 5 minutes.
+Fluent 8
+PIPseq V T23'
+Cell RNA Kit User Guide I 48
+BioSciences
+Single
+
+
+
+8. Discard the supernatant. Be careful not to disturb the: magnetic beads.
+9. Carefully wash twice with 200 UL of 85% ethanol for 30 seconds each. Do not disturb the
+magnetic beads.
+10. Remove final traces of ethanol with P20 pipette being careful not to disturb the magnetic
+beads.
+11. Air dry for a maximum of 5 minutes with the top open to remove any residual ethanol.
+WARNING: Do not overdry beads. Proceed to the next step when the magnetic beads have
+air dried to the point of only a slight gloss remaining, but before they show cracks. This
+can take as few as 2 minutes depending on the humidity level.
+12. Remove tube from the magnetic rack and add 21 of pL IDTE Buffer (pH 8.0). Pipette mix
+the IDTE Buffer and magnetic beads at least 10 times at the 20 UL stroke.
+13. Incubate for 5 minutes at room temperature.
+14. If necessary, do a pulse centrifuge of the magnetic beads on a benchtop minifuge.
+15. Place tubes onto the magnetic rack and bind to the magnet for 2 minutes.
+16. Remove and SAVE 20 UL of supernatant in a new PCR tube strip.
+STOP 17. Stop Point: Samples can be stored at -20°C long-term.
+5.8. Post Library Preparation QC
+Reagent and Material Preparation
+Component Name
+Part Number
+Kit
+Preparation
+Qubit Fluorometer and
+Customer provided, N/A
+Prepare according to manufacturer's
+Reagents
+ThermoFisher
+recommendations
+Bioanalyzer 2100 or
+Customer provided,
+Prepare according to manufacturer's
+N/A
+recommendations, HSD1000 ScreenTape
+TapeStation 4200 and Reagents
+Agilent
+recommended
+5.8.1. Qubit Quantification
+1. Using a Qubit High Sensitivity kit, quantify 2 UL of each sample according to the
+manufacturer's instructions.
+5.8.2. Fragment Analysis
+1. Users may use an Agilent BioAnalyzer or TapeStation. Dilute samples if necessary to
+ensure they are within the appropriate range of the device.
+Fluent 8
+PIPseq V T23'
+Cell RNA Kit User Guide I 49
+BioSciences
+Single
+
+
+
+2. Load an appropriate volume of the purified library on the fragment analyzer.
+Recommended loading concentration is 1-10 ng/uL on Tapestation or 1-21 ng/uL on
+Bioanalyzer. (Figure 10).
+3 8
+-
+SPP
+3000
+2500
+2000
+2
+a 1500
+E
+I 1000
+500
+Size
+N
+al
+8
+a à
+al 8l a a
+[bp)
+Figure 10. Representative library trace (expected avg. size 400-550 bp) for a 5,000 cell
+capture HEK/3T3 cell mixture on a High Sensitivity D1000 ScreenTape (above).
+6. Sequencing
+6.1. Library Structure
+PIPseq V' T2. 3' Single Cell gene expression libraries are composed of standard Illumina paired-end
+constructs that begin with P5 and end with P7. Read 1 contains the barcode information while Read 2
+contains the gene expression information. These libraries are dual-indexed with 10-base i5 and i7 indexes.
+Read 1 length must be 2 45 bases and the recommended read 2 length 2 72 bases. It is recommended to
+maximize the use of the flow cell with longer reads when possible.
+Read 1: 45 /
+Samplel Index 15: 10
+CDNA
+Sample Index 17: 10
+29
+10
+33
+42-45
+31
+34
+10
+24
+P5
+i5 TruSeq Read 1 Barcodes
+30Poly(dT)V
+Nextera Read 2 i7 P7
+Read 2:7 72
+Insert
+6.2. Recommended Sequencing Depth
+Sequencing depth will vary based on your application needs but it is recommended to start with a depth of
+20,000 reads per input cell. After sequencing, users may evaluate the Sequencing Saturation metric output
+from PIPseeker software to optimize sequencing depth for specific sample types. Users are referred to the
+FB0002787 PIPseeker User Guide for more information.
+Fluent 8
+PIPseq V T23'
+Cell RNA Kit User Guide I 50
+BioSciences
+Single
+
+
+
+6.3. Sequencer Compatibility
+The sequencing instruments below have been verified as compatible with PIPseq by Fluent BioSciences.
+Some variation in assay performance may be experienced on distinct sequencing platforms.
+MiSeq
+NextSeq 550
+NextSeq 2000
+NovaSeq 6000
+NovaSeq X
+Long read sequencing technologies can be used for sequencing PIPseq libraries; however, Fluent does not
+currently provide support for these applications.
+WARNING: It is important to make sure no quality trimming or adapter trimming
+is used when converting BCL files into FASTQ files. When using a sample sheet,
+be sure that no adapter reads are listed under "Adapter", "AdapterRead1", or
+"AdapterRead2".
+6.4. Pooling for Ilumina Sequencers
+PIPseq 3' Single Cell gene expression libraries may be pooled for sequencing, taking into account the
+differences in cell number and read depth requirements. Samples must have distinct index combinations to
+avoid failures in sample demultiplexing. Refer to Illumina documentation for discussion of appropriate
+color balance combinations for the selected sequencing platform. Once quantified and normalized, the
+PIPseq 3' gene expression libraries should be diluted and prepared as recommended in Illumina
+documentation for the selected Illumina sequencing platforms. PIPseq libraries require a minimum of 1%
+PhiX to be added to the loaded library pools. It is recommended to increase PhiX to a minimum of 2%
+with NovaSeq X series sequencers.
+6.5. Informatics Analysis
+Fluent provides the PIPseekerTM software for analysis of single cell RNA data obtained with Fluent
+BioSciences' PIPseq V: 3' Single Cell RNA (ScRNA-seq) Kits. PIPseeker offers a comprehensive analysis
+solution that provides the user with detailed metrics, gene expression profiles, basic cell quality and
+clustering indicators, and cell type annotation for some sample types. PIPseeker also supports specialized
+analysis workflows enabled by Fluent's SEA V Kit (FB0005376). Additionally, the filtered matrix outputs
+of PIPseeker can be used for specialized tertiary analysis streams at the discretion of the user.
+Visit https://www.fluentbio.com/products/pipseeker-software-for-data-analysis/ to download the latest
+PIPseeker v3.3 or later software.
+Fluent BioSciences
+PIPseq V T23' Single Cell RNA Kit User Guide I 51
+
+
+
+WARNING: PIPseq V chemistry kits are only compatible with PIPseeker v3.3 or
+later analysis software. Analysis of single cell data generated using PIPseq V 3'
+Single Cell RNA Kits using PIPseeker 2.x or 1.x analysis software will result in
+compromised performance.
+6.6. PIPseq 3' Index Sequences
+i7 sequence
+Part
+i7 adapter
+i5 adapter
+Component Name (for sample
+Number
+sequence
+sequence
+sheet)
+UDI Library Index mix 1 GAGAATGGIT AACCATTCTC TCGGCAGCAA
+UDI Library Index mix 2 TAGAATTGGA TCCAATTCTA CTAATGATGG
+UDI Library Index mix 3 CCATCATTAG CTAATGATGG GGTTGCCTCT
+UDI Library Index mix 4 GATAGGCCGA TCGGCCTATC CGCACATGGC
+FB0005121
+UDI Library Index mix 5 ATGGTTGACT AGTCAACCAT GGCCTGTCCT
+UDI Library Index mix 6 TATTGCGCTC GAGCGCAATA CTGTGTTAGG
+UDI Library Index mix 7 ACGCCTTGTT AACAAGGCGT TAAGGAACGT
+UDI Library Index mix 8 TTCTACATAC GTATGTAGAA CTAACTGTAA
+7.Appendix I - CDNA Reamplification with the SEA Kit
+If library preparation fails to generate sequence-quality libraries from QC passed CDNA (as assessed at
+CDNA fragment analysis, see Section 5.6.4), users may choose to generate a second batch of CDNA using
+the PIP pellet that was saved at -80 °C. This optional step is presented as a recovery method but requires
+the use of materials provided in the Fluent SEA V Kit (FB0005376) to generate a new batch of CDNA and
+the materials provided in the Fluent PIPseq V Library Prep Kit (FB0005372) to prepare a
+sequencing-ready library from the recovered CDNA. Refer to the appropriate section in the FB0005446
+PIPseq Replay User Guide for instructions.
+Fluent BioSciences
+PIPseq V T23' Single Cell RNA Kit User Guide I 52
+
+
+
+8. Appendix II - Oligonucleotide Sequences
+Part Number
+Name
+Sequence (5'-3)
+CAAGCAGAAGACGGCATATACGAGATXXXXXXXXXXX
+Pre-mixed with i5
+i7 Index
+GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG
+AATGATACGGCGACCACCGAGATCTACACXXXXX
+Pre-mixed with i7
+i5 Index
+XXXXXACACTCTTTCCCTACACGACGC
+Forward: CTCTTTCCCTACACGACGCTC
+FB0005091
+WTA Primer
+Reverse: AAGCAGTGGTATCAACGCAGAGT
+FB0005108
+TSO
+AAGCAGTGGTATCAACGCAGAGTGAATrGrGrG
+Ligation primer:
+FB0005083
+Library Adapter Mix 5Phos/CTGTCTCTTATATACACACATCTCTCCGAGCC
+Ligation adapter: TATAAGAGACAGT
+9. Appendix III - Abbreviations
+PIPS.
+Particle-templated Instant Partitions
+RNA
+Ribonucleic Acid
+DNA
+Deoxyribonucleic Acid
+dsDNA
+Double-Strand DNA
+CDNA
+Complementary DNA
+TSO
+Template Switch Oligo
+WTA
+Whole Transcriptome Amplification
+RPM.
+Revolutions Per Minute
+Fluent
+PIPseq V T23'
+Cell RNA Kit User Guide I 53
+BioSciences
+Single
+
+
+
+10. Appendix IV - Troubleshooting
+STEP
+NORMAL
+ABNORMAL
+5.2.2.2
+Removal of Partitioning Reagent to
+below #2 (or "A") line
+Top of
+the
+emulsion
+remains
+above
+the: 2 line
+Top of the
+emulsion
+must be at
+or below 2
+line
+5.2.2.6
+Two distinct phases and a
+Heterogeneous
+homogenous opaque upper phase
+opaque upper
+indicating complete breaking
+PIPs to be
+phase, which might
+kept
+also show bubbles
+orar non-distinct
+red droplet at the
+interphase, may
+Red droplet
+indicate unbroken
+tol be
+emulsion
+removed
+Pink
+waste
+5.5.2
+Example of PIP carryover
+PIP carryover during CDNA
+isolation can make aspirating
+supernatant difficult as it causes the
+magnetic bead pellet to swell. Iti is
+imperative to input an accurate
+CDNA volume (40 UL) into library
+preparation to avoid adverse results.
+Ctrl(no PIP carryover)
+50 pL PIP carryover
+Fluent
+PIPseq V T23'
+Cell RNA Kit User Guide I 54
+BioSciences
+Single
+
+
+
+11. Document Revision Summary
+Doc ID: FB0005260
+Revision: 1.5
+Revision date: September 2024
+Specific Changes:
+Recommendation added to prepare Reagents and Materials for Capture and Lysis prior to starting
+sample preparation and added clarification on the PCR unidirectional workflow
+Further clarification added to make sure customers are using low EDTA TE Buffer (IDTE)
+Fixed sequence error in i7 sequence for sample sheet of UDI-3
+12. Legal Notices
+O 2024. Fluent BioSciences, Inc (Fluent BioSciences). All rights reserved. Duplication and/or reproduction of all or
+any portion oft this document without the express written consent of Fluent BioSciences, is strictly forbidden.
+Nothing contained herein shall constitute any warranty, express or implied, as to the performance of any products
+described herein.. Any and all warranties applicable to any products are set forth in the applicable terms and
+conditions of sale accompanying the purchase of such product.
+Fluent BioSciences may refer to the products or services offered by other companies by their brand name or
+company nume solely for clarity, and does not claim any rights in those third party marks or names. The use of
+products described herein is subject to Fluent BioSciences End User License Agreement, available at
+www.ftuentbio.com/legal-notices, or such other terms that have been agreed to in writing between Fluent
+BioSciences and the user.. All products and services described herein are intended FOR RESEARCH USE ONLY and
+NOT FOR USE INI DIAGNOSTIC PROCEDURES.
+Support
+Email: support@fuentbio.com
+Fluent BioSciences
+Fluent
+150 Coolidge Avenue
+BioSciences Watertown, MA 02472
+Fluent
+PIPseq V T23'
+Cell RNA Kit User Guide I 55
+BioSciences
+Single

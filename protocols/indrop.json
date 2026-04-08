@@ -4,7 +4,7 @@
   "references": {
     "scg_lib_structs": "https://teichlab.github.io/scg_lib_structs/methods_html/inDrop.html",
     "paper": "https://www.cell.com/cell/fulltext/S0092-8674(15)00500-0",
-    "protocol_pdf": null
+    "protocol_pdf": "protocol_sources/inDrop.pdf"
   },
   "library_sequence": "AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCTBBBBBBBBBBGAGTGATTGCTTGTGACGCCTTBBBBBBBBUUUUUUAGATCGGAAGAGCGGTTCAGCAGGAATGCCGAGACCGATCTCGTATGCCGTCTTCTGCTTG",
   "segments": [
