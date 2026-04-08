@@ -1,504 +1,343 @@
---- Page 1 ---
-10xGenomics.com
 CG000183 Rev A
 USER GUIDE
 Chromium
-Single Cell 3ʹ
+Single Cell 3'
 Reagent Kits v3
 FOR USE WITH
-Chromium Single Cell 3ʹ GEM, Library & Gel Bead Kit v3, 16 rxns PN-1000075 
-Chromium Single Cell 3ʹ GEM, Library & Gel Bead Kit v3, 4 rxns PN-1000092
+Chromium Single Cell 3' GEM, Library & Gel Bead Kit v3, 16 rxns PN-1000075
+Chromium Single Cell 3' GEM, Library & Gel Bead Kit v3, 41 rxns PN-1000092
 Chromium Single Cell B Chip Kit, 48 rxns PN-1000073
 Chromium Single Cell B Chip Kit, 16 rxns PN-1000074
 Chromium i7 Multiplex Kit, 96 rxns PN-120262
+10x
+10xGenomics.com
+GENOMICS
 
 
---- Page 2 ---
-Chromium Single Cell 3ʹ Reagent Kits v3 User Guide | Rev A
-2
-Click to TOC
+
+Notices
 Notices
 Document Number
-CG000183 | Rev A
+CG000183 Rev A
 Legal Notices
-© 2018 10X Genomics, Inc (10x Genomics). All rights reserved. Duplication and/or reproduction of all or 
-any portion of this document without the express written consent of 10x Genomics, is strictly forbidden. 
-Nothing contained herein shall constitute any warranty, express or implied, as to the performance of any 
-products described herein. Any and all warranties applicable to any products are set forth in the applicable 
-terms and conditions of sale accompanying the purchase of such product. 10x Genomics provides no 
-warranty and hereby disclaims any and all warranties as to the use of any third-party products or protocols 
-described herein. The use of products described herein is subject to certain restrictions as set forth in the 
-applicable terms and conditions of sale accompanying the purchase of such product. A non-exhaustive 
-list of 10x Genomics’ marks, many of which are registered in the United States and other countries can 
-be viewed at: www.10xgenomics.com/trademarks. 10x Genomics may refer to the products or services 
-offered by other companies by their brand name or company name solely for clarity, and does not claim any 
-rights in those third party marks or names. 10x Genomics products may be covered by one or more of the 
-patents as indicated at: www.10xgenomics.com/patents. The use of products described herein is subject 
-to 10x Genomics Terms and Conditions of Sale, available at www.10xgenomics.com/legal-notices, or such 
-other terms that have been agreed to in writing between 10x Genomics and user. All products and services 
-described herein are intended FOR RESEARCH USE ONLY and NOT FOR USE IN DIAGNOSTIC PROCEDURES.
+O 2018 10X Genomics, Inc (10x Genomics). All rights reserved. Duplication and/or reproduction of all or
+any portion of this document without the express written consent of 10x Genomics, is strictly forbidden.
+Nothing contained herein shall constitute any warranty, express or implied, as to the performance of any
+products described herein. Any and all warranties applicable to any products are sett forth in the applicable
+terms and conditions of sale accompanying the purchase of such product. 10x Genomics provides no
+warranty and hereby disclaims any and all warranties as to the use ofa any third-party products or protocols
+described herein. The use of products described herein is subject to certain restrictions as set forth in the
+applicable terms and conditions of sale accompanying the purchase of such product. A non-exhaustive
+list of 10x Genomics' marks, many of which are registered in the United States and other countries can
+be viewed at: www.10xgenomics.com/trademarks. 10x Genomics may refer to the products or services
+offered by other companies by their brand name or companyi name solely for clarity, and does not claim any
+rights in those third party marks or names. 10x Genomics products may be covered by one or more of the
+patents as indicated at: www.10xgenomics.com/patents. The use of products described herein is subject
+to 10x Genomics Terms and Conditions of Sale, available at www.10xgenomics.com/legal-notices, or such
+other terms thatl have been agreed to in writing between 10x Genomics and user. All products and services
+described herein are intendedi FORI RESEARCHI USE ONLY and NOT FORI USEI INI DIAGNOSTIC PROCEDURES.
 Instrument & Licensed Software Updates Warranties
-Updates to existing Instruments and Licensed Software may be required to enable customers to use 
-new or existing products.  In the event of an Instrument failure resulting from an update, such failed 
-Instrument will be replaced or repaired in accordance with the 10x Limited Warranty, Assurance Plan or 
-service agreement, only if such Instrument is covered by any of the foregoing at the time of such failure. 
-Instruments not covered under a current 10x Limited Warranty, Assurance Plan or service agreement will 
+Updates to existing Instruments and Licensed Software may be required to enable customers to use
+new or existing products. In the event of an Instrument failure resulting from an update, such failed
+Instrument will be replaced or repaired in accordance with the 10x Limited Warranty, Assurance Plan or
+service agreement, only if such Instrument is covered by any of the foregoing at the time of such failure.
+Instruments not covered under a current 10x Limited Warranty, Assurance Plan or service agreement will
 not be replaced or repaired.
 Support
 Email: support@10xgenomics.com
 10x Genomics
 7068 Koll Center Parkway
 Suite 401
-Pleasanton, CA 94566 USA 
- 
-Notices
-
-
---- Page 3 ---
-Chromium Single Cell 3ʹ Reagent Kits v3 User Guide | Rev A
-3
-TOC
- 
-Table of Contents
-Introduction	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-4
-Chromium Single Cell 3ʹ Reagent Kits v3	
-5
-Chromium Accessories	
-8
-Recommended Thermal Cyclers	
-8
-Additional Kits, Reagents & Equipment	
-9
-Protocol Steps & Timing	
-11
-Stepwise Objectives	
-12
-Tips & Best Practices	 	
-	
-	
-	
-	
-	
-	
-	
-15
-Step 1	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-21
-GEM Generation & Barcoding	
-22
-1.1 Prepare Master Mix	
-23
-1.3 Run the Chromium Controller	
-26
-1.4 Transfer GEMs	
-26
-1.5 GEM-RT Incubation	
-27
-Step 2	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-28
-Post GEM-RT Cleanup & cDNA Amplification 	
-29
-2.1 Post GEM-RT Cleanup – Dynabeads	
-30
-2.2 cDNA Amplification	
-32
-2.3 cDNA Cleanup – SPRIselect	
-33
-2.4 cDNA QC & Quantification	
-34
-Step 3	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-35
-3ʹ Gene Expression Library Construction	
-36
-3.1 Fragmentation, End Repair & A-tailing	
-37
-3.2 Post Fragmentation, End Repair & A-tailing Double Sided Size Selection – SPRIselect	
-38
-3.3 Adaptor Ligation	
-39
-3.4 Post Ligation Cleanup – SPRIselect	
-40
-3.5 Sample Index PCR	
-41
-3.6 Post Sample Index PCR Double Sided Size Selection – SPRIselect	
-42
-3.7 Post Library Construction QC	
-43
-Sequencing	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-44
-Troubleshooting	 	
-	
-	
-	
-	
-	
-	
-	
-	
-47
-5.1 GEMs	
-48
-5.2 Chromium Controller Errors	
-50
-Appendix	 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-51
-Post Library Construction Quantification	
-52
-Agilent TapeStation Traces 	
-53
-Oligonucleotide Sequences	
-54
-    	
-
-
---- Page 4 ---
-Chromium Single Cell 3ʹ Reagent Kits v3 User Guide | Rev A
-4
+Pleasanton, CA 94566 USA
 Click to TOC
+Chromium Single Cell 3' Reagent Kits v3 User Guide Rev A
+2
+
+
+
+TOC
+Table of Contents
+ntroduction
+4
+Chromium Single Cell 3' Reagent Kits v3
+5
+Chromium Accessories
+8
+Recommended Thermal Cyclers
+8
+Additional Kits, Reagents & Equipment
+9
+Protocol Steps & Timing
+11
+Stepwise Objectives
+12
+Tips & Best Practices
+15
+Step 1
+21
+GEM Generation & Barcoding
+22
+1.1 Prepare Master Mix
+23
+1.3 Run the Chromium Controller
+26
+1.4 Transfer GEMS
+26
+1.5 GEM-RT Incubation
+27
+Step 2
+28
+Post GEM-RT Cleanup & CDNA Amplification
+29
+2.1 Post GEM-RT Cleanup - Dynabeads
+30
+2.2 CDNA Amplification
+32
+2.3 CDNA Cleanup - SPRIselect
+33
+2.4 CDNA QC & Quantification
+34
+Step 3
+35
+3' Gene Expression Library Construction
+36
+3.1 Fragmentation, End Repair & A-tailing
+37
+3.2 Post Fragmentation, End Repair & A-tailing Double Sided Size Selection - SPRIselect
+38
+3.3 Adaptor Ligation
+39
+3.41 Post Ligation Cleanup - SPRIselect
+40
+3.5: Sample Index PCR
+41
+3.61 Post Sample Index PCR Double Sided Size Selection - SPRIselect
+42
+3.7 Post Library Construction QC
+43
+Sequencing
+44
+Troubleshooting
+47
+5.1 GEMS
+48
+5.2 Chromium Controller Errors
+50
+Appendix
+51
+Post Library Construction Quantification
+52
+Agilent TapeStation Traces
+53
+Oligonucleotide Sequences
+54
+Chromium Single Cell 3' Reagent Kits v3 User Guide Rev A
+3
+
+
+
 Introduction
-Chromium Single Cell 3ʹ Reagent Kits v3
+Chromium Single Cell 3' Reagent Kits v3
 Chromium Accessories
 Recommended Thermal Cyclers
 Additional Kits, Reagents & Equipment
-Protocol Steps & Timing 
+Protocol Steps & Timing
 Stepwise Objectives
+Click to TOC
+Chromium Single Cell 3' Reagent Kits v3 User Guide Rev A
+4
 
 
---- Page 5 ---
-Chromium Single Cell 3ʹ Reagent Kits v3 User Guide | Rev A
+
+Introduction
+Chromium Single Cell 3' Reagent Kits v3
+Chromium Single Cell 3' GEM, Library & Gel Bead Kit v3, 16 rxns PN-1000075
+Chromium Single Cell 3' GEM Kit v3
+Chromium Single Cell 3' Library Kit v3
+161 rxns PN-1000077 (store at -20°C)
+16 rxns PN-1000078 (store at -20°C)
+Chromium
+Chromium
+Single Cell 3'
+Single Cell 3'
+GEM Module
+Library Module
+# PN
+# PN
+RTF Reagent
+1 2000086
+Fragmentation Enzyme 1 2000090
+RTE Enzyme C
+1 2000085
+Fragmentation Buffer
+1 2000091
+Template Switch Oligo 1 3000228
+Ligation Buffer
+1 2000092
+Reducing Agent B
+1 2000087
+DNA Ligase
+1 220110
+Cleanup Buffer
+2 2000088
+Adaptor Oligos
+1 2000094
+CDNA Primers
+1 2000089
+SI Primer
+1 2000095
+Amp Mix
+1 2000047
+Amp Mix
+1 2000047
+10xGenomics.com
+10x 10xGenomics.com
+10x
+GENO
+Chromium Single Cell 3' Gel Bead Kit v3, 16 rxns PN-1000076 (store at -80°C)
+Chromium
+Single Cell 3'
+v3 Gel Beads
+# PN
+Single Cell 3'
+2 2000059
+v3 Gel Beads
+10xGenomics.com
+10x
+GENI
+Dynabeads TM MyOne' TM SILANE PN-2000048 (store at 4°C)
+# PN
+Dynabeads MyOne
+1 2000048
+SILANE
+Click to TOC
+Chromium Single Cell 3' Reagent Kits v3 User Guide Rev A
 5
-Click to TOC
-Chromium Single Cell 3ʹ Library Kit v3
-16 rxns PN-1000078 (store at −20°C)
-Chromium Single Cell 3ʹ GEM, Library & Gel Bead Kit v3, 16 rxns PN-1000075
-Chromium Single Cell 3ʹ GEM Kit v3
-16 rxns PN-1000077 (store at −20°C)
-Chromium
-Single Cell 3ʹ 
-GEM Module 
 
-RT Reagent
-1
-2000086
-RT Enzyme C
-1
-2000085
-Template Switch Oligo
-1
-3000228
-Reducing Agent B
-1
-2000087
-Cleanup Buffer
-2
-2000088
-cDNA Primers
-1
-2000089
-Amp Mix
-1
-2000047
-10xGenomics.com
-#
-PN
-Chromium
-Single Cell 3ʹ 
-Library Module
 
-Fragmentation Enzyme
-1
-2000090
-Fragmentation Buffer
-1
-2000091
-Ligation Buffer
-1
-2000092
-DNA Ligase
-1
-220110
-Adaptor Oligos
-1
-2000094
-SI Primer
-1
-2000095
-Amp Mix
-1
-2000047
-10xGenomics.com
-#
-PN
-Chromium Single Cell 3ʹ Gel Bead Kit v3, 16 rxns PN-1000076 (store at −80°C)
-Chromium
-Single Cell 3ʹ 
-v3 Gel Beads
 
-Single Cell 3ʹ
-v3 Gel Beads
-2
-2000059
-10xGenomics.com
-#
-PN
-Dynabeads™ MyOne™ SILANE PN-2000048 (store at 4°C)
-Dynabeads MyOne 
-SILANE
-1
-2000048
-#
-PN
 Introduction
-Chromium Single Cell 3ʹ Reagent Kits v3
-
-
---- Page 6 ---
-Chromium Single Cell 3ʹ Reagent Kits v3 User Guide | Rev A
-6
-Click to TOC
-Chromium Single Cell 3ʹ Library Kit v3
-4 rxns PN-1000095 (store at −20°C)
-Chromium Single Cell 3ʹ GEM, Library & Gel Bead Kit v3, 4 rxns PN-1000092
-Chromium Single Cell 3ʹ GEM Kit v3
-4 rxns PN-1000094 (store at −20°C)
+Chromium Single Cell 3' GEM, Library & Gel Bead Kit v3, 4 rxns PN-1000092
+Chromium Single Cell 3' GEM Kit v3
+Chromium Single Cell 3' Library Kit v3
+41 rxns PN-1000094 (store at -20°C)
+41 rxns PN-1000095 (store at -20°C)
 Chromium
-Single Cell 3ʹ 
-GEM Module 
-
-RT Reagent
-1
-2000086
-RT Enzyme C
-1
-2000102
-Template Switch Oligo
-1
-3000228
-Reducing Agent B
-1
-2000087
-Cleanup Buffer
-1
-2000088
-cDNA Primers
-1
-2000089
-Amp Mix
-1
-2000103
-10xGenomics.com
-#
-PN
 Chromium
-Single Cell 3ʹ 
+Single Cell 3'
+Single Cell 3'
+GEM Module
 Library Module
-
-Fragmentation Enzyme
-1
-2000104
+# PN
+# PN
+RTF Reagent
+1 2000086
+Fragmentation Enzyme 1 2000104
+RTE Enzyme C
+1 2000102
 Fragmentation Buffer
-1
-2000091
+1 2000091
+Template Switch Oligo 1 3000228
 Ligation Buffer
-1
-2000092
+1 2000092
+Reducing Agent B
+1 2000087
 DNA Ligase
-1
-220131
+1 220131
+Cleanup Buffer
+2000088
 Adaptor Oligos
-1
-2000094
+1 2000094
+CDNA Primers
+1 2000089
 SI Primer
-1
-2000095
+1 2000095
+Amp Mix
+1 2000103
 10xGenomics.com
-#
-PN
-Chromium Single Cell 3ʹ Gel Bead Kit v3, 4 rxns PN-1000093 (store at −80°C)
+10x 10xGenomics.com
+10x
+SEN
+Chromium Single Cell 3' Gel Bead Kit v3, 4 rxns PN-1000093 (store at -80°C)
 Chromium
-Single Cell 3ʹ 
+Single Cell 3'
 v3 Gel Beads
-
-Single Cell 3ʹ
+# PN
+Single Cell 3'
 v3 Gel Beads
+1 2000059
 (4 rxns)
-1
-2000059
 10xGenomics.com
-#
-PN
-Dynabeads™ MyOne™ SILANE PN-2000048 (store at 4°C)
-Dynabeads MyOne 
-SILANE
-1
-2000048
-#
-PN
-Introduction
-
-
---- Page 7 ---
-Chromium Single Cell 3ʹ Reagent Kits v3 User Guide | Rev A
-7
+10x
+SENI
+DynabeadsTM MyOneTM SILANE PN-2000048 (store at 4°C)
+# PN
+SILANE Dynabeads MyOne
+1 2000048
 Click to TOC
-Chromium
-Partitioning Oil
-
-#
-PN
-Chromium
-Recovery Agent
-
-#
-PN
-Partitioning Oil
+Chromium Single Cell 3' Reagent Kits v3 User Guide Rev A
 6
-220088
+
+
+
+Introduction.
+Chromium Chip B Single Cell Kit, 48 rxns PN-1000073 (store at ambient temperature)
+Chromium
+Chromium
+Partitioning Oil
+Recovery Agent
+#f PN
+# PN
+Partitioning Oil 6 220088
+Recovery Agent 6 220016
 Chromium
 Chip B & Gaskets
-
+# PN
 Chip B Single Cell
-6
-2000060
+6 2000060
 Gasket, 6-pack
-1
-370017
-#
-PN
+1 370017
 10xGenomics.com
-Recovery Agent
-6
-220016
+10x
+GENI
+Chromium Chip B Single Cell Kit, 16 rxns PN-1000074 (store at ambient temperature)
+Chromium
 Chromium
 Partitioning Oil
-
-Partitioning Oil
-2
-220088
-#
-PN
+Recovery Agent
+# PN
+# PN
+Partitioning Oil 2 220088
+Recovery Agent 2 220016
 Chromium
 Chip B & Gaskets
-
-Chip B Single Cell 
-2
-2000060
+# PN
+Chip B Single Cell
+2 2000060
 Gasket, 2-pack
-1
-3000072
-#
-PN
+1 3000072
 10xGenomics.com
-Chromium
-Recovery Agent
-
-Recovery Agent
-2
-220016
-#
-PN
+10x
+GENI
+Chromium i7 Multiplex Kit, 96 rxns PN-120262 (store at -20°C)
 Chromium
 i7 Multiplex Kit
-
-Chromium i7 Sample Index 
+# PN
+Chromium i7 Sample Index
+1 220103
 Plate
-1
-220103
-#
-PN
-Chromium Chip B Single Cell Kit, 48 rxns PN-1000073 (store at ambient temperature)
-Chromium Chip B Single Cell Kit, 16 rxns PN-1000074 (store at ambient temperature)
-Chromium i7 Multiplex Kit, 96 rxns PN-120262  (store at −20°C)
-Introduction
-
-
---- Page 8 ---
-Chromium Single Cell 3ʹ Reagent Kits v3 User Guide | Rev A
-8
 Click to TOC
+Chromium Single Cell 3' Reagent Kits v3 User Guide Rev A
+7
+
+
+
 Introduction
-Recommended 
-Thermal Cyclers
-Supplier
-Description
-Part Number 
-BioRad
-C1000 Touch Thermal Cycler 
-with 96-Deep Well Reaction 
-Module
-1851197
-Eppendorf
-MasterCycler Pro
-North America 950030010 
-International 6321 000.019
-Thermo Fisher 
-Scientific
-Veriti 96-Well Thermal Cycler
-4375786
-Thermal cyclers used must support uniform heating of 100 µl emulsion volumes.
-Chromium 
-Accessories
+Chromium
 Product
 Part Number (Kit)
-Part Number (Item) 
+Part Number (Item)
+Accessories
 10x Vortex Adapter
 120251
 330002
@@ -511,49 +350,75 @@ Part Number (Item)
 10x Magnetic Separator
 120250
 230003
-
-
---- Page 9 ---
-Chromium Single Cell 3ʹ Reagent Kits v3 User Guide | Rev A
-9
+Recommended
+Thermal cyclers used must support uniform heating of 100 pl emulsion volumes.
+Thermal Cyclers
+Supplier
+Description
+Part Number
+BioRad
+C1000 Touch Thermal Cycler
+1851197
+with 96-Deep Well Reaction
+Module
+Eppendorf
+MasterCycler Pro
+North America 950030010
+International 6321 000.019
+Thermo Fisher Veriti 96-Well Thermal Cycler
+4375786
+Scientific
 Click to TOC
-The items in the table below have been validated by 10x Genomics and are highly 
-recommended for the Chromium Single Cell 3ʹ protocol. Substituting materials may 
-adversely affect system performance. 
-Additional Kits, 
-Reagents & 
+Chromium Single Cell 3' Reagent Kits v3 User Guide Rev A
+8
+
+
+
+Introduction
+Additional Kits,
+The items in the table below have been validated by 10x Genomics and are highly
+Reagents &
+recommended for the Chromium Single Cell 3' protocol. Substituting materials may
 Equipment
+adversely affect system performance.
 Supplier
 Description
 Part Number (US)
 Plastics
 Eppendorf
 PCR Tubes 0.2 ml 8-tube strips
-DNA LoBind Tubes, 1.5 ml
-DNA LoBind Tubes, 2.0 ml
+Choose either
 951010022
+DNA LoBind Tubes, 1.5 ml
 022431021
+Eppendorf,
+DNA LoBind Tubes, 2.0 ml
+USA Scientific or
 022431048
+Thermo Fisher
 USA Scientific
 TempAssure PCR 8-tube strip
+Scientific PCR
 1402-4700
+8-tube
 Thermo Fisher Scientific
 MicroAmp 8-Tube Strip, 0.2 ml
-MicroAmp 8 -Cap Strip, clear
+strips.
 N8010580
+MicroAmp 8 -Cap Strip, clear
 N8010535
 Rainin
 Tips LTS 200UL Filter RT-L200FLR
-Tips LTS 1ML Filter RT-L1000FLR
-Tips LTS 20UL Filter RT-L10FLR
 30389240
+Tips LTS 1ML Filter RT-L10000FLR
 30389213
+Tips LTS 20UL Filter RT-L10FLR
 30389226
 Kits & Reagents
 Thermo Fisher Scientific
 Nuclease-free Water
 AM9937
-Low TE Buffer (10 mM Tris-HCl pH 8.0, 0.1 mM EDTA)
+Low TE Buffer (10 mM Tris-HCI pH 8.0, 0.1 mM EDTA)
 12090-015
 Millipore Sigma
 Ethanol, Pure (200 Proof, anhydrous)
@@ -573,858 +438,745 @@ Qiagen Buffer EB
 Equipment
 VWR
 Vortex Mixer
-Divided Polystyrene Reservoirs
 10153-838
+Divided Polystyrene Reservoirs
 41428-958
 Eppendorf
 Eppendorf ThermoMixer C
-Eppendorf SmartBlock 1.5 ml, Thermoblock for 24 reaction vessel
-(alternatively, use a temperature-controlled Heat Block)
 5382000023
+Eppendorf SmartBlock 1.5 ml, Thermoblock for 24 reaction vessel
 5360000038
+(alternatively, use. a temperature-controlled Heat Block)
 Rainin
 Pipet-Lite Multi Pipette L8-50XLS+
-Pipet-Lite Multi Pipette L8-200XLS+
-Pipet-Lite Multi Pipette L8-10XLS+
-Pipet-Lite Multi Pipette L8-20XLS+
-Pipet-Lite LTS Pipette L-2XLS+
-Pipet-Lite LTS Pipette L-10XLS+
-Pipet-Lite LTS Pipette L-20XLS+
-Pipet-Lite LTS Pipette L-100XLS+
-Pipet-Lite LTS Pipette L-200XLS+
-Pipet-Lite LTS Pipette L-1000XLS+
 17013804
+Pipet-Lite Multi Pipettel L8-200XLS+
 17013805
+Pipet-Lite Multi Pipettel L8-10XLS+
 17013802
+Pipet-Lite Multi Pipettel L8-20XLS+
 17013803
+Pipet-Lite LTSI Pipette L-2XLS+
 17014393
+Pipet-Lite LTSI Pipette L-10XLS+
 17014388
+Pipet-Lite LTSI Pipette L-20XLS+
 17014392
+Pipet-Lite LTSI Pipette L-100XLS+
 17014384
+Pipet-Lite LTS Pipette L-200XLS+
 17014391
+Pipet-Lite LTSI Pipette L-1000XLS+
 17014382
-Introduction
-Choose either 
-Eppendorf,
-USA Scientific or 
-Thermo Fisher 
-Scientific PCR 
-8-tube strips.
-
-
---- Page 10 ---
-Chromium Single Cell 3ʹ Reagent Kits v3 User Guide | Rev A
-10
 Click to TOC
-The items in the table below have been validated by 10x Genomics and are highly 
-recommended for the Chromium Single Cell 3ʹ protocol. Substituting materials may 
-adversely affect system performance. 
-Additional Kits, 
-Reagents & 
+Chromium Single Cell 3' Reagent Kits v3 User Guide Rev A
+9
+
+
+
+Introduction
+Additional Kits,
+The items in the table below have been validated by 10x Genomics and are highly
+Reagents &
+recommended for the Chromium Single Cell 3' protocol. Substituting materials may
 Equipment
+adversely affect system performance.
 Supplier
 Description
 Part Number (US)
 Quantification & Quality Control
 Agilent
 2100 Bioanalyzer Laptop Bundle
-High Sensitivity DNA Kit
-4200 TapeStation
-High Sensitivity D1000 ScreenTape/Reagents
-High Sensitivity D5000 ScreenTape/Reagents
 G2943CA
+High Sensitivity DNAI Kit
 5067-4626
-G2991AA
-5067-5592/ 5067-5593
-5067-5584/ 5067-5585
+42001 TapeStation
+Choose Bioanalyzer, G2991AA
+High Sensitivity D1000 ScreenTape/Reagents
+TapeStation, or Qubit 5067-5592/ 5067-5593
+High Sensitivity D5000 ScreenTape/Reagents
+based on availability 5067-5584/ 5067-5585
+& preference.
 Thermo Fisher Scientific
 Qubit 4.0 Flourometer
-Qubit dsDNA HS Assay Kit
 Q33226
+Qubit dsDNA HS Assay Kit
 Q32854
 Advanced Analytical
-Fragment Analyzer Automated CE System - 12 cap
-Fragment Analyzer Automated CE System - 48/96 cap
-High Sensitivity NGS Fragment Analysis Kit
+Fragment Analyzer Automated CE System 12 cap
 FSv2-CE2F
+Fragment Analyzer Automated CE: System 48/96 cap
 FSv2-CE10F
+High Sensitivity NGS Fragment Analysis Kit
 DNF-474
-KAPA Biosystems
-KAPA Library Quantification Kit for Illumina Platforms
+KAPAI Biosystems
+KAPAI Library Quantification Kit for Illuminal Platforms
 KK4824
-Choose Bioanalyzer, 
-TapeStation, or Qubit 
-based on availability 
-& preference. 
-Introduction
-
-
---- Page 11 ---
-Chromium Single Cell 3ʹ Reagent Kits v3 User Guide | Rev A
-11
 Click to TOC
+Chromium Single Cell 3' Reagent Kits v3 User Guide Rev A
+10
+
+
+
+Introduction
+Protocol Steps & Timing
 Day
 Steps
 Timing
 Stop & Store
-2 h
 Cell Preparation
 Dependent on Cell Type
 ~1-1.5 h
-Step 1 – GEM Generation & Barcoding
-1.1 
-1.2 
-1.3
-1.4
-1.5
-Prepare Reaction Mix
-Load Chromium Single Cell B Chip
-Run the Chromium Controller
-Transfer GEMs
-GEM-RT Incubation
+2h
+Step 1 - GEM Generation & Barcoding
+1.1 Prepare Reaction Mix
 20 min
+1.2 Load Chromium Single Cell B Chip
 10 min
+1.3 Run the Chromium Controller
 8.5 min
+1.4 Transfer GEMS
 3 min
+1.5 GEM-RT Incubation
 55 min
-4°C ≤72 h or −20°C ≤1 week
-4 h
-Step 2 – Post GEM-RT Cleanup & cDNA Amplification
-2.1
-2.2
-2.3
-2.4
-Post GEM RT-Cleanup – Dynabead
-cDNA Amplification
-cDNA Cleanup – SPRIselect
-cDNA QC & Quantification
+4°C<72 h or -20°C s1 week
+41 h
+Step 2 - Post GEM-RT Cleanup & CDNA Amplification
+2.1 Post GEM RT-Cleanup - Dynabead
 45 min
+2.2 CDNA Amplification
 40 min
+4°C: <72 h or -20°C s1 week
+2.3 CDNA Cleanup - SPRIselect
 20 min
+4°C<72 h -20°C <4 weeks
+2.4 CDNA QC & Quantification
 50 min
- 4°C ≤72 h or −20°C ≤1 week
- 4°C ≤72 h −20°C ≤4 weeks
-6 h
-Step 3 – 3ʹ Gene Expression Library Construction
-3.1 
-3.2
-3.3
-3.4
-3.5
-3.6
-3.7
-Fragmentation, End Repair & A-tailing
-Post Fragmentation, End Repair & A-tailing Double 
-Sided Size Selection – SPRIselect
-Adaptor Ligation
-Post Ligation Cleanup- SPRIselect
-Sample Index PCR
-Post Sample Index PCR Double Sided Size Selection- 
-SPRIselect
-Post Library Construction QC
+Step 3. -3' Gene Expression Library Construction
+6h
+3.1 Fragmentation, End Repair & A-tailing
 50 min
+3.2 Post Fragmentation, End Repair & A-tailing Double
 30 min
+Sided Size Selection - SPRIselect
+3.3 Adaptor Ligation
 25 min
+3.4 Post Ligation Cleanup- SPRIselect
 20 min
+3.5 Sample Index PCR
 40 min
+4°C572h
+8h
+3.6 Post Sample Index PCR Double Sided Size Selection-
 30 min
-50  min
- 
- 
- 4°C ≤72 h
- 4°C ≤72 h or -20°C long term
-8 h
-STOP
-STOP
-STOP
- 
-Introduction
-Protocol Steps & Timing
-STOP
-STOP
-
-
---- Page 12 ---
-Chromium Single Cell 3ʹ Reagent Kits v3 User Guide | Rev A
-12
+4°C<72h or -20°C long term
+SPRIselect
+3.7 Post Library Construction QC
+50 min
 Click to TOC
-GEMs are generated by combining 
-barcoded Single Cell  3ʹ v3 Gel 
-Beads, a Master Mix containing 
-cells, and Partitioning Oil onto 
-Chromium Chip B. To achieve 
-single cell resolution, cells are 
-delivered at a limiting dilution, 
-such that the majority (~90-99%) 
-of generated GEMs contain no 
-cell, while the remainder largely 
-contain a single cell. 
+Chromium Single Cell 3' Reagent Kits v3 User Guide Rev A
+11
+
+
+
+Introduction.
 Stepwise Objectives
-The Chromium Single Cell Gene Expression Solution upgrades short read sequencers 
-to deliver a scalable microfluidic platform for 3ʹ digital gene expression by profiling 
-500-10,000 individual cells per sample. GemCode Technology samples a pool of 
-~3,500,000 10x Barcodes to separately index each cell’s transcriptome. It does so by 
-partitioning thousands of cells into nanoliter-scale Gel Beads-in-emulsion (GEMs), 
-where all generated cDNA share a common 10x Barcode. Libraries are generated and 
-sequenced from the cDNA and 10x Barcodes are used to associate individual reads 
-back to the individual partitions. 
-This document outlines the protocol for generating Single Cell 3ʹ Gene Expression 
-libraries from single cells. 
-Introduction
-Chromium Chip B
-10x Barcoded 
-Gel Beads
-GEMs
-Oil
-Cells
-Enzyme
-Step 1
-GEM Generation & 
-Barcoding
-In addition to the poly(dT) primer 
-that enables the production of 
-barcoded, full-length cDNA from 
-poly-adenylated 
-mRNA, 
-the 
-Single Cell 3ʹ v3 Gel Beads also 
-include two additional primer 
-sequences (Capture Sequence 1 
-and Capture Sequence 2), that 
-enable capture and priming of 
-Feature Barcoding technology 
-compatible targets or analytes 
-of interest.
-Only 
-the 
-poly(dT) 
-primers 
-are used in this protocol for 
-generating Single Cell 3ʹ Gene 
-Expression libraries.
-Single Cell 3ʹ
+The Chromium Single Cell Gene Expression Solution upgrades short read sequencers
+to deliver a scalable microfluidic platform for 3' digital gene expression by profiling
+500-10,000 individual cells per sample. GemCode Technology samples a
+of
+0
+pool
+J
+-3,500,000 10x Barcodes to separately index each cell's transcriptome. It does So by
+partitioning thousands of cells into nanoliter-scale Gel Beads-in-emulsion (GEMS),
+where all generated CDNA share a common 10x Barcode. Libraries are generated and
+sequenced from the CDNA and 10x Barcodes are used to associate individual reads
+back to the individual partitions.
+This document outlines the protocol for generating Single Cell 3' Gene Expression
+libraries from single cells.
+Single Cell 3'
+In addition to the poly(dT) primer
 v3 Gel Beads
-10x
-BC
-
-TruSeq Read 1
- Poly(dT)VN
-UMI
-Nextera Read 1
-(Read 1N)
-Capture Seq 1
-Capture Seq 2
+that enables the production of
+barcoded, full-length CDNA from
+poly-adenylated mRNA, the
 Gel Bead
-Single Cell 3ʹ
-v3 Gel Bead
-Nextera Read 1
-(Read 1N)
-10x
-BC
-UMI
-UMI
-10x
-BC
-
-
---- Page 13 ---
-Chromium Single Cell 3ʹ Reagent Kits v3 User Guide | Rev A
-13
-Click to TOC
-Step 2
-Post GEM-RT Cleanup & 
-cDNA Amplification
-	 After incubation, GEMs are 
-broken and pooled fractions 
-are recovered. Silane magnetic 
-beads are used to purify the 
-first-strand cDNA from the 
-post GEM-RT reaction mixture, 
-which 
-includes 
-leftover 
-biochemical 
-reagents 
-and 
-primers. Barcoded, full-length 
-cDNA is amplified via PCR to 
-generate sufficient mass for 
-library construction. 
-Step 3
-3ʹ Gene Expression 
-Library Construction
-Introduction
-Pooled cDNA amplification
-10x
-Barcode
-Read 1
- Poly(dT)VN
-UMI
-TSO
-cDNA
-Amplification
-Pooled amplified cDNA processed in bulk
-10x
-Barcode
-Read 1
- Poly(dT)VN
-UMI
-TSO
-Enzymatic Fragmentation
-End Repair, A-tailing, Ligation
-Cleanup & Priming
-Sample Index PCR
-Sample
-Index
-P7
-Read 2
-10x
-Barcode
-Read 1
- Poly(dT)VN
-UMI
-P5
-P5
-10x
-Barcode
-Read 1
- Poly(dT)VN
-UMI
-Poly-dT Primer
-Reverse Transcription
-Template Switch Oligo Priming
-Template Switch,
-Transcript Extension
-Inside individual GEMs
-TSO
-Step 1
-GEM Generation & 
-Barcoding
-	 Immediately 
-following 
-GEM 
-generation, 
-the 
-Gel 
-Bead 
-is 
-dissolved, 
-primers 
-are 
-released, 
-and 
-any 
- 
-co-
-partitioned 
-cell 
-is 
-lysed.
-Primer containing:
- 	 Enzymatic fragmentation and 
-size selection are used to 
-optimize the cDNA amplicon 
-size. TruSeq Read  1 (read 1 
-primer sequence) is added 
-to the molecules during GEM 
-incubation. P5, P7, a sample 
-index, and TruSeq Read  2 
-(read  2 primer sequence) are 
-added via End Repair, A-tailing, 
-Adaptor Ligation, and PCR. The 
-final libraries contain the P5 
-and P7 primers used in Illumina 
-bridge amplification.
-•	 an Illumina TruSeq Read 1 	
-(read 1 sequencing primer)
-•	 16 nt 10x Barcode
-•	 12 nt unique molecular 
-identifier (UMI)
-•	 30 nt poly(dT) sequence 
-	 are mixed with the cell lysate and 
-a Master Mix containing reverse 
-transcription 
-(RT) 
-reagents. 
-Incubation of the GEMs produces 
-barcoded, full-length cDNA  from 
-poly-adenylated mRNA.
-
-
---- Page 14 ---
-Chromium Single Cell 3ʹ Reagent Kits v3 User Guide | Rev A
-14
-Click to TOC
-Introduction
-Step 4
-Sequencing
-A Chromium Single Cell 3’ Gene Expression library comprises standard Illumina 
-paired-end constructs which begin and end with P5 and P7. The 16 bp 10x Barcode 
-and 12 bp UMI are encoded in Read 1, while Read 2 is used to sequence the cDNA 
-fragment. Sample index sequences are incorporated as the i7 index read. TruSeq 
-Read 1 and TruSeq Read 2 are standard Illumina sequencing primer sites used in 
-paired-end sequencing.
-Illumina sequencer compatibility, sample indices, library loading and pooling for 
-sequencing are summarized in step 4. 
-Chromium Single Cell 3ʹ Gene Expression Library 
-10x
-Barcode
+Single Cell 3' v3 Gel Beads also
 TruSeq Read 1
- Poly(dT)VN
+10x UMI Poly(dT)VN
+include two additional primer
+BC
+sequences (Capture Sequence 1
+Nexteral Read1
+SingleCell3"
+(Read 1N) 10x UMI Capture Seq1
+and Capture Sequence 2), that
+v3GelE Bead
+BC
+enable capture and priming of
+Nexteral Read1 1
+(Read 1N)
+UMI Capture Seq2
+Feature Barcoding technology
+10x BC
+compatible targets or analytes
+of interest.
+Only the poly(dT) primers
+are used in this protocol for
+generating Single Cell 3' Gene
+Expression libraries.
+Step 1
+GEMS are generated by combining
+GEM Generation &
+barcoded Single Cell 3' v3 Gel
+Chromium Chip B
+Barcoding
+Beads, a Master Mix containing
+cells, and Partitioning Oil onto
+Chromium Chip B. To achieve
+6
+single cell resolution, cells are
+GEMS
+delivered at a limiting dilution,
+10x Barcoded
+such that the majority (90-99%)
+Gel Beads
+Cells Oil
+of generated GEMS contain no
+Enzyme
+cell, while the remainder largely
+contain a single cell.
+Click to TOC
+Chromium Single Cell 3' Reagent Kits v3 User Guide Rev A
+12
+
+
+
+Introduction.
+Immediately following GEM Inside individual GEMS
+Step 1
+generation, the Gel Bead
+GEM Generation &
+is dissolved, primers are
+Barcoding
+Read1 10x UMI Poly(dTIVN
+released, and any
+CO-
+Barcode
+Poly-dT Primer
+partitioned cell is lysed.
+AA
+Primer containing:
+an Illumina TruSeq Read 1
+(read 1 sequencing primer)
+4A
+Reverse Transcription
+161 nt 10x Barcode
+A
+CCC
+12 nt unique molecular
+identifier (UMI)
+Template: Switch Oligo Priming
+30 nt poly(dT) sequence
+rGrGrG TSO
+are mixed with the cell lysate and
+CCC
+al Master Mix containing reverse
+Template Transcript Switch, Extension
+A
+transcription (RT) reagents.
+rGrGrG
+Incubation off the GEMS produces
+C C
+barcoded, full-length CDNA from
+poly-adenylated mRNA.
+After incubation, GEMS are
+Step 2
+broken and pooled fractions
+Post GEM-RT Cleanup &
+Pooled CDNA amplification
+are recovered. Silane magnetic
+CDNA Amplification
 UMI
-P5
+TSO
+beads are used to purify the
+Read1
+Poly(dT)VN
+first-strand CDNA from the
+post GEM-RT reaction mixture,
+Barcode 10x
+CDNA
+Amplification
+which includes
+leftover
+biochemical reagents and
+primers. Barcoded, full-length
+CDNA is amplified via PCR to
+generate sufficient mass for
+library construction.
+Enzymatic fragmentation and Pooled amplified CDNA processed in bulk
+Step 3
+size selection are used to
+Read1 UMI Poly(dTIVN
+TSO
+3' Gene Expression
+optimize the CDNA amplicon
+Library Construction
+10x
+size. TruSeq Read 1 (read 1
+Barcode
+Enzymatic Fragmentation
+primer sequence) is added
+to the molecules during GEM
+incubation. P5, P7, a sample
+End Repair, A-tailing, Ligation
+index, and TruSeq Read 2
+Read2
+(read 2 primer sequence) are
+added via End Repair, A-tailing,
+Cleanup & Priming
+Sample Index P7
+Adaptor Ligation, and PCR. The
+final libraries contain the P5
+and P7 primers used in Illumina P5
+Sample Index PCR
+bridge amplification.
+P5 Read1 10x UMI Poly(dTIVN
+Barcode
+Click to TOC
+Chromium Single Cell 3' Reagent Kits v3 User Guide Rev A
+13
+
+
+
+Introduction.
+Step 4
+A Chromium Single Cell 3' Gene Expression library comprises standard Illumina
+Sequencing
+paired-end constructs which begin and end with P5 and P7. The 16 bp 10x Barcode
+and 12 bp UMI are encoded in Read 1, while Read 2i is used to sequence the CDNA
+fragment. Sample index sequences are incorporated as the i7 index read. TruSeq
+Read 1 and TruSeq Read 2 are standard Illumina sequencing primer sites used in
+paired-end sequencing.
+Illumina sequencer compatibility, sample indices, library loading and pooling for
+sequencing are summarized in step 4.
+Chromium Single Cell 3' Gene Expression Library
+10xBC+UMI Read1 1:28
 Sample
 Index
-P7
+P5 TruSeq! Read1 10x UMI Poly(dTIVN
 TruSeq Read 2
-Read 2:91 
-Insert     
-Read 1:28
-10xBC+UMI
+P7
+Barcode
+Read 2:91
+Insert
 See Appendix for Oligonucleotide Sequences
-
-
---- Page 15 ---
-Chromium Single Cell 3ʹ Reagent Kits v3 User Guide | Rev A
-15
 Click to TOC
-Tips & 
-Best Practices
+Chromium Single Cell 3' Reagent Kits v3 User Guide Rev A
+14
+
+
+
+Tips &
+Best Practices
 TIPS
-
-
---- Page 16 ---
-Chromium Single Cell 3ʹ Reagent Kits v3 User Guide | Rev A
-16
 Click to TOC
+Chromium Single Cell 3' Reagent Kits v3 User Guide Rev A
+15
+
+
+
 Tips & Best Practices
-Version Specific 
-Update 
-Emulsion-safe 
+Icons
+TIPS
+Tips & Best Practices section
+Signifies critical step requiring Troubleshooting section includes
+includes additional guidance
+accurate execution
+additional guidance
+Indicates version specific updates in a particular protocol step to inform users who have
+Version Specific
+VERSION used a previous version of the product. The updates may be in volume, temperature,
+Update
+SPECIFIC calculation instructions etc.
+Emulsion-safe
+Use validated emulsion-safe plastic consumables when handling GEMS as some
 Plastics
-•	 Use validated emulsion-safe plastic consumables when handling GEMs as some 
-plastics can destabilize GEMs.
-•	 Recommended starting point is to load ~1,600 cells per reaction, resulting in recovery 
-of ~1000 cells, and a multiplet rate of ~0.8%. The optimal input cell concentration is 
-700-1,200 cells/µl.
-•	 The presence of dead cells in the suspension may also reduce the recovery rate. 
-Consult the 10x Genomics Single Cell Protocols Cell Preparation Guide and the 
-Guidelines for Optimal Sample Preparation flowchart (Documents CG00053 and 
+plastics can destabilize GEMS.
+Cell
+Recommended starting point is to load ~1,600 cells per reaction, resulting in recovery
+Concentration
+of ~1000 cells, and a multiplet rate of -0.8%. The optimal input cell concentration is
+700-1,200 cells/ul.
+The presence of dead cells in the suspension may also reduce the recovery rate.
+Consult the 10x Genomics Single Cell Protocols Cell Preparation Guide and the
+Guidelines for Optimal Sample Preparation flowchart (Documents CG00053 and
 CG000126 respectively) for more information on preparing cells.
 Multiplet Rate (%)
 # of Cells Loaded
 # of Cells Recovered
 ~0.4%
 ~800
-~500
+-500
 ~0.8%
-~1,600
+-1,600
 ~1,000
-~1.6%
-~3,200
-~2,000
-~2.3%
-~4,800
+-1.6%
+-3,200
+-2,000
+-2.3%
+-4,800
 ~3,000
-~3.1%
-~6,400
+-3.1%
+-6,400
 ~4,000
-~3.9%
-~8,000
+-3.9%
+-8,000
 ~5,000
 ~4.6%
 ~9,600
 ~6,000
 ~5.4%
-~11,200
-~7,000
+-11,200
+-7,000
 ~6.1%
-~12,800
-~8,000
+-12,800
+-8,000
 ~6.9%
-~14,400
+-14,400
 ~9,000
-~7.6%
-~16,000
-~10,000
-Icons
-!
-TIPS
-Tips & Best Practices section 
-includes additional guidance
-Signifies critical step requiring 
-accurate execution
-Troubleshooting section includes 
-additional guidance
-Cell 
-Concentration
-Indicates version specific updates in a particular protocol step to inform users who have 
-used a previous version of the product. The updates may be in volume, temperature, 
-calculation instructions etc. 
-VERSION
-SPECIFIC
-
-
---- Page 17 ---
-Chromium Single Cell 3ʹ Reagent Kits v3 User Guide | Rev A
-17
+-7.6%
+-16,000
+-10,000
 Click to TOC
-•	 Fully thaw and thoroughly mix reagents before use. 
-•	 Keep all enzymes and Master Mixes on ice during setup and use. Promptly move 
+Chromium Single Cell 3' Reagent Kits v3 User Guide Rev A
+16
+
+
+
+Tips & Best Practices
+General
+Fully thaw and thoroughly mix reagents before use.
+Reagent
+Keep all enzymes and Master Mixes on ice during setup and use. Promptly move
+Handling
 reagents back to the recommended storage.
-•	 Calculate reagent volumes with 10% excess of 1 reaction values.
-•	 Cover Partitioning Oil tubes and reservoirs to minimize evaporation.
-•	 If using multiple chips, use separate reagent reservoirs for each chip during loading.
-•	 Thoroughly mix samples with the beads during bead-based cleanup steps. 
-•	 Purchase 50% glycerol solution from Ricca Chemical Company, Glycerin (glycerol), 
-50% (v/v) Aqueous Solution, PN-3290-32. 
-•	 Prepare 50% glycerol solution:
-i.	 Mix an equal volume of water and 99% Glycerol, Molecular Biology Grade.
-ii.	Filter through a 0.2 μm filter.
-iii.	Store at −20°C in 1-ml LoBind tubes. 50% glycerol solution should be equilibrated 
-to room temperature before use.
-•	 Follow manufacturer’s calibration and maintenance schedules. 
-•	 Pipette accuracy is particularly important when using SPRIselect reagents.
-•	 Minimize exposure of reagents, chips, and gaskets to sources of particles and fibers, 
-laboratory wipes, frequently opened flip-cap tubes, clothing that sheds fibers, and 
-dusty surfaces. 
-•	 Execute steps without pause or delay, unless indicated. When multiple chips are to be 
-used, load, run, and collect the content from one chip before loading the next.
-•	 Fill all unused input wells in rows labeled 1, 2, and 3 on a chip with an appropriate 
-volume of 50% glycerol solution before loading the used wells. DO NOT add glycerol 
-to the Recovery Wells. 
-•	 Avoid contacting the bottom surface of the chip with gloved hands and other surfaces. 
-Frictional charging can lead to inadequate priming of the channels, potentially leading 
-to either clogs or wetting failures. 
-•	 Minimize the distance that a loaded chip is moved to reach the Chromium Controller.
-•	 Keep the chip horizontal to prevent wetting the gasket with oil, which depletes the 
-input volume and may adversely affect the quality of the resulting emulsion.
-Chromium Chip 
-Handling 
-Pipette 
-Calibration
-Tips & Best Practices
-50% Glycerol 
+Calculate reagent volumes with 10% excess of 1 reaction values.
+Cover Partitioning Oil tubes and reservoirs to minimize evaporation.
+Ifu using multiple chips, use separate reagent reservoirs for each chip during loading.
+Thoroughly mix samples with thel beads during bead-based cleanup steps.
+50% Glycerol
+Purchase 50% glycerol solution from Ricca Chemical Company, Glycerin (glycerol),
 Solution
-General 
-Reagent 
-Handling
-
-
---- Page 18 ---
-Chromium Single Cell 3ʹ Reagent Kits v3 User Guide | Rev A
-18
-Click to TOC
+50% (v/v) Aqueous Solution, PN-3290-32.
+Prepare 50% glycerol solution:
+i. Mix an equal volume of water and 99% Glycerol, Molecular Biology Grade.
+ii. Filter through a 0.2 um filter.
+iii. Store at -20°C in 1-ml LoBind tubes. 50% glycerol solution should be equilibrated
+to room temperature before use.
+Pipette
+Follow manufacturer's calibration and maintenance schedules.
+Calibration
+Pipette accuracy is particularly important when using SPRIselect reagents.
 Chromium Chip
-10X Chip Holder
-Assembled Chip 
-•	 Use one tube of Gel Beads per sample. DO NOT 
-puncture the foil seals of tubes not used at the 
-time.
-•	 Equilibrate the Gel Beads strip to room 
-temperature before use.
-Chromium Chip 
-Loading
-•	 Store unused Gel Beads at −80°C and avoid more than 12 freeze-thaw cycles. DO NOT 
-store Gel Beads at −20°C. 
-•	 Attach a 10x Vortex Adapter to the top of standard laboratory vortexers to vortex the 
-Gel Bead strips. 
-•	 After vortexing, remove the Gel Bead strip from the adapter. Flick the Gel Bead strip 
-in a sharp, downward motion maximize Gel Bead recovery. Confirm there are no 
-bubbles at the bottom of the tubes.
-•	 If the required volume of beads cannot be recovered, place the pipette tips against the 
-sidewalls and slowly dispense the Gel Beads back into the tubes. DO NOT introduce 
-bubbles into the tubes and verify that the pipette tips contain no leftover Gel Beads. 
-Withdraw the full volume of beads again by pipetting slowly.
-VERSION
-SPECIFIC
-Gel Bead 
+Minimize exposure of reagents, chips, and gaskets to sources of particles and fibers,
 Handling
-Tips & Best Practices
-•	 Align notch on the chip (upper left corner) 
-and the holder. 
-•	 Insert the left-hand side of the chip under 
-the guide. Depress the right-hand side of the 
-chip until the spring-loaded clip engages.
-•	 Close the lid before dispensing reagents into 
-the wells.
-Chromium 
-Chip & Holder 
-Assembly
-•	 Place the assembled chip and holder flat on 
-the bench with the lid closed.
-•	 Dispense at the bottom of the wells without 
-introducing bubbles. 
-•	 When dispensing Gel Beads into the chip, wait 
-for the remainder to drain into the bottom of 
-the pipette tips and dispense again to ensure 
-complete transfer.
-•	 Refer to Load Chromium Chip B for specific 
-instructions. 
-10x Chip 
-Holders
-10X Chip Holder
-Guide
-Clip
-Sliders
-•	 10x Chip Holders encase Chromium Chips.
-•	 The holder lid flips over to become a stand, 
-holding the chip at 45 degrees for optimal 
-recovery well content removal.
-•	 Squeeze the black sliders on the back side 
-of the holder together to unlock the lid and 
-return the holder to a flat position.
-
-
---- Page 19 ---
-Chromium Single Cell 3ʹ Reagent Kits v3 User Guide | Rev A
-19
+laboratory wipes, frequently opened flip-cap tubes, clothing that sheds fibers, and
+dusty surfaces.
+Execute steps without pause or delay, unless indicated. When multiple chips are to be
+used, load, run, and collect the content from one chip before loading the next.
+Fill all unused input wells in rows labeled 1, 2, and 3 on a chip with an appropriate
+volume of 50% glycerol solution before loading the used wells. DO NOT add glycerol
+to the Recovery Wells.
+Avoid contacting thel bottom surface of the chip with gloved hands and other surfaces.
+Frictional charging can lead to inadequate priming of the channels, potentially leading
+to either clogs or wetting failures.
+Minimize the distance that a loaded chip is moved to reach the Chromium Controller.
+Keep the chip horizontal to prevent wetting the gasket with oil, which depletes the
+input volume and may adversely affect the quality of the resulting emulsion.
 Click to TOC
+Chromium Single Cell 3' Reagent Kits v3 User Guide Rev A
+17
+
+
+
+Tips & Best Practices
+10x Chip
+10x Chip Holders encase Chromium Chips.
+Sliders
+Holders
+Thel holder lid flips over to become a stand,
+10X Chip Holder
+holding the chip at 45 degrees for optimal
+recovery well content removal.
+a
+Squeeze the black sliders on the back side
+Guide Clip
+off thel holder together to unlock the lid and
+return thel holder to a flat position.
+Align notch on the chip (upper left corner)
+Chromium
+and thel holder.
+10x Chip Holder
+Chip & Holder
+Chromium Chip
+Assembledi Chip
+Assembly
+Insert thel left-hand side of the chip under
+FBE
+ME-BR- 10xL
+the guide. Depress the right-hand side of the
+chip until the spring-loaded clip engages.
+Close the lid before dispensing reagents into
+the wells.
+Chromium Chip
+Place the assembled chip and holder flat on
+the bench with the lid closed.
+Loading
+10x
+Dispense at the bottom of the wells without
+10x BE
+introducing bubbles.
+When dispensing Gel Beads into the chip, wait
+for the remainder to drain into the bottom of
+0
+the pipette tips and dispense again to ensure
+complete transfer.
+Refer to Load Chromium Chip Bi for specific
+instructions.
+Gel Bead
+Use one tube of Gel Beads per sample. DO NOT
+Handling
+puncture the foil seals of tubes not used at the
+time.
+Equilibrate the Gel Beads strip to room
+temperature before use.
+VERSION Store unused Gel Beads at -80°C and avoid more than 12 freeze-thaw cycles. DO NOT
+SPECIFIC store Gel Beads at -20°C.
+Attach a 10x Vortex Adapter to the top of standard laboratory vortexers to vortex the
+Gel Bead strips.
+After vortexing, remove the Gel Bead strip from the adapter Flick the Gel Bead strip
+in a sharp, downward motion maximize Gel Bead recovery. Confirm there are no
+bubbles at the bottom of the tubes.
+Ift the required volume of beads cannot be recovered, place the pipette tips against the
+sidewalls and slowly dispense the Gel Beads back into the tubes. DO NOT introduce
+bubbles into the tubes and verify that the pipette tips contain no leftover Gel Beads.
+Withdraw thet full volume of beads again by pipetting slowly.
+Click to TOC
+Chromium Single Cell 3' Reagent Kits v3 User Guide Rev A
+18
+
+
+
+Tips & Best Practices
+10x Gasket
+After reagents are loaded, attach the
+Attachment
+gasket byl holding the tongue (curved end,
+to the right) and hook it on thel left-hand
+10x BE 10x -
+tabs of the holder. Gently pull the gasket Notched Cut
+- J
+toward the right and hook it on the two
+right-hand tabs.
+DO NOT touch the smooth side of the
+gasket. DO NOT press down on the top of
+the gasket after attachment.
+Tongue
+Keep the assembly horizontal to avoid
+wetting the gasket with Partitioning Oil.
+10x Magnetic
+Offers two positions of the magnets (high
+Separator
+and low) relative to a tube, depending on
+its orientation. Flip the magnetic separator
+over to switch between high magnet-High)
+or low (magnet-Low) positions.
+If using MicroAmp 8-Tube Strips, use
+the high position (magnet-High) only
+throughout the protocol.
 Magnetic beads mixed with reagent
+Magnetic Bead
+During magnetic bead based cleanup
+Cleanup Steps
+steps that specify waiting "until the
+solution clears", - visually confirm clearing
+of solution before proceeding to the next
+step. See adjacent panel for an example.
+The time needed for the solution to clear
 Separation in progress
+may vary based on specific step, reagents,
+volume of reagents etc.
 Separation continuing
 Separation complete; solution is clear
-•	 After reagents are loaded, attach the 
-gasket by holding the tongue (curved end, 
-to the right) and hook it on the left-hand 
-tabs of the holder. Gently pull the gasket 
-toward the right and hook it on the two 
-right-hand tabs. 
-•	 DO NOT touch the smooth side of the 
-gasket. DO NOT press down on the top of 
-the gasket after attachment. 
-•	 Keep the assembly horizontal to avoid 
-wetting the gasket with Partitioning Oil.
-•	 Offers two positions of the magnets (high 
-and low) relative to a tube, depending on 
-its orientation. Flip the magnetic separator 
-over to switch between high (magnet•High) 
-or low (magnet•Low) positions.
-•	 If using MicroAmp 8-Tube Strips, use 
-the high position (magnet•High) only 
-throughout the protocol.
-10x Gasket 
-Attachment
-10x Magnetic 
-Separator
-Tips & Best Practices
-Notched Cut
-Tongue
-Magnetic Bead 
-Cleanup Steps
-•	 During magnetic bead based cleanup 
-steps that specify waiting “until the 
-solution clears”, visually confirm clearing 
-of solution before proceeding to the next 
-step. See adjacent panel for an example.
-•	 The time needed for the solution to clear 
-may vary based on specific step, reagents, 
-volume of reagents etc. 
-
-
---- Page 20 ---
-Chromium Single Cell 3ʹ Reagent Kits v3 User Guide | Rev A
-20
 Click to TOC
-SPRIselect 
-Cleanup & 
-Size Selection
+Chromium Single Cell 3' Reagent Kits v3 User Guide Rev A
+19
+
+
+
 Tips & Best Practices
-•	 Choose the appropriate sample index sets to ensure that no sample indices overlap in 
-a multiplexed sequencing run.
-•	  Each well in the i7 Sample Index plate contains a unique mix of 4 oligos. 
-•	 The sample indexes can therefore be used in any combination.
-•	 Each sample index set is base-balanced to avoid monochromatic signal issues when 
-it is the sole sample loaded on an Illumina sequencer. 
-•	 After aspirating the desired volume of SPRIselect reagent, examine the pipette tips 
-before dispensing to ensure the correct volume is transferred. 
-•	 Pipette mix thoroughly as insufficient mixing of sample and SPRIselect reagent will 
-lead to inconsistent results. 
-•	 Use fresh preparations of 80% Ethanol. 
- 
-	 Schematic of Double Sided Size Selection	
-	
-After the first SPRI, supernatant is transferred for a second SPRI while larger fragments are 
-discarded (green). After the second SPRI, fragments on beads are eluted and kept while smaller 
-fragments are discarded (blue). Final sample has a tight fragment size distribution with reduced 
-overall amount (black).
-Decrease
-Decrease
-Decrease
-Increase
-Increase
-Increase
-	 Tutorial — SPRIselect Reagent:DNA Sample Ratios 
+SPRIselect
+After aspirating the desired volume of SPRIselect reagent, examine the pipette tips
+Cleanup &
+before dispensing to ensure the correct volume is transferred.
+Size Selection
+Pipette mix thoroughly as insufficient mixing of sample and SPRIselect reagent will
+lead to inconsistent results.
+Use fresh preparations of 80% Ethanol.
+Tutorial I SPRIselect Reagent:DNA Sample Ratios
 SPRI beads selectively bind DNA according to the ratio of SPRIselect reagent (beads).
-	
-Example: Ratio =  Volume of SPRIselect reagent added to the sample  =  50 µl  =  0.5X
-	
-	
-	
-Volume of DNA sample	
- 100 µl
-	 Tutorial — Double Sided Size Selection
-Step a – First SPRIselect: Add 50 µl SPRIselect reagent to 100 µl sample (0.5X).
-	
-Ratio
-	
-Step b – Second SPRIselect: Add 30 µl SPRIselect reagent to supernatant from step a (0.8X).
-	
-Ratio
-=  Volume of SPRIselect reagent added to the sample  =  50 µl  =  0.5X
-	
-	
-	
-Volume of DNA sample	
- 100 µl
-=  Total Volume of SPRIselect reagent added to the sample (step a + b)  =  50 µl + 30 µl   =  0.8X
-	
-	
-	
-    Original Volume of DNA sample	
-	
-100 µl
-Sample Indices in
-Sample Index PCR
+Example: Ratio = Volume of SPRIselecti reagent added tot the sample I 50ul 0.5X
+Volume off DNA sample
+100 pl
+Schematic of Double Sided Size Selection
+Recovered: sample after
+double-s sided SPRI
 1st SPRI
 2nd SPRI
+Take Fragmentsi in Supernatant
+Take Fragments on Beads
+Decrease Fragment Size Increase Decrease Fragment Size Increase Decrease Fragment Size Increase
+After the first SPRI, supernatant is transferred for a: second SPRI while larger fragments are
+discarded (green). After the second SPRI, fragments on beads are eluted and kept while smaller
+fragments are discarded (blue). Final sample has a tight fragment size distribution with reduced
+overall amount (black).
+Tutorial - Double Sided Size Selection
+Step a - First SPRIselect: Add 50 pl SPRIselect reagent to 100 pls sample (0.5X).
+Ratio: = Volume of SPRIselectr reagent addedt tothes sample I 50ul 0.5X
+Volume off DNA sample
+100 ul
+Stepl b - Second SPRIselect: Add 30 pl SPRIselect reagent to supernatant from step a (0.8X).
+Ratio I Total Volume of SPRiselectreagentadded: tothes sample (stepa+ + b) = 50 ul+30ul I 0.8X
+Original Volume of DNA sample
+1001 pl
 Enzymatic
+Ensure enzymatic fragmentation reactions are prepared on ice and then loaded into a
 Fragmentation
-•	 Ensure enzymatic fragmentation reactions are prepared on ice and then loaded into a 
-thermal cycler pre-cooled to 4°C prior to initiating the Fragmentation, End Repair, and 
-A-tailing incubation steps. 
+thermal cycler pre-cooled to 4°C prior to initiating the Fragmentation, End Repair, and
+A-tailing incubation steps.
+Sample Indices in
+Choose the appropriate sample index sets to ensure that no sample indices overlap in
+Sample Index PCR
+ar multiplexed sequencing run.
+Each well in the i7 Sample Index plate contains a unique mix of 4 oligos.
+Thes sample indexes can therefore be used in any combination.
+Each sample index set is base-balanced to avoid monochromatic signal issues when
+iti is the sole sample loaded on an Illumina sequencer.
+Click to TOC
+Chromium Single Cell 3' Reagent Kits v3 User Guide Rev A
+20
 
 
---- Page 21 ---
-Chromium Single Cell 3ʹ Reagent Kits v3 User Guide | Rev A
-21
-Click to TOC1
+
 Step 1
 GEM Generation & Barcoding
-1.1		
-Prepare Single Cell Master Mix
-1.2	
-Load Chromium Chip B
-1.3	
-Run the Chromium Controller
-1.4	
-Transfer GEMs
-1.5	
-GEM-RT Incubation
-
-
---- Page 22 ---
-Chromium Single Cell 3ʹ Reagent Kits v3 User Guide | Rev A
-22
+1.1 Prepare Single Cell Master Mix
+1.2 Load Chromium Chip B
+1.3 Run the Chromium Controller
+1.4 Transfer GEMS
+1.5 GEM-RT Incubation
 Click to TOC
-1.0 
+Chromium Single Cell 3' Reagent Kits v3 User Guide Rev A
+21
+
+
+
+Step 1
+GEM Generation & Barcoding
+1.0
+GEM Generation &
 GET STARTED!
+Barcoding
 Action
 Item
-10x PN
-Preparation & Handling
+10xl PN
+Preparation &l Handling
 Storage
-Equilibrate to
+Equilibrate to
+Chromium
+2000059 Equilibrate to room
+-80°C
 Room
+Single Cell 3'
+temperature 30 min
 Temperature
-Chromium 
-Single Cell 3’
-v3 Gel Beads 
-2000059
-Equilibrate to room 
-temperature 30 min 
-before loading the chip. 
-−80°C
-RT Reagent
-2000086
-Vortex, verify no 
-precipitate, centrifuge 
+v3 Gel Beads
+before loading the chip.
+RTI Reagent
+2000086 Vortex, verify no
+-20°C
+precipitate, centrifuge
 briefly.
-−20°C
-Template Switch 
+VERSION
+Template Switch
+3000228 Centrifuge briefly,
+-20°C
+SPECIFIC
 Oligo
-3000228
-Centrifuge briefly, 
-resuspend in 80 µl Low 
-TE Buffer. Vortex 15 
-sec at maximum speed, 
-centrifuge briefly, leave 
-at room temperature 
-for ≥ 30 min. After 
-resuspension, store at 
-−80°C.
-−20°C
-Reducing Agent B
-2000087
-Vortex, verify no 
-precipitate, centrifuge 
+resuspend in 80 pl Low
+TE Buffer. Vortex 15
+sec at maximum speed,
+centrifuge briefly, leave
+at room temperature
+for N 30 min.. After
+resuspension, store at
+-80°C.
+Reducing Agent B 2000087 Vortex, verify no
+-20°C
+precipitate, centrifuge
 briefly.
-−20°C
 Place on Ice
-RT Enzyme C
-2000085/ 
-2000102
-Centrifuge briefly before 
-adding to the mix. 
-−20°C
+RTI Enzyme C
+2000085/ Centrifuge briefly before -20°C
+2000102 adding to the mix.
 Cell Suspension
 Obtain
 Partitioning Oil
 220088
--
 Ambient
-Chromium Chip B 
+Chromium Chip B 2000060
+Ambient
 Single Cell
-2000060
--
-Ambient
 10x Gasket
 370017/
+See Tips & Best Practices. Ambient
 3000072
-See Tips & Best Practices. 
-Ambient
 10x Chip Holder
 330019
-See Tips & Best Practices. 
-Ambient
-10x Vortex Adapter
-330002
+See Tips & Best Practices. Ambient
+10x Vortex Adapter 330002
+See Tips & Best Practices. Ambient
+Firmware Version 3.16 or higher
+50% glycerol
 See Tips & Best Practices.
-Ambient
-50% glycerol 
-solution 
-If using <8 reactions
--
-See Tips & Best Practices. 
--
-VERSION
-SPECIFIC
+is required in the Chromium
+solution
+Controller or the Chromium
+Ifu using <8 reactions
+Single Cell Controller used for
+the Single Cell 3' protocol.
+Click to TOC
+Chromium Single Cell 3' Reagent Kits v3 User Guide Rev A
+22
+
+
+
 Step 1
 GEM Generation & Barcoding
-GEM Generation & 
-Barcoding
-Firmware Version 3.16 or higher 
-is required in the Chromium 
-Controller or the Chromium 
-Single Cell Controller used for 
-the Single Cell 3ʹ protocol.
-!
-
-
---- Page 23 ---
-Chromium Single Cell 3ʹ Reagent Kits v3 User Guide | Rev A
-23
-Click to TOC
-a.	Prepare Master Mix on ice. Pipette mix 15x and centrifuge briefly. 
+1.1
+a. Prepare Master Mix on ice. Pipette mix 15x and centrifuge briefly.
+Prepare Master Mix
 Master Mix
-Add reagents in the order listed
+4X+
+8X+
 PN
-1X (μl)
-4X + 
-10% (μl)
-8X + 
-10% (μl)
-RT Reagent
+1X( (pl)
+Add reagents in the order listed
+10% (pl)
+10% (pl)
+RTI Reagent
 2000086
 20.0
 88.0
@@ -1439,50 +1191,37 @@ Reducing Agent B
 2.0
 8.7
 17.3
-RT Enzyme C
 2000085/
-2000102
+RTI Enzyme C
 8.3
 36.6
 73.1
+2000102
 Total
--
 33.4
 147.1
 294.2
-b.	Add 33.4 μl Master Mix into each tube of a PCR 8-tube strip on ice. 
-1.1 
-Prepare Master Mix
+b. Add 33.4 pl Master Mix into each tube of a PCR 8-tube strip on ice.
+Click to TOC
+Chromium Single Cell 3' Reagent Kits v3 User Guide Rev A
+23
+
+
+
 Step 1
 GEM Generation & Barcoding
-
-
---- Page 24 ---
-Chromium Single Cell 3ʹ Reagent Kits v3 User Guide | Rev A
-24
-Click to TOC
-Step 1
 Cell Suspension Volume Calculator Table (for step 1.2)
-Volume of Cell Suspension Stock per reaction (μl) | Volume of Nuclease-free Water per reaction (μl)
-Cell Stock 
-Concentration 
-(Cells/μl)
+Volume of Cell Suspension Stock per reaction (pl) I Volume of Nuclease-free Water per reaction (pl)
+Cell Stock
 Targeted Cell Recovery
+Concentration
+(Cells/pl
 500
-1000
-2000
-3000
-4000
-5000
-6000
-7000
-8000
-9000
-10000
+1000 2000 3000 4000 5000 6000 7000 8000 9000 10000
+8.0
+16.0
+32.0
 100
-8.0
-16.0
-32.0
 n/a
 n/a
 n/a
@@ -1494,14 +1233,14 @@ n/a
 38.6
 30.6
 14.6
+4.0
+8.0
+16.0
+24.0
+32.0
+40.0
 200
-4.0
 42.6
-8.0
-16.0
-24.0
-32.0
-40.0
 n/a
 n/a
 n/a
@@ -1512,51 +1251,50 @@ n/a
 22.6
 14.6
 6.6
-300
 2.7
-43.9
 5.3
-41.3
 10.7
-35.9
 16.0
-30.6
 21.3
-25.3
 26.7
-19.9
 32.0
-14.6
 37.3
-9.3
 42.7
-3.9
+300
 n/a
 n/a
-400
-2.0
-44.6
-4.0
-42.6
-8.0
-38.6
-12.0
-34.6
-16.0
+43.9
+41.3
+35.9
 30.6
-20.0
-26.6
-24.0
-22.6
-28.0
-18.6
-32.0
+25.3
+19.9
 14.6
+9.3
+3.9
+2.0
+4.0
+8.0
+12.0
+16.0
+20.0
+24.0
+28.0
+32.0
 36.0
-10.6
 40.0
+400
+44.6
+42.6
+38.6
+34.6
+30.6
+26.6
+22.6
+18.6
+14.6
+10.6
 6.6
-500
 1.6
 3.2
 6.4
@@ -1568,6 +1306,7 @@ n/a
 25.6
 28.8
 32.0
+500
 45.0
 43.4
 40.2
@@ -1579,7 +1318,6 @@ n/a
 21.0
 17.8
 14.6
-600
 1.3
 2.7
 5.3
@@ -1591,6 +1329,7 @@ n/a
 21.3
 24.0
 26.7
+600
 45.3
 43.9
 41.3
@@ -1602,7 +1341,6 @@ n/a
 25.3
 22.6
 19.9
-700
 1.1
 2.3
 4.6
@@ -1614,6 +1352,7 @@ n/a
 18.3
 20.6
 22.9
+700
 45.5
 44.3
 42.0
@@ -1625,7 +1364,6 @@ n/a
 28.3
 26.0
 23.7
-800
 1.0
 2.0
 4.0
@@ -1637,6 +1375,7 @@ n/a
 16.0
 18.0
 20.0
+800
 45.6
 44.6
 42.6
@@ -1648,7 +1387,6 @@ n/a
 30.6
 28.6
 26.6
-900
 0.9
 1.8
 3.6
@@ -1660,6 +1398,7 @@ n/a
 14.2
 16.0
 17.8
+900
 45.7
 44.8
 43.0
@@ -1671,7 +1410,6 @@ n/a
 32.4
 30.6
 28.8
-1000
 0.8
 1.6
 3.2
@@ -1683,6 +1421,7 @@ n/a
 12.8
 14.4
 16.0
+1000
 45.8
 45.0
 43.4
@@ -1694,7 +1433,6 @@ n/a
 33.8
 32.2
 30.6
-1100
 0.7
 1.5
 2.9
@@ -1706,6 +1444,7 @@ n/a
 11.6
 13.1
 14.5
+1100
 45.9
 45.1
 43.7
@@ -1717,7 +1456,6 @@ n/a
 35.0
 33.5
 32.1
-1200
 0.7
 1.3
 2.7
@@ -1729,6 +1467,7 @@ n/a
 10.7
 12.0
 13.3
+1200
 45.9
 45.3
 43.9
@@ -1740,7 +1479,6 @@ n/a
 35.9
 34.6
 33.3
-1300
 0.6
 1.2
 2.5
@@ -1752,6 +1490,7 @@ n/a
 9.8
 11.1
 12.3
+1300
 46.0
 45.4
 44.1
@@ -1763,7 +1502,6 @@ n/a
 36.8
 35.5
 34.3
-1400
 0.6
 1.1
 2.3
@@ -1775,6 +1513,7 @@ n/a
 9.1
 10.3
 11.4
+1400
 46.0
 45.5
 44.3
@@ -1786,7 +1525,6 @@ n/a
 37.5
 36.3
 35.2
-1500
 0.5
 1.1
 2.1
@@ -1798,6 +1536,7 @@ n/a
 8.5
 9.6
 10.7
+1500
 46.1
 45.5
 44.5
@@ -1809,7 +1548,6 @@ n/a
 38.1
 37.0
 35.9
-1600
 0.5
 1.0
 2.0
@@ -1821,6 +1559,7 @@ n/a
 8.0
 9.0
 10.0
+1600
 46.1
 45.6
 44.6
@@ -1832,7 +1571,6 @@ n/a
 38.6
 37.6
 36.6
-1700
 0.5
 0.9
 1.9
@@ -1844,6 +1582,7 @@ n/a
 7.5
 8.5
 9.4
+1700
 46.1
 45.7
 44.7
@@ -1855,7 +1594,6 @@ n/a
 39.1
 38.1
 37.2
-1800
 0.4
 0.9
 1.8
@@ -1867,6 +1605,7 @@ n/a
 7.1
 8.0
 8.9
+1800
 46.2
 45.7
 44.8
@@ -1878,7 +1617,6 @@ n/a
 39.5
 38.6
 37.7
-1900
 0.4
 0.8
 1.7
@@ -1890,6 +1628,7 @@ n/a
 6.7
 7.6
 8.4
+1900
 46.2
 45.8
 44.9
@@ -1901,7 +1640,7 @@ n/a
 39.9
 39.0
 38.2
- 2000
+2000
 0.4
 0.8
 1.6
@@ -1924,149 +1663,157 @@ n/a
 40.2
 39.4
 38.6
-Grey boxes:	
+Greyl boxes:
 Volumes that would exceed the allowable water volume in each reaction
-Yellow boxes:	
-Indicate a low transfer volume that may result in higher cell load variability
-Blue boxes:	
-Optimal range of cell stock concentration to maximize the likelihood of achieving the desired cell recovery target
-GEM Generation & Barcoding
-
-
---- Page 25 ---
-Chromium Single Cell 3ʹ Reagent Kits v3 User Guide | Rev A
-25
+Yellow boxes: Indicate a low transfer volume that may result in higher cell load variability
+Blue boxes:
+Optimal range of cell stock concentration to maximize thel likelihood of achieving the desired cell recovery target
 Click to TOC
-a.	Assemble Chromium Chip B in a 10x Chip Holder. See Tips & Best Practices.
-b.	Dispense 50% Glycerol Solution into Unused Chip Wells (if < 8 samples per chip)
-i.	75 μl to unused wells in row labeled 1.
-ii.	40 μl to unused wells in row labeled 2.
-iii.	280 μl to unused wells in row labeled 3.
-c.	 Prepare Master Mix + Cell Suspension 
-Refer to the Cell Suspension Volume Calculator Table and add the appropriate volume of 
-nuclease-free water and corresponding volume of single cell suspension to Master Mix for 
-a total of 80 µl in each tube. Gently pipette mix the single cell suspension before adding to 
-the Master Mix.
-d.	Load Row Labeled 1
-Gently pipette mix the Master Mix + 
-Cell Suspension and using the same 
-pipette tip, dispense 75 µl Master Mix + Cell 
-Suspension into the bottom center of each 
-well in row labeled 1 without introducing 
-bubbles. 
-e.	Prepare Gel Beads
-Snap the Gel Bead strip into a 10x Vortex Adapter. Vortex 30 sec. Remove the Gel Bead 
-strip and flick in a sharp, downward motion to ensure maximum recovery. Confirm there 
-are no bubbles at the bottom of the tubes and liquid levels look even. 
-f.	 Load Row Labeled 2 
-Puncture the foil seal of the Gel Bead 
-tubes. Slowly aspirate 40 µl Gel Beads. 
-Dispense into the wells in row labeled 2 
-without introducing bubbles.
-g.	Load Row Labeled 3 
-Dispense 280 µl Partitioning Oil into the 
-wells in row labeled 3 by pipetting two 
-aliquots of 140 µl from a reagent reservoir. 
-Failure to add Partitioning Oil can damage 
-the Chromium Controller. 
-h.	Attach 10x Gasket
-Align the notch with the top left-hand 
-corner. Ensure the gasket holes are 
-aligned with the wells. Avoid touching the 
-smooth gasket surface. DO NOT press 
-down on the gasket. 
-TIPS
-VERSION
-SPECIFIC
-VERSION
-SPECIFIC
-!
-VERSION
-SPECIFIC
-See Tips & Best Practices for chip handling instructions. When loading the chip, raising 
-and depressing the pipette plunger should each take ~5 sec. When dispensing, raise the 
-pipette tips at the same rate as the liquid is rising, keeping the tips slightly submerged. 
-1.2 
+Chromium Single Cell 3' Reagent Kits v3 User Guide Rev A
+24
+
+
+
+Step 1
+GEM Generation &l Barcoding
+1.2
+See Tips & Best Practices for chip handling instructions. When loading the chip, raising
 Load Chromium Chip B
-DO NOT add 50% glycerol solution to the 
-top row of Recovery Wells. DO NOT use any 
+and depressing the pipette plunger should each take ~5 sec. When dispensing, raise the
+pipette tips at the same rate as the liquid is rising, keeping the tips slightly submerged.
+TIPS a. Assemble Chromium Chip B in a 10x Chip Holder. See Tips & Best Practices.
+b. Dispense 50% Glycerol Solution into Unused Chip Wells (if < 8 samples per chip)
+VERSION i. 751 pl to unused wells in row labeled 1.
+DO NOT add 50% glycerol solution to the
+SPECIFIC ii. 40 pl to unused wells in row labeled 2.
+top row ofl Recovery Wells. DO NOT use any
+iii. 280 pl to unused wells in row labeled 3.
 substitute for 50% glycerol solution.
-Step 1
-GEM Generation & Barcoding
-40 µl Gel Beads
-280 µl Partitioning Oil
-75 µl Master Mix +
+C. Prepare Master Mix + Cell Suspension
+Refer to the Cell Suspension Volume Calculator Table and add the appropriate volume of
+nuclease-free water and corresponding volume of single cell suspension to Master Mix for
+a total of 80 pli in each tube. Gently pipette mix the single cell suspension before adding to
+the Master Mix.
+d. Load Row Labeled 1
+VERSION
+Gently pipette mix the Master Mix +
+IOXE-BE 10x
+SPECIFIC Cell Suspension and using the same
+L L
+FLE
+N9
+1u:
+pipette tip, dispense 75 pl Master Mix + Cell
+Suspension into the bottom center of each
+well in row labeled 1 without introducing
+75ull Master Mix
+bubbles.
 Cell Suspension
-Keep horizontal to 
-avoid wetting the 
-gasket.
-
-
---- Page 26 ---
-Chromium Single Cell 3ʹ Reagent Kits v3 User Guide | Rev A
-26
+e. Prepare Gel Beads
+Snap the Gel Bead strip into a 10x Vortex Adapter. Vortex 30 sec. Remove the Gel Bead
+strip and flick in a sharp, downward motion to ensure maximum recovery. Confirm there
+are no bubbles at the bottom of the tubes and liquid levels look even.
+f. Load Row Labeled 2
+Puncture the foil seal of the Gell Bead
+10E-BE 10x
+tubes. Slowly aspirate 40 pl Gel Beads.
+m:
+Dispense into the wells in row labeled 2
+without introducing bubbles.
+40 pl Gel Beads
+g. Load Row Labeled 3
+10xer-B Elm 10x
+Dispense 280 pl Partitioning Oil into the
+u:
+wells in row labeled 3 by pipetting two
+VERSION aliquots of 140 pli from a reagent reservoir.
+SPECIFIC Failure to add Partitioning Oil can damage
+the Chromium Controller.
+280 pl Partitioning Oil
+h. Attach 10x Gasket
+10xBE- 10x
+Align the notch with the top left-hand
+Keep horizontal to
+corner. Ensure the gasket holes are
+avoid wetting the
+aligned with the wells. Avoid touching the gasket.
+smooth gasket surface. DO NOT press
+-
+down on the gasket.
 Click to TOC
-a.	Press the eject button on the Controller to 
-eject the tray.
-b.	Place the assembled chip with the gasket in 
-the tray. Press the button to retract the tray. 
-c.	Confirm the Chromium Single Cell B 
-program on screen. Press the play button.
-d.	At completion of the run (~8.5 min), the 
-Controller will chime. Immediately proceed 
-to the next step.
-a.	Place a tube strip on ice. 
-b.	Press the  eject button of the Controller and 
-remove the chip.
-c.	Discard the gasket. Open the chip holder. 
-Fold the lid back until it clicks to expose the 
-wells at 45 degrees.
-Ensure that the partitioning oil from the 
-wells does not spill when exposing the wells. 
-d.	Check the volume in rows 1-3. Abnormally 
-high volume in any well indicates a clog. 
-e.	Slowly aspirate 100 µl GEMs from the lowest 
-points of the Recovery Wells in the top row 
-without creating a seal between the tips and 
-the bottom of the wells. 
-f.	 Withdraw pipette tips from the wells. GEMs 
-should appear opaque and uniform across 
-all channels. Excess Partitioning Oil (clear) in 
-the pipette tips indicates a potential clog. 
-g.	Over the course of ~20 sec, dispense GEMs 
-into the tube strip on ice with the pipette tips 
-against the sidewalls of the tubes. 
-h.	If multiple chips are run back-to-back, cap/
-cover the GEM-containing tube strip and 
-place on ice for no more than 1 h. 
-!
-1.3 
-Run the Chromium 
-Controller
-1.4 
-Transfer GEMs
+Chromium Single Cell 3' Reagent Kits v3 User Guide Rev A
+25
+
+
+
 Step 1
 GEM Generation & Barcoding
+1.3
+a. Press the eject button on the Controller to
+Run the Chromium
+eject the tray.
+Controller
+b. Place the assembled chip with the gasket in
+the tray. Press the button to retract the tray.
+C. Confirm the Chromium Single Cell B
+program on screen. Press thej play button.
+d. At completion of the run (-8.5 min), the
+Controller will chime. Immediately proceed
+to the next step.
+a. Place at tube strip on ice.
 Expose Wells at 45 Degrees
-Transfer GEMs
-GEMs
-!
-
-
---- Page 27 ---
-Chromium Single Cell 3ʹ Reagent Kits v3 User Guide | Rev A
-27
+1.4
+Transfer GEMS
+b. Press the eject button of the Controller and
+NAJ 10x: 2B E -
+remove the chip.
+HLL
+C. Discard the gasket. Open the chip holder.
+Fold the lid back until it clicks to expose the
+wells at 45 degrees.
+A
+Ensure that the partitioning oil from the
+wells does not spill when exposing the wells.
+d. Check the volume in rows 1-3. Abnormally
+high volume in any well indicates a clog.
+Transfer GEMS
+e. Slowly aspirate 100 pl GEMS from the lowest
+points of the Recovery Wells in thet top row
+tunn
+without creating a seal between the tips and
+the bottom of the wells.
+f. Withdraw pipette tips from the wells. GEMS
+should appear opaque and uniform across
+all channels. Excess Partitioning Oil (clear) in
+the pipette tips indicates a potential clog.
+g. Over the course of ~20 sec, dispense GEMS
+GEMS
+into the tube strip on ice with thej pipette tips
+i i
+against the sidewalls of the tubes.
+h. If multiple chips are run back-to-back, cap/
+cover the GEM-containing tube strip and
+place on ice for no more than 1 h.
 Click to TOC
-	 Use a thermal cycler that can accommodate at least 100 µl volume. A volume of 
-125 µl is the preferred setting on Bio-Rad C1000 Touch. In alternate thermal cyclers, 
+Chromium Single Cell 3' Reagent Kits v3 User Guide Rev A
+26
+
+
+
+Step 1
+GEM Generation & Barcoding
+1.5
+Use a thermal cycler that can accommodate at least 100 pl volume. A volume of
+GEM-RT Incubation
+125 pl is the preferred setting on Bio-Rad C1000 Touch. In alternate thermal cyclers,
 use highest reaction volume setting.
-a.	Incubate in a thermal cycler with the following protocol. 
+a. Incubate in a thermal cycler with the following protocol.
 Lid Temperature
 Reaction Volume
 Run Time
 53°C
-125 µl
-~55 min
+125 pl
+-55 min
 Step
 Temperature
 Time
@@ -2079,187 +1826,162 @@ Time
 3
 4°C
 Hold
-b.	Store at 4°C for up to 72 h or at −20°C for up to a week, or proceed to the next step. 
-STOP
-1.5 
-GEM-RT Incubation
-Step 1
-GEM Generation & Barcoding
-
-
---- Page 28 ---
-Chromium Single Cell 3ʹ Reagent Kits v3 User Guide | Rev A
-28
-Click to TOC2
-Step 2
-Post GEM–RT Cleanup & cDNA Amplification 
-2.1		
-Post GEM–RT  Cleanup – Dynabeads
-2.2 	
-cDNA Amplification
-2.3	
-cDNA Cleanup – SPRIselect
-2.4 	
-cDNA QC & Quantification
-
-
---- Page 29 ---
-Chromium Single Cell 3ʹ Reagent Kits v3 User Guide | Rev A
-29
+STOP b. Store at 4°C for up to 72 h or at -20°C for up to a week, or proceed to the next step.
 Click to TOC
-2.0 
+Chromium Single Cell 3' Reagent Kits v3 User Guide Rev A
+27
+
+
+
+Step 2
+Post GEM-RT Cleanup & CDNA Amplification
+2.1 Post GEM-RT Cleanup - Dynabeads
+2.2 CDNA Amplification
+2.3 CDNA Cleanup - SPRIselect
+2.4 CDNA QC & Quantification
+Click to TOC
+Chromium Single Cell 3' Reagent Kits v3 User Guide Rev A
+28
+
+
+
+Step 2
+Post GEM-RT Cleanup & CDNA Amplification
+2.0
 GET STARTED!
+Post GEM-RT Cleanup &
+CDNA Amplification
 Action
 Item
-10x PN
-Preparation & Handling
-Storage
-Equilibrate to
+10xPN
+Preparation & Handling Storage
+Equilibrate to
+Reducing Agent B 2000087 Thaw, vortex, verify no
+-20°C
+S )
 Room
-Temperature
-Reducing Agent B
-2000087
-Thaw, vortex, verify no 
 precipitate, centrifuge.
-−20°C
-cDNA Primers
-2000089
-Vortex, centrifuge briefly.
-−20°C
-Beckman Coulter 
-SPRIselect 
+Temperature
+CDNA Primers
+2000089 Vortex, centrifuge briefly.
+-20°C
+Beckman Coulter
+Manufacturer's
+SPRIselect
+recommendations.
 Reagent
--
-Manufacturer’s 
+Agilent
+Manufacturer's
+Bioanalyzer High
 recommendations.
--
-Agilent 
-Bioanalyzer High 
 Sensitivity Kit
-If used for QC and 
+If used for QC and
 quantification
--
-Manufacturer’s 
+Agilent
+Manufacturer's
+TapeStation
 recommendations.
--
-Agilent 
-TapeStation 
-ScreenTape and 
+ScreenTape and
 Reagents
-If used for QC and 
+If used for QC and
 quantification
--
-Manufacturer’s 
+Qubit dsDNA HS
+Manufacturer's
+Assayl Kit
 recommendations.
--
-Qubit dsDNA HS 
-Assay Kit
-If used for QC and 
+If used for QC and
 quantification
--
-Manufacturer’s 
-recommendations.
--
-Dynabeads MyOne 
-SILANE
-2000048
-Vortex thoroughly 
-(≥30 sec) immediately 
-before adding to the mix.
+Dynabeads MyOne 2000048 Vortex thoroughly
 4°C
+SILANE
+(230 sec)i immediately
+before adding tot the mix.
 Place on ice
 Amp Mix
-2000047/
+20000471 Vortex, centrifuge briefly. -20°C
 2000103
-Vortex, centrifuge briefly. 
-−20°C
 Thaw at 65°C
 Cleanup Buffer
-2000088
-Thaw for 10 min at 
-65°C at max speed on a 
-thermomixer. Verify no 
-visible crystals. Cool to 
+2000088 Thaw for 10 min at
+-20°C
+65°C at max: speed on a
+thermomixer. Verify no
+visible crystals. Cool to
 room temperature.
-−20°C
 Obtain
 Recovery Agent
 220016
--
 Ambient
 Qiagen Buffer EB
--
-Manufacturer’s 
+Manufacturers
 recommendations.
--
-Bio-Rad 10% 
+Bio-Rad 10%
+Manufacturer's
 Tween 20
--
-Manufacturer’s 
 recommendations.
--
-10x Magnetic 
-Separator 
+10x Magnetic
 230003
--
 Ambient
-Prepare 80% Ethanol     -
+Separator
+Prepare 80% Ethanol
 Prepare 15 ml
 for 8 reactions.
--
--
-Step 2
-Post GEM-RT Cleanup  & cDNA Amplification
-Post GEM-RT Cleanup & 
-cDNA Amplification 
-
-
---- Page 30 ---
-Chromium Single Cell 3ʹ Reagent Kits v3 User Guide | Rev A
-30
 Click to TOC
-a.	Add 125 µl Recovery Agent to each sample   
-at room temperature. DO NOT pipette mix or 
-vortex the biphasic mixture. Wait 60 sec.
-	 The resulting biphasic mixture contains 
-Recovery Agent/Partitioning Oil (pink) and 
-aqueous phase (clear), with no persisting 
-emulsion (opaque).
-If biphasic separation is incomplete, cap the 
-tube strip, centrifuge briefly, and proceed to 
-step b.
-	 A smaller aqueous phase volume  indicates 
-a clog during GEM generation.
-b.	Slowly remove 125 µl Recovery Agent/
-Partitioning Oil (pink) from the bottom of the 
-tube. DO NOT aspirate any aqueous sample. 
-c.	Prepare Dynabeads Cleanup Mix. 
-2.1 
-Post GEM-RT Cleanup – 
+Chromium Single Cell 3' Reagent Kits v3 User Guide Rev A
+29
+
+
+
+Step 2
+Post GEM-RT Cleanup & CDNA Amplification
+2.1
+a. Add 125 pl Recovery Agent to each sample
+Post GEM-RT Cleanup -
+at room temperature. DO NOT pipette mix or
 Dynabeads
+vortex thel biphasic mixture. Wait 60 sec.
+The resulting biphasic mixture contains
+Biphasic Mixture
+Recovery Agent/Partitioning Oil (pink) and
+aqueous phase (clear), with no persisting
+emulsion (opaque).
+If biphasic separation is incomplete, cap the
+tube strip, centrifuge briefly, and proceed to
+step b.
+A smaller aqueous phase volume indicates
+Remove Recovery Agent
+a clog during GEM generation.
+b. Slowly remove 125 pl Recovery Agent/
+-
+Partitioning Oil (pink) from thel bottom of the
+HUUE
+tube. DO NOT aspirate any aqueous sample.
+C. Prepare Dynabeads Cleanup Mix.
 Dynabeads Cleanup Mix
-Add reagents in the order listed
 PN
-1X (μl)
-4X + 
-10% (μl)
-8X + 
-10% (μl)
+1X (pl)
+4X+
+8X+
+Add reagents int the order listed
+10% (pl)
+10% (pl)
 Cleanup Buffer
 2000088
 182
 801
 1602
+VERSION
 Dynabeads MyOne SILANE
-Vortex thoroughly (≥30 sec)
-immediately before adding to the 
-mix. If still clumpy, pipette mix to
-resuspend completely.
-DO NOT centrifuge before use.
+SPECIFIC
+Vortex thoroughly (230 sec)
+immediately before adding to the
 2000048
 8
 35
 70
+mix. Ifs still clumpy, pipette mix to
+resuspend completely.
+DO NOT centrifuge before use.
 Reducing Agent B
 2000087
 5
@@ -2269,39 +1991,34 @@ Nuclease-free Water
 5
 22
 44
-VERSION
-SPECIFIC
-!
-d.	Vortex and add 200 µl to each sample. 
-Pipette mix 10x (pipette set to 200 µl).
-e.	Incubate 10 min at room temperature. 
-Pipette mix again at ~5 min after start of 
-incubation to resuspend settled beads. 
-Step 2
-!
-Biphasic Mixture
-Remove Recovery Agent
 Add Dynabeads Cleanup Mix
-Post GEM-RT Cleanup  & cDNA Amplification
-
-
---- Page 31 ---
-Chromium Single Cell 3ʹ Reagent Kits v3 User Guide | Rev A
-31
+d. Vortex and add 200 pl to each sample.
+Pipette mix 10x (pipette set to 200 pl).
+eepedes
+e. Incubate 10 min at room temperature.
+Pipette mix again at ~5 min after start of
+- - - -
+- I -
+incubation to resuspend settled beads.
 Click to TOC
-f.	Prepare Elution Solution I. Vortex and centrifuge briefly.
-Elution Solution I
-Add reagents in the order listed
+Chromium Single Cell 3' Reagent Kits v3 User Guide Rev A
+30
+
+
+
+Step 2
+Post GEM-RT Cleanup & CDNA Amplification
+f. Prepare Elution Solution I. Vortex and centrifuge briefly.
+Elution Solutionl
+10X
 PN
-1X (μl)
-10X 
-(μl)
+1X(pl)
+Addi reagents in the order listed
+(pl)
 Buffer EB
--
 98
 980
 10% Tween 20
--
 1
 10
 Reducing Agent B
@@ -2309,68 +2026,67 @@ Reducing Agent B
 1
 10
 Total
--
 100
 1000
-g.	At the end of 10 min incubation, place on a 10x Magnetic Separator•High position 
-(magnet•High) until the solution clears.
-	 A  white interface between the aqueous phase and Recovery Agent is normal. 
-h.	Remove the supernatant.
-i.	 Add 300 µl 80% ethanol to the pellet while on the magnet. Wait 30 sec. 
-j.	 Remove the ethanol. 
-k.	Add 200 µl 80% ethanol to pellet. Wait 30 sec. 
-l.	 Remove the ethanol.
-m.	Centrifuge briefly. Place on the magnet•Low.
-n.	Remove remaining ethanol. Air dry for 1 min.
-o.	Remove from the magnet. Immediately add 35.5 µl Elution Solution I.
-p.	Pipette mix (pipette set to 30 µl) without introducing bubbles.
-q.	Incubate 2 min at room temperature.
-r.	 Place on the magnet•Low until the solution clears.
-s.	Transfer 35 µl sample to a new tube strip. 
-TIPS
- 
-Step 2
-Post GEM–RT Cleanup & cDNA Amplification
-
-
---- Page 32 ---
-Chromium Single Cell 3ʹ Reagent Kits v3 User Guide | Rev A
-32
+TIPS g. At the end of 10 min incubation, place on a 10x Magnetic Separator-High position
+magnet-High) until the solution clears.
+A white interface between the aqueous phase and Recovery. Agent is normal.
+h. Remove the supernatant.
+i. Add 300 pl 80% ethanol to the pellet while on the magnet. Wait 30 sec.
+j. Remove the ethanol.
+k. Add 200 pl 80% ethanol to pellet. Wait 30 sec.
+l. Remove the ethanol.
+m.Centrifuge briefly. Place on the magnet-Low.
+n. Remove remaining ethanol. Air dry for 1 min.
+O. Remove from the magnet. Immediately add 35.5 pl Elution Solution I.
+p. Pipette mix (pipette set to 30 pl) without introducing bubbles.
+q. Incubate 2 min at room temperature.
+r. Place on the magnet-Low until the solution clears.
+S. Transfer 35 pl sample to a new tube strip.
 Click to TOC
-a.	Prepare cDNA Amplification Mix on ice. Vortex and centrifuge briefly.
-cDNA Amplification Reaction Mix
-Add reagents in the order listed
+Chromium Single Cell 3' Reagent Kits v3 User Guide Rev A
+31
+
+
+
+Step 2
+Post GEM-RT Cleanup & CDNA Amplification
+2.2
+a.Prepare CDNA Amplification Mix on ice. Vortex and centrifuge briefly.
+CDNA Amplification
+CDNA Amplification Reaction Mix
+4X+
+8X+
 PN
-1X (μl)
-4X + 
-10% (μl)
-8X + 
-10% (μl)
+1X(pl)
+Addi reagents in the order listed
+10% (pl)
+10% (pl)
+- -
 Amp Mix
 2000047/
-2000103
 50
 220
 440
-cDNA Primers 
+2000103
+CDNAI Primers
 2000089
 15
 66
 132
 Total
--
 65
 286
 572
-b.	Add 65 µl cDNA Amplification Reaction Mix to 35 µl sample.
-c.	Pipette mix 15x (pipette set to 90 µl). Centrifuge briefly.
-d.	Incubate in a thermal cycler with the following protocol. 
+b. Add 65 pl CDNA Amplification Reaction Mix to 35 pl sample.
+C. Pipette mix 15x (pipette set to 90 pl). Centrifuge briefly.
+d. Incubate in a thermal cycler with the following protocol.
 Lid Temperature
 Reaction Volume
 Run Time
 105°C
-100 µl
-~30-45 min
+100 pl
+-30-45 min
 Step
 Temperature
 Time
@@ -2382,9 +2098,10 @@ Time
 00:00:15
 3
 63°C
-Version Specific
-Updated Temperature 
 00:00:20
+VERSION SPECIFIC
+Version Specific
+Updated Temperature
 4
 72°C
 00:01:00
@@ -2396,286 +2113,237 @@ Go to Step 2, see table below for total # of cycles
 7
 4°C
 Hold
-	
-	
-	
-	
-   	
-	
-	
-	
-	
+Recommended starting point for cycle number optimization.
+The optimal number of
+cyclesi is at trade-off between
 Cell Load
 Total Cycles
-˂500
+generating: sufficient final
+mass for library construction
+and minimizing PCR
+<500
 13
-500–6,000
+amplification. artifacts. The
+number of CDNA cycles
+should alsol ber reducedi if
+500-6,000
 12
+large numbers of cells are
+sampled.
 >6,000
 11
-e.	Store at 4°C for up to 72 h or proceed to the next step. 
-VERSION
-SPECIFIC
-	
-Recommended starting point for cycle number optimization.
-STOP
-2.2 
-cDNA Amplification
-Step 2
-	
-The optimal number of 
-cycles is a trade-off between 
-generating sufficient final 
-mass for library construction 
-and minimizing PCR 
-amplification artifacts. The 
-number of cDNA cycles 
-should also be reduced if 
-large numbers of cells are 
-sampled.
-Post GEM–RT Cleanup & cDNA Amplification
-
-
---- Page 33 ---
-Chromium Single Cell 3ʹ Reagent Kits v3 User Guide | Rev A
-33
+STOP e. Store at 4°C for up to 72 h or proceed to the next step.
 Click to TOC
-2.3 
-cDNA Cleanup – 
+Chromium Single Cell 3' Reagent Kits v3 User Guide Rev A
+32
+
+
+
+Step 2
+CDNA Amplification & QC
+2.3
+a. Vortex to resuspend the SPRIselect reagent. Add 60 pl SPRIselect reagent (0.6X) to
+CDNA Cleanup -
+each sample and pipette mix 15x (pipette set to 150 pl).
 SPRIselect
-a.	Vortex to resuspend the SPRIselect reagent. Add 60 μl SPRIselect reagent (0.6X) to 
-each sample and pipette mix 15x (pipette set to 150 µl).
-b.	Incubate 5 min at room temperature.
-c.	Place on the magnet•High until the solution clears. 
-d.	Remove the supernatant.
-e.	Add 200 µl 80% ethanol to the pellet. Wait 30 sec.
-f.	 Remove the ethanol. 
-g.	Repeat steps e and f for a total of 2 washes. 
-h.	Centrifuge briefly and place on the magnet•Low. 
-i.	 Remove any remaining ethanol. Air dry for 2 min. DO NOT exceed 2 min as this will 
-decrease elution efficiency. 
-j.	 Remove from the magnet. Add 40.5 µl Buffer EB. Pipette mix 15x.
-k.	Incubate 2 min at room temperature.
-l.	 Place the tube strip on the magnet•High until the solution clears.
-m.	Transfer 40 µl sample to a new tube strip.
-n.	Store at 4°C for up to 72 h or at −20°C for up to 4 weeks, or proceed to the next step.
-STOP
-Step 2
-cDNA Amplification & QC
-
-
---- Page 34 ---
-Chromium Single Cell 3ʹ Reagent Kits v3 User Guide | Rev A
-34
+b. Incubate 5 min at room temperature.
+C. Place on the magnet-High until the solution clears.
+d. Remove the supernatant.
+e. Add 200 pl 80% ethanol to the pellet. Wait 30 sec.
+f. Remove the ethanol.
+g. Repeat steps e and f for a total of 2 washes.
+h. Centrifuge briefly and place on the magnet-Low.
+i. Remove any remaining ethanol. Air dry for 2 min. DO NOT exceed 2 min as this will
+decrease elution efficiency.
+j. Remove from the magnet. Add 40.5 pl Buffer EB. Pipette mix 15x.
+k. Incubate 2 min at room temperature.
+l. Place the tube strip on the magneteHigh until the solution clears.
+m.Transfer 40 pl sample to a new tube strip.
+STOP n. Store at 4°C for up to 72 h or at -20°C for up to 4 weeks, or proceed to the next step.
 Click to TOC
+Chromium Single Cell 3' Reagent Kits v3 User Guide Rev A
+33
+
+
+
+Step 2
+CDNA Amplification & QC
+2.4
+CDNA QC & Quantification a. Run 1 pl of sample (Dilution Factor 1:10) on an Agilent Bioanalyzer High Sensitivity
+chip.
+Fori input cells with low RNA content (<1pg total RNA/cell), 1 pl undiluted product mayl be run.
+Lower moleculary weight product (35 1501 bp) may! be present. This is normal and does not affect sequencing or
+application performance.
+Representative Traces
+Cell line
+PBMCS
+M
+100 150 200
 EXAMPLE CALCULATION
-i.	 Select Region
-Under the “Electropherogram” view choose the 
-“Region Table”. Manually select the region of 
-~200 – ~9000 bp
+i. Select Region
 iii. Calculate
-Multiply the cDNA concentration [pg/μl] 
-reported via the Agilent 2100 Expert Software 
-by the elution volume (40 μl) of the Post cDNA 
-Amplification Reaction Clean Up sample (taking 
-any dilution factors into account) and then divide 
-by 1000 to obtain the total cDNA yield in ng.
-Example Calculation of cDNA Total Yield
-Concentration: 1244.06 pg/µl
+Under the Electropherogram" view choose the Multiply the CDNA concentration [pg/ul]
+"Region Table". Manually select the region of
+reported via the Agilent 2100 Expert Software
+-200 ~9000 bp
+by the elution volume (40 pl) off the Post CDNA
+Amplification Reaction Clean Up sample (taking
+Nos a
+any dilution factors into account) and then divide
+by 1000 to obtain the total CDNA yield in ng.
+Example Calculation of CDNA Total Yield
+Concentration: 1244.06 pg/ul
 Elution Volume: 40
 Dilution Factor: 10
-Total cDNA Yield 	
-Carry forward ONLY 25% of total cDNA 
-yield into 3ʹ Gene Expression Library 
-Construction (step 3)
-Refer to step 3.5 for appropriate number of 
-Sample Index PCR cycles based on carry 
-forward cDNA yield/input cDNA.
-ii.	Note Concentration [pg/µl]
-
+a
+Total CDNA Yield
+Conch(pg/ul)x ElutionVolumel (ulx Dilution.Factor
+1000 (pg/ng)
+ii. Note Concentration [pg/ull
+1244.06 (pg/ul)x 40(ul)x1 10 = 497.62 ng
+1000 (pg/ng)
+Carry forward ONLY: 25% of total CDNA
+yieldi into 3' Gene Expression Library
+VERSION Construction (step 3)
+SPECIFIC - 0.25> x Total CDNA yield
+- 0.25x4 497.62= 124.4ng
+MARR E
+Refer to step 3.5 for appropriate number of
+Sample Index PCR cycles based on carry
+forward CDNA yield/input CDNA.
 Alternate Quantification Methods:
-•	
 Agilent TapeStation. See Appendix for representative traces
-Agilent Bioanalyzer or Agilent TapeStaion are the recommended methods for accurate 
-quantification. 
+Agilent Bioanalyzer or Agilent TapeStaion are the recommended methods for accurate
+quantification.
 (If using Qubit Fluorometer and Qubit dsDNA HS Assay Kit, see Appendix)
-= Conc’n (pg/µl) x Elution Volume (µl) x Dilution Factor 
-	
-	
-	
-1000 (pg/ng)
-=  1244.06 (pg/µl) x 40 (µl) x 10 = 497.62 ng
-	
-	
-1000 (pg/ng)
-!
-= 0.25 x Total cDNA yield 
-=  0.25 x 497.62= 124.4ng
-2.4 
-cDNA QC & Quantification
-a.	Run 1 μl of sample  (Dilution Factor 1:10) on an Agilent Bioanalyzer High Sensitivity 
-chip.
-For input cells with low RNA content (<1pg total RNA/cell), 1 µl undiluted product may be run. 
-Lower molecular weight product (35 – 150 bp) may be present. This is normal and does not affect sequencing or 
-application performance.
-Step 2
-cDNA Amplification & QC
-       Representative Traces 
-Cell line
-PBMCs
-VERSION
-SPECIFIC
-
-
---- Page 35 ---
-Chromium Single Cell 3ʹ Reagent Kits v3 User Guide | Rev A
-35
 Click to TOC
+Chromium Single Cell 3' Reagent Kits v3 User Guide Rev A
+34
+
+
+
 Step 3
-3ʹ Gene Expression Library Construction
-3.1		
-Fragmentation, End Repair & A-tailing
-3.2 	
-Post Fragmentation End Repair & A-tailing Double Sided Size Selection – SPRIselect
-3.3	
-Adaptor Ligation
-3.4	
-Post Ligation Cleanup – SPRIselect
-3.5	
-Sample Index PCR
-3.6 	
-Post Sample Index PCR Double Sided Size Selection – SPRIselect
-3.7	
-Post Library Construction QC
-3
-
-
---- Page 36 ---
-Chromium Single Cell 3ʹ Reagent Kits v3 User Guide | Rev A
-36
+3' Gene Expression Library Construction
+3.1 Fragmentation, End Repair & A-tailing
+3.2 Post Fragmentation End Repair & A-tailing Double Sided Size Selection - SPRIselect
+3.3 Adaptor Ligation
+3.4 Post Ligation Cleanup - SPRIselect
+3.5 Sample Index PCR
+3.6 Post Sample Index PCR Double Sided Size Selection I SPRIselect
+3.7 Post Library Construction QC
 Click to TOC
-3.0 
+Chromium Single Cell 3' Reagent Kits v3 User Guide Rev A
+35
+
+
+
+Step 3
+3' Gene Expression Library Construction
 GET STARTED!
+3.0
+3' Gene Expression
 Action
 Item
 10x PN
-Preparation & Handling
-Storage
-Equilibrate to
+Preparation & Handling Storage
+Library Construction
+Equilibrate to
+Fragmentation
+2000091 Vortex, verify no
+-20°C
 Room
-Temperature
-Fragmentation 
 Buffer
-2000091
-Vortex, verify no 
-precipitate, centrifuge 
+precipitate, centrifuge
+S -
+Temperature
 briefly.
-−20°C
 Adaptor Oligos
-2000094
-Vortex, centrifuge briefly.
-−20°C
-Ligation Buffer 
-2000092
-Vortex, verify no 
-precipitate, centrifuge 
+2000094 Vortex, centrifuge briefly.
+-20°C
+Ligation Buffer
+2000092 Vortex, verify no
+-20°C
+precipitate, centrifuge
 briefly.
-−20°C
-SI Primer
+SIE Primer
 2000095
--
-−20°C
-Chromium i7 
-Sample Index Plate
+-20°C
+Chromiumi i7
 220103
--
-−20°C
-Beckman Coulter 
-SPRIselect 
-Reagent
--
-Manufacturer’s 
+-20°C
+Sample Index Plate
+Beckman Coulter
+Manufacturer's
+SPRIselect
 recommendations.
--
-Agilent TapeStation 
-Screen Tape and 
+Reagent
+Agilent TapeStation
+Manufacturer's
+Screen Tape and
+recommendations.
 Reagents
 If used for QC
-Manufacturer’s 
+Agilent
+Manufacturer's
+Bioanalyzer High
 recommendations.
-Agilent 
-Bioanalyzer High 
-Sensitivity kit 
--
-Manufacturer’s 
-recommendations.
--
+Sensitivity kit
 Place on Ice
-Fragmentation 
-Enzyme  
-2000090/
+Fragmentation
+2000090/ Centrifuge briefly.
+-20°C
+Enzyme
 2000104
-Centrifuge briefly.
-−20°C
-DNA Ligase
+DNAI Ligase
 220110/
+Centrifuge briefly.
+-20°C
 220131
-Centrifuge briefly.
-−20°C
 Amp Mix
-2000047/
+2000047/ Centrifuge briefly.
+-20°C
 2000103
-Centrifuge briefly.
-−20°C
-KAPA Library 
+KAPA Library
+Manufacturer's
 Quantification Kit
-for Illumina 
-Platforms
--
-Manufacturer’s 
 recommendations.
--
+forl Illumina
+Platforms
 Obtain
 Qiagen Buffer EB
--
--
 Ambient
-10x Magnetic Separator
-230003
-See Tips & Best Practices.
+10xl Magnetic Separator 230003 See Tips & Best Practices. Ambient
+Prepare 80% Ethanol
+Prepare fresh.
 Ambient
-Prepare 80% Ethanol 
-Prepare 20 ml 
-for 8 reactions 
--
-Prepare fresh. 
-Ambient
-Step 3
-3ʹ Gene Expression Library Construction
-3ʹ Gene Expression 
-Library Construction
-
-
---- Page 37 ---
-Chromium Single Cell 3ʹ Reagent Kits v3 User Guide | Rev A
-37
+Prepare 20 ml
+for 81 reactions
 Click to TOC
+Chromium Single Cell 3' Reagent Kits v3 User Guide Rev A
+36
+
+
+
 Step 3
-a.	Prepare a thermal cycler with the following incubation protocol. 
+3' Gene Expression Library Construction.
+3.1
+a. Prepare a thermal cycler with the following incubation protocol.
+Fragmentation,
 Lid Temperature
 Reaction Volume
 Run Time
+End Repair & A-tailing
 65°C
-50 µl
-~35 min
+50 pl
+-35 min
 Step
 Temperature
 Time
 Pre-cool block
-Pre-cool block prior to
-preparing the Fragmentation Mix
 4°C
 Hold
+Pre-cool block prior to
+preparing thel Fragmentation Mix
 Fragmentation
 32°C
 00:05:00
@@ -2685,99 +2353,92 @@ End Repair & A-tailing
 Hold
 4°C
 Hold
-b.	Vortex Fragmentation Buffer. Verify there is no precipitate.
-c.	Prepare Fragmentation Mix on ice. Pipette mix and centrifuge briefly. 
+b. Vortex Fragmentation Buffer. Verify there is no precipitate.
+C. Prepare Fragmentation Mix on ice. Pipette mix and centrifuge briefly.
 Fragmentation Mix
-Add reagents in the order listed
 PN
-1X (μl)
-4X + 
-10% (μl)
-8X + 
-10% (μl)
+1X(pl)
+4X+
+8X+
+Addi reagents int the order listed
+10% (pl) 10% (pl)
 Fragmentation Buffer
 2000091/
-2000104
 5
 22
 44
-Fragmentation Enzyme  
+2000104
+Fragmentation Enzyme
 2000090
 10
 44
 88
 Total
--
 15
 66
 132
-d.	Transfer ONLY 10 µl purified cDNA sample from cDNA Cleanup (step 2.3n) to a tube 
-strip.
-Note that only 10 µl (25%) cDNA sample is sufficient for generating 3ʹ Gene Expression library.
-The remaining 30 µl (75%) cDNA sample can be stored at 4°C for up to 72 h or at −20°C for up 
-to 4 weeks for generating additional 3ʹ Gene Expression libraries.
-e.	Add 25 µl Buffer EB to each sample.
-f.	 Add 15 µl Fragmentation Mix to each sample. 
-g.	Pipette mix 15x (pipette set to 35 µl) on ice. Centrifuge briefly.
-h.	Transfer into the pre-cooled thermal cycler (4°C) and press “SKIP” to initiate the 
-protocol.
-!
-VERSION
+VERSION d. Transfer ONLY 10 pl purified CDNA sample from CDNA Cleanup (step 2.3n) to a tube
 SPECIFIC
-3.1 
-Fragmentation, 
+strip.
+Note that only 10 pl (25%) CDNA sample is sufficient for generating 3' Gene Expression library.
+The remaining 30 pl (75%) CDNA sample can be stored at 4°C for up to 72 h or at -20°C for up
+to 4 weeks for generating additional 3' Gene Expression libraries.
+e. Add 25 pl Buffer EB to each sample.
+f. Add 15 pl Fragmentation Mix to each sample.
+g. Pipette mix 15x (pipette set to 35 pl) on ice. Centrifuge briefly.
+h. Transfer into the pre-cooled thermal cycler (4°C) and press "SKIP" to initiate the
+protocol.
+Click to TOC
+Chromium Single Cell 3' Reagent Kits v3 User Guide Rev A
+37
+
+
+
+Step 3
+3' Gene Expression Library Construction.
+3.2
+a. Vortex to resuspend SPRIselect reagent. Add 30 pl SPRIselect (0.6X) reagent to each
+Post Fragmentation,
+sample. Pipette mix 15x (pipette set to 75 pl).
 End Repair & A-tailing
-3ʹ Gene Expression Library Construction
-
-
---- Page 38 ---
-Chromium Single Cell 3ʹ Reagent Kits v3 User Guide | Rev A
-38
-Click to TOC
-3.2 
-Post Fragmentation, 
-End Repair & A-tailing 
-Double Sided Size 
-Selection – SPRIselect
-a.	Vortex to resuspend SPRIselect reagent. Add 30 μl SPRIselect (0.6X) reagent to each 
-sample. Pipette mix 15x (pipette set to 75 μl). 
-b.	Incubate 5 min at room temperature.
-c.	Place on the magnet•High until the solution clears. DO NOT discard supernatant.  
-d.	Transfer 75 μl supernatant to a new tube strip.
-e.	Vortex to resuspend SPRIselect reagent. Add 10 μl SPRIselect reagent (0.8X)  to each 
-sample. Pipette mix 15x (pipette set to 80 μl). 
-f.	 Incubate 5 min at room temperature.
-g.	Place on the magnet•High until the solution clears. 
-h.	Remove 80 μl supernatant. DO NOT discard any beads.
-i.	 Add 125 μl 80% ethanol to the pellet. Wait 30 sec.
-j.	 Remove the ethanol.
-k.	Repeat steps i and j for a total of 2 washes. 
-l.	 Centrifuge briefly. Place on the magnet•Low until the solution clears. Remove 
+b. Incubate 5 min at room temperature.
+Double Sided Size
+Selection - SPRIselect
+C. Place on the magnet-High until the solution clears. DO NOT discard supernatant.
+d. Transfer 75 pl supernatant to a new tube strip.
+e. Vortex to resuspend SPRIselect reagent. Add 10 pl SPRIselect reagent (0.8X) to each
+sample. Pipette mix 15x (pipette set to 80 pl).
+f. Incubate 5 min at room temperature.
+g. Place on the magnet-High until the solution clears.
+h. Remove 80 pl supernatant. DO NOT discard any beads.
+i. Add 125 pl 80% ethanol to the pellet. Wait 30 sec.
+j. Remove the ethanol.
+k. Repeat steps i and ji for a total of 2 washes.
+L. Centrifuge briefly. Place on the magnet-Low until the solution clears. Remove
 remaining ethanol. DO NOT over dry to ensure maximum elution efficiency.
-m.	Remove from the magnet. Add 50.5 µl Buffer EB to each sample. Pipette mix 15x.
-n.	Incubate 2 min at room temperature.
-o.	Place on the magnet•High until the solution clears.
-p.	Transfer 50 μl  sample to a new tube strip.
-Step 3
-3ʹ Gene Expression Library Construction
-
-
---- Page 39 ---
-Chromium Single Cell 3ʹ Reagent Kits v3 User Guide | Rev A
-39
+m. Remove from the magnet. Add 50.5 pl Buffer EB to each sample. Pipette mix 15x.
+n. Incubate 2 min at room temperature.
+0. Place on the magnet-High until the solution clears.
+p. Transfer 50 pl sample to a new tube strip.
 Click to TOC
-3.3 
-Adaptor Ligation
+Chromium Single Cell 3' Reagent Kits v3 User Guide Rev A
+38
+
+
+
 Step 3
-a.	Prepare Adaptor Ligation Mix. Pipette mix and centrifuge briefly.
+3' Gene Expression Library Construction
+3.3
+a. Prepare Adaptor Ligation Mix. Pipette mix and centrifuge briefly.
+Adaptor Ligation
 Adaptor Ligation Mix
-Add reagents in the order listed
+4X+
+8X+
 PN
-1X (μl)
-4X + 
-10% (μl)
-8X + 
-10% (μl)
+1X(pl)
+Addi reagents in the order listed
+10% (pl)
+10% (pl)
 Ligation Buffer
 2000092
 20
@@ -2785,112 +2446,110 @@ Ligation Buffer
 176
 DNA Ligase
 220110/
-220131
 10
 44
 88
+220131
 Adaptor Oligos
 2000094
 20
 88
 176
 Total
--
 50
 220
 440
-b.	Add 50 µl Adaptor Ligation Mix to 50 µl sample. Pipette mix 15x (pipette set to 90 µl). 
+b. Add 50 pl Adaptor Ligation Mix to 50 pl sample. Pipette mix 15x (pipette set to 90 pl).
 Centrifuge briefly.
-c.	Incubate in a thermal cycler with the following protocol.
+C. Incubate in a thermal cycler with the following protocol.
 Lid Temperature
 Reaction Volume
 Run Time
 30°C
-100 µl
+100 pl
 15 min
 Step
 Temperature
 Time
 1
 20°C
-00:15:00 
+00:15:00
 2
 4°C
 Hold
-3ʹ Gene Expression Library Construction
-
-
---- Page 40 ---
-Chromium Single Cell 3ʹ Reagent Kits v3 User Guide | Rev A
-40
 Click to TOC
-3.4 
-Post Ligation Cleanup – 
-SPRIselect
+Chromium Single Cell 3' Reagent Kits v3 User Guide Rev A
+39
+
+
+
 Step 3
-a.	 Vortex to resuspend SPRIselect Reagent. Add 80 μl SPRIselect Reagent (0.8X) to each 
-sample. Pipette mix 15x (pipette set to 150 µl).
-b.	 Incubate 5 min at room temperature.
-c.	 Place on the magnet•High until the solution clears.
-d.	 Remove the supernatant.
-e.	 Add 200 µl 80% ethanol to the pellet. Wait 30 sec.
-f.	 Remove the ethanol. 
-g.	 Repeat steps e and f for a total of 2 washes. 
-h.	 Centrifuge briefly. Place on the magnet•Low. 
-i.	 Remove any remaining ethanol. Air dry for 2 min. DO NOT exceed 2 min as this will 
+3' Gene Expression Library Construction
+3.4
+a. Vortex to resuspend SPRIselect Reagent. Add 80 pl SPRIselect Reagent (0.8X) to each
+Post Ligation Cleanup -
+sample. Pipette mix 15x (pipette set to 150 pl).
+SPRIselect
+b. Incubate 5 min at room temperature.
+C. Place on the magnet-High until the solution clears.
+d. Remove the supernatant.
+e. Add 200 pl 80% ethanol to the pellet. Wait 30 sec.
+f. Remove the ethanol.
+g. Repeat steps e and f for a total of 2 washes.
+h. Centrifuge briefly. Place on the magnet-Low.
+i. Remove any remaining ethanol. Air dry for 2 min. DO NOT exceed 2 min as this will
 decrease elution efficiency.
-j.	 Remove from the magnet. Add 30.5 µl Buffer EB. Pipette mix 15x. 
-k.	 Incubate 2 min at room temperature.
-l.	 Place on the magnet•Low until the solution clears.
-m.	Transfer 30 µl sample to a new tube strip.
-3ʹ Gene Expression Library Construction
-
-
---- Page 41 ---
-Chromium Single Cell 3ʹ Reagent Kits v3 User Guide | Rev A
-41
+j. Remove from the magnet. Add 30.5 pl Buffer EB. Pipette mix 15x.
+k. Incubate 2 min at room temperature.
+l. Place on the magnet-Low until the solution clears.
+m. Transfer 30 pl sample to a new tube: strip.
 Click to TOC
-3.5 
-Sample Index PCR
+Chromium Single Cell 3' Reagent Kits v3 User Guide Rev A
+40
+
+
+
 Step3
-a.	Choose the appropriate sample index sets to ensure that no sample indices overlap in a 
-multiplexed sequencing run. Record the 10x Sample Index name (PN-220103 Chromium 
+3' Gene Expression Library Construction
+a. Choose the appropriate sample index sets to ensure that no sample indices overlap in a
+3.5
+multiplexed sequencing run. Record the 10x Sample Index name (PN-220103 Chromium
+Sample Index PCR
 i7 Sample Index Plate well ID) used.
-b.	Prepare Sample Index PCR Mix. 
-Sample Index PCR Mix
-Add reagents in the order listed
+b. Prepare Sample Index PCR Mix.
+Samplel Index PCR Mix
+4X+
+8X+
 PN
-1X (μl)
-4X + 
-10% (μl)
-8X + 
-10% (μl)
+1X (pl)
+Add reagents in the order listed
+10% (pl)
+10% (pl)
 Amp Mix
 2000047/
-2000103
 50
 220
 440
-SI Primer
+2000103
+SII Primer
 2000095
 10
 44
 88
 Total
--
 60
 264
 528
-c.	Add 60 µl Sample Index PCR Mix to 30 µl sample.
-d.	Add 10 µl of an individual Chromium i7 Sample Index to each well and record the well 
-ID used. Pipette mix 5x (pipette set to 90 µl). Centrifuge briefly.
-e.	Incubate in a thermal cycler with the following protocol.
+C. Add 60 pl Sample Index PCR Mix to 30 pl sample.
+d. Add 10 pl of an individual Chromium i7 Sample Index to each well and record the well
+ID used. Pipette mix 5x (pipette set to 90 pl). Centrifuge briefly.
+e. Incubate in a thermal cycler with the following protocol.
 Lid Temperature
 Reaction Volume
 Run Time
 105°C
-100 µl
-~25-40 min
+100 ul
+-25-40 min
 Step
 Temperature
 Time
@@ -2914,157 +2573,170 @@ Go to step 2, see below for # of cycles
 7
 4°C
 Hold
-cDNA Input
+Recommended cycle numbers
+The total cycles: should be optimized based
+CDNA Input
 Total Cycles
-1-25 ng
+on 25% carry forward CDNA yield/input
+calculated during Post CDNA Amplification QC
+& Quantification (step 2.4)
+1-25n ng
 14-16
 25-150 ng
 12-14
 150-500 ng
 10-12
+STOP f. Store at 4°C for up to 72 h or
 500-1,000 ng
 8-10
+proceed to the next step.
 1,000-1,500 ng
 6-8
-!
-f.	 	Store at 4°C for up to 72 h or 
-proceed to the next step.
-STOP
-Recommended cycle numbers 
-3ʹ Gene Expression Library Construction
-	
-The total cycles should be optimized based 
-on 25% carry forward cDNA yield/input 
-calculated during Post cDNA Amplification QC 
-& Quantification (step 2.4)
-!
+Click to TOC
+Chromium Single Cell 3' Reagent Kits v3 User Guide Rev A
+41
 
 
---- Page 42 ---
-Chromium Single Cell 3ʹ Reagent Kits v3 User Guide | Rev A
+
+Step 3
+3' Gene Expression Library Construction
+3.6
+a. Vortex to resuspend the SPRIselect reagent. Add 60 pl SPRIselect Reagent (0.6X) to
+Post Sample Index
+each sample. Pipette mix 15x (pipette set to 150 pl).
+PCR Double Sided Size
+b. Incubate 5 min at room temperature.
+Selection - SPRIselect
+C. Place the magnet-High until the solution clears. DO NOT discard supernatant.
+d. Transfer 150 pl supernatant to a new tube strip.
+e. Vortex to resuspend the SPRIselect reagent. Add 20 pl SPRIselect Reagent (0.8X) to
+each sample. Pipette mix 15x (pipette set to 150 pl).
+f. Incubate 5 min at room temperature.
+g. Place the magnet-High until the solution clears.
+h. Remove 165 pl supernatant. DO NOT discard any beads.
+i. With the tube still in the magnet, add 200 pl 80% ethanol to the pellet. Wait 30 sec.
+J. Remove the ethanol.
+k. Repeat steps i and ji for a total of 2 washes.
+l. Centrifuge briefly. Place on the magnet-Low. Remove remaining ethanol.
+m. Remove from the magnet. Add 35.5 pl Buffer EB. Pipette mix 15x.
+n. Incubate 2 min at room temperature.
+O. Place on the magnet-Low until the solution clears.
+p. Transfer 35 pl to a new tube strip.
+STOP q. Store at 4°C for up to 72 h or at -20°C for long-term storage.
+Click to TOC
+Chromium Single Cell 3' Reagent Kits v3 User Guide Rev A
 42
-Click to TOC
-3.6 
-Post Sample Index 
-PCR Double Sided Size 
-Selection – SPRIselect
-a.	 Vortex to resuspend the SPRIselect reagent. Add 60 μl SPRIselect Reagent (0.6X) to 	
-      each sample. Pipette mix 15x (pipette set to 150 μl). 
-b.	 Incubate 5 min at room temperature.
-c.	 Place the magnet•High until the solution clears. DO NOT discard supernatant.
-d.	 Transfer 150 μl supernatant to a new tube strip.
-e.	 Vortex to resuspend the SPRIselect reagent. Add 20 μl SPRIselect Reagent (0.8X) to     	
-      each sample. Pipette mix 15x (pipette set to 150 μl). 
-f.	 Incubate 5 min at room temperature.
-g.	 Place the magnet•High until the solution clears. 
-h.	 Remove 165 μl supernatant. DO NOT discard any beads.
-i.	 With the tube still in the magnet, add 200 µl 80% ethanol to the pellet. Wait 30 sec. 
-j.	 Remove the ethanol.
-k.	 Repeat steps i and j for a total of 2 washes.
-l.	 Centrifuge briefly. Place on the magnet•Low. Remove remaining ethanol. 
-m.	Remove from the magnet. Add 35.5 µl Buffer EB. Pipette mix 15x.
-n.	 Incubate 2 min at room temperature.
-o.	 Place on the magnet•Low until the solution clears.
-p.	 Transfer 35 µl to a new tube strip.
-q.	 Store at 4°C for up to 72 h or at −20°C for long-term storage. 
-STOP
+
+
+
 Step 3
-3ʹ Gene Expression Library Construction
-
-
---- Page 43 ---
-Chromium Single Cell 3ʹ Reagent Kits v3 User Guide | Rev A
-43
-Click to TOC
-3.7 
-Post Library Construction 
+3' Gene Expression Library Construction
+3.7
+Run 1 pl sample at 1:10 dilution on an Agilent Bioanalyzer High Sensitivity chip.
+Post Library Construction
 QC
-Run 1 μl sample at 1:10 dilution on an Agilent Bioanalyzer High Sensitivity chip. 
-Step 3
-Determine the average fragment size from the Bioanalyzer trace. This will be used as 
-the insert size for library quantification.
-Alternate QC Method:
-•	
-Agilent TapeStation. See Appendix for representative traces
-See Appendix for Post Library Construction Quantification 
-3ʹ Gene Expression Library Construction
 Representative Trace
-
-
---- Page 44 ---
-Chromium Single Cell 3ʹ Reagent Kits v3 User Guide | Rev A
-44
-Click to TOC4
-Sequencing
-
-
---- Page 45 ---
-Chromium Single Cell 3ʹ Reagent Kits v3 User Guide | Rev A
-45
+[FU]
+250
+200-
+150-
+100-
+50
+100 150 200 300 400 500 600 1000 2000 10380
+[bp]
+Determine the average fragment size from the Bioanalyzer trace. This will be used as
+the insert size for library quantification.
+Alternate QCI Method:
+Agilent lapeStation. See Appendix for representative traces
+See Appendix for Post Library Construction Quantification
 Click to TOC
-	 Single Cell 3ʹ Gene Expression libraries comprise standard Illumina paired-end 
-constructs which begin with P5 and end with P7. 16  bp 10x Barcodes are encoded at 
-the start of TruSeq Read 1, while 8 bp sample index sequences are incorporated as 
-the i7 index read. TruSeq Read 1 and Read 2 are standard Illumina sequencing primer 
-sites used in paired-end sequencing. TruSeq Read 1 is used to sequence 16 bp 10x 
-Barcodes and 12 bp UMI. Sequencing these libraries produce a standard Illumina BCL 
-data output folder.
-	 The compatibility of the listed sequencers has been verified by 10x Genomics. Some 
-variation in assay performance is expected based on sequencer choice. For more 
-information about performance variation, visit the 10x Genomics Support website.
-•	 MiSeq
-•	 NextSeq 500/550*
-•	 HiSeq  2500 (Rapid Run)
-•	 HiSeq 3000/4000
-•	 NovaSeq
-	
-*Sequencing Chromium Single Cell libraries on the NextSeq 500/550 platform may yield reduced 
-sequence quality and sensitivity relative to the MiSeq, HiSeq, and NovaSeq platforms. Refer to the 10x 
-Genomics Support website for more information.
-	
-	 Each sample index in the Chromium i7 Sample Index Kit (PN-120262) is a mix of 
-4 different sequences to balance across all 4 nucleotides. If multiple samples are 
-pooled in a sequence lane, the sample index name (i.e. the Chromium i7 Sample Index 
-plate well ID, SI-GA-) is needed in the sample sheet used for generating FASTQs with 
-“cellranger mkfastq”. Samples utilizing the same sample index should not be pooled 
-together, or run on the same flow cell lane, as this would not enable correct sample 
-demultiplexing.
-Illumina Sequencer 
-Compatibility
-Sample Indices
+Chromium Single Cell 3' Reagent Kits v3 User Guide Rev A
+43
+
+
+
+Sequencing
+Click to TOC
+Chromium Single Cell 3' Reagent Kits v3 User Guide Rev A
+44
+
+
+
+Step 4
 Sequencing
 Sequencing Libraries
-Step 4
-Chromium Single Cell 3ʹ Gene Expression Library 
-10x
-Barcode
-TruSeq Read 1
- Poly(dT)VN
-UMI
-P5
-i7:8
-Sample
+Single Cell 3' Gene Expression libraries comprise standard Illumina paired-end
+constructs which begin with P5 and end with P7. 16 bp 10x Barcodes are encoded at
+the start of TruSeq Read 1, while 8 bp sample index sequences are incorporated as
+the 17 index read. TruSeq Read 1 and Read 2 are standard Illumina sequencing primer
+sites used in paired-end sequencing. TruSeq Read 1 is used to sequence 16 bp 10x
+Barcodes and 12 bp UMI. Sequencing these libraries produce a standard Illumina BCL
+data output folder.
+Chromium Single Cell 3' Gene Expression Library
+Read1 1:28
+Sample i7:8
+10XBC+UMI
 Index
+P5 TruSeqi Read1 10x UMI Poly(dT)VN
+TruSeqi Read2
 P7
-TruSeq Read 2
-Read 2:91 
-Insert     
-Read 1:28
-10xBC+UMI
-
-
---- Page 46 ---
-Chromium Single Cell 3ʹ Reagent Kits v3 User Guide | Rev A
-46
+Barcode
+Read 2:91
+Insert
+Illumina Sequencer
+The compatibility of the listed sequencers has been verified by 10x Genomics. Some
+Compatibility
+variation in assay performance is expected based on sequencer choice. For more
+information about performance variation, visit the 10x Genomics Support website.
+MiSeq
+NextSeq 500/550*
+HiSeq 2500 (Rapid Run)
+HiSeq 3000/4000
+NovaSeq
+"Sequencing Chromium Single Cell libraries on the NextSeq 500/550 platform may yield reduced
+sequence quality and sensitivity relative to thel MiSeq, HiSeq, and NovaSeq platforms. Refer to the 10x
+Genomics Support website for more information.
+Sample Indices
+Each sample index in the Chromium i7 Sample Index Kit PN-120262) is a mix of
+4 different sequences to balance across all 41 nucleotides. If multiple samples are
+pooled in a sequence lane, the sample index name (i.e. the Chromium i7 Sample Index
+plate well ID, SI-GA-) is needed in the sample sheet used for generating FASTQS with
+"cellranger mkfastq". Samples utilizing the same sample index should not be pooled
+together, or run on the same flow cell lane, as this would not enable correct sample
+demultiplexing.
 Click to TOC
+Chromium Single Cell 3' Reagent Kits v3 User Guide Rev A
+45
+
+
+
+Step 4
 Sequencing
-	 Once quantified and normalized, the 3ʹ Gene Expression libraries should be 
-denatured and diluted as recommended for Illumina sequencing platforms. Refer 
-to Illumina documentation for denaturing and diluting libraries. Refer to the 10x 
-Genomics Support website, for more information. 
+3' Gene Expression
+Sequencing Depth
+Minimum 20,000 read pairs per cell
+Library Sequencing Depth
+& Run Parameters
+Sequencing Type
+Paired-end, single indexing
+Sequencing Read
+Recommended Number of Cycles
+Read 1
+28 cycles
+i7 Index
+80 cycles
+i51 Index
+0 cycles
+Read 2
+91 cycles
+Library Loading
+Once quantified and normalized, the 3' Gene Expression libraries should be
+denatured and diluted as recommended for Illumina sequencing platforms. Refer
+to Illumina documentation for denaturing and diluting libraries. Refer to the 10x
+Genomics Support website, for more information.
 Instrument
-Loading Concentration (pM) 
-PhiX (%)
+Loading Concentration (pM)
+Phix (%)
 MiSeq
 11
 1
@@ -3080,222 +2752,203 @@ HiSeq 4000
 NovaSeq
 150*/300
 1
-* Use 150 pM loading concentration for Illumina XP workflow. 
-	 The 3ʹ Gene Expression libraries maybe pooled for sequencing, taking into account 
-the differences in cell number and  per-cell read depth requirements between 
-each library.  Samples utilizing the same sample index should not be pooled 
-together, or run on the same flow cell lane, as this would not enable correct sample 
-demultiplexing.
-Library Loading 
-Step 4
+* Use 150 pM loading concentration for Illumina XP workflow.
 Library Pooling
-3ʹ Gene Expression 
-Library Sequencing Depth 
-& Run Parameters
-Sequencing Depth
-Minimum 20,000 read pairs per cell
-Sequencing Type
-Paired-end, single indexing
-Sequencing Read
-Recommended Number of Cycles
-Read 1
-i7 Index
-i5 Index
-Read 2
-28 cycles
-8 cycles
-0 cycles
-91 cycles
-
-
---- Page 47 ---
-Chromium Single Cell 3ʹ Reagent Kits v3 User Guide | Rev A
-47
-Click to TOC5
-Troubleshooting
-
-
---- Page 48 ---
-Chromium Single Cell 3ʹ Reagent Kits v3 User Guide | Rev A
-48
+The 3' Gene Expression libraries maybe pooled for sequencing, taking into account
+the differences in cell number and per-cell read depth requirements between
+each library. Samples utilizing the same sample index should not be pooled
+together, or run on the same flow cell lane, as this would not enable correct sample
+demultiplexing.
 Click to TOC
+Chromium Single Cell 3' Reagent Kits v3 User Guide Rev A
+46
+
+
+
+Troubleshooting
+Click to TOC
+Chromium Single Cell 3' Reagent Kits v3 User Guide Rev A
+47
+
+
+
+Troubleshooting
+5.1 GEMS
 STEP
 NORMAL
 REAGENT CLOGS & WETTING FAILURES
 1.4 d
-After Chip B is 
-removed from the 
-Controller and the 
+After Chip Bis
+removed from the
+A 10x: B E=
+10x Cocno BE
+Controller and the
 wells are exposed
- 
-All 8 Recovery Wells are similar in 
-volume and opacity.
+All 8 Recovery Wells are similar in
 Recovery Well G indicates a reagent clog.
-Recovery Well C and E indicate a wetting 
-failure. Recovery Wells B, D, and F are 
-normal. Wells A and H contain 50% Glycerol 
-Solution.  
-The image indicates clogs in the Gel Bead 
-line (orange arrow) and the sample line 
-(yellow arrow) as evidenced by higher than 
+volume and opacity.
+Recovery' Well C and E indicate a wetting
+failure. Recovery Wells B, D, and F are
+normal. Wells A and H contain 50% Glycerol
+Solution.
+The image indicates clogs in the Gel Bead
+line (orange arrow) and the sample line
+(yellow arrow) as evidenced by higher than
 usual volumes in the input wells.
-1.4 f
-Transfer GEMs from 
-Chip E Recovery 
+E
+to
+1.4f
+Transfer GEMS from
+HEEHEWE -
+Chip E Recovery
+WHMEEE
 Wells
-All liquid levels are similar in volume and 
-opacity without air trapped in the pipette 
+All liquid levels are similar in volume and Pipette tips C and E indicate a wetting
+opacity without air trapped in the pipette failure. Pipette tip C contains partially
 tips.
-Pipette tips C and E indicate a wetting 
-failure. Pipette tip C contains partially 
-emulsified GEMs. Emulsion is absent 
-in pipette tip E. Pipette tip G indicates a 
+emulsified GEMS. Emulsion is absent
+in pipette tip E. Pipette tip G indicates a
 reagent clog.
- A      B     C      D      E     F     G      H
- A      B     C      D      E     F     G      H
-5.1 GEMs
-Troubleshooting
-A       B      C        D       E       F      G       H
-
-
---- Page 49 ---
-Chromium Single Cell 3ʹ Reagent Kits v3 User Guide | Rev A
-49
 Click to TOC
+Chromium Single Cell 3' Reagent Kits v3 User Guide Rev A
+48
+
+
+
+Troubleshooting
 STEP
 NORMAL
 REAGENT CLOGS & WETTING FAILURES
 2.1 a
-After transfer of the 
-GEMs +
-Recovery Agent 
-All liquid levels are similar in the 
-aqueous sample volume (clear) and 
-Recovery Agent/Partitioning Oil (pink).
-Tube G indicates a reagent clog has 
-occurred. There is a decreased volume of 
+After transfer off the
+GEMS +
+Recovery Agent
+B
+G
+All liquid levels are similari in the
+Tube G indicates a reagent clog has
+aqueous sample volume (clear) and
+occurred. There is a decreased volume of
+Recovery. Agent/Partitioning Oil (pink).
 aqueous layer (clear).
-Tube C and E indicate a wetting failure has 
-occurred. There is an abnormal residual 
-volume of Recovery Agent/Partitioning Oil 
+Tube C and Ei indicate a wetting failure has
+occurred. There is an abnormal residual
+volume of Recovery Agent/Partitioning Oil
 (pink).
 2.1 b
-After aspiration of 
-Recovery Agent/
+After aspiration of
+Recovery. Agent/
 Partitioning Oil
-All liquid volumes are similar in the 
-aqueous sample volume (clear) and 
-residual Recovery Agent/Partitioning Oil 
+H
+All liquid volumes are similar in the
+Tube G indicates a reagent clog has
+aqueous sample volume (clear) and
+occurred. There is a decreased volume
+residual Recovery Agent/Partitioning Oil of aqueous layer (clear). There is also
 (pink).
-Tube G indicates a reagent clog has 
-occurred. There is a decreased volume 
-of aqueous layer (clear). There is also 
-a greater residual volume of Recovery 
+a greater residual volume of Recovery
 Agent/Partitioning Oil (pink).
-Tube C and E indicate a wetting failure has 
-occurred. There is an abnormal residual 
-volume of Recovery Agent/Partitioning Oil 
+Tube C and Ei indicate a wetting failure has
+occurred. There is an abnormal residual
+volume of Recovery. Agent/Partitioning Oil
 (pink).
 2.1 d
-After addition of 
+After addition of
 Dynabeads
+90999099
+200000
 Cleanup Mix
-All liquid volumes are similar after 
+WWWW
+MMMI
+All liquid volumes are similar after
+Tube G indicates a reagent clog has
 addition of the Dynabeads Cleanup Mix.
-Tube G indicates a reagent clog has 
-occurred. There is an abnormal ratio 
-of Dynabeads Cleanup Mix (brown) to 
-Recovery Agent/Partitioning Oil (appears 
+occurred. There is an abnormal ratio
+of Dynabeads Cleanup Mix (brown) to
+Recovery Agent/Partitioning Oil (appears
 white).
-Tube C and E indicate a wetting failure 
-has occurred. There is an abnormal ratio 
-of Dynabeads Cleanup Mix (brown) to 
-Recovery Agent/Partitioning Oil (appears 
-white). 
- 
-Troubleshooting
-If a channel clogs or wetting failure occurs during GEM generation, it is 
-recommended that the sample be remade. If any of the listed issues occur, take 
+Tube C and E indicate a wetting failure
+has occurred. There is an abnormal ratio
+of Dynabeads Cleanup Mix (brown) to
+Recovery Agent/Partitioning Oil (appears
+white).
+If a channel clogs or wetting failure occurs during GEM generation, it is
+recommended that the sample be remade. If any of the listed issues occur, take
 a picture and send it to support@10xgenomics.com for further assistance.
-A        B          C        D         E          F        G          H
- A          B          C         D        E         F         G         H
-A         B          C        D          E        F         G          H
-A         B         C         D         E          F        G         H
-A         B         C         D         E          F        G         H
-A         B          C        D          E        F         G          H
-
-
---- Page 50 ---
-Chromium Single Cell 3ʹ Reagent Kits v3 User Guide | Rev A
-50
 Click to TOC
-	 If the Chromium Controller or the Chromium Single Cell Controller fails to start, an 
-error tone will sound and one of the following error messages will be displayed:
-a.	Chip not read – Try again: Eject the tray, remove and/or reposition the 10x Chip 
-Holder assembly and try again. If the error message is still received after trying this 
-more than twice, contact support@10xgenomics.com for further assistance.
-b.	Check gasket: Eject the tray by pressing the eject button to check there is a 10x 
-Gasket on the Chromium Chip. In the case when the 10x Gasket installation was 
-forgotten, install and try again. In the case when a 10x Gasket was already installed, 
-remove, reapply, and try again. If the error message is still received after trying either 
-of these more than twice, contact support@10xgenomics.com for further assistance.
-c.	Pressure not at Setpoint:
-i.	 If this message is received within a few seconds of starting a run, eject the tray by 
-pressing the eject button and check for dirt or deposits on the 10x Gasket. If dirt is 
-observed, replace with a new 10x Gasket and try again. If the error message is still 
-received after trying this more than twice, contact support@10xgenomics.com for 
-further assistance.
-ii.	If this message is received after a few minutes into the run, the Chromium Chip 
-must be discarded. Do not try running this Chromium Chip again as this may 
-damage the Chromium Controller.
-d.	CAUTION: Chip Holder not Present: Eject the tray by pressing the eject button to 
-check there is a 10x Chip Holder encasing the Chromium Chip. In the case when the 
-10x Chip Holder was forgotten, install with a 10x Gasket in place, and try again. If 
-the error message is still received after a 10x Chip Holder is confirmed as in place, 
-contact support@10xgenomics.com for further assistance.
-e.	Invalid Chip CRC Value: This indicates the Chromium Chip has encountered an error, 
-should not be run, and must be discarded. Contact support@10xgenomics.com for 
-further assistance.
- 
-5.2 
-Chromium Controller 
-Errors
+Chromium Single Cell 3' Reagent Kits v3 User Guide Rev A
+49
+
+
+
 Troubleshooting
+5.2
+Ift the Chromium Controller or the Chromium Single Cell Controller fails to start, an
+Chromium Controller
+error tone will sound and one of the following error messages will be displayed:
+Errors
+a. Chip not read - Try again: Eject the tray, remove and/or reposition the 10x Chip
+Holder assembly and try again. Ift the error message is still received after trying this
+more than twice, contact support@10xgenomics.com for further assistance.
+b. Check gasket: Eject the tray by pressing the eject button to check there is a 10x
+Gasket on the Chromium Chip. In the case when the 10x Gasket installation was
+forgotten, install and try again. In the case when a 10x Gasket was already installed,
+remove, reapply, and try again. If the error message is still received after trying either
+of these more than twice, contact support@10xgenomics.com for further assistance.
+C. Pressure not at Setpoint:
+i. Ift this message is received within a few seconds of starting a run, eject the tray by
+pressing the eject button and check for dirt or deposits on the 10x Gasket. If dirt is
+observed, replace with a new 10x Gasket and try again. Ift the error message is still
+received after trying this more than twice, contact support@10xgenomics.com for
+further assistance.
+ii. Ift this message is received after a few minutes into the run, the Chromium Chip
+must be discarded. Do not try running this Chromium Chip again as this may
+damage the Chromium Controller.
+d. CAUTION: Chip Holder not Present: Eject the tray by pressing the eject button to
+check there is a 10x Chip Holder encasing the Chromium Chip. In the case when the
+10x Chip Holder was forgotten, install with a 10x Gasket in place, and try again. If
+the error message is still received after a 10x Chip Holder is confirmed as in place,
+contact support@10xgenomics.com fort further assistance.
+e. Invalid Chip CRC Value: This indicates the Chromium Chip has encountered an error,
+should not be run, and must be discarded. Contact support@10xgenomics.com for
+further assistance.
+Click to TOC
+Chromium Single Cell 3' Reagent Kits v3 User Guide Rev A
+50
 
 
---- Page 51 ---
-Chromium Single Cell 3ʹ Reagent Kits v3 User Guide | Rev A
-51
-Click to TOC6
+
 Appendix
 Post Library Construction Quantification
 Agilent TapeStation Traces
-Oligonucleotide Sequences 
-
-
---- Page 52 ---
-Chromium Single Cell 3ʹ Reagent Kits v3 User Guide | Rev A
-52
+Oligonucleotide Sequences
 Click to TOC
-a.	Thaw KAPA Library Quantification Kit for Illumina Platforms. 
-b.	Dilute 2 µl sample with deionized water to appropriate dilutions that fall within the 
-linear detection range of the KAPA Library Quantification Kit for Illumina Platforms. 
+Chromium Single Cell 3' Reagent Kits v3 User Guide Rev A
+51
+
+
+
+Appendix
+Post Library Construction a. Thaw KAPA Library Quantification Kit for Illumina Platforms.
+Quantification
+b. Dilute 2 pl sample with deionized water to appropriate dilutions that fall within the
+linear detection range of the KAPA Library Quantification Kit for Illumina Platforms.
 (For more accurate quantification, make the dilution(s) in duplicate).
-c.	Make enough Quantification Master Mix for the DNA dilutions per sample and the DNA 
+C. Make enough Quantification Master Mix for thel DNA dilutions per sample and the DNA
 Standards (plus 10% excess) using the guidance for 1 reaction volume below.
 Quantification Master Mix
-1X (µl)
+1X(pl)
 SYBR Fast Master Mix + Primer
 12
 Water
 4
 Total
 16
-d.	Dispense 16 μl Quantification Master Mix for sample dilutions and DNA Standards into 
+d. Dispense 16 pl Quantification Master Mix for sample dilutions and DNA Standards into
 a 96 well PCR plate.
-e.	Add 4 μl sample dilutions and 4 μl DNA Standards to appropriate wells. Centrifuge 
-briefly. 
-f.	 Incubate in a thermal cycler with the following protocol.
+e. Add 41 pl sample dilutions and 41 pl DNA Standards to appropriate wells. Centrifuge
+briefly.
+f. Incubate in a thermal cycler with the following protocol.
 Step
 Temperature
 Run Time
@@ -3310,142 +2963,129 @@ Run Time
 00:00:30
 4
 Go to Step 2, 29X (Total 30 cycles)
-g.	Follow the manufacturer’s recommendations for qPCR-based quantification. For 
-library quantification for sequencer clustering, determine the concentration based on 
+g. Follow the manufacturer's recommendations for qPCR-based quantification. For
+library quantification for sequencer clustering, determine the concentration based on
 insert size derived from the Bioanalyzer/TapeStation trace.
- Post Library Construction 
-Quantification
-Appendix
-
-
---- Page 53 ---
-Chromium Single Cell 3ʹ Reagent Kits v3 User Guide | Rev A
-53
 Click to TOC
-Agilent TapeStation Traces 
-Agilent TapeStation High Sensitivity D5000 ScreenTape  was used.
-Protocol steps correspond to the Chromium Single Cell 3ʹ Reagent Kits v3 User Guide (CG000183).
-Protocol Step 2.4 – cDNA QC & Quantification
-Alternate QC Method:
-Qubit Fluorometer and Qubit dsDNA HS Assay Kit
-Multiply the cDNA concentration reported via the Qubit Fluorometer by the elution volume (40 µl) to obtain the total cDNA 
-yield in ng. To determine the equivalent range using the Agilent 2100 Expert Software, select the region encompassing 
-35-10,000 bp.
+Chromium Single Cell 3' Reagent Kits v3 User Guide Rev A
+52
+
+
+
 Appendix
-Agilent TapeStation Traces 
+Agilent TapeStation Traces
+Agilent TapeStation Traces
+Agilent TapeStation High: Sensitivity D5000: ScreenTape was used.
+Protocol: steps correspond to the Chromium: Single Cell: 3' Reagent Kits v3 User Guide (CG000183).
+Protocol Step 2.4 - CDNA QC & Quantification
+Representative Traces
 Cell line
-PBMCs
-       Representative Traces 
-       
-       
-
-
---- Page 54 ---
-Chromium Single Cell 3ʹ Reagent Kits v3 User Guide | Rev A
-54
+PBMCS
+a e
+à a a a I
+ihpt
+Alternate QCI Method:
+Qubit Fluorometer and Qubit dsDNA HS Assay Kit
+Multiply the CDNA concentration reported via the Qubit Fluorometer by the elution volume (40 pl) to obtain the total CDNA
+yield in ng. To determine the equivalent range using the Agilent 2100 Expert Software, select the region encompassing
+35-10,000 bp.
 Click to TOC
-  Protocol steps correspond to the Chromium Single Cell 3ʹ Reagent Kits v3 User Guide (CG000183)
-Protocol Step 1.5  – GEM-RT Incubation
-Gel Bead 
+Chromium Single Cell 3' Reagent Kits v3 User Guide Rev A
+53
+
+
+
+Appendix
+Oligonucleotide Sequences
+Protocol steps correspond to the Chromium: Single Cell: 3' Reagent Kits v3 User Guide (CG000183)
+Protocol Step 1.5 GEM-RT Incubation
+Gel Bead
+5-CTACACGACGCTCTTCCGATCT-NNNNNNNNNNNNNNNNN-NNNNNNNNNNNN-TTTTTTTTTTTTTTTTTTTTTTTTTTTT-3
 Primers
-5’-CTACACGACGCTCTTCCGATCT-NNNNNNNNNNNNNNNN-NNNNNNNNNNNN-TTTTTTTTTTTTTTTTTTTTTTTTTTTTTT-3’
-5’-GTCAGATGTGTATAAGAGACAG-NNNNNNNNNNNNNNNN-NNNNNNNNNNNN-TTGCTAGGACCGGCCTTAAAGC-3’
-Template Switch 
-Oligonucleotide
-PN-3000228
-5’-AAGCAGTGGTATCAACGCAGAGTACATrGrGrG-3’
-PCR Product
-                                       5’-CTACACGACGCTCTTCCGATCT-NNNNNNNNNNNNNNNN-NNNNNNNNNNNN-TTTTTTTTTTTTTTTTTTTTTTTTTTTTTT-cDNA_Insert-CCCATGTACTCTGCGTTGATACCACTGCTT-3’
-Protocol Step 2.2 – cDNA Amplification
-cDNA Primers 
-PN-2000089
-Forward Primer:
-                           
- 5’-CTACACGACGCTCTTCCGATCT-3’ 
-Reverse Primer:
-5’-AAGCAGTGGTATCAACGCAGAG-3’
-Amplification 
-Products
-5’-CTACACGACGCTCTTCCGATCT-NNNNNNNNNNNNNNNN-NNNNNNNNNNNN-TTTTTTTTTTTTTTTTTTTTTTTTTTTTTT-cDNA_Insert-CCCATGTACTCTGCGTTGATACCACTGCTT-3’
-3’-GATGTGCTGCGAGAAGGCTAGA-NNNNNNNNNNNNNNNN-NNNNNNNNNNNN-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA-cDNA_Insert-GGGTACATGAGACGCAACTATGGTGACGAA-5’
-Protocol Step 3.3  – Adaptor Ligation
-Adaptor Oligos
-PN -2000094
- 
-5’- GATCGGAAGAGCACACGTCTGAACTCCAGTCA-3’  
-3’-TCTAGCCTTCTCG-5’
-Ligation 
-Product
-5’-CTACACGACGCTCTTCCGATCT-NNNNNNNNNNNNNNNN-NNNNNNNNNNNN-TTTTTTTTTTTTTTTTTTTTTTTTTTTTTT-cDNA_Insert-AGATCGGAAGAGC ACACGTCTGAACTCCAGTCAC-3’  
-3’-GATGTGCTGCGAGAAGGCTAGA-NNNNNNNNNNNNNNNN-NNNNNNNNNNNN-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA-cDNA_Insert-TCTAGCCTTCTCG-5’
+10x
+TruSeq Read 1 Barcode UMI
+Poly(dT)
 Gel
 Bead
-10x
-Barcode
-TruSeq Read 1
- Poly(dT)
-UMI
-Nextera Read 1 
-(Read 1N)
-10x
-Barcode
-UMI
-Capture Seq 1
+Nexteral Read: 1 10x UMI Capture: Seq1 Primer not used for 3' Gene Expression
+(Read 1N) Barcode
+5-GTCAGATGTGTATAAGAGACAG- NNN
+NNN INNNNNNN-TT TGC AGGACCGGCCTTAAAGC-3
+Template Switch
+Oligonucleotide
 TSO
+PN-3000228
+5-AAGCAGTGGTATCAACGCAGAGTACATrGrGrG-3
+PCRI Product
+Read1 10x Barcode UMI
+Poly(dT)
 TSO
-Read 1
-10x Barcode UMI
- Poly(dT)
-Partial Read 1
+5-CTACACGACGCTCTTCCGATCT-NI
+NNNNNI
+STACTCTGCGTTGATACCACTGCTT-3
+Protocol Step 2.2 CDNA Amplification
+CDNA Primers Forward Primer:
+Reverse Primer:
+PN-2000089
+Partial Read1 1
 Partial TSO
-Read 2
-Read 1
-10x Barcode UMI
- Poly(dT)
+5-CTACACGACGCTCTTCCGATCT-3
+5-AAGCAGTGGTATCAACGCAGAG-3
+Amplification
+Products
+Read1 10x Barcode UMI
+Poly(dT)
+TSO
+5-CTACACGACGCTCTTCCGATCT-NNNNNNI IN NN
+TTT
+T T T IT T
+CATGT STACTCTGCGTTGATACCACTGCTT-3
+3-GATGTGCTGCGAGAAGGCTAGA-NNNNNNNNNNNNNNNNN-NNNNNNNNNNNN-AAAAAAAAAAAAAAAAAAAA A A AAAAAAA A A AA NA Insert I-GGGTACATGAGACGCAACTATGGTGACGAA-5
+Protocol Step 3.3 Adaptor Ligation
+Adaptor Oligos
+PN -2000094
+Partial Read: 2
+5'- GATCGGAAGAGCACACGTCTGAACTCCAGTCA-3
+3-TCTAGCCTTCTCG-5
+Ligation
+Product
+Read 1 10x Barcode UMI
+Poly(dT)
+Read2
+5-CTACACGACGCTCTTCCGATCT-NNNNNNNNNNNNNNNNN-NNNNNNNNNNNNN-TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT-cCDNA Insert-AGATCGGAAGAGC. ACACGTCTGAACTCCAGTCAC-3
+3-GATGTGCTGCGAGAAGGCTAGA-NNNNNNNNNNNNNNNNN-NNNNNNNNNNNNN-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA-CDNA Insert-TCTAGCCTTCTCG-5
+Click to TOC
+Chromium Single Cell 3' Reagent Kits v3 User Guide Rev A
+54
+
+
+
 Appendix
 Oligonucleotide Sequences
-TSO
-Read 1
-10x Barcode UMI
- Poly(dT)
-Primer not used for 3’ Gene Expression 
-Partial Read 2
-
-
---- Page 55 ---
-Chromium Single Cell 3ʹ Reagent Kits v3 User Guide | Rev A
-55
-Click to TOC
-55
-Click to TOC
-Protocol Step 3.5  – Sample Index PCR
-Sample Index 
+Protocol Step 3.5 Sample Index PCR
+Sample Index
 PCR Primer
-PN-2000095
-Chromium 
-i7Sample Index
-PN-220103 
-
- 5’-AATGATACGGCGACCACCGAGATCT-ACACTCTTTCCCTACACGACGCTC-3’
-5’-CAAGCAGAAGACGGCATACGAGAT-NNNNNNNN GTGACTGGAGTTCAGACGTGT-3’
-Sample Index 
-PCR Product 
-5’-AATGATACGGCGACCACCGAGATCT-ACACTCTTTCCCTACACGACGCTCTTCCGATCT-NNNNNNNNNNNNNNNN-NNNNNNNNNNNN -TTTTTTTTTTTTTTTTTTTTTTTTTTTTTT- cDNA_Insert-AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC-NNNNNNNN-ATCTCGTATGCCGTCTTCTGCTTG-3’
-3’-TTACTATGCCGCTGGTGGCTCTAGA-TGTGAGAAAGGGATGTGCTGCGAGAAGGCTAGA-NNNNNNNNNNNNNNNN-NNNNNNNNNNNN-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA- cDNA_Insert-TCTAGCCTTCTCGTGTGCAGACTTGAGGTCAGTG-NNNNNNNN-TAGAGCATACGGCAGAAGACGAAC-5’
-Sample
-Index
-P7
-Partial Read 2
 P5
 Partial Read 1
-P5
-Read 2
-Read 1
-10x Barcode UMI
- Poly(dT)
-Sample
-Index
 P7
-Appendix
- 
-Oligonucleotide Sequences
+Sample Partial Read: 2
+PN-2000095
+Index
+Chromium
+5-AATGATACGGCGACCACCGAGATCT-ACACTCTTTCCCTACACGACGCTC-3
+5-C CA AA
+INNN GTGACTGG GAGTTCAGACGTO GT-3'
+i7Sample Index
+PN-220103
+Sample Index
+PCR Product
+P5
+Read 1 10x Barcode UMI Poly(dT)
+Read2 2 Sample P7
+Index
+5-AATGATACGGCGACCACCGAGATCT-ACACTCTTTCCCTACACGACGCTCTTCCGATCT-NNNNNNNNNNNNNNNN-NNNNNNNNNNNN-TTTTTTTITTTTTTTTTITTTTTTTTITTTTTTTTT-CONA Insert AGATOGGAAGAGCACACGTCTGAACTOCAGTCAC-NNNWWW-ATCTOGTATGCOGTCTICTGCTTC-3
+TTA ACTA SC CTGGTGGCTCTAGA
+AGGGA AT IGIGCTGOGA AGGCTAGA-NNNNNNNNNNNNNNN-NNNNNNNNNNNN- A AAAAAAAAAAAAAAAAAAAAAAAAAAA-C CONAJ Insert -TCTAGCCTTCTO IC IGTGC AGACTTGA AGGTCA GIG NWN-TAGAGCATACGECAGAAGACGAACS
+Click to TOC
+Chromium Single Cell 3' Reagent Kits v3 User Guide Rev A
+55

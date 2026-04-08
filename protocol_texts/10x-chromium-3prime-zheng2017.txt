@@ -1,0 +1,1294 @@
+X
+nature
+COMMUNICATIONS
+ARTICLE
+Received 20 Sep 2016 Accepted 23 Nov 2016 Published 16 Jan 2017
+DOI: 10.1038/ncomms14049 OPEN
+Massively parallel digital transcriptional
+profiling of single cells
+Grace X.Y. Zheng', Jessica M. Terry', Phillip Belgrader', Paul Ryvkin', Zachary W. Bent', Ryan Wilson',
+Solongo B. Ziraldo', Tobias D. Wheeler', Geoff P. McDermott', Junjie Zhu', Mark T. Gregory?, Joe Shuga',
+Luz Montesclaros', Jason G. Underwood13, Donald A. Masquelier', Stefanie Y. Nishimura',
+Michael Schnall-Levin', Paul W. Wyatt', Christopher M. Hindson', Rajiv Bharadwaj', Alexander Wong',
+Kevin D. Ness', Lan W. Beppu4, H. Joachim Deeg4, Christopher McFarland5, Keith R. Loeb4,6,
+William J. Valente2.7,8, Nolan G. Ericson?, Emily A. Stevens4, Jerald P. Radich4, Tarjei S. Mikkelsen',
+Benjamin J. Hindson' & Jason H. Bielas2,6,8,9
+Characterizing the transcriptome of individual cells is fundamental to understanding complex
+biological systems. We describe a droplet-based system that enables 3' mRNA counting of
+tens of thousands of single cells per: sample. Cell encapsulation, of up to 8 samples at a time,
+takes place in ~6n min, with A 50% cell capture efficiency. To demonstrate the system's
+technical performance, we collected transcriptome data from - 250k single cells across
+29 samples. We validated the sensitivity of the system and its ability to detect rare popu-
+lations using cell lines and synthetic RNAS. We profiled 68k peripheral blood mononuclear
+cells to demonstrate the system's ability to characterize large immune populations. Finally,
+we used sequence variation in the transcriptome data to determine host and donor chimerism
+at single-cell resolution from bone marrow mononuclear cells isolated from transplant
+patients.
+110x Genomics Inc., Pleasanton, California, 94566, USA. - Translational Research Program, Public Health Sciences Division, Fred Hutchinson Cancer Research
+Center, Seattle, Washington 98109, USA. Department of Genome Sciences, University of Washington, Seattle, Washington 98195, USA. 4, Clinical Research
+Division, Fred Hutchinson Cancer Research Center, Seattle, Washington 98109, USA. 5Seattle Cancer Care Alliance Clinical Immunogenetics Laboratory,
+Seattle, Washington 98109, USA. 6 Department of Pathology, University of Washington, Seattle, Washington 98195, USA. Medical Scientist Training
+Program, University of Washington School of Medicine, Seattle, Washington 98195, USA. 8Molecular and Cellular Biology Graduate Program, University of
+Washington, Seattle, Washington 98195, USA. Human Biology Division, Fred Hutchinson Cancer Research Center, Seattle, Washington 98109, USA.
+Correspondence and requests for materials should be addressed to BJ.H. (email: ben@1oxgenomics.com) or to. J.H.B. (email: jbielas@fredhutch.org).
+NATURE COMMUNICATIONS18:140491DOI 10.1038/ncomms14049Jwww.nature.com/naturecommunications
+1
+
+
+
+ARTICLE
+NATURE COMMUNICATIONS DOI: 10. 1038/ncomms514049
+nderstanding ofl biological systems requires the knowledge switch oligos and sequencing adapters. Finally, amplified
+of their individual components. Single-cell RNA-sequen- CDNAS are sheared, and adapter and sample indices are
+cing (ScRNA-seq) can be used to dissect transcriptomic incorporated into finished libraries, which are compatible with
+heterogeneity that is masked in population-averaged measure- next-generation short-read sequencing. Read1 contains the CDNA
+ments' 12. ScRNA-seq studies have led to the discovery of insert while Read2 captures the UMI. Index reads, I5 and 17,
+novel cell types and provided insights into regulatory contain the sample indices and cell barcodes, respectively.
+networks during development?. However, previously described This streamlined approach enables parallel capture of thousands
+scRNA-seq methods face practical challenges when scaling to of cells in each of the 8 channels for SCRNA-seq analysis.
+tens of thousands of cells or when it is necessary to
+capture as many cells as possible from a limited sample4-9.
+Commercially available, microfluidic-based approaches have Technical demonstration with cell lines and synthetic RNAS.
+limited throughput56 Plate-based methods often require time- To assess the technical performance of our system, we loaded a
+consuming fluorescence-activated cell sorting (FACS) into many mixture of ~1,200 human (293T) and A 1,200 mouse (3T3)
+plates that must be processed separatelyd9. Droplet-based cells and sequenced the library on the Illumina NextSeq 500 to
+techniques have enabled processing of tens of thousands of yield ~100k reads per cell. Sequencing data were processed
+cells in a single experiment?.8, but current approaches require by CellRanger (Supplementary Methods and Fig. 1f). Briefly,
+generation of custom microfluidic devices and reagents.
+98 nucleotides (nt) of Readls were aligned against the union of
+To overcome these challenges, we developed a droplet- human (hg19) and mouse (mm10) genomes with STAR. Barcodes
+based system that enables 3' messenger RNA (mRNA) digital and UMIs were filtered and corrected (Supplementary Methods).
+counting of thousands of single cells. Approximately 50% of cells PCR duplicates were marked using the barcode, UMI and gene
+loaded into the system can be captured, and up to eight samples ID. Only confidently mapped, non-PCR duplicates with valid
+can be processed in parallel per run. Reverse transcription takes barcodes and UMIS were used to generate a gene-barcode matrix
+place inside each droplet, and barcoded complementary DNAS for further analysis. Thirty-eight per cent and 33% of reads
+(CDNAS) are amplified in bulk. The resulting libraries then mapped to human and mouse exonic regions, respectively,
+undergo Illumina short-read sequencing. An analysis pipeline, and <6% of reads mapped to intronic regions (Supplementary
+Cell Ranger, processes the sequencing data and enables Table 1). The high mapping rate is comparable to previously
+automated cell clustering. Here we first demonstrated comparable reported SCRNA-seq systemst-s.
+sensitivity of the system to existing droplet-based methods by Based on the distribution of total UMI counts for each barcode
+performing SCRNA-seq on cell lines and synthetic RNAS. Next, (Supplementary Methods), we estimated that 1,012 GEMS
+we profiled 68k fresh peripheral blood mononuclear cells contained cells, of which 482 and 538 contained reads
+(PBMCS) and demonstrated the ScRNA-seq platform's ability to that mapped primarily to the human and mouse transcriptome,
+dissect large immune populations. Last, we developed a respectively (and will be referred to as human and mouse GEMS)
+computational method to distinguish donor from host cells in (Fig. 2a). Greater than eighty-three per cent of UMI counts
+bone marrow transplant samples by genotype. We combined this were associated with cell barcodes, indicating low background of
+method with clustering analysis to compare subpopulation cell-free RNA. Eight cell-containing GEMS had a substantial
+changes in acute myeloid leukemia (AML) patients. This analysis fraction of human and mouse UMI counts (the UMI count
+enables transplant monitoring of the complex interplay between is >1% of each species' UMI count distribution), yielding
+donor and host cells.
+an inferred multiplet rate (rate of GEMS containing >1 cell) of
+1.6% (Supplementary Methods and Fig. 2a). A cell titration
+experiment across six different cell loads showed a linear relation-
+Results
+ship between the multiplet rate and the number of recovered
+Droplet-based platform enables barcoding of cells. The scRNA- cells ranging from 1,200 to 9,500 (Supplementary Fig. la).
+seq microfluidics platform builds on the GemCode technology, The multiplet rate and trend are consistent with Poisson loading
+which has been used for genome haplotyping, structural variant of cells, and have been validated by independent imaging
+analysis and de novo assembly of a human genomel0-12 The experiments (Supplementary Methods and Supplementary
+core of the technology is a Gel bead in EMulsion (GEM). Fig. lb). In addition, we observed - 50% cell capture rate,
+GEM generation takes place in an 8-channel microfluidic which is the ratio of the number of cells detected by sequencing
+chip that encapsulates single gel beads at A 80% fill rate and the number of cells loaded. The capture rate is consistent
+(Fig. la-c). Each gel bead is functionalized with barcoded across four types of cells with cell loads ranging from A 1,000 to
+oligonucleotides that consists of: (i) sequencing adapters and - 23,000 (Supplementary Table: 2), a keyi improvement over some
+primers, (ii) a 14bp barcode drawn from ~750,000 designed existing SCRNA-seq methods-7. Last, the mean fraction of
+sequences to index GEMS, (iii) a 10bp randomer to index UMI counts from the other species was 0.9% in both human
+molecules (unique molecular identifier, UMI) and (iv) an and mouse GEMS, indicating a low level of cross-talk between
+anchored 30bp oligo-dT to prime polyadenylated RNA cell barcodes (Online Supplementary Methods). This, coupled
+transcripts (Fig. 1d). Within each microfluidic channel, with the low multiplet rate and high cell capture rate, is
+A 100,000 GEMS are formed per 6-min run, encapsulating particularly important when processing samples that are in
+thousands of cells in GEMS. Cells are loaded at a limiting extreme limited supply.
+dilution to minimize co-occurrence of multiple cells in the same The sensitivity of SCRNA-seq methods is critical to many
+GEM.
+applications. At 100k reads per cell, we detected a median
+Cell lysis begins immediately after encapsulation. Gel beads of ~4,500 genes and 27,000 transcripts (UMI counts) in
+dissolve and release their oligonucleotides for reverse transcrip- each human and mouse cell (Fig. 2b,c). UMI counts showed a
+tion of polyadenylated RNAS. Each resulting CDNA molecule standard deviation of - 43% of the mean (coefficient of variation
+contains a UMI and shared barcode per GEM, and ends with (CV)) in human cells, and A 33% of the mean in mouse cells,
+a template switching oligo at the 3' end (Fig. le). Next, where the trend is consistent in four independent human and
+the emulsion is broken and barcoded CDNA is pooled for mouse mixture experiments (Supplementary Fig. lc,d). Genes of
+PCR amplification, using primers complementary to the different guanine-cytosine (GC) composition and length show
+2
+NATURE COMMUNICATIONS18:140491DOH 10.1038/ncomms14049Jwww.nature.com/naturecommunications
+
+
+
+NATURE COMMUNICATIONS I DOI: 10.1038/ncomms14049
+ARTICLE
+a
+Eight-channel microfluidics chip
+Barcoded
+CDNA
+Oil
+00000000
+x8
+Cells + reagents
+OO o'o'o OO O
+Break Amplify Construct
+Beads
+OO ojolo OOO
+RT
+Emulsion CDNA Library Sequence
+00000000
+GEM outlet
+b
+- - - I 1
+Extract cell-barcode, UMI, RNA read
+0O0
+
+Oo
+8
+Correct cell- barcode sequences 11 Hamming distance
+Collect
+Align reads using STAR
+Barcoded primer
+Cells Oil
+Single-cell
+gel beads
+reagents
+GEMS
+Tagi reads with gene, transcript hits Uniquely mapped
+C
+d
+reads only
+90
+80
+10x
+CDNA
+Barcodes UMI (T3OVN -
+70
+P7 R2
+- / 7
+Correct UMI sequences
+1 Hamming distance
+60
+poly(A) RNA
+50
+@
+of 40
+e
+Count UMIs by (cell, gene)
+% 30
+P7 R2
+R1 P5
+20
+10
+Select cell-associated barcodes
+0
+L
+10x UMI (T30VN
+CDNA
+Sample
+N=0 N=1 N>1
+Barcodes
+Insert
+Index
+No. of gel beads per GEM
+Gene-barcode matrix
+Figure 1  GemCode single-cell technology enables 3' profiling of RNAS from thousands of single cells simultaneously. (a) SCRNA-seq workflow on
+GemCode technology platform. Cells were combined with reagents in one channel of a microfluidic chip, and gel beads from another channel to form
+GEMS. RT takes place inside each GEM, after which CDNAS are pooled for amplification and library construction in bulk. (b) Gel beads loaded with primers
+and barcoded oligonucleotides are first mixed with cells and reagents, and subsequently mixed with oil-surfactant solution at a microfluidic junction.
+Single-cell GEMS are collected in the GEM outlet. (c) Percentage of GEMS containing 0 gel bead (N= 0), 18 gel bead (N= 1) and >1 gel bead (N>1). Data
+include five independent runs from multiple chip and gel bead lots over > 70k GEMS for each run, n = 5, mean: t s.e.m. (d) Gel beads contain barcoded
+oligonucleotides consisting of Illumina adapters, 10x barcodes, UMIs and oligo dTs, which prime RT of polyadenylated RNAS. (e) Finished library molecules
+consist of Illumina adapters and sample indices, allowing pooling and sequencing of multiple libraries on a next-generation short read sequencer.
+(f) CellRanger pipeline workflow. Gene-barcode matrix (highlighted in green) is an output of the pipeline.
+similar UMI count distributions, suggesting low transcript variations include variation in droplet size, variation in
+bias (Supplementary Fig. le-h).
+concentration of reverse transcription reagents in the droplets,
+We also directly measured CDNA conversion rate by variation in the concentration of sample in the droplets
+loading External RNA Controls Consortium (ERCC) synthetic and variation in RT and/or PCR efficiency of the distinct gel
+RNAS into GEMS in place of cells. We found that mean bead barcode sequences. The squared CV (CV2) is - 7% among
+UMI counts from sequencing was highly correlated (r= 0.96) all the ERCC experiments. In comparison, CV2 in samples of
+with molecule counts calculated from the loading concentration mouse and human cells is  11-19% (Supplementary Fig. 1d),
+of ERCC (Fig. 2d and Supplementary Fig. 2a). Furthermore, suggesting that technical variance accounts for - 50% of total
+we inferred 6.7-8.1% efficiency from both ERCC RNA Spike-in variance, consistent with the observations from Klein et al8
+Mixl and Mix2 in a 1:50 dilution (Supplementary Fig. 2b),
+with minimal evidence of GC bias, and limited bias for transcripts
+longer than 5001 nt (Supplementary Fig. 2c,d). Additionally, we Detection of individual populations in mixed samples. We
+estimated the conversion rate of cell transcripts in Jurkat cells by tested the ability of the system to accurately detect heterogeneous
+droplet digital PCR (ddPCR)13. The amount of CDNA of eight populations by mixing two cell lines, 293T and Jurkat cells,
+genes obtained from single cells after reverse transcription in at different ratios (Supplementary Table 1). We performed
+GEMS was compared with the expected RNA inferred from bulk principal component analysis (PCA) on UMI counts from
+profiling. The conversion rates among eight genes were between all detected genes after pooling all the samples (Suppleme-
+2.5 and 25.5%, which is consistent with the ERCC data ntary Fig. 3a). In the sample where an equal number of 293T
+(Supplementary Methods and Supplementary Fig. 2e).
+and Jurkat cells was mixed, PC 1 separated cells into two clusters
+The ERCC experiments also allowed us to estimate the of equal size (Fig. 2e, Supplementary Fig. 4a and Supplementary
+relative proportion of biological and technical variation. Since Data 1). Based on the expression of cell type-specific markers,
+ERCCS are in solution, they do not introduce biological variation we infer that one cluster corresponds to Jurkat cells
+related to differences in cell size, RNA content or transcriptional (preferentially expressing CD3D), and the other corresponds to
+activity. Thus, technical variation is the only source of variation. 293T cells (preferentially expressing XIST, as 293T is a female
+When the ERCCS are dilute (UMI counts are small), sampling cell line, and) Jurkat is a male cell line) (Fig. 2e and Supplementary
+noise dominates; when the UMI counts increase, technical Fig. 4b). Points located between the two clusters are likely mul-
+variations become dominant14 (Supplementary Fig. 2f). These tiplets, as they expressed both CD3D and XIST (Fig. 2e and
+NATURE COMMUNICATIONS18:140491DOI 10.1038/ncomms14049Jwww.nature.com/naturecommunications
+3
+
+
+
+ARTICLE
+NATURE COMMUNICATIONS DOI: 10. 1038/ncomms14049
+a
+Mouse-only
+b
+d
+Human:mouse
+€ Mouse (3T3)
+Y Mouse (3T3)
+3
+Y 60 Human-only
+Human (293T)
+Human (293T)
+8 4
+r=-0.96
+1,012 cells recovered
+20
+40
+Multiplet rate=1.6% 8
+3
+20
+2
+10
+a 6
+@ N 0 a
+0
+I 1
+0 20 40 60 80
+0 25 50 75 100
+25 50 75 100
+0 1 2 3 4
+Human UMI counts (k)
+Raw reads per cell (k)
+Raw reads per cell (k)
+ERCC molecules per GEM (log10)
+e
+293T-only
+Jurkat-only
+f
+293T-only
+Jurkat-only
+150 -
+150
+293T-only
+293T.Jurkat
+100 Jurkat-only
+100
+50
+50
+3
+@
+U
+s:
+0
+293T.Jurkat (50:50)
+293T.Jurkat (1:99)
+0
+U 50 100 150 0 50 100 150
+1
+150 293T.Jurkat (50:50) 150 - 293T.Jurkat (1:99)
+CD3D I
+100
+3,396 cells recovered 100 et
+Multiplet rate=3.1 1%
+:
+:
+50
+50
+prs
+0
+*
+Principal component 1
+0 50 100 150 0 50 100 150
+Jurkat SNV counts
+Jurkat SNV counts
+Figure 21 Demonstration of technical performance of GemCode single-cell technology with cell lines and ERCC. (a) Scatter plot of human and mouse
+UMI counts detected in a mixture of 293T and 3T3 cells. Cell barcodes containing primarily mouse reads are colored in cyan and termed Mouse only; cell
+barcodes with primarily human reads are coloredi in red and termed 'Human only'; and cell barcodes with significant mouse and human reads are coloured
+in grey and termed Human:Mouse. AI multiplet rate of1.6% was inferred. Median number of genes (b) and UMI counts (c) detected per cell in a mixture of
+293T (red) and 3T3 (cyan) cells at different raw reads per cell. Data from three independent experiments were included, mean: t s.e.m. (d) Mean observed
+UMI counts for each ERCC molecule is compared with expected number of ERCC molecules per GEM. A straight line was fitted to summarize the
+relationship. (e) Principal component analysis was performed on normalized SCRNA-seq data of Jurkat and 293T cells mixed at four different ratios
+(100%. 293T, 100%. Jurkat, 50:50 293T.Jurkat and1 1:99 293Tand Jurkat). PC1 and PC3 are plotted, and each cell is colored by the normalized expression of
+CD3D. (f) SNV analysis was performed, and 293T- and Jurkat-enriched SNVS were plotted for each sample. A 3.1% multiplet rate was inferred from the
+50:50 293T: Jurkat sample.
+Supplementary Fig. 4b). In contrast, PC1 did not separate cells We then scored cells in the mixed samples based on
+into two clusters in the 293T- and the Jurkat-only samples the number of 293T or Jurkat-enriched SNVS (Supple-
+(Fig. 2e). Furthermore, in the sample with 1% 293T and mentary Methods). In the 1:1 mixed sample, 45% 293T cells
+99% Jurkat cells, the number of cells in each of the two clusters primarily (96%) harbored 293T-enriched SNVS, whereas
+was observed at the expected ratio (Fig. 2e, Supplementary Fig. 4a 50% Jurkat cells primarily (94%) harbored Jurkat-enriched
+and Supplementary Fig. 4b). A similar trend was observed for SNVS (Fig. 2f and Supplementary Data 2). Jurkat and 293T
+12 independent samples where 293T and Jurkat cells were mixed cells inferred from marker-based analysis are 99% consistent
+at five different proportions, demonstrating the system's ability with SNV-based assignment. We observed a multiplet rate
+to perform unbiased detection of rare single cells (Supplementary of ~3%, accounting for multiplets trom Jurkats:293Ts as well
+Fig. 4a).
+as Jurkats:Jurkats and 293Ts:293Ts. The multiplet rate is
+Our SCRNA-seq data not only provides a digital transcript consistent with that predicted from the human and mouse
+count but it also provides A 2501 nt sequence for each CDNA mixing experiment, when A 3,000 cells were recovered (Supple-
+that could be used for single nucleotide variant (SNV) detection. mentary Fig. la). Our result demonstrates that SNVS
+On average, there are 350 SNVS detected in each 293T or detected from SCRNA-seq data can be used to classify indi-
+Jurkat cell (Supplementary Fig. 4c and Supplementary Table 3), vidual cells.
+and we investigated whether the SNVS could be used indepen-
+dently to distinguish cells in the mixture. We selected a set of
+high-quality SNVS that were only observed in 293T Subpopulation discovery from a large immune population. The
+or Jurkat cells, but not both (Supplementary Methods). GemCode single-cell technology can also be used for ScRNA-seq
+4
+NATURE COMMUNICATIONS18:140491DOH 10.1038/ncomms14049Jwww.nature.com/naturecommunications
+
+
+
+NATURE COMMUNICATIONS I DOI: 10.1038/ncomms14049
+ARTICLE
+b
+a
+10,000
+10
+7%)
+CD19+ Bcells
+(0.5%)
+CD4+/CD25+ CD4+/CD45RO+ Reg memory T
+d CD8+
+cytotoxic T
+3
+(9.3%) 9
+(17.0%)
+(6.6%)
+Dendritic
+I
+1,000
+2%)
+(5.7%)
+CD4+/CD25+ RegT
+CD56+ NK CD14+
+8
+CD4+/CD45 RAH
+Monocytes
+(11.2%) (0.3%)
+CD25- Naive T
+Megakaryocytes
+CD8+/CD45 RA+
+Naive cytotoxic CD84/CD45 RA+
+Naive cytotoxic
+Genes/Cell UMIs Counts/Cell
+tSNE1
+tSNE1
+d
+CD3D
+e
+CD8A
+f
+NKG7
+
+Clusters 581 109 746 2 3
+6
+6: CD8+!
+-GZMK
+1: Activated CD8+
+-CD8A i
+-TNFRSF18 0
+0
+5:NK
+-SIGLEC7
+L -GNLY
+9:Monocytes andl
+dendritic
+-LGALS3 g
+FCER1A
+h
+CD16
+-
+S100A8
+3:M Memory and Reg Ti
+-CCR10
+1 a
+10:E B, dendritic, T
+-CLEC4C -CD4
+(37%)
+(37%)
+(37%)
+3
+3
+3
+8:1 Megakaryocytes
+-PF4
+i (16%)
+(16%)
+(16%)
+2:N Naive CD8+
+PTCRA -CD8B D
+0
+4:Naive CD4+1
+-ID3
+0
+7:B
+-CD79A
+2
+2
+2
+(47%)
+(47%)
+(47%)
+Normalized expression 1
+ISNE1
+ISNE1
+ISNE1
+Figure 31 I Distinct populations can be detected in fresh 68k PBMCS. (a) Distribution of number of genes (left) and UMI counts (right) detected per
+68k PBMCS. (b) tSNE projection of 68k PBMCS, where each cell is grouped into one of the 10 clusters (distinguished by their colours). Cluster number is
+indicated, with the percentage of cells in each cluster noted within parentheses. (c) Normalized expression (centred) off the top variable genes (rows) from
+each of 10 clusters (columns) is shown in a heatmap. Numbers at the top indicate cluster number in (b), with connecting lines indicating the hierarchical
+relationship between clusters. Representative markers from each cluster are shown on the right, and an inferred cluster assignment is shown on the left.
+(d-i) tSNE projection of 68k PBMCS, with each cell coloured based on their normalized expression of CD3D, CD8A, NKG7, FCER1A, CD16 and S100A8. UMI
+normalization was performed by first dividing UMI counts by the total UMI counts in each cell, followed by multiplication with the median of the total UMI
+counts across cells. Then, we took the natural log of the UMI counts. Finally, each gene was normalized such that the mean signal for each gene is 0, and
+standard deviation is 1. () tSNE projection of 68k PBMCS, with each cell coloured based on their correlation-based assignment to a purified subpopulation
+of PBMCS. Subclusters within T cells are marked by dashed polygons. NK, natural killer cells; reg T, regulatory T cells.
+of primary cells. To study immune populations within PBMCS, To identify cluster-specific genes, we calculated the expression
+we obtained fresh PBMCS from a healthy donor (Donor A). difference of each gene between that cluster and average of
+8-9k cells were captured from each of 8 channels and pooled to the rest of clusters. Examination of the top cluster-specific
+obtain X 68k cells. Data from multiple sequencing runs genes revealed major subtypes of PBMCS at expected ratios17:
+were merged using the Cell Ranger pipeline. At ~20k reads > 80% T cells (enrichment of CD3D, part of the T-cell receptor
+per cell, the median number of genes and UMI counts detected complex, in clusters 1-3 and 6), A 6% NK cells (enrichment of
+per cell was ~525 and 1,300, respectively (Fig. 3a and NKG7 (ref. 18) in cluster 5), A 6% B cells (enrichment of CD79A
+Supplementary Fig. 5a). The UMI count is roughly 10% of (ref. 19) in cluster 7) and 2 7% myeloid cells (enrichment of
+that from 293T and 3T3 samples at A 20k reads per cell, likely S100A8 and S100A9 (ref. 20) in cluster 9 (Supplementary
+reflecting the differences in cells' RNA content (-lpg RNA Methods, Fig. 3b-f, Supplementary Fig. 5e and Supplementary
+per cell in PBMCS versus ~15pg RNA per cell in 293T and Data 3). Finer substructures were detected within the T-cell
+3T3 cells) (Supplementary Fig. 5a,b).
+cluster; clusters 1, 4 and 6 are CD8 + cytotoxic T cells, whereas
+We performed clustering analysis to examine cellular hetero- clusters 2 and 3 are CD4+ T cells (Fig. 3e and Supplementary
+geneity among PBMCS. We applied PCA on the top Fig. 5f). The enrichment of NKG7 on cluster 1 cells implies a
+1,000 variable genes ranked by their normalized dispersion, cluster of activated cytotoxic T cells21 (Fig. 3f). Cells in cluster 3
+following a similar approach to Macosko et al.? (Supplementary showed high expression of CCR10 and TNFRSF18, markers
+Figs 3b and 5c and Supplementary Methods). K-means's for memory T cells22 and regulatory T cells23 respectively, and
+clustering on the first 50 PCs identified 10 distinct cell clusters, likely consisted of a mixture of memory and regulatory T cells
+which were visualized in two-dimensional projection of (Fig. 3c and Supplementary Fig. 5g). The presence of ID3,
+t-distributed stochastic neighbour embedding (tSNE)16 which is important in maintaining a naive T-cell state24,
+(Supplementary Methods, Fig. 3b and Supplementary Fig. 5d). suggests that cluster 2 represents naive CD8 T cells, whereas
+NATURE COMMUNICATIONS18:140491DOI 10.1038/ncomms14049Jwww.nature.com/naturecommunications
+5
+
+
+
+ARTICLE
+NATURE COMMUNICATIONS DOI: 10. 1038/ncomms514049
+cluster 4 represents naive CD4 T cells (Fig. 3c). To identify gene expression (r=0 0.96; Supplementary Methods and
+subpopulations within the myeloid population, we further applied Supplementary Fig. 8a). Fifty-seven genes showed twofold upre-
+k-means clustering on the first 50 PCs of cluster 9 cells. At gulation in the frozen sample, with  50% being ribosomal
+least three populations were evident: dendritic cells protein genes, and the rest not enriched in any pathways
+(characterized by the presence of FCER1A25), CD16 + mono- (Supplementary Table 5). In addition, the number of genes and
+cytes and CD16 - /ow monocytes26 (Fig. 3g-i and Suppleme- UMI counts detected from fresh and frozen PBMCS was very
+ntary Data 3). Overall, these results demonstrate that our similar (P= 0.8 and 0.1, respectively), suggesting that the
+SCRNA-seq method can detect all major subpopulations conversion efficiency of the system is not compromised when
+expected to be present a PBMC sample.
+profiling frozen cells (Supplementary Fig. 8b). Furthermore,
+Our analysis also revealed some minor cell clusters, such subpopulations were detected from frozen PBMCS at a
+as cluster 8 (0.3%) and cluster 10 (0.5%) (Fig. 3b). Cluster 8 similar proportion to that of fresh PBMCS, demonstrating the
+showed preferential expression of megakaryocyte markers, applicability of our method on frozen samples (Supplementary
+such as PF4, suggesting that it represents a cluster of Methods and Supplementary Fig. 8c).
+megakaryocytes (Fig. 3b,c and Supplementary Fig. 5h). Cells in
+cluster 10 express markers off B, Tand dendritic cells, suggesting: a
+likely cluster of multiplets (Fig. 3b,c). The size of the cluster Genotype-based method to detect individual cell populations.
+suggests the multiplets comprises mostly B:dendritic and Next, we applied the GemCode technology to study host
+B:T:dendritic cells (Supplementary Methods). With A 9k cells and donor cell chimerism in an allogeneic hematopoietic
+recovered per channel, we expect a 9% multiplet rate and stem cell transplant (HSCT) setting. Following a stem cell
+that the majority of multiplets would only contain T cells. transplant, it is important to monitor the proportion of donor
+More sophisticated methods will be required to detect multiplets and host cells in major cell lineages to ensure complete engraft-
+from identical or highly similar cell types.
+ment and as a sensitive means of detecting impending relapse.
+To further characterize the heterogeneity among 68k PBMCS, Currently, the amount of host and donor chimerism is often
+we generated reference transcriptome profiles through SCRNA- measured from flow-sorted cell populations using PCR assays
+seq of 10 bead-enriched subpopulations of PBMCS from Donor A with a panel of SNV-specific primers. Current clinical chimerism
+(Supplementary Figs 6 and 7 and Supplementary Table 4). tests have a number of limitations28, namely (1) the flow-sorted
+Clustering analysis revealed a lack of substructure in most cell populations are limited by cell surface markers, (2) only
+samples, consistent with the samples being homogenous popula- populations with sufficient cell counts can be used for PCR assays
+tions, and in agreement with FACS analysis (Supplementary and (3) they are not intended for the detection of minimal
+Methods and Supplementary Figs 6 and 7). However, substruc- residual disease. Here we present a simple method that addresses
+tures were observed in CD34 + and CD14+ monocyte samples these limitations, resolves host and donor chimerism at
+(Supplementary Methods and Supplementary Fig. 7b.j). In single-cell resolution and enables extensive characterization
+the CD34+ sample, - 70% cell clusters show expression of of cell subtypes by integrating scRNA-seq with de novo
+CD34 (Supplementary Fig. 7j). In the CD14+ sample, the minor SNV calling.
+population showed marker expression for dendritic cells While previous studies have used existing SNVS trom
+(for example, CLEC9A), providing another reference transcrip- DNA sequencing or large-scale copy number changes in the
+tome to classify the 68k PBMCS (Supplementary Fig. 7b). This transcriptome data to distinguish cells by genotype23-32, these
+result also demonstrates the power of SCRNA-seq in selecting methods cannot be applied to transplant samples where donor
+appropriate cells for further analysis.
+and host genotype is not known a priori, and when donor
+We classified 68k PBMCS based on their best match to and host are closely matched in genotype. To address
+the average expression profile of 11 reference transcriptomes these limitations, we first developed a method to infer
+(Supplementary Methods and Fig. 3j). Cell classification the relative presence of host and donor genotypes in a mixed
+was largely consistent with previously described marker-based population based on SNVS directly predicted from
+classification, although the boundaries among some of the the transcriptome data. The method identifies SNVS and
+T-cell subpopulations were blurred. Namely, part of the inferred infers a genotype at each SNV. It then classifies cells based
+CD4 + naive T population was classified as CD8 + T cells. We on their genotypes across all SNVS (Supplementary Methods).
+have also tried to cluster the 68k PBMC data with Seurat27 To evaluate the technical performance of this method,
+(Supplementary Methods). While it was able to distinguish we generated SCRNA-seq libraries from PBMCS of two healthy
+inferred CD4+ naive from inferred CD8+ naive T cells, it Donors B and C, with - 8k cells captured for each
+was not able to cleanly separate out inferred activated cytotoxic sample (Supplementary Table 1). We first performed in silico
+T cells from inferred NK cells (Supplementary Fig. 5i). Such mixing of PBMCS B and C at 12 mixing ratios ranging from
+populations have overlapping functions, making separation at the 0 to 50%. Only confidently mapped reads from samples B
+transcriptome level particularly difficult and even unexpected. and C were used, and a total of 6,000 cells were selected
+However, the complementary results of Seurat's and our analysis (Supplementary Methods). There were ~15k reads per cell,
+suggest that more sophisticated clustering and classification with 50 filtered SNVS per cell (Supplementary Methods,
+methods can help address these problems.
+Supplementary Fig. 9a,b, and Supplementary Tables 1 and 3).
+We then classified the cells based on variants detected from
+the mixed transcriptome. Sensitivity and positive predictive
+Single-cell RNA profiling of cryopreserved PBMCS. To values (PPV) were calculated by comparing the predicted call of
+determine the effect that a freeze-thaw might have on gene each cell against its true labelling. Our method was able to
+expression and thus on the ability of our SCRNA-seq pipeline to identify minor genotypes as low as 3% at > 95% sensitivity
+classify cell type in frozen repository specimens, we froze the and PPV (Fig. 4a,b). A minor population could not be detected
+remaining fresh PBMCS from Donor A, and made a ScRNA-seq when the mixed ratio was below. 3% (Fig. 4c). The accuracy of this
+library from gently thawed cells 3 weeks later where ~3k cells method is affected by the number of observed SNVS per cell,
+were recovered (Supplementary Methods). The two data sets which is dependent on cell types, diversity between subjects and
+(fresh and frozen) showed a high similarity between their average variant calling sensitivity. Nevertheless, the base error rate and
+6
+NATURE COMMUNICATIONS18:140491DOH 10.1038/ncomms14049Jwww.nature.com/naturecommunications
+
+
+
+NATURE COMMUNICATIONS I DOI: 10.1038/ncomms14049
+ARTICLE
+a
+1.0.
+1.0.
+10
+9
+0.9
+I 0.9
+8
+8
+-
+7
+0.8
+S 0.8
+I 6
+5
+0.7
+0.7
+E 4
+I
+3
+0.6
+Major population
+0.6
+3
+Major population
+2.
+B
+B
+Not confident call
+I
+Confident call
+C
+C
+0.5
+0.5
+U
+0 1 2 3 4 5 6 7 8 9 1050
+0 2 3
+6 8 9 10 50
+0 2 3 4 5 6 7 8 9 10
+Minor population %
+Minor population %
+Actual mix fraction (%)
+Figure 4 I Genotype analysis of in silico and in vitro mixing of PBMCS. (a) Sensitivity versus percentage of minor population, where sensitivity is
+evaluated against the true labelling of in silico mixed PBMCS from Donors B and C. Red line indicates that the major population comes from Donor B
+PBMCS. Blue line indicates that the major population comes from Donor C PBMCS. (b) Positive predictive value (PPV) versus percentage of minor
+population, where PPV is evaluated against the true labelling of in silico mixed PBMCS from Donors B and C. Red line indicates that the major population
+comes from Donor B cells. Blue line indicates that the major population comes from Donor C cells. (c) Called mix fraction versus actual mix fraction in in
+silico mixing of PBMCS from Donors B and C. Fifty per cent actual mix fraction is correctly called, but omitted from the plot so that the rest of the ratios can
+be clearly displayed.
+Table 11 Genotype comparison of predicted genotype groups
+Table 2 Predicted genotype groups and their genotype
+to purified populations.
+overlap with pre-transplant samples.
+Sample Observed Expected Genotype %
+%
+Sample
+Genotype % of % of Genotype Likely
+% of % of group Genotype Genotype
+group Genotype overlap with identity
+minor minor
+overlap overlap
+population population
+with
+with
+group pre-transplant
+Donor B Donor C
+sample (host)
+PBMCS PBMCS AMLO27
+1
+13.8
+52
+Donor
+B only
+0
+0
+1
+100
+77
+post-transplant 2
+)
+86.2
+97
+Host
+C only
+U
+1
+77
+100
+B:C = 50:50 43
+50
+1
+63
+94
+AMLO35
+2
+96
+58
+1
+100
+78
+Donor
+B:C = 90:10 12
+10
+1
+47
+97
+post-transplant
+2
+82
+74
+B:C = 99:1
+Not
+1
+97
+77
+AML, acute myelod leukaemia.
+detected
+two patients before and after undergoing HSCT for
+AML (AMLO27 and AMLO35) (Supplementary Table 2).
+variant calling errors have a limited effect on the accuracy of the Since HSCT samples are fragile, cells were carefully washed in
+method, as the method uses all instead of a small subset of SNVS PBS with 20% fetal bovine serum (FBS) before loading them
+(Supplementary Fig. 9c).
+into chips. Relative to BMMCS from two healthy controls, we
+We further validated the performance of the method found the median number of UMI counts per cell to be 3-5 times
+in experiments where PBMCS from Donors B and C were mixed higher in AML samples at A 15k reads per cell, suggesting
+at three ratios, 50:50, 90:10 and 99:1, before SCRNA-seq. In their vastly abnormal transcriptional programs (Supplementary
+the 50:50 mixture sample, cells from Donors B and Cv were almost Fig. 10a). Approximately 35 and 60 SNVS per cell were detected
+indistinguishable by RNA expression (Supplementary Fig. 9d,e). from AMLO27 and AMLO35 pre-transplant samples, respectively
+However, they can be separated by their genotype at the (Supplementary Table 3 and Supplementary Fig. 10b,c). Our
+correct proportion (Table 1). In addition, the genotype overlap SNV analysis detected the presence of two genotypes in the
+between genotype group 1 and Donor C is 94%, whereas post-transplant sample of AMLO27: one at 13.8% and one at
+the overlap between genotype group 1 and Donor B is only 63%, 86.2% (Table 2). As expected, there was no evidence of multiple
+both within the range of positive and negative controls, genotype groups in the pre-transplant host sample. We compared
+suggesting that group 1 comes from Donor C (Supplementary the major and minor inferred genotypes present in the
+Methods and Table 1). Similarly, genotype group 2 was inferred post-transplant sample to the genotype found in the host cells.
+to be from Donor B (Supplementary Methods and Table 1). The major inferred genotype in the post-transplant sample
+The proportions of the minor genotype were accurately predicted was 97% similar to that inferred from the host sample, while
+at the 90:10 mixing ratio. Consistent with the in silico the minor inferred genotype was only 52% similar to that of
+mixing results, the minor population could not be detected when the host sample (Table 2). The observed range of genotype
+B and C were mixed at 99:1 ratio (Table 1).
+overlap between the same individuals is 2 98% (Supplementary
+Methods), indicating errors in the genotypes inferred from
+Single-cell analysis of transplant bone marrow samples. Single- individual SNVS. Ninty-seven per cent is within the observed
+cell RNA-seq libraries were generated from cryopreserved range, and this result suggests that the post-transplant sample
+bone marrow mononuclear cell (BMMC) samples obtained from consists mainly (86.2%) of host cells. This observation is
+NATURE COMMUNICATIONS18:140491DOI 10.1038/ncomms14049Jwww.nature.com/naturecommunications
+7
+
+
+
+ARTICLE
+NATURE COMMUNICATIONS DOI: 10.1 1038/ncomms14049
+a
+AMLO27 pre-transplant
+AMLO35 pre-transplant
+Healthy control 1
+(host)
+(host)
+Blasts and
+Immature Ery 1
+Immature Ery 2
+Immature Ery 3
+Mature Ery
+Immature
+AMLO27 post-transplant
+AMLO27 post-transplant
+AMLO35 post-transplant
+(donor)
+(host)
+(donor)
+Granulocytes
+.
+Monocytes
+B
+T
+-
+:
+a
+tSNE1
+tSNE1
+tSNE1
+Healthy control 1
+Healthy control 2
+AMLO27 pre-transplant (host)
+AMLO27 post-transplant (host)
+AMLO27 post-transplant (donor)
+AMLO35 pre-transplant (host)
+AMLO35 post-transplant (donor)
+25
+50
+75
+100
+Percent of cells
+Figure 5 Genotype and single-cell expression analysis of transplant BMMCS. (a) tSNE projection of SCRNA-seq data from a healthy control, AMLO27
+pre- and post-transplant samples (post-transplant sample is separated into host and donor) and AMLO35 pre- and post-transplant samples. tSNE
+projection was also performed on a second healthy control, but the plot is not included here as it is very similar to that of the first healthy control. Each cell
+is coloured by their classification, which is labelled next to the cell clusters. (b) Proportion of subpopulations in each: sample.
+consistent with the clinical chimerism assay, which demonstrated the erythroleukaemia diagnosis of AMLO27 (Fig. 5b). In contrast,
+only 12% donor in the post-transplant sample. In contrast, after transplant, AMLO27 showed the highest level of blast
+SNV analysis on the post-HSCT sample from AMLO35 did not cells and immature erythroids (CD34+, GATA1+), consistent
+detect the presence of two genotype groups. The sample only with the relapse diagnosis and return of the malignant host
+shared 78% similarity withAMLO35 host cells, suggesting that the AML (Fig. 5b). These observations would have been difficult to
+post-HSCT sample was all donor-derived (Table 2). This finding make with FACS analysis, with limited number of markers
+was validated by the independent clinical chimerism assay.
+for early erythroid lineages. Second, A 20% cells in the AMLO27
+SNV and SCRNA-seq analyses enable subpopulation compar- post-transplant sample show markers of immature granu-
+ison between individuals within and across multiple samples. locytes (AZU1, IL8; Fig. 5b and Supplementary Fig. 10d-f),
+We applied these analyses on BMMC SCRNA-seq data from which are absent in AMLO35 post-transplant sample, and
+healthy controls and AML patients (Supplementary Methods), generally low among AML patients31. These cells lack marker
+and observed subpopulation differences in AML patients after expression for mature cells, suggesting the presence of residual
+HSCT. First, while T cells dominate the healthy BMMCS precursor cells that may be part of the leukemic clone. Third,
+and donor cells of the AMLO27 post-transplant sample as monocytes are abundant in both AML patients before transplant
+expected, erythroids constitute the largest population among (10% and 25% in AMLO27 and AMLO35 respectively), but are not
+AML samples (Fig. 5a). Different sets of progenitor and detectable after transplant (Fig. 5b). Monocytes have been
+differentiation markers (for example, CD34, GATA1, CD71 and previously identified in post-transplant samples, and the
+HBA1) were detected among the erythroids, indicating popula- unexpected monocytopenia needs to be followed up with
+tions at various stages of erythroid development (Supplementary additional studies. Taken together, the analysis provided
+Methods and Supplementary Fig. 10d-f). AMLO27 showed insights into the cellular composition and possible presence
+the highest level of erythroid cells (> 80%, consist of mostly of residual disease in the bone marrows of HSCT recipients that
+mature erythroids) before transplant, consistent with was not available from routine clinical assays.
+8
+NATURE COMMUNICATIONS18:140491DOH 10.1038/ncomms14049Jwww.nature.com/naturecommunications
+
+
+
+NATURE COMMUNICATIONS I DOI: 10.1038/ncomms14049
+ARTICLE
+Discussion
+basic scientists, and ultimately lead to improved patient care
+Here we present a droplet-based scRNA-seq technology and survival.
+that enables encapsulation of tens of thousands of single cells
+within minutes. We demonstrated the scalability and robustness Methods
+of the system through transcriptome analysis of - 250k single High-speed imaging of gel beads and cells in GEMS. A microscope
+cells across 29 samples. SCRNA-seq of cell lines and synthetic (Nikon Ti-E, x 10 objective) and a high-speed video camera (Photron SA5,
+RNAS showed the system's comparable sensitivity to other frame rate: = 4,000s ) were used to image every GEM as they were generated
+in the microfluidic chip.. A custom analysis software was used to count the
+droplet-based methods28
+number of GEMS generated and the number of beads present in each GEM,
+The GemCode technology platform enables high-throughput based on edge detection and the contrast between bead edges and GEM edges
+ScRNA-seq with rapid cell encapsulation and a high cell and the adjacent liquid. The results of the analysis are summarized in Fig. 1c.
+capture rate that addresses the challenges associated with existing To estimate the distribution of cells in GEMS, manual counting was used for
+Table
+beads - 28k frames of one video on a subset of GEMS. The results indicate an
+ScRNA-seq platforms (Supplementary
+6). Single gel
+approximate adherence to a Poisson distribution. However, the percentage of
+are encapsulated into GEMS at A 80% fill rate. This fill rate multiple cell encapsulations was 16% higher than the expected value, possibly
+combined with Poisson loading of cells results in 2 50% cell due to subsampling error or to cell-cell interactions (some two-cell clumps
+capture rate, enabling the processing of samples with limited cell were observed during the manual count) (Supplementary Fig. 1b).
+input material. We demonstrate the ability to load from 1,000 to
+23,000 cells per well, from four different cell lines and two Cell lines and transplant patient samples. Jurkat (ATCC TIB-152), 293T
+primary cell types (PBMCS and BMMCS), illustrating the (ATCC CRL-11268) and 3T3 (ATCC CRL- -1658) cells were acquired from
+ATCCand cultured according to. ATCC guidelines. Fresh PBMCS, frozen PBMCS
+applicability of the GemCode platform to a wide variety of cell and BMMCS were purchased from ALLCELLS. Frozen PBMCS from Donor. A were
+types. The GEM-based encapsulation of single cells within the made from fresh PBMCS from Donor A by mixing le6 cells in freezing medium
+microfluidics platform reduces the need for expensive sorting (15% dimethylsulphoxide (DMSO) in Iscove's modified Dulbecco's media
+equipment and complicated workflows involving large numbers containing 20% FBS) gently, and chilled in CoolCell FTS30 (BioCision) in
+80°C for at least 4h before transferring to liquid nitrogen for
+of plates (Supplementary Table 6). The scalability and high- for 3 weeks.
+storage
+throughput nature of the GemCode platform is achieved in two The Institutional Review Board at the Fred Hutchinson Cancer Research
+ways: hundreds to thousands of cells can be encapsulated per Center approved the study on transplant samples. The procedures followed
+channel, and each chip has eight channels. Therefore, a large were in accordance with the Declaration of Helsinki of 1975 and the Common
+number
+Rule. Samples were obtained after patients had
+written informed
+can
+of cells be processed within a very short period of consent on molecular analyses. We identified patients provided with AML undergoing
+time, minimizing the perturbation of the cellular transcriptome. allogeneic hematopoietic stem cell transplant at the Fred Hutchinson Cancer
+In addition, multiple samples can be processed simultaneously, Research Center. The diagnosis of AML was established according to the
+a key advantage for experimental setups that involve a time revised criteria of the World Health Organization33.
+course or multiple treatments.
+Bone marrow aspirates were obtained for standard clinical testing
+20-30 days before transplant and serially post- -transplanted according to the
+The speed, reproducibility and high cell capture rate of treatment protocol. Bone marrow aspirate aliquots were processed within
+GemCode technology allowed us to profile the transcriptome of 2h of the draw. The BMMCS were isolated using centrifugation through a
+A 17,000 single BMMCS, which are notoriously fragile and Ficoll gradient (Histopaque-1077; Sigma Life Science, St Louis, MO, USA).
+difficult to work with, as these cells are isolated from patients that The BMMCS were collected from the serum-Ficoll interface with disposable
+Pasteur pipette and transferred to the 50ml conical tube with 2% patient serum
+have undergone multiple rounds ofhigh-intensity chemotherapy, in 1x PBS. The BMMCS were counted using haemacytometer and viability
+transplant conditioning and immunosuppression. Other existing was assessed using Trypan blue. The BMMCS were resuspended in 90% FBS,
+single-cell RNA-seq methods would take significantly more time 10% DMSO freezing media and frozen using a Thermo Scientific Nalgene
+to capture the comparable number of cells (Supplementary Mr Frosty (Thermo Scientific) in a 80°C freezer for 24h before being
+Table 6), which could lead to RNA degradation and vast cell lysis, transferred to liquid nitrogen for long-term storage.
+compromising the ability to analyse the cellular transcriptome
+of leukemic BMMCS.
+Estimation of RNA content per cell. The amount of RNA per cell type was
+determined by quantifying (Qubit; Invitrogen) RNA extracted (Maxwell RSC
+We also developed a novel method to infer cell origin simplyRNA Cells Kit) from several different known numbers of cells.
+in transplant bone marrow samples by using SNVS identified
+from SCRNA-seq data, without prior knowledge of either Cell preparation. Fresh cells were harvested, washed with 1x PBS and
+individual's genotype. To our knowledge, this is the first report resuspended at 1 X 106 cells per ml in 1> X PBS: and 0.04% bovine serum albumin.
+ofal high-throughput method to determine chimerism ofimmune Fresh PBMCS were frozen at 10; X by resuspending PBMCS in DMEM + 40%
+cell populations. This allowed us to discover new insights into FBS + 10%. DMSO, freezing to byo OC in a CoolCell FTS30 (BioCision) and
+the disease state of the host before and after transplant that were then placed in liquid nitrogen for storage.
+Frozen cell vials from ALLCELLS and transplant studies were rapidly thawed
+not readily achievable with traditional PCR, FACS-based analysis in a 37°C water bath for ~2min. Vials were removed when a tiny ice crystal was
+or any other methodology described to date. For example, in left. Thawed PBMCS were washed twice in the medium and then resuspended
+one patient, AMLO27, we detected a population of atypical blast in 1x PBS and 0.04% bovine serum albumin at room temperature. Cells were
+and granulocyte
+that were
+centrifuged at 300r.c.f. for 5min each time. Thawed BMMCS were washed and
+precursors
+likely refractory resuspended in 1 X PBS and 20% FBS. The final concentration of thawed cells was
+to chemotherapy before transplantation and thus responsible 1 X 106 cells per ml.
+for disease relapse. As information on erythrocyte precursors
+is not easy to obtain because of limited number of surface Sequencing library construction using the GemCode platform. Cellular
+markers for these populations, the current clinical means to assess suspensions were loaded on GemCode Single-Cell Instrument (10x Genomics,
+the presence of atypical myeloid blasts by flow and morphology Pleasanton, CA, USA) to generate single-cell GEMS. Single-cell RNA-Seq
+failed to detect the expanded erythroid precursor population. libraries were prepared using GemCode Single-Cell 3' Gel Bead and Library
+While this proof-of-principle study only contained BMMCS Kit (now sold as P/N 120230, 120231, 120232, 10x Genomics). GEM-RT was
+performed in a C1000 Touch Thermal cycler with 96-Deep Well Reaction Module
+from two transplant patients, it highlights the potential clinical (Bio-Rad; P/N 1851197): 55°C for 2h, 85°C for 5r min; held at 4°C.
+impact of the technology, and lays the foundation for more After RT, GEMS were broken and the single-strand CDNA was cleaned up with
+extensive studies involving larger numbers of patient samples. DynaBeads MyOne Silane Beads (Thermo Fisher Scientific; P/N 37002D)
+Iti is our belief that the GemCode single-cell RNA-seq technology and SPRIselect Reagent Kit (0.6 X SPRI; Beckman Coulter; P/N B23318).
+CDNA was amplified using the C1000 Touch Thermal cycler with 96-Deep
+coupled with de novo chimerism testing will, in the near Well Reaction Module: 98° °C for 3min; cycled 14> X 98° C for 15s, 67°Cf for 20s,
+future, greatly expand research possibilities for clinicians and and 72°C for 1 min; 72 °C for 1 min; held at 4°C. Amplified CDNA product
+NATURE COMMUNICATIONS18:140491DOI 10.1038/ncomms14049Jwww.nature.com/naturecommunications
+9
+
+
+
+ARTICLE
+NATURE COMMUNICATIONS DOI: 10.1 1038/ncomms514049
+was cleaned up with the SPRIselect Reagent Kit (0.6 X SPRI). The CDNA
+Alignment, barcode assignment and UMI counting. The Cell Ranger Single-Cell
+was subsequently sheared to ~200bp using a Covaris M220 system (Covaris; P/N Software Suite was used to perform sample demultiplexing, barcode processing and
+500295). Indexed sequencing libraries were constructed using the reagents in
+single-cell 3' gene counting (http://software.1 10xgenomics.com/single-cell/overview/
+the GemCode Single-Cell 3' Library Kit, following these steps: (1) end repair and welcome). First, sample demultiplexing was performed based on the 8bp sample
+A-tailing; (2) adapter ligation; (3) postligation cleanup with SPRIselect; (4) sample index read to generate FASTQS for the Readl and Read2 paired-end reads, as
+index PCR and cleanup. The barcode sequencing libraries were quantified by
+well as the 14bp GemCode barcode. Ten basepair UMI tags were extracted from
+quantitative PCR (KAPA Biosystems Library Quantification Kit for Illumina
+Read2 (14 libraries were made with 5bp UMI tags, as noted in Supplementary
+platforms P/N KK4824). Sequencing libraries werel loaded at 2.11 pM on an Illumina Table 1, due to an earlier iteration of the methods. For these samples, 5bp UMI
+NextSeq500 with 2> X 75 paired-end kits using the following read length: 98bp tags were extracted from Read2.). Then, Readi, which contains the CDNA insert,
+Readi, 14bp 17 Index, 8bp 15 Index and 10bp Read2. Some earlier libraries were was aligned to an appropriate reference genome using STAR35. For mouse cells,
+made with 5nt UMI, and 5bp Read2 was obtained instead. These libraries have mm10 was used and for human cells, hg19 was used. For samples with mouse
+been documented in Supplementary Table 1.
+and human cell mixtures, the union ofl hg19 and mm10 were used. For
+ERCC samples, ERCC reference (https/tols.thermofisher.com/content/sfsl
+manuals/cms 095047.txt) was used.
+ERCC assay. ERCC synthetic spike-in RNAS (Thermo Fisher Scientific;
+Next, GemCode barcodes and UMIS were filtered. All of thel known listed of
+P/N 4456740) were diluted (1:10 or 1:50) and loaded into a GemCode Single-Cell barcodes that are 1-Hamming-distance away from an observed barcode are
+Instrument, replacing cells normally used to generate GEMS. Spike-in Mixl and considered. Then, the
+that the observed barcode was
+Mix2 were both tested. A slightly modified protocol was used as only a small
+posterior probability is
+the
+fraction of GEMS were collected for RT and CDNA amplification. After the
+produced by a sequencing error computed, given the base qualities of
+observed barcode and the prior probability of observing the candidate barcode
+completion of GEM-RT, 1.25ul of the emulsion was removed and added
+(taken from the overall barcode count distribution). If the
+to al biphasic mixture of Recovery Agent (125ul) (P/N 220016) and 25mM
+for any candidate barcode is at least 0.975, then thel barcode posterior is corrected probability to the
+additive 1 (30ul) (P/N 220074, 10x Genomics). The recovery agent was then
+candidate barcode with the highest posterior
+If all candidate
+removed and the remaining aqueous solution was cleaned up with the SPRISelect sequences are
+probable, then the one probability. first lexical
+X
+Reagent Kit (0.8 SPRI). CDNA was amplified using the Ci000 Touch
+order is picked. equally
+appearing by
+Thermal cycler with 96-Deep Well Reaction Module: 98° °C for 31 min; cycled
+UMIs with
+score > 10 were considered valid if were
+14x: 98 C for 15s, 67°C for 20s, and 72°C for 1min; 72 °C for 1min; held at not homopolymers. sequencing Qual- =1 quality 10 implies 90% base call accuracy. A UMI they that is
+4°C. Amplified CDNA product was cleaned up with the SPRIselect Reagent Kit 1-Hamming-distance away from another UMI (with more reads) for the same
+(0.8> x) CDNA was subsequently sheared to - 200bp using a Covaris M220
+cell barcode and gene is corrected to the UMI with more reads. This
+system to construct sample-indexed libraries with 10x Genomics adapters.
+is nearly identical to that in Jaitin et al.", and is similar to that in Klein approach et als
+Expected ERCC molecule counts were calculated based on the amount of
+(although Klein et al.8 also used UMIS to resolve multimapped reads, which
+ERCC molecules used and sample dilution factors. The counts were compared to was not implemented here).
+detected molecule counts (UMI counts) to calculate conversion efficiency.
+Last, PCR duplicates were marked if two sets of read pairs shared a
+barcode sequence, a UMI tag, and a gene ID (Ensembl GTFs GRCh37.82,
+ddPCR assay. Jurkat cells were used in ddPCR assays to estimate conversion Ap./ftp.ensembl.org/pub/grch37frelease-84/gt/homo_sapiens/
+efficiency as follows: (1) the amount of RNA per Jurkat cell was determined by Homo_sapiens.GRCh37.82.gtfgz: and GRCm38.84,ft fhylitpensemblorgy/publ
+quantifying (Qubit, Invitrogen) RNA extracted (Maxwell RNA Purification Kits) release-84/gt/mus_musculus/Mus_musculus.(GRCm38.84.gtfg, were used).
+from several different known number of Jurkat cells. (2) Bulk RT-ddPCR
+Only confidently mapped (MAPQ: = 255), non-PCR duplicates with valid
+(Bio-Rad One-Step RT-ddPCR. Advanced Kit for Probes 1864021) was performed barcodes and UMIs were used to generate gene-barcode matrix.
+on the extracted RNA to determine the copy number per cell of eight selected
+Cell barcodes were determined based on distribution of UMI counts. All top
+genes. (3). Approximately 5,000 Jurkat cells were processed using the GemCode barcodes within the same order of magnitude (> 10% of the top nth barcode,
+Single-Cell 3' platform, and single-stranded CDNA was collected after RTi in GEMS where n is 1% of the expected recovered cell count) were considered cell barcodes.
+following the protocols listed in the section Sequencing library construction using Number of reads that provide meaningful information is calculated as thej product
+the GemCode platform'. CDNA copies of the eight were determined using off four metrics: (1) valid barcodes; (2) valid UMI; (3) associated with a cell barcode;
+ddPCR (Bio- Rad ddPCR Supermix for Probes (no dUTPT P/N 1863024). The and (4) confidently mapped to exons.
+actual Jurkat cell count was found by sequencinga subset oft the GEM-RT reactions In the mouse and human mixing experiments, multiplet rate was defined as
+on a MiSeq. The conversion efficiency is the ratio between CDNA copies per
+twice the rate of cell barcodes with significant UMI counts from both mouse and
+cell (step 3) and RNA copies per cell from bulk RT-ddPCR (step 2), assuming a human, where top 1% of UMI counts was considered significant. The extent of
+50% efficiency in RT-ddPCR34.
+barcode crosstalk was assessed by the fraction of mouse reads in human barcodes,
+The probe sequences for the ddPCR assay are as follows: SERACI_f,
+or vice versa.
+5'-CACGAGCCGCCAGC-3 and SERACI_I, 5-TCTGCAACAGATGAC
+Samples processed from multiple channels can be combined by concatenating
+GCAATAAG-3; SERACI_P: /56-FAM/CGCCTGCCG/ZEN/GCAGAATGTCI gene-cell-barcode: matrices. This functionality is provided in the Cell Ranger
+3IABKFQI. APIS3_f, 5'-GAAGCAGCCATGGTCTAAGC-3 and APIS3_r,
+R Kit (httpl/support.10xgenomics.com/single-cellsoftware/pipelines/latest/rkit).
+5-CCTTGTCGACTGAAGAGCAATATG-3;APISS-p 156-FAM/CGGCCC
+Sequencing data from multiple sequencing runs ofal library can be combined
+AGC/ZEN/CACGATGATACAT/3IABKFQ/ORAOVIE 5'-CCGGAAGTG
+by counting non-duplicated reads. This functionality is provided in the Cell Ranger
+GGTCTCGTOR-3 and. AOV1_r, 5-TTCTTCATAGCCTTCCCGATACCOR-3; pipeline. In addition, sequencing data can be subsampled to obtain a given
+AOVI_p: 56-FAM/TCGTGATGG/ZEN/CGGATGAGAGGTTTCA/3IABKFQI. number of UMI counts per cell. This functionality is also provided in the Cell
+DOLPPL_É,5-ATGGCAGCGGACGGA-3' and DOLPP1_r, 5-GGCTCAG
+Ranger R Kit, and is useful when combining data from multiple samples for
+GTAGGCAAGGA-3;DOLPPI_p: /56-FAM/CCACGTCGA/ZEN/ATATCCT
+comparison.
+GCAGGTGATCT/3IABKFQI.. KPNA6fS-TGAAAGCTGCCGCTGAAG-3
+and KPNA6_r, 5-CCCTGGGCTCGCCAT-3; KPNA6_p: /56-FAM/CGGACCCG PCA analysis of
+of Jurkat and 293T cells. Gene-cell-barcode matrix
+CIZEN/GATGGAGACC/3IABKFQI.1 ITSN2_f,5-GTGACAGGCTACGCAA
+mixing
+CAG-3' and ITSN2_r, 5-TCCTGAGTTTTCCTTGCTAGCT-3;
+from each of the four samples was concatenated. Only genes with at least one
+ITSN2_p: 56-FAM/AGGGCGCCA/ZEN/GATGGCTGA/3IABKFQI. LCMT1_f, UMI count detected in at least one cell are used. UMI normalization was
+5-GTCGACCCCGCTTCCA-3 and LCMT1_r, 5'-GGTCATGCCAGTA
+performed by first dividing UMI counts by the total UMI counts in each cell,
+GCCAATG-3; LCMTL_p: /56-FAM/ATGCTTCCCIZEN/TGTGCAAGAGG
+followed by multiplication with the median of the total UMI counts across cells.
+TTTGC/3IABKFQ.. AP2ML_f5-GCAGCGGGCAGACG-3 and AP2M1_r,
+Then, we took the natural log of the UMI counts. Finally, each gene was
+5-ATGGCGGCAGATCAGTCT-3;AP2MI_p:/56-FAM/CATCGCTCT/ZEN/ normalized such that the mean signal for each gene is 0, and standard
+GAGAACAGACCTGGTG/3IABKFQI.
+deviation is 1.1 PCA was run on the normalized gene-barcode matrix. The
+normalized UMI counts of each gene are used to show expression of a
+marker in a tSNE plot.
+Cell capture efficiency calculation. The efficiency is calculated by takingt the ratio
+of the number of cells detected by sequencing versus the number of cells loaded SNV.
+of. Jurkat and
+data. SNVS
+into the chip. The latter is determined from (volume added X input concentration
+analysis
+293T SCRNA-seq
+were called by
+of cells). The input concentration of cells was determined using a Countess II running Freebayes 1.0.2 (ref. 36) on the genome BAM produced by Cell Ranger.
+Automated Cell Counter (Thermo Fisher Scientific). It: is worth noting that there is High-quality SNVS (SNV calling Qual> - 100 with at least 10 UMI counts from at
+a 15-20% error in cell counts, which could account for at least some of the
+least two cells; indels are ignored) that were only observed in Jurkat or 293T cells
+variability in the calculated efficiencies.
+(but not both) were selected. Cells were labelled as Jurkat or 293T based
+on Jurkat- and 293T-specific SNV counts, where the fraction of counts
+from the other species is <0.2. Cells with a fraction of SNV from either
+Chimerism assay. PowerPlex 16 System (Promega) was used in conjunction
+species between 0.2 and 0.8 are considered multiplets. The inferred multiplet
+with an Applied Biosystems (Life Technologies) 3130xl Genetic Analyzer. Donor rate is 2* observed multiplet rate (to account for Jurkat.Jurkat and
+BMMCS were used as the reference baseline.
+293T:293T multiplets).
+10
+NATURE COMMUNICATIONS18:140491DOH 10.1038/ncomms140491www.nature.com/naturecommunications
+
+
+
+NATURE COMMUNICATIONS I DOI: 10.1038/ncomms14049
+ARTICLE
+PCA and tSNE analysis of PBMCS. Genes with at. least one UMI count detected 14k confidently mapped reads per cell. Only genes that are detected in at
+in at least one cell are used. The top 1,000 most variable genes were identified least one cell were included for the comparison, which uses the mean of each gene
+based on their mean and dispersion (variance/mean), which is similar to the
+across all cells.
+approach used by Macoscko et al.7 Genes were placed into 201 bins based on
+For cell classification comparison between purified and frozen PBMCS, we
+their mean expression. Normalized dispersion is calculated as the absolute
+pooled all the cells labelled as T or natural killer cells together. This is because
+difference between dispersion and median dispersion of the expression mean, the subpopulations within T and between T and natural killer cells are sometimes
+normalized by median absolute deviation within each bin.
+difficult to cluster separately. We did not want the comparison between fresh and
+PCA was run on the normalized gene-barcode matrix of the top
+frozen cells to be affected by the clustering methods used.
+1,000 most variable genes to reduce the number of feature (gene) dimensions.
+UMI normalization was performed by first dividing UMI counts by the total
+UMI counts in each cell, followed by multiplication with the median of the total SNV-based genotype assignment. SNVS were called by running Freebayes 1.0.2
+UMI counts across cells. Then, we took the natural log of the UMI counts. Finally, (ref. 36) on the genome BAM produced by Cell Ranger. Only SNVS with support
+each gene was normalized such that the: mean signal for each gene is 0, and
+from at least two cell barcodes, with a minimal SNV Qual score > = 30, minimal
+standard deviation is 1. PCA was run on the normalized barcode matrix. SNV base Qual> =1 were included. Reference (R) and alternate (A) allele counts
+After running PCA, Barnes-hut37 approximation to Alasdpemncis was performed on were computed at each: SNV, producing matrix of cell- reference UMI counts and
+the first 50 PCs to visualize cells in a two-dimensional space. Fifty PCs were
+cell-alternate-allele UMI counts. These matrices were modeled as a: mixture of two
+used because: (1) using all PCs would take a very long time with tSNE analysis; genomes where thel likelihood of any of the three genotypes (R/R, R/A or A/A) at a
+(2) they explained - 25% of total variance. K-means! clustering was run to
+site was taken to be binomially distributed with a fixed error rate of 0.1%. For each
+group cells for the clustering analysis. k=1 10 was selected based on the sum of sample, two models were inferred in parallel, one where only one genome is present
+squared error scree plot (Supplementary Fig. 5d).
+(K=1) and another where two genomes are present (K=2 2). Inference of the
+model parameters (cell-to-genome assignments and the K sets of genotypes) was
+performed by using Gibbs sampler to approximate their posterior distributions.
+Identification of cluster-specific genes and marker-based classification. To To ameliorate the label-switching problem in Monte Carlo inference of mixture
+identify genes that are enriched in a specific cluster, the mean expression of each models, relabelling of the sampled cell-to-genome assignments was performed as
+gene was calculated across all cells in the cluster. Then each gene from the cluster per Stephens et al.38
+was compared to the median expression of the same gene from cells in all other
+In in silico cell mixing experiments, when the K= 2 model failed to adequately
+clusters. Genes were ranked based on their expression difference, and the top
+separate the two genomes, it reported a distribution of posterior probabilities near
+10 enriched genes from each cluster were selected. For hierarchical clustering, 0.5 for the cell- genome calls, indicating lack of confidence in those calls. We
+pair-wise correlation between each cluster was calculated, and centred
+applied a requirement that 90% of the cells have a posterior probability >7 75% to
+expression of each gene was used for visualization by heatmap.
+select the K= 2 model over the K = 1 model. Selecting K=1 indicates that the
+Classification of PBMCS was inferred from the annotation of cluster- specific mixture fraction is below the level of detection of the method, which in in silico
+genes. In the case of cluster 10, marker expression of multiple cell types
+mixing experiments was determined to be 4% of 6,000 cells.
+(for example, B, dendritic and T) was detected. Since the relative cluster
+size of B, dendritic and T is 5.7%, 6.6% and 81%, respectively, we would expect
+cluster 10 (which is only 0.5%) to contain multiplets consisting mostly from
+Genotype comparison with the pure sample. To ascertain the assignment of
+B:dendritic (0.36%) and B:dendritic:T (0.3%).
+genotypes to individuals, only shared SNVS between the genotype group and the
+pure sample were considered. Then, the average genotype of all the cells was
+compared to that of the pure sample. To obtain some baseline for the % genotype
+Selection of purified subpopulations of PBMCS. Each population of purified overlap among different individuals, wej performed
+comparison of
+PBMCS
+pairwise
+was downsampled to 16k reads per cell. PCA, ISNE and k-means
+genotypes called from the same individuals (11 pairwise comparisons) or from
+clustering were performed for each downsampled matrix, following the same
+different individuals (15 pairwise comparisons). The per cent genotype overlap
+steps outlined inl PCA andt t-SNE analysis off PBMCS. Only one cluster was detected between the same individuals averages 98 +0.3%, whereas the cent
+in most samples, consistent with thel FACS analyses (Supplementary Fig. 6).
+overlap between the different individuals averages 73 t 2%. per genotype
+For samples with more than one cluster, only clusters that displayed the
+expected marker gene expression were selected for downstream analysis. For
+CD14 + monocytes, two clusters were observed and identified as CD14 +
+PCA and tSNE analysis of BMMCS. Data from six samples were used: two healthy
+monocytes and dendritic cells based on expression of marker genes FTL and
+controls, AMLO27 pre- and post-transplant, and AMLO35 pre- and post- transplant.
+CLEC9A, respectively.
+Each sample was downsampled to iok confidently mapped reads per cell. Then
+the gene-cell barcode matrix from each sample was concatenated. PCA, tSNE and
+Cell classification analysis using purified PBMCS. Each population of purified k-means clustering were performed on thej pooled matrix, following the same: steps
+outlined in PCA and tSNE:
+of
+k-means
+K I 10
+-
+PBMCS. For
+PBMCS was downsampled to 16k confidently mapped reads per cell. Then, an used based on the bend in analysis the sum of squared error scree clustering,
+was
+average (mean) gene expression profile across all cells was calculated. Next, gene Cluster-specific were identified
+the plot. outlined in
+expression from every cell of the complex population was compared with the
+Identification of cluster-s genes -specific and following marker- based steps classification'.
+gene expression profiles of purified populations ofl PBMCS by Spearman's
+Classification was
+based genes on cluster-
+and based on
+correlation. The cell was assigned the ID of thej purified population ifit had the
+assigned
+specific genes,
+expression
+highest correlation with that population. Note that the difference between the of some well-known markers of immune cell types. 'Blasts and Immature Ery 1' 39
+highest and second highest correlation was small for some cells (for example, refers to cluster 4, which expresses
+marker of hematopoietic progenitors
+the difference between cytotoxic T and NK cells),
+that the
+and Gata2, a marker for early erythroids 'Immature Ery 2' refers to
+CDNGAm
+suggesting
+cell assign- clusters 5 and 8, which show
+of
+factor essential
+ment was not as confident for these cells. A few of thej purified PBMC populations
+expression Gatal, often transcription
+overlapped with each other. For example, CD4 + T-helper cells include all
+for erythropoiesis but not CD71, which are found in more committed
+CD4 + cells. This means that cells from this sample will overlap with cells
+erythroid cells39. Immature Ery 3' refers to cluster 1, which show expression
+of CD71. Mature Ery' refers to cluster 2. HBA1, a marker of mature
+from samples that contain CD4 + cells, including CD4 + ICD25 + T reg,
+cells, preferentially detected in cluster 2. Cluster 3
+erythroid
+CD4 + ICD45RO + Tmemory, CD4 + /CD45RA + /CD25 naive T. Thus, when
+is
+was assigned as Immature
+a cell was assigned the ID of CD4 + T-helper cell based on the correlation score, Granulocytes' because of the expression of early granulocyte markers such as
+correlation
+AZU1 and IL8 (ref. 42), and thel lack of expression of CD16. Cluster 7 was
+the next highest
+was checked to seei ifi it was one of the CD4 + samples. as' Monocytes' because of the expression of CD14and FCN1,
+'B' assigned refers
+was,
+Ifit the cell's ID was updated to the cell type with the: next highest
+clusters 6 and 9 because of markers such as CD19 and CD79A. for T example. refers cluster
+same
+correlation. The procedure was performed for CD8- + cytotoxic T and
+10, because of markers such as CD3D and CD8A.
+to
+CD8 + /CD45RA + naive cytotoxic T (which is a subset of CD8 + cytotoxic T).
+Thel R code used to analyse 68k PBMCS and purified PBMCS can be found here:
+https.//github.com/10XGenomics/single-cell-3prime-paper.
+Data availability. All relevant data are available from the authors. Single-cell
+RNA-seq data have been deposited in the Short Read Archive under accession
+Cell clustering and classification with Seurat. The gene-cell-barcode matrix of number SRP073767. Data are also available at http./support.10xgenomics.com/
+68k PBMCS was log-transformed as an input to Seurat. The top 469 most variable single-cell/datasets. The analysis code for the 68k PBMC analysis is available at
+genes selected by Seurat were used to compute the PCs. The first 22 PCs were https//github.com/10XGenomics/single-cell-3prime-paper.
+significant (P<0.01) based on the built- in jackstraw analysis, and used
+for tSNE visualization. Cell classification was taken from Cell classification
+References
+analysis using purified PBMCS.
+1. Shalek, A. K. et al. Single-cell transcriptomics reveals bimodality in expression
+and splicing in immune cells. Nature 498, 236-240 (2013).
+Comparison between fresh and frozen PBMCS. The sequencing data of 68k fresh 2. Wills, Q. F. et al. Single-cell gene expression analysis reveals genetic associations
+PBMCS and 3k frozen PBMCS were down-sampled such that each sample has
+masked in whole-tissue experiments. Nat. Biotechnol. 31, 748-752 (2013).
+NATURE COMMUNICATIONS18:140491DOI 10.1038/ncomms14049/www.nature.com/naturecommunications
+11
+
+
+
+ARTICLE
+NATURE COMMUNICATIONS DOI: 10.1 1038/ncomms14049
+3. Liu,S. & Trapnell, C. Single-Cell Transcriptome Sequencing: Recent Advances 33. Vardiman, J. W. et al. The 2008 revision of the World Health Organization
+and Remaining Challenges Vol. 5 F1000 Research (2016).
+(WHO) classification of myeloid neoplasms and acute leukemia: rationale and
+4. Jaitin, D. A. et al. Massively parallel single-cell RNA-seq for marker-free
+important changes. Blood 114, 937-951 (2009).
+decomposition of tissues into cell types. Science 343, 776-779 (2014).
+34. Zhong, J. F. et al. A microfluidic processor for gene expression profiling of
+5. Pollen, A. A. et al. Low-coverage single-cell mRNA sequencing reveals cellular single human embryonic stem cells. Lab Chip 8, 68-74 (2008).
+heterogeneity and activated signaling pathways in developing cerebral cortex. 35. Dobin, A. et al. STAR: ultrafast universal RNA-seq aligner. Bioinformatics 29,
+Nat. Biotechnol. 32, 1053-1058 (2014).
+15-21 (2013).
+6. Fluidigm. Single-cell whole genome sequencing on the C1 System: a
+36. Garrison, E. & Marth, G. Haplotype-based variant detection from short-read
+performance evaluation https//www.fluidigm.com/binaries/content/
+sequencing. Preprint at https//arxiv.org/abs/1207.3907 (2012).
+documents/luidigm/marketing'single-cell-whole-genome-sequencing/single- 37. van der Maaten, L. Barnes-Hut-SNE Preprint at arXiv:1301.3342 [cs.IG] (2013).
+cell-whole-genome-sequencing/fuidign963Afile (2016).
+38. Stephens, M. Dealing with label switching in mixture models.) J. R. Stat. Soc. Ser.
+7. Macosko, E. Z. et al. Highly parallel genome-wide expression profiling of
+B 62, 795-809 (2000).
+individual cells using nanoliter droplets. Cell 161, 1202-1214 (2015).
+39. Liu, Q. et al. Significance of CD71 expression by flow cytometry in diagnosis of
+8. Klein, A. M. et al. Droplet barcoding for single-cell transcriptomics applied to acute leukemia. Leuk. Lymphoma 55, 892-898 (2014).
+embryonic stem cells. Cell 161, 1187-1201 (2015).
+40. Novershtern, N. et al. Densely interconnected transcriptional circuits control
+9. Soumillon, M., Cacchiarelli, D., Semrau, S., van Oudenaarden, A. & Mikkelsen,' T.S. cell states in human hematopoiesis. Cell 144, 296-309 (2011).
+Characterization of directed differentiation! byl high-throughput single-cell RNA- -seq. 41. Bonora, M. et al. Molecular mechanisms of cell death: central implication of ATP
+Preprint atl hapl/bionsiv.orgfcontenteathy/201/03005103236 (2016).
+synthasei in mitochondrial permeability transition. Oncogene 34, 1475-1486 (2015).
+10. Zheng, G. X. et al. Haplotyping germline and cancer genomes with high-
+42. Schinke, C. et al. IL8-CXCR2 pathway inhibition as a therapeutic strategy
+throughput linked-read sequencing. Nat. Biotechnol. 34, 303-311 (2016).
+against MDS and AML stem cells. Blood 125, 3144-3152 (2015).
+11.1 Narasimhan, V. M. et al. Health and population effects of rare gene knockouts
+in adult humans with related parents. Science 352, 474-477 (2016).
+Acknowledgements
+12. Mostovoy, Y. et al. A hybrid approach for de novo human genome sequence We thank Deanna Church for critical reading of the manuscript, and members of the
+assembly and phasing. Nat. Methods 13, 587-590 (2016).
+Bielas laboratory and 10x Genomics for helpful discussions. We thank members of the
+13.1 Hindson, B. J. et al. High-throughput droplet digital PCR system for absolute clinical immunogenetics laboratory at thel Fred Hutchinson Cancer Research Center for
+quantitation of DNA copy number. Anal. Chem. 83, 8604-8610 (2011).
+their assistance in sample preparation and data review: David Wu, Debra Cordell, Aida
+14. Brennecke, P. et al. Accounting for technical noise in single-cell RNA-seq
+Guzman, Reena Patel, Ada Ng, Chuck Kellum and Gana Balgansuren. We acknowledge
+experiments. Nat. Methods 10, 1093-1095 (2013).
+support from the Canary Foundation (to J.H.B.), an Ellison Medical Foundation New
+15. Sherlock, G. Analysis of large-scale gene expression data. Curr. Opin. Immunol. Scholar Award (AG-NS-0577-09 to J.H.B.), the National Cancer Institute (RO1 CA
+12, 201-205 (2000).
+175215-01 and U10CA180861 to J.P.R.), an Outstanding New Environmental Scientist
+16. van der Maaten, L.J.P. &1 Hinton, G. E Visualizing high-dimensional data Award (ONES) (RO1) from the National Institute of Environmental Health Sciences
+using t-SNE. J. Mach. Learn. Res. 9, 2579-2605 (2008).
+(RO1ES019319 to J.H.B.), a grant from the Congressionally Directed Medical Research
+17. Stem Cell Technologies. Frequencies of cell types in human peripheral blood. Programs/US Department of Defense (W8IXWH-10-1-0563 to J.H.B.) and the Pacific
+Available at: http/www.stemell.ccom/media/files/vallchart/WA10006-
+Ovarian Cancer Research Consortium Ovarian Cancer SPORE Award (P50 CA083636).
+Frequencies_ CelikaoType_Human_Periphenl_Bloood.pdf (2016).
+W.J.Vi is supported by an Achievement Rewards for College Scientists (ARCS)
+18. Borrego, F., Masilamani, M., Marusina, A. I, Tang, X. & Coligan, J. E The Foundation Fellowship, and a Ruth L. Kirschstein National Research service F30
+CD94/NKG2 family ofr receptors: from molecules and cells to clinical relevance. Award for Individual Predoctoral MD/PhD Degree Fellows (NCI F30CA200247).
+Immunol. Res. 35, 263-278 (2006).
+19. Chu, P. G. &. Arber, D. A CD79: a review.. Appl. Immunohistochem. Mol.
+Morphol. 9, 97-106 (2001).
+Author contributions
+20. Schiopu, A. & Cotoi, O. S S100A8 and S100A9: DAMPS at the crossroads
+G.X.Y.Z., J.M.T., P.B., P.R, Z.W.B., T.S.M., B.J.H., J.H.B., E.A.S. and J.P.R. designed
+between innate immunity, traditional risk factors, and cardiovascular disease. experiments. J.M.T., P.B., Z.W.B., S.B.Z., T.D.W., G.P.M., J.S., L.M., S.Y.N., E.A.S.,
+Mediat. Inflamm. 2013, 828354 (2013).
+N.G.E.,L.W.B., H.J.D., C.M., K.R.L. and W.J.V. conducted experiments. T.D.W., D.A.M.,
+21. Turman, M. A., Yabe, T., McSherry, C., Bach, F. H. & Houchins, J. P
+R.B., K.D.N. and B.J.H. designed the instrument. G.P.M., Z.W.B., S.Y.N., C.M.H.,
+Characterization of a novel gene (NKG7) on human chromosome 191 that
+P.W.W. and K.D.N. designed the reagents. P.R., R.W., A.W., G.X.Y.Z., J.J.Z., T.S.M.
+is expressed in natural killer cells and T cells. Hum. Immunol. 36, 34-40
+and M.S.L. wrote the analysis software. G.X.Y.Z., P.R., T.S.M., J.Z., K.R.L. and M.T.G.
+(1993).
+analysed the data. G.X.Y.Z., E.A.S.,J J.P.R, T.S.M., B.J.H. and J.H.B. wrote the manuscript.
+22.1 Lubberts, E The IL-23-IL-17 axis in inflammatory arthritis. Nat. Rev.
+Rheumatol. 11, 562 (2015).
+Additional information
+23. Ronchetti, S. et al. Glucocorticoid-induced tumour necrosis factor receptor- Supplementary Information accompanies this paper at http:/www.nature.com/
+related protein: key marker off functional regulatory T cells. J. Immunol. Res. naturecommunications
+2015, 171520 (2015).
+24. Lin, Y.Y. et al. Transcriptional regulator Id2 is required for the CD4 T cell Competing financial interests: G.X.Y.Z., J.M.T., P.B., P.R., Z.W.B., R.W., S.B.Z., T.D.W.,
+immune response in the development of experimental autoimmune
+J.J.Z., G.P.M., J.S., L.M., D.A.M., S.Y.N., M.S.L., P.W.W., C.M.H., R.B., A.W., K.D.N.,
+encephalomyelitis. J. Immunol. 189, 1400-1405 (2012).
+T.S.M. and B.J.H. are employees of 10x Genomics.
+25. Greer, A. M. et al. Serum IgE clearance is facilitated by human FcepsilonRI
+internalization. J. Clin. Invest. 124, 1187-1198 (2014).
+Reprints and permission information is available online at http/inpg.nature.com/
+26. Harman, A.N. et al. Identification ofl lineage relationships and novel markers of reprintsandpermissions/
+blood and skin human dendritic cells. J. Immunol. 190, 66-79 (2013).
+How to cite this article: G. X.Y. et al. Massively parallel digital transcriptional
+27. Satija, R. Seurat: R toolkit for single cell genomics. http/www.satijalaborg profiling of single cells. Nat. Zheng, Commun. 8, 14049 doi: 10.1038/ncomms14049
+seurat.html
+(2017).
+(2016).
+28. Seattle Cancer Care Alliance. Chimerism testing/engraftment analysis.
+Publisher's note: Springer Nature remains neutral with regard toj jurisdictional claims in
+http./www.seattlecca.org/healthcare-professionals/cinical-labs/clinical-
+published maps and institutional affiliations.
+immunogenetics-laboratory/chimerism-testing (2016).
+29. Patel, A. P. et al. Single-cell RNA-seq! highlights intratumoral heterogeneity in
+primary glioblastoma. Science 344, 1396-1401 (2014).
+cc) O This work is licensed under Creative Commons Attribution 4.0
+30. Tirosh, I. et al. Dissecting the multicellular ecosystem of metastatic melanoma
+International License. The images or other third party material in this
+by single-cell RNA-seq. Science 352, 189-196 (2016).
+article: are included in the article's Creative Commons license, unless indicated otherwise
+31. Lee, M. C. et al. Single-cell analyses of transcriptional heterogeneity during in the credit line; if the material is not included under the Creative Commons license,
+drug tolerance transition in cancer cells by RNA sequencing. Proc. Natl. Acad. users will need to obtain permission from the licensel holder to reproduce the material.
+Sci. USA 111, E4726-E4735 (2014).
+To view a copy of this license, visit http://creativecommons.org/licenses/by/4.0/
+32. Kim, K. T. et al. Single-cell mRNA sequencing identifies subclonal
+heterogeneity in anti-cancer drug responses of lung adenocarcinoma cells.
+Genome Biol. 16, 127 (2015).
+The Author(s) 2017
+12
+NATURE COMMUNICATIONS18:140491DOH 10.1038/ncomms140491www.nature.com/naturecommunications

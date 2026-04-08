@@ -1,0 +1,883 @@
+Last edit: October 27, 2017
+SPLIT-seq Protocol, Version 3.0
+Projected Experimental Time: 2 Days
+Recommended time on day 1 to start: morning
+Addition of RNase inhibitor to buffers:
+When any buffer has "+RI" next to it, this indicates that enzymatics RNase inhibitor should be
+added to a final concentration of 0.1 U/UL.
+Centrifugation Steps:
+All centrifugation steps should be performed with a swinging bucket rotor. Using a fixed angle
+centrifuge may lead to more cell loss. Depending on the tissue type, centrifugation speeds may
+need to be changed to optimize cell retention (e.g. smaller cells = higher speeds).
+DNA Barcoding Plate Generation
+What you need:
+Three 96 well plates from IDT - Reverse Transcription Barcode Primers, Ligation Round
+1,and Ligation Round 2 Stock DNA Oligo plates (100 UM)
+Two linker oligos - BC_0215, BC_0060 (Note: these are assumed to be in stock
+concentration of 1mM, be sure to correct for volume if only have 100 UM stocks)
+Six 96 well PCR plates (3 stock plates that will last at least 10 experiments, and 3 plates
+for 1st experiment)
+Note: This will generate 100 ul of DNA barcodes for each well. Each SPLIT-seq experiment
+requires only 4 UL/well of the reverse transcription primer solution which will last for 25
+experiments. Each SPLIT-seq experiment requires only 10 ul/well of the barcode/linker
+solutions, SO these plates will last a total of 10 experiments.
+Round 1 reverse transcription barcoded primers (final concentrations of 12.5 UM random
+hexamer and 12.5 UM 15dT primers in each of 48 wells)
+1. Using multichannel pipette, add 12.5 ul of rows A-D in the IDT Reverse Transcription
+Barcode Primers to rows A-D of the BC Stock 96 well PCR plate.
+2. Using multichannel pipette, add 12.5 ul of rows E-H in the IDT Reverse Transcription
+Barcode Primers to rows A-D of the BC stock 96 well PCR plate (mixing polydT with
+random hexamer primer here)
+3. Add 75ul of water to rows A-D of the BC stock 96 well PCR plate.
+Round 2 ligation round (Final concentrations of 12uM barcodes, 11uM linker-BC_ 0215)
+SPLIT-seq V3.0
+1
+
+
+
+1. Using multichannel pipette, add 12ul of IDT Round 2 Barcodes to R1 Stock 96 well PCR
+plate
+2. Add 138.6ul of BC_0215(1mM) to 10.9494mL water in a basin (BC_0215_dil)
+3. Using multichannel pipette, add 88uL BC_0215_dil to each well of R2 Stock 96 well PCR
+plate
+Ligation Round 3 (Final concentrations of 14uM barcodes, 13uM linker-BC_ 0060)
+1. Using multichannel pipette, add 14uL of Round 3 Barcodes to R3 Stock 96 well PCR
+plate
+2. Add 163.8ul of BC_0060(1mM) to 10.6722mL water in a basin (BC_0060_dil)
+3. Using multichannel pipette, add 86uL BC_0060 to each well R3 Stock 96 well PCR plate
+For each ligation plate (R2 and R3, not including reverse transcription barcodes), anneal the
+barcode and linker oligos with the following thermocycling protocol:
+1. Heat to 95C for 2 minutes
+2. Ramp down to 20C for at a rate of -0.1C/s
+3.4C
+Aliquot out 10 uL of each barcode/linker stock plate into 3 new 96 well PCR plates. These are
+the plates that should be used for DNA barcoding in the split-pool ligation steps in the protocol.
+Nuclei Extraction (Optional):
+1. Prepare the following items:
+Keep dounce at 4C until use
+15ml of 1xPBS + 37.5 Superase-in + 19ul Enzymatics Rnase inhibitor. (kept on
+ice)
+Precool centrifuge to 4C
+2. Make NIM1 buffer:
+Reagent
+Stock Concentration Final Concentration
+Volume (UL)
+Sucrose
+1.5 M
+250mM
+2,500
+KCI
+1 M
+25mM
+375
+MgCI2
+1 M
+5mM
+75
+Tris buffer, pH 8
+1 M
+10mM
+150
+Water
+NA
+NA
+11,900
+Final Volume
+15,000
+3. Make the homogenization buffer:
+SPLIT-seq V3.0
+2
+
+
+
+Reagent
+Stock Concentration Final Concentration
+Volume (UL)
+NIM1 Buffer
+1.5 M
+4,845
+1 mM DTT
+1 mM
+1uM
+5
+Enzymatics RNase-In
+40 U/uL
+(40U/ul)
+0.4U/ul
+50
+Superase-In (20U/UL) 20 U/UL
+0.2U/ul
+50
+10% Triton X-100
+10%
+NA
+50
+Final Volume
+5,000
+4. Dounce
+Add tissue/cells sample to dounce. If cells, resuspend in 700ul of homogenization
+buffer.
+Add nomogenization buffer to ~700ul
+Perform 5 strokes of loose pestle
+Perform 10 - 15 of tight pestle
+Add nomogenization buffer up to 1ml
+Check cell lysis with 5ul trypan blue and 5ul cells on haemocytometer to see if
+nuclei have been released
+5. Filter nomogenates with 40um strainer into 5ml eppendorf tubes (or 15mL falcon). Tilting
+the filter 45° while straining over the tube ensures that the lysate passes through as
+intended.
+Note: This straining process is different from every other one below.
+6. Spin for 4min at 600g (4C) and remove supernatant (can leave about 20uL to avoid
+aspirating pellet)
+7. Resuspend in 1ml of 1x PBS + RI
+8. Add 10ul of BSA
+9. Centrifuge at 600g for 4min.
+10. Resuspend in 200ul 1x PBS + RI.
+11. Take 50ul of the resuspended cells from step 4 and add 150ul of 1xPBS + RI. Count
+sample on hemocytometer and/or flow-cytometer.
+) The volume of resuspended cells from the step 4 can be changed based on the
+considerations of the user.
+12. Pass cells through a 40um strainer into a fresh 15mL Falcon tube and place on ice.
+See note on step 4 of Fixation and Permeabilization.
+13. Resuspend the desired number of nuclei (typically 2M) in 1mL 1x PBS + RI and proceed
+with step 5 in the following Fixation and Permeabilization protocol.
+SPLIT-seq V3.0
+3
+
+
+
+Fixation and Permeabilization
+1. Prepare the following buffers (calculated for two experiments):
+A 1.33% formalin (360 uL of 37% formaldehyde solution (Sigma)+ 9.66 ml PBS)
+solution and store at 4C.
+6 mL of 1X PBS+RI (15 ul of SUPERase In and 7.5 ul of enzymatics rnase
+inhibitor)
+2 mL of 0.5X PBS+RI (5 ul of SUPERase in and 2.5 of enzymatics rnase
+inhibitor)
+500uL of 5% Triton X-100 + RI (2 ul of SUPERase In)
+500uL of 100mM Tris pH 8.0 + 2 ul SUPERase In
+Set the centrifuge to 4C
+2. Pellet cells by centrifuging at 500g for 3 mins at 4C. (Some cells may require faster
+centrifugation.)
+3. Resuspend cells in 1mL of cold PBS+RI. Keep cells on ice between these steps.
+4. Pass cells through a 40um strainer into a fresh 15mL Falcon tube and place on ice.
+Note: The cell resuspension is not likely to passively go through the strainer,
+which can cause cell loss. Instead, with a 1ml pipette filled with the resuspension,
+press the end of the tip directly onto the strainer and actively push the liquid
+through. The motion should take ~1 second.
+5. Add 3 mL of cold 1.33% formaldehyde (final concentration of 1% formaldehyde). Fix
+cells on ice for 10 mins.
+6. Add 160uL of 5% Triton-X100+RI to fixed cells and mix by gently pipetting up and down
+5x with a 1mL pipette. Permeabilize cells for 3 mins on ice.
+7. Centrifuge cells at 500g for 3 mins at 4C.
+8. Aspirate carefully and resuspend cells in 500 ul of cold PBS+RI.
+9. Add 500uL of cold 100 mM Tris-HCI, pH 8.0.
+10.. Add 20 uL of 5% Triton X-100.
+11. Centrifuge cells at 500g for 3 mins at 4C.
+12. Aspirate and resuspend cells in 300 ul of cold 0.5x PBS+RI.
+13. Run cells through a 40uM strainer into a new 1.7mL tube.
+See note on step 4 of Fixation and Permeabilization.
+14. Count cells using a nemacytometer or a flow-cytometer and dilute the cell suspension to
+1,000,000 cells/mL. While counting cells, keep cell suspension on ice.
+Note: This step will dictate how many cells enter the split-pool rounds. It will be possible
+to sequence only a subset of the cells that enter the split-pool rounds (can be done
+during sublibrary generation at lysis step). The total number of barcode combinations
+you will be using should be calculated to determine the maximum number of cells you
+can sequence with minimal barcode collisions. As a rule of thumb, the number of cells
+you process should not exceed more than 5% of total barcode combinations. We usually
+have a dilution between 500k to 1M cells/mL here (equates to 4-8k cells going into each
+well for reverse transcription barcoding rounds).
+SPLIT-seq V3.0
+4
+
+
+
+Reverse Transcription
+1. Aliquot out 4 uL of the RT barcodes stock plate into the top 4 rows (48 wells) of a
+new 96 well plate. Cover the this plate with an adhesive plate seal until ready for
+use.
+2. Create the following reverse transcription (RT) mix on ice:
+Stock
+Desired
+Concentration Concentration
+Volume in Mix (48
+Reagent
+Per Reaction wells + 10%)
+5X RT Buffer
+5x
+1x
+4
+211.2
+Enzymatics Rnase
+40u/ul
+0.25u/ul
+Inhibitor
+0.125
+6.6
+Superase In Rnase
+20U/uL
+0.25U/UL
+Inhibitor
+0.25
+13.2
+dNTPs
+10mM (per base) 500uM
+1
+52.8
+Maxima H Minus
+200u/ul
+20u/ul
+Reverse Transcriptase
+2
+105.6
+H20
+NA
+NA
+0.625
+33
+Total Volume
+8
+422.4
+3. Add 8uL of the RT mix to each of the top 48 wells. Each well should now contain a
+volume of 12uL.
+4. Add 8ul of cells in 0.5x PBS+RI to each of the top 48 wells. Each well should now
+contain a volume of 20uL.
+5. Add the plate into a thermocycler with the following protocol
+a. 50 C for 10 minutes
+b. Cycle 3 times:
+i. 8C for 12s
+ii. 15C for 45s
+iii. 20C for 45s
+iv. 30C for 30s
+V. 42C for 2 min
+vi. 50C for 3 min
+C. 50C for 5 min
+d. 4C forever
+6. Place the RT plate on ice.
+7. Prepare 2 mL of 1x NEB buffer 3.1 with 20uL of Enzymatics RNase Inhibitor.
+8. Transfer each RT reaction to a 15mL falcon tube (also on ice).
+9. Add 9.6uL of 10% Triton-X100 to get a final concentration of 0.1%.
+10. Centrifuge pooled RT reaction for 3 min at 500G.
+11.. Aspirate supernatant and resuspend into 2 mL of 1x NEB buffer 3.1 + 20ul Enzymatics
+RNase Inhibitor.
+SPLIT-seq V3.0
+5
+
+
+
+Ligation Barcoding
+Make the following ligation master mix on ice:
+Note: Final concentration takes added volume of DNA barcodes into account. Concentrations of
+this mix is not the final concentration at time of barcoding
+Stock
+Final
+Volume
+Reagent
+Concentration
+Concentration
+(uL)
+Water
+NA
+NA
+1337.5
+T4 Ligase Buffer 10x
+10X
+1X
+500
+Enzymatics Rnase Inhibitor
+40 U/uL
+0.32 U/uL
+40
+Superase In
+20 U/uL
+0.05 U/uL
+12.5
+BSA
+20 mg/mL
+0.2 mg/mL
+50
+T4 DNA Ligase
+400 U/uL
+8 U/uL
+100
+Total Volume
+2040
+1. Add the 2mL of cells in NEB buffer 3.1 into the ligation mix. The mix should now have a
+volume of 4.04 mL
+2. Add the mix into a basin
+3. Using a multichannel pipet, add 40 uL of ligation mix (with cells) into each well of the
+round 1 DNA barcode plate.
+4. Cover the round 1 DNA barcode plate with an adhesive plate seal and incubate for 30
+minutes at 37C with gentle rotation (50 rpm).
+5. Make the round 1 blocking solution and add it to a new basin
+Stock
+Final
+Reagent
+Concentration
+Concentration
+Volume (UL)
+BC_0216
+100 UM
+26.4 UM
+316.8
+10x Ligase Buffer
+10X
+2.5X
+300
+Water
+NA
+NA
+583.2
+Final Volume
+1200 uL
+6. Remove the round 1 DNA barcoding plate from the incubator and remove the cover.
+7. Using a multichannel pipet, add 10 uL of the round 1 blocking solution to each of the 96
+wells in the round 1 DNA barcoding plate.
+8. Cover the round 1 DNA barcode plate with an adhesive plate seal and incubate for 30
+minutes at 37C with gentle rotation (50 rpm).
+SPLIT-seq V3.0
+6
+
+
+
+9. Remove round 1 DNA barcoding plate from the incubator, remove cover, and pool all
+cells into a new basin.
+10. Pass all the cells from this basin through a 40 um strainer into another basin.
+See note on step 4 of Fixation and Permeabilization.
+11. Add 100 ul of T4 DNA ligase to the basin and mix by pipetting ~20 times.
+12. Using a multichannel pipette, add 50 ul of cell/ligase solution into each well of the round
+2 DNA barcode plate.
+13. Cover the round 2 DNA barcode plate with an adhesive plate seal and incubate for 30
+minutes at 37C with gentle rotation (50 rpm).
+14. Make the round 2 blocking solution and add it to a new basin
+Stock
+Final
+Reagent
+Concentration
+Concentration
+Volume (UL)
+BC_0066
+100 UM
+11.5 UM
+369
+EDTA
+0.5 M
+125 mM
+800
+Water
+NA
+NA
+2031
+Final Volume
+3200 ul
+15. Remove the round 2 DNA barcoding plate from the incubator and remove the cover.
+16. Using a multichannel pipet, add 20 ul of the round 2 blocking and termination solution to
+each of the 96 wells in the round 2 DNA barcoding plate.
+17. Pool all cells into a new basin. (no incubation for the final blocking step)
+18. Pass all the cells from this basin through a 40 um strainer into a 15 mL falcon tube.
+See the note for step 4.
+19. Count cells on a flow cytometer. Make sure cells are well mixed before aliquoting sample
+for counting.
+Lysis
+1. Make the 2X lysis buffer:
+Reagent
+Stock Concentration Final Concentration (2X) Volume (mL)
+Tris, pH 8.0
+1 M
+20 mM
+0.5
+NaCI
+5 M
+400 mM
+2
+EDTA, pH 8.0
+0.5 M
+100 mM
+5
+SDS
+10%
+4.4 %
+11
+Water
+NA
+NA
+6.5
+Final Volume
+25
+SPLIT-seq V3.0
+7
+
+
+
+2. If white precipitate appears, warm at 37C until precipitate is back in solution (roughly
+10-15 min).
+3. Make the following wash buffer:
+Reagent
+Volume (UL)
+1X PBS
+4000
+10 % Triton X-100
+40
+Superase In Rnase Inhibitor
+10
+Final Volume
+4050
+4. Add 70ul of 10% triton to the cells. (-0.1% final conc.)
+5. Centrifuge for 5 min at 1000G in 15ml tube.
+Note: The pellet for the steps below will be very small and it may not be visible.
+6. Aspirate supernatant, leave ~30ul to avoid removing pellet.
+a. If possible, remove as much supernatant as possible with 20uL pipet.
+7. Resuspend with 4 mL of wash buffer.
+8. Centrifuge for 5 min at 1000G.
+9. Aspirate supernatant and resuspend in 50ul 1x PBS + RI.
+10. Dilute 5ul into 195ul of 1x PBS and count via flow cytometry.
+Or take 5ul into 5ul of 1x PBS and count on nemocytometer (it can be hard to
+distinguish debris from cells).
+11. Determine how many sublibraries you would like to generate (# sublibraries= # tubes
+needed), and how many cells you would like to have for each of these sublibraries.
+12. Aliquot the desired number of cells for each sublibrary into new 1.7mL tubes. Add 1x
+PBS to each tube to a final volume of 50uL.
+13.. Add 50uL of 2x Lysis buffer to each tube.
+14. Add 10uL of Proteinase K (20mg/mL) to each lysate.
+15. Incubate at 55C for 2 hrs with shaking at 200rpm.
+16. Stopping point: Freeze lysate(s) at -80C.
+SPLIT-seq V3.0
+8
+
+
+
+Prepare buffers
+First make the following stock solutions:
+100mM PMSF (resuspended in isopropanol)
+2x B&W
+Reagents
+Volume
+1M Tris-HCI pH 8.0 500uL
+5M NaCl
+20ml
+EDTA, 0.5M
+100ul
+Nuclease Free Water 29.4ml
+Total
+50mL
+1x B&W-T
+Reagents
+Volume
+1M Tris-HCI pH 8.0
+100uL
+5M NaCl
+4ml
+EDTA, 0.5M
+20ul
+Tween 20 10%
+100ul
+Nuclease Free Water
+15.78ml
+Total
+20mL
+Then make the following smaller aliquots (with added RNase inhibitor):
+1x B&W-T + Rl:
+Volume per Number of Samples (uL)
+Reagent
+1
+2
+3
+4
+5
+5
+7
+8
+1xB&W-T
+3600.0 4200.0 4800.0 5400.0 6000.0 6600.0 7200.0 7800.0
+SUPERase In
+5.0
+5.8
+6.7
+7.5
+8.3
+9.2 10.0 10.8
+Final
+Volume
+3605.0 4205.8 4806.7 5407.5 6008.3 6609.2 7210.0 7810.8
+2x B&W + Rl:
+Volume per Number of Samples (UL)
+Reagent
+1
+2
+3
+4
+5
+a
+7
+8
+2xB&W
+110.0 220.0 330.0 440.0 550.0 660.0 770.0 880.0
+SPLIT-seq V3.0
+9
+
+
+
+SUPERase In
+2.0
+4.0
+6.0
+8.0 10.0 12.0 14.0 16.0
+Final Volume 112.0 224.0 336.0 448.0 560.0 672.0 784.0 896.0
+Tris-T + Rl:
+Volume per Number of Samples (UL)
+Reagent
+1
+2
+3
+4
+5
+6
+7
+8
+10mM Tris-HCI
+(pH 8.0)
+600.0 1200.0 1800.0 2400.0 3000.0 3600.0 4200.0 4800.0
+Tween-20
+(10%)
+6.0 12.0 18.0 24.0 30.0 36.0 42.0 48.0
+SUPERase In
+1.5
+3.0
+4.5
+6.0
+7.5
+9.0 10.5 12.0
+Final Volume 607.5 1215.0 1822.5 2430.0 3037.5 3645.0 4252.5 4860.0
+Purification of CDNA
+Note: We performed agitation steps on a vortexer with a foam 1.7mL tube holder on a low
+setting (2/10).
+Wash MyOne C1 Dynabeads
+1. For each lysate to be processed, add 44ul of MyOne C1 Dynabeads to a 1.5 mL tube
+(eg, 1 lysate=44uL, 2 lysates = 88uL, 3 lysates = 132ul etc)
+2. Add 800uL of 1xB&W-T buffer
+3. Place sample against a magnetic rack and wait until liquid becomes clear (1-2 min).
+4. Remove supernatant and resuspend beads in 800uL of 1XB&W-T buffer.
+5. Repeat steps 3-4 two more times for a total of 3 washes.
+6. Place sample against a magnetic rack and wait until liquid becomes clear.
+7. Resuspend beads in 100uL (per sample) 2xB&W buffer + RI.
+Sample Binding to Streptavidin:
+1. Add 5ul of 100uM PMSF (resuspended in sopropanol) to each sample and leave at
+room temperature for 10 min.
+2. Add 100ul of resupended C1 beads to each tube.
+3. To bind CDNA to C1 beads, agitate at room temperature for 60 min.
+4. Place sample against a magnetic rack and wait until liquid becomes clear (1-2 min).
+5. Remove supernatant and resuspend beads in 250uL of 1xB&W
+6. Agitate beads for 5 min at room temperature.
+7. Repeat steps 5 and 6.
+8. Remove supernatant and resuspend beads in 250 uL of 10mM Tris+T
+9. Agitate beads for 5 min at room temperature.
+10. Leave beads in final wash solution on ice.
+SPLIT-seq V3.0
+10
+
+
+
+Template Switch
+Prepare the following mix depending on the number of samples:
+Volume per Number of Samples (UL)
+Reagent
+1
+2
+3
+4
+5
+6
+7
+8
+Water
+88.0 176.0 264.0 352.0 440.0 528.0 616.0 704.0
+Maxima RT Buffer
+44.0
+88.0 132.0 176.0 220.0 264.0 308.0 352.0
+Ficoll PM-400 (20%) 44.0
+88.0 132.0 176.0 220.0 264.0 308.0 352.0
+10mM dNTPs (each,
+total is 40mM)
+22.0 44.0
+66.0
+88.0 110.0 132.0 154.0 176.0
+RNase Inhibitor
+5.5 11.0
+16.5 22.0
+27.5
+33.0
+38.5
+44.0
+TSO (BC_0127)
+5.5
+11.0
+16.5 22.0
+27.5
+33.0
+38.5
+44.0
+Maxima RT RnaseH
+Minus Enzyme
+11.0
+22.0 33.0 44.0
+55.0
+66.0
+77.0
+88.0
+Total
+220.0 440.0 660.0 880.0 1100.0 1320.0 1540.0 1760.0
+1. Place sample against a magnetic rack and wait until liquid becomes clear.
+2. With sample still on magnetic rack, remove supernatant and wash with 250uL of water
+(do not resuspend beads this time).
+3. Resuspend sample in 200ul of Template Switch Mix.
+4. Incubate at room temp for 30 min with agitation or rolling.
+5. Incubate at 42C for 90 min with agitation or rolling (we shook in incubator at 100 rpm).
+6. Potential Stopping Point. If stopping perform the following (otherwise skip to next
+section):
+a. Place sample against a magnetic rack and wait until liquid becomes clear.
+b. Resuspend in 250uL Tris-T.
+CDNA Amplification
+Prepare the following PCR mix depending on the number of samples:
+Volume per Number of Samples (UL)
+Reagent
+1
+2
+3
+4
+5
+6
+7
+8
+Kapa Hifi 2x
+Master Mix
+121.00 242.00 363.00 484.00 605.00 726.00 847.00 968.00
+BC_0108 (10uM)
+9.68 19.36 29.04 38.72 48.40 58.08 67.76 77.44
+BC_0062 (10uM)
+9.68 19.36 29.04 38.72 48.40 58.08 67.76 77.44
+Water
+101.64 203.28 304.92 406.56 508.20 609.84 711.48 813.12
+Total
+242.0 484.0 726.0 968.0 1210.0 1452.0 1694.0 1936.0
+SPLIT-seq V3.0
+11
+
+
+
+1. Place sample against a magnetic rack and wait until liquid becomes clear.
+2. With sample against magnet wash with 250uL nuclease-free water (do not resuspend).
+3. Resuspend sample with 220uL PCR mix and split equally into 4 different PCR tubes.
+4. Run the following thermocycling program:
+a. 95C 3 min
+b. 98C 20s
+C. 65C 45s
+d. 72C 3min
+e. Repeat (b-d) 4x (5 total cycles)
+f. 4C hold.
+5. Combine all 4 reactions into a single 1.7mL tube. Make sure to resuspend any beads
+that may be stuck to the bottom or sides of the PCR tubes before combining reactions.
+6. Place sample against a magnetic rack and wait until liquid becomes clear.
+7. Transfer 200uL of supernatant to 4 optical grade qPCR tubes (50uL in each tube).
+8. Add 2.5uL of 20x evagreen to each qPCR tube.
+9. Run the following qPCR program (make sure to remove samples, once signal starts to
+leave exponential phase to prevent overamplification).
+a. 95C 3 min
+b. 98C 20s
+C. 67C 20s
+d. 72C 3min
+e. Repeat (b-d) until signal plateaus out of exponential amplification
+f. 72C 5 min
+g. 4C hold
+10. Optional: Run an agarose gel or bioanalyze resulting qPCR. There will likely be a
+combination of CDNA and dimer present.
+SPRI size selection (0.8x)
+1. Combine qPCR reactions into a single tube.
+2. Take out 180 ul of the pooled qPCR reaction and place in new 1.7 mL tube
+3. Add 144ul of Kapa Pure Beads to tube and vortex briefly to mix. Wait 5 min to bind
+DNA.
+4. Place tube against magnetic rack and wait until liquid becomes clear.
+5. Remove the supernatant.
+6. With tubes still on magnetic rack, wash with 750uL 85% ethanol. Do not resuspend
+beads.
+7. Repeat step 6.
+8. Remove ethanol and air dry bead (-5min). To not let beads overdry and crack.
+9. Resuspend beads from each tube in 20uL of water. Once beads are fully resuspended in
+the water, incubate the tube at 37C for 10 min.
+10. Bind tubes against magnetic rack and wait until liquid becomes clear.
+11. Transfer 18.5uL of elutant into a new optical grade PCR tube.
+SPLIT-seq V3.0
+12
+
+
+
+12. Run a bioanalyzer trace on 10 ul of the elutant
+13. If no dimer is present after size selection, jump directly to Tagmentation and Illumina
+Amplicon Generation" section. If dimer is still present, proceed to step 14 to perform a
+second amplification and size selection step. This may be necessary for cells with low
+RNA content, but should not be necessary for cells with high RNA content (eg, HeLa-S3,
+NIH/3T3, etc.).
+Optional: Second qPCR:
+14. Make the following qPCR mix depending on the number of samples:
+Volume per Number of Samples (UL)
+Reagent
+1
+2
+3
+4
+5
+5
+7
+8
+Kapa Hifi 2x
+Master Mix
+27.50 55.00 82.50 110.00 137.50 165.00 192.50 220.00
+BC_0062 (10uM) 2.20
+4.40
+6.60
+8.80 11.00 13.20 15.40 17.60
+BC_0108 (10uM) 2.20 4.40
+6.60
+8.80
+11.00 13.20 15.40 17.60
+Evagreen 20x
+2.75
+5.50
+8.25 11.00 13.75 16.50 19.25 22.00
+Sample
+20.35 40.70 61.05 81.40 101.75 122.10 142.45 162.80
+Total
+55.00 110.00 165.00 220.00 275.00 330.00 385.00 440.00
+15. Add 31.5 uL of the qPCR master mix to each optical PCR tube with the previous PCR
+sample. Gently mix by flicking and spin tubes briefly in a table centrifuge to remove air
+bubbles.
+16. Run the following qPCR program (make sure to remove samples, once signal starts to
+leave exponential phase to prevent overamplification).
+a. 95C 3 min
+b. 98C 20s
+C. 67C 20s
+d. 72C 3min
+e. Repeat (b-d) until signal plateaus out of exponential amplification
+f. 72C 5 min
+g. 4C hold
+17. Run an agarose gel or bioanalyze resulting qPCR. While there may still be dimer,
+amplified CDNA should be clearly visible between 500bp to 2500bp. See lane 2 on figure
+1 for expected size distribution.
+Second SPRI size selection (0.8x)
+18. Combine qPCR reactions into a single tube.
+19. Take out 40uL of the qPCR reaction and place in new 1.7 mL tube
+20. Add 32uL of Kapa Pure Beads to each tube and vortex briefly to mix. Wait 5 min to bind
+DNA.
+SPLIT-seq V3.0
+13
+
+
+
+21. Place tubes against magnetic rack and wait until liquid becomes clear.
+22. Remove the supernatant.
+23. With tubes still on magnetic rack, wash with 750uL 85% ethanol.
+24. Repeat step 5.
+25. Remove ethanol and air dry bead (-5min). To not let beads overdry and crack.
+26. Resuspend beads from each tube in 20uL of water and wait 5 min.
+27. Bind tubes against magnetic rack and wait until liquid becomes clear.
+28. Transfer 18.5ul of elutant into a 1.7mL tube.
+29. Run an agarose gel or bioanalyze resulting qPCR. There should be almost no dimer at
+this point. If dimer remains, perform another round of qPCR followed by another 0.8x
+SPRI size selection.
+Tagmentation and Illumina Amplicon Generation
+1. Quibit amplified CDNA and dilute to 0.12ng/uL.
+2. Preheat a thermocycler to 55 degrees.
+3. For each sample, combine 600 pg of purified CDNA with H20 in a total volume of 5 ul.
+4. To each tube, add 10 ul of Nextera TD buffer and 5 ul of Amplicon Tagment enzyme (the
+total volume of the reaction is now 20 ul). Mix by pipetting -5 times. Spin down.
+5. Incubate at 55 C for 5 minutes.
+6. Add 5 ul of Neutralization Buffer. Mix by pipetting ~5 times. Spin down. Bubbles are
+normal.
+7. Incubate at room temperature for 5 minutes.
+8. Add to each PCR tube in the following order:
+1. 15 ul of Nextera PCR mix
+2. 8 ul H20
+3. 1 ul of 10 UM (N7 indexed primer, one of BC_0076-BC_0083)
+4. 1 ul of 10 UM Nextera (BC_0118) N501 oligo
+9. Run the following thermocycling program:
+1. 95 C. 30 sec
+2. 12 cycles of:
+1. 95 C 10 seconds
+2. 55 C 30 seconds
+3. 72 C 30 seconds
+3. Then: 72 C 5 minutes 4 C1 forever
+10. Transfer 40ul out of the 50uL reaction to a 1.7mL tube.
+11. Add 28uL of Kapa Pure beads to do a 0.7x cleanup. Elute in 20ul.
+12. Bioanalyze resulting sample and quibit before sequencing. See lane 1 on figure 1 for
+expected size distribution.
+Illumina Sequencing
+1. Use a paired-end sequencing run with a 150 bp kit.
+2. Set read1 to 66 nt (transcript sequence)
+3. Set read2 to 94 nt cell-specific barcodes and UMI)
+4. Include a 6nt read 1 index to ready sublibrary indices (this is 4th round of barcodes).
+SPLIT-seq V3.0
+14
+
+
+
+Table S12. List of all oligo
+Oligonucleotie Number
+BC_0060
+BC_0062
+BC_0066
+BC_0076
+BC_0077
+BC_0078
+BC_0079
+BC_0080
+BC_0081
+BC_0082
+BC_0083
+BC_0108
+BC_0118
+BC_0127
+BC_0215
+BC_0216
+The 96 well plate oligonuclec
+
+
+
+nucleotide sequences used
+Description
+Round 31 barcode linker
+PCR primer, used after template switching (used with BC_0108)
+Round 3 blocking strand
+Nextera Tagmentation PCR primer (TSBC07), sublibrary index #1 (used with BC_0118)
+Nextera Tagmentation PCR primer (TSBC08), sublibrary index #2 (used with BC_0118)
+Nextera Tagmentation PCR primer (TSBC09), sublibrary index #3 (used with BC_0118)
+Nextera Tagmentation PCR primer (TSBC10), sublibrary index #4 (used with BC_0118)
+Nextera Tagmentation PCR primer (TSBC11), sublibrary index #5 (used with BC_0118)
+Nextera Tagmentation PCR primer (TSBC12), sublibraryi index #6 (used with BC_0118)
+Nextera Tagmentation PCR primer (TSBC13), sublibraryi index #7 (used with BC_0118)
+Nextera Tagmentation PCR primer (TSBC14), sublibraryi index #8 (used with BC_0118)
+PCR primer, used after template switching (used with BC_0062)
+Nextera Tagmentation PCR primer N501 (used with BC_0076 through BC_0083)
+Template switching primer, HPLC purified (purchased from Exiqon)
+Round 21 barcode linker
+Round 21 blocking strand
+otides used for each round ofbarcoding can be found by navigating through the other. sheets ir
+
+
+
+Sequence
+AGTCGTACGCCGATGCGAAACATCGGCCAC
+CAGACGTGTGCTCTTCCGATCT
+GTGGCCGATGTTTCGCATCGGCGTACGACT
+CAAGCAGAAGACGGCATACGAGATGATCTGGTGACTGGAGTTCAGACGTGTGCTCTTCCGATCT
+CAAGCAGAAGACGGCATACGAGATTCAAGTGTGTGACTGGAGTTCAGACGTGTGCTCTTCCGATCT
+CAAGCAGAAGACGGCATACGAGATCTGATCGTGTGACTGGAGTTCAGACGTGTGCTCTTCCGATCT
+CAAGCAGAAGACGGCATACGAGATAAGCTAGTGTGACTGGAGTTCAGACGTGTGCTCTTCCGATCT
+CAAGCAGAAGACGGCATACGAGATGTAGCCGTGACTGGAGTTCAGACGTGTGCTCTTCCGATCT
+CAAGCAGAAGACGGCATACGAGATTACAAGGTGACTGGAGTTCAGACGTGTGCTCTTCCGATCT
+CAAGCAGAAGACGGCATACGAGATTTGACTGTGTGACTGGAGTTCAGACGTGTGCTCTTCCGATCT
+CAAGCAGAAGACGGCATACGAGATGGAACTGTGACTGGAGTTCAGACGTGTGCTCTTCCGATCT
+AAGCAGTGGTATCAACGCAGAGT
+AATGATACGGCGACCACCGAGATCTACACACTAGAGATCGCTCGTCGGCAGCGTCAGAGATGTGTATAAGAGAGACAG
+AAGCAGTGTGGTATATCAACGCAGAGTGAATTGGrG+G
+CGAATGCTCTGGCCTCTCTCAAGCACGTGGAT
+ATCCACGTGCTTGAGAGGCCAGAGCATTCG
+1 this document.

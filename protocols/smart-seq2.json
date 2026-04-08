@@ -4,7 +4,8 @@
   "references": {
     "scg_lib_structs": "https://teichlab.github.io/scg_lib_structs/methods_html/SMART-seq_family.html",
     "paper": "https://www.nature.com/nmeth/journal/v10/n11/full/nmeth.2639.html",
-    "protocol_pdf": null
+    "protocol_link": "https://content.protocols.io/zwijeqe.pdf",
+    "protocol_pdf": "protocol_sources/smartseq2.pdf"
   },
   "library_sequence": "AATGATACGGCGACCACCGAGATCTACACIIIIIIIITCGTCGGCAGCGTCAGATGTGTATAAGAGACAGCTGTCTCTTATACACATCTCCGAGCCCACGAGACIIIIIIIIATCTCGTATGCCGTCTTCTGCTTG",
   "segments": [

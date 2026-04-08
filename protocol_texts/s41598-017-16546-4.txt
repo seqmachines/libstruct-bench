@@ -1,0 +1,711 @@
+www.nature.com/scientificreports
+SCIENTIFIC REPORTS
+OPEN STRT-seq-2i: dual-index 5' single
+cell and nucleus RNA-seq on an
+addressable microwell array
+Received: 13 April 2017
+Hannah Hochgernerot, Peter Lônnerberg12, I Rebecca Hodge3, Jaromir Mikes02, Abeer
+Accepted: 61 November 2017
+Heskol', Hermann Hubschle*, Philip Lin*, Simone Picellit2, Gioele La Manno1,2, Michael Ratz',
+Published online: 27 November 2017 Jude Dunne*, Syed Husain*, Ed Leino, Maithreyan Srinivasan*, Amit Zeisel1,2 &
+Sten Linnarsson12
+Single-cell RNA-seq has become routine for discovering cell types and revealing cellular diversity, but
+archived human brain samples still pose a challenge to current high-throughput platforms. We present
+STRT-seq-2i, an addressable! 9600-microwell array platform, combining sampling byl limiting dilution or
+FACS, with imaging and high throughput at competitive cost. We applied the platform tot fresh single
+mouse cortical cells and to frozen post-mortem human cortical nuclei, matching the performance of
+a previous lower-throughput platform while retaining al high degree off flexibility, potentially also for
+otherhigh-throughput: applications.
+Single-cell RNA sequencing has become the method of choice for discovering cell types' 122 andl lineages2-S, and for
+characterizing thel heterogeneity oft tumors67 and normal tissues such asl lungs and the nervous system?. Protocols
+with high levels of accuracy, sensitivity and throughput are now available commercially and from academia.
+Commonly used platforms include valve microfluidic devices10.11, microtiter plate formats such as SMART-seq2,
+MARS-seq, CEL- seq 2and STRT-seq"-14, as well as droplet microfluidicst5-17,
+An ideal platform should combine high throughput, low cost and flexibility, while maintaining the highest
+sensitivity and accuracy. Desirable features include imaging of eachi individual cell (e.g. toi identify doublets and
+tor measure fluorescent reporters), flexibility to sort cells (e.g. by FACS)andt to combine multiple samples in a sin-
+gle run. While current valve microfluidics and microtiter plate-based formats meet most of these requirements,
+they are often expensive and low throughput. In contrast, droplet microfluidics achieve veryl high throughput
+and low cost per cell, but at the expense of flexibility. In particular, multistep protocols present a challenge to
+droplet-based systems, do not permit imaging and typically do not scale well to a large number of samples (as
+opposed to cells).
+The adult human brain poses a particular challenge for single-cell genomics. With few exceptions, samples
+from human brain are only availablei in the form off frozen post-mortem specimens.. Although good human brain
+banks exist, where the postmortem interval has been minimized and RNA ofl high quality can be extracted, it
+is not possible to obtain intact whole cells from such materials. Somewhat surprisingly, it has been shown that
+nuclei can be sufficient to derive accurate cell type information's, including from frozen human brain speci-
+mens'9. However, nuclei have not yet been successfully analyzed on high-throughput platforms such as droplets
+or microwell arrays.
+To meet these challenges, we developed a nanoliter-volume microwell array platform compatible with our
+previously described STRT-seq chemistry, which is sufficiently sensitive to analyze both whole cells and nuclei.
+We designed a custom aluminum plate with outside dimensions conforming to standard microtiter plates, but
+with 9600 wells arranged in 96 subarrays of 100 wells each (Fig. la). The wells were designed with a diameter
+and spacing large enough to be addressable by a microsolenoid nanodispenser capable of depositing as little
+as 35 nL per well, specifically to selected wells. With a maximum well volume of 1UL, this facilitates efficient
+multi-step protocols that include separate lysis, reverse transcription and PCR steps with sufficient dilutions to
+Division ofl Molecular Neurobiology, Department of Medical Biochemistry and Biophysics, Karolinska Institutet,
+Stockholm, Sweden. 2Science for Life Laboratory, Solna, Sweden. Allen Institute for Brain Science, Seattle,
+Washington, USA. *WaferGen Biosystems Inc., Fremont, California, USA. Department ofCella andl Molecular Biology,
+Karolinska Institutet, Stockholm, Sweden. Correspondence and requests for materials: should be addressedi to A.Z.
+(email: amit.zeisel@ki.se) or S.L. (email:s sten.linnarsson@kise)
+SCIENTIFIC REPORTS |7: 16327 |DOI:10.1038/541598-017-16546-4
+1
+
+
+
+www.nature.com/scientificreports/
+a
+Dispense single cells
+Image and select cells
+CDNA synthesis on chip
+10x10 wells
+Optional:
+Freezing +
+CDNA extraction to
+Limiting dilution
+96s subarrays
+96- well plate
+FACS sorting
+BREREEEE a HB
+single-cell Viable, labelled
+9600- multiwell plate
+suspension
+Sequencing,
+analysis
+0
+C
+d
+f
+250.
+1001
+1000;
+10001
+100j
+Human 100
+Human
+200
+80
+d 0
+10
+60
+&
+3 150
+8
+Doublets 7%
+1 Doublets 5%
+100
+401
+I
+8 I 10
+50.
+201
+1001 Mouse
+100 Chicken
+0 5000 10000 1000 2000 3000 4000 5000
+1000L 100 200 300 400 500 600 1000k 100 200 300 400 500 600
+Number of Molecules
+Number of Genes
+Log,(mean mRNA count)
+Wells (rank by ratio)
+Wells (rank byr ratio)
+g
+h
+Limiting dilution WG nanodispenser
+FACS: sorting BD Influx
+FACS sorting BD Influx
+Dispense Plate overview Zoom Imaging example Plate overview Zoom Imaging example Dispense
+Zoom Imaging example
+scheme EE FP
+scheme  243
+ 8
+100 wells CENEE a
+32v wells
+Single-cell wells 26.0% (Poisson fit 0.8)
+48% 86%
+Figure 1. (a)STRT-seq-2 2i workflow overview. (b and c) Distribution of molecule (b) and gene counts (c) for
+cortex data (Fig. 2). (d) Coefficient of variation (CV) as a function of mean number of molecules m expressed in
+cortex cells. The fittedl line represents an offset Poisson, Log, CV: = Log,(m 0.5 + 0.5). (e andi f) Doublet rates as
+estimated by the ratio ofs species-specific molecules, per well, in mouse-human (e) and chicken-human (f) two-
+species experiments. (ga andl h) Single-cell well success rate when addressing 100 wells per unit by (g) limiting
+dilution or (h) FACS with 200 nL (left) or 50nl PBS (right) predispensed. (i). Accuracy of FACS demonstrated by
+checkerboard pattern sort to 32 wells per unit.
+avoidi inhibition oflater steps by the reagents used in previous steps. We modified and extensively reoptimized
+our 5'STRT-seq method (Supplementary) Fig. S1) by introducing an additional level ofi indexing (dual index'), to
+allow multiplexing first within each subarray and then across the whole plate. Sequencing libraries were designed
+for single rather than paired-end reads, contributing to a competitive per-cell cost ofthe method.
+The addressable microwell array format allows the user to process multiple samples per plate in parallel, and
+includes an imaging checkpoint for single-cell positive wells. Cells can be deposited by limiting dilution or by
+FACS, yielding to ~3000 or -7500 single cells per plate, respectively, and multiple plates can be prepared at
+once and frozen Yor later processing.
+To adapt 5' STRT-seq (also known as C1-STRT"): for duali indexing (STRT-seq-2i), we optimized all keys steps
+ofthe protocol, including celll lysis (Supplementary Fig. S2a-c), reverse transcription (Supplementary Fig. S2d-e),
+PCR (Supplementary Fig. S2f.g) and sequencing library preparation (Supplementary Fig. S2h) toi increase yield
+and quality.
+In order to validate the method, we first measured its technical performance (Fig. lb-fand Fig. S3). Using
+cells freshly isolated from mouse: somatosensory cortex (as previously described') we generated an average of
+41,000 mapped mRNA reads per cell. We observed an average of3686 detected genes, and 8706 detected mRNA
+molecules (Fig. S3a, distribution Fig. lb,c) for the typical cortical pyramidal cell, comparable to previously pub-
+lished datal with an average read depth of 500,000 mapped mRNA reads per cell (4550 genes, 175301 molecules)
+(Suppl. Fig. S3e). Thei number of mRNA molecules and genes detected varied greatly by cell type, indicating that
+this variation was dominated by biological, not technical, factors (Supplementary Fig. S3a,e). Noise followed an
+overdispersed Poisson distribution, as expected (Fig. 1d).
+Next, to: assess possible cross-contamination between wells and subarrays, we performed mixed two-species
+experiments with human (Hek293) and mouse (mES) or human and chicken (DF-1) cells. Approximately 7%
+(mouse) or 5% (chicken) of wells contained molecules stemming from both species at roughly equal ratios, indi-
+cating true doublet wells (Fig. le,f, Supplementary Fig. S3b). These doublets were likely due toi inefficient detec-
+tion ofj poorly stained cells by imaging, since post-analysis manual inspection of putative doublet wells could not
+confirm the doublets. In contrast, background reads from the other species in single-cell wells was low (average 37
+molecules). Therefore, ambient RNAS in the suspensions or cross-contamination occurring further downstream
+(e.g. during barcode indexing steps or library preparation), all contributed little to final mRNA counts.
+SCIENTIFIC REPORTS |7: 16327 |DOI:10.1038/541598-017-16546-4
+2
+
+
+
+www.nature.com/scientificreports/
+a
+Suppl Fig. S41 b
+4 S1PyrL23
+a
+a S1PyrL23 (Calb1) Pyramidal cells
+R
+- S1PyrL23 (Ddn)
+Ser  Layer 2/3
+a S1PyrL23 (Npnt)
+H
+S1PyrL4 (Kcnab3)
+à S
++ S1PyrL4 (Plcxd2) -
+- - - - Layer: 2/3
+a Oligodendrocytes
+S1PyrL5
+: an  *, a
+- S1PyrL6
+Layer4 -  hy
+ip
+4 Int
+
+, Int (Cort)
+- t a ae
+Sfa
+- Int (Kit)
+* * & RRFS d
+- Int(Vip)
+à
+Vegla
+I Int (Vip Npy)
+Layer 5/6  *
+OPCS
+Pdg
+Astro Astro (Gfap)
+* - RBCS de
+ip
+H
+Interneurons
+
+I Astro (118)
+FaR <
+Astro (Vegfa)
+Ln
+-
+à L a o Astrocytes
++ OPC COP
+Vascular cells,
+# a
+Aff
+* NFOL
+: *
+Hect
+MFOL
+3 - ie
+14
+I MOL
+: Microglia
+HIRDEE
+MOL (Apod)
+C
+4 Mgl
+Pvm
+Calb1 A Rasgri2 Rorb Plcxd2 Syt6 Foxp2
++ RBC
+As egniee N
+a2
+- Endo
+Maea MN a
++ - *
+9
+- Endo (Bmx)
+-
+-
+030 à  A
+- *
+H Peric
+-
+PP
+à yoh
+-
+Erdo
+VSM
+5
+4
+SPP
+Layer: 2/3
+Layer Layer4 4/5
+Layer 6
+dan
+d
+e GAD1 -
+f
+ABY
+ERBB4
+GABA-2
+CNR1
+Layer/l
+R
+KIT
+GABA-1 - *
+GABA- -4
+FBXL7 RELN_
+ %.
+doublets
+CXCL14
+
+
+y
+ -
+ADRA1A SYNPR
+GABA-S, à
+a GABA-3
+VIP
+ait
+PTHLH
+SOX6
+Glut-1-
+TAC1
+Layer vil
+CNTNAPS LHX6
+SLC17A7
+CUX2
+GABA-1
+GRIKI
+GABA-2
+GIC
+SST
+GABA-3
+-
+SLC17A7.
+GABA4
+PDZD2
+GABA-5
+Glut:3
+COLSA2
+Glut-1
+ZNF804B
+Glut-2
+ILIRAPL2
+Glut-3
+TSHZ2
+Glut-4
+Glut-
+HTR2C
+Glut-5
+FOXP2.
+Glut-6 a Glut-5,
+RORB
+Glut-R
+CUX2
+o
+*
+o
+RORB
+HTR2C
+Figure 2. Heterogeneity of cell-types in the mouse somatosensory cortex and human temporal cortex. (a) tSNE
+visualization for clustering of 2192 single-cells, colored by BackSPINV2 clusters. (b) Top marker genes of each
+cell type presented as normalized average expression by cluster, with major cell classes overlayed by colored
+boxes. (c) Genes specific toj pyramidal neuron subclasses byl layer specificity, confirmed by in situ hybridization
+from. Allen Mouse Brain Atlas. Image credit: Allen Institute. (d) tSNE visualization for clustering of 2028 post-
+mortem isolated neuronal nuclei from the middle temporal gyrus, colored by BackSPINV2 clusters. (e) Top
+marker genes of each neuronal subtype presented as normalized average expression by cluster. (f) Validation
+ofpyramidal neuron (Glut) expression layer specificity, by in situl hybridization from Allen Human Brain
+Atlas." The outermost layers rena VI are indicated by strokes. Image credit: Allen Institute.
+In order to assess thej performance of different cell deposition strategies, wei first dispensed cells using limiting
+dilution, i.e. loading an average of one cell per well. We designed 321 barcodes, to allow recovery of up to 32 wells
+per subarray or 30721 total (slightly below the Poisson limit of 3552 cells). In practice, we observed an average
+single-cell fill rate of almost 2500 cells per plate (Figs lg, Supplementary' Table S1). In order toi improve yield per
+plate, we used FACS to sort cells directly into the wells. In this mode, with optimal sorting parameters, we were
+able to get 86%: single cells (Fig. lh), or more than 8,000 cells per plate, although sorting that many cells was a
+slow process (seel Methods). FACS: alsol has other advantages, e.g. it can reduce the incidence of doublets, can be
+used to focus on desired rare subpopulations, and tol link molecular surface properties to each individual cell by
+index sorting. To ensure the accuracy ofl FACS dispensing, we sorted cells in a checkerboard pattern, showing a
+deposition error rate of4.1% of total addressed wells (Fig. li).
+SCIENTIFIC REPORTS |7: 16327 |DOI:10.1038/541598-017-16546-4
+3
+
+
+
+www.nature.com/scientificreports/
+Applying the method to mouse somatosensory cortex (S1 region), in five independent experiments, we
+selected approximately 2200 cells (Fig. 2a).1 Biclustering with BackSPINv2 algorithm resolved the structure of
+subclasses to a similar level as reported previously (Fig. 2a, Supplementary Fig. S4). We detected all major cell
+types, including excitatory and inhibitory neurons, oligodendrocytes, astrocytes, endothelial cells, microglia and
+ependymal cells. We also detected known subtypes. Fori instance, pyramidal neurons formed distinct clusters that
+showed layer-specific expression profiles (Fig. 2b,c)20. Importantly, the method showed reduced bias against cell
+size compared with the Fluidigm C1, demonstrated bythe presence of the small oligodendrocyte precursor cells
+(OPC) in this dataset, which were not detected in our earlier results (Zeisel et al. 1 but see also Marques et al.9,
+where OPCs were detected in a much larger dataset). Further, the full oligodendrocyte lineage was present and
+previously described markers (eg. Pdgfra, Itpr2 and Apod) could be related to the maturation process from OPC
+to myelin-forming oligodendrocytel (MFOL) (Supplementary Fig S4).
+To test the versatility and sensitivity ofthe platform, we next used neuronal (NeuN +1 FACS-sorted) nuclei
+isolated from a frozenj post- mortem human middle temporal gyrus specimen. In a single experiment, we obtained
+2028 nuclei. Despite shallow sequencing (mean < 62 000 reads per cell, Supplementary Fig. S5), BackSPINV2
+hierarchical clustering revealed eleven distinct glutamatergic and GABAergic cell types (Fig. 2d). These were
+characterized by exclusive or combinatorial expression of genes (Fig. 2e), and validated by comparison with Allen
+Human Brain Atlas21 (Fig. 2f). Thus, STRT-seq- -2i significantly increases throughput among platforms amena-
+ble to single-nuclei RNA-seqi in human postmortem tissue, and provides a more flexible format than emerging
+droplet-based protocols for nuclear sequencing (DroNc- Seq?).
+In summary, STRT-seq-2ii is a flexible and high-throughput platform for single-cell RNA-seq. It retains many
+oft thea advantages of FSTRT-seq, such as the use of unique moleculari identifiers (UMIS) for absolute quantification,
+5'-end reads that reveal transcription start sites, and single-read rather than paired-end sequencing for lower cost.
+But the transition to an addressable microwell format confers additional benefits. First, we gained the flexibility
+to deposit cells by dilution or by FACS, including by index sorting to track molecular surface properties of each
+cell and link them tot the final data. We can freely deposit multiple samples (up to eight in the current format) on
+each plate, and thereby optimize the allocation ofs sequencing poweri in complex experimental designs, something
+which is difficult using droplet microfluidics. Second, the plate is compatible with imaging, so that single-cell
+wells could be verified (albeit currently with a significant false negative rate due to imperfect cell staining), and
+fluorescent reporters can be linked to the final expression profile of each single cell. In contrast, other current
+high-throughput well-format arrays2324 are not addressable by dispense or FACS and are not compatible with
+imaging or multistep protocols and thus more prone to cell- or ambient RNA-borne cross-contamination. Third,
+plates can be filled, frozen and optionally shipped for processing at a later time Supplementary Fig. Sla-b,
+Alternative B). This should prove useful e.g. as single-cell RNA-seqe enters clinical settings, where sample procure-
+ment and sample processing are often performed at distinct sites. Fourth, the low reaction volume and the use of
+single reads sequencing keep costs low;, and we estimate a current cost of approximately $1/cell, including 100,000
+raw reads. Finally, we note that the open addressable microwell format, in contrast to droplet microfluidics, could
+easily be adapted to perform any multistep protocol currently implemented in regular microtiter plates (as long
+as they are: strictly additive). This should enable a similar flexibility and throughput for other applications, such
+as full-length mRNA-seq (e.g. SMART-seq 212), whole-genome amplification, and the detection of chromatin
+modification?5 and conformation?6.
+Methods
+Cell culture. Human Hek293 and chicken DF-1 cells were cultured in complete DMEM medium. Mouse ES
+cells27 were: maintained under feeder-free conditions in LIF-2i medium on 0.1% gelatin-coated culture plates28.
+The cells were trypsinized, washed, counted and assessed for cell viability.
+Animals. Male: andi female wild type CD-1 mice (Charles River) between postnatal days 21-37 were used.. All
+experimental procedures followed the guidelines and recommendations ofSwedish animal protection legislation
+and were approved by thel local ethical committee for experiments on laboratory animals (Stockholms Norra
+Djurforsoksetiska namnd, Sweden).
+Human post mortem tissue. Postmortem human brain tissue was provided to the. Allen Institute for Brain
+Sciencel byt the San Diego Medical Examiner's (SDME) office after obtaining permission for tissue collection from
+decedent next-of-kin. Tissue specimens were de-identified and assigned a numerical ID, and the Allen Institute
+for Brain Science obtained the tissue under a legal agreement that prevents SDME from sharing the key to the
+code or any identifying information about tissue donors. The collection and use of postmortem human brain
+tissue for research purposes was reviewedl by the Western Institutional Review Board (WIRB). WIRB determined
+that, in accordance with federal regulation 45 CFR 46 and associated guidance, the use of and generation of data
+from de-identified specimens from deceased individuals does not constitute human subjects research requiring
+IRB review. All tissuec collection was performed in accordance with the provisions ofthel Uniform Anatomical Gift
+Act described in Health and Safety Code SS 7150, et seq., and other applicable state: and federal laws and regula-
+tions. Thet tissue specimen used in this study was pre-screened forl known neuropsychiatric or neuropathological
+history, and underwent routine serological testing and screening for RNA quality (RNA integrity number 2 7).
+Single cell suspension from mouse cortex. Single cell suspensions from adolescent mouse cortex were
+generated as described before. Briefly, mice were anesthetized with isoflurane, perfused with ice-cold aCSF and
+brains collected. Brains weret then sectioned usinga a vibratome orl brain matrix andt the somatosensory cortex was
+microdissected. Single cell suspensions were generated using the Worthington Papain dissociation system, with
+modifications as described?.
+SCIENTIFIC REPORTS |7: 16327 |DOI:10.1038/541598-017-16546-4
+4
+
+
+
+www.nature.com/scientificreports/
+Isolation, sorting and processing post-mortem adult human neuronal nuclei. Nuclei were iso-
+lated from a 80°Cfrozen tissuep piece taken from the middle temporal gyrus oft the cerebral cortex using Dounce
+homogenization, as described before29. Briefly, the tissue piece was thawed in homogenization buffer (10mM
+Tris pH 8.0, 250mM sucrose, 251 mM KCI, 51 mM MgCl,, 0.1 mM DTT, 1x Protease Inhibitor (Promega), 0.4Ul
+ull RNasin Plus RNasei inhibitor (Promega) 0.1% Triton X-100) and gently homogenized with 5-10 gentle strokes
+using a loose pestle, followedt by 5-10: strokes with a tight pestle. Thel homogenate was filtered througha a 30um cell
+strainer and nuclei pelleted by centrifugation, 10min at 900g. Nuclei were resuspended and incubated for 15min
+at 4°Ci in blocking buffer (1x PBS with 0.5% BSA and 0.2U/ul RNasin Plus RNase inhibitor), an aliquot qual-
+ity assessed under the microscope, and stained with conjugated primary mouse-anti-NeuN_PE antibody, 1:500
+(Millipore) rotating at 4 °C for 30min. Stained suspensions were washedi inl blocking buffer, centrifuged 5min at
+450g, transferred to FACS tubes, supplemented with 1 ug/ul DAPI and sorted (FSC/SSC singlets, DAPI+, PE+).
+Sorted nuclei were frozen at -8 80°C in PBS with 10% DMSO and 0.8% BSA.
+An aliquot of 100 000 NeuN + sorted nuclei was thawed from 80°Ci in a 37°C water bath and quickly trans-
+ferred toi ice. Ther nuclei were diluted in 3 volumes of dilution buffer (1x1 PBS with 0.5% BSA and 0.5 U/ul TaKaRa
+RNase Inhibitor) and centrifuged 5r min at 1000g. Supernatant was carefully removed and the pellet was resus-
+pended in dilution buffer.
+Cell dispense using Nanodispenser MSND. Viable: single cell suspensions were stained with CellTracker
+Green CMFDA dye (Life Technologies) according to the manufacturer's instructions, except incubation was
+10min on ice. Suspensions were washed twice (cortex) or three times (cell lines) in respective medium and cells
+counted. Human nuclei were stained with Propodium Iodide ReadyProbes (Life Technologies), according to
+the manufacturer's instructions. All suspensions were diluted to 20 cells or nuclei/ul in PBS (cell lines), Ca2+/
+Mg2+- free aCSF (mouse cortex) or dilution buffer (human nuclei). 50nl oft the suspension were dispensed to all
+wells.
+FACS to wells using BD Influx. Before FACS, wells to be used were dispensed with 50-200nl PBS or 50nl
+lysis buffer and the plate was kept on ice. Cells were stained with CellTracker Green (as above) and Propodium
+Iodidel ReadyProbes (Life Technologies), according to the manufacturer's instructions, to discriminate dead cells.
+For sorting to single wells, we used BD Influx instrument (for configuration see: Supplementary Table S2). For a
+higher stability ofs sorting streams 140um and 200um nozzles were tested for efficiency. Ast two independent sort
+experiments with a 200um nozzle setup demonstrated decreased efficiency (data not shown) the 140um nozzle
+setup was used for further experiments. The gating strategy was set as follows: (1) Population of cells based on
+FSC-H x SSC-H profile, (2) Singlets based on FSC-H x FSC-W, (3) Singlets based on FSC-Hx FSC-A. (4) One
+oft the following options: (a) Cell- Tracker Green positive (530/40 [4881 nm)) or (b) Cell-Tracker Green positive
+(530/40(488nm) and Propidium iodide negative (585/29(561 nm]). Due to software memoryl limitations, only
+a quarter of the fulll layout (2400 wells) could be set: at: a time. Initially, two such quarter layouts, covering half
+thej plate were created. Using the symmetric plate design, it was then turned 180° to fill the full 9600-well plate.
+Layouts were aligned prior to each particular experiment using a dumb plate covered with thin film, to monitor
+thej position of3 3-5 drops of Accudrop fluorescentl beads. Given thesel limitations, we estimate a total plate fill time
+ofb below 1.5hours.
+Imaging and Cell selection. For correct imaging positioning, fiducial fluorescent stain orl highly concen-
+trated stained cell suspension was dispensed to corner wells during cell dispense (MSND) orl before FACS sort.
+Thec dispensed plate was sealed with MicroAmp Optical Adhesive! Film (Applied Biosystems), centrifuged 31 min at
+200gand mounted upside-down on automated] Nikon ECLIPSE' Ti. All wells were imaged in FITC channel, using
+a 4x objective (4-by-4 wells per frame). Imaging took less than 15minutes, during which the plate was cooled
+usingi icej packs, andt then immediately placed oni ice during image analysis (Supplementary Fig. Sla Alt A), orf fro-
+zen on - 80°C (Supplementary Fig. Sla Alt B). Imaging files were loaded to the CellSelect Software (WaferGen)
+with single cell containing wells selected using varying parameters, depending on the cells used. A quick manual
+inspection ofi included and excluded wells was carried out, andi ifneeded, analysis parameters (such as Expected
+Cell Size, Circularity, Brightness) were: adapted. Ifthe plate was held on ice for further processing, a maximum of
+7minutes was allowed per analysis. A finall list ofs single cell well candidates was saved as a Filter File for dispense
+ofa all downstream reagents.
+Lysis and reverse transcription. Primer sequences for this ands subsequent steps are given in Table 1.
+Ifthej plate was immediately processed (Supplementary Fig. Sla Alt A), 50nl lysis mix (500nM STRT-P1-T31,
+4.5nM dNTP, 2% Triton-X-100, 20mMI DTT, 1.5U/julTaKaRal RNasel Inhibitor) was dispensed, followedt by3min
+lysis at 721 °C. Then, 85nl reverse transcription (RT) mix (2.1X: SuperScript II First- Strand Buffer, 12.6mM MgCl,
+1.79M1 betaine, 14.7U/ul SuperScript II, 1.58 Ulul TaKaRa RNase Inhibitor, 10.5pM PIB-UMI-RNA-TSO) were
+dispensed and RT carried out 42°Cf for 90minutes.
+Ifthe plate had been stored on dryice or at - 80°C for later processing (Supplementary Fig. Sla. Alt B), it first
+was thawed to room temperature, followed by dispense of70nll Lysis-RT mix (1.62X SuperScript) II First-Strand
+Buffer, 10.2mM MgCl,, 1.36M betaine, 425nM STRT-P1-T31, 3.4mM dNTP, 3.4% Triton-X-100, 11.9mM DTT,
+8.5U/ul SuperScript II, 1.281 Ulul TaKaRa RNase Inhibitor, 5.11 pMI PIB-UMI-RNA-TSO) and reverse transcrip-
+tion at4 42 C for 90minutes.
+After each dispense andi incubation step thej plate was centrifuged for 1 minute at maximum speed (>2000g)
+to ensure] proper collection and mixing oft the reagents. For all array sealing, except duringi imaging, MicroSeal A
+film (BioRad) was used.
+SCIENTIFIC REPORTS |7: 16327 |DOI:10.1038/541598-017-16546-4
+5
+
+
+
+www.nature.com/scientificreports/
+STRT-P1-T31
+5'Bio-AATGATACGGCGACCACCGATCG-TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+Lysis/reverset transcription
+PIB-UMI-RNA-TSO
+5'Bio-rCrTrArCrArCrGrArCrGrCrTrCrTYTrCrCrGrArTrCrT-rNrNrNrNrNrN-1 -rGrGrG
+DI-PCR-PIA
+5'Bio-AATGATACGGCGACCACCGA
+PCR 1
+DL-PIA-idk(1-32)-PIB
+5'Bio-AATGATACGGCGACCACCGAGATCTACAC-XXXX-CTACACGACGCTCTTCCGATC
+STRI-Tn5-1dx(1-96]
+CAAGCAGAAGACGGCATACGA-YYYYYYYY-GCGTCAGATGTGTATAAGAGACAG
+Tagmentation
+STRT-TN5-U
+5'PHO-CTGTCTCTTATACACATCTGACGC
+PI_ 2nd_ PCR
+AATGATACGGCGACCACCGAGATC
+PCR2
+P2_2nd PCR
+CAAGCAGAAGACGGCATACGAGAT
+DI-Read1-Seq
+ATGATACGGCGACCACCGAGATCTACAC-NNNNNN-G CTACACGACGCTCTTCCGATCT
+Sequencing
+STRT-Tn5-U
+5'PHO-CTGTCTCTTATACACATCTGACGC
+DI_idxP1A-Seq
+AATGATACGGCGACCACCGAGATCTACAC
+Table 1. Custom oligonucleotides used for STRT-seq-2ip protocol.
+Indexed PCR and extraction. After reverse transcription, 32 index primers (DI-PIA-idx(1-32)-P1B) for
+PCR were dispensed, such that each candidate well per 10: x 10 subarray received a unique index. Primer dis-
+pense was carried outi in a 100r nl dispense step with 2% bleach washes between each set ofj primers, and achieving
+200nM final primer concentration in the PCRI reaction. PCR mix (final concentration 1X KAPA HiFi Ready Mix
+supplemented with 0.2mM dNTP, 100nM DI-PCR-PIA) was dispensed in 565nl (Alt A) or 430nl (Alt B), with
+stock concentrations adapted accordingly. PCR was run asi follows: 95°C3min. 5cycles: 98°C3 30sec, 67°C 1min,
+72°C 6min. 15 cycles: 98 °C 30s sec, 68°C 30sec, 72°C 6min.72°C5min, 10°C hold.. After PCR, an extraction
+block was mounted on a clean 96- well plate. On top, the plate was mounted, upside down, to align with the
+extraction block.' The assembly was centrifuged 5min at maximum speed (>
+The 96-well plate containing
+pooled, index amplified CDNA was assessed for quality on Bioanalyzer, sealed OAD stored at 20°C.
+Tagmentation and isolation of 5' fragments. Amplified CDNA was tagmented using 961 transposomes,
+each with a different index tot target CDNA from one: subarray each. Transposome stocks were: assembled (6.25uM
+barcoded adapter (STRT-TnS-ldx(1-96), 6.25M Tn5 transposase, 40% glycerol), 37°C lh, and concentration
+adapted according to' Tn5activity, if needed. Tn51 reactions were: assembled with 3jul transposome and2 12plampli-
+fied CDNA, in a total 20ul 1x CutSmart buffer (NEB), andi incubated at 55° °C 20min. 100pl Dynabeads MyOne
+Streptavidin C1, washed according to the manufacturer's instructions, were diluted 1:20i in BB buffer (10mM Tris
+HCI pH7 7.5, 5mM EDTA, 2501 mM NaCI, 0.5% SDS), added to the tagmentation reaction 1:1, andi incubated at
+room temperature 15min. After incubation, all samples were pooled to one tube, washed twice in TNT (20mM
+Tris HCI pH7.5, 50mM NaCI, 0.02% Tween-20) andr resuspended in 50ulTNT. Remaining adapters were cleaned
+by: adding 10ul ExoSAPIT (Affymetrix) and incubating 15min 37°C, followed byt two more washesi in TNTand
+one careful wash in EB. The single-stranded library was eluted in 50pl nuclease-f -free water by incubating 10min
+at 70°C and collecting the supernatant to a new tube. Thel library was then bound to 1.5X volumes AMPure beads
+(Beckman), supernatant: removed, the beads resuspended in Second PCR mix (1XI KAPA HiFi Ready Mix supple-
+mented with 200mM 4K-P1_ 2ndPCR, 200nM P2_4K 2ndPCR), and cycled (95°C2min. 8 cycles: 98°C 30sec,
+65°C 10sec, 72° °C 20sec. 72°C5min, 10°C hold). The supernatant was transferred, cleaned with 0.7X volumes of
+AmPure beads and eluted. The eluate was bound to 0.5X volumes of AmPure beads, the supernatant transferred,
+again bound in 1X volume of AmPure beads, and eventually eluted in EB.
+Illumina high-throughput sequencing. The quality and molar concentration oflibraries were assessed by
+Bioanalyzer. Sequencing was performed on Illumina HiSeq 2000 or 2500 with Single-1 End 50 cycle kit using the
+Readl DI-Readi-Seq, Index 1 STRT-Tn5-U and Index 2 DI-idxP1A-Seq. Reads of f45bp were generated, expected
+tos start with a 6bp UMI, followed by 3 guanidines, and the 5' transcript. Thet two index reads of8 and 5bp corre-
+sponded to Index 1 (subarray barcode) and Index 20 (well barcode), respectively.
+Data analysis. Reads flagged as invalid by the Illumina HiSeq control software were discarded. In the
+remaining reads, any 3'b bases with a quality score of B werel removed. Ifany ofthe six UMI basesi in the 5' end had
+al Phred score < 17 the read was discarded, else the UMI was cut away and saved. The following three bases had
+tol be G for the read to bel kept. These, as well as any additional up to totally nine (presumablyt template-switch
+derived) G:s were cut away. Reads were discarded ifthe remaining transcript- -derived sequence endedi in a poly(A)
+sequence leaving < 25 bases, or ifthe remaining sequence consisted of fewer than six non-A bases or a dinucle-
+otide repeat with fewer than six other bases at either end. The reads were sorted by the well, as defined by the
+combined two index read barcodes.
+Alignment was performed using the Bowtie: aligner 30 allowing for up to threei mismatches and up to 24 alter-
+native mappings. Reads with no: alignments were realigned against an artificial chromosome, containing all pos-
+sible: splicej junctions arising from the exons defined by thel UCSC transcript: models31. The coordinates of aligned
+splice junctions were translated back to the corresponding genomic positions.
+For expression level calculation, the exons of each locus with several transcript variants were merged to a
+combined model representing total expression ofthel locus. To: account for incomplete cap site knowledge, the 5'
+ends of all models were extendedl by 1001 bases, but not beyond the 3' end ofa fany upstream nearby exon ofanother
+gene oft the same orientation.
+SCIENTIFIC REPORTS |7: 16327 |DOI:10.1038/541598-017-16546-4
+6
+
+
+
+www.nature.com/scientificreports/
+The annotation step was performed separately for each well. For each genomic position and strand combi-
+nation the number of reads in each UMI was counted. Any multiread that mapped to some repeat outside exons
+was assigned randomly: as one ofthese repeats and didi not contribute tot the transcript corresponding to the exon.
+Else, ifthe multiread mapped to some exon, and not to: any repeat outside exons, it was assigned tot the exon where
+it was closest to the transcript model 5' end. Ifit had no exon mapping, it was assigned randomly at one of the
+mappings. The total number of molecules at each mapping position was determined by the number of distinct
+UMIS observed.. Any UMI represented by only a single read was excluded, in order to reduce false molecules due
+tol PCR and sequencing errors. Thei raw UMI count was corrected for the UMI collision probability as described32.
+The human nuclei samples were: analyzed similarly, but all reads mapping anywhere within the wholel locus,
+defined ast thei region (includinga actual introns) from the start oft the 100 base 5' end extension of the first exon up
+to the end oft thel last exon, were counted as exon-derived.
+Clustering and analysis mouse cortex cells. Analysis of mouse cortex samples included the follow-
+ing steps: (1) Loaded all 7769 cells. (2) Filtered on 800-2000 total molecules per cell and ratio total molecules/
+total genes > 1.2, resulting in 6449 cells. (3) Excluded doublets identified by co-expression ofl known marker
+genes (Stmn2 - neurons, Mog - oligodenderocytes, Aqp4 - astrocytes, Fnl endothelial, Clqc microglia),
+5514 cells retained. (4) Permuted order of cells and genes. (5) Clustering by BackSPINV2 with following param-
+eters: splitlev: = 7; Nfeture i- 300; Nfeturel = 500; N_to_ backspin: iI 10; N_to_cells I 500; mean_tresh- = 0.01;
+fdr_th = 0.3; min_gr_ cells = 5; min_gr_ genes: = 10; stop_th = [0.5,0.5]; flag_ val_stip = 1;. (6) Manual inspec-
+tion of clustering results and separation of cells to neurons and non-neurons. Clusters that showed no: specific
+marker, interpreted as low quality, and cells originating from a Hek293 sample (Supplementary Table S1) were
+removed (1882 cells removed, Supplementary Fig S4a) (7) Separate clustering of neurons and non-neurons
+with following parameters: splitlev = 6; Nfeture I 200; Nfeturel I 800; N_to_backspin = 10; N_to_ cells = 500;
+mean_tresh: = 0.01; fdr_th I 0.3; min_gr_cells: = 5; min_gr genes = 20; stop_th - [0.5,0.5]; flag_val_stip: =l 1;.
+(a) For neurons, this resulted in 35 clusters, we excluded 12 clusters for which no specific marker was obtained
+and merged some of the remaining 23 clusters into final 13 clusters (Supplementary Fig S4b). (b) For only
+non-neurons the same BackSPINV2 parameters resulted in 33 clusters, we excluded 7 clusters without specific
+marker and merged some oft the remaining 26 clusters into 17 final clusters (Supplementary Fig S5).
+tSNE projection33 was used for visualization only. We used the following parameters: 410 genes, perplexity 20,
+PCA components? 20, epsilon 100, distance correlation number ofi iterations 1000 (Matlab code https/lvdmaaten.
+github.io/tsne/). In the heatmap (Supplementary Fig S4) we used the same 410 genes. Color on heatmaps repre-
+sent normalized expression (log-transform per gene: mean = 0, standard deviation = 1) and are saturated 1-99%.
+Clustering and analysis human cortex nuclei. Analysis ofl human cortex nuclei included the following
+steps: (1) Loaded all 2842 cells. (2) Filtered out cells with less than 500 detected molecules (2306 cells retained).
+(3) Removed genes expressed in less than 20 cells, or more than 60% of cells. (4) Normalized each cell to total
+3000 molecules. (5) Clustering by BackSPINV2 using the following parameters: splitlev= 6; Nfeture - 500;
+Nfeturel =5 500; N_to_ backspin iI 10;N_to_cells: = 800;
+mean_tresh: = 0.01; fdr_ th - 0.3; min_gr_ cells = 5; min_gr_genes: = 5; stop_th = [0.5,0.5]; flag_val_stip =2.
+Clustering resulted in 31 clusters. (6) One cluster expressing glial genes was removed, the rest were manually
+merged into 11 clusters.
+For visualization, we selected top enriched genes, as described above. tSNE visualization was run as above,
+with thet following parameters: initial PCA dimension i 20, perplexity: i 2, epsilon I 100, correlation as distance,
+maximum iterations: = 1000.
+Two-species analysis. A combined two-species bowtie- 130 alignment index was constructed from tran-
+script models as defined by the UCSC refFlat table data? 34. In order to obtain equally-sized and similar representa-
+tions oft the two transcriptomes to compare, wer naively restricted the analysis to thet transcripts that had identical
+names in thet two species (disregarding upper/lower case).
+Illumina HiSeq reads were processed as follows: Reads ending in a poly(A) sequence leaving less than 25
+alignable 5' bases were discarded. Any 3'bases with a quality score ofl B were removed. Ifthe remaining sequence
+consisted of fewer than six non-A bases or a dinucleotide repeat with fewer than six other bases at either end, the
+read was discarded.
+The filtered reads were aligned to thel bowtie-1 I index allowing for up to 31 mismatches. A read was considered
+unequivocally belonging to a species and counted ifi it had a perfect match to a transcript off that species, but no
+match in the other species, also when allowing up to 3 mismatches.] Molecule counts were obtained as the number
+of distinct six nucleotide long unique molecular identifiers (UMIS) of the reads aligned at each position. UMIs
+represented by a single read were not counted, since our previous experiments have shown that these to a large
+extent are: artifacts stemming from PCR and sequencing errors and resulti in overestimates of molecule counts.
+Data availability. The datasets generated during the current study are available in the Gene Expression
+Omnibus (GEO), accession GSE101601, which is accessible at https://www.ncbi.nlm.nih.gov/geo/query/acc.
+cgifacc = GSE101601.
+References
+1. Zeisel, A. et al. Cell typesi in the mouse cortex: andl hippocampus revealed by single-cell RNA-seq. Science (80-).347(2015).
+2. Tasic, B. et al.. Adult cortical cell taxonomyl bys single cell transcriptomics.. Nat. Neurosci. https/doi.org/10.1038/nn.4216(2016).
+3. Lal Manno, G. etc al. Molecular Diversity off Midbrain Development in Mouse, Human, and Stem Cells. Cell1 167, 566-580.e19(2016).
+4. Setty, M. et al. Wishbone identifies bifurcating developmental: trajectories from single-celld data.. Nat. Biotechnol. 34,637-645(2016).
+5. Paul, F. et al. Transcriptional Heterogeneity: and Lineage Commitment in Myeloid Progenitors. Celli 163, 1663-1677 (2015).
+SCIENTIFIC REPORTS |7: 16327 |DOI:10.1038/541598-017-16546-4
+7
+
+
+
+www.nature.com/scientificreports/
+6. Tirosh, I. et al. Single-cell RNA- seq supportsa developmental hierarchy inl human oligodendroglioma. Nature 539, 309-313 (2016).
+7. Tirosh, Let al. Dissectingt thei multicellular ecosystem oft metastatic melanomal by single-cell RNA-seq. Science (80-.).3 352 (2016).
+8. Treutlein, B. et al. Reconstructingl lineage hierarchies of the distall lung epithelium using single-cell RNA- -seq. Nature 509,371-375
+(2014).
+9. Marques,S. et al. Oligodendrocyte heterogeneityi in the mousej juvenile and adult central nervous system.. Science (80-.). 352( (2016).
+10. Pollen, A. A. et al. Low-coverage single-cell mRNA sequencing reveals cellular heterogeneity: and activated signaling pathways in
+developing cerebral cortex. Nat. Biotechnol. 32, 1053-8 (2014).
+11. Islam,S. et al. Quantitative single-cell RNA-seq with unique moleculari identifiers. Nat. Methods 11, 163-166 (2013).
+12. Picelli,S. et al. Smart-seq. 2fors sensitive full-length transcriptome profiling ins singlec cells. Nat. Methods 10, 1096-1098 (2013).
+13. Jaitin,D.A. et al. Massively Parallel: Single-Cell RNA- Seqi forl Marker-Freel Decomposition of Tissues into Cell Types.. Science (80-.).
+343(2014).
+14. Hashimshony, T., Wagner, E, Sher, N. & Yanai, I. CEL-Seq: Single- Cell RNA-Seq byl Multiplexed Linear Amplification. Cell Rep. 2,
+666-673 (2012).
+15. Macosko, E. Z. et al. Highly Parallel Genome-wide Expression Profiling of Individual Cells Using Nanoliter Droplets. Cell 161,
+1202-1214( (2015).
+16. Klein,A.M. etc al.l Droplet Barcoding for Single-Cell Transcriptomics Applied to Embryonic Stem Cells. Cell 161, 1187-1201 (2015).
+17. Zheng, G.X.Y. et al. Massively parallel digital transcriptional profiling ofs single cells. bioRxiv (2016).
+18. Habib, N. et al. Div-Seq: A single nucleus RNA- Seq method reveals dynamics of rare adult newborn neurons in the CNS. bioRxiv
+1-201 hntps/idotogyin.1010ssa9 (2016).
+19. Lake, B. B. et al. Neuronal subtypes and diversity revealed by single- nucleus RNA sequencing of thel human brain. Science 352,
+1586-90 (2016).
+20. Lein, E. S. et al. Genome-wide: atlas of gene expression in the adult mousel brain.. Nature 445, 168-176 (2007).
+21. Hawrylycz,1 M.J. et al. An anatomically comprehensive: atlas oft the adult human brain transcriptome. Nature 489, 391-399(2012).
+22. Habib, N. et al. Massively parallel single-nucleus RNA-seq with DroNc-seq. Nat. Methods https//doi.org/10.1038/nmeth.4407
+(2017).
+23. Gierahn, T. M. et al. Seq-1 -Well: portable, low-cost RNA sequencing of single cells at high throughput. Nat. Methods https://doi.
+orgy/10.1038/nmeth.4179 (2017).
+24. Fan, H. C., Fu, G. K. &1 Fodor, S. P.. A. Combinatorial labeling of single cells for gene expression cytometry. Science (80-.). 347,
+1258367-1258367 (2015).
+25. Buenrostro,J.I D.et al. Single-cell chromatin accessibility reveals principles ofr regulatory variation. Nature! 523, 486-490 (2015).
+26. Nagano, T.e et al. Single-cell Hi-C reveals cell-to-cell variability in chromosomes structure.. Nature! 502, 59-64 (2013).
+27. Platt, R.J.eta al. CRISPR-Cas91 knockin micet for genome editing and cancer: modeling. Cell 159, 440-55(2014).
+28. Koehler, K. R. &1 Hashino, E.: 3D mouse embryonic stem cell culture for generating inner ear organoids. Nat. Protoc. 9, 1229-1244
+(2014).
+29. Krishnaswami,S. R. et al. Using single: nuclei for RNA-seq to capture the transcriptome of postmortem neurons.. Nat.. Protoc. 11,
+499-524 (2016).
+30. Langmead, B., Trapnell, C., Pop, M. & Salzberg, S. L. Ultrafast and memory-efficient alignment of short DNA sequences to the
+human genome. Genome. Biol. 10,1 R25 (2009).
+31. Meyer, L.I R. et al. Thel UCSC Genome Browser database: extensions and updates 2013.. Nucleic Acids Res. 41, D64-9(2013).
+32. Fu, G.1 K., Hu,J J., Wang, P.-H. & Fodor, S.P.A. Counting individual DNA molecules by the stochastic attachment ofc diverse labels.
+Proc. Natl. Acad. Sci. USA 108, 9026-31 (2011).
+33. Maaten, Lvander & Hinton, G. Visualizing Data usingt t-SNE. J.. Mach.. Learn. Res. 9, 2579-2605 (2008).
+34. Rosenbloom, K. R. et al. Thel UCSC Genome Browser database: 2015 update. Nucleic Acids. Res. 43, D670-81 (2015).
+Acknowledgements
+We thank Feng Zhang for mouse ES cells. We thank Anna Johnsson for lab management and. Anna Juréus for
+technical assistance and sequencing.
+Author Contributions
+A.Z., M.S., S.L., H.Ho., H.Hu., G.L.M. and J.D. conceived and designed the method. H.Hu., P.Li., J.D., S.H., M.S.
+and A.Z. designed and engineered the microarray. H.Ho., R.H., J.M., A.H. and A.Z. performed experiments.
+M.R., R.H. and E.L. provided materials. H.Ho., H.Hu., P.Lo., A.Z. and S.L. analyzed data. H.Ho., A.Z. and S.L.
+drafted the manuscript, with input from all authors.
+Additional Information
+Supplementaryin information accompanies this paper at https://doi.org/10.1038/s41598-017-16546-4.
+Competing Interests: S.L., H.Ho., P.Lo., S.P., G.L.M. and A.Z. are co-inventors ofthe method, for which a
+patent application has been submitted by WaferGen Inc., and may receive license or royalty payments. M.S.,
+S.H., J.D., P.Li. and H.Hu are employees ofWaferGen Inc. R.H., J.M., A.H., M.R. and E.L. declare no competing
+financial interests.
+Publisher's note:: Springer Nature remains neutral with regard toj jurisdictional claims inj published maps and
+institutional affiliations.
+C @ Open Access This article is licensed under a Creative Commons Attribution 4.0 International
+License, which permits use, sharing, adaptation, distribution and reproduction in any medium or
+format, as long as you give appropriate credit to the original author(s) and the source, provide a link to the Cre-
+ative Commons license, and indicate if changes were made. The images or other third party material in this
+article are included in the article's Creative Commons license, unless indicated otherwise in a credit line to the
+material. If material is not included in the article's Creative Commons license and your intended usei is not per-
+mitted by statutory regulation or exceeds thej permitted use, you will need to obtain permission directly from the
+copyright holder. To view a copy oft thisl license, visitl httpr//creativecommons.org/licenses/by/4.0.
+OThe Author(s) 2017
+SCIENTIFIC REPORTS |7: 16327 |DOI:10.1038/541598-017-16546-4
+8

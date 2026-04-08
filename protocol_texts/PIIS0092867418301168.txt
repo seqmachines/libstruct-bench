@@ -1,0 +1,3186 @@
+An update to this article is included at the end
+Resource
+Cell
+Mapping the Mouse Cell Atlas by Microwell-Seq
+Graphical Abstract
+Authors
+Xiaoping Han, Renying Wang,
+Yincong Zhou, s Guo-Cheng Yuan,
+>40 Mouse organs and tissues
+Microwell-seq
+Ming Chen, Guoji Guo
+Cells
+Correspondence
+Wash
+- Out
+xhan@zju.edu.cn (X.H.),
+>400,000 Single Cell
+ggj@zju.edu.cn (G.G.)
+MRNA-seq
+Beads Cells
+In Brief
+The Mouse Cell Atlas
+Development of Microwell-seq allows
+Single Cell
+construction of a mouse cell atlas at the
+DGE Data
+single-cell level with a high-throughput
+and low-cost platform.
+SCMCA
+8
+Highlights
+Data Resources
+Development of Microwell-seq, a high-throughput and low- GSE108097
+cost SCRNA-seq platform
+Construction of a single-cell mouse cell atlas (SCMCA)
+covering major cell types
+Characterization of cellular heterogeneity with minimal batch
+effect
+Characterization of cross-tissue cellular network at the
+single-cell level
+Han et al., 2018, Cell 172, 1091-1107
+February 22, 2018 O 2018 Elsevier Inc.
+https.//doi.org/10.1016/j.cell.2018.02.001
+CellPress
+
+
+
+Cell
+Resource
+Mapping the Mouse Cell Atlas by Microwell-Seq
+Xiaoping Han, 1,12,13,* Renying Wang, 1,12,13 Yincong Zhou, 2,12,13 Lijiang Fei, 1,12,13 Huiyu Sun, 1,12,13 Shujing Lai, 1,12,13
+Assieh Saadatpour, 11 Ziming Zhou, 1,12 Haide Chen, 1,12 Fang Ye, 1,12 Daosheng Huang, 1 Yang Xu,1 Wentao Huang, 1
+Mengmeng Jiang, 1,12 Xinyi Jiang, 1,12 Jie Mao,3 Yao Chen,4 Chenyu Lu,5 Jin Xie, 6 Qun Fang, Yibin Wang, Rui Yue,
+Tiefeng Li,3 He Huang, 9,12 Stuart H. Orkin, 10 Guo-Cheng Yuan, 11 Ming Chen, 2,12 and Guoji Guo' 1,9,12,14,*
+1Center for Stem Cell and Regenerative Medicine, Zhejiang University School of Medicine, Hangzhou 310058, China
+2College of Life Sciences, Zhejiang University, Hangzhou 310003, China
+3Institute of Applied Mechanics, Zhejiang University, Hangzhou 310027, China
+Department of Reproductive Endocrinology, Women's Hospital, Zhejiang University School of Medicine, Hangzhou 310058, China
+5Research Center of Infection and Immunity, Zhejiang University School of Medicine, Hangzhou 310058, China
+6Statel Key Laboratory of Fluid Power and Mechatronic Systems, Zhejiang University, Hangzhou 310058, China
+Institute of Microanalytical Systems, Department of Chemistry, Zhejiang University, Hangzhou 310058, China
+8Institute for Regenerative Medicine, Shanghai East Hospital, School of Life Sciences and Technology, Tongji University,
+Shanghai 200092, China
+9Institute of Hematology, thel First. Affiliated Hospital, Zhejiang University School of Medicine, Hangzhou 310003, China
+10Division of Pediatric! Hematology/Oncology, Danal Farber Cancer Institute and Boston Children's Hospital, Harvard Medical School, Boston,
+MA 02115, USA
+"1Department of Biostatistics and Computational Biology, Dana-Farber Cancer Institute, Harvard School of Public Health, Boston,
+MA 02115, USA
+12Stem Cell Institute, Zhejiang University, Hangzhou 310058, China
+13These authors contributed equally
+14Lead Contact
+"Correspondence: xhan@zju.edu.cn (X.H.), ggj@zju.edu.cn (G.G.)
+https://doi.org/10.1016/j.cell.2018.02.001
+SUMMARY
+fluorescence-activated cell sorting (FACS), and fluorescence in
+situ hybridization (FISH) facilitated the use of gene expression
+Single-cell RNA sequencing (SCRNA-seq) technolo- markers for cell classification (Regev et al., 2017). These technol-
+gies are poised to reshape the current cell-type ogies revealed heterogeneity within morphologically similar cell
+classification system. However, a transcriptome- populations. Subsequent studies associated molecular pheno-
+based single-cell atlas has not been achieved for types with cellular functions and achieved remarkable advances
+complex mammalian systems. Here, we developed in distinguishing cellt types. Nonetheless, current cell-type classi-
+Microwell-seq, a high-throughput and low-cost fication systems depend on markers that are largely chosen
+based on serendipitous discovery. The choice of markers often
+SCRNA-seq platform using simple, inexpensive de-
+varies among different laboratories, leading to difficulties in
+vices. Using Microwell-seq, we analyzed more than comparing results. Cross-tissue comparison is challenging as
+400,000 single cells covering all of the major mouse a given marker system, and preferred assay may differ for
+organs and constructed al basic scheme for a mouse different tissues.
+cell atlas (MCA). We reveal a: single-cell hierarchy for Recent advances in single-cell gene expression analysis offer
+many tissues that have not been well characterized an opportunity to greatly enhance cell identification and classifi-
+previously. We built a web-based "single-cell MCA cation. Emerging methods, such as high-throughput single-cell
+analysis" pipeline that accurately defines cell types qPCR (Dalerba et al., 2011; Guo et al., 2010; Han et al., 2017),
+based on single-cell digital expression. Our study single-cell mass cytometry (Bendall et al., 2011), and single-
+demonstrates the wide applicability of the Micro- cell mRNA-seq (Hashimshony et al., 2012; Ramskôld et al.,
+well-seq technology and MCA resource.
+2012; Shalek et al., 2013; Tang et al., 2009; Treutlein et al.,
+2014) allow for dissection of cell heterogeneity at high resolution.
+Massively parallel assays can process thousands of single cells
+INTRODUCTION
+simultaneously to measure transcriptional profiles with rapidly
+decreasing costs (Fan et al., 2015; Gierahn et al., 2017; Klein
+Cellular identity is defined by a unique combination of expressed et al., 2015; Macosko et al., 2015). Other methodologies, such
+genes. Since the discovery of the cell as the fundamental unit as single-cell genome analysis (Hou et al., 2012; Navin et al.,
+of life, investigators have sought to characterize and classify 2011; Wang et al., 2012; Xu et al., 2012), epigenome analysis
+cell types based on their properties (Regev et al., 2017). At first, (Buenrostro et al., 2015; Cusanovich et al., 2015; Guo et al.,
+cells were mainly characterized by their position, shape, and 2017; Jin et al., 2015; Lorthongpanich et al., 2013; Mooijman
+cellular components; cell-type definition heavily depended et al., 2016; Nagano et al., 2013; Smallwood et al., 2014), and
+on improvements in microscopy. Later, immunohistochemistry, in situ analysis (Chen et al., 2015; Ke et al., 2013; Lee et al.,
+Cell 172, 1091-1107, February 22, 2018 O 2018 Elsevier Inc. 1091
+
+
+
+Cell
+2014), may provide further information regarding genetic and are retrieved with a magnet. The procedure from cell loading to
+epigenetic regulation of gene expression as well as cellular and cell lysis takes 15 min. Beads are collected in a 1.5 mL tube
+subcellular localization of biomolecules. With ongoing technical in which reverse transcription and template switch steps are per-
+advances, a consensus has emerged that it is now time to build formed using the Smart-seq2 protocol (Picelli et al., 2013).
+a comprehensive single-cell genomic database that includes all Amplified CDNA is fragmented by a customized transposase
+mammalian cell types (Regev et al., 2017).
+that carries two identical insertion sequences (see the STAR
+Here, we describe Microwell-seq, a simple method to profile Methods). The 3' ends of the transcripts are then enriched during
+thousands of single cells by transcriptome analysis utilizing library generation using PCR and sequenced using the Illumina
+an agarose-constructed microwell array and barcoded beads. Hiseq platform (Table S2).
+Microwell-seq has advantages in convenience and simplicity, To assess the fidelity of the method, we performed mixed spe-
+which should make the method widely accessible. Using cies experiments with cultured human (293T) and mouse (3T3)
+Microwell-seq, we constructed a first stage "mouse cell atlas" cells. We identified the ratio of reads mapped to both thel human
+with more than 400 k single-cell transcriptomic profiles from 51 and mouse genome in each single cell (Figure 1B). We found that
+mouse tissues, organs, and cell cultures. The resulting map Microwell-seq produced high-fidelity single-cell libraries with no
+covers more than 800 major cell types and potentially more more than 1.2% cell doublets. Approximately 6,500 genes and
+than 1,000 cell subtypes in the mouse system. We integrated 55,000 transcripts can be detected, on average, by saturated
+published high-throughput single-cell data and built the sequencing (Figure 1C). Low reads versus the gene number ratio
+MCA website database for the scientific community. Finally, was observed in large-scale experiments (Figure 1D). Cell-cycle
+we constructed a "single-cell MCA (SCMCA)" tool that accu- scores were calculated for each human 293T cell based on pre-
+rately defines cell types based on single-cell digital expres- viously reported phase-specific genes and methods (Macosko
+sion. Future efforts in data accumulation and integration will et al., 2015) (Figure 1E). Cells at different cell-cycle stages
+eventually lead to creation of a comprehensive mammalian were clearly separated based on their cell-cycle scores. By
+cell map that will facilitate related basic research and clinical integrating our Cj7 mES Microwell-seq data with the pub-
+applications.
+lished comparative analysis for different single-cell mRNA-seq
+methods (Svensson et al., 2017; Ziegenhain et al., 2017), we
+RESULTS
+observed a sensitivity and accuracy that were comparable with
+those of other available methodologies (Figures S2A-S2C).
+Microwell-Seq: A Convenient, Low-Cost, and Robust
+Notably, Microwell-seq showed advantages in doublet rate
+Platform for High-Throughput SCRNA-Seq
+and cost (Figures S2D and S2E). It detected more genes than
+To establish a cost-effective single-cell technology that is widely other high-throughput single-cell mRNA-seq methods in the
+accessible, we combined the advantages of existing methodol- range of middle to low sequencing depth (Figures S2A and
+ogies (Fan et al., 2015; Klein et al., 2015; Macosko et al., 2015) in S2B). We then analyzed 4,323 thawed single cells of CD34*
+designing the Microwell-seq method. In Microwell-seq, individ- and CD34 compartments from mobilized human peripheral
+ual cells are trapped in an agarose microarray and mRNAs are blood (mPB). We observed a clear distinction between the two
+captured on magnetic beads. The processes for bead synthesis populations (Figure S2F). Thawed mPB CD34* cells from batch 1
+and microarray fabrication are shown in Figure S1. Barcoded and batch 2 showed little batch effects on a t-distributed sto-
+beads are: synthesized by 3 split-pool rounds (Figure S1A; Table chastic neighbor embedding (t-SNE) map (Figure S2G). Notably,
+S1). Each oligonucleotide consists of a primer sequence, a cell Microwell-seq worked reliably with thawed cells.
+barcode, a unique molecular identifier (UMI), and a poly T tail
+(Fan et al., 2015; Islam et al., 2014). Fabrication of the agarose Construction of Mouse Cell Atlas Using Microwell-Seg
+microarray is simple and inexpensive (Figure S1B). The silicon By harnessing the power of Microwell-seq, we embarked
+and PDMS chips are reusable, meaning that a single silicon on creating an atlas of all major mouse cell types with minimal
+chip can be employed to generate many agarose microarrays. input from traditional classification schemes (e.g., FACS). We
+The size of the agarose chip can be readily adjusted by making collected mammary gland (virgin, pregnant, lactation, and invo-
+different-sized PDMS chips for a wide range of input sample lution), uterus, bladder, ovary, intestine, kidney, lung, testis,
+sizes and concentrations. Only minutes are required to make pancreas, liver, spleen, muscle, stomach, bone marrow, thymus,
+an agarose chip for each experiment.
+prostate, cKit* bone marrow, bone marrow mesenchymal cells,
+The workflow of Microwell-seq is shown in Figure 1A. An and peripheral blood samples from 6- to 10-week-old C57BL/6
+agarose plate with 105 microwells is used to trap 5-101 K individ- mice. We collected E14.5 fetal liver, fetal lung, fetal stomach,
+ual cells, similar to the Cytoseq platform (Fan et al., 2015). After fetal gonad, fetal brain, fetal intestine, fetal placenta, and mesen-
+cells (50-100 K) are loaded into the wells, the microwell array is chymal tissues in addition to neonatal brain, neonatal skin,
+inspected under a microscope and rare cell doublets are washed neonatal calvaria, neonatal rib, and neonatal muscle samples.
+out with a capillary tube. The capture efficiency and cell quality Tissues were carefully washed and prepared into single-cell sus-
+are estimated. Barcoded magnetic beads are then loaded and pensions with optimized protocols (Table S3). We also included
+trapped into each well by size. Each single bead is conjugated several cultured cells derived from mouse tissues: 3T3 cells,
+with 107-108 oligonucleotides, which share the same cellular embryonic stem (ES) cells, trophoblast stem (TS) cells, and
+barcode (Figures S1C and S1D). After incubation of beads and mesenchymal stem cells (MSCS). Single cells were then pro-
+cells in a soft flow of lysis buffer, beads with captured mRNA cessed with Microwell-seq.
+1092 Cell 172, 1091-1107, February 22, 2018
+
+
+
+Cell
+A
+B
+Cells
+RT and EXON I
+Load cell
+treatment
+Human 337
+suspension
+Mouse 657
+Mixed6
+Wash out
+PCR
+Wash out cell
+doublets
+Library
+preparation
+DE
+Load bead
+:
+suspension
+0 5000 10000 15000 20000 25000 30000
+C
+Human transcripts
+Wash
+100,000
+8000
+beads
+Sequencing and Analysis
+de
+in 75,000
+7000
+H
+Magnet
+a 50,000
+-
+6000
+Cell
+Expression
+5000
+Image, add
+Heterogeneity
+Variation
+25,000
+4000
+lysis buffer
+Gene Module
+3T3 Cells
+3T3 Cells
+D
+E
+Reads to Genes of 3T3 and 293T cell mix
+1.5
+G1/S
+0
+S
+-1.5
+G2/M
+M
+M/G1
+10000 20000 30000 40000 50000 60000 70000
+Reads per cell
+Cells
+Figure 1. Workflow and Evaluation of Microwell-Seq
+(A) A: schematic off the basic workflow for Microwell-seq.
+(B) Human-mouse mix test using Microwell-seq. Human (293T) and mouse (3T3) cells were mixed at equal concentrations. The scatterplot shows the number of
+human and mouse transcripts associated with each cellular barcode. Blue dots indicate single cells that were human-specific; red dots indicate single cells that
+were mouse-specific. Only 0.6% (purple dots) are human-mouse mixed cells.
+(C) The distribution of gene number and transcript number in 9 deeply sequenced beads (3T3 cell captured) are: shown by violin plots.
+(D) Detected gene number versus read number of each individual cell in the species-mixing experiment.
+(E)Cell-cycle: state of 337 human (293T)cells measuredi byl Microwell-seq. The score for each phase was calculated using a previously reported method (see data
+analysis in the STAR Methods). The cells were ordered by their phase scores.
+See also Figures S1 and S2 and Tables S1 and S2.
+The sequencing data were processed using published pipe- from the complete dataset (Figure 2B; Table S4). We found that
+lines (Macosko et al., 2015; Satija et al., 2015). In total, we multiple tissues, including liver, muscle, and placenta, contrib-
+analyzed >400,000 single cells from >50 mouse tissues and uted to the defined hematopoietic cell clusters, such as Clusters
+cultures (Figure 2A). In a global view, we identified >800 cell 3, 14, and 27 (C3, C14, and C27), suggesting that the cell identity
+types grouped into 98 major clusters using 60,000 cells sampled defined by single-cell transcriptome data is unaffected by batch
+Cell 172, 1091-1107, February 22, 2018 1093
+
+
+
+Cell
+A Currently Processed Cells atl MCA
+B 40
+Tissues/Cell lines
+Cellr number
+3T3
+645
+Bladder
+3143
+Bonel Marrow
+11632
+Bone Marrow (c-Kit+)
+26815
+Bonel Marrow Mesenchyme
+7390
+Brain
+4778
+Embryonic Mesenchyme (E14.5) 4475
+20
+Embryonic Stem Cells(C17)
+1891
+Embryonic Stem Cells (E14)
+9994
+Female Fetal Gonad (E145)
+9312
+Fetal Brain (E14.5)
+4727
+Fetal Intestine (E14.5)
+8658
+Fetal Kidney (E14.5)
+18051
+2
+Fetall Liver (E14.5)
+3730
+0
+Fetal Lung (E14.5)
+8395
+6
+Fetal Stomach (E14.5)
+7911
+Kidney
+6665
+Liver
+6426
+Lung
+9116
+Mammary Gland (Lactation)
+15699
+91
+Mammary Gland (Pregnancy)
+9737
+E
+Mammary Gland (Virgin)
+5681
+-20
+Mammary Gland (Virgin,CD45-) 18714
+Mammary Gland (Involution)
+6301
+97
+Mammary Gland (Involution, CD45-) 5064
+29
+Male Fetal Gonad (E14.5)
+3872
+Mesenchymal Stem Cells (Cultured) 14688
+Muscle (Leg)
+1647
+Neonatal Brain
+2460
+-40
+Neonatal Calvaria
+8248
+-40
+-20
+20
+Neonatal Heart
+5075
+ISNE1
+Neonatal Muscle (Leg)
+6683
+Neonatal Rib
+8371
+C 40
+Neonatal Skin
+4079
+Ovary
+4410
+Pancreas
+4405
+Peripheral Blood
+7972
+Placenta (E14.5)
+5423
+Prostate
+2948
+Small Intestine
+8984
+Small Intestine (CD45-)
+2938
+20
+Spleen
+2417
+Stomach
+3509
+Testis
+19659
+Thymus
+5758
+Trophoblast Stem Cells
+19693
+Uterus
+3761
+C7 WTI Differentiation
+9677
+Cj7 Ezh2-- Differentiation
+9940
+N 0
+Ci7 WTE EB
+14695
+2
+Cj7 Ezh2-- EB
+9534
+Total
+405796
+Small Intestine
+Trophoblast Stem Cells
+Neonatal Brain
+Peripheral Blood
+Marrow
+Fetald Gonad
+a
+cKit+
+E
+Marrow
+Gland (Involution)
+-20
+-
+B Mammary Gland(Lactation)
+Mesenchyme a Mammary
+E
+GlandPregnancy)
+Stem Cells Mammary Gland
+fetal. Gonad OMesenchymal gercne AOvary
+Brain
+- Embryonich Mesenchyme Pancreas
+
+Intestine
+3T3
+Kidney
+Muscle
+Fetall Liver
+Neonatal Calvaria
+Fetall Lung
+E
+Neonatal Heart Os Stomach
+E
+Stomach
+Neonatal Muscle Rib
+a a Testis Thymus -40
+ONeonatal Skin
+- Uterus -40
+20
+20
+10
+E
+E
+tSNE 1
+Cluster 1-98
+(legend on next page)
+1094 Cell 172, 1091-1107, February 22, 2018
+
+
+
+Cell
+effect in Microwell-seq experiments from different tissues (Fig- Krt5 and Krt14, as well as the smooth muscle markers Mylk and
+ures 2B and 2C). Other clusters with significant multi-tissue Myl9 (Shackleton et al., 2006) (Figure 3B; Table S5). During preg-
+contributions correspond to stromal cells (C28), endothelial cells nancy, glands of virgin adult mice develop an extensive network
+(C17), neurons (C21), and myocytes (C2). These data encom- of secretory alveoli (C1) derived from the ductal luminal that
+pass the most comprehensive genetic module repertoire yet highly express Csn1s1, Csn3, Csn2, and Wfdc18. We found
+described for the mouse (Figure 2D; Table S5). We performed that the Elf5*, - Krt8*, and Krt18+ population, which is considered
+t-SNE analysis and differential gene expression analysis for to contain a luminal progenitor pool (C7), expands remarkably
+each specific organ type and uncovered previously unrecog- during pregnancy (Rios et al., 2014). The ratio of secretory alveoli
+nized cell heterogeneity in a wide range of mouse tissues cells increases dramatically in the lactating mammary gland
+(Table S5).
+and then drops to a normal level during mammary gland
+To enable public access to these data, we constructed the involution (Table S5). Moreover, we observed a large category
+mouse cell atlas website at http:/bis.zju.edu.cn/MCA. The web- of mammary gland resident immune cells, including T cells
+site enables browsing of processed single-cell data for all tissues (C2, C3, C6, C11, C13), B cells (C4), natural killer (NK) cells
+and searching for genes of interest in the dataset (Figures S3A (C10, C16), dendritic cells (C8, C12), monocytes (C9), and mac-
+and S3B).
+rophages (C14). We also found two major types of stromal cells
+(C5, C15) that may play different roles in supporting mammary
+Microwell-Seq Dissects Cellular Heterogeneity in
+gland development.
+Diverse Mouse Tissues
+The kidney is a complex blood filtration system that eliminates
+Initial MCA data were collected from mouse embryonic stem toxic products from the body and maintains fluid homeostasis.
+(mES) cells and mouse trophoblast stem (mTS) cells. In mES Previous studies used microdissection to identify markers for
+cell culture, we detected Actb_high, Rps28_high, Nedd4_high, different regions (Cheval et al., 2011); however, systematic
+and 2-cell-like mES subpopulations. The rare 2-cell-like mES cell-type classification at the single-cell level has not been
+cluster specifically expresses Zscan4d, Zscan4a, and Zsan4c, achieved in the adult mouse kidney. Our study covers kidney
+as well as groups of predicted genes, such as Gm5662, cells related to the whole process of urine production, from
+Gm8994, and Gm8300; these signatures strongly resemble glomeruli to ureters (Figures 3D and S3E; Table S5). C12 and
+middle and late 2-cell-stage mouse blastomeres (Figure S3C; C15 are fenestrated endothelial cells expressing Plvap and
+Tables S4and S5). InmTS cell culture, we detectedi Mrpl12_high, Tm4sf1. As presented in Figure 3D, the tSNE map revealed an
+Mrp155_high, and Rps28_ highsubpopulations, as well as a Krt8* expression trajectory from C1 to C11 and then to C6. C1 is
+epithelium that appears to resemble an in vivo trophoblast pro- defined as proximal tubule brush border cells that express
+genitor cell type expressing Gjb3, Hand1, Rhox6, and Rhox9 Miox, Gsta2, Ass1, and Rida. C6 represents a typeofSiproximal
+(Figure S3D; Tables S4 and S5). Interestingly, for both mES tubule cell characterized by high expression of Alpl, Slc5a2,
+and mTS cells, there was an Rps28_high subpopulation ex- G6pc, and Nox4. C11 might be a novel cell type physically be-
+pressing Rps28, Rps29, Ppia, and Cox7c; these signatures tween brush border cell and S1 cells. The Osgin1* C4 is sus-
+strongly resemble 8-cell-stage mouse blastomeres in the pected to represent S2 cells. S3 proximal tubule cells (C8) ex-
+preimplantation embryo dataset (Table S5). With success in press Kap, Keg1, Napsa, and Slc22a13. The loop of Henle (C2)
+mouse cell line experiments, we then moved our analysis to connects the proximal convoluted tubule with the distal convo-
+more complex organs, including adult mouse mammary gland, luted tubule. Gene expression of C3, C9, and C14 forms another
+kidney, lung, and E14.5 placenta.
+trajectory: distal tubule cells (C3 and C9) are characterized by
+The mammary gland provides a unique model for studying expression of Slc12a3, Pgam2, and Wnk1 (Cheval et al., 2011),
+organ tissue specification, as it is the only glandular organ that while connecting tubule cells (C14) share features of both the
+reaches full development after birth. In our study, we digested distal tubule and collecting duct. The collecting duct contains
+the gland and were able to create a single-cell expression two cell types, principal cells (C13) and intercalated cells (C5
+map for the entire tissue (Figures 3A-3C; Table S5). Two inde- and C7). C18 and C23 are two epithelial cell types in the kidney.
+pendent Microwell-seq experiments analyzing mammary glands We also identify an uncharacterized endothelial cell type C17
+collected from virgin mice exhibited a minimal batch effect (Fig- with high expression of Epcam, Slc4a11, and Slc31a2. The line-
+ure 3A). Several distinct cell types emerged in analysis of preg- age specificity and spatial expression pattern of these identified
+nanti mammary. glands comparedi with virgin samples (Figure 3B). markers can be further verified through other publicly available
+C18 is defined as luminal cells, due to its specific expression of datasets, such as the Mouse Anatomical Atlas (Diez-Roux
+Krt8, Krt18, and Fgg, whereas myoepithelial cells (C17) express et al., 2011). As examples, we obtained in situ data for C6, as
+Figure 2. Mapping Mouse Cell Atlas Using Microwell-Seq
+(A) Number of cells currently processed at MCA.
+(B)t-Distributed: stochastic neighbor embedding (t-SNE) analysis of 60,000 single cells sampled from mouse cell atlas data. Ninety-eight main cell type clusters
+arel labeled in the t-SNE map.
+(C)1 t-SNE analysis of 60,000 single cells sampled from mouse cell atlas data. Tissue types are labeled in the t-SNE map.
+(D) AI hierarchical clustering heatmap showing differentially expressed genes (row) across 60,000 mouse cells clustered into 98 cell types (column). Yellow
+corresponds to a high expression level; purple and black correspond to low expression levels.
+See also Figure S3 and Tables S3, S4, and S5.
+Cell 172, 1091-1107, February 22, 2018 1095
+
+
+
+Cell
+A
+B
+Mammary Gland
+Mammary Gland 17
+01 Alveolar cell
+02 ActivatedT cell
+100
+100
+03 CD81 To cell
+04 B cell
+05 Stromal cell_Dcn high
+CD4T T cell
+: Luminal progenitor cell
+Dendritic cell
+2
+E 10Naturai Monocyte kill cell
+6
+a 11Dividing cell
+a 12Mature dendritic cell
+14P
+a 13CD8 Tcell
+a 14Macrophage
+a 15Stromal cell_ PI16 high
+Q 16Natural kill cell
+a 171 Myoepithelial cell
+100
+-100
+0 a 19Adipocyte 18Luminal epithelial cell
+Euammuyg (Virginj2 (Virgin)1 1
+OMammary (Pregnancy)
+
+-100 -50 tSNE 1
+50
+100
+-100 -50 tSNE 1
+50
+100
+Mammary Gland (Virgin)
+Bà
+ol 1a2
+aim
+M
+&
+ns as
+SREA
+TRE
+Tcell
+Bcell Stromal cell
+Macrophage
+Luminal cell
+E S1 proximal tubule cells
+Kidney
+8 tubule brush border cell
+Slc5a2
+Slc34a1
+
+ofthek FAemieINe Henle
+A
+E
+0
+high
+-
+ofc collecting duct
+
+Intercalatede
+50
+:
+ofc cemtcinga duct
+cells
+-
+26
+convolutedt Celdh tubule_S100gh high high
+28
+4 23
+Itubulecell_ Cyp4a14high
+12 dendothelialcell
+1a collectingd tubule ductprincipalc cell cell
+S
+15
+I
+16 Fenestratede endotheliale cell
+E
+17 cell Ptgds high
+Kidney endothelial cell
+18
+boomte
+18
+Epithelial cell_ Cryabhigh
+Slc4a11
+Slc31a2
+Lyz2high
+cell Denhigh
+
+50
+Dendriticcell_ epithelium Cer7high
+cell_ Cst3 high
+cell_Cxc110high
+27
+cell_Ankrdt cell Mophighs high
+progenitor_ S100a8 high
+100
+I
+-100
+-50
+50
+100
+ISNE 1
+Figure 3. Resolving Cellular Heterogeneity in the Mammary Gland and Kidney
+(A) t-SNE maps of mouse mammary gland single-cell data. Cells are colored by experimental batch.
+(B). At t-SNE map of mouse mammary gland single-cell data. Cells are colored by cell-type cluster.
+(legend continued on next page)
+1096 Cell 172, 1091-1107, February 22, 2018
+
+
+
+Cell
+well as C17, and show their distinct positions in the E14.5 kidney Among 32 clusters, 3 populations shared common endothelial
+(Figure 3E). In addition, we detected five stromal cell populations cells markers (Pecam1, Flt1, Chd5, and Kdr), while each cluster
+(C16, C21, C25, C27, and C28), T cells (C19), B cell (C26), possessed distinct markers used to categorize them as artery
+Ccr7-high dendritic cells (C22), Cst3-high dendritic cells (C24), (cluster 17), vein (cluster 19), and capillary (cluster 20) endothelial
+S100a8-high neutrophil progenitors (C29), and two types of cells (Figures 4A, 4B, and 4D). Clusters 10, 11, and 23 broadly
+macrophages (C9, C20). Cell-type correlation analysis of our expressed genes of the lung mesenchyme program. However,
+data with pre-published mouse kidney single-cell data suggests C10 is marked by high Dcn expression; C11 is marked by high
+as strong overlap with markers and cell types from the two studies Inmt and Cxcl14 expression; C23 highly expresses Acta2 (Fig-
+(Figure S4A). Functional experiments with reporter mice will be ure 4D). Comparison of the adult and embryonic lung single-
+needed to verify the biological significance of these cell types. cell data suggests that at least two types of stromal cells (C10
+The lung is the primary organ for gas exchange in mammals. and C23) are already present in the E14.5 developing lung (Fig-
+Previous studies have focused on profiling embryonic alveolar ure S4B). The Inmt-high stromal cells (C11) are suspected to
+epithelium using single-cell RNA sequencing (RNA-seq) (Treut- be a progeny of the Dcn-high population. Based on known
+lein et al., 2014). Here, by analyzing the whole adult mouse markers, additional clusters correspond to Cd8-positive T cells
+lung tissue, we defined 32 distinct clusters with specific molec- (C4), dividing T cells (C24), B cells (C2), Ig-producing B cells
+ular markers (Figures 4A and 4B; Table S5). Batch effects from (C28), natural killer (NK) cells (C6), eosinophils (C7), nuocytes
+three independent experiments were minimal (Figure 4C). The (C16), neutrophils (C21), basophils (C30), and monocytes (C31)
+cell subpopulations inferred from this analysis were readily (Figure 4B; Table S4).
+matched to known lung cell types, including four previously re- The placenta is an organ that connects the developing fetus to
+ported alveolar epithelial cell types: alveolar type 2 (AT2) cells the uterine wall. Analysis of E14.5 mouse placenta tissue re-
+(enrichment of surfactant-associated protein family genes Sftpc, vealed 28 cell clusters (Figures 5A and 5B; Table S5). C1, C2,
+Sftpa1, and Sftpb in C1, Figure 4D), alveolar type 1(AT1) cells C5, C10, C15, C17, and C25 have trophoblast characteristics.
+(enrichment of Pdpn, Ager, and Clic5i in C14), Clara cells (enrich- The trophoblast stem cell marker Tfap2c was highly expressed
+ment of secretoglobin family genes Scgb1a1, Scgb3a2 in C12), in C2, C5, C17, and C25. C2 expresses Gjb3, Hand1, Ldoc1,
+and ciliated cells (enrichment of 1110017D15Rik and Foxj1 in Phlda2, and Lad1, resembling recently reported Gjb3* progeni-
+C18). Notably, we identified alveolar bipotent-like cells (C27) tor trophoblasts (Nelson et al., 2016) (Figure S4C). C5 is a type
+coexpressing the AT1 markers Ager, Emp2, and Aqp5, as well of spiral artery trophoblast giant cell (SpA-TGCS). C17 appears
+as the AT2 markers Sftpd and Sftpa1. In addition, C27 is very to be an uncharacterized trophoblast progenitor type with high
+different from AT1 and AT2 because of its high expression of expression of Taf71, Isg20, and Foxo4. C25 is a type of labyrin-
+the epithelial markers Krt8 and Krt18. This is the first evidence thine trophoblast progenitor that expresses Tfap2c, Epcam, and
+to show that bipotent progenitors might exist in the adult Ly6e. C1 expresses Pri7d1, Pr17a2, Pri3b1, Prl8a1, and Tpbpa
+mammalian lung. As an example, we show that two Clara cell (Figure 5C). C10 and C15 are both spongiotrophoblasts with
+markers, Aldh1a1 and Cyp2f2, are already expressed in the tra- high expression of Dio3 and Phlda2 (Plasschaert: andl Bartolomei,
+chea as early as embryonic day 14.5 (Figure 4E). Lung-resident 2014). In addition, we identify B cells (C24), NKT cells (C26), uter-
+immune cells play important roles during lung infection and tis- ine natural killer (UNK) cells (C19), erythroid cells (C16), macro-
+sue repair. We characterized both F4/80-low, Siglecf. , Marco* phages (C3, C9), neutrophils (C18), basophils (C21), monocytes,
+alveolar macrophages (C3 and C26) and F4/80-high, MHC II* DCs (C8), megakaryocytes (C28), hematopoietic stem and pro-
+interstitial macrophages (likely tol be C8), which confirms thel het- genitor cells (C23), granulocyte monocyte progenitors (C27),
+erogeneity of lung-resident macrophages. The previously un- and an unknown immune progenitor type (C20). C13 has high
+characterized Pclaf-high alveolar macrophages (C26) corre- expression of decidual stromal cell markers, including Prl8a2,
+spond to cycling cells with high expression of Ccna2. Dendritic Cryab, Adm, and Angpt4. C11 and C22 are two other types of
+cells (DCs) are derived from various origins and can be catego- stromal cells. C6 and C7 represent two endodermal cell types
+rized as conventional DCs (CDCs) or plasmacytoid DCs (pDCs). that share both epithelial and mesenchymal characteristics.
+Both Cluster 15 and 9 express integrin Cd11c and MHC Il and They express Sox17, Lama1, Lamb1, and Gata4, suggesting
+thus can be inferred as cDCs. These can be further divided that they may originate from a primitive endoderm lineage. Sur-
+into Cd11b-expressing CDCs (C15) and Cd103-positive CDCs prisingly, we found an endodermal cell cluster (C14) that highly
+(C9), as previously reported (Kopf et al., 2015). C22 and C32 expressed Afp, Ttr, Apoa1, and Apoa2, a signature that strongly
+correspond to dividing cDCs due to their high expression of resembles hepatocytes (Figure 5C). Trajectory analysis revealed
+Ccnb2. C5 is predicted to be pDCs because of its expression distinct developmental branches of the endodermal and hepato-
+of Irf5, Irf7, and Bst2. We identified two other DC subtypes, cyte-like cells in the E14.5 placenta (Figure S4D). Immunocyto-
+namely, Gngt2-high DCs (C13) and H2-M2-high DCs (C29). chemistry located the position of SOX17- and HNF4A-positive
+(C) A gene expression heatmap showing the top differentially expressed genes for each cell cluster in mouse virgin mammary gland single-cell data. Yellow
+corresponds to a high expression level; purple and black correspond to low expression levels.
+(D). At t-SNE map of mouse kidney single-cell data. Cells are colored by cell-type cluster.
+(E) In situ hybridization assay validated expression of the S1 proximal tubule cell markers Slc5a2 and Slc34a1, as well as the kidney endothelial cell markers
+Slc4a11 and Slc31a2 in E14.5 mouse embryonic kidney.
+See also Figure S4.
+Cell 172, 1091-1107, February 22, 2018 1097
+
+
+
+Cell
+A
+100 Lung
+AT2Cell
+17Endothelial cell
+23
+BCell
+180 Ciliatedc cell
+Alveolar macrophage
+19Endothelial cell_ Kdrl high
+501
+TCell_Cd8b1high
+20E Endothelial cells_ Vwfhigh
+22
+5 Plasmacytoid dendritic cell 211 Neutrophil granulocyte
+NK Cellhigh
+221 Dividing dendritic cells
+2
+Eosinophil granulocyte
+23 Stromal cell Acta2 2high
+&
+Interstitial macrophage
+241 Dividing Tcells
+Dendritic cell_ Naaat ahigh 25D Dividing cells
+10Stromald cell_ Denhigh - 26 Alveolar macrophage
+34
+11Stromal cell_ Inmt high
+27 Alveolar bipotent progenitor
+-50
+12Clara Cell
+281 Ig-producing B cell
+13Conventionall DC_ Gngt2high 29 Conventional DC
+14AT1 Cell
+30B Basophil
+15Conventional DC_CCH17 cell 31 Monocyte progenitor cell
+100
+16Nuocyte
+32ConventionalD DC
+-100
+-50
+50
+100
+tSNE 1
+B 31
+Lung
+27
+Average
+5E 25
+Expression
+Scale
+5
+3
+o
+0
+Percentage
+ofExpressed
+Cells
+0.00
+0.25
+0.50
+0.75
+1.00
+6 a E 0 E 6 a 8 I a I E E
+a E : de I 1e a d de
+2 B P
+I S P
+N : e i à E B I : I 8 : I
+a
+00 Sftpc
+e
+00 Vwf
+VA
+50
+50
+a
+24
+6
+d
+-
+6
+*
+:
+50
+50
+100
+-
+100
+ato
+-100 -50
+50 100
+100 -50
+50 100
+batch3
+tSNE1
+ISNE1 1
+tSNE 1
+100 Dcn
+ee
+D 00 Cxc114 e
+Cxcl1
+E Aldh1a1
+Cyp2f2
+50 2
+-
+%
+-
+&
+a
+50
+-50
+*
+100
+100
+a
+-100 -50
+50 100
+-100 -50
+50 100
+tSNE 1
+tSNE 1
+(legend on next page)
+1098 Cell 172, 1091-1107, February 22, 2018
+
+
+
+Cell
+cells to the surface of the fetal-placental interface (Fig- the previously uncharacterized hierarchy of stromal cells in the
+ure 5D). The function of the placental hepatocyte-like cells and mammalian system. Stromal cells are connective tissue cells
+their influence on other placental cell lineages require further that support the function of parenchymal cells. We first defined
+investigation.
+stromal cell populations in individual tissues based on expres-
+Similarly, in the mouse fetal, neonatal, and adult brain, we sion of collagens, laminins, elastin, and fibronectin. We then
+identified different types of oligodendrocytes, astrocytes, neu- integrated the stromal cell data and observed heterogeneity
+rons, Schwann cells, ependymal cells, radial glia, microglia, across diverse mouse organs and tissues (Figures 6B and 6C;
+endothelial cells, macrophages, and granulocytes (Figure S4E; Table S6). The merged stromal cell data can be divided into 21
+Table S5) and then correlated the cell types with the published groups. C1 cells come from neonatal calvaria and neonatal rib,
+single-cell signatures from the mouse cortex and hippocampus and they are marked by Col9a1, Col9a3, and Col2a1; they: should
+(Zeisel et al., 2015). In the mouse adult bone marrow, we identi- bei related to cartilage development. C21, which is close to C1 on
+fied all hematopoietic lineage cells, including neutrophils, mono- the tSNE map, comes from embryonic mesenchymal tissues.
+cytes, macrophages, dendritic cells, mast cells, erythroblasts, C21 shares similar signatures with C1, but expresses higher
+eosinophils, B cells, T cells, NK cells, and hematopoietic stem levels of cartilage-specific genes, such as Matn1, Matn4, and
+and progenitor cells (Table S5) and then constructed a lineage Sox9. C5 stromal cells have higher levels of imprinted genes,
+trajectory (Figure S4F). In the same way, we defined cellular such as DIk1, H19, and Igf2; they come from neonatal muscle
+components in all the other tissues (Figures S5 and S6). The and neonatal skin tissues. C15, which is connected with C5,
+defined cell-type clusters and cluster-specific markers are sum- exhibits myogenic signatures with high expression of Acta1
+marized in Table S5 and on the MCA website.
+and Tnnc2. C8 and C20 stromal cells are mainly contributed by
+mammary gland tissues and are marked by metalloproteinase
+Mouse Cell Atlas Reveals the Cross-Tissue Cellular
+and fibronectin expression, respectively. C7 contains contribu-
+Network
+tions from a wide range of tissues, such as the lung, bladder,
+An asset of our studyi is the use of a single platform for generation testis, stomach, liver, and small intestine. This type of stromal
+of all MCA datasets. Consistency in technology is important celli is marked byl high Inmt expression; it also expresses the anti-
+for comparison of datasets from different tissues. Using MCA oxidant enzyme Sod3, which is thought to protect tissues from
+data, we were able to reveal the previously uncharacterized oxidative stress. C12 and C17 are two types of bladder-specific
+cross-tissue cellular hierarchy.
+stromal cells with high expression of Bmp4 and Wnt2. C12 ex-
+To systematically understand the relationships between presses high levels of Cxcl12 and the proliferation marker Ifitm1,
+different cell types, we built correlation-based networks at the while C17 expresses a high level of Bmp5. Both the testis and
+cell-type level and tissue level. To this end, we used the reduced neonatal heart contribute to C9 stromal cells. C6 represents
+dataset with 60,000 cells grouped into 98 cell clusters defined in pancreas-specific stromal cells that express Col15a1, Gdf10,
+Figure 2A (Table S4). To reduce noise, we averaged the expres- and Col4a1. Uterus-specific C2 is a novel stromal cell population
+sion of every 100 cells within each cluster. We then formed a cor- that is marked by Col6a4 and Col6a3, as well as many predicted
+relation network using pairwise Spearman correlation between genes, such as Gm11361, Gm12248, and Gm8797. C10
+these averaged cells. The resulting correlation map mimics a also comes from the uterus; it highly expresses Mmp11 and
+cellular landscape for different mouse tissue types (Figure 6A). Cxcl12. C19 are placental decidual stromal cells that express
+In brief, embryonic stem cells and testicular cells form isolated Prl8a2 and Cryab. C4 and C13 are both from bone marrow
+networks. The mesenchymal-epithelial axis and endothelial-he- mesenchymal samples. C4 corresponds to osteoblasts with
+matopoietic axis are the two most interconnected network high levels of Bglap, Bglap2, Col1a1, and Col11a1. C13 is
+groups in the mouse system. The extensive edges along these marked by chondrocyte genes, such as Col10a1, Col2a1, and
+two axes may help to explain transitions between mesenchymal Matn3. With contributions from the most diverse tissues, C3 is
+and epithelial cell types, as well asl hematopoiesis emerging from identified as pericytes due to Acta2, Pdgfrb, Mcam (Cd146),
+endothelial tissues. Other notable cellular correlations include and Vim expression. C14 also represents pericytes; it differs
+stomach and small intestine epithelial cells, trophoblasts and from C3 by high Cspg4 (NG-2) expression. Notably, C3 and
+primitive endoderm epithelial cells, and astrocytes and oligoden- C14 (including bone marrow-specific pericytes) express high
+drocytes, as well as different kidney tubule cells (Figure 6A).
+levels of important signaling molecules, such as Kitl, Pdgfa,
+In the MCA cellular network, there are two types of cells that and Tgfb2, suggesting that they have important roles in regu-
+contribute to the vast majority of organs and tissues: stromal lating tissue microenvironments. C16 is a Kidney-specific stro-
+cells and tissue-resident immune cells. We aimed to investigate mal type. C11 cells correspond to myoblasts. C18 corresponds
+Figure 4. Resolving Cellular Heterogeneity in Lung
+(A). A1 t-SNE map of mouse lung single-cell data. Cells are colored by cell-type cluster.
+(B) Dot plot visualization of each cell type inl lung single-cell data. The size off the dot encodes the percentage of cells within a cell type, and the color encodes the
+average expression level.
+(C) A1 t-SNE map off mouse lung single-cell data. Cells are colored by experimental batch.
+(D)t t-SNE maps of mouse lung single-cell data with cells colored based on the expression of marker genes for particular cell types. Gene expression levels are
+indicated by shades of red.
+(E) In situ hybridization assay for the two identified Clara cell markers Aldh1a1 and Cyp2f2 in E14.5 mc ouse embryos.
+Cell 172, 1091-1107, February 22, 2018 1099
+
+
+
+Cell
+A
+Pri3b1
+Pri3b1
+Placenta
+21 Invasive spongiotrophoblast
+100
+6
+02 Trophoblast progenitor_ Gjb3 high
+d
+4
+100
+03 Macrophage_ Spp1 high
+50
+04 Monocyte
+05 Spiral artery trophoblast giant cells 2
+21
+06 PE lineage cell_S100g high
+- 0
+#
+26
+07 PE lineage cell_Gkn2 high
+S
+50
+08 Dendritic cell
+-50
+09 Macrophage_ Apoel high
+C 10 Spongiotrophoblast_ Phlda2 high
+9 11 Stromal cell
+-100
+0 12 Endothelial cell_ Maged2h high
+0 13 Decidual stromal cell
+0 14 Endodermal cell_Afp high
+-100 -50 0 50
+0 15 Spongiotrophoblast Hsd11b2 high
+100
+9 16 Erythroblast_ Hbb-yt high
+tSNE 1
+0 17 Trophoblast progenitor_ Taf7ll high
+01 18 Granulocyte_S100a9 high
+Afp
+-50
+28
+0 191 NK cell
+100
+a
+Afp 6
+02 20 Granulocyte_ Neat1 high
+4
+25
+021 Basophil
+50
+022 Stromal cell Acta2 high
+9 23 HSPC_ Lmo2high
+2
+9 24 Bcell
+2O
+4
+-100
+Q25 Labyrinthine trophoblast
+S
+02 26 NKT cell
+-50
+27 Granulocyte monocyte progenitors
+028 Megakaryocyte progenitor cell
+-100
+à
+-100
+-50
+50
+100
+tSNE 1
+-100 -50 0 50 100
+tSNE 1
+B
+Alb 
+Alb
+100
+- 4
+2
+50
+atu
+-50
+-100
+-100 -50 U 50 100
+tSNE
+Apoa2
+Apoa2
+100
+6
+50
+0
+
+U
+d79
+-50
+Cd79b
+cl5
+Cd8i
+-100
+-100 -50 0 50 100
+Trophoblast progenitor_ Gjb31 high Spongiotrophoblast_ Phida2h high Trophoblast progenitor_ Taf7lhigh
+tSNE 1
+Invasive spongiotrophoblast Spiral artery trophoblast giant cells Spongiotrophoblast_Hsd1ib2high
+Sox17
+Hnf4a
+(legend on next page)
+1100 Cell 172, 1091-1107, February 22, 2018
+
+
+
+Cell
+to high-passage mouse embryonic fibroblasts in culture. Many et al., 2014; Morris et al., 2014). However, these methods over-
+off these: stromal cells are already presenti int the tissues at embry- look heterogeneity within cell populations, and the reference
+onic stages (Table S5). They play important roles in proper organ cell types are not comprehensive. In the mouse cell atlas, we
+development, regeneration, and function.
+seek to establish a pipeline for accurate cell type determination
+Tissue-resident macropnages are unique myeloid cells that at the single-cell level. We built the SCMCA analysis tool for
+self-renew independent of hematopoietic stem cells (Gomez this purpose.
+Perdiguero et al., 2015). However, cross-tissue heterogeneity In brief, the SCMCA analysis was set up through following
+oftissue-resident. macrophages has not been well characterized. steps. First, we integrated Microwell-seq data with published
+We merged single-cell transcriptome data of macrophages Drop-seq and 10 X Genomics data (see the STAR Methods).
+from diverse tissues to search for subclasses. We found that We then clustered the data into 894 cell-type clusters and deter-
+macrophages can be classified into 13 subtypes (Figures 6D mined the average expression in each cluster for transcriptome
+and 6E; Table S6). They show preferential expression of different references. Finally, input single-cell DGE was compared with
+C-type lectin domain family proteins. C1 macrophages, which each transcriptome reference to provide a match score based
+come from the uterus, ovary, and mammary gland, highly ex- on gene expression correlation (Figure 7A). In high-throughput
+press Cd74, Ms4a7, C1qc, Clec7a, and F4/80 (Adgre1). C4 mac- SCRNA-seq experiments, such as Microwell-seq, Drop-seq,
+rophages can be found in a wide range of tissues, such as the and 10 X Genomics, sequencing depth is usually sacrificed;
+mammary gland, testis, bladder, and pancreas; they express the average gene number detected for each cell is 1,000. How-
+Cd209f, Clec10a, and Cd209 g. Macrophages from the placenta ever, by adding a cluster and averaging step, we obtained cell-
+(C5) specifically express Spp1, Arg1, Clec4d, and Clec4n. In the type transcriptome references with digital expression of more
+lung, two types ofr macrophages were identified: interstitial mac- than 10 K genes. Our transcriptome references perform well in
+rophages were merged into C1; alveolar macrophages, enriched SCMCA experiments; a combination of the top 10 markers from
+with the markers Ear1, Ear2, Marco, and Siglecf., were grouped each cell type was sufficient as a gene set for efficient SCMCA
+into C7. C8 was identified as Kupffer cells from the liver, with calculation (Figures S7A-S7C). As an example, we show that
+specific expression of Clec4f, Clec1b, and Macro. C12, which the placental Afp* endodermal cells we identified are clearly
+is another liver-specific macrophage subtype, expresses Clec4e mapped to fetal liver hepatocytes, with only one spongiotropho-
+and Clec4d. C9 macrophages are of peripheral blood origin blast contamination (Figure S7D).
+and express Adgre4, Adgre5, Clec4a3, and Clec4a1. C13 cells Importantly, the SCMCA analysis is compatible with different
+are mammary gland-resident macrophages that highly express technologies. We first examined C1 single-cell data of mouse
+Retnla, Clec4b1, and Ear2. Through organ maturation, tissue- embryonic distall lung epithelium (Treutlein et al., 2014). Figure 7B
+resident macrophages appear to become increasingly special- shows all correlated cell-type clusters for input single cells. We
+ized to adapt to the organ environment and organ function.
+found thatAT1, AT2, Clara, and Ciliated cells defined by Treutlein
+In the same way, we performed cross-tissue analysis for et al. (2016) exhibit the best correlation with our adult AT1, AT2,
+both endothelial cells and dendritic cells (Table S6). Our analyses Clara, and Ciliated cell-type references, respectively. The bipo-
+revealed a wide diversity of tissue-specific mesenchymal and tential progenitors express both AT1 and AT2 signature genes
+immune cells. The accurate identification of these cellular sub- and correlate with our bipotential progenitor reference. The
+types should contribute to improved understanding and moni- only discrepancy between our analysis and the published study
+toring of tissue regeneration. Stromal cells, endothelial cells, was a single AT1 cell that appeared to show higher correlation
+macrophages, and dendritic cells are integral parts of the tissue to stromal cells. Next, we examined single-cell data of mouse
+microenvironment. Successful organ engineering depends not hematopoietic stem cell formation (Zhou et al., 2016). The data
+only on efficient generation of parenchymal cells but also on were generated using the classical polyA tailing method for sin-
+proper integration of the supporting cells.
+gle-cell mRNA amplification (Tang et al., 2009). The SCMCA re-
+sults provide a description for the process of HSC emergence
+Single-Cell MCA Analysis Pipeline Defines Cell Types
+(Figure 7C). Endothelial cells from the study of Zhou et al.
+with Accuracy and Efficiency
+(2016) strongly correlate with endothelial cell clusters in our data-
+Having constructed a basic scheme for a mouse cell atlas data- base. E12 HSCS and E14 HSCS correlate best with our fetal liver
+base, we then sought to utilize the defined cell types as refer- hematopoietic stem and progenitor cell cluster. Interestingly,
+ences for an unbiased classification of single-cell transcriptome T1 and T2 PreHSCs exhibit both endothelial and HSC signa-
+data. Previous studies have used population gene expression tures. The analysis revealed a single ganglion cell as well as a
+profiling for determination of engineered cell types (Cahan single macrophage contamination in the dataset. Similarly, we
+Figure 5. Resolving Cellular Heterogeneity in Placenta
+(A) A1 t-SNE map of E14.5 mouse placenta single-cell data. Cells are colored by cell-type cluster.
+(B) A gene expression heatmap: showing top differentially expressed genes for each cell clusteri in E14.5 mouse placenta single-cell data. Yellow corresponds to
+high expression level; purple and black correspond to low expression levels.
+(C) t-SNE maps of E14.5 mouse placenta single-cell data with cells colored based on the expression of marker genes for particular cell types. Gene expression
+levels are indicated by shades of red.
+(D) Immunohistochemistry: assay of endodermal cell marker SOX17 and HNF4A inl E14.5 mouse placenta samples. Arrow, endodermal cells. Scale bars, 100 um.
+See also Figures S5 and S6 and Table S6.
+Cell 172, 1091-1107, February 22, 2018 1101
+
+
+
+Cell
+A
+A 2 Myocyte
+78
+Spongiotrophoblast
+-
+Muscle der a
+a
+36
+1Proliferative Myocyte
+Eosinophil Alveolar type licell
+Endothelial cell
+82
+L/
+51
+Trophoblast progenitor cell
+. a 50
+Microglia
+60 81
+49
+669
+942Myoblast
+o
+Endothelial Cell NK/T cell
+Epithelila cell
+49
+73 46 Epithelial cell
+48
+59
+Tcell
+62
+Kidney epithelial
+77
+
+15
+OCumulus cell
+Pancreatic acinar cell
+Placenta endod de lermal cell
+41Macrophage
+76 Smooth muscle53 -
+70
+Dendritic cell
+88
+47Sertoli cells
+Collecting duct cell
+-
+Muscle cell 67,
+Osteoblast
+80
+3
+Epithelial cell
+68 51
+Granulosa cell
+Monod
+tro cell 28,
+Leydigcell
+ES
+27
+201
+rom cell
+Macrophage 8
+Urothelium a
+8
+44
+Prc olit ife liv neuron
+: 57
+25
+T cell
+21
+Renal tubular
+65
+Ne
+cell
+6
+Endocri ne cell
+Oligodendrocyte
+5
+a
+Testicular cell
+84
+Mast cell
+64 Gastric cell Stroma2del
+7 Proximal tubule cell
+a 14y
+mucosa 39
+65
+37
+Erythroblast
+Chondrocyte Adipocyte R
+58
+Eytiredo.
+43
+Germ cell
+Astrocyte 89 A
+19
+21
+52
+Oligodendrocyte N
+6
+29
+a
+Stomach epithelial cell Chondrocyte
+Primordial germ cell
+31
+a a a a
+MSC (Cultured)
+Intestinal epithellal cell
+mTS a à e C 93
+3T3 cell
+I MEF
+39
+(Cultured)
+4
+B
+01 Bladder
+J
+02 Embryonic Mesenchyme
+)
+03 Kidney
+)
+04 Liver
+20
+5 20
+05 Lung
+06
+06 Mammary Gland (Involution)
+07
+01 Mammary Gland (Pregnancy)
+0 Mammary Gland (Virgin)
+0 Bone Marrow Mesenchyme
+101 Neonatal Calvaria
+I 18
+0 11 Neonatal Heart
+o 121 Neonatal Muscle
+:
+C 131 Neonatal Rib
+01 141 Neonatal Skin
+0 15Pancreas
+9 161 Placenta
+20
+-20
+a 17 Small Intestine
+0 18 Stomach
+01 19 Testis
+- 20
+dg
+021 MEF(Cutured)
+ 21
+21 Uterus
+-40
+-20
+20
+-40
+-20
+20
+ISNE 1°
+tSNE 1
+E
+- Bladder
+a Bone Marrow
+03 Bone Marrow ckit
+04 Brain
+01
+05 Embryonic Mesenchyme
+25
+25
+FetalLiver
+02
+8 Kidney
+03
+08 Liver
+04
+0 Lung
+05
+) 101 Mammary Gland (Involution)
+11
+N
+a1 Mammary Gland (Pregnancy)
+06 2
+a 121 Mammary Gland (Virgin)
+N 0
+07
+) 131 Neonatal Heart
+D
+6
+01 141 Neonatal Muscle
+08
+0 151 Neonatal Rib
+09
+Noonatal Skin
+17 Ovary
+18 Pancreas
+19 Peripheral Blood
+25
+12 -25
+Placenta
+I
+) 13
+021 Small Intestine
+22 Spleen
+Tostis
+8E Uterus
+-25
+25
+-25
+25
+tSNE P
+ISNE 1
+(legend on next page)
+1102 Cell 172, 1091-1107, February 22, 2018
+
+
+
+Cell
+reanalyzed CEL-seq single-cell data by Rizvi et al. (2017) and many cell doublets can be washed to reduce doublet rate,
+observed the transition from pluripotency to neuron lineages. ensuring that Microwell-seq yields high-fidelity single-cell li-
+We also analyzed C1 single-cell data from fibroblast to neuron braries. Experiments can be readily scaled up by simultaneous
+transdifferentiation (Treutlein et al., 2016) and confirmed activa- handling of multiple microwells. Finally, the washing and quality
+tion of a myogenetic program in the process and simultaneous checking steps before bead capture also ensure removal of cell
+generation of muscle progenitor cells.
+debris and clumps that might cause contamination in droplet-
+We propose using the SCMCA pipeline for dissection of more based methods. As exemplified by our study, Microwell-seq
+complex systems. Ezh2 is an important component of Polycomb can be used with all tissue types. Itis a portable, efficient, faithful,
+repressive complex 2, which mediates H3K27me3 and regulates and inexpensive high-throughput SCRNA-seq platform.
+pluripotency in mESCs (Shen et al., 2008). Differentiation of Using Microwell-seq, we profiled more than 50 mouse organ,
+Ezh2 - ES cells is impaired. We aimed to utilize the single-cell tissue, and cell lines. We dissected cellular components in many
+approach for comprehensive analysis of the roles of Ezh2 in tissues that are not well characterized. It is important to mention
+different developmental lineages. We compared day 14 embry- thatt foreveryorganandtissue, weprofilednotonly the tissue-spe-
+onic body (EB) cells from wild-type and Ezh2 -I- mESCs (Shen cific cell lineages but also the tissue-resident stromal andi immune
+et al., 2008) using Microwell-seq coupled with SCMCA method- cell types to provide information on tissue microenvironments.
+ology (Figures 7D and 7E). We found that in wild-type EBs, Due to space limitations, here, we have only presented results
+differentiated cells are mainly mapped to mesoderm MEF cells, for the mammary gland, lung, kidney, testis, and placenta in the
+smooth muscle cells, ectoderm neuronal cells, and endoderm main text. Additional data are deposited on the MCA website.
+hepatocytes. However, in Ezh2 -- EBs, the majority of the differ- The complete annotation of the dataset is a continuous project.
+entiated cells are mapped to two types of placental cells that Although we have defined most of the major clusters on MCA,
+appear to be of primitive endoderm origin, suggesting differenti- there are many subclusters that remain to be defined by more
+ation to extraembryonic tissues (Figure 7E; Table S5). The two focused analysis of a particular population (Table S6). The MCA
+differentiated cell types express high levels of Sox17, Lamb1, website welcomes public discussion, correction, and validation
+Lama1 and Aqp8, and Vim and Gata4, respectively. Immuno- of annotated cell types. Moreover, the MCA database will be
+staining results suggested a significantly higher percentage of updated with newly published high-throughput single-cell data
+GATA4-and: SOX17-positive cells int the Ezh2 EBs (Figure 7F). from relevant technologies, such as 10xGenomics, Drop-seq,
+Pooled gene expression analysis further confirmed aberrant In-Drop, Seq-well, and ddSEQ. Future directions: alsoincludel inte-
+activation of the extraembryonic lineage program during differ- gration of proteomic data (such as CyTOF data) and spatial infor-
+entiation of Ezh2 ES cells (Figures S7G and S7H). We infer mation (such as in situ data) with the MCA database to provide a
+thatl Ezh2 plays essential roles in regulating the epigenetic barrier more complete atlas with multi-omic information.
+between embryonic and extraembryonic tissues. Deletion of In conclusion, Microwell-seq provides a highly accessible and
+Ezh2 enables mESCs to cross the barrier and transdifferentiate inexpensive platform for single-cell RNA-seq technology. Its
+into extraembryonic cell types.
+simplicity should facilitate broad use in the community. In addi-
+In summary, we have developed a SCMCA application that tion, we present a mouse cell atlas, which is the most compre-
+faithfully predicts cell types using single-cell data generated hensive mammalian single-cell data resource to date. We intro-
+from a wide range of technologies.
+duced the SCMCA analysis for accurate cell-type identification
+based on single-cell transcriptome data. These new methodolo-
+DISCUSSION
+gies should accelerate progress in dissecting cell types and
+functions in the mammalian system.
+The Microwell-seq method holds advantages over other related
+technologies, largely related to superiority in cost and conve- STAR * METHODS
+nience. A silicon wafer containing ~100,000 microwells can be
+used to make hundreds of polydimethyjsiloxane (PDMS) micro- Detailed methods are provided in the online version of this paper
+pillar arrays, which can be used multiple times to create hun- and include the following:
+dreds of agarose-constructed microwell arrays. The magnetic
+property of barcoded beads allows for their efficient collection.
+KEY RESOURCES TABLE
+The beads that remain outside of the microwells can be reused.
+CONTACT FOR REAGENT AND RESOURCE SHARING
+The cost of sequencing library generation for each cell is esti-
+EXPERIMENTAL MODEL AND SUBJECT DETAILS
+mated to be under 0.02 USD. In addition, microwells with too
+Mouse strains and husbandry
+Figure 6. Cross-Tissue Cellular Network
+(A)A correlation network showing relationships: among 98 cell groups defined using MCA data. Each node represents the averaged expression of every 100 cells
+within each of the 98 cell groups defined in Figure 2B. Each edge corresponds to a network correlation between two nodes. Each node is colored by their
+cluster ID.
+(B). A1 t-SNE map of single-cell data for mouse tissue-specific stromal cells. Cells are colored by: stromal cell subtype.
+(C) At t-SNE map of single-cell data for mouse tissue-specific stromal cells. Cells are colored by tissue type.
+(D)/ At-SNE map of single-cell data for mouse tissue-resident macrophages. Cells are colored by macrophage subtype.
+(E) A1 t-SNE map of single-cell data for n nouse tissue-resident macrophages. Cells are colored by tissue type.
+Cell 172, 1091-1107, February 22, 2018 1103
+
+
+
+Cell
+A
+Pipeline for SCMCA Analysis
+Any type of single cell
+DGE data
+Mouse Cell Atlas single Cluster & Average
+Reference data base for
+cell data (Microwell-seq,
+mouse cell types (>10K
+SCMCA
+Drop-seq, 10X Genomics...)
+genes per cell type)
+Single cell correlation
+calling of given data to the
+MCA data base
+B
+C
+- 
+Time point
+Time point
+ID
+0.5 E18
+Endothelial cell Maged2 high(Placenta)
+6
+AT1 Cell(Lung)
+0.4 D
+Endothelial CellEmbry ryonic-N Mesenchyme)
+0.5
+AT1
+Ovarian vasculars surface endothelium cell(Ovary)
+Clara Cell(Lung)
+0.3
+Endothelial cell Eln high(Neonatal- Myocardium) 14
+Ciliated cell(Lung)
+Endothelial Endothelial cell(Neonatal- cell Igfbp5 Skin)
+0.3
+0.2
+high(Neonatal- -Myocardium)
+Dividing.cells(Lung)
+Endothelial Vascular endothelium/Retina) cellE18- Brain)
+0.2
+AT2 Cell(Lung)
+Dividing cell(Neonatal- -Myocardium)
+Endothelial cells9(Arc-M -ME)
+Alveolar bipotent progenitor(Lung)
+Endothelial cell(Neonatal- -Calvaria)
+Endothelial cell(Neonatal- Muscle)
+Epithelial CellsL.ung-Mesenchyme)
+Endothelial cell Fabp4 high(Neonatal-1 -Myocardium)
+Macrophage_ PI4 high(Mammary- Gland-Involution)
+Stromal cell_Dcn high(Lung)
+Macrophage/Mammary -Gland-Pregrancy)
+Stromal cell_ Inmt high(Lung)
+Macrophage_ Macrophage_ C1qc C1qc high(Mammary- high/Neonatal-Rib) -Gland-Virgin)
+Mesenchymal Alveolar Niche Cell Dcn high
+PVMMICr03/Arc-ME)
+ID
+(Lung-Mesenchyme)
+Microglia/Brain)
+EC
+Mesenchymal stromal cell(Bladder)
+Microglia/Retina) Macrophage_ Lyz2 high(Ovary)
+T1.pre.HSC
+Stromal cell_ Dpt high(Bladder)
+Macrophage(Uterus)
+T2.pre.HSC E12.HSC
+Maunoghaogahlocogdwct-dain)
+Stromal cell_ Car3 high(Bladder)
+Macrophage_ Apoe high(Placenta)
+E14.HSC
+Mesenchymal Alveolar Niche Cell_ Mmp2 high
+Macrophage_ Nwopaopalonda.lhocardian) Pf4 high/Neonata-Muscle)
+(Lung-Mesenchyme) Axin2+ Myofibrogenic Progenitor cell_ Acta2 high
+Ganglion cell_ Cartpt thighiEmbyonit-Menenchyme)
+Macrophage(Embryoni--Mesenchyme)
+Nex-ieateemen Myofibrogenic Progenitor cell_ Cox4i2 high
+Macrophage/Fetal-liven) and
+(Lung-Mesenchyme)
+Stema progenitor cell/Fetal-liver)
+Stromal cell_ Inmt high(Lung- -Mesenchyme)
+Megakaryocyte Multipotent progenitor progenitor Ctla2a cell(ckit) highickit)
+Stromal cell_ Aspnt highlLung-Wesenchyme)
+Neutrophil_ Elanel high(Fetal-liver)
+Dendritic cell(Fetal-liver)
+Single Cells
+Single Cells
+D
+E
+WTI Percentage
+Ezh2-/- Percentage
+WT
+Ezh2-1-
+mTS-1
+mTS-2
+D4
+mTS-3
+I Placenta PE-1
+- Placenta PE-2
+mTS-1
+- Hepatocyte
+mTS-2
+D8
+MEF
+Cumulus cell
+mTS-3
+Sox17
+Smooth muscle-1
+Placenta PE-1
+Lamb1
+I Smooth muscle-2
+Placenta PE-2 Aqp8 Col4a2
+D10
+GABAergic neuron
+Vim Lamal
+Dorsal ganglion granule cell
+Smooth muscle Col4a2 Col4a1
+Other
+Other
+Col4a1 Emp2
+Gata4 Krt8
+F
+Gata4
+Sox17
+WT
+WT
+Ezh2-l-
+Ezh2-l-
+(legend on next page)
+1104 Cell 172, 1091-1107, February 22, 2018
+
+
+
+Cell
+METHOD DETAILS
+tational analyses were performed by Y.Z., L.F., H.S., A.S., D.H., Y.X., andW.H.
+Fabrication of microwell device
+The paper was written by G.G., X.H., R.W., J.X., Q.F., T.L., H.H., S.H.O.,
+Synthesis of barcoded beads
+G.-C.Y., and M.C.
+Cell collection and lysis
+Reverse transcription
+DECLARATION OF INTERESTS
+Exonuclease I treatment
+CDNA
+G.G. has submitted a patent application related to the Microwell-seq method
+amplification
+reported in this paper.
+Transposase fragmentation and selective PCR
+Cell preparation
+Received: September 25, 2017
+qPCR analysis
+Revised: December 15, 2017
+Immunofluorescence
+Accepted: January 30, 2018
+O Immunohistochemistry
+Published: February 22, 2018; corrected online May 3, 2018
+QUANTIFICATION AND STATISTICAL ANALYSIS
+Processing of the Microwell-seq Data
+REFERENCES
+Cell cycle analysis of 293T Cells
+Bendall, S.C., Simonds, E.F., Qiu, P., Amir, A.D., Krutzik, P.O., Finck, R.,
+Batch removal for cross tissue comparison
+Bruggner, R.V., Melamed, R., Trejo, A., Ornatsky, O.I., et al. (2011). Single-
+Cell-cell interaction network
+cell mass cytometry of differential immune and drug responses across a hu-
+Comparative analysis of different SCRNA-seq methods man hematopoietic continuum. Science 332, 687-696.
+Cell type analysis
+Buenrostro,J.D., Wu, B., Litzenburger, U.M., Ruff, D., Gonzales, M.L., Snyder,
+Single cell trajectory analysis
+M.P., Chang, H.Y., and Greenleaf, W.J. (2015). Single-cell chromatin accessi-
+MCA website construction
+bility reveals principles of regulatory variation. Nature 523, 486-490.
+Single cell MCA analysis
+Cahan, P., Li, H., Morris, S.A., Lummertz da Rocha, E., Daley, G.Q., and
+) Comparison of SCMCA, scmap and randomForest
+Collins, J.J. (2014). CellNet: network biology applied to stem cell engineering.
+DATA AND SOFTWARE AVAILABILITY
+Cell 158, 903-915.
+D Data Resources
+Chen, K.H., Boettiger, A.N., Moffitt,J.R., Wang, S., and. Zhuang, X. (2015). RNA
+imaging. Spatially resolved, highly multiplexed RNA profiling in single cells.
+SUPPLEMENTAL INFORMATION
+Science 348, aaa6090.
+Cheval, L., Pierrat, F., Dossat, C., Genete, M., Imbert-Teboul, M., Duong Van
+Supplemental Information includes seven figures and six tables and can be Huyen, J.P., Poulain, J., Wincker, P., Weissenbach, J., Piquemal, D., and Dou-
+found with this article online at https/doi.org/10.1016/.cell.218.02.001. cet, A. (2011). Atlas of gene expression in the mouse kidney: new features of
+glomerular parietal cells. Physiol. Genomics 43, 161-173.
+ACKNOWLEDGMENTS
+Cusanovich, D.A., Daza, R., Adey, A., Pliner, H.A., Christiansen, L., Gunder-
+son, K.L., Steemers, F.J., Trapnell, C., and Shendure, J. (2015). Multiplex sin-
+We thank S.R. Quake, L. Wang, L. Lu, D. Zhang, L. Shen, S. Ying, B. Liu, F. gle cell profiling of chromatin accessibility by combinatorial cellular indexing.
+Tang, J. Yu, T. Cheng, G. Fan, X. Li,X. Yu, and L. Sun for help with the study. Science 348, 910-914.
+We thank Annoroad, VeritasGenetics, G-BIO, Novogene, and Geneseeq for Dalerba, P., Kalisky, T., Sahoo, D., Rajendran, P.S., Rothenberg, M.E., Leyrat,
+deep sequencing experiments. We thank Vazyme for supplying customized A.A., Sim, S., Okamoto, J., Johnston, D.M., Qian, D., et al. (2011). Single-cell
+enzymes for the study. G.G. is a participant of the Cell Atlas Project (Zhejiang dissection of transcriptional heterogeneity in human colon tumors. Nat. Bio-
+University Stem Cell Institute), Alliancet for Atlas ofl Blood Cells (China), andHu- technol. 29, 1120-1127.
+man Cell. Atlas Project (International). This work was supported by grants from
+the National Natural Science Foundation of China (31722027, 81770188, and de Jonge, H.J., Fehrmann, R.S., de Bont, E.S., Hofstra, R.M., Gerbens, F.,
+Kamps, W.A., de Vries, E.G., van der Zee, A.G., te Meerman, G.J., and ter
+31701290), thel National Keyl Program on Stem Cell and Translational Research
+(2017YFA0103401), the 973 Program (2015CB964900), Zhejiang Provincial Elst, A. (2007). Evidence based selection of housekeeping genes. PLoS ONE
+Natural Science Foundation of China (R17H080001), and Fundamental 2, e898.
+Research Funds for the Central Universities (2016XZZX002-04).
+Deng, Q., Ramskold, D., Reinius, B., and Sandberg, R. (2014). Single-cell RNA-
+seq reveals dynamic, random monoallelic gene expression in mammalian
+AUTHOR CONTRIBUTIONS
+cells. Science 343, 193-196.
+Diez-Roux, G., Banfi, S., Sultan, M., Geffers, L., Anand, S., Rozado, D., Magen,
+Thep project was designedl by G.G. Experiments' were carried loutt by X.H., R.W., A., Canidio, E., Pagani, M., Peluso, L., et al. (2011). A high-resolution anatom-
+S.L., Z.Z., H.C., F.Y., M.J., X.J., J.M., Y.C., C.L., Y.W., R.Y., and G.G. Compu- ical atlas of the transcriptome in the mouse embryo. PLoS Biol. 9, e1000582.
+Figure 7. Broad Applicability of SCMCA Pipeline
+(A) A diagram showing the pipeline for SCMCA analysis.
+(B) SCMCA results of mouse embryonic distal lung epithelium data (Treutlein et al., 2014). Each row represents one cell type in our reference. Each column
+represents one single celli in the customer dataset. Red means high correlation; gray means low correlation.
+(C)scMCAresults of mousel HSC emergence data (Zhoue et al., 2016). Eachrowr represents one cell type in ourr reference. Each column represents one single cellin
+the customer dataset. Red means high correlation; gray means low correlation.
+(D) Pictures showing the morphology of EBs generated from wild-type and Ezh2 - mES cells.
+(E)Asummary of SCMCA results for differentiated cells from wild-type and Ezh2 - EBs. Each cell was labeled according to the maximum correlation with one of
+our reference cell types.
+(F) Immunofluorescence assay for the PE cell markers SOX17 and GATA4 in the EB cells generated from wild-type and Ezh2 ES cells. Scale bars, 50 um.
+See also Figure S7.
+Cell 172, 1091-1107, February 22, 2018 1105
+
+
+
+Cell
+Dobin, A., Davis, C.A., Schlesinger, F., Drenkow, J., Zaleski, C., Jha, S., Batut, methylation analysis reveals epigenetic chimerism in preimplantation em-
+P., Chaisson, M., and Gingeras, T.R. (2013). STAR: ultrafast universal RNA-seq bryos. Science 341, 1110-1112.
+aligner. Bioinformatics 29, 15-21.
+Macosko, E.Z., Basu, A., Satija, R., Nemesh, J., Shekhar, K., Goldman, M.,
+Fan, H.C., Fu, G.K., and Fodor, S.P. (2015). Expression profiling. Combi- Tirosh, I., Bialas, A.R., Kamitaki,N., Martersteck, E.M., eta al. (2015). Highly par-
+natorial labeling of single cells for gene expression cytometry. Science 347, allel genome-wide expression profiling of individual cells using nanoliter drop-
+1258367.
+lets. Cell 161, 1202-1214.
+Gierahn, T.M., Wadsworth, M.H., 2nd, Hughes, T.K., Bryson, B.D., Butler, A., Mooijman, D., Dey, S.S., Boisset, J.C., Crosetto, N., and van Oudenaarden, A.
+Satija, R., Fortune, S., Love, J.C., and Shalek, A.K. (2017). Seq-Well: portable, (2016). Single-cell 5hmC sequencing reveals chromosome-wide cell-to-cell
+low-cost RNA sequencing of single cells atl high throughput. Nat. Methods 14, variability and enables lineage reconstruction. Nat. Biotechnol. 34, 852-856.
+395-398.
+Morris, S.A., Cahan,P., Li, H., Zhao, A.M., San Roman, A.K., Shivdasani, R.A.,
+Gomezi Perdiguero, E., Klapproth, K., Schulz, C., Busch, K., Azzoni, E., Crozet, Collins, J.J., and Daley, G.Q. (2014). Dissecting engineered cell types and
+L., Garner, H., Trouillet, C., de Bruijn, M.F., Geissmann, F., and Rodewald, H.R. enhancing cell fate conversion via CellNet. Cell 158, 889-902.
+(2015). Tissue-resident macrophages originate from yolk- sac-derived erythro- Nagano, T., Lubling, Y., Stevens, T.J., Schoenfelder, S., Yaffe, E., Dean, W.,
+myeloid progenitors. Nature 518, 547-551.
+Laue, E.D., Tanay, A., and Fraser, P. (2013). Single-cell Hi-C reveals cell-to-
+Gu, Z., Gu, L., Eils, R., Schlesner, M., and Brors, B. (2014). circlizel Implements cell variability in chromosome structure. Nature 502, 59-64.
+and enhances circular visualization in R. Bioinformatics 30, 2811-2812.
+Navin, N., Kendall, J., Troge, J., Andrews, P., Rodgers, L., Mclndoo, J., Cook,
+Guo, G., Huss, M., Tong, G.Q., Wang, C., LiSun, L., Clarke, N.D., and Robson, K., Stepansky, A., Levy, D., Esposito, D., et al. (2011). Tumour evolution in-
+P. (2010). Resolution ofc cell fate decisions revealed bys single-cell gene expres- ferred by single-cell sequencing. Nature 472, 90-94.
+sion analysis from zygote to blastocyst. Dev. Cell 18, 675-685.
+Nelson, A.C., Mould, A.W., Bikoff, E.K., and Robertson, E.J. (2016). Single-cell
+Guo, F., Li, L., Li, J., Wu, X., Hu, B., Zhu, P., Wen, L., and Tang, F. (2017). Sin- RNA-seq reveals cell type-specific transcriptional signatures at the maternal-
+gle-cell multi-omics sequencing ofr mouse early embryos and embryonic stem foetal interface during pregnancy. Nat. Commun. 7, 11414.
+cells. Cell Res. 27, 967-988.
+Park, J., Shrestha, R., Qiu, C., Kondo, A., Huang, S., Werth, M., Li, M., Bar-
+Han,X., Yu, H., Huang, D., Xu, Y., Saadatpour, A., Li, X., Wang, L., Yu, J., Pine- asch, J., and Susztak, K. (2017). Comprehensive single cell RNAseq analysis
+llo, L., Lai, S., et al. (2017). A molecular roadmap for induced multi-lineage oft the kidney reveals novel cell types and unexpected cell plasticity. bioRxiv.
+trans-differentiation of fibroblasts by chemical combinations. Cell Res. 27, https//doi.org/10.1101/203125.
+386-401.
+Picelli, S., Bjorklund, A.K., Faridani, O.R., Sagasser, S., Winberg, G., and
+Hashimshony, T., Wagner, F., Sher, N., and Yanai, I. (2012). CEL-Seq: single- Sandberg, R. (2013). Smart-seq2 for sensitive full-length transcriptome
+cell RNA-Seq by multiplexed linear amplification. Cell Rep. 2, 666-673.
+profiling in single cells. Nat. Methods 10, 1096-1098.
+Herring, C.A., Banerjee, A., McKinley, E.T., Simmons, A.J., Ping, J., Roland, Plasschaert, R.N., and Bartolomei, M.S. (2014). Genomic imprinting in devel-
+J.T., Franklin, J.L., Liu, Q., Gerdes, M.J., Coffey, R.J., andl Lau, K.S. (2017). Un- opment, growth, behavior and stem cells. Development 141, 1805-1813.
+supervised trajectory analysis of single-cell RNA-seq: and imaging datal reveals Posfai, E., Petropoulos, S., de Barros, F.R.O., Schell, J.P., Jurisica, I., Sand-
+alternative Tuft cell origins in the gut. Published online November 7, 2017. berg, R., Lanner, F., and Rossant, J. (2017). Position- and Hippo signaling-
+10.1016/j.cels.2017.10.012.
+dependent plasticity during lineage segregation in the early mouse embryo.
+Hou, Y., Song, L., Zhu, P., Zhang, B., Tao, Y., Xu, X., Li, F., Wu, K., Liang, J., eLife 6, e22906.
+Shao, D., et al. (2012). Single-cell exome sequencing and monoclonal evolu- Ramskold, D., Luo, S., Wang, Y.C., Li, R., Deng, Q., Faridani, O.R., Daniels,
+tion of a JAK2-negative myeloproliferative neoplasm. Cell 148, 873-885.
+G.A., Khrebtukova, I., Loring, J.F., Laurent, L.C., et al. (2012). Full-length
+Islam, S., Zeisel, A., Joost, S., La Manno, G., Zajac, P., Kasper, M., Lonner- mRNA-Seq from single-cell levels of RNA and individual circulating tumor
+berg, P., and Linnarsson, S. (2014). Quantitative single-cell RNA-seq with cells. Nat. Biotechnol. 30, 777-782.
+unique molecular identifiers. Nat. Methods 11, 163-166.
+Regev, A., Teichmann, S.A., Lander, E.S., Amit,L., Benoist,C., Birney, E., Bod-
+Jin, W., Tang, Q., Wan, M., Cui, K., Zhang, Y., Ren, G., Ni, B., Sklar, J., Przy- enmiller, B., Campbell, P., Carninci, P., Clatworthy, M., et al.; Human Cell Atlas
+tycka, T.M., Childs, R., etal. (2015). Genome-wide detection ofl DNasel Ihyper- Meeting Participants (2017). The Human Cell Atlas. eLife 6, e27041.
+sensitive sites in single cells and FFPE tissue samples. Nature 528, 142-146. Rios, A.C., Fu, N.Y., Lindeman, G.J., and Visvader, J.E. (2014). In situ identifi-
+Ke, R., Mignardi, M., Pacureanu, A., Svedlund, J., Botling, J., Wahlby, C., and cation of bipotent stem cells in the mammary gland. Nature 506, 322-327.
+Nilsson, M. (2013). In situ sequencing forl RNAanalysis in preserved tissue and Rizvi, A.H., Camara, P.G., Kandror, E.K., Roberts, T.J., Schieren, I., Maniatis,
+cells. Nat. Methods 10, 857-860.
+T., and Rabadan, R. (2017). Single-cell topological RNA-seq analysis reveals
+insights into cellular differentiation and development. Nat. Biotechnol. 35,
+Kiselev, V.Y., Yiu, A., and Hemberg, M. (2017). scmap At tool for unsupervised 551-560.
+projection of single cell RNA-seq data. bioRxiv. htps/dok.org/10.1101/
+150292.
+Satija, R., Farrell, J.A., Gennert, D., Schier, A.F., and Regev, A. (2015). Spatial
+reconstruction of single-cell gene expression data. Nat. Biotechnol. 33,
+Klein, A.M., Mazutis, L., Akartuna, I., Tallapragada, N., Veres, A., Li, V., Pesh- 495-502.
+kin, L., Weitz, D.A., and Kirschner, M.W. (2015). Droplet barcoding for single-
+cell transcriptomics applied to embryonic stem cells. Cell 161, 1187-1201. Shackleton, M., Vaillant, F., Simpson, K.J., Stingl, J., Smyth, G.K., Asselin-
+Labat, M.L., Wu, L., Lindeman, G.J., and Visvader, J.E. (2006). Generation of
+Kopf, M., Schneider, C., and Nobs, S.P. (2015). The development and function a functional mammary gland from a single stem cell. Nature 439, 84-88.
+ofl lung-resident macrophages and dendritic cells. Nat. Immunol. 16, 36-44.
+Shalek, A.K., Satija, R., Adiconis, X., Gertner, R.S., Gaublomme, J.T.,
+Kuhn, M. (2008). Building predictive models in R using the caret package. Raychowdhury, R., Schwartz, S., Yosef, N., Malboeuf, C., Lu, D., et al.
+J. Stat. Softw. 28, 1-26.
+(2013). Single-cell transcriptomics reveals bimodality in expression and
+Lee, J.H., Daugharthy, E.R., Scheiman, J., Kalhor, R., Yang, J.L., Ferrante, splicing in immune cells. Nature 498, 236-240.
+T.C., Terry, R., Jeanty, S.S., Li, C., Amamoto, R., et al. (2014). Highly multi- Shannon, P., Markiel, A., Ozier, O., Baliga,N.S., Wang,J.T., Ramage, D., Amin,
+plexed subcellular RNA sequencing in situ. Science 343, 1360-1363.
+N., Schwikowski, B., and Ideker, T. (2003). Cytoscape: a: software environment
+Liaw, A., andWiener, M. (2002). Classification: and regressionl by randomForest. for integrated models of biomolecular interaction networks. Genome Res. 13,
+RN News 2, 18-22.
+2498-2504.
+Lorthongpanich, C., Cheow, L.F., Balu, S., Quake, S.R., Knowles, B.B., Bur- Shen, X., Liu, Y., Hsu, Y.J., Fujiwara, Y., Kim, J., Mao, X., Yuan, G.C., and
+kholder, W.F., Solter, D., and Messerschmidt, D.M. (2013). Single-cell DNA- Orkin, S.H. (2008). EZH1 mediates methylation on histone H3 lysine 27 and
+1106 Cell 172, 1091-1107, February 22, 2018
+
+
+
+Cell
+complements EZH2 in maintaining stem cell identity and executing pluripo- Wang, J., Fan, H.C., Behr, B., and Quake, S.R. (2012). Genome-wide single-
+tency. Mol. Cell 32, 491-502.
+cell analysis of recombination activity and de novo mutation rates in human
+Smallwood, S.A., Lee, H.J., Angermueller, C., Krueger, F., Saadeh, H., Peat, J., sperm. Cell 150, 402-412.
+Andrews, S.R., Stegle, O., Reik, W., and Kelsey, G. (2014). Single-cell genome- Whitfield, M.L., Sherlock, G., Saldanha,A.J., Murray, J.I., Ball, C.A., Alexander,
+wide bisulfite: sequencing for assessing epigenetic heterogeneity. Nat. Methods K.E., Matese, J.C., Perou, C.M., Hurt, M.M., Brown, P.O., and Botstein, D.
+11, 817-820.
+(2002). Identification of genes periodically expressed in the human cell cycle
+Svensson, V., Natarajan, K.N., Ly, L.H., Miragaia, R.J., Labalette, C., Macau- and their expression in tumors. Mol. Biol. Cell 13, 1977-2000.
+lay, I.C., Cvejic, A., and Teichmann, S.A. (2017). Power analysis of single-cell
+RNA-sequencing experiments. Nat. Methods 14, 381-387.
+Xu,> X., Hou, Y., Yin,X., Bao, L., Tang, A., Song, L., Li, F., Tsang, S., Wu,K., Wu,
+Tanaka, S., Kunath, T., Hadjantonakis, A.K., Nagy, A., and Rossant, J. (1998). H., et al. (2012). Single-cell exome sequencing reveals single-nucleotide mu-
+Promotion of trophoblast stem cell proliferation by FGF4. Science 282, tation characteristics of a kidney tumor. Cell 148, 886-895.
+2072-2075.
+Zeisel, A., Munoz-Manchado, A.B., Codeluppi, S., Lônnerberg, P., La Manno,
+Tang, F., Barbacioru, C., Wang, Y., Nordman, E., Lee, C., Xu, N., Wang, X., G., Juréus, A., Marques, S., Munguba, H., He, L., Betsholtz, C., et al. (2015).
+Bodeau, J., Tuch, B.B., Siddiqui, A., et al. (2009). mRNA-Seq whole-transcrip- Brain structure. Cell types in the mouse cortex and hippocampus revealed
+tome analysis of a single cell. Nat. Methods 6, 377-382.
+by single-cell RNA-seq. Science 347, 1138-1142.
+Treutlein, B., Brownfield, D.G., Wu, A.R., Neff, N.F., Mantalas, G.L., Espinoza,
+F.H., Desai, T.J., Krasnow, M.A., and Quake, S.R. (2014). Reconstructing line- Zhou, F., Li,X., Wang, W., Zhu, P., Zhou, J., He, W., Ding, M., Xiong, F., Zheng,
+agel hierarchies of the distal lung epithelium using single-cell RNA-seq. Nature X., Li, Z., et al. (2016). Tracinghaematopoietic stem cell formation at single-cell
+509, 371-375.
+resolution. Nature 533, 487-492.
+Treutlein, B., Lee, Q.Y., Camp, J.G., Mall, M., Koh, W., Shariati, S.A., Sim, S., Ziegenhain, C., Vieth, B., Parekh, S., Reinius, B., Guillaumet-Adkins, A.,
+Neff, N.F., Skotheim, J.M., Wernig, M., and Quake, S.R. (2016). Dissecting Smets, M., Leonhardt, H., Heyn, H., Hellmann, L., and Enard, W. (2017).
+directr reprogramming from fibroblast tor neuron using single-cell RNA-seq. Na- Comparative analysis of single-cell RNA sequencing methods. Mol. Cell 65,
+ture 534, 391-395.
+631-643.
+Cell 172, 1091-1107, February 22, 2018 1107
+
+
+
+Cell
+STAR*METHODS
+KEY RESOURCES TABLE
+REAGENT or RESOURCE
+SOURCE
+IDENTIFIER
+Antibodies
+Anti-Human SOX17 (Polyclonal)
+R&D Systems
+Cat# AF1924
+Anti-Human HNF-4a (clone C19)
+Santa Cruz Biotechnology
+Cat# sc-6556
+Anti-Human GATA4 (clone G-4)
+Santa Cruz Biotechnology
+Cat# sc-25310
+Anti-mice CD117 (c-Kit) (2B8)
+eBioscience
+Cat# 12-5981-82
+Chemicals, Peptides, and Recombinant Proteins
+0.25%Trypsin
+ThermoFisher Scientific
+Cat# 15050057
+FGF4
+Peprotech
+Cat# AF-100-31
+ESGRO Leukaemia inhibitory factor (LIF)
+Millipore
+Cat# ESG1106
+Collagenase typel I
+Worthington
+Cat# LS004196
+Critical Commercial Assays
+PrimeScript II Reverse Transcriptase
+Takara
+Cat# 2690A
+Exonuclease I
+NEB
+Cat# MO293L
+TruePrep DNAI Library Prep Kit V2 for Illumina
+Vazyme Biotech
+Cat# TD513
+EasyPure RNA Kit
+Transgen Biotech
+Cat# ER101
+TransScript All-in-One First-Strand CDNA Synthesis
+Transgen Biotech
+Cat# AT341-01
+SuperMix for qPCR (One-Step gDNA Removal)
+KAPA HiFi HotStart ReadyMix (2X)
+Kapa Biosystems
+Cat# KK2602
+2 x Phanta Master Mix
+Vazyme Biotech
+Cat# P511-AA
+Hieff qPCR SYBR Green Master Mix (No Rox)
+Yeasen
+Cat# 11201ES03
+MojoSort Mouse CD45 Nanobeads
+BioLegend
+Cat# 480027
+Magnetic beads
+Knowledge & Benefit Sphere Tech. Cat# MC20000
+AMPure XPI beads
+Beckman Coulter
+Cat# A63881
+Deposited Data
+Single cell RNA-seq raw, processed and DGE data
+NCBI Gene Expression Omnibus
+GSE108097
+Single cell RNA-seq DGE data
+Figshare
+https://figshare.com/S/
+865e694ad06d5857db4b
+Experimental Models: Cell Lines
+Mouse: 3T3
+Stuart Orkin Lab
+RRID:CVCL 0594
+Mouse: Embryonic stem cell (Cj7)
+Stuart H. Orkin Lab
+RRID:CVCL C316
+Mouse: Embryonic stem cell (E14)
+George Q. Daley Lab
+RRID:CVCL C320
+Mouse: Ezh2-/- Embryonic stem cell (Cj7)
+Stuart H. Orkin Lab
+Shen et al., 2008
+Mouse: Trophoblast stem cell
+Janet Rossant Lab
+Tanaka et al., 1998
+Human: 293T
+Stuart Orkin Lab
+RRID:CVCL 0063
+Experimental Models: Organisms/Strains
+Mouse: C57BL/6J
+Shanghai SLAC Laboratory Animal N/A
+Oligonucleotides
+Primer for Synthesis of barcoded beads, see Table S1 Sangon Biotech
+A: Lot# 9306358586- Lot# 9306358681
+B: Lot# 8306023817-Lot# 8306023912
+C: Lot# 8307373546-Lot# 8307373641
+indexed bead seqA:5'-Bead-Linker-TTTAGGGATAAC This paper
+N/A
+AGGGTAATAAGCAGTGGTATCAACGCAGAGTACGT
+JJDJ CGACTCACTACAGGGITHITHITCGGTGACACGATCG
+illjinnnnniTTTiTTTTTTTTTTTTTTTITTTTTTTTTTTT
+(Continued on next page)
+e1 Cell 172, 1091-1107.e1-e7, February 22, 2018
+
+
+
+Cell
+Continued
+REAGENT or RESOURCE
+SOURCE
+IDENTIFIER
+indexed bead: seqB:5-Bead-Linker-TITAGGGATAAC This paper
+N/A
+AGGGTAATAAGCAGTGGTATCAACGCAGAGTACII
+CGACTCACTACAGGGIMITCCGGTGACACGATCGII
+ionnnnTTTTTTTTTTTTTTIZTTTTTITT
+Primer for Reverse transcription:AAGCAGTGGTATCA
+Sangon Biotech
+Lot# 7308193208
+ACGCAGAGTGAAT/rG/rG/IXNA_G
+Primer for CDNA ampification:AAGCAGTGGTATCAA
+Sangon Biotech
+Lot# 9308193206
+CGCAGAGT
+Primer for library construction and sequencing,
+This paper
+NA
+see Table S2
+Software and Algorithms
+BBMap
+https:/fjgi.doe.gov/data-and-tools/ https.//github.com/BiolnfoTools/BBMap
+bbtools/bb-tools-user-guide/
+bbmap-guide/
+Dropseq_tools-1.12
+Macosko et al., 2015
+http:/mccarrolliab.com/dropseq/
+Seurat
+Satija et al., 2015
+http://satijalab.org/seurat/
+p-Creode
+Herring et al.,2017
+https:/github.com/KenLauL.ab/pCreode
+Circlize
+Gu et al., 2014
+http:/zuguang.de/circlize_book/book/
+randomForest
+Liaw and Wiener, 2002
+https./cran.r-project.org/web/packages/
+randomForest/index.html.
+Scmap
+Kiselev et al., 2017
+http:/www.hemberg-lab.cloud/scmap/
+Cytoscape
+Shannon et al., 2003
+http://www.cytoscape.org/
+Cell-cycle gene list
+Macosko et al., 2015
+N/A
+caret
+Kuhn, 2008
+https://cran.r-project.org/web/packages/
+caret/index.html
+STAR
+Dobin et al., 2013
+https.//github.com/alexdobin/STAR
+R: The RI Project for Statistical Computing
+The RI Foundation
+https://www.r-project.org
+Other
+MCA website
+This paper
+http:/bis.zju.edu.cn/MCA/gallery.html
+CONTACT FOR REAGENT AND RESOURCE SHARING
+Further information and requests for reagents may be directed to, and will be fulfilled by the Lead Contact, Guoji Guo (ggj@zju.
+edu.cn). Commercialized Microwell-seq Kit is available at G-BIO (http:/www.igeneseq.com/research_detail/dxbcp/microwell.html).
+EXPERIMENTAL MODEL AND SUBJECT DETAILS
+Mouse strains and husbandry
+Wild-type C57BL/6J mice were ordered from Shanghai SLAC Laboratory Animal. All mice were housed at Zhejiang University
+Laboratory Animal Center in a Specific Pathogen Free (SPF) facility with individually ventilated cages. The room has controlled
+temperature (20-22° C), humidity (30%-70%) and light (12 hour light-dark cycle). Mice were provided ad libitum access to a regular
+rodent chow diet.
+For adult samples, testis and prostate tissues were collected from 8-10 week-old male mice, all the other tissues were collected
+from 6-10 week-old female mice. For embryonic (E14.5 embryos) and neonatal (1 day-old pups) samples (except for gonads), sex is
+not determined before tissue pooling due to small sample size. More details are listed in Table S3.
+All experiments performed in this study were approved by the Animal Ethics Committee of Zhejiang University. All experiments
+conformed to the relevant regulatory standards at Zhejiang University Laboratory Animal Center.
+METHOD DETAILS
+Fabrication of microwell device
+The diameter and depth of the microwells were 28 um and 35 um, respectively. First, a silicon plate with 100,000 microwells was
+manufactured by Suzhou Research Materials Microtech. The silicon microwell plate was then used as a mold to make a PDMS plate
+Cell 172, 1091-1107.e1-e7, February 22, 2018 e2
+
+
+
+Cell
+that had the same number of micropillars. Prior to experiments, a disposable agarose microwell plate was made by pouring 5%
+agarose solution onto the surface of the PDMS plate. Both the silicon and PDMS plates are reusable. One silicon microwell plate
+allows for almost permanent use.
+Synthesis of barcoded beads
+Magnetic beads coated with carboxyl groups were provided by Suzhou Knowledge & Benefit Sphere Tech (diameter 20-25 umhttp:1/
+www.kbspheretech.com/). The barcoded oligonucleotides on the surface of the beads were synthesized by three rounds of split-
+pool. All the sequences used are listed in supplementary information Table S1.
+For each batch of bead synthesis, 300-350 pL of carboxyl magnetic beads (50 mg/ml) were washed twice with 0.1 M MES
+(2-IN-morpholinoJethanesulfonic acid). The beads were then suspended in 0.1 M MES at a final volume of 635 ul. 3.08 mg of EDC
+(1-ethyl-3 (-3-dimethylaminopropy) carbomiimide hydrochloride) were added to the beads. 6.2 pL of beads were then distributed
+into each well of a 96-well plate. 2.5 uL of amino modified oligonucleotide (50uM in 0.1 M MES) were then added into every' well. After
+vortexing and incubation for 20 minutes at ambient temperature, 0.5 pLmix (Add 6 mg ofl EDC in 100 uL of0.1 M MES) was distributed
+into every well. After another round of vortexing and incubation for 20 minutes at ambient temperature, 0.5 pL more mix (Add 6 mg of
+EDC in 100 pL of 0.1 M MES) was distributed into every well. After vortexing and incubate for 80 minutes at ambient temperature, the
+beads were collected in 1 mL of0.1M PBS containing 0.02% Tween-20. After centrifugation, supernatant was removed carefully. The
+beads were then washed two times in 1 mL of TE (pH 8.0).
+Int the second split-pool, thel beads were washed with water and split into each well of another 96 well plate containing the PCR mix:
+1 X Phanta Master Mix (Vazyme) and 5 uM oligonucleotides. The oligonucleotides in every tube encoded a sequence that was
+reverse complementary to linker 1, a unique barcode and a linker 2 sequence. PCR program was as follows: 94°C 5 min; 5 cycles
+of94°C15s, 48.8° C4 min, and 72°C 4 min; 4°C hold. The third split-pool procedure was the same as the second one. PCR program
+was as follows: 94°C for 5 min, 48.8°C for 20 min, 72° C for 4 min and 4°C hold. The oligonucleotides used in every tube encoded a
+linker 2 reverse complementary sequence, a unique barcode, a UMI sequence and a poly T tail. All the oligos were synthesized by
+Sangon Biotech with HPLC purification. Beads were resuspended in 1 mL of ddH20. To remove complementary chains, put beads
+into 95° C water bath for 61 min, separate beads with magnetic separator and remove the supernatant quickly for 21 times. Beads could
+be stored in TE-TW (10 mM Tris pH 8.0, 1 mM EDTA, 0.01% Tween20) for 4 weeks at 4°C.
+Cell collection and lysis
+Cell concentration should be carefully controlled in Microwell-seq. Both cell and bead concentrations were estimated with a hemo-
+cytometer. Thej proper cell concentration is C 100,000/ml (with 10% of wells occupied by single cells). The proper bead concentration
+is ~1,000,000/ml (with every well will occupied by single beads). Evenly distributed cell suspension was pipetted onto the microwell
+array, and extra cells were washed away. To eliminate cell doublets, the plate was inspected under a microscope. Cell doublets were
+removed with a capillary tube blowing around the doublet well. Bead suspension was then loaded on the microwell plate, which was
+placed on a magnet. Excess beads were washed away slowly. Cold lysis buffer (0.1 M Tris-HCI pH7.5, 0.5 MI LiCI, 1% SDS, 10 mM
+EDTA, and 5 mM dithiothreitol) was pipetted over the surface of the plate and removed after 12 min of incubation. Then, beads were
+collected and transferredi to an RNase-free tube, washed once with 1 mL of6 x SSC, once with 500 pL of6 X SSC and then once with
+200 pl of 50 mM Tris-HCI pH 8.0. Finally, ~50,000 beads were collected into a 1.5 mL tube.
+Reverse transcription
+In this procedure, the nstructions from the Smart-seq2 protocol were followed. Briefly, 20 uL of RT mix was added to the collected
+beads. The RT mix contained 200 U SuperScript Il reverse transcriptase, 1 X Superscript Il first-strand buffer (Takara), 20 U RNase
+Inhibitor (Sangon), 1 M betaine (Sigma), 6 mM MgCl2 (Ambion), 2.5 mM dithiothreitol, 1 mM dNTP and 1 IM TSO primer. The beads
+werei incubated: at 42° Ci for 90 minutes (thet tube was shaked every 6 min), then washed with 200 uL of TE-SDS(1 x TE + 0.5% sodium
+dodecyl sulfate) to inactivate reverse transcriptase.
+Exonuclease I treatment
+After being washed with 200 pL of TE-TW and 200 uL of 10 mM Tris-HCI pH 8.0, beads were suspended in 200 pL of exonuclease I
+mix (containing 1 X exonuclease buffer and 1 U/ul exonuclease (NEB)), and incubated at 37°C for 60 minutes (shake beads every
+10min) to remove oligonucleotides that didi not capture mRNA. Beads were pooled and washed once with TE-SDS, once with 1 mL of
+TE-TW and once with 200 pL of 10 mM Tris-HCI pH 8.0.
+CDNA amplification
+Beads were then distributed to 4 tubes. To every tube, 12.5 pL of PCR mix was added, which included 1 X HiFi HotStart Readymix
+(Kapa Biosystems) and 0.1 uM TSO_ PCR primer (Supplementary information, Table S2). The PCR program was as follows: 98 Cfor
+31 min; 40 cycles of 98° C 20 s, 65° C 45 s, and 72° C 61 min; 10-14 cycles of 98° C20s s, 67° C 20 s, and 72° C 6 min; 72°C 10 min and 4°C
+hold. After pooling all PCR products, AMPure XP beads (Beckman Coulter) were used to purify the CDNA library.
+e3 Cell 172, 1091-1107.e1-e7, February 22, 2018
+
+
+
+Cell
+Transposase fragmentation and selective PCR
+The purified CDNAI library was fragmented by a customized transposase that carries two identical insertion sequences. The custom-
+ized transposase was from TruePrep DNA Library Prep Kit V2 for Illumina (Vazyme). The tragmentation reaction was performed
+following the instructions of the manufacturer. We replaced the index 2 primers (N5 X x)in the kit with our P5 primer (Supplementary
+information, Table S2) to specifically amplify fragments that contain the 3' end of transcripts. Other fragments will form self-loops,
+which impede their binding to PCR primers. The PCR program was as follows: 72°C3 min; 98°C 30 s; 14 cycles of 98°C 15 s,
+60° C 30 s, and 72°C 3 min; 72°C 5 min and 4°C hold. To eliminate primer dimers and large fragments, AMPure XP beads were
+then usedi to purify the CDNAlibrary. Then, size distribution was analyzed on an Agilent 2100 bioanalyzer, andap peak ata approximately
+400-700 bp range should be observed. Finally, the samples were ready for sequencing on an Illumina Hiseq system.
+Cell preparation
+293T, 3T3 and mesenchymal stem cells (MSC) were cultured in Dulbecco's Modified Eagle Medium (DMEM, ThermoFisher) with 10%
+Fetal Bovine Serum (FBS, ThermoFisher) and 1% Penicilin-streptomycin (ThermoFisher). E14 and Cj7 embryonic stem (ES) cells
+were grown in DMEM supplemented with 15% FBS, 2 mM GlutaMax supplement (ThermoFisher), 1% nonessential amino acids
+(ThermoFisher), 0.1 mM B-mercaptoethanol (Sigma), 1% Penicillin-streptomycin and 1,000 U/ml leukemia inhibitory factor (LIF, Milli-
+pore) under feeder-free conditions. Trophoblast stem (TS) cells were cultured in Roswell Park Memorial Institute Medium (RPMI,
+ThermoFisher) supplemented with 20% FBS, 2 mM GlutaMax supplement, 0.05 mM B-mercaptoethanol, 1 mM sodium pyruvate
+(ThermoFisher), 1% penicillin-streptomycin, 25 ng/ml FGF4 (Peprotech) and 1 ug/ml heparin (Sigma) on Mouse Embryonic Fibroblast
+(MEF) feeders (Tanaka et al., 1998). Cells were harvested by trypsinization and resuspended in cold Dulbecco's Phosphate-Buffered
+Saline (DPBS, Corning) with 2 mM Ethylenediaminetetraacetic acid (EDTA, ThermoFisher) at a density of 1 X 105 cells/ml.
+The organs and tissues were isolated from E14.5 embryos, 1-day-old pups or 6- to 10- week-old adult mice (C57BL/6). The
+samples were quickly transferred into cold DPBS, and then minced into ~1 mm pieces on ice with scissors. Tissue pieces were trans-
+ferred to a 15 mL centrifuge tube, rinsed twice with cold DPBS and then re-suspended with 5 mL of dissociation enzymes. Samples
+were treated with different enzymes for different durations (Table S3). During the dissociation, tissue pieces were pipetted up and
+down gently for several times until there was no visible tissue fragment. The methods for single cell isolation from different tissues
+are listed in Table S3. Dissociated Cells were centrifuged at 300 X g for 5 min at 4°C, and then re-suspended in 3 mL of cold
+DPBS. After passing through a 40 um strainer (Biologix), cells were washed twice, centrifuged at 300 X g for 5 min at 4°C, and
+re-suspended in cold DPBS with 2 mM EDTA at a density of 1 X 105 cells/ml.
+Bone marrow was isolated from femur and tibia bones (C57BL/6). Muscles were removed from bones with Delicate Task Wipers
+(KIMTECH). Both ends of bones were carefully trimmed to expose the interior marrow shaft. We then used DPBS with: 2mM EDTA to
+flush the marrow using a 1 mL syringe (with 26G needle). Marrow cavity was flushed 2-3 times to collect the most of the cells. After
+gentle pipetting, cells were filtered using 40 um strainers (Biologix) and collected into a 50 mL centrifuge tube. Cells were centrifuged
+at 300 x g for 5 min at 4° C and then re-suspended with 5 mL of red blood cell lysis buffer (Biolegend). Cell suspension was incubated
+on ice for 5min with occasional shaking. Lysis reaction was quenched by adding 30 mL DPBS with 21 mM EDTA. Cells were collected
+at: 300 X gi for 5 min at 4° C and washed 3 times to remove thel lysis buffer. Finally, cells were counted with hemocytometer and diluted
+with cooled DPBS with 21 mM EDTA to a density of 1 X 105 cells/ ml.
+Bone marrow mesenchyme was isolated from femur and tibia bones (C57BL/6). Muscles were removed from bones with Delicate
+Task Wipers. Both ends ofl bones were carefully trimmed to expose thei interior marrow shaft. We then used DPBS with 21 mM EDTA to
+flush the marrow using 1 mLs syringe (with 26G needle). Marrow was collected into a 15 mL centrifuge tube. The remaining bones were
+cuti into pieces (except for the distal end off the tibia) and grounded in mortar. Bone samples were transferredi to a 15ml centrifuge tube
+with 1ml of DPBS, centrifuged at 300 X g for 5 min at 4°C, and re-suspended with 1ml of Hank's 's Balanced Salt Solution (HBSS,
+GIBCO) containing 31 mg/ml collagenase typel (Worthington), 4 mg/ml neutral protease and 200 U/ml DNase (Sigma). Afteri incubation
+at: 37° Cf for 15 min, the tube was vortexed 5 S for three times, and settled on ice for 1 min. The supernatant was transferred to another
+15 mL centrifuge tube with 10 mL of cold DPBS. The remaining tissues were re-suspended with 1 mL of HBSS containing 3 mg/ml
+collagenase type I, 4 mg/ml neutral protease and 200 U/ml DNase. After incubation at 37° C1 for 15 min, the tube was vortexed 5 S for
+three times, and settled on ice for 1 min. The supernatant was then collected to the same 151 mL centrifuge tube. Finally the cells were
+collected and re-suspended with 3 mL of DPBS. After passing through a 40 um strainer, cells were washed twice, counted with a
+hemocytometer and diluted to 1 X 105 cells/ml in DPBS with 2 mM EDTA.
+For embryonic mesenchymal tissues, E14.5 embryo head, limbs and visceral tissues were removed; the remaining tissues were
+minced before single cell dissociation (similar to MEF generation).
+For peripheral blood samples, erythroid cells were removed by red blood cell lysis buffer (Batch 2), or Ficoll separation (Batch 1, 3,
+4, 5). Note that neutrophil is enriched in Batch 2.
+Thymus and spleen were squeezed to pass through a 40 um strainer using a plunger. Cells were collected into a 15 mL centrifuge
+tube, and then centrifuged at 300 X g for 51 min at 4°C. Supernatant was discarded. Cells were re-suspended with 5 mL of red blood
+cell lysis buffer. Cell suspension was incubated on ice for 5 min with occasional shaking. Lysis reaction was quenched by adding
+30 mL DPBS. Cells were centrifuged at 300 X g for 5 min at 4° C and washed 3 times to remove the lysis buffer. Then cells were
+counted with a hemocytometer and diluted in cold DPBS with 2 mM EDTA at a density of 1 x 105 cells/ml.
+Cell 172, 1091-1107.e1-e7, February 22, 2018 e4
+
+
+
+Cell
+Mesenchymal Stem Cells (MSCS) were derived from C57BL/6 mouse bone marrow. In brief, bone marrow cells from femur and tibia
+bones (C57BL/6) were collected and prepared into single cell suspensions. Cells were cultured in L-DMEM media at a density of
+1 x 10%/ml on 10mm tissue culture plate (Corning). Culture media were changed after 12 h, and non-attached cells were discarded.
+Subsequently, media were changed every: 241 h. After 16 days, cells were trypsinized and passaged at the ratio of 1:3. The MSCS were
+passaged every 3-4 days. Singe cell analysis was performed with MSC culture at passage 15.
+Embryoid Body (EB) differentiation for mESCs: Cells were harvested by trypsinization, re-suspended in EB Medium (ESCS medium
+without LIF) and seeded into 6-Well Ultra-Low Adherent Plates (Corning) at a density of2: X 105 cells per well. Medium was changed
+every three days. On day 14, EB single cells were harvested by trypsinization and resuspended in cold DPBS with 2 mM EDTA at a
+density of 1 X 105 cells/ml.
+Attached differentiation for mESCs:Day 7 EBs were plated on gelatin coated dishes and cultured in differentiation medium (ESC
+medium without LIF) for 7 days. Medium was changed every other day. On day 14, cells were harvested by trypsinization and re-
+suspended with cold DPBS containing 2 mM EDTA at a density of 1 X 105 cells/ml.
+CD45- cells were enriched with MojoSort Mouse CD45 Nanobeads (Biolegend) following the manufacturer's protocol. For cKit+
+cells, bone marrow cells were suspended in 100 uL ofl DPBS with 5% FBS for exposure with cKit antibodies (eBioscience). cKit+ cells
+were then sorted with a BD FACSAria II cell sorter. Cells were diluted in DPBS with 2 mM EDTA and filtered through a 40 um size
+strainer before Microwell-seq experiments.
+qPCR analysis
+EasyPure RNA Kit (Transgen) was used to extract total RNA from cell samples. Total RNA was reverse transcribed into complemen-
+tary DNA (CDNA) by TransScript All-in-One First-Strand CDNA Synthesis SuperMix for qPCR kit (Transgen). The diluted CDNA
+were used as temples in qPCR performed using Hieff qPCR SYBR" Green Master Mix (Yeasen). The qPCR was performed with
+the LightCycler 480 (Roche) system.
+Immunofluorescence
+EBs were seeded into 0.1% Gelatin-coated dishes (NEST, 35/15mm) for attachment. Attached EBs were fixedi in 4% paraformalde-
+hyde at room temperature for 30 min. Then permeabilized treatment was performed at room temperature for 30 min with PBS + 0.2%
+Triton X-100. After blocking with PBS + 1% BSA + 4% FBS + 0.4% Triton X-100 at room temperature for 1 h, EBs were incubated
+with primary antibodies, diluted in PBS+0.2% BSA+0.1% Triton X-100, at 4°C overnight. After washing, EBs were incubated with
+AlexaFluor secondary antibodies (Invitrogen) for 1 h at room temperature. After being washed, EBs were incubated with DAPI for
+5 min at room temperature. After the second round of fixation for 30 min, cells were imaged by Olympus FV3000. The primary anti-
+bodies used were anti-SOX17 (AF1924, 1:100, R&D) and anti-GATA4 (sc-25310, 1:100, Santa).
+Immunohistochemistry
+Thel harvested placentas were fixed in 4% paraformaldehyde at 4°C overnight. The entire placentas were sectioned with a thickness
+of 6 um. Following dewax in xylene and rehydration in graded alcohol solution, the placentas sections were send to Servicebio
+(Wuhan) for immunohistochemistry services. The primary antibodies used were anti-SOX17 (AF1924, 1:100, R&D) and anti-
+HNF4A (sc-6556, 1:100, Santa).
+QUANTIFICATION AND STATISTICAL ANALYSIS
+Processing of the Microwell-seq Data
+The drop-seq core computational tool was used for preprocessing of the Microwell-seq data. The implementation is described in
+the Drop-seq computational cookbook (http:/mccarrolllarrollab.com/wp-content/uploads/2016/03/Drop-seqAlignmentCookbookv1.
+2Jan2016.pdf). We first filtered out reads without two linkers or poly T sequences using the bbduk2 function in bbmap. A cellular
+barcode and unique molecular identifier (UMI) were then extracted from Read One. We discarded the paired reads if the quality
+of any base in the barcode was below 10. We used STAR (version 2.5.2a) with default parameters for mapping (Dobin et al.,
+2013). Reads from 3T3 cells and 293T cells were aligned to a merged hg19-mm10 genome reference (provided by Drop-seq group,
+GSE63269). Reads from MCA data were aligned to the Mus_musculus.GRCm38.88 genome. All multi-aligned reads were removed
+and GTF annotation files from Gencode were used to tag aligned reads. For UMI count, molecular barcodes with one edit distance
+were merged to one within a gene. For cell quality control, we excluded cells in which less than 500 transcripts were expressed.
+A high proportion (> 10%) of transcript counts derived from mitochondria-encoded genes may indicate low cell quality, and
+we removed these unqualified cells from the downstream analysis. After obtaining the digital gene expression (DGE) data matrix,
+we used Seurat for dimension reduction, clustering and differential gene expression analysis (Satija et al., 2015).
+Cell cycle analysis of 293T Cells
+We carried out cell cycle analysis of single cell using the method according to dropseq (Macosko et al., 2015). Gene sets reflecting
+five phases off thel HeLa cell cycle (G1/S, S, G2/M, Ma and M/G1) werel referred from Whitfield et al. (2002). To find the genes that fit our
+293T data, we calculated the correlation between the expression level of each gene and the average expression level of all genes in
+e5 Cell 172, 1091-1107.e1-e7, February 22, 2018
+
+
+
+Cell
+that phase-specific gene set. We excluded genes with a low correlation (R < 0.3). We first calculated the mean of all gene expression
+values in each gene set and used the mean value as the score for that phase. Then, the phase-specific scores were normalized twice.
+First, each phase scores were centered and divided by their standard deviation. Second, we normalized the phase score across all
+thej phases within each cell by centering and normalizing. The cells were assigned to a cell phase by their maximal phase scores. The
+cells were first reordered by cell phase (G1/S, S, G2/M, M and M/G1) and then by the descending phase score.
+Batch removal for cross tissue comparison
+For cross tissue comparisoni in Figures 2B, 6B, and 6D, we removed the batch gene background toi improve presentation. We assume
+that for each batch of experiment, the cell barcodes with less than 500UMI correspond to the empty beads exposed free RNA during
+the cell lysis, RNA capture and washing steps. The batch gene background value is defined as the average gene detection for all
+cellular barcodes with less than 500 UMI, multiplied by a coefficient of 2, and then rounded to the nearest integer. Genes detected
+inl less 25% of all cells are removed from the batch gene background list. We subtract the batch gene background for each cell from
+the digital expression matrix before making the cross tissue comparison figures.
+Cell-cell interaction network
+Tos systematically understand the relationships between different cell types and tissues, wel built cell-cell correlation-based networks.
+For Figure 6A, we used the reduced dataset with 60,000 cells and 6,298 marker genes of 98 cell clusters. To reduce noise, we aver-
+aged every 100 cells within each cell type. We then formed a correlation network using pairwise Spearman correlation between these
+averaged cells. Edges with r > 0.75 were considered significant. The network was visualized using Cytoscape (Shannon et al., 2003)
+with the "edge-weighted spring embedded" layout.
+Comparative analysis of different SCRNA-seq methods
+We compared Microwell-seq with several other SCRNA-seq methods about sensibility (Figures S2A and S2B), accuracy (Figure S2C)
+and mixed rate (Figure S2D). For Figure S2A, our Cj7 mES data (EmbryonicStemCell.CJ7) were compared with mES data produced
+by different technologies (Ziegenhain et al., 2017) within the low (50000 raw reads/cell) to middle (100000 raw reads/cell) range
+sequencing depth. Figure S2B presents the number of genes detected (counts N 1) per cell for different methodologies with middle
+range sequencing depth (30000-60000 mapped reads/cell). Double sequenced Cj7 mES data (EmbryonicStemCell.CJ7_Deep) is
+usedi int this comparison. 65 cells were randomly sampled within the selected data range (Ziegenhain et al., 2017)tor make the boxplot.
+For Figure S2C, to assess the quantification accuracy of different methods, we computed the Pearson Correlation Coefficient (R)
+between expression values of housekeeping genes (de Jonge et al., 2007; Zhou et al., 2016) in each cell and the average expression
+of reference genes for all sampled cells (65 cells) from a method. Data at low (50000 raw reads/cell) sequencing depth from (Ziegen-
+hain et al., 2017) and our mES data were selected for the comparison.
+Cell type analysis
+After selection of the significant differential genes (ave_diff > 1) from each cell type, we compared our subtypes with other published
+paper using top differentially expressed markers. The results of cell type analysis were displayed with circlize in R (Gu et al., 2014).
+Each connective line represents the same marker genes across different cell subtypes identified by different methods. Data source:
+Figure S4A: Kidney from MCAand Park et al. (2017), Figure S4B: Fetal lung and Adult lung both from MCA, Figure S4C: Placenta from
+MCA and Nelson et al. (2016), Figure S4E: Bran from MCA and Zeisel et al. (2015).
+Single cell trajectory analysis
+We used p-Creode (Herring et al., 2017) to perform developmental trajectory analysis for cells in placenta and cKit+ bone marrow
+(Figures S4D and S4F). For placenta, hematopoletic cells, endothelial cells as well as low quality data (< 500 genes/cell) were
+removed. The remaining data were used to construct an unsupervised development trajectory (noise = 10 and target = 30) based
+on top: 20 differentially expressed marker genes in each cluster. For cKit+ bone marrow, due to the amount of cells, we randomly
+sampled 200 cells from each cluster with gene number per cell above the median to construct an unsupervised development trajec-
+tory (noise = 12, target = 50). The top 20 differentially expressed marker genes in each cluster were used for the analysis.
+MCA website construction
+Thei main site oft thel MCAuses the bootstrap framework toi improve overall adaptability and interactivity. Its back-end is completed by
+PHP, R language, and mysql. The main functions of MCA website is divided into three parts, Gallery, Search and SCMCA. Gallery
+provides interactive t-SNE maps for 44 tissues to show the distribution of different clusters. Significant markers for each cluster
+are listed in a data table. The search part provides the expression of a given gene in different clusters from to any selected tissue.
+The SCMCA provides the function of single-cell correlation analysis with the MCA database. After users upload their own DGE files,
+the data will be processed by the R script and compared with the MCA reference file. The SCMCA result will be returned in JSON
+format and presented as an interactive heatmap.
+Cell 172, 1091-1107.e1-e7, February 22, 2018 e6
+
+
+
+Cell
+Single cell MCA analysis
+To build a SCMCA reference, we first normalized each cell to 100K transcripts. And then for each cell type cluster, we randomly
+sampled 100 single cells (all cells for clusters with less than 100 cells), calculate the averaged expression, and round the DGE number
+to the nearest integer. We constructed the averaged cell type transcriptome data three times for each cell cluster. This resulted in
+894 main cell type references in our SCMCA pipeline. We then performed differential gene expression analysis for each cell type
+against all the other cells and select the top 10 marker genes for each cell type (log-fold change >> 1). Markers for each cell types
+were merged to make the combined feature gene list. The Pearson correlations of the given single cell data against each MCA
+cell type reference were then calculated using the combined feature gene list. Single cell FPKM, RPKM and TPM DGE matrix
+were log-transformed before SCMCA analysis.
+Comparison of SCMCA, scmap and randomForest
+To compare the quality of different mapping methods, we calculated the accuracy of self-projections corresponding to
+randomForest, SCMCA and scmap. We used randomForest R package (Liaw and Wiener, 2002), SCMCA pipline and scmap RI Pack-
+age (Kiselev et al., 2017) to build references andrun cell type mapping analysis. Figure S7C is based on the 5 datasets including male
+fetal gonad, pancreas and spleen data from MCA, as well as hematopoietic stem cells (Zhou et al., 2016) and preimplantation embryo
+data (Deng et al., 2014; Posfai et al., 2017). For each dataset, we randomly chose 80% cells to build the training model, and then use
+the remaining 20% cells to fit the model, the pipeline was repeated 3 times for each dataset. The unassigned cells from scmap were
+removed. The mapping results were converted into confusion matrix and the accuracy was calculated by the R package caret
+(Kuhn, 2008).
+DATA AND SOFTWARE AVAILABILITY
+Data Resources
+The accession number for the raw data files for the RNA sequencing analysis reported in this paper is GEO: GSE108097.
+Digital Expression Matrixes are accessible through:
+https:/figshare.com/s/865e694ad06d5857db4b
+An R package for SCMCA analysis is available at GitHub https://github.com/ggjlab/SCMCA).
+e7 Cell 172, 1091-1107.e1-e7, February 22, 2018
+
+
+
+Cell
+Supplemental Figures
+A
+5
+3'
+Magne etic
+Bead
+Universal Cell Label Molecular Index OligodT
+Erl
+-
+CONH Universal Barcode Linker1
+Annealing
+Linker1* Barcode2" Linker2"
+PCR
+Linkeri
+extension
+Linker1* Barcode2" Linker2"
+Conversion
+Linker1 Barcode2 Linker2
+tossDNA
+Annealing
+PCR extension and
+Linker2* Barcode3* UMI* poly-A
+Conver on
+Linker2 Barcode3 UMI poly-T
+toss DNA
+CONH Univer rs Barcode linker1 Barcode2 linker2 Barcode3 UMI poly-T
+B
+E
+A: silicon wafer (-20 by 20 mm)
+containing ~10,000 microwells
+was used as a template.
+Polydimethylsiloxane (PDMS)was
+poured ontot the silicon wafer(80 C,
+Sh) to create micropillars arrays.
+Agarose (5%) microwell arrays
+were castf from the PDMS micro-
+pillars array before each experiment.
+mp
+Cell
+Magnetic Bead + Cell
+:
+12.5-
+20.
+10.0-
+Mean .959, Standard Devidation=0.4 473
+37- 3.6x, r2-0.993
+7.5
+: 15.
+I
+5
+os
+5.0
+10.
+2.5
+0.0
+bead1 beads beads bead7, béade
+Log10 (oligo
+bead2 bead ad4 bead6 bead8 Phomsonphinans
+Figure S1. Microwell Fabrication and Bead Synthesis, Related to Figure 1
+(A) The synthesis ofl barcodedl beads. Three: split-pool rounds are used to introduce the 3 parts of the oligonucleotides ont the beads. In the first split- pool round,
+magnetic beads coated with carboxyl groups are distributed randomly into a 96-well plate in which 5' amino-modified oligonucleotides are conjugated to the
+beads. Oligonucleotides in each well have a unique barcode sequence. Beads are then pooled and split into another 96-well plate where a second barcode
+sequence is introducedby: single-cyclel PCR. Int the final split- -pool round, the third barcoded sequence, uniquer molecular identifier (UMI) and polyTt tail are added.
+After the split-pool, all oligonucleotides on the same bead willi have the same cell barcodel but a different UMI, while oligonucleotides on different beads will have
+different cell barcodes.
+(B) The microarray fabrication. The microarray fabrication strategy involves using a silicon microarray chip to construct a micropillar PDMS chip and then an
+agarose microarray chip. Both the silicon and PDMS chip are reusable, which greatly reduces cost and saves time.
+(C)F Full-length oligonucleotide solutions at different concentrations were used to draw a: standard curve. There were three replicates for each concentration. The
+average CT value of three replicates is shown in the figure.
+(D)1 The oligonucleotider numbers on synthesized! beads were examinedi bys single-bead qPCR. The results ofas single-bead qPCR experiment. Eleven singlel beads
+were picked out for single-bead qPCR. The results showed that ~108 oligonucleotides were conjugated to every bead.
+
+
+
+Cell
+A Method
+B
+Microwel eq
+CEL e
+6000 eq
+6000.
+BECE seqio
+sm eg2
+8
+-
+I Microwell-s seq
+2000-
+CEL seq2/C1
+Bacces
+SCRB-S
+Smart-s megct
+I
+Smart-seq2
+20000 ead 40000
+60000
+eq CEL 1ce92 Drop-Seg MARSS Method seq SCRB seg
+8 86% 1.57% 0.60% 1.70%
+09
+Method eMicovel- seq
+shuman
+ECEL- seq2C1 28
+amix
+09
+EDropseg AMARS-seg 3
+ESCRBseg -
+esmart-seC1
+esmart-seg? 8
+:
+08 5-
+Drop-seg Sequel Microwell- seq Sd-seq
+Method
+Microw ell seq CEL -seg2 Dropseg MARSSeG SCRB-S seqs Smart- eg Smart-seq2
+C1
+Method
+C1
+E
+Cell Number/Experiment
+Experiment: Scale Up
+Gene Number Library Cost(S) Equipment Cost(s)
+Microwell-seq 5000-1 10000 Twol large arrays (4X areas)att thes same time 500-5000 0.02 Template: 0.1K
+Drop-seq 5000-10000
+Install multiple pump systems
+500-5000 0.1 Pumps: SK
+MARS- seq
+384-1536
+Difficult
+500-5000 1.3 Around 400K
+10XGenomics 5000-1000
+Run8 channels in one experiment 1000-6000 0.5 Around 100K
+C1-HT
+600-800
+Difficult
+3000-7000 5 Around 400K
+F
+-
+E -
+2 a - x
+a
+e CD34.Cells
+0
+-
+B2
+TA
+1
+E
+* P
+a
+E
+CD34- Cells
+Cells
+tSNE 1
+Figure S2. Validation of the Microwell-Seq Platform, Related to Figure 1
+(A) Reads (mapped) toa gene ploti for ther mES experiments using different platforms. Our Cj7 mESmicrowell-seqe data were compared with a series of mES single
+cell data obtained using different technologies (Ziegenhain et al., 2017). Microwell-seq shows an advantage in the low (50000 raw reads/cell) to middle (100000
+raw reads/cell) range sequencing depth.
+(B) Number of genes detected (counts N 1) per cell for different methodologies with middle range: sequencing depth (30000-60000 mapped reads/cell). Double
+sequencedi Cj7 mESdata were compared with a: series of mES single cell data obtained using different technologies (Ziegenhain et al., 2017). Each doti represents
+a cell, and each box represents the median and first and third quartiles of replicates.
+(C)Accuracy of SCRNA-seq methods. Our Cj7 mES microwell-seq data were compared with a: series ofr mES: single cell data obtained using different technologies
+(Ziegenhain et al., 2017). Data atl low (50000 reads/cell) sequencing depth were selected for the comparison. Correlations of reference gene expression values
+(counts per million reads for Smart-seq/C1 and Smart-seq2 and UMIs per million reads for all others) between single-cell expression and mean expression are
+calculatedi for each cell. Distributions of Pearson correlations (R) are shown for each method. Each dot represents a cell, and each box represents the median and
+first. and third quartiles of replicates.
+(D) Mixed rate for the species mixing experiments using different platforms.
+(E) Cost efficiency for different single-cell RNA-seq methodologies.
+(F)Heatmap of 43231 thawed mPB CD34+ andmPB CD34- cells. CD34+ and CD34- cells were clearly clusteredi into two mega groups. Various subclusters can be
+observed in the CD34+ and CD34- mega groups.
+(G) Thawed mPB CD34+ cells from batch 1 (B1) and batch 2 (B2) are visualized on a t-SNE map.
+
+
+
+Cell
+A
+Mouse Cell Atlas
+Galler Search un CMCA A FQA Contac louse Cell Atlas
+Hon sal le
+FOA
+Wellcome to Mouse Cell Atlas
+Versko
+Cen ne
+mES
+mTS
+150
+60.
+100
+30.
+50
+ES_Actb_high
+1 TS_Mrpl12_high
+2 ES_Rps28_high N
+2
+2
+TS_Rps28_high
+3 ES_Nedd4_high 4o
+- 3 MEF
+6
+ES_2C_like
+4 TS_dif_epithelial
+5 TS_Mrp155_high
+-50
+-30
+100
+-60
+-100
+100
+-25
+25
+50
+tSNE 1
+ISNE 1
+E
+9
+28
+Kidney
+)
+-
+2
+Average
+Expression
+0
+Scale
+2
+9
+8 -
+0
+17 0
+16 3
+I
+-1
+15
+8
+3 8
+8
+Percentage
+-
+off Expressed
+Cells
+10
+0.00
+0.25
+a 0.50
+3
+3 0.75
+1.00
+(legend on next page)
+
+
+
+Cell
+Figure S3. Snapshots of the Mouse Cell Atlas Website and Representative Data, Related to Figure 2
+(A and B) Snapshots of the Mouse Cell Atlas website.
+(C) and (D) t-SNE maps of mES (C) and mTS (D) single cell data. Cells are colored by cell type cluster.
+(E)Dot plot visualization of each cell type ink kidneys single-cell data. The: size oft the dot encodes the percentage of cells within a cell type, and the color encodes the
+average expression level.
+
+
+
+Cell
+A
+B
+D Fetall Lung
+à a
+OPark et al., 2017
+à
+mal
+de
+E8 de
+2
+a Ea ae F
+mooth ange
+& a
+* € Bof
+Neutrophape Si ocaaisgh
+SFE L a E & ull l
+tubule
+SER 6
+EE
+à
+latre er
+8
+I
+d PPas
+li
+cell
+ZNann
+6
+-
+9 of a
+-
+omal ce
+*
+ Pioge
+à
+J
+P
+TRAL
+-
+hops
+- SERE a
+E a 9 rythroble Amtion Mi2high
+s
+Her wone
+Tcell
+Apez
+E  9
+thn trophi as Hhe-xhigh Em 5483 Tigh
+kdr
+E10A
+E
+LE
+EenS
+biller cell
+-
+Cees
+NUP SIOuY
+cell
+tot
+1g 260630
+iEs S
+Aine cres
+L 483 BC
+C198 Fibrobla st
+E
+Ae E
+ER
+CiebC
+a i
+IoP
+- Gams NIg7
+NÉE
+38
+sv0assIo0Ns
+Ciss Mpo
+-
+E
+EU
+-
+Miox Axricei
+Cdes3Mwd7 Stmm1Nig7
+CANd
+de gb
+Rhbg. Fxyd4
+a FE
+Nohet cainte
+Aooroems
+Femse Boam D MCA
+Igha
+aien
+/
+- Endotheliale cell
+a
+4a
+suEcat
+>
+H Fenestratede endothelialo Osginth cell high
+a
+MEME
+-
+tubule_ Pvabhigh Lywel
+ia
+H
+Troanion
+-
+I
+dee
+S4L.7 nica
+-
+high SP kar Car Tmyt 9
+Ree
+AngEN
+Remz
+16s
+0
+-
+A
+A
+-
+2
+-
+der
+endothelialo cell
+a
+A
+Ae
+-e
+AAr
+a
+PE
+REZLA
+a 6f - 1
+high
+-AP
+A -
+DD
+/
+dE
+Fe
+8 /
+:
+à
+P
+EE
+P
+FF
+FA
+F 8 6 E 6
+a E
+- -
+EER
+E
+-
+E
+a
+- I
+-
+I
+8
+/
+1
+a
+anon :
+TEE
+D Adult Lung
+
+-
+cels
+:
+ia
+tubule
+Cillated cell
+Denhigh
+ EREX
+1 ofi
+e Acta2high
+Alveolarn
+Polafhigh Budiegaue cells Ersingehl Aamarudrage
+ific
+E
+Divding deradrst
+Aveolar bipotentp
+-
+orodonl ividin cell CERMEngNoN Basding cells
+Cell Cd8b1h high (progenitor
+ATiCal
+M
+128811
+cel 5 ug
+ogenitor dendritic cell cell
+Tleration
+-
+D Nelson et al., 2016 -
+erdaice
+Clarac
+E
+LU 
+LEE
+#
+Endothelial cell_ Tmem100high Alveolar macrophage_ Ear2high
+36.83 L de ha88 P Ae
+cells
+Ast2o
+8.
+trophoblasts
+f
+-
+Ares 
+lendotielale cells
+E14.51 Placenta
+E
+I Novel Prdm1+ TGCS
+Afp
+Sox17
+I
+SEt
+L
+34 Prsa
+PEI lineage cells
+D
+a
+MCA
+E stromal cell
+Hepatocyte- -like cells
+a
+= trophoblast
+Kdr
+a
+cenmes
+-
+Lamal
+ca79a
+si00ghigh
+CeL Gkn2high
+Cyeb
+E
+Apoeh
+à
+E
+- Sgro
+phuen high
+
+-
+cell Alp
+Gjb3
+Tpbpa
+e92 -
+-
+H
+L
+-
+Prt
+high
+19CA
+3
+cell Acta2high
+FES
+- a
+Tot
+Lmo2high
+-
+B
+*
+trophoblast
+Trophoblast progenitor cells
+
+I
+E
+monocyte
+I E
+
+progenitore anocentos
+Trophoblasto cells
+Zeisel et al., 2015
+E
+E
+d 8S a à
+Sae
+D pyramidal neurons
+F
+cKit+ Bone Marrow
+6
+8
+D pyramidal neurons
+totualbih
+CAI
+Cd34
+Cd79a
+: Interneurons Oligodendrocytes
+Le
+D Astrocytes
+Le
+d d D Microglia
+D Vasculare endothelial cells
+Monocyte
+Monocyte
+E D Mural cells
+progenitors  HSPCS progenitors
+Bprogenitor cells
+di63 D Ependymal cells
+p -
+03
+pp
+2 D MCA
+son 10 : Microglia Neurons
+Cd177
+Car2 Erythroid progenitor cells
+GRATA
+FROs Radial Iglia
+neurons
+C
+neurons
+à da
+neuron Cell
+Monocyte RRON
+Monocyte
+-
+o
+Endothelial cell
+progenitors 2
+progenitors
+plexus-epithelium
+-
+cell Denhigh
+la
+ependymald cell
+-
+A
+UgE
+Neutrophil progenitor cells
+-
+AUE
+epithelial cell
+AP - Ea d E 2A Eo
+cell
+L I
+(legend on next page)
+
+
+
+Cell
+Figure S4. Comparison of MCA Data with Other Available Datasets, Related to Figure 3
+(A)A Circos plot: showing overlap of cell types and markers between MCAI kidney data and the prepublished kidney: single cell data (Park et al., 2017). Correlated
+cell types are connected byl lines. Representative marker genes are listed outside of the circle.
+(B). A Circos plot showing overlap of cell types and markers between MCA adult lung data and MCA fetal lung data. Similar cell types are connected by lines
+indicating same marker gene expression. Representative marker genes are listed outside of the circle.
+(C), A Circos plot showing overlap of cell types and markers between MCA placenta data and the published placenta single cell data (Nelson et al., 2016). Similar
+cell types are connected by lines indicating same marker gene expression. Representative marker genes are listed outside of the circle.
+(D) Development trajectory of placenta single cells constructed by p-Creode (Herring et al., 2017).
+(E)A Circos plot showing overlap of cell types and markers between MCAI neonatal brain data and the published cortex and hippocampus single cell data (Zeisel
+eta al., 2015). Similar cell types are connected by lines indicating same marker gene expression. Representative marker genes arel listed outside of the circle.
+(F) Development trajectory of ckit+ bone marrow single cell data constructed by p-Creode.
+
+
+
+Cell
+cKit+ Bone Marrow
+Bladder
+01
+2
+20
+03
+04
+05
+6
+N
+7
+8
+Go :: a A a a
+9
+L
+C10
+15
+011
+C12
+1
+013
+14
+-20.
+15
+20
+16
+Q17
+Q18
+19
+8
+-20 tSNE 1
+20
+30 20 -10 ISNE1 0
+20
+100,
+Brain
+Embryonic Mesenchyme
+0
+43
+417
+50
+50
+24
+d
+22
+-
+- a a
+6
+60
+15
+à
+9
+-50
+-50
+50 ISNE1
+50
+-100
+50 tSNE1 0
+50
+Uterus
+Mammary Gland Involution
+100
+50
+8
+2
+10
+21-
+16
+20
+-50
+à 16
+17
+18
+19
+100L
+20 tSNE1
+-100
+-50 ISNE 1
+50
+100
+Muscle
+Ovary
+100
+50
+34
+45 w,2
+te
+a
+16
+b0
+-
+I
+4
+-50
+1
+de à
+100
+Mis
+ESNE1
+10
+30
+ISNE1
+Figure S5. t-SNE Maps for Analyzed MCA Tissues, Related to Figure 5
+t-SNE maps for single-cell data from cKit+ bone marrow, bladder, brain, embryonic mesenchyme, uterus, mammary gland involution, muscle, and ovary. Cells
+are colored by cell-type cluster.
+
+
+
+Cell
+Fetal Lung
+Neonatal Heart
+201
+0
+5
+:
+S
+20
+-50
+-100
+20
+0 ISNE1
+20
+ISNE 1 50
+100
+Neonatal Muscle
+Neonatal Rib
+100
+30
+20
+22 21
+23
+6
+N
+%
+19
+2
+-50
+10
+-20
+100
+-100 50
+0 ISNE1 50
+100
+20
+ISNE1
+Neonatal Skin
+Liver
+100
+150
+19
+22 e?
+100
+y
+50
+FA
+N Aa
+- 50 47
+6
+N
+20.
+1
+0 23
+6
+*
+50
+-50
+24 a
+100
+100
+-100
+50
+ISNE1 1 50
+100
+-100 -50
+ISNE1 50 100
+Fetal Stomach
+Small Intestine
+14
+100
+20
+23 25
+50
+20
+#E
+21
+N
+20
+22
+1a %
+50
+20
+-100
+tSNE1
+0 ISNE1 50
+100
+Figure S6. t-SNE Maps for Analyzed MCA Tissues, Related to Figure 5
+t-SNE maps for single-cell data from fetal lung, neonatal heart, neonatal muscle, neonatal rib, neonatal skin, liver, fetal stomach, and small intestine. Cells are
+colored by cell-type cluster.
+
+
+
+Cell
+A
+B
+SCMCA efficiency of single cells from Calvaria_3 cluster
+SCMCA efficiency of single cells from Brain_3 cluster
+à S Top2 markers 83 Top3 markers 88 Top5 markers E 8 Top2 markers 23 Top3 markers 23 Top5 markers
+8
+28
+g8
+88
+88
+88
+80
+28
+a
+E 0 80
+28
+2 00
+
+g
+g
+a
+R
+R
+F
+I
+E
+F
+Calvaria_3 0 Calvaria_3 0 Calvaria_ 3 Da
+Brain_ 3
+0 Brain 3
+0 Brain_ 3
+& 0 op 0 markers € 8 Top1 15 markers 2 Top20 markers % 8 Top1 10 markers & 8 Top 15 mark ke ars % 8 Top20 markers
+8.
+28
+8
+2 B8
+2 80
+8.
+d E 8
+E
+80
+i 800
+00
+28
+2
+e &
+R
+&
+&
+N
+-
+I
+F
+F
+-
+F
+JoL a
+à D 
+0
+-
+D
+Calvaria_3
+Calvaria_3
+Calvaria_3
+Brain_3
+Brain_3
+Brain_3
+Cio
+Hepatocyte_Afph high(Fetal-liver)
+:
+0.9-
+Endodermal cell_Afph high(Placenta)
+8
+Trophoblast progenitor_ Taf7lhigh/Placenta)
+o
+Method
+Invasive spongotrophobles(Pacena)
+0.8-
+Random Forest
+o
+Es SCMCA
+Spiral artery trophoblast giant cells(Placenta)
+Es scmap
+Hepatocyte_AlbH high(Liver)
+16
+0.7-
+0.5
+Hepatocyte_ Fabp1 high(Liver)
+0.4
+Epithelial cell_Spp1 high(Liver)
+0.3
+Spongotophobtiast_Phida2 high(Placenta)
+0.2
+0.6.
+PEI lineage cell_S100g high(Placenta)
+Random Forest SCMCA
+scmap
+Single Cells
+Method
+E
+F
+ES
+Stem- el)
+E
+
+17a6Rgs16 neuronstB/Ar- -ME)
+cell mass Prein Embr
+on
+Emb
+R
+TS Nepiz hightophobias Stem Celly
+at
+Cell
+3
+mal der sell highMesenc
+eln
+ME)
+mal
+ich hy ymal nal ster cell
+entaly
+510
+de
+-
+MEF steme cell Cacho highMesenchymal- Stem- Cel)
+8
+ME)
+8
+L
+d
+B
+Cell
+E
+a
+=
+Neonatal- -Muscle)
+a
+Mmp2N highlLung- -Mesenchym me
+Cell Donhighlung- -Mesenchyme)
+I
+Rib) ria)
+Ten
+high nitor -Muscle)
+cell
+Muscle)
+I
+high hNeo
+cell atal
+E 1a-sency
+highNeonatal- Myk -Rib) Muscle de)
+E 18-
+h
+E1b- Bra in)
+oblast- Stem-C
+I
+n(E
+andleptomeningeal cel_ Cxd12h ZhighEmbryenic- camndelo -Mesenchgme)
+Single Cells
+Single Cells
+EBI Differentiation
+H
+Attached Differentiation
+8 4.5
+WT1 Ezh2-/-1
+4.5 5. WT1 mEzh2-/-1
+L
+6
+WT2 mEzh2-/-2
+8 4. WT2 mEzh2-1-2
+3.5
+EWT3 nEzh2-/-3
+3.5 WT3 Ezh2-/-3
+2 3.
+e 3.
+2.5
+2
+2.
+1.5
+E
+1 1
+a 1.
+0.5
+s0s
+9 0
+0.
+Gkn2 Cyr61 Col4a1 Col4a2 Emp2 Krt8 Gata4 Sox17 3 Plac1 Rhox6 Rhox9 Sct Gkn2 Col4a1 Col4a2 Emp2 Krt8 Gata4
+(legend on next page)
+
+
+
+Cell
+Figure S7. Testing of SCMCA Pipeline, Related to Figure 7
+(Aand B) Mapping efficiency of single cells from defined cell-type clusters when using Top2, Top3, Top5, Top10, Top15 and Top20 markers for each off the cell
+type references.
+(C) Accuracy of single-cell mapping algorithms for different available methods. RF: Random Forests (Liaw and Wiener, 2002). scmap: pipeline adopted from the
+prepublished study (Kiselev et al., 2017). Each box represents the median and first and third quartiles of replicates for different methods. RF: RandomForest.
+(D) SCMCA result of placenta Afp-high endodermal cell data. Each row represents one cell type in our reference. Each column represents one single cell in the
+customer dataset. Red means high correlation; gray means low correlation.
+(E) SCMCAI result ofr mouse neuronal differentiation data (Rizvi et al., 2017). Each row represents one cell type in our reference. Each column represents one single
+cell in the customer dataset. Red means high correlation; gray means low correlation.
+(F) SCMCA result of mouse fibroblast to neuron transdifferentiation data (Treutlein eta al., 2016). Each row represents one cell type in our reference. Each column
+represents one single cell in the customer dataset. Red means high correlation; gray means low correlation.
+(G and H) QPCR analysis of extraembryonic lineage markers expressed during EB and attached differentiation of WT and Ezh2- -/ - mES cells.
+
+
+
+Update
+Cell
+Volume 173, Issue 5, 17 May 2018, Page 1307
+DOI: https://doi.org/10.1016/j.cell.2018.05.012
+
+
+
+Correction
+Cell
+Mapping the Mouse Cell Atlas by Microwell-Seq
+Xiaoping Han,* Renying Wang, Yincong Zhou, Lijiang Fei, Huiyu Sun, Shujing Lai, Assieh Saadatpour, Ziming Zhou,
+Haide Chen, Fang Ye, Daosheng Huang, Yang Xu, Wentao Huang, Mengmeng Jiang, Xinyi Jiang, Jie Mao, Yao Chen,
+Chenyu Lu, Jin Xie, Qun Fang, Yibin Wang, Rui Yue, Tiefeng Li, He Huang, Stuart H. Orkin, Guo-Cheng Yuan, Ming Chen,
+and Guoji Guo*
+Correspondence: xhan@zju.edu.cn (X.H.), ggj@zju.edu.cn (G.G.)
+https://doi.org/10.1016/j.cell.2018.05.012
+(Cell 172, 1091-1107; February 22, 2018)
+It has come to our attention that in preparing the final version of this paper, we inadvertently misspelled the first name of an author
+Ziming Zhou as "Zimin Zhou". In addition, we have made two errors in describing the reagents in the STARI Methods. First, under the
+subheading of "Synthesis of barcoded beads" in the Method Details section, the supplier of the magnetic beads coated with
+carboxyl groups should be Suzhou Knowledge & Benefit Sphere Tech. Co., Ltd. (diameter 20-25 mm, http:/www.kbspheretech.
+com/), instead of Zhiyi. Second, under the subheading of "Cell collection and lysis" in the Method Details section, the concentration
+of Tris-HCL for the cold lysis buffer should be 0.1 M, instead of 1 M. These errors have been corrected online, and we apologize for
+any confusions we may have caused.
+Cell 173, 1307, May 17, 2018 O 2018 Elsevier Inc. 1307

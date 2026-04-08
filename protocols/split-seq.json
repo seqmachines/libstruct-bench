@@ -4,7 +4,8 @@
   "references": {
     "scg_lib_structs": "https://teichlab.github.io/scg_lib_structs/methods_html/SPLiT-seq.html",
     "paper": "https://www.science.org/doi/10.1126/science.aam8999",
-    "protocol_pdf": null
+    "protocol_link": "https://www.seeliglab.org/uploads/5/9/9/7/59974251/split-seq_protocol_v3.0",
+    "protocol_pdf": "protocol_sources/splitseq_merged_sequences.pdf"
   },
   "library_sequence": "AATGATACGGCGACCACCGAGATCTACACTAGATCGCTCGTCGGCAGCGTCAGATGTGTATAAGAGACAGRRRRRRRRCGAATGCTCTGGCCTCTCAAGCACGTGGATLLLLLLLLAGTCGTACGCCGATGCGAAACATCGGCCACLLLLLLLLUUUUUUUUUUAGATCGGAAGAGCACACGTCTGAACTCCAGTCACIIIIIIATCTCGTATGCCGTCTTCTGCTTG",
   "segments": [

@@ -4,7 +4,8 @@
   "references": {
     "scg_lib_structs": "https://teichlab.github.io/scg_lib_structs/methods_html/PETRI-seq.html",
     "paper": "https://www.nature.com/articles/s41564-020-0729-6",
-    "protocol_pdf": "https://teichlab.github.io/scg_lib_structs/data/PETRI-seq/PETRI-seq_Protocol.pdf"
+    "protocol_link": "https://teichlab.github.io/scg_lib_structs/data/PETRI-seq/PETRI-seq_Protocol.pdf",
+    "protocol_pdf": "protocol_sources/petri-seq.pdf"
   },
   "library_sequence": "AATGATACGGCGACCACCGAGATCTACACIIIIIIIIACACTCTTTCCCTACACGACGCTCTTCCGATCTUUUUUUULLLLLLLGGTCCTTGGCTTCGCLLLLLLLCCTCCTACGCCAGARRRRRRRCTGTCTCTTATACACATCTCCGAGCCCACGAGACIIIIIIIIATCTCGTATGCCGTCTTCTGCTTG",
   "segments": [

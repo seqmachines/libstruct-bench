@@ -1,319 +1,358 @@
---- Page 1 ---
 PETRI-seq Detailed Protocol
-Related to ”Prokaryotic single-cell RNA sequencing by in situ combinatorial indexing”
+Related to Prokaryotic single-cell RNA sequencing by in situ combinatorial indexing"
 Sydney B. Blattman, Wenyan Jiang, Panos Oikonomou, Saeed Tavazoie
 Last Updated: February 10, 2021
 Some Notes Before Starting
-• Before proceeding with the full protocol below, we recommend trying in situ reverse transcription and
-qPCR to confirm cell preparation is working. See paper for details (”qPCR quantification after in situ
-DNase or in situ RT” section in methods)
-• PETRI-seq cell preparation and split-pool barcoding can be done in 2 days, as detailed below. Please
-be aware that day 2 takes about 12 hours and does not include any stopping points prior to lysis. We
+Before proceeding with the full protocol below, we recommend trying in situ reverse transcription and
+qPCR to confirm cell preparation is working. See paper for details ("qPCR quantification after in situ
+DNase or in situ RT" section in methods)
+PETRI-seq cell preparation and split-pool barcoding can be done in 2 days, as detailed below. Please
+be aware that day 2 takes about 12 hours and does noti include any stopping points prior to lysis. We
 will update this protocol if we later find any feasible stopping points.
-• Please go through the materials listed below, and prepare reagents as needed. Specifically, we rec-
+Please go through the materials listed below, and prepare reagents as needed. Specifically, we rec-
 ommend diluting and annealing the barcoding oligos in the first half of day 2. We usually do this during
 the many centrifugations.
 Materials Needed
 click name of item for order information
-• 4% formaldehyde diluted in 1x PBS (ice-cold for use on Day 1)
-• PBS-RI (ice-cold for use on Day 2): 1x PBS supplemented with 0.01 U/µL SUPERase In RNase
+4% formaldehyde diluted in 1x PBS (ice-cold for use on Day 1)
+PBS-RI (ice-cold for use on Day 2): 1x PBS supplemented with 0.01 Ulpl SUPERase In RNase
 Inhibitor
-• Lysozyme and/or lysostaphin (depending on what kind of cells are being sequenced)
-• 100% Ethanol (ice-cold for use on Day 2)
-• TEL-RI (ice-cold for use on Day 2): 100 mM Tris pH 8.0, 50 mM EDTA, 0.1 U/µL SUPERase In RNase
+Lysozyme and/or lysostaphin (depending on what kind of cells are being sequenced)
+100% Ethanol (ice-cold for use on Day 2)
+TEL-RI (ice-cold for use on Day 2): 100 mM Tris pH 8.0, 50 mM EDTA, 0.1 Ulpl SUPERase In RNase
 Inhibitor (10x more RNase inhibitor than PBS-RI)
-• DNase-RI buffer (ice-cold for use on Day 2): 1.1x DNase I reaction buffer, 0.1 U/µL SUPERase In
+DNase-RI buffer (ice-cold for use on Day 2): 1.1x DNase I reaction buffer, 0.1 Ulpl SUPERase In
 RNase Inhibitor
-• DNase I
-• Semen test hemocytometers
-• Maxima H Minus Reverse Transcriptase
-• dNTPs (10 mM each)
-• 96-well PCR plates
-• Foil seals for PCR plates
-• 5% Tween-20
-• T4 Ligase
-• BSA
-• 0.5 M EDTA
-• 2x Lysis-T: 50 mM EDTA, 400 mM NaCl, 1% Triton X-100
-• Proteinase K
-• AMPure XP beads
+DNase I
+Semen test nemocytometers
+Maxima H Minus Reverse Transcriptase
+dNTPs (10 mM each)
+96-well PCR plates
+Foil seals for PCR plates
+5% Tween-20
+T41 Ligase
+BSA
+0.51 M EDTA
+2x1 Lysis-T: 50 mM EDTA, 400 mM NaCI, 1% Triton X-100
+Proteinase K
+AMPure XP beads
 1
 
 
---- Page 2 ---
-• 80% ethanol (room temperature for AMPure washes)
-• Magnetic rack for eppendorf or PCR tubes (we use eppendorf)
-• NEBNext Second Strand Synthesis Module
-• Nextera XT DNA Library Preparation Kit
-• Nextera Index Kit v2 Set A
-• If using EZ-Tn5 Transposase instead of Nextera, then the transposase must be loaded as follows:
-1. Anneal 5µL of 100µM SB117 (/5Phos/CTGTCTCTTATACACATCT) and 5µL of 100µM SB118
-(GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG).
-2. Dilute annealed primers 5x (to 10µM each).
-3. Take 10µL of annealed primers and add 10µL 100% glycerol.
-4. Combine 8µL of annealed primers in 50% glycerol with 2µL of EZ-Tn5.
-5. Incubate 30 minutes at room temperature to load the transposase. Store at -20◦C until ready to
+
+80% ethanol (room temperature for AMPure washes)
+Magnetic rack for eppendorf or PCR tubes (we use eppendorf)
+NEBNext Second Strand Synthesis Module
+Nextera XT DNA Library Preparation Kit
+Nextera Index Kit v2 Set A
+If using EZ-Tn5 Transposase instead of Nextera, then the transposase must be loaded as follows:
+1. Anneal 5uL of 100pM SB117 (5Phos/CTGTCTCTTATACACATCT) and 5ul of 100pM SB118
+(GTCTCGTGGGCTCGGAGATGTGTGTATAAGAGACAG).
+2. Dilute annealed primers 5x (to 10pM each).
+3. Take 10pl of annealed primers and add 10pl 100% glycerol.
+4. Combine 8pL of annealed primers in 50% glycerol with 2ul of EZ-Tn5.
+5. Incubate 30 minutes at room temperature to load the transposase. Store at -20°C until ready to
 use.
-• NEBNext Multiplex Oligos for Illumina
-– Alternatively, i5 primers can be ordered from IDT based on the sequences in the NEB documen-
+NEBNext Multiplex Oligos for Illumina
+- Alternatively, i5 primers can be ordered from IDT based on the sequences in the NEB documen-
 tation
-• Agilent Bioanalyzer HS DNA Kit
-• Qubit HS dsDNA Kit
-• Single-tube oligonucleotides (see Oligonucleotide table)
-– Resuspended and annealed oligos, 400µM: SB84 (~40µL), SB81 (~80µL)
-* To anneal each oligo (to form an intramolecular hairpin), heat to 95 ◦C for 3 minutes then
-decrease the temperature to 20◦C at a ramp speed of -0.1◦C/second.
-– Resuspended oligos, 400µM: SB85 (~40µL), SB82 (~80µL)
-– Resuspended oligos, 100µM: SB83, 70µM SB80
-• 96 Round 1 RT oligonucleotides (see Oligonucleotide table)
-– Oligos can be ordered from IDT, resuspended in IDTE Buffer pH 8.0 at a concentration of 100µM.
-– Before use on Day 2, dilute the oligos to 10µM.
-• 96 Round 2 ligation oligonucleotides, annealed (see Oligonucleotide table)
-– Oligos can be ordered from IDT, resuspended in IDTE Buffer pH 7.5 at a concentration of 100µM
-– To anneal the oligos, add the following to each well of a 96-well plate (scaled up or down as
-needed - only 2.24µL will be used per barcoding plate):
-* 3.52µL of 100µM linker SB83
-* 2.64µL RNase-free water
-* 3.84µL of 100µM barcode oligo
-– After combining the oligos, briefly spin down the plate then anneal them by heating the plate to
-95◦C for 3 minutes then decreasing the temperature to 20◦C at a ramp speed of -0.1◦C/second.
-• 96 Round 3 ligation oligonucleotides, annealed (see Oligonucleotide table)
-– Oligos can be ordered from IDT, resuspended in IDTE Buffer pH 7.5 at a concentration of 70µM
-– To anneal the oligos, add the following to each well of a 96-well plate (scaled up or down as
-needed - only 3.49µL will be used per barcoding plate):
+Agilent Bioanalyzer HS DNA Kit
+Qubit HS dsDNA Kit
+Single-tube oligonucleotides (see Oligonucleotide table)
+Resuspended and annealed oligos, 400pM: SB84 (-40pL), SB81 (-80pL)
+To anneal each oligo (to form an intramolecular hairpin), heat to 95 C for 3 minutes then
+decrease the temperature to 20°C at a ramp speed of -0.1°C/second.
+Resuspended oligos, 400pM: SB85 (-40pL), SB82 (-80pL)
+Resuspended oligos, 100pM: SB83, 70pM SB80
+96 Round 1 RT oligonucleotides (see Oligonucleotide table)
+Oligos can be ordered from IDT, resuspended in IDTE Buffer pH 8.0 at a concentration of 100pM.
+Before use on Day 2, dilute the oligos to 10pM.
+96 Round 21 ligation oligonucleotides, annealed (see Oligonucleotide table)
+Oligos can be ordered from IDT, resuspended in IDTE Buffer pHT 7.5 at a concentration of 100pM
+To anneal the oligos, add the following to each well of a 96-well plate (scaled up or down as
+needed - only 2.24uL will be used per barcoding plate):
+3.52ul of 100pM linker SB83
+2.64ul RNase-free water
+* 3.84ul of 100pM barcode oligo
+After combining the oligos, briefly spin down the plate then anneal them by heating the plate to
+95°C for 3 minutes then decreasing the temperature to 20°C at a ramp speed of -0.1°C/second.
+96 Round 31 ligation oligonucleotides, annealed (see Oligonucleotide table)
+- Oligos can be ordered from IDT, resuspended in IDTE Buffer pH 7.5 at a concentration of 70pM
+To anneal the oligos, add the following to each well of a 96-well plate (scaled up or down as
+needed - only 3.49pL will be used per barcoding plate):
 Sydney Blattman, Tavazoie Lab at Columbia University
 2
 
 
---- Page 3 ---
-* 6.6µ of 70µM linker SB80
-* 7.2µL of 70µM barcode oligo
-– After combining the oligos, briefly spin down the plate then anneal them by heating the plate to
-95◦C for 3 minutes then decreasing the temperature to 20◦C at a ramp speed of -0.1◦C/second.
+
+6.6u of 70pM linker SB80
+* 7.2pL of 70pM barcode oligo
+After combining the oligos, briefly spin down the plate then anneal them by heating the plate to
+95°C for 3 minutes then decreasing the temperature to 20°C at a ramp speed of -0.1°C/second.
 Overview of Workflow
+Cell Preparation
+21 Minute
+161 Hour
+50% Ethanol
+Lysozyme or
+DNase
+Count
+Centrifugation A Formaldehyde l
+Wash
+/ Lysostaphin l Treatment l
+Cells
+Fixation
+Permeabilization
+Split-Pool Barcoding
+~5 hours
+Reverse
+Pool Cells,
+Pool
+Pellet,
+> Ligation 1
+Cells,
+2
+Count
+Lyse
+Transcription
+Split
+Ligation
+Cells
+Cells
+Split
+~6 hours
+Library Preparation
+Second
+Strand
+Tagmentation
+Sequence
+I Buffer Wash
+= AMPure
+Synthesis
+~61 hours
 Cell Preparation
 Day 1
 Note: Cells should be grown on Day 1 to the desired growth phase, which may require advanced prepa-
 ration on preceding days depending on the experiment. For example, in our publication, we started E. coli
-and S. aureus overnights on the day before, then diluted cells into fresh media on ”Day 1”, and grew the
+and S. aureus overnights on the day before, then diluted cells into fresh media on "Day 1", and grew the
 cells to exponential or stationary phase. The following steps begin with cells that are in the growth phase
 and condition of interest.
 1. Transfer ~9.6*108 cells (calculated roughly based on 1 OD600 = 8*108 cells/mL) to a centrifuge tube
-(room temperature) and spin at 5,525g for 2 minutes at 4◦C.
-• The number of cells can be varied, but we recommend a corresponding adjustment of volumes
+(room temperature) and spin at 5,525g for 2 minutes at 4°C.
+The number of cells can be varied, but we recommend a corresponding adjustment of volumes
 used throughout the cell preparation protocol. For example, if double the number of cells are
-taken, then fix cells in 6 mL formaldehyde instead of 3 mL (and so on for the remaining steps). In
+taken, then fix cells in 6 mLf formaldehyde instead of 3 mL (and SO on for the remaining steps). In
 our paper, we used ~2.2*109 cells fixed in 7 mL, which results in many more cells than needed
 for split-pool barcoding.
-• If combining multiple cell types for fixation (as we did with stationary-phase RFP E. coli and
+If combining multiple cell types for fixation (as we did with stationary-phase RFP E. coli and
 exponential-phase GFP E. coli), measure the OD600 of these cultures, then combine them to
 reach ~9.6*108 cells total (in the desired ratio of cell types).
 2. Take out tubes immediately after spin, and keep cold on ice. Remove supernatant.
 3. Resuspend cells in 3 mL of ice-cold 4% formaldehyde.
-4. Rotate cell suspension for ~16 hours at 4◦C.
-• Using something like a Thermo Scientific Lab Quake Rotator, for example.
+4. Rotate cell suspension for ~16 hours at 4°C.
+- Using something like a Thermo Scientific Lab Quake Rotator, for example.
 Sydney Blattman, Tavazoie Lab at Columbia University
 3
 
 
---- Page 4 ---
+
 Day 2
 ** Keep cells on ice as much as possible (unless otherwise indicated) throughout Day 2 and chill all reagents
 on ice before use
 ** For large volumes, we centrifuge at 5,525g using Allegra 25R centrifuge (Beckman Coulter); for small
 volumes, we centrifuge at 7,000g using 5415D centrifuge (Eppendorf)
-1. Centrifuge cells at 5,525g for 10 minutes at 4◦C.
+1. Centrifuge cells at 5,525g for 10 minutes at 4°C.
 2. Remove supernatant, and resuspend cells in 3 mL PBS-RI.
-3. Centrifuge cells at 5,525g for 10 minutes at 4◦C.
-4. Remove supernatant and resuspend cells in 300µL PBS-RI.
-5. Centrifuge cells at 7,000g for 8 minutes at 4◦C.
-6. Remove supernatant and resuspend cells in 150µL PBS-RI. Add 150µL 100% ethanol and invert tube
+3. Centrifuge cells at 5,525g for 10 minutes at 4°C.
+4. Remove supernatant and resuspend cells in 300pL PBS-RI.
+5. Centrifuge cells at 7,000g for 8 minutes at 4°C.
+6. Remove supernatant and resuspend cells in 150pl PBS-RI. Add 150pl 100% ethanol and invert tube
 to mix.
-7. Centrifuge cells at 7,000g for 8 minutes at 4◦C.
-8. Remove supernatant and resuspend cells in 300µL PBS-RI (wash #1).
-9. Centrifuge cells at 7,000g for 8 minutes at 4◦C.
-10. Remove supernatant and resuspend cells in 300µL PBS-RI (wash #2).
+7. Centrifuge cells at 7,000g for 8 minutes at 4°C.
+8. Remove supernatant and resuspend cells in 300pl PBS-RI (wash #1).
+9. Centrifuge cells at 7,000g for 8 minutes at 4°C.
+10. Remove supernatant and resuspend cells in 300pl PBS-RI (wash #2).
 11. Resuspend cells in the appropriate cell wall degrading enzyme.
-• Lysozyme: 45µL of 100µg/mL lysozyme in TEL-RI
-• Lysostaphin: 45µL of 40µg/mL lysostaphin in TEL-RI
-• Notes: We have validated lysozyme for E. coli permeabilization and lysostaphin for S. aureus
+Lysozyme: 45pL of 100ug/mL lysozyme in TEL-RI
+Lysostaphin: 45uL of 40ug/mL ysostaphin in TEL-RI
+Notes: We have validated lysozyme for E. coli permeabilization and ysostaphin for S. aureus
 permeabilization. We have only used the enzymes separately (i.e. E. coli prepared alone or S.
-aureus prepared alone). The lysozyme concentration was set after titrating from 4 to 500µg/mL
-with little change in cDNA yield (measured by qPCR).
+aureus prepared alone). The lysozyme concentration was set after titrating from 4 to 500ug/mL
+with little change in CDNA yield (measured by qPCR).
 12. Permeabilize cells for 15 minutes at room temperature.
-13. Centrifuge cells at 7,000g for 8 minutes at 4◦C.
-14. Remove supernatant and resuspend cells in 75µL PBS-RI (wash #1).
-15. Centrifuge cells at 7,000g for 8 minutes at 4◦C.
-16. Remove supernatant and resuspend cells in 75µL PBS-RI (wash #2).
-17. Centrifuge cells at 7,000g for 8 minutes at 4◦C.
-18. Resuspend cells in 30µL DNase-RI buffer.
-19. Add 3µL DNase I
+13. Centrifuge cells at 7,000g for 8 minutes at 4°C.
+14. Remove supernatant and resuspend cells in 75ul PBS-RI (wash #1).
+15. Centrifuge cells at 7,000g for 8 minutes at 4°C.
+16. Remove supernatant and resuspend cells in 75ul PBS-RI (wash #2).
+17. Centrifuge cells at 7,000g for 8 minutes at 4°C.
+18. Resuspend cells in 30pl DNase-RI buffer.
+19. Add 3pl DNase I
 20. Incubate cells at room temperature for 30 minutes
-21. Add 3µL DNase I stop solution
-22. Heat cells to 50◦C for 10 minutes with shaking at 500 rpm
-• We use a multi-therm shaker for this
-• DNase I is typically inactivated at 70◦C, but we inactivate at 50◦C to preserve cell integrity
-23. Centrifuge cells at 7,000g for 8 minutes at 4◦C.
-• The cell pellet usually looks different after DNase inactivation, specifically more pale and smaller
+21. Add 3pl DNase I stop solution
+22. Heat cells to 50°C for 10 minutes with shaking at 500 rpm
+We use a multi-therm shaker for this
+DNase I is typically inactivated at 70°C, but we inactivate at 50°C to preserve cell integrity
+23. Centrifuge cells at 7,000g for 8 minutes at 4°C.
+The cell pellet usually looks different after DNase nactivation, specifically more pale and smaller
 than before DNase. While the pellet should remain visible, this difference in appearance is to be
 expected.
-24. Remove supernatant and resuspend cells in 75µL PBS-RI (wash #1).
+24. Remove supernatant and resuspend cells in 75ul PBS-RI (wash #1).
 Sydney Blattman, Tavazoie Lab at Columbia University
 4
 
 
---- Page 5 ---
-25. Centrifuge cells at 7,000g for 8 minutes at 4◦C.
-26. Remove supernatant and resuspend cells in 75µL PBS-RI (wash #2).
-27. Centrifuge cells at 7,000g for 8 minutes at 4◦C.
-28. Remove supernatant and resuspend cells in 75µL 0.5x PBS-RI.
+
+25. Centrifuge cells at 7,000g for 8 minutes at 4°C.
+26. Remove supernatant and resuspend cells in 75ul PBS-RI (wash #2).
+27. Centrifuge cells at 7,000g for 8 minutes at 4°C.
+28. Remove supernatant and resuspend cells in 75ul 0.5x PBS-RI.
 29. Count cells using a semen test hemocytometer.
-• Determine volume, vc, of 3*107 cells
-• We have also used a Neubauer Improved hemocytometer, but the larger chamber depth makes
-it much more difficult to focus the cells in a single plane.
+Determine volume, Vc, of 3*107 cells
+Wel have also used a Neubauer Improved hemocytometer, but the larger chamber depth makes
+itr much more difficult to focus the cells in a single plane.
 Split-Pool Barcoding
 Day 2 (contd.)
-1. Using a multi-channel pipette, aliquot 2µL of each Round 1 RT oligo (10µM) across a 96-well plate.
-• We typically seal the plate with a foil seal at this point and centrifuge the plate to ensure oligos
+1. Using a multi-channel pipette, aliquot 2ul of each Round 1 RT oligo (10pM) across a 96-well plate.
+- We typically seal the plate with a foil seal at this point and centrifuge the plate to ensure oligos
 go to bottom of tubes.
-2. Prepare an RT reaction mix (total volume 960µL) by combining the following:
-• 240µL 5x Maxima H Minus RT buffer
-• 24µL dNTPs
-• 12µL SUPERase In RNase Inhibitor
-• 24µL Maxima H Minus Reverse Transcriptase
-• (660 - vc) µL RNase-free water
-• vc µL cells (3*107 cells)
-– If multiple cell types are to be combined at this stage, add a total of 3*107 cells (e.g. 1.5*107
+2. Prepare an RT reaction mix (total volume 960pL) by combining the following:
+240pl 5x Maxima H Minus RT buffer
+24pl dNTPS
+12uL: SUPERase In RNase Inhibitor
+24pl Maxima H Minus Reverse Transcriptase
+(660 - Vc) pl RNase-free water
+Vcl pl cells (3*107 cells)
+Ifr multiple cell types are to be combined at this stage, add a total of 3*107 cells (e.g. 1.5*107
 S. aureus and 1.5*107 E. coli)
-3. Add 8µL of the RT reaction mix to each well of the 96-well plate containing the Round 1 RT oligos
-(already containing 2µL oligos)
-• We typically aliquot 106µL of the RT reaction mix across an 8-strip PCR tube then use a multi-
-channel pipette to aliquot 8µL into each well of the 96-well plate. To avoid cells pelleting in the
+3. Add 8pL of the RT reaction mix to each well of the 96-well plate containing the Round 1 RT oligos
+(already containing 2ul oligos)
+We typically aliquot 106uL of the RT reaction mix across an 8-strip PCR tube then use a multi-
+channel pipette to aliquot 8pl into each well of the 96-well plate. To avoid cells pelleting in the
 PCR plate, we do not centrifuge the plate after adding cells. Instead, we try to add cells directly
 to the bottom of the plate and pipette up and down a few times.
 4. Incubate the PCR plate for RT as follows:
-• 50◦C 10 minutes
-• 8◦C 12 seconds
-• 15◦C 45 seconds
-• 20◦C 45 seconds
-• 30◦C 30 seconds
-• 42◦C 6 minutes
-• 50◦C 16 minutes
-• 4◦C hold
-5. Immediately after RT finishes and reaches 4◦C, pool reactions into one eppendorf tube. Be sure to
+50°C 10 minutes
+8°C 12 seconds
+15°C 45 seconds
+20°C 45 seconds
+30°C 30 seconds
+42°C 6 minutes
+50°C 16 minutes
+4°C hold
+5. Immediately after RT finishes and reaches 4°C, pool reactions into one eppendorf tube. Be sure to
 pipette up and down in cell well to get all of the cells.
-6. Add 5% Tween-20 to the pooled cells, reaching a final concentration of 0.04% (125x dilution)
-• The volume of 5% Tween-20 to add should be calculated after measuring the volume of recovered
-pooled cells. For example, if the volume of pooled cells after RT is 830µL, add 6.6µL 5% Tween-
-20. We split the pooled cells (before adding Tween-20) into a few tubes so the volume in each is
-less than ~350µL. This is important for the dilution in the next step.
+6. Add 5% Tween-20 to the pooled cells, reaching a final concentration. of 0.04% (125x dilution)
+- The volume of 5% Tween-20 to add should be calculated after measuring the volume of recovered
+pooled cells. For example, if the volume of pooled cells after RT is 830pl, add 6.6ul 5% Tween-
+20. We split the pooled cells (before adding Tween-20) into a few tubes SO the volume in each is
+less than ~350pL. This is important for the dilution in the next step.
 Sydney Blattman, Tavazoie Lab at Columbia University
 5
 
 
---- Page 6 ---
+
 7. Incubate cells in 0.04% Tween-20 on ice for 3 minutes.
 8. Add PBS-RI to bring the final concentration of Tween-20 to 0.01%.
-• For example, add a total of 2510µL PBS-RI to 836.6µL of 0.04% PBS-RI. If 836.6µL is split into
-3 tubes of 279µL, then add 836.6µL PBS-RI to each of these tubes.
-9. Centrifuge cells at 7,000g for 10-20 minutes at 4◦C. A small pellet should be visible.
-• We were routinely centrifuging for 20 minutes (and sometimes at 10,000g), but we have noticed
-that cells pellet sooner than 20 minutes, so it should be fine to centrifuge for less time if a pellet
-is visible. We also often remove most of the supernatant and then spin an additional few minutes
+For example, add a total of 2510pL PBS-RI to 836.6pL of 0.04% PBS-RI. If 836.6pl is split into
+31 tubes of 279uL, then add 836.6pl PBS-RI to each of these tubes.
+9. Centrifuge cells at 7,000g for 10-20 minutes at 4°C. A small pellet should be visible.
+We were routinely centrifuging for 20 minutes (and sometimes at 10,000g), but we have noticed
+that cells pellet sooner than 20 minutes, SO it should be fine to centrifuge for less time if a pellet
+is visible. We also often remove most off the supernatant and then spin an additional few minutes
 before removing the rest of it.
-10. During centrifugation, aliquot 2.24µL of annealed Round 2 Ligation Oligos into a new 96-well plate.
+10. During centrifugation, aliquot 2.24ul of annealed Round 2 Ligation Oligos into a new 96-well plate.
 Briefly centrifuge the plate to collect volume at the bottom.
-11. After centrifugation, remove supernatant and resuspend cells in 600µL 1x T4 ligase buffer supple-
-mented with 0.1 U/µL SUPERase In RNase Inhibitor.
+11. After centrifugation, remove supernatant and resuspend cells in 600pL 1x T4 ligase buffer supple-
+mented with 0.1 Ulpl SUPERase In RNase Inhibitor.
 12. Prepare a ligation master mix as follows:
-• 7.5µL RNase-free water
-• 37.5µL 10x T4 ligase buffer
-• 16.7µL SUPERase In RNase Inhibitor
-• 5.6µL BSA
-• 27.9µL T4 ligase
-• 600µL resuspended cells
-13. Add 5.76µL of the RT reaction mix to each well of the 96-well plate containing the Round 2 ligation
-oligos (already containing 2.24µL oligos)
-• We typically aliquot 76µL of the ligation reaction mix across an 8-strip of PCR tubes then use a
-multi-channel pipette to aliquot 5.76µL into each well of the 96-well plate. To avoid cells pelleting
+7.5uL RNase-free water
+37.5ul 10x T4 ligase buffer
+16.7ul SUPERase In RNase Inhibitor
+5.6pL BSA
+27.9ul T4 ligase
+600pL resuspended cells
+13. Add 5.76pL of the RT reaction mix to each well of the 96-well plate containing the Round 2 ligation
+oligos (already containing 2.24uL oligos)
+- We typically aliquot 76pL of the ligation reaction mix across an 8-strip of PCR tubes then use a
+multi-channel pipette to aliquot 5.76pL into each well of the 96-well plate. To avoid cells pelleting
 in the PCR plate, we do not centrifuge the plate after adding cells. Instead, we try to add cells
 directly to the bottom of the plate and pipette up and down a few times.
-14. Incubate ligations for 30 minutes at 37◦C.
-15. After the ligation, add 2µL Round 2 blocking mix to each well.
-• Round 2 blocking mix includes:
-– 37.5µL 400µM SB84 blocking oligo (annealed to self, see explanation in materials)
-– 37.5µL 400µM SB85 blocking oligo
-– 25µL 10x T4 ligase buffer
-– 150µL RNase-free water
-• We typically aliquot 27µL of blocking mix across an 8-strip of PCR tubes then use a multi-channel
-to aliquot 2µL into each well
-16. Incubate the blocking reaction for 30 minutes at 37◦C.
-17. During blocking, aliquot 3.49µL of annealed Round 3 Ligation Oligos into a new 96-well plate. Briefly
+14. Incubate ligations for 30 minutes at 37°C.
+15. After the ligation, add 2ul Round 2 blocking mix to each well.
+- Round 2 blocking mix includes:
+- 37.5pl 400pM SB84 blocking oligo (annealed to self, see explanation in materials)
+37.5pl 400pM SB85 blocking oligo
+25pl 10x T4 ligase buffer
+- 150pl RNase-free water
+Wet typically aliquot 27pL ofl blocking mix across an 8-strip of PCR tubes then use a multi-channel
+to aliquot 2ul into each well
+16. Incubate the blocking reaction for 30 minutes at 37°C.
+17. During blocking, aliquot 3.49pl of annealed Round 3 Ligation Oligos into a new 96-well plate. Briefly
 centrifuge the plate to collect volume at the bottom.
-18. Pool cells after blocking into a single eppendorf tube.
+18. Pool cells after blocking into a: single eppendorf tube.
 19. Add the following to the pooled cells for the Round 3 ligation:
-• 46µL 10x T4 ligase buffer
-• 12.65µL T4 ligase
+46ul 10x T4 ligase buffer
+12.65uL T4 ligase
 Sydney Blattman, Tavazoie Lab at Columbia University
 6
 
 
---- Page 7 ---
-• 115µL RNase-free water
-– In earlier iterations of PETRI-seq, we did not add a substantial amount of water to the round 3
-mix. The 115µL recommended here amounts to only 1µL per 12µL in each well. We decided
+
+115pL RNase-free water
+In earlier iterations of PETRI-seq, we did not add a substantial amount of water to the round 3
+mix. The 115pL recommended here amounts to only 1pL per 12pL in each well. We decided
 to add it, effectively diluting the reactions a bit, in order to facilitate further optimizations to
 the protocol.
-20. Add 8.51µL of the RT reaction mix to each well of the 96-well plate containing the Round 3 ligation
-oligos (already containing 3.49µL oligos)
-• We typically aliquot 110µL of the ligation reaction mix across an 8-strip of PCR tubes then use a
-multi-channel pipette to aliquot 8.51µL into each well of the 96-well plate. To avoid cells pelleting
+20. Add 8.51pL of the RT reaction mix to each well of the 96-well plate containing the Round 3 ligation
+oligos (already containing 3.49ul oligos)
+We typically aliquot 110pL of the ligation reaction mix across an 8-strip of PCR tubes then use a
+multi-channel pipette to aliquot 8.51pL into each well of the 96-well plate. To avoid cells pelleting
 in the PCR plate, we do not centrifuge the plate after adding cells. Instead, we try to add cells
 directly to the bottom of the plate and pipette up and down a few times.
-21. Incubate ligations for 30 minutes at 37◦C.
-22. After the ligation, add 10µL Round 3 blocking mix to each well.
-• Round 3 blocking mix includes:
-– 72µL 400µM SB81 blocking oligo (annealed to self, see explanation in materials)
-– 72µL 400µM SB82 blocking oligo
-– 120µL 10x T4 ligase buffer
-– 336µL RNase-free water
-– 600µL 0.5 M EDTA
-• We typically aliquot 133µL of blocking mix across an 8-strip of PCR tubes then use a multi-channel
-to aliquot 10µL into each well
+21. Incubate ligations for 30 minutes at 37°C.
+22. After the ligation, add 10pL Round 3 blocking mix to each well.
+Round 3 blocking mix includes:
+72ul 400pM SB81 blocking oligo (annealed to self, see explanation in materials)
+72ul 400pM SB82 blocking oligo
+120pL 10x T4 ligase buffer
+336uL RNase-free water
+600pl 0.5 M EDTA
+We typically aliquot 133pL ofb blocking mix across an 8-strip ofl PCR tubes then use a multi-channel
+to aliquot 10pl into each well
 23. After adding the blocking mix, pool cells (total volume ~2.1 mL) and split into 2 eppendorf tubes.
 24. Measure the volume of pooled cells, and add Tween-20 to a final concentration of 0.01%.
-25. Centrifuge cells at 7,000g for 10 minutes at 4◦C.
-26. Remove supernatant and resuspend cells in 500µL TEL-RI + 0.01% Tween-20.
-• The cells in the two tubes can be combined here in a total of 500µL.
-27. Centrifuge cells at 7,000g for 10 minutes at 4◦C.
-28. Remove supernatant and resuspend cells in 30µL TEL-RI.
+25. Centrifuge cells at 7,000g for 10 minutes at 4°C.
+26. Remove supernatant and resuspend cells in 500pl TEL-RI + 0.01% Tween-20.
+The cells in the two tubes can be combined here in a total of 500pL.
+27. Centrifuge cells at 7,000g for 10 minutes at 4°C.
+28. Remove supernatant and resuspend cells in 30pL TEL-RI.
 29. Count cells using a semen test hemocytometer.
 30. Transfer ~10,000 cells into eppendorf tubes for lysis.
-• Up to 40,000 cells can be taken for each lysate, but we typically take 10,000 cells in case cell
+Up to 40,000 cells can be taken for each lysate, but we typically take 10,000 cells in case cell
 counts are underestimated. We usually prepare 10-20 lysates from the pooled cells at this stage
 to be safe in case anything goes wrong in downstream steps or to be able to sequence more cells
 as needed.
-• We recommend counting cells and aliquoting lysates quickly, as cell lysis may occur prior to
+We recommend counting cells and aliquoting lysates quickly, as cell lysis may occur prior to
 making lysates and result in higher levels of cross-contamination in the final library. We also may
 later recommend more washes, but at this point we have only tested a single wash before lysis.
-31. Add TEL-RI to the 10,000 cells to bring the volume to 25µL.
-32. Add 25µL 2x lysis-T and 5µL proteinase K (20 mg/mL) to the cells in TEL-RI.
-33. Lyse cells for 1 hour at 55◦C with shaking at 750 rpm.
-• We use a multi-therm shaker for this.
-34. Save lysates at -80◦C.
+31. Add TEL-RI to the 10,000 cells to bring the volume to 25uL.
+32. Add 25uL 2x lysis-T and 5upl proteinase K (20 mg/mL) to the cells in TEL-RI.
+33. Lyse cells for 1 hour at 55°C with shaking at 750 rpm.
+We use a multi-therm shaker for this.
+34. Save lysates at -80°C.
 Sydney Blattman, Tavazoie Lab at Columbia University
 7
 
 
---- Page 8 ---
-• We typically proceed to library preparation the following day.
+
+We typically proceed to library preparation the following day.
 Library Preparation
 Day 3
 Note that during library preparation, it is critical to carry over the entire library at each step before amplifica-
-tion. Any lost cDNA prior to amplification will correspond to a reduction in UMIs captured per cell.
+tion. Any lost CDNA prior to amplification will correspond to a reduction in UMIs captured per cell.
 1. Thaw lysates on ice
-2. Purify lysates by adding AMPure XP beads at a 1.8x ratio (approximately 99µL of beads, but measure
-the volume of lysate to be precise). Elute in 20µL RNase-free water after following the purifications
+2. Purify lysates by adding AMPure XP beads at a 1.8x ratio (approximately 99UL of beads, but measure
+the volume of lysate to be precise). Elute in 20pl RNase-free water after following the purifications
 steps below.
 3. We use the following AMPure purification protocol:
 (a) Incubate the lysate with beads for at least 5 minutes
@@ -321,93 +360,96 @@ steps below.
 (c) Let sit for about 2 minutes to allow beads to separate.
 (d) Once the solution is clear, remove the liquid, leaving behind the beads and being very careful not
 to remove any beads
-(e) Add 200µL 80% ethanol and let sit for at least 30 seconds, keeping tubes on magnetic rack (wash
+(e) Add 200pl 80% ethanol and let sit for at least 30 seconds, keeping tubes on magnetic rack (wash
 #1).
 (f) Remove ethanol.
-(g) Add 200µL 80% ethanol and let sit for at least 30 seconds, keeping tubes on magnetic rack (wash
+(g) Add 200pL 80% ethanol and let sit for at least 30 seconds, keeping tubes on magnetic rack (wash
 #2).
 (h) Remove ethanol.
 (i) Keeping tubes on magnetic rack with lids open, allow to dry for ~10 minutes, watching to be sure
 beads are not over-dried.
-(j) Take tubes off magnetic rack, and resuspend beads in 20µL RNase-free water.
-(k) Incubate beads in water for ~10 minutes to elute cDNA.
-(l) Place tubes on the magnetic stand.
+() Take tubes off magnetic rack, and resuspend beads in 20pl RNase-free water.
+(k) Incubate beads in water for ~10 minutes to elute CDNA.
+(I) Place tubes on the magnetic stand.
 (m) Let sit for ~1 minutes, until solution is clear.
 (n) Remove the entire volume, leaving behind all of the beads, and transfer the volume to a PCR
 tube. We find that it is possible to recover the entire volume while excluding beads if pipetting
 carefully.
 4. Add the following mix to each purified lysate:
-• 14µL RNase-free water
-• 4µL NEBNext Second Strand Synthesis Reaction Buffer
-• 2µL NEBNext Second Strand Synthesis Enzyme Mix
-5. Incubate the 40µL reaction for 2.5 hours at 16◦C with heated lid off.
-6. Purify the reaction by adding 72µL AMPure XP beads and following the purification protocol above.
-Elute in 20µL water.
-7. Proceed to tagmentation or store the double-stranded cDNA at -20◦C.
+14ul RNase-free water
+4pL NEBNext Second Strand Synthesis Reaction Buffer
+2ul NEBNext Second Strand Synthesis Enzyme Mix
+5. Incubate the 40pL reaction for 2.5 hours at 16°C with heated lid off.
+6. Purify the reaction by adding 72pL AMPure XP beads and following the purification protocol above.
+Elute in 20pl water.
+7. Proceed to tagmentation or store the double-stranded CDNA at -20°C.
 8. For tagmentation, we use a slightly modified version of the Nextera XT protocol.
-9. Add 25µL TD buffer and 5µL ATM to the purified lysate.
+9. Add 25uL TD buffer and 5ul ATM to the purified lysate.
 Sydney Blattman, Tavazoie Lab at Columbia University
 8
 
 
---- Page 9 ---
-• We have preliminary results using EZ-Tn5 Transposase instead of the Nextera kit. EZ-Tn5 gives
-a higher yield (theoretically 2x) and is less expensive. To use EZ-Tn5, instead add:
-– 23µL TD buffer
-– 2µL loaded EZ-Tn5 diluted 1:16 (see materials for how to load)
-– 4.9µL water
+
+Wel have preliminary results using EZ-Tn5 Transposase instead of the Nextera kit. EZ-Tn5 gives
+al higher yield (theoretically 2x) and is less expensive. To use EZ-Tn5, instead add:
+23pL TD buffer
+- 2pl loaded EZ-Tn5 diluted 1:16 (see materials for how to load)
+4.9pL water
 10. Briefly spin down the reaction contents.
-11. Incubate the reaction on a preprogrammed thermocycler: 5 minutes at 55◦C, hold at 10◦C.
-12. Once the reaction reaches 10◦C, immediately add 12.5µL NT.
+11. Incubate the reaction on a preprogrammed thermocycler: 5 minutes at 55°C, hold at 10°C.
+12. Once the reaction reaches 10°C, immediately add 12.5ul NT.
 13. Briefly spin down the reaction contents.
 14. Incubate at room temperature for 5 minutes.
 15. Add the following to the reaction:
-• 2.5µL i50x primer (NEB kit E7600S) or 2.5 µL of the same primer from IDT (10µM)
-• 2.5µL N70x primer (Nextera Index Kit v2)
-• 20µL water
-• 37.5µL NPM
-– In this reaction, NPM is used at a much higher rate than the other Nextera reagents. We
+2.5ul i50x primer (NEB kit E7600S) or 2.5 pl of the same primer from IDT (10pM)
+2.5uL N70x primer (Nextera Index Kit v2)
+20pl water
+37.5uL NPM
+In this reaction, NPM is used at a much higher rate than the other Nextera reagents. We
 recognize that this will lead to extra expense that we think can be avoided by using another
-PCR mix. We have had success using Q5 (with GC enhancer) and phusion. With Q5, we first
-diluted the tagmentation reaction (after NT) 4x and set up the PCR in a total volume of 500µL
+PCR mix. Wel have had success using Q5 (with GC enhancer) and phusion. With Q5, we first
+diluted the tagmentation reaction (after NT) 4x and set up the PCR in at total volume of 500pl
 (because Q5 is sensitive to the SDS in NT). With Phusion, we first diluted the tagmentation
-reaction (after NT) 2x and set up the PCR in a total volume of 250µL. We set up the Q5
+reaction (after NT) 2x and set up the PCR in a total volume of 250pl. We set up the Q5
 reaction by adding the following after tagmentation and following the same thermocycling
 protocol as with NPM:
-* 187.5µL water
-* 100µL Q5 5x buffer
-* 10µL 10 mM dNTPs
-* 5µL Q5 enzyme
-* 85µL GC enhancer
-* 25µL i50x primer (NEB kit E7600S) or 2.5µL 100µM primer from IDT + 22.5 µL water
-* 25µL N70x primer (Nextera Index Kit v2)
+187.5uL water
+100pL Q5 5x buffer
+10pl 10 mM dNTPS
+5pl Q5 enzyme
+85pl GC enhancer
+25pl i50x primer (NEB kit E7600S) or 2.5ul 100pM primer from IDT + 22.5 pl water
+25pl N70x primer (Nextera Index Kit v2)
 16. Thermocycle until early-exponential phase of amplification:
-• 72◦C 3 min
-• 95◦C 30 sec
-• ~16x [until early-exponential]:
-– 95◦C 10 sec
-– 55◦C 30 sec
-– 72◦C 30 sec
-• 72◦C 5 min
-• 4◦C hold
-– To determine the number of cycles to amplify, we first run 8 PCR cycles and then remove
-5µL from the reaction. We add EvaGreen dye and ROX low reference dye to the 5µL and
-then amplify on our qPCR. Alternatively, SYBR could be added to the initial reaction, and the
+72°C 3 min
+95°C 30 sec
+~16x [until early-exponential:
+- 95°C 10 sec
+55°C 30 sec
+72°C 30 sec
+72°C5 min
+4°C hold
+- To determine the number of cycles to amplify, we first run 8 PCR cycles and then remove
+5ul from the reaction. We add EvaGreen dye and ROX low reference dye to the 5ul and
+then amplify on our qPCR. Alternatively, SYBR could be added to thei initial reaction, and the
 entire reaction could be run on a qPCR.
-17. Purify the products with AMPure beads at a 1x ratio, as described above. Elute in 20-40µL.
+17. Purify the products with AMPure beads at a 1x ratio, as described above. Elute in 20-40pL.
 Sydney Blattman, Tavazoie Lab at Columbia University
 9
 
 
---- Page 10 ---
+
 18. Quantify the library concentration using the Qubit dsDNA HS kit and Agilent Bioanalyzer HS DNA
 assay.
-• We usually see a concentration ~1-5 ng/µL on the Qubit.
-• Purify again if there is a spike in the bioanalyzer trace below ~200 bp. The empty construct is
+We usually see a concentration ~1-5 ng/ul on the Qubit.
+Purify again if there is a spike in the bioanalyzer trace below ~200 bp. The empty construct is
 185 bp.
-• The Bioanalyzer size distribution does usually skew towards short fragments. Here is an example
+Thel Bioanalyzer: size distribution does usually skew towards short tragments. Here is an example
 of a library that gave good sequencing results:
-• We use the molarity given by the bioanalyzer to determine the amount of sample to load for
+[FU]
+100-
+35 150 300 500 1000 10380 [bp]
+We use the molarity given by the bloanalyzer to determine the amount of sample to load for
 sequencing.
 19. Sequence libraries using at least 75 cycles paired-end (58 cycles read 1, 17 cycles read 2). We
 recommend about 50 million reads per PETRI-seq library.

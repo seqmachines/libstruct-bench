@@ -1,0 +1,496 @@
+protocols.io Part of SPRINGER NATURE
+May 09, 2024
+sci-RNA-seq 3 level protocol
+DOI
+nttps://dx.doi.org/10.17504/protocols.io.kqdg35w97v25/v1
+Beth Martin'
+'University of Washington
+Dana Jackson
+University of Washington
+Create & collaborate more with a free account
+Edit and publish protocols, collaborate in communities, share insights through comments, and
+track progress with run records.
+Create free account
+OPEN a ACCESS
+DOI: https://dx.doi.org/10.17504/protocols.io.kqdg35w97v25/v1
+Protocol Citation: Beth Martin 2024. sci-RNA-seq 3 level protocol. protocols.10
+https://dx.doi.org/10.17504/protocols.io.kqdg35w97v25/v1
+Manuscript citation:
+Martin, B.K., Qiu, C., Nichols, E. et al. Optimized single-nucleus transcriptional profiling by combinatorial indexing. Nat Protoc 18, 188-
+207 (2023). https://doi.org/10.1038/s41596-022-00752-0
+License: This is an open access protocol distributed under the terms of the Creative Commons Attribution License, which
+permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited
+protocols.io I https://dx.doi.org/10.17504/protocols.io.kgdg35w97v25/1 May 9, 2024
+1/15
+
+
+
+protocols.io Part of SPRINGER NATURE
+Protocol status: Working
+We use this protocol and it's working
+Created: April 30, 2020
+Last Modified: May 09, 2024
+Protocol Integer ID: 36420
+Keywords: cell combinatorial indexing rna, recovering gene expression data, gene expression data, rna, seq, scalable number
+of individual cell, individual cell, cell
+Abstract
+Single-cell combinatorial indexing RNA sequencing (sci-RNA-seq) is a powerful method for recovering gene
+expression data from an exponentially scalable number of individual cells or nuclei.
+protocols.io I https://dx.doi.org/10.17504/protocols.io.kgdg35w97v25/1 May 9, 2024
+2/15
+
+
+
+protocols.io Part of SPRINGER NATURE
+Materials
+Reagents
+DSP (Lomant's reagent; Thermo Fisher, cat. no. 22586 or PG82081)
+CRITICAL DSP is sensitive to water and should be used immediately after dissolving in dimethyl sulfoxide
+(DMSO).
+Methanol (Millipore Sigma, cat. no. 494437-2L)
+DMSO (Millipore Sigma, cat. no. D2438-5X10ML)
+CRITICAL DMSO used for dissolving DSP should be new and unopened SO that water is not introduced. These
+smaller bottles are useful for this reason.
+Sodium phosphate dibasic (Millipore Sigma, cat. no. S3264-250G)
+Sodium phosphate monobasic monohydrate (Millipore Sigma, cat. no. 71507-250G)
+Potassium phosphate monobasic (Millipore Sigma, cat. no. P9791-100G)
+Sodium chloride (Millipore Sigma, cat. no. S3014-500G)
+Potassium chloride Millipore Sigma, cat. no. P9541-500G)
+Magnesium chloride solution, 2 M (Millipore Sigma, cat. no. 68475-100ML-F)
+Igepal CA-630 (Millipore Sigma, cat. no. 18896-50ML)
+BSA, 20 mg/ml (New England Biolabs, cat. no. B9000S)
+DEPC (Millipore Sigma, cat. no. D5758-25ML)
+CAUTION Handle DEPC, and samples containing it, in a fume hood.
+Sucrose (VWR, cat. no. 97061-428)
+Triton X-100 (Millipore Sigma, cat. no. T8787-100ML)
+Tween 20 (Thermo Fisher, cat. no. BP-337-100)
+10x Dulbecco's PBS (10x DPBS; Thermo Fisher, cat. no. 14200075)
+Superscript IV reverse transcriptase (Thermo Fisher, cat. no. 18090200)
+CRITICAL This protocol has not been tested with other reverse transcriptases.
+T4 DNA Ligase (New England Biolabs, cat. no. MO202L)
+CRITICAL The previous version of this protocol used Quick Ligase, but the buffer that is included with that
+enzyme interferes with the pelleting of the nuclei during centrifugation.
+Tagmentase (Tn5 transposase), unloaded (Diagenode, cat. no. C01070010-20)
+CRITICAL The amount of tagmentase added to Step 57 has been determined for this brand only.
+Tn5-N7 oligo 5-GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG-3, high-purity salt-free; Eurofins)
+Mosaic End (ME) oligo 5-/5Phos/CTGTCTCTTATACACATCT-3, high-purity salt-free; Eurofins)
+NEBNext mRNA second-strand synthesis module (New England Biolabs, cat. no. E6111L)
+NEBNext high fidelity 2x PCR master mix (New England Biolabs, cat. no. M0541L)
+dNTP mix (New England Biolabs, cat. no. N0447L)
+Agencourt AMPure XP (Beckman Coulter, cat. no. A63882)
+Yoyo dye (Thermo Fisher, cat. no. Y3601)
+RNaseAlert kit (IDT, cat. no. 11-02-01-02)
+RNaseZap (Thermo Fisher, cat. no. AM9780)
+Elution buffer (EB, 10 mM Tris pH 8.5; Qiagen, cat. no. 19086)
+Protease (Qiagen, cat. no. 19157)
+CRITICAL Do not use any other protease/proteinase. This one can be heat-inactivated at the temperature and
+protocols.io I https://dx.doi.org/10.17504/protocols.io.kgdg35w97v25/1 May 9, 2024
+3/15
+
+
+
+protocols.io Part of SPRINGERI NATURE
+time listed in the protocol.
+6% TBE Novex PAGE gels (10 wells; Thermo Fisher, cat. no. EC6262BOX)
+UltraPure agarose (Thermo Fisher, cat. no. 16500-500)
+Qubit double-stranded DNA high-sensitivity quantitation kit (Thermo, cat. no. Q32851)
+sci-RNA-seq3 indexed primer plates at 10 LM dilution (standard desalting for purification; random bases do not
+need hand-mixing). The complete list of primers is found in Supplementary Table 1. The plates include the
+following: plate(s) of indexed oligo-dT RT primers (5'-
+5Phos/CAGAGCNNNNNNNN/10bpRTindexITTTTTTTTTTTTTTTTTTTTTTTTTTTTTT-3, where 'N' is any base;
+IDT), plate(s) of indexed ligation primers (5'- GCTCTG[9- or 10-bp ligation
+index)TACGACGCTCTTCCGATCTIreverse complement of ligation index]-3'), plate of indexed PCR P7 primers
+(5'-CAAGCAGAAGACGGCATACGAGATIPCR P7 indexJGTCTCTCGTGGGCTCGG-3; IDT); and PCR P5 primers (this
+primer does not need to be indexed if you do only one plate of PCR) (5'-
+AATGATACGGCGACCACCGAGATCTACACIPCR P5 indexJACACACTCTTTCCCTACACACGACGCTCTTCCGATCT-3;
+IDT).
+Troubleshooting
+protocols.io I https://dx.doi.org/10.17504/protocols.io.kgdg35w97v25/1 May 9, 2024
+4/15
+
+
+
+protocols.io Part of SPRINGER NATURE
+Nuclei Isolation ~2hours
+1
+Remember everything is cold all the time. Prepare two ice buckets with wet ice, a bucket
+with crushed dry ice to hold your frozen tissues, and a thick, flat slab of dry ice for
+smashing tissues. Precool a centrifuge that will hold 50ml tubes, and a microfuge, to 4C.
+2
+Determine how much lysis buffer you will need for the tissue you will be processing. A
+E13.5 mouse embryo (>200mg) works with 5ml of lysis buffer. A E16.5 embryo (-500mg)
+will need 10ml. An adult mouse heart needs 5ml. Adult mouse kidneys need 5 ml per
+kidney. Adult mouse liver 20ml. Adult mouse pancreas 15ml. Adult tissues and tissues
+high in Rnases will necessitate a bigger lysis volume. The buffer is cheap SO err on the
+side of more volume for lysis.
+3
+For every 1 ml of lysis buffer needed, add 2.5 ul 10% igepal (vol/vol), 10 jul DEPC to the
+hypotonic lysis buffer solution (and 40ul BSA if using lysis buffer B), then vortex solution
+to disperse the DEPC throughout. Have complete lysis buffer in a 50 ml tube for each
+sample on ice ready to go.
+CAUTION DEPC is flammable and toxic. Avoid breathing vapors. The following steps
+should be performed in the chemical hood from this point until the DEPC is washed from
+the sample (step 17).
+4
+Fold a piece of aluminum foil SO that you have a small pouch with 4 layers of foil on each
+side. Place this on a slab of dry ice to chill.
+5 Place your frozen tissue inside this foil and hold it firmly closed on the dry ice and smash
+it with a hammer. You want to be gentle enough not to tear the foil, but thorough enough
+to make a powder of the tissue. Do not let the tissue thaw.
+protocols.io I https://dx.doi.org/10.17504/protocols.io.kgdg35w97v25/1 May 9, 2024
+5/15
+
+
+
+protocols.io Part of SPRINGER NATURE
+6
+Use the foil to guide your powdered tissue into the tube of lysis buffer. It will stick a bit,
+pipet some of the lysis buffer from the tube to rinse the sample from the foil into the
+tube. Try to make sure that the sample is only thawing if it's in lysis buffer.
+7 Cap the 50ml tube and shake to disperse the chunks in the buffer. Let sit on ice 10min.
+Triturate the chunks with a 1ml pipette tip to help tease them
+apart a bit.
+8 Set up another 50 ml tube on ice with a 40 um cell strainer on top. Pour your lysate
+through that - there will still be a lot of chunks. Use a disposable pestle to coax the tissue
+through the filter. Don't worry about getting all of it through.
+9
+Take 45ul sample of the filtered lysate and check for Rnase activity with the IDT
+RnaseAlert kit. The RNaseAlert will guide you on whether to proceed or not. There should
+not be any RNase detected at this point, and if there is, you will have to restart with a
+new sample and adjust either the sample size or the volume of lysis buffer, SO that there
+is enough DEPC to inactivate the RNases. You cannot continue with a sample that has
+RNases detected at this point, the damage is already done.
+10 While the RNaseAlert sample is incubating, spin the remainder of the lysate. 500xg,
+3min, 4C. Resuspend the nuclei in 1ml 0.3M SPBSTM (with DEPC added - 10ul per ml of
+SPBSTM). Last time you'll need to add DEPC to this buffer.
+Nuclei Fixation 2 1hour
+11 For each sample, prepare fixative: add 100ul of 50mg/ml DSP stock solution to 4ml of ice
+cold methanol for every 1ml of nuclei that you are starting with.
+12 Add the fixative to the nuclei gradually and swirl to mix.
+13 Fix on ice 15min, swirling occasionally.
+protocols.io I https://dx.doi.org/10.17504/protocols.io.kgdg35w97v25/1 May 9, 2024
+6/15
+
+
+
+protocols.io Part of SPRINGER NATURE
+14 Add 2 volumes 0.3 SPBSTM gradually, 2-3 milliliters at a time, swirling in-between
+additions to rehydrate the nuclei. For instance, with 1 ml of nuclei and 4 mls
+of fixative, you would need 10ml of buffer to rehydrate.
+15 Spin down the nuclei at 500xg 3min 4°C.
+16 Carefully remove supernatant and dispose properly. The nuclei pellet is at the bottom
+and should look a little white-ish from the DSP.
+17 Resuspend the nuclei in 1 ml (or more) 0.3M SPBSTM. Triturate gently with a pipette tip
+to separate nuclei.
+18 Divide fixed nuclei into aliquots in microfuge tubes. Spin 500xg 3 min 4°C and remove
+supernatant. Snap freeze tubes in LN2 and store at -80°C. Fixed samples may be stored
+at -80C up to 6 months.
+19 OPTIONAL: If there are obvious clumps at this point that won't tease apart, you will need
+to sonicate them to break them up. Sonicate (Diagenode Bioruptor Plus) on low intensity
+for 12s only at 4°C. Spin and resuspend the nuclei in 1 ml 0.3M SPBSTM.
+Can stop at this point.
+Reverse Transcription ~2-3hours
+20 Follow the chart below to determine how many starting nuclei you need and their volume.
+If you are only doing sci on one sample (filling all 12 columns of the 96-well plate with
+that sample), then follow the volumes outlined by the box. If you are dividing the plate
+among multiple samples, then the chart will outline the cell number you need depending
+on how many columns in the plate each sample will occupy. For example, if you will have
+two samples on one plate, each one will take 6 columns and you will need 1M cells of
+each sample in a tube to start with in a volume of 250ul each, and you will add 28jul of
+dNTPS to each before distributing to their RT plate wells.
+protocols.io I https://dx.doi.org/10.17504/protocols.io.kgdg35w97v25/1 May 9, 2024
+7/15
+
+
+
+protocols.io Part of SPRINGER NATURE
+A
+B
+E
+F
+cell
+2M
+1M
+800K
+500K
+400K
+200K
+number:
+number of 12
+6
+4
+3
+2
+1
+columns:
+nuclei
+500ul
+250ul
+170ul
+125ul
+85ul
+42.5ul
+volume
+10mM dNTP 56ul
+28ul
+19ul
+14ul
+9.5ul
+4.75ul
+21 Resuspend an aliquot of frozen nuclei in 500 jl of 0.3M SPBSTM to start. Count. Dilute
+nuclei if necessary to get an accurate count. If nuclei are clumpy, even after sonicating,
+and can't be teased apart with pipetting, then put them over a 40um Flow-mi pipette tip
+filter before counting. Flow-mi filter is a last resort as it results in nuclei loss, but is
+helpful if you have an excess of nuclei.
+22 Pull out the desired amount of nuclei into a new tube and spin. Remove supernatant and
+resuspend nuclei in the necessary volume determined by the chart and add the
+appropriate amount of dNTPS.
+23 Aliquot 5ul nuclei+dNTP mix to each well of the plate on ice.
+24 Quick spin the plate of 3-level RT primers (10uM).
+5'-/5Phos/CAGAGCNNNNNNNNI10bpRTindex)TTTTTTTTTTTTTTTTTTTTTTTTTTTT
+-3', where "N" is any base)
+25 Add 2ul of primer to each well. Don't pipet up and down to mix, just stir gently with the
+pipet tips.
+26 Incubate plate 55C for 5min (heated lid set to 65C) and then immediately place on ice.
+27 While this is incubating, make the reaction mix. Note: we are not including DTT in this
+mix, as it will undo the DSP crosslinks (it is not necessary for the RT to work).
+protocols.io I https://dx.doi.org/10.17504/protocols.io.kgdg35w97v25/1 May 9, 2024
+8/15
+
+
+
+protocols.io Part of SPRINGERI NATURE
+A
+B
+RT mix per each
+X120
+plate:
+5X
+2ul
+240ul
+Superscript
+IV buffer
+Superscript 0.5ul
+60ul
+IV (200u/ul)
+water
+0.5ul
+60ul
+total
+360
+28 Put 3ul of reaction mix into each well (45ul mix x8 in strip tube for multichannel), stirring
+gently with tips. 10ul total now.
+29 Incubate 55C 10min (heated lid at 65C) and then immediately place on ice.
+30 Ice plates until they are cold (10-15min). Add 5 jul cold 0.3M SPBSTM per well. To
+maximize recovery, pool wells by using a 12-multichannel with 200ul tips to pipet gently
+up and down (the pipetting up and down is important to dislodge the nuclei, but try to
+avoid creating excessive bubbles), and combine each row of the plate into the bottom
+row. You can use the same tips for the whole plate. Then collect these wells into 2 cold
+microfuge tubes. (It will be bubbly SO it's difficult to squeeze into 11 tube).
+31 Spin 500xg 3min 4C. Pellet will be small but you should be able to see it. Remove
+supernatant.
+32 Combine tubes and wash once more in 1ml cold 0.3 SPBSTM. Spin 500xg 3min 4C.
+Remove supernatant.
+Ligation ~1hour
+33 Resuspend nuclei in 1200ul 0.3M SPBSTM.
+34 Distribute 11ul to each well of a new plate on ice.
+protocols.io I https://dx.doi.org/10.17504/protocols.io.kgdg35w97v25/1 May 9, 2024
+9/15
+
+
+
+protocols.io Part of SPRINGER NATURE
+35 Quick spin the plate of 3-level ligation primers (10uM) (5'- GCTCTG(9bp or 10bp ligation
+indexTACGACGCTCTTCCGATCTIreverse complement of ligation index]-3')
+36 Add 2ul of primer to each well. Don't pipet up and down.
+37 Make a 3:1 mix of 10X T4 ligation buffer and T4 DNA ligase. (195ul 10X buffer + 65ul T4
+DNA Ligase)
+38 Add 2ul ligase mix to each well. (32ulx8 in strip tube for multichannel). 15ul total now.
+39 Incubate 20 min at room temperature.
+40 Ice plates until cold.
+41 Add 10ul cold SPBSTM to each well. This helps keep the cells from clumping and allows
+for more cell recovery.
+42 Pool wells by using a 12-multichannel to pipet gently up and down (the pipetting up and
+down is important to dislodge the nuclei), and combine each row of the plate into the
+bottom row. Then collect these wells into 2 cold microfuge tubes.
+43 Spin 500xg 3min 4C. Remove supernatant.
+44 Combine the two tubes and wash twice more with 1ml 0.3M SPBSTM per wash.
+45 Resuspend in 1ml 0.3M SPBSTM to count. If they are clumpy and can't be teased apart
+with gentle pipetting, sonicate for 6s only. You can also use a flow-mi filter but you will
+lose a lot of nuclei.
+Final Distribution 30minutes
+46 In the final plate you will want 1000 nuclei/well (or 4000/well if you've scaled up the
+experiment to 384x384x384). You should have enough nuclei to make multiple plates
+if you like.
+protocols.io I https://dx.doi.org/10.17504/protocols.io.kgdg35w97v25/1 May 9, 2024
+10/15
+
+
+
+protocols.io Part of SPRINGERI NATURE
+Make 400ul 1X Second Strand Synthesis for each plate in the final distribution: Dilute
+40ul 10X Second Strand buffer in 360ul water to get 1X concentration.
+47 Spin down 100K nuclei for each plate desired for the final distribution. (400K per plate if
+this is a 384x384x384 experiment). For each plate/100K, resuspend in 400ul 1X Second
+Strand Synthesis buffer.
+48 Put 4ul nuclei into each well of a regular, not lo-bind, plate on ice.
+49 Cover with foil seal and freeze plates at -80C or proceed with second strand synthesis.
+Plate may be kept frozen at -80C for up to 6 months.
+Second Strand Synthesis ~3hours or O/N
+50 Thaw plate on ice.
+51 Make second strand synthesis mix as follows:
+A
+B
+1 plate
+reaction mix each
+X140
+per plate:
+water
+0.675ul
+94.5
+second
+0.075ul
+10.5
+strand
+buffer (10X)
+second
+0.25ul
+35
+strand
+enzyme
+(20X)
+total
+140
+protocols.io I https://dx.doi.org/10.17504/protocols.io.kgdg35w97v25/1 May 9, 2024
+11/15
+
+
+
+protocols.io Part of SPRINGER NATURE
+52 Put 1ul of second strand synthesis mix into each well (17ul mix x8 in strip tube for
+multichannel). 5ul total now.
+53
+Incubate 16C 2.5hours. (No heated lid)
+Can stop here, keep plate at 4C.
+Protease Digestion ~2hours
+54 Add 1ul protease to each well. This is NOT the same as proteinasek. It's important to use
+Qiagen protease (#19157) because it can be heat-inactivated.
+55 Incubate 37C for 30min (47C heated lid). Check 1ul on microscope: mix 1ul sample with
+2ul of diluted yo-yo1 dye and put this on a slide (no coverslip) and check on the GFP
+channel. You should see whisps of DNA instead of intact nuclei.
+56 Heat-inactivate the protease 75C 20min (85C heated lid). Critical, do not lower this
+temperature, do not shorten this time. Qiagen lists different conditions for heat-
+inactivating their protease, but it is not sufficient. Put plate on ice after inactivating.
+Can store plate at 4C for up to a week.
+Tagmentation ~1hour
+57 On ice, make tagmentation mix as follows:
+protocols.io I https://dx.doi.org/10.17504/protocols.io.kgdg35w97v25/1 May 9, 2024
+12/15
+
+
+
+protocols.io Part of SPRINGERI NATURE
+A
+B
+reaction mix each
+X110
+per plate:
+TD buffer
+5ul
+550
+N7-loaded 0.125ul
+13.75
+Tn5
+58 On ice, add 5ul tagmentation mix to plate. ~10-11ul total now.
+59 Incubate 55C 5min, do not put on ice afterwards, just keep on the bench at room
+temperature as you can add the next reaction mix, or else the SDS will come out of
+solution at the next step.
+60 Remove the transposases with this buffer (keep at room temperature):
+A
+B
+C
+reaction mix each
+X120
+per plate:
+1% SDS
+0.4ul
+48ul
+BSA
+0.4ul
+48ul
+water
+1.8ul
+216ul
+total
+2.6ul
+61 Add 2.6ul to each well and mix (39ulx8 into a strip tube for multichannel).
+62 Incubate 55C 15min.
+protocols.io I https://dx.doi.org/10.17504/protocols.io.kgdg35w97v25/1 May 9, 2024
+13/15
+
+
+
+protocols.io Part of SPRINGER NATURE
+63 Quench SDS by adding 2ul 10% Tween 20( vol/vol) to each well. (bolding this because
+it is a very easy step to forget)
+PCR ~1hour for PCR, 2-3hours for gel purification
+64 PCR is done with 96 indexed P7 primers. Alternatively, you can also add an index on the
+P5 end for multiplexing multiple plates.
+Assemble the PCR master mix. PCR is done with 96 indexed P7 primers and 1 P5 primer.
+You can also add an optional index sequence on the P5 primer for multiplexing multiple
+plates.
+Plate of 96 Indexed PCR P7 primers (5'- CAAGCAGAAGACGGCATACGAGATIPCR P7
+indexIGTCTCTCGTGGGCTCGG-3)
+P5 primer(s) (5'- AATGATACGGCGACCACCGAGATCTACACIPCR P5
+indexJACACTCTTTCCCTACACGACGCTCTTCCGATCT-3)
+reaction mix per plate:
+each X110
+2X NEBNext
+20ul 2200ul
+TruSeqP5-noindex primer (100uM) 0.2
+22ul
+water
+3.2ul 352ul
+total
+23.4ul 2574ul
+65 Add 2ul of indexed P7 primers (10uM) to each well.
+66 Add 23.4ul of PCR master mix to each well.
+67 1. Amplify 16 cycles with a pre-extension step in the following program:
+protocols.io I https://dx.doi.org/10.17504/protocols.io.kgdg35w97v25/1 May 9, 2024
+14/15
+
+
+
+protocols.io Part of SPRINGER NATURE
+1 70C
+3min
+2 98C
+30s
+3 98C
+10s
+4 63C
+30s
+5 72C
+1min
+6 go to step 3, 15 more times
+7 72C
+5min
+68 Run 1.5ul of a few wells on a 6% PAGE gel to check. You should see a smear of products
+with orimer-dimers underneath. You should see a bright upper smear, but what you want
+is the fainter smear centered on 400bp.
+69 Concentration of library and agarose gel purification: Pool 3ul of each well and do a 0.8X
+ampureXP cleanup (230ul beads). (Save the remaining plate in case you need to redo
+cleanup or if you anticipate needing more library for a large Novaseq run). Wash the
+ampure bead pellet twice gently with 70% EtOH (vol/vol) and elute pool in 50ul. Load this
+into a single 1cm well on a 1% agarose gel (wt/vol). Cut out the smear between 250-
+600bp and use the NEB gel extraction kit, using extra dissolving buffer since it will be
+bigger than a normal slice and run it all through the same purification column. Wash
+twice with 200ul NEB wash buffer, elute in 20ul EB. Quantitate library with Qubit dsDNA
+HS.
+70 Run library on NextSeq (or Novaseq depending on final cell numbers or sequencing
+depth desired), using standard primers. Read1 34 cycles, Index 10 cycles, Read2 48
+cycles. If you've also used the P5 primers for PCR, then add a second Index read of
+10bp.
+71 Reagents and troubleshooting can be found: doi: 10.1038/s41596-022-00752-0
+protocols.io I https://dx.doi.org/10.17504/protocols.io.kgdg35w97v25/1 May 9, 2024
+15/15
