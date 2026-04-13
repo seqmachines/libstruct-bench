@@ -1,8 +1,72 @@
-# librarystructdb
+# libstruct-bench
 
-This repo stores protocol JSON files in `protocols/` and a small CLI to download the source document referenced by each protocol.
+### Benchmarking large language models on sequencing library structure extraction.
 
-Protocol references can separate the remote source URL from the local cached PDF path:
+
+Sequencing technology development depends on accurate raw-data QC to catch
+protocol-level issues before they compound. The first step — deriving the
+library structure (cell barcodes, UMIs, adapters, primers, linkers, and their
+order) from a heterogeneous experimental protocol — is still a manual
+bottleneck that requires substantial domain expertise.
+
+Frontier LLMs are a natural candidate for automating this step, but in
+practice even state-of-the-art models fail to reliably reconstruct correct
+library structures or capture the biochemical logic behind them. This
+benchmark exists to quantify that gap and to separate genuine protocol
+comprehension from memorization.
+
+## Approach
+
+- **Ground truth.** 13 library structures curated from
+  [scg_lib_structs](https://teichlab.github.io/scg_lib_structs/), generated
+  with LLM-assisted parsing and validated against source protocols. Some protocol PDFs may got trimmed for lighter and cleaner loading.
+- **Harness.** Each protocol is submitted to a model through the [cDNA API](https://github.com/seqmachines/cdna)
+  `/api/benchmark` endpoint in one of three input modes:
+  - `pdf` — the raw protocol PDF
+  - `text` — pre-extracted text from the PDF
+  - `name` — the assay name only
+- **Task.** The model returns the full library as a single 5′→3′ sequence
+  string using a symbol alphabet for functional elements (barcodes, UMIs,
+  adapters, primers, ligation regions).
+- **Scoring.** Normalized Levenshtein similarity against ground truth:
+  `1 − d(ŝ, s) / max(|ŝ|, |s|)`. Segment-level and region-stratified scores
+  are also recorded (`known`, `barcode`, `umi`, `index`, `ligation`,
+  `rt_barcode`, `tn5_barcode`, `linker`, `capture`).
+
+## Results
+
+Nine frontier LLMs across five provider families were evaluated, all models only ran once for each protocol and input mode.
+
+Winner: **Gemini 3.1 Pro** (April 2026)
+
+
+| Model | Text Similarity | Text Failed | PDF Similarity | PDF Failed | Name Similarity | Name Failed |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: |
+| gemini-3.1-pro | 0.872 | 0 | 0.884 | 0 | 0.865 | 0 |
+| claude-opus-4.6 | 0.904 | 3 | 0.828 | 0 | 0.985 | 7 |
+| gpt-5.4 | 0.732 | 0 | 0.720 | 0 | 0.760 | 0 |
+| gemini-3.1-flash-lite | 0.670 | 0 | 0.773 | 0 | 0.784 | 0 |
+| grok-4.1-fast-reasoning | 0.891 | 5 | — | 13 | 0.785 | 1 |
+| claude-sonnet-4.6 | 0.817 | 4 | — | 0 | — | 0 |
+| kimi-k2.5 | 0.969 | 10 | — | 0 | — | 0 |
+| gpt-5.4-mini | 0.583 | 0 | — | 0 | — | 0 |
+
+**Takeaway.** Benchmark performance depends strongly on both assay identity
+and prompting mode. Reaching the zero-edit-distance accuracy that downstream
+QC automation needs will require dedicated agent fine-tuning and
+specialized training data, not just improvements in general-purpose LLMs.
+
+## Repository layout
+
+```
+protocols/           Curated ground-truth JSON, one file per assay
+protocol_sources/    Downloaded source PDFs
+protocol_texts/      Text extracted from PDFs (for text-mode benchmarking)
+parsing_scripts/     CLI tools: download, OCR, PDF→text, benchmark runner
+models.example.json  Starter model configuration
+```
+
+Each `protocols/*.json` can reference both a remote source and a local PDF:
 
 ```json
 {
@@ -13,56 +77,12 @@ Protocol references can separate the remote source URL from the local cached PDF
 }
 ```
 
-## Usage
+## Setup
 
-Run the downloader against the default `protocols/` directory:
+First set up [cDNA](https://github.com/seqmachines/cdna) and get it running at http://localhost:3000. For now you'll need to use your own API keys for LLMs, configure them in the `.env.local` file.
 
-```bash
-python3 download_protocol_pdfs.py
-```
 
-Files are written to `protocol_sources/`.
-
-Useful flags:
-
-```bash
-python3 download_protocol_pdfs.py --overwrite
-python3 download_protocol_pdfs.py --protocol-dir protocols --output-dir protocol_sources
-```
-
-Run OCR over local PDFs with docTR:
-
-```bash
-python3 run_ocr.py
-python3 run_ocr.py --file protocol_sources/petri-seq.pdf --overwrite
-```
-
-Install the Python dependencies:
-
-```bash
-uv pip install --python ../.venv/bin/python "python-doctr[torch]" pypdfium2 torchvision
-```
-
-On Apple Silicon, use Metal via PyTorch MPS:
-
-```bash
-PYTORCH_ENABLE_MPS_FALLBACK=1 ../.venv/bin/python run_ocr.py --device mps
-```
-
-## Benchmarking cDNA extraction
-
-`parsing_scripts/benchmark_protocol_parsing.py` benchmarks the cDNA `/api/benchmark`
-endpoint against the curated protocol JSON files in `protocols/`.
-
-The runner uses the protocol PDF by default, sends each protocol to the configured
-benchmark API for every model in `models.json`, then scores:
-
-- full `library_sequence` reconstruction
-- ordered segment recovery
-- region-stratified performance for `known`, `barcode`, `umi`, `index`,
-  `ligation`, `rt_barcode`, `tn5_barcode`, `linker`, and `capture`
-
-Example `models.json`:
+Configure models in `models.json` (start from `models.example.json`):
 
 ```json
 {
@@ -76,48 +96,16 @@ Example `models.json`:
 }
 ```
 
-You can start from `models.example.json`.
-
-Run the benchmark from `librarystructdb/`:
+Run across all curated protocols:
 
 ```bash
-../.venv/bin/python parsing_scripts/benchmark_protocol_parsing.py \
+python parsing_scripts/benchmark_protocol_parsing.py \
   --models models.example.json
 ```
 
-Useful flags:
 
-```bash
-../.venv/bin/python parsing_scripts/benchmark_protocol_parsing.py \
-  --models models.example.json \
-  --protocol 10x-chromium-3prime-v3 \
-  --protocol split-seq
+## Acknowledgements
 
-../.venv/bin/python parsing_scripts/benchmark_protocol_parsing.py \
-  --models models.example.json \
-  --input-mode auto \
-  --limit 5 \
-  --include-raw
-```
-
-Outputs are written to `benchmark_results/`:
-
-- `benchmark-<timestamp>.json`: full run payload, predictions, and summaries
-- `benchmark-runs-<timestamp>.csv`: one row per model x protocol run
-- `benchmark-regions-<timestamp>.csv`: one row per ground-truth segment comparison
-
-`--input-mode pdf` is the default and is the mode to use when you want to measure
-LLM reconstruction directly from protocol PDFs. `auto` falls back to OCR/text/URL
-only when needed.
-
-## Notes
-
-- Files without a `protocol_link` URL are skipped.
-- Non-protocol JSON files in `protocols/` are ignored.
-- `protocol_link` stores the remote source URL.
-- `protocol_pdf` stores the local PDF path when a PDF has already been downloaded or curated.
-- Legacy records that still store a URL in `protocol_pdf` remain supported by the downloader.
-- The downloader infers the output file extension from the response and leaves no partial file behind on failure.
-- `run_ocr.py` now uses docTR instead of DeepSeek-OCR because docTR documents Apple Silicon MPS support and works directly with PDFs.
-- The script reads PDFs with `DocumentFile.from_pdf(...)` and writes plain text using `result.render()`.
-- `PYTORCH_ENABLE_MPS_FALLBACK=1` is still recommended on Apple Silicon in case individual ops fall back to CPU.
+Ground-truth library structures are derived from the
+[scg_lib_structs](https://teichlab.github.io/scg_lib_structs/) reference
+collection.
