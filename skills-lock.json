@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "create-task": {
+      "source": "harbor-framework/harbor",
+      "sourceType": "github",
+      "skillPath": "skills/create-task/SKILL.md",
+      "computedHash": "0264afb0150693fd665b9c249f85b2ec159c11b844b740de6d2ea856101dd30f"
+    }
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/oligo_extraction_prediction.v1.schema.json",
+  "title": "libstruct oligo extraction prediction v1",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["schema_version", "protocol_id", "oligos"],
+  "properties": {
+    "schema_version": {
+      "const": "libstruct.oligo_extraction.v1"
+    },
+    "protocol_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "oligos": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": ["name", "sequence"],
+        "properties": {
+          "oligo_id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sequence": {
+            "type": "string",
+            "minLength": 1
+          },
+          "direction": {
+            "type": "string",
+            "default": "unknown"
+          }
+        }
+      }
+    }
+  }
+}
