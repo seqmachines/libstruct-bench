@@ -16,8 +16,8 @@ class GenerateHarborTasksTests(unittest.TestCase):
                 json.dumps(
                     {
                         "schema_version": "libstruct.oligo_extraction.protocols.v1",
-                        "input_repo": "seqmachines/scg-protocols-v1",
-                        "groundtruth_repo": "seqmachines/scg-oligo-groundtruth-v1",
+                        "input_repo": "sequencing/scg-protocols-v1",
+                        "groundtruth_repo": "sequencing/scg-oligo-groundtruth-v1",
                         "input_revision": "abc123",
                         "groundtruth_revision": "def456",
                         "protocols": [
@@ -50,7 +50,7 @@ class GenerateHarborTasksTests(unittest.TestCase):
 
             self.assertIn("input/paper.pdf", instruction)
             self.assertIn("input/supp.xlsx", instruction)
-            self.assertIn("REPO_ID = 'seqmachines/scg-protocols-v1'", fetch_input)
+            self.assertIn("REPO_ID = 'sequencing/scg-protocols-v1'", fetch_input)
             self.assertIn("example_protocol/paper.pdf", fetch_input)
             self.assertIn("example_protocol/supp.xlsx", fetch_input)
             self.assertIn('input_revision = "abc123"', task_toml)
@@ -58,7 +58,7 @@ class GenerateHarborTasksTests(unittest.TestCase):
             self.assertIn('network_mode = "public"', task_toml)
             self.assertNotIn("allowed_hosts", task_toml)
             self.assertNotIn("*.huggingface.co", task_toml)
-            self.assertIn('--groundtruth-repo "seqmachines/scg-oligo-groundtruth-v1"', test_sh)
+            self.assertIn('--groundtruth-repo "sequencing/scg-oligo-groundtruth-v1"', test_sh)
             self.assertNotIn("LIBSTRUCT_HF_INPUT_REPO", task_toml)
             self.assertNotIn("LIBSTRUCT_HF_GROUNDTRUTH_REPO", task_toml)
             self.assertTrue((task_dir / "tests" / "libstruct_bench" / "grader.py").exists())
@@ -72,8 +72,8 @@ class GenerateHarborTasksTests(unittest.TestCase):
                 json.dumps(
                     {
                         "schema_version": "libstruct.oligo_extraction.protocols.v1",
-                        "input_repo": "seqmachines/scg-protocols-v1",
-                        "groundtruth_repo": "seqmachines/scg-oligo-groundtruth-v1",
+                        "input_repo": "sequencing/scg-protocols-v1",
+                        "groundtruth_repo": "sequencing/scg-oligo-groundtruth-v1",
                         "input_revision": "main",
                         "groundtruth_revision": "main",
                         "protocols": [

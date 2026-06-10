@@ -84,8 +84,8 @@ The v1 Harbor manifest is `benchmarks/oligo_extraction_v1/protocols.json`.
 It defines the 20-protocol benchmark set, pins both Hugging Face dataset
 revisions by commit SHA, and lists every raw file exposed to each protocol task.
 
-- Raw inputs: `seqmachines/scg-protocols-v1`, public, agent-visible.
-- Ground truth: `seqmachines/scg-oligo-groundtruth-v1`, verifier-only.
+- Raw inputs: `sequencing/scg-protocols-v1`, public, agent-visible.
+- Ground truth: `sequencing/scg-oligo-groundtruth-v1`, verifier-only.
 - Generated tasks live under `benchmarks/oligo_extraction_v1/tasks/<protocol_id>/`.
 - `benchmarks/oligo_extraction_v1/dataset.toml` pins the generated task digests
   for Harbor publish/registry workflows.

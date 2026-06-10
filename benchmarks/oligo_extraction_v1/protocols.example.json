@@ -1,8 +1,8 @@
 {
   "schema_version": "libstruct.oligo_extraction.protocols.v1",
   "description": "Example protocol manifest. Copy to protocols.json and replace repos, revisions, and paths with the final Hugging Face snapshot layout.",
-  "input_repo": "seqmachines/scg-protocols-v1",
-  "groundtruth_repo": "seqmachines/scg-oligo-groundtruth-v1",
+  "input_repo": "sequencing/scg-protocols-v1",
+  "groundtruth_repo": "sequencing/scg-oligo-groundtruth-v1",
   "input_revision": "main",
   "groundtruth_revision": "main",
   "protocols": [

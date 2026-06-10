@@ -9,9 +9,9 @@ inputs from verifier-only ground truth.
 At Harbor run time:
 
 - Raw protocol inputs are loaded from the public Hugging Face dataset
-  `seqmachines/scg-protocols-v1`.
+  `sequencing/scg-protocols-v1`.
 - Ground-truth oligo snapshots are loaded by the separate verifier from
-  `seqmachines/scg-oligo-groundtruth-v1`.
+  `sequencing/scg-oligo-groundtruth-v1`.
 - `HF_TOKEN` is passed only to the verifier environment for private
   ground-truth access.
 - Generated tasks use `network_mode = "public"` for local Docker compatibility;

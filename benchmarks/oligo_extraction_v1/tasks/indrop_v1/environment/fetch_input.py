@@ -5,9 +5,9 @@ import urllib.request
 from pathlib import Path
 
 PROTOCOL_ID = 'indrop_v1'
-REPO_ID = 'seqmachines/scg-protocols-v1'
+REPO_ID = 'sequencing/scg-protocols-v1'
 INPUT_PATHS = ['indrop_v1/inDrop_paper.pdf', 'indrop_v1/inDrop_v1_supp.pdf']
-REVISION = '6eb000e1e438104ecbda2124a5513a185fefd7e6'
+REVISION = '59f49763dc258db15d754ba6504b5cacd3404e94'
 
 
 def main() -> int:

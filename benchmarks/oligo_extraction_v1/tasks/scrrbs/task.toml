@@ -2,7 +2,7 @@ schema_version = "1.3"
 artifacts = ["/logs/artifacts/prediction.json"]
 
 [task]
-name = "seqmachines/oligo-extraction-scrrbs"
+name = "sequencing/oligo-extraction-scrrbs"
 description = "Extract oligo names and sequences for scRRBS."
 authors = [{ name = "Seq Machines" }]
 keywords = ["genomics", "oligo", "extraction", "benchmark"]
@@ -11,9 +11,9 @@ keywords = ["genomics", "oligo", "extraction", "benchmark"]
 benchmark = "oligo_extraction_v1"
 protocol_id = "scrrbs"
 protocol_name = "scRRBS"
-input_repo = "seqmachines/scg-protocols-v1"
-groundtruth_repo = "seqmachines/scg-oligo-groundtruth-v1"
-input_revision = "6eb000e1e438104ecbda2124a5513a185fefd7e6"
+input_repo = "sequencing/scg-protocols-v1"
+groundtruth_repo = "sequencing/scg-oligo-groundtruth-v1"
+input_revision = "59f49763dc258db15d754ba6504b5cacd3404e94"
 groundtruth_revision = "d6afef738330f35e40e10fde68fad850a7ccc8fd"
 
 [agent]

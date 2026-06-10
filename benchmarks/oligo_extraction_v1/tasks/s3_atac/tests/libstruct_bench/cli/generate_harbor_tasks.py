@@ -204,7 +204,7 @@ def _task_toml(
 artifacts = ["/logs/artifacts/prediction.json"]
 
 [task]
-name = "seqmachines/oligo-extraction-{protocol_id}"
+name = "sequencing/oligo-extraction-{protocol_id}"
 description = {json.dumps(f"Extract oligo names and sequences for {display_name}.")}
 authors = [{{ name = "Seq Machines" }}]
 keywords = ["genomics", "oligo", "extraction", "benchmark"]

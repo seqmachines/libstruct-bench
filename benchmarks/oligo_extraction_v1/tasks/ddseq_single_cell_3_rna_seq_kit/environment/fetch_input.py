@@ -5,9 +5,9 @@ import urllib.request
 from pathlib import Path
 
 PROTOCOL_ID = 'ddseq_single_cell_3_rna_seq_kit'
-REPO_ID = 'seqmachines/scg-protocols-v1'
+REPO_ID = 'sequencing/scg-protocols-v1'
 INPUT_PATHS = ['ddseq_single_cell_3_rna_seq_kit/ddSEQ_3pRNA.pdf']
-REVISION = '6eb000e1e438104ecbda2124a5513a185fefd7e6'
+REVISION = '59f49763dc258db15d754ba6504b5cacd3404e94'
 
 
 def main() -> int:
