@@ -1,3 +1,33 @@
 __pycache__/
 .venv/
 .DS_Store
+.agents/
+
+# Harbor run outputs
+jobs/
+
+# Local secrets and credentials
+.env
+.env.*
+!.env.example
+*.token
+auth.json
+
+# Python caches and test artifacts
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+build/
+dist/
+*.egg-info/
+
+# Logs and temporary files
+*.log
+*.tmp
+
+# Keep private benchmark answers out of GitHub.
+groundtruth/
+ground_truth/
+**/groundtruth_oligos.json
+**/ground_truth_oligos.json
