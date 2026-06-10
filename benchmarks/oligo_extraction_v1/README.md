@@ -8,15 +8,17 @@ inputs from verifier-only ground truth.
 
 At Harbor run time:
 
-- `LIBSTRUCT_HF_INPUT_REPO` points to the Hugging Face dataset containing raw
-  protocol inputs visible to the agent.
-- `LIBSTRUCT_HF_GROUNDTRUTH_REPO` points to the Hugging Face dataset containing
-  ground-truth oligo snapshots visible only to the separate verifier.
-- `HF_TOKEN` is passed only to the verifier environment for private ground-truth
-  access.
+- Raw protocol inputs are loaded from the public Hugging Face dataset
+  `seqmachines/scg-protocols-v1`.
+- Ground-truth oligo snapshots are loaded by the separate verifier from
+  `seqmachines/scg-oligo-groundtruth-v1`.
+- `HF_TOKEN` is passed only to the verifier environment for private
+  ground-truth access.
+- Generated tasks use `network_mode = "public"` for local Docker compatibility;
+  Docker isolation does not enforce Harbor host allowlists.
 
-Protocol entries are defined in `protocols.json`. Until the HF repos are final,
-copy `protocols.example.json` to `protocols.json` and adjust paths/revisions.
+Protocol entries are defined in `protocols.json`. The manifest pins both HF
+repos by commit SHA and lists every raw input file exposed to each task.
 
 ## Generate Tasks
 
@@ -34,6 +36,8 @@ this repository over the network.
 ## Run With Harbor
 
 ```bash
+export HF_TOKEN="<token-with-groundtruth-read-access>"
+
 harbor run \
   -p benchmarks/oligo_extraction_v1/tasks \
   -a codex \
@@ -42,3 +46,9 @@ harbor run \
 
 The agent must write `/logs/artifacts/prediction.json`; the verifier writes
 `/logs/verifier/reward.json` and `/logs/verifier/matches.json`.
+
+For a single protocol, add `--include-task-name '*drop_seq'` or point `-p` at
+`benchmarks/oligo_extraction_v1/tasks/drop_seq`.
+
+`dataset.toml` pins task digests for Harbor publish/registry workflows. Local
+benchmark runs use the generated task directories under `tasks/`.

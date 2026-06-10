@@ -29,6 +29,38 @@ class SequenceNormalizationTests(unittest.TestCase):
             "[10-bp i7]": "[I7_INDEX:10]",
             "[10-bp i7 index]": "[I7_INDEX:10]",
             "[8-bp i7 index]": "[I7_INDEX:8]",
+            "[10-bp N5 barcode]": "[I5_INDEX:10]",
+            "[10-bp N7 barcode]": "[I7_INDEX:10]",
+        }
+        for raw, normalized in cases.items():
+            with self.subTest(raw=raw):
+                self.assertEqual(normalize_sequence(raw), normalized)
+
+    def test_general_barcode_placeholders(self):
+        cases = {
+            "[3-bp BC#01]": "[BARCODE:3]",
+            "[7-bp BC#04]": "[BARCODE:7]",
+            "[4-bp CB1]": "[BARCODE:4]",
+            "[8-bp barcode2]": "[BARCODE:8]",
+            "[8-bp Round1 barcode]": "[BARCODE:8]",
+            "[10-bp RT barcode]": "[BARCODE:10]",
+            "[9-bp plate barcode]": "[BARCODE:9]",
+            "[5-bp well barcode]": "[BARCODE:5]",
+            "[8-bp subarray barcode]": "[BARCODE:8]",
+            "[10-bp HY barcode]": "[BARCODE:10]",
+        }
+        for raw, normalized in cases.items():
+            with self.subTest(raw=raw):
+                self.assertEqual(normalize_sequence(raw), normalized)
+
+    def test_specialized_barcode_placeholders(self):
+        cases = {
+            "[8-bp Tn5 index]": "[TN5_INDEX:8]",
+            "[6-bp Tn5 barcode]": "[TN5_INDEX:6]",
+            "[5-bp Tn5 index A]": "[TN5_INDEX:5]",
+            "[15-bp FB]": "[FEATURE_BARCODE:15]",
+            "[15-bp antibody barcodes]": "[FEATURE_BARCODE:15]",
+            "[6-bp RPI]": "[SAMPLE_INDEX:6]",
         }
         for raw, normalized in cases.items():
             with self.subTest(raw=raw):
@@ -45,6 +77,8 @@ class SequenceNormalizationTests(unittest.TestCase):
         self.assertEqual(normalize_sequence("UUUUUUUU"), "[UMI:8]")
         self.assertEqual(normalize_sequence("UUU"), "UUU")
         self.assertEqual(normalize_sequence("IIIIII"), "[SAMPLE_INDEX:6]")
+        self.assertEqual(normalize_sequence("BAAAAAAAAAAAAAAAAAAA"), "BAAAAAAAAAAAAAAAAAAA")
+        self.assertEqual(normalize_sequence("III"), "III")
 
     def test_preserves_modifications_and_rna_markers(self):
         sequence = "/5Phos/ACGTrGrGrG/3SpC3/"
@@ -62,6 +96,7 @@ class SequenceNormalizationTests(unittest.TestCase):
     def test_placeholder_tokens_expand_by_length(self):
         tokens = sequence_tokens("[CELL_BARCODE:4]AC[UMI:4]")
         self.assertEqual(tokens, ["<CELL_BARCODE>"] * 4 + ["A", "C"] + ["<UMI>"] * 4)
+        self.assertEqual(sequence_tokens("[I5_INDEX:2]"), ["<I5_INDEX>", "<I5_INDEX>"])
 
 
 if __name__ == "__main__":

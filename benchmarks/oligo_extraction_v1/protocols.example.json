@@ -1,30 +1,39 @@
 {
   "schema_version": "libstruct.oligo_extraction.protocols.v1",
-  "description": "Example protocol manifest. Copy to protocols.json and replace paths with the final Hugging Face snapshot layout.",
+  "description": "Example protocol manifest. Copy to protocols.json and replace repos, revisions, and paths with the final Hugging Face snapshot layout.",
+  "input_repo": "seqmachines/scg-protocols-v1",
+  "groundtruth_repo": "seqmachines/scg-oligo-groundtruth-v1",
+  "input_revision": "main",
+  "groundtruth_revision": "main",
   "protocols": [
     {
-      "protocol_id": "10x_chromium_3_gene_expression_v3",
-      "display_name": "10x Chromium 3' Gene Expression v3",
-      "input_kind": "PDF protocol",
-      "input_path": "protocols/10x_chromium_3_gene_expression_v3/10xChromium3v3.pdf",
-      "groundtruth_path": "groundtruth/10x_chromium_3_gene_expression_v3/groundtruth_oligos.json",
-      "revision": "main"
+      "protocol_id": "10x_chromium_3_gene_expression_v4",
+      "display_name": "10x Chromium 3' Gene Expression v4",
+      "input_kind": "raw protocol",
+      "input_paths": [
+        "10x_chromium_3_gene_expression_v4/10xChromium3v4.pdf"
+      ],
+      "groundtruth_path": "10x_chromium_3_gene_expression_v4/groundtruth_oligos.json"
     },
     {
       "protocol_id": "cel_seq",
       "display_name": "CEL-seq",
-      "input_kind": "PDF protocol",
-      "input_path": "protocols/cel_seq/protocol.pdf",
-      "groundtruth_path": "groundtruth/cel_seq/groundtruth_oligos.json",
-      "revision": "main"
+      "input_kind": "raw protocol",
+      "input_paths": [
+        "cel_seq/CEL-Seq_paper.pdf",
+        "cel_seq/CEL-Seq_protocol.pdf"
+      ],
+      "groundtruth_path": "cel_seq/groundtruth_oligos.json"
     },
     {
       "protocol_id": "s3_atac",
       "display_name": "s3-ATAC",
-      "input_kind": "PDF protocol",
-      "input_path": "protocols/s3_atac/s3-ATAC.pdf",
-      "groundtruth_path": "groundtruth/s3_atac/groundtruth_oligos.json",
-      "revision": "main"
+      "input_kind": "raw protocol",
+      "input_paths": [
+        "s3_atac/s3-ATAC.pdf",
+        "s3_atac/s3-ATAC.xlsx"
+      ],
+      "groundtruth_path": "s3_atac/groundtruth_oligos.json"
     }
   ]
 }
