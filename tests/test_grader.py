@@ -97,6 +97,82 @@ class GraderTests(unittest.TestCase):
         self.assertEqual(good_names["reward"], bad_names["reward"])
         self.assertGreater(good_names["name_similarity_mean"], bad_names["name_similarity_mean"])
 
+    def test_ground_truth_double_stranded_components_are_matchable(self):
+        ground_truth = {
+            "protocol_id": "example_protocol",
+            "oligos": [
+                {
+                    "name": "Double-stranded adapter",
+                    "sequence": None,
+                    "kind": "double_stranded",
+                    "components": [
+                        {
+                            "name": "Double-stranded adapter forward",
+                            "sequence": "ACGTACGT",
+                            "role": "forward_strand",
+                        },
+                        {
+                            "name": "Double-stranded adapter reverse",
+                            "sequence": "TGCATGCA",
+                            "role": "reverse_strand",
+                        },
+                    ],
+                }
+            ],
+        }
+        metrics, audit = grade_prediction(
+            prediction(
+                [
+                    {"name": "Double-stranded adapter forward", "sequence": "ACGTACGT"},
+                    {"name": "Double-stranded adapter reverse", "sequence": "TGCATGCA", "direction": "3_to_5"},
+                ]
+            ),
+            ground_truth,
+            expected_protocol_id="example_protocol",
+        )
+        self.assertEqual(metrics["sequence_f1"], 1.0)
+        self.assertEqual(metrics["ground_truth_count"], 2.0)
+        self.assertEqual(metrics["predicted_count"], 2.0)
+        self.assertEqual(len(audit["matches"]), 2)
+
+    def test_prediction_double_stranded_components_are_matchable(self):
+        ground_truth = {
+            "protocol_id": "example_protocol",
+            "oligos": [
+                {"name": "Double-stranded adapter forward", "sequence": "ACGTACGT"},
+                {"name": "Double-stranded adapter reverse", "sequence": "TGCATGCA"},
+            ],
+        }
+        metrics, audit = grade_prediction(
+            prediction(
+                [
+                    {
+                        "name": "Double-stranded adapter",
+                        "sequence": None,
+                        "kind": "double_stranded",
+                        "components": [
+                            {
+                                "name": "forward strand",
+                                "sequence": "ACGTACGT",
+                                "role": "forward_strand",
+                            },
+                            {
+                                "name": "reverse strand",
+                                "sequence": "TGCATGCA",
+                                "role": "reverse_strand",
+                            },
+                        ],
+                    }
+                ]
+            ),
+            ground_truth,
+            expected_protocol_id="example_protocol",
+        )
+        self.assertEqual(metrics["sequence_f1"], 1.0)
+        self.assertEqual(metrics["ground_truth_count"], 2.0)
+        self.assertEqual(metrics["predicted_count"], 2.0)
+        self.assertEqual(len(audit["matches"]), 2)
+
     def test_schema_validation_requires_version(self):
         with self.assertRaises(PredictionValidationError):
             parse_prediction_document({"protocol_id": "example_protocol", "oligos": []})

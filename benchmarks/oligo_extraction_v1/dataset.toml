@@ -12,81 +12,81 @@ name = "Seq Machines"
 
 [[tasks]]
 name = "sequencing/oligo-extraction-10x_chromium_3_feature_barcoding"
-digest = "sha256:f831f9291c6e6016b55817a900fd7db2634cc09a4e16e0e7260bedad25ce4188"
+digest = "sha256:b4c3b6d9c1ca1eb45247cb9e983f57764c90559334dc584b408fb20d45a29edb"
 
 [[tasks]]
 name = "sequencing/oligo-extraction-10x_chromium_3_gene_expression_v4"
-digest = "sha256:9de5dce4d906a9a49e10b6a5e2e7e90c02f384147edf8993eacab0c2efc504ee"
+digest = "sha256:1af28f16d7831f38fae8606090169f838d54b3f4b4621006a3e962d8b03d2c65"
 
 [[tasks]]
 name = "sequencing/oligo-extraction-10x_chromium_single_cell_atac_v2"
-digest = "sha256:0ccb672c3ee10b5768d7a697a6fe298a20a466cdbb024ceab2d37dea34032912"
+digest = "sha256:7976871b471d3cf3c4d35bde9ce3ad020563087030f33cf2c08137127f1da1d8"
 
 [[tasks]]
 name = "sequencing/oligo-extraction-cel_seq"
-digest = "sha256:449dbe26b5ce91fb26ad156754752eb209645765e38781bbfd8edf48363b1f33"
+digest = "sha256:49e0d5f5d287f85b68e48f5dd3590ab2263671d2e9b1bec015c3e51008448d56"
 
 [[tasks]]
 name = "sequencing/oligo-extraction-ddseq_single_cell_3_rna_seq_kit"
-digest = "sha256:31e06facb505786ef60e06f87d2c623337ed12e92ec9d0d1a661cec83754e410"
+digest = "sha256:7b5eea3e191a7baa417db67a49a23cd14b89120c6434a0880c9cc36a1b2be329"
 
 [[tasks]]
 name = "sequencing/oligo-extraction-dr_seq"
-digest = "sha256:65830e0da9e10225b153f02c595bdeba12900d22b9b1d0d0b34bdcb971b94e24"
+digest = "sha256:62e2fea01efa19604e2f1684bc6d52c50f579adf19b7f1d1dd4b2ce3a8cd5610"
 
 [[tasks]]
 name = "sequencing/oligo-extraction-drop_seq"
-digest = "sha256:11177edc7666d3ec598494621dfd2407276bb8ac86d85764a72867f831a9056e"
+digest = "sha256:2bac716c42d31152d3b34ad2afddfefdc94b93a91374cbc1f6047eccd1089feb"
 
 [[tasks]]
 name = "sequencing/oligo-extraction-indrop_v1"
-digest = "sha256:8e1fe0531abac749a04b05d86bc8574e2bd64341ad06f953c4d679dc2f1ed077"
+digest = "sha256:3479dd70ccf520a5d5cbb00dbe06647b783c46ec885d9f2a4047586e731a5c38"
 
 [[tasks]]
 name = "sequencing/oligo-extraction-microwell_seq"
-digest = "sha256:cc6ef96364c6411b48906ccc2ab0e745d3b1b2b0c500bce4c62539f66ab4ca37"
+digest = "sha256:62b0404a98e5f9eefa79ccca70bcda682c76d2fd9c7645ae6c845e5f25fc8db8"
 
 [[tasks]]
 name = "sequencing/oligo-extraction-petri_seq"
-digest = "sha256:0c9c1fe7ff48328d1ebadf5073e237a359903e5bbb31f8046ed21c1d85078827"
+digest = "sha256:95c67bf30520678a6f67aaf24a2278f509f72c367a2f30a3055f30fbd49eb1b1"
 
 [[tasks]]
 name = "sequencing/oligo-extraction-pip_seq_v4"
-digest = "sha256:83824092bab89ca3bee0371f337fcefc80b3e3cd3f4f1da3dd460fe7cf83daa1"
+digest = "sha256:148f4867da6c28c05fb899c43959c37bc38cbf5ef03720ca15bf05ee12dee374"
 
 [[tasks]]
 name = "sequencing/oligo-extraction-s3_atac"
-digest = "sha256:9b13ae73df1d079746b4b5960264aab639e2dddb248d864f79393565081dac5b"
+digest = "sha256:9d3b8024a07c8745d9f14ff881abe0c6f9b68584f3b873122bf3a344cdd7fdb5"
 
 [[tasks]]
 name = "sequencing/oligo-extraction-scdamid"
-digest = "sha256:7a9e6848858237fed424d95b9d7ef4d80e56faca1e4015a03ac8badd3677f9fe"
+digest = "sha256:90886a8cf8fc9ea71207d226867f60d6b8fec8e41dbc1bb686734904f94baee2"
 
 [[tasks]]
 name = "sequencing/oligo-extraction-sci_atac_seq"
-digest = "sha256:2686cd6dad224f4680a69ce86a38852cce653a1ee5dafc27eb0ebddf6829297d"
+digest = "sha256:5063cba2946d212dfd93651e25a4a06a07024e2b36daf68138718bc5e0ca8497"
 
 [[tasks]]
 name = "sequencing/oligo-extraction-sci_rna_seq"
-digest = "sha256:c0548cf90ef55c65ec19a7288297c1903ae11b0c430b18fa1598a1d76d6b3bbf"
+digest = "sha256:4a86d44d3f42cf212f4164cba5ba4f0dd661936d7ae5aa6adb3e7701eee5d1b3"
 
 [[tasks]]
 name = "sequencing/oligo-extraction-scrrbs"
-digest = "sha256:82d812c3e3e6edd30e80e519be7a01af3213c254c30d65c44192c977f60203e8"
+digest = "sha256:20eccb48e58f44cf34d6173f39e38bc0863e38c7eb3feb18877cb354a1cd6ea6"
 
 [[tasks]]
 name = "sequencing/oligo-extraction-seq_well_s3"
-digest = "sha256:3f68605b39dcfa5b0c6cca5dce04b8a9667d09af918de14f0cd6495c4c322374"
+digest = "sha256:554434efc5ff15fa5ab4fb0875e6c524bf413a2a02f1272b726794763a7a8f66"
 
 [[tasks]]
 name = "sequencing/oligo-extraction-share_seq"
-digest = "sha256:54b4b9867d640e54acb43938ff8cce70d21700027ebcce52d0b5c07b2e47c40b"
+digest = "sha256:f94ddbc20d3c4ff17ff480af97309d0f2e58e749ddbdd038e53c8a884dde15bf"
 
 [[tasks]]
 name = "sequencing/oligo-extraction-smart_seq"
-digest = "sha256:4593b5557fcb1ff96d5a4f94421c4a37ee49235e97d924872325c70bbea454a6"
+digest = "sha256:419c3483e0c218559d03cc25932feeafd77f02a2f5cd2c88189d6cb098b266b1"
 
 [[tasks]]
 name = "sequencing/oligo-extraction-split_seq"
-digest = "sha256:305f9c563c23090451578ca9f4971e248fb28b24b4d1efcc5f66a325081864d8"
+digest = "sha256:9ce68c3e15eb5ef78b776b0a2719b698029baf44f12d63d60250340f9a52a2a5"
 

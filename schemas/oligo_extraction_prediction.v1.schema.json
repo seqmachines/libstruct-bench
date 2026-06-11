@@ -18,7 +18,24 @@
       "items": {
         "type": "object",
         "additionalProperties": true,
-        "required": ["name", "sequence"],
+        "required": ["name"],
+        "anyOf": [
+          {
+            "required": ["sequence"],
+            "properties": {
+              "sequence": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          {
+            "required": ["components"]
+          },
+          {
+            "required": ["strands"]
+          }
+        ],
         "properties": {
           "oligo_id": {
             "type": "string"
@@ -28,13 +45,52 @@
             "minLength": 1
           },
           "sequence": {
-            "type": "string",
+            "type": ["string", "null"],
             "minLength": 1
+          },
+          "kind": {
+            "type": "string",
+            "enum": ["single", "assembled", "double_stranded", "hairpin", "unknown"]
           },
           "direction": {
             "type": "string",
             "default": "unknown"
+          },
+          "components": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/component"
+            }
+          },
+          "strands": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/component"
+            }
           }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "component": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["sequence"],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string"
+        },
+        "sequence": {
+          "type": "string",
+          "minLength": 1
+        },
+        "direction": {
+          "type": "string",
+          "default": "unknown"
         }
       }
     }

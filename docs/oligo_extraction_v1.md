@@ -16,13 +16,42 @@ Agents write `/logs/artifacts/prediction.json`:
       "name": "Beads-oligo-dT",
       "sequence": "CTACACGACGCTCTTCCGATCT[CELL_BARCODE:16][UMI:12]TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTVN",
       "direction": "5_to_3"
+    },
+    {
+      "name": "Double-stranded adapter",
+      "sequence": null,
+      "kind": "double_stranded",
+      "components": [
+        {
+          "name": "forward strand",
+          "role": "forward_strand",
+          "sequence": "ACGTACGT",
+          "direction": "5_to_3"
+        },
+        {
+          "name": "reverse strand",
+          "role": "reverse_strand",
+          "sequence": "TGCATGCA",
+          "direction": "3_to_5"
+        }
+      ]
     }
   ]
 }
 ```
 
-`oligo_id` and extra fields are allowed but ignored by the v1 grader. The JSON
+Simple oligos should use `sequence`. Double-stranded adapters may either be
+reported as separate strand oligos or as one `kind: "double_stranded"` object
+with `components`/`strands`. The grader flattens component sequences only when
+the parent oligo has no concrete `sequence`, so assembled oligos with a full
+sequence are not double-counted.
+
+`oligo_id` and extra fields are allowed but ignored by the v1 reward. The JSON
 schema lives at `schemas/oligo_extraction_prediction.v1.schema.json`.
+
+Agents should preserve source-visible strand orientation (`5_to_3`, `3_to_5`,
+or `unknown`) and must not reverse-complement, complete, repair, or invent
+sequence strings.
 
 ## Sequence Normalization
 
@@ -64,12 +93,14 @@ Additional source-normalization carryovers:
 
 The grader:
 
-1. Normalizes every predicted and ground-truth sequence.
-2. Scores every predicted-vs-ground-truth pair with normalized edit similarity
+1. Expands component-only double-stranded oligos into one comparable sequence
+   per concrete component/strand.
+2. Normalizes every predicted and ground-truth sequence.
+3. Scores every predicted-vs-ground-truth pair with normalized edit similarity
    over sequence tokens.
-3. Expands canonical placeholders by length during token scoring.
-4. Selects the best one-to-one maximum-score assignment.
-5. Emits precision, recall, F1, exact match, and diagnostic name similarity.
+4. Expands canonical placeholders by length during token scoring.
+5. Selects the best one-to-one maximum-score assignment.
+6. Emits precision, recall, F1, exact match, and diagnostic name similarity.
 
 The Harbor reward is `sequence_f1`. Oligo IDs are ignored. Name similarity is
 computed on sequence-matched pairs and does not affect reward.
