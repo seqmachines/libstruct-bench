@@ -4,6 +4,35 @@ Benchmarking agentic systems on sequencing library structure extraction.
 
 This repository now starts with the narrow 1st task: extracting oligo names and sequences from protocol inputs.
 
+## v0 benchmark with LLMs and coding agents
+
+The new v0 baseline evaluates final-library reconstruction as one or more
+sequence strings. It reuses the 20 protocol inputs from the oligo benchmark but
+expects curated `groundtruth_final_lib_struct.json` files.
+
+- **v0.1:** raw protocol inputs + direct OpenRouter LLM calls.
+- **v0.2:** raw protocol inputs + Harbor coding agents.
+- **Task:** write `/logs/artifacts/prediction.json` with `protocol_id` and a
+  `libraries` array. Multimodal protocols use one entry per final library or
+  modality, for example separate RNA and ATAC entries.
+- **Source policy:** online search is strictly prohibited. v0.1 and v0.2 must
+  use only the attached/downloaded protocol input files, not web search,
+  `scg_lib_struct`, benchmark ground truth, prior answer keys, repository
+  copies, papers, supplements, or vendor pages.
+- **Agent PDF parsing:** generated Harbor tasks install PyMuPDF; agents should
+  use PyMuPDF (`import fitz`) or a stronger parser, not `pypdf` or `PyPDF2`.
+- **Reward:** strict normalized Levenshtein `sequence_similarity`, averaged
+  across ground-truth final-library entries. Missing libraries score zero.
+- **Diagnostics:** `matched_sequence_similarity`, `library_recall`,
+  `library_precision`, and `library_f1` separate sequence quality from
+  modality/library detection.
+- **Placeholder policy:** structured oligos and memory can use `[ROLE:LENGTH]`;
+  v0 scoring uses non-biological expanded placeholder characters (`#`, `~`,
+  `@`, `&`, `=`, `%`, `$`, `?`) in the final string.
+
+The v0 scaffold lives in `benchmarks/library_structure_v0/`. Details are in
+`docs/library_structure_v0.md`.
+
 
 ## v1 benchmark with coding agents
 
@@ -14,6 +43,8 @@ This repository now starts with the narrow 1st task: extracting oligo names and 
   the ground-truth repo is verifier-only.
 - **Grading:** compare normalized oligo sequences without requiring exact
   `oligo_id` matches.
+- **Agent PDF parsing:** generated Harbor tasks install PyMuPDF; agents should
+  use PyMuPDF (`import fitz`) or a stronger parser.
 - **Reward:** sequence F1 from best one-to-one sequence matching.
 - **Diagnostics:** exact match and oligo-name similarity on matched pairs.
 
@@ -40,9 +71,11 @@ pair-level audit details to `/logs/verifier/matches.json`.
 
 
 
-## v0 benchmark with LLMs
+## Prior v0 LLM snapshot
 
-v0 evaluated full library-structure reconstruction through large language model APIs.
+The earlier v0 snapshot evaluated full library-structure reconstruction through
+large language model APIs on 13 curated `scg_lib_structs` targets. The current
+20-protocol v0 scaffold above supersedes this setup for new baseline runs.
 
 - **Ground truth:** 13 curated library structures from `scg_lib_structs`,
   generated with LLM-assisted parsing and validated against source protocols.

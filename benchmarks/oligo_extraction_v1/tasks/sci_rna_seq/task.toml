@@ -24,7 +24,6 @@ timeout_sec = 300.0
 environment_mode = "separate"
 
 [environment]
-docker_image = "python:3.12-slim"
 network_mode = "public"
 cpus = 1
 memory_mb = 2048

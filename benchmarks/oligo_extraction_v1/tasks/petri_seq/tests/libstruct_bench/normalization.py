@@ -4,6 +4,28 @@ import re
 
 CANONICAL_PLACEHOLDER_RE = re.compile(r"^\[([A-Z0-9_]+):(\d+)\]$")
 _BASES = set("ACGTUNV")
+_ROLE_ALIASES = {
+    "BARCODE": "CELL_BARCODE",
+    "CB": "CELL_BARCODE",
+    "GEM_BARCODE": "CELL_BARCODE",
+    "BEAD_BARCODE": "CELL_BARCODE",
+    "INDEX": "SAMPLE_INDEX",
+    "I5": "I5_INDEX",
+    "I7": "I7_INDEX",
+    "TN5": "TN5_INDEX",
+    "TN5_BARCODE": "TN5_INDEX",
+    "FEATURE": "FEATURE_BARCODE",
+    "FB": "FEATURE_BARCODE",
+    "CAPTURE": "FEATURE_BARCODE",
+    "CAPTURE_BARCODE": "FEATURE_BARCODE",
+    "ANTIBODY": "FEATURE_BARCODE",
+    "ANTIBODY_BARCODE": "FEATURE_BARCODE",
+    "PB": "PHASE_BLOCK",
+    "SPACER": "VARIABLE",
+    "LINKER": "VARIABLE",
+    "DEGENERATE": "VARIABLE",
+    "OVERHANG": "VARIABLE",
+}
 
 
 def normalize_sequence(sequence: str) -> str:
@@ -132,6 +154,15 @@ def _normalize_bracket_placeholder(inner: str) -> str:
     low = raw.lower().replace("–", "-").replace("—", "-")
     low = re.sub(r"\s+", " ", low).strip()
 
+    modification = _bracket_modification_tag(low)
+    if modification:
+        return modification
+
+    canonical = re.fullmatch(r"([a-z0-9_]+)\s*:\s*(\d+)", low, flags=re.IGNORECASE)
+    if canonical:
+        role, length = canonical.groups()
+        return f"[{_canonical_role(role)}:{int(length)}]"
+
     role_length = _placeholder_role_length(low)
     if role_length:
         role, length = role_length
@@ -140,24 +171,42 @@ def _normalize_bracket_placeholder(inner: str) -> str:
     return f"[{raw}]"
 
 
+def _bracket_modification_tag(text: str) -> str | None:
+    known = {
+        "ddc": "/ddC/",
+        "3ddc": "/3ddC/",
+        "ddu": "/ddU/",
+        "ideoxyu": "/ideoxyU/",
+    }
+    compact = re.sub(r"[\s_-]+", "", text).lower()
+    return known.get(compact)
+
+
 def _placeholder_role_length(text: str) -> tuple[str, int] | None:
+    variable_length = _variable_alternative_length(text)
+    if variable_length is not None:
+        return "VARIABLE", variable_length
+
     patterns: list[tuple[str, str]] = [
+        (r"0\s*-\s*(\d+)\s*-?\s*bp\s+(?:pb|phase\s+block)", "PHASE_BLOCK"),
+        (r"\d+\s*-?\s*bp\s+or\s+(\d+)\s*-?\s*bp\s+barcode(?:\s+[a-z])?", "CELL_BARCODE"),
+        (r"(\d+)\s*-?\s*bp\s+rt\s+barcode", "RT_BARCODE"),
         (
             r"(\d+)\s*-?\s*bp\s+(?:cell\s+barcode|10x\s+barcode|gem\s+barcode|bead\s+barcode)",
             "CELL_BARCODE",
         ),
         (
-            r"(\d+)\s*-?\s*bp\s+(?:barcode\d+|bc#?\d+|cb\d+|round\d+\s+barcode|rt\s+barcode|hy\s+barcode|plate\s+barcode|well\s+barcode|subarray\s+barcode)",
-            "BARCODE",
+            r"(\d+)\s*-?\s*bp\s+(?:barcode\d+|bc#?\d+|cb\d+|round\d+\s+barcode|hy\s+barcode|plate\s+barcode|well\s+barcode|subarray\s+barcode)",
+            "CELL_BARCODE",
         ),
-        (r"(\d+)\s*-?\s*bp\s+umi", "UMI"),
+        (r"(\d+)\s*-?\s*bp\s+umi\d*", "UMI"),
         (r"(\d+)\s*-?\s*bp\s+(?:sample\s+index|index|rpi)", "SAMPLE_INDEX"),
-        (r"(\d+)\s*-?\s*bp\s+i5(?:\s+index)?", "I5_INDEX"),
-        (r"(\d+)\s*-?\s*bp\s+i7(?:\s+index)?", "I7_INDEX"),
-        (r"(\d+)\s*-?\s*bp\s+n5\s+barcode", "I5_INDEX"),
-        (r"(\d+)\s*-?\s*bp\s+n7\s+barcode", "I7_INDEX"),
+        (r"(\d+)\s*-?\s*bp\s+i5(?:\s+(?:sample\s+)?index)?", "I5_INDEX"),
+        (r"(\d+)\s*-?\s*bp\s+i7(?:\s+(?:sample\s+)?index)?", "I7_INDEX"),
+        (r"(\d+)\s*-?\s*bp\s+n[57]\s+barcode", "TN5_INDEX"),
         (r"(\d+)\s*-?\s*bp\s+tn5\s+(?:index|barcode)(?:\s+[ab])?", "TN5_INDEX"),
         (r"(\d+)\s*-?\s*bp\s+(?:fb|feature\s+barcode|antibody\s+barcodes?)", "FEATURE_BARCODE"),
+        (r"(\d+)\s*-?\s*bp\s+(?:pb|phase\s+block)", "PHASE_BLOCK"),
     ]
     for pattern, role in patterns:
         match = re.fullmatch(pattern, text, flags=re.IGNORECASE)
@@ -182,6 +231,20 @@ def _placeholder_role_length(text: str) -> tuple[str, int] | None:
         if n_run:
             return "RANDOM", len(n_run.group(0))
 
+    return None
+
+
+def _canonical_role(role: str) -> str:
+    role_upper = role.upper()
+    return _ROLE_ALIASES.get(role_upper, role_upper)
+
+
+def _variable_alternative_length(text: str) -> int | None:
+    alternatives = [part for part in text.split("/") if part and part != "none"]
+    if len(alternatives) <= 1:
+        return None
+    if all(re.fullmatch(r"[acgtn]+", part, flags=re.IGNORECASE) for part in alternatives):
+        return max(len(part) for part in alternatives)
     return None
 
 
@@ -214,7 +277,7 @@ def _normalize_plain_segment(segment: str) -> str:
             normalized.append(char)
         i += 1
 
-    return _replace_benchmark_runs("".join(normalized))
+    return "".join(normalized)
 
 
 def _expand_homopolymer_shorthand(text: str) -> str:
@@ -223,15 +286,3 @@ def _expand_homopolymer_shorthand(text: str) -> str:
 
     text = re.sub(r"\(([ATat])\)(\d+)", parenthesized, text)
     return re.sub(r"([ATat])(\d{2,})", parenthesized, text)
-
-
-def _replace_benchmark_runs(text: str) -> str:
-    def replace(match: re.Match[str]) -> str:
-        run = match.group(0)
-        if run[0] == "B":
-            return f"[CELL_BARCODE:{len(run)}]"
-        if run[0] == "U":
-            return f"[UMI:{len(run)}]"
-        return f"[SAMPLE_INDEX:{len(run)}]"
-
-    return re.sub(r"B{4,}|U{4,}|I{4,}", replace, text)

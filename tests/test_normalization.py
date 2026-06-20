@@ -21,16 +21,22 @@ class SequenceNormalizationTests(unittest.TestCase):
             "[10-bp UMI]": "[UMI:10]",
             "[12-bp UMI]": "[UMI:12]",
             "[8-bp UMI]": "[UMI:8]",
+            "[3-bp UMI1]": "[UMI:3]",
+            "[3-bp UMI2]": "[UMI:3]",
             "[8-bp sample index]": "[SAMPLE_INDEX:8]",
             "[6-bp sample index]": "[SAMPLE_INDEX:6]",
             "[10-bp i5]": "[I5_INDEX:10]",
             "[10-bp i5 index]": "[I5_INDEX:10]",
             "[8-bp i5 index]": "[I5_INDEX:8]",
+            "[8-bp i5 sample index]": "[I5_INDEX:8]",
             "[10-bp i7]": "[I7_INDEX:10]",
             "[10-bp i7 index]": "[I7_INDEX:10]",
             "[8-bp i7 index]": "[I7_INDEX:8]",
-            "[10-bp N5 barcode]": "[I5_INDEX:10]",
-            "[10-bp N7 barcode]": "[I7_INDEX:10]",
+            "[6-bp i7 sample index]": "[I7_INDEX:6]",
+            "[10-bp N5 barcode]": "[TN5_INDEX:10]",
+            "[10-bp N7 barcode]": "[TN5_INDEX:10]",
+            "[I5:8]": "[I5_INDEX:8]",
+            "[I7:8]": "[I7_INDEX:8]",
         }
         for raw, normalized in cases.items():
             with self.subTest(raw=raw):
@@ -38,16 +44,17 @@ class SequenceNormalizationTests(unittest.TestCase):
 
     def test_general_barcode_placeholders(self):
         cases = {
-            "[3-bp BC#01]": "[BARCODE:3]",
-            "[7-bp BC#04]": "[BARCODE:7]",
-            "[4-bp CB1]": "[BARCODE:4]",
-            "[8-bp barcode2]": "[BARCODE:8]",
-            "[8-bp Round1 barcode]": "[BARCODE:8]",
-            "[10-bp RT barcode]": "[BARCODE:10]",
-            "[9-bp plate barcode]": "[BARCODE:9]",
-            "[5-bp well barcode]": "[BARCODE:5]",
-            "[8-bp subarray barcode]": "[BARCODE:8]",
-            "[10-bp HY barcode]": "[BARCODE:10]",
+            "[3-bp BC#01]": "[CELL_BARCODE:3]",
+            "[7-bp BC#04]": "[CELL_BARCODE:7]",
+            "[4-bp CB1]": "[CELL_BARCODE:4]",
+            "[8-bp barcode2]": "[CELL_BARCODE:8]",
+            "[8-bp Round1 barcode]": "[CELL_BARCODE:8]",
+            "[10-bp RT barcode]": "[RT_BARCODE:10]",
+            "[9-bp plate barcode]": "[CELL_BARCODE:9]",
+            "[5-bp well barcode]": "[CELL_BARCODE:5]",
+            "[8-bp subarray barcode]": "[CELL_BARCODE:8]",
+            "[10-bp HY barcode]": "[CELL_BARCODE:10]",
+            "[BARCODE:8]": "[CELL_BARCODE:8]",
         }
         for raw, normalized in cases.items():
             with self.subTest(raw=raw):
@@ -61,6 +68,9 @@ class SequenceNormalizationTests(unittest.TestCase):
             "[15-bp FB]": "[FEATURE_BARCODE:15]",
             "[15-bp antibody barcodes]": "[FEATURE_BARCODE:15]",
             "[6-bp RPI]": "[SAMPLE_INDEX:6]",
+            "[0-4 bp PB]": "[PHASE_BLOCK:4]",
+            "[None/T/GT/TGA]": "[VARIABLE:3]",
+            "[None/A/TA/GTA/NNNNNNNN]": "[VARIABLE:8]",
         }
         for raw, normalized in cases.items():
             with self.subTest(raw=raw):
@@ -72,11 +82,11 @@ class SequenceNormalizationTests(unittest.TestCase):
         self.assertEqual(normalize_sequence("ACGTNNNNNNNNN"), "ACGTNNNNNNNNN")
         self.assertEqual(normalize_sequence("[NNNNNNNNN randomer]"), "[RANDOM:9]")
 
-    def test_benchmark_run_conventions(self):
-        self.assertEqual(normalize_sequence("BBBBBBBBBBBBBBBB"), "[CELL_BARCODE:16]")
-        self.assertEqual(normalize_sequence("UUUUUUUU"), "[UMI:8]")
+    def test_letter_runs_are_preserved_as_sequence(self):
+        self.assertEqual(normalize_sequence("BBBBBBBBBBBBBBBB"), "BBBBBBBBBBBBBBBB")
+        self.assertEqual(normalize_sequence("UUUUUUUU"), "UUUUUUUU")
         self.assertEqual(normalize_sequence("UUU"), "UUU")
-        self.assertEqual(normalize_sequence("IIIIII"), "[SAMPLE_INDEX:6]")
+        self.assertEqual(normalize_sequence("IIIIII"), "IIIIII")
         self.assertEqual(normalize_sequence("BAAAAAAAAAAAAAAAAAAA"), "BAAAAAAAAAAAAAAAAAAA")
         self.assertEqual(normalize_sequence("III"), "III")
 
@@ -87,6 +97,7 @@ class SequenceNormalizationTests(unittest.TestCase):
         self.assertEqual(normalize_sequence("Bio-ACGT"), "/5Bio/ACGT")
         self.assertEqual(normalize_sequence("/5Phos/-ACGT"), "/5Phos/ACGT")
         self.assertEqual(normalize_sequence("A(dU)C+G*T"), "A(dU)C+G*T")
+        self.assertEqual(normalize_sequence("ACGT[ddC]"), "ACGT/ddC/")
 
     def test_expands_unambiguous_homopolymer_shorthand(self):
         self.assertEqual(normalize_sequence("(T)5"), "TTTTT")

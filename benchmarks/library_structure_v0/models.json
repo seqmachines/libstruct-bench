@@ -1,0 +1,13 @@
+{
+  "schema_version": "libstruct.library_structure.models.v0",
+  "openrouter_models": [
+    "openai/gpt-5.4",
+    "anthropic/claude-sonnet-4.6",
+    "google/gemini-3.1-pro-preview"
+  ],
+  "harbor_agents": [
+    "codex",
+    "claude-code",
+    "gemini-cli"
+  ]
+}

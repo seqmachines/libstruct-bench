@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "libstruct-bench"
 version = "0.1.0"
-description = "Harbor benchmark utilities for sequencing oligo extraction."
+description = "Harbor benchmark utilities for sequencing information extraction."
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = []
@@ -13,6 +13,9 @@ dependencies = []
 [project.scripts]
 libstruct-grade = "libstruct_bench.cli.grade:main"
 libstruct-generate-harbor-tasks = "libstruct_bench.cli.generate_harbor_tasks:main"
+libstruct-grade-library-v0 = "libstruct_bench.cli.grade_library_v0:main"
+libstruct-generate-library-v0-tasks = "libstruct_bench.cli.generate_library_v0_tasks:main"
+libstruct-run-openrouter-library-v0 = "libstruct_bench.cli.run_openrouter_library_v0:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

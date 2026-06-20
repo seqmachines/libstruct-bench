@@ -108,6 +108,7 @@ def _write_task(
         ),
         encoding="utf-8",
     )
+    (environment_dir / "Dockerfile").write_text(_environment_dockerfile(), encoding="utf-8")
     (tests_dir / "Dockerfile").write_text(_tests_dockerfile(), encoding="utf-8")
     (tests_dir / "test.sh").write_text(
         _test_sh(
@@ -204,13 +205,44 @@ Write the final answer to `/logs/artifacts/prediction.json` using exactly this s
 ```
 
 Use canonical placeholders in the form `[ROLE:LENGTH]`, for example
-`[CELL_BARCODE:16]`, `[BARCODE:8]`, `[UMI:10]`, `[SAMPLE_INDEX:8]`,
-`[I5_INDEX:10]`, `[I7_INDEX:10]`, `[TN5_INDEX:8]`,
-`[FEATURE_BARCODE:15]`, and `[RANDOM:9]`.
+`[CELL_BARCODE:16]`, `[UMI:10]`, `[SAMPLE_INDEX:8]`, `[I5_INDEX:10]`,
+`[I7_INDEX:10]`, `[RT_BARCODE:10]`, `[TN5_INDEX:8]`,
+`[FEATURE_BARCODE:15]`, `[PHASE_BLOCK:4]`, and `[RANDOM:9]`.
+
+Placeholder policy:
+- Use `CELL_BARCODE` for cell-identifying and combinatorial barcode segments,
+  including source terms such as cell/GEM/bead barcode, barcode1/barcode2,
+  Round barcode, BC# barcode, well barcode, plate barcode, and subarray barcode.
+- Use `UMI` for UMI/UMI1/UMI2.
+- Use `SAMPLE_INDEX`, `I5_INDEX`, or `I7_INDEX` for sample/library indexes.
+- Use `RT_BARCODE` for reverse-transcription barcodes.
+- Use `TN5_INDEX` for Tn5/tagmentation barcodes or indexes, including N5/N7
+  tagmentation barcodes.
+- Use `FEATURE_BARCODE` for feature, capture, and antibody barcodes.
+- Use `RANDOM`, `PHASE_BLOCK`, or `VARIABLE` for randomers, phase blocks,
+  degenerate alternatives, overhangs, and other non-biological variable bases.
+- If a source gives a range such as `[0-4 bp PB]`, use the maximum explicit
+  length, for example `[PHASE_BLOCK:4]`.
+- No-length biological payload markers such as `[CDNA]`, `[GDNA]`,
+  `[VDJ_INSERT]`, and `[SGRNA_SPACER]` are for final-library
+  `annotated_library_sequence` debug/display fields. Do not use them as
+  scored oligo placeholders, and do not convert biological payloads to
+  `[VARIABLE]` or `[RANDOM]`.
+- If a source shows unknown biological payload as `XXX...XXX`,
+  `...-V-D-J-...`, `[sgRNA-Spacer]`, or similar, preserve it only when it is
+  explicitly part of a named oligo; otherwise treat it as a final-library
+  payload outside this oligo extraction task.
+- Bare labels without length, such as `[i7]`, `[barcode1]`, or `[CLS1]`, are
+  not enough for scoring by themselves. Infer their length from the protocol
+  before emitting a canonical placeholder.
+- Do not use literal base letters or IUPAC ambiguity symbols such as `B`, `U`,
+  `I`, `R`, `T`, or `V` as placeholder runs. Use canonical brackets instead.
 
 Rules:
 - Extract only named oligos, primers, adapters, and adapter strands with
   explicit sequence evidence in the source.
+- For PDF parsing, use PyMuPDF (`import fitz`) or a stronger parser. Do not
+  use `pypdf` or `PyPDF2`.
 - For double-stranded adapters, preserve both source-visible strands. Either
   emit each strand as a separate oligo object or emit one object with
   `kind: "double_stranded"` and strand `components`.
@@ -257,7 +289,6 @@ timeout_sec = 300.0
 environment_mode = "separate"
 
 [environment]
-docker_image = "python:3.12-slim"
 network_mode = "public"
 cpus = 1
 memory_mb = 2048
@@ -313,6 +344,15 @@ def _dataset_url(repo_id: str, revision: str, path: str) -> str:
 if __name__ == "__main__":
     raise SystemExit(main())
 '''
+
+
+def _environment_dockerfile() -> str:
+    return """FROM python:3.12-slim
+WORKDIR /workspace
+RUN python -m pip install --no-cache-dir --upgrade pip \\
+    && python -m pip install --no-cache-dir pymupdf
+COPY fetch_input.py /workspace/fetch_input.py
+"""
 
 
 def _tests_dockerfile() -> str:

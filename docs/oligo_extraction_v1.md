@@ -53,32 +53,77 @@ Agents should preserve source-visible strand orientation (`5_to_3`, `3_to_5`,
 or `unknown`) and must not reverse-complement, complete, repair, or invent
 sequence strings.
 
-## Sequence Normalization
+## Placeholder Policy
 
-Canonical placeholders use `[ROLE:LENGTH]`.
+Use canonical `[ROLE:LENGTH]` placeholders in structured oligo extraction,
+memory files, graph memory, and debug/display fields. V0 final-library string
+scoring uses expanded non-biological placeholder characters instead (`#`, `~`,
+`@`, `&`, `=`, `%`, `$`, `?`); v1 oligo extraction keeps the canonical bracket
+form.
 
-Mapped placeholders:
+Canonical placeholder roles:
 
-- Cell barcode: `[16-bp cell barcode]`, `[16 bp cell barcode]`, `[16-bp 10x barcode]`, `[16-bp GEM barcode]`, `[16-bp bead barcode]` -> `[CELL_BARCODE:16]`
-- Generic barcode: `[8-bp barcode2]`, `[3-bp BC#01]`, `[8-bp Round1 barcode]`, `[10-bp RT barcode]`, `[9-bp plate barcode]`, `[5-bp well barcode]` -> `[BARCODE:8]`, `[BARCODE:3]`, etc.
-- UMI: `[10-bp UMI]`, `[12-bp UMI]`, `[8-bp UMI]` -> `[UMI:10]`, `[UMI:12]`, `[UMI:8]`
-- Sample index: `[8-bp sample index]`, `[6-bp sample index]` -> `[SAMPLE_INDEX:8]`, `[SAMPLE_INDEX:6]`
-- i5 index: `[10-bp i5]`, `[10-bp i5 index]`, `[8-bp i5 index]` -> `[I5_INDEX:10]`, `[I5_INDEX:10]`, `[I5_INDEX:8]`
-- i7 index: `[10-bp i7]`, `[10-bp i7 index]`, `[8-bp i7 index]` -> `[I7_INDEX:10]`, `[I7_INDEX:10]`, `[I7_INDEX:8]`
-- Tn5 barcode/index: `[8-bp Tn5 index]`, `[6-bp Tn5 barcode]` -> `[TN5_INDEX:8]`, `[TN5_INDEX:6]`
-- Feature barcode: `[15-bp FB]`, `[15-bp antibody barcodes]` -> `[FEATURE_BARCODE:15]`
-- Random: `[random 9-mer]`, `[9-bp randomer]` -> `[RANDOM:9]`
+- `CELL_BARCODE`: cell-identifying barcode and combinatorial cell barcode
+  segments.
+- `UMI`: unique molecular identifier.
+- `SAMPLE_INDEX`, `I5_INDEX`, `I7_INDEX`: sample/library indexes.
+- `LIGATION_BARCODE`: ligation barcode.
+- `RT_BARCODE`: reverse-transcription barcode.
+- `TN5_INDEX`: Tn5/tagmentation barcode or index, including N5/N7
+  tagmentation barcodes.
+- `FEATURE_BARCODE`: feature, capture, antibody, or other measured-target
+  barcode.
+- `RANDOM`, `PHASE_BLOCK`, `VARIABLE`: randomer, phase block, degenerate,
+  overhang, or other non-biological variable structural bases.
 
-Benchmark shorthand outside bracket and modification tokens:
+No-length biological payload markers such as `[CDNA]`, `[GDNA]`,
+`[VDJ_INSERT]`, and `[SGRNA_SPACER]` are final-library
+`annotated_library_sequence` debug/display annotations, not scored oligo
+placeholders. Do not convert unknown biological payloads such as `XXX...XXX`,
+`...-V-D-J-...`, or `[sgRNA-Spacer]` into `[VARIABLE]`, `[RANDOM]`, or `?`.
+For v1 oligo extraction, preserve such source-visible payload text only when it
+is explicitly part of a named oligo; otherwise final/product constructs remain
+out of scope.
 
-- `B` repeated `n` times -> `[CELL_BARCODE:n]`
-- `U` repeated `n >= 4` times -> `[UMI:n]`
-- `I` repeated `n` times -> `[SAMPLE_INDEX:n]`
+Terms observed in `groundtruth_oligos.tsv` map as follows:
 
-Plain `N` runs are not converted to random placeholders. Random placeholders
-are only normalized when bracketed or explicitly labeled as random/randomer.
-Slash modification tags, RNA base markers such as `rG`, and source-specific
-chemistry markers are preserved.
+- `CELL_BARCODE`: `cell barcode`, `GEM barcode`, `bead barcode`, `CB1`, `CB2`,
+  `CLS1`, `CLS2`, `CLS3`, `VB`, `barcode1`, `barcode2`, `barcode3`,
+  `barcode4`, `Round1 barcode`, `Round2 barcode`, `Round3 barcode`,
+  `BC#01`-`BC#04`, `HY barcode`, `subarray barcode`, `well barcode`,
+  `plate barcode`, and `reverse complement of barcode A` when used for cell or
+  combinatorial sample identity.
+- `UMI`: `UMI`, `UMI1`, and `UMI2`.
+- `SAMPLE_INDEX` / `I5_INDEX` / `I7_INDEX`: `sample index`, `index`, `i5`,
+  `i7`, `i5 index`, `i7 index`, `i5 sample index`, `i7 sample index`, and
+  `RPI`.
+- `RT_BARCODE`: `RT barcode`.
+- `TN5_INDEX`: `Tn5 index`, `Tn5 barcode`, `Tn5 index A`, `Tn5 index B`,
+  `N5 barcode`, and `N7 barcode` when they are tagmentation barcode segments.
+- `FEATURE_BARCODE`: `FB`, `feature barcode`, and `antibody barcodes`.
+- `RANDOM`, `PHASE_BLOCK`, or `VARIABLE`: `PB`, `phase block`,
+  `random 9-mer`, `None/T/GT/TGA`, `None/A/TA/GTA/NNNNNNNN`, and
+  source-visible uncertain overhang or structural variable bases.
+
+The v1 normalizer accepts legacy/source-style placeholders such as
+`[8-bp barcode2]`, `[BARCODE:8]`, `[12-bp UMI]`, `[10-bp RT barcode]`,
+`[0-4 bp PB]`, and `[None/T/GT/TGA]`, and rewrites them to canonical roles
+before scoring. If a source gives a range such as `[0-4 bp PB]`, use the
+maximum explicit length in the canonical placeholder (`[PHASE_BLOCK:4]`).
+
+Bare source placeholders without a length, such as `[i7]`, `[barcode1]`, or
+`[CLS1]`, are not enough for scoring by themselves. Infer their length from the
+protocol or surrounding table before writing a curated ground truth sequence.
+Agents should preserve them only when no length can be established from the
+source.
+
+Literal base letters and IUPAC ambiguity codes are preserved. `B`, `U`, `I`,
+`R`, `T`, and `V` are never interpreted as placeholders outside canonical
+brackets. Plain `N` runs are not converted to random placeholders. Random
+placeholders are only normalized when bracketed or explicitly labeled as
+random/randomer. Slash modification tags, bracketed chemistry markers such as
+`[ddC]`, RNA base markers such as `rG`, and source-specific chemistry markers
+are preserved as chemistry.
 
 Additional source-normalization carryovers:
 
@@ -126,3 +171,7 @@ revisions by commit SHA, and lists every raw file exposed to each protocol task.
 Each task downloads all listed raw files into `input/` via `python fetch_input.py`.
 The separate verifier downloads the matching `groundtruth_oligos.json` using
 `HF_TOKEN` and grades only `/logs/artifacts/prediction.json`.
+
+Generated Harbor agent images install PyMuPDF. Agents should parse PDFs with
+PyMuPDF (`import fitz`) or a stronger parser, and should not use `pypdf` or
+`PyPDF2`.

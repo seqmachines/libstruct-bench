@@ -1,0 +1,42 @@
+schema_version = "1.3"
+artifacts = ["/logs/artifacts/prediction.json"]
+
+[task]
+name = "sequencing/library-structure-v0-sci_atac_seq"
+description = "Extract the final library structure sequence for sci-ATAC-seq."
+authors = [{ name = "Seq Machines" }]
+keywords = ["genomics", "library-structure", "sequence-similarity", "benchmark"]
+
+[metadata]
+benchmark = "library_structure_v0"
+protocol_id = "sci_atac_seq"
+protocol_name = "sci-ATAC-seq"
+input_repo = "sequencing/scg-protocols-v1"
+groundtruth_repo = "sequencing/scg-oligo-groundtruth-v1"
+input_revision = "59f49763dc258db15d754ba6504b5cacd3404e94"
+groundtruth_revision = "main"
+
+[agent]
+timeout_sec = 1800.0
+
+[agent.env]
+CODEX_FORCE_AUTH_JSON = "1"
+
+[verifier]
+timeout_sec = 300.0
+environment_mode = "separate"
+
+[environment]
+network_mode = "public"
+cpus = 1
+memory_mb = 2048
+storage_mb = 4096
+
+[verifier.environment]
+network_mode = "public"
+cpus = 1
+memory_mb = 2048
+storage_mb = 4096
+
+[verifier.environment.env]
+HF_TOKEN = "${HF_TOKEN}"

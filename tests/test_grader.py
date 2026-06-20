@@ -34,7 +34,7 @@ class GraderTests(unittest.TestCase):
                     {
                         "oligo_id": "also_wrong",
                         "name": "RT barcode primer",
-                        "sequence": "ACGTBBBBBBBBBBBBBBBBUUUUUUUUTTTT",
+                        "sequence": "ACGT[CELL_BARCODE:16][UMI:8]TTTT",
                     },
                 ]
             ),
