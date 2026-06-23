@@ -87,6 +87,9 @@ Rules:
   explicit sequence evidence in the source.
 - For PDF parsing, use PyMuPDF (`import fitz`) or a stronger parser. Do not
   use `pypdf` or `PyPDF2`.
+- For spreadsheet parsing, use `openpyxl` for `.xlsx` files. If a workbook is
+  malformed or `openpyxl` cannot read it, then fall back to inspecting the
+  zipped XML parts directly.
 - For double-stranded adapters, preserve both source-visible strands. Either
   emit each strand as a separate oligo object or emit one object with
   `kind: "double_stranded"` and strand `components`.

@@ -165,7 +165,9 @@ Inspect all downloaded files in `input/`:
 
 {input_list}
 
-Write the final answer to `/logs/artifacts/prediction.json` using exactly this schema:
+Create `/logs/artifacts/prediction.json` using exactly this schema. The
+verifier reads only that file; JSON returned only in your final chat response is
+ignored and will score as missing output.
 
 ```json
 {{
@@ -195,6 +197,9 @@ Rules:
   sequencing library shown by the protocol.
 - For PDF parsing, use PyMuPDF (`import fitz`) or a stronger parser. Do not
   use `pypdf` or `PyPDF2`.
+- For spreadsheet parsing, use `openpyxl` for `.xlsx` files. If a workbook is
+  malformed or `openpyxl` cannot read it, then fall back to inspecting the
+  zipped XML parts directly.
 - If the protocol profiles multiple modalities or products, write separate
   entries instead of concatenating them. Examples: RNA + ATAC should have
   separate `rna` and `atac` entries; RNA + feature barcoding should have
@@ -204,6 +209,10 @@ Rules:
 - Each `libraries[].library_sequence` is scored. Use expanded placeholder
   characters there. Optional `annotated_library_sequence` may use
   `[ROLE:LENGTH]` placeholders for display/debug.
+- Every `libraries[].library_sequence` must be a non-empty string. If the
+  source confirms a final library exists but you cannot derive any scored
+  sequence for it from the input files, omit that library entry rather than
+  writing an empty string.
 - This is a full library construct task, not an oligo extraction task.
 - Include fixed adapter, primer, linker, and flow-cell sequence bases when the
   final construct contains them.
@@ -221,6 +230,10 @@ Rules:
   degenerate, overhang, or other structural variable bases.
 - Do not use literal base letters or IUPAC ambiguity symbols such as `B`, `U`,
   `I`, `R`, `T`, or `V` as placeholders in `library_sequence`.
+- Preserve explicit source-visible nucleotide/IUPAC motif letters when they are
+  part of a primer or adapter sequence. In particular, anchored oligo-dT suffixes
+  such as `VN`, `TVN`, `(dT)VN`, or `(T)30VN` should remain literal `VN` after
+  any T-run expansion, not become `??`.
 - Source terms seen in the ground truth include: cell/GEM/bead barcode,
   barcode1/barcode2/barcode3/barcode4, Round1/Round2/Round3 barcode, BC#01-04,
   CB1/CB2, CLS1/CLS2/CLS3, VB, HY barcode, plate/well/subarray barcode, UMI1,
@@ -238,7 +251,13 @@ Rules:
   enough for scoring by themselves. Infer their length from the protocol before
   expanding them in `library_sequence`, or keep them only in
   `annotated_library_sequence`.
-- Return only JSON. Do not write Markdown, comments, or explanations.
+- The file `/logs/artifacts/prediction.json` must contain only JSON. Do not put
+  Markdown, comments, or explanations in that file.
+- Before finishing, run `test -s /logs/artifacts/prediction.json` and
+  `python -m json.tool /logs/artifacts/prediction.json` to confirm the artifact
+  exists and is valid JSON.
+- Also inspect the JSON after validation and make sure no
+  `libraries[].library_sequence` value is empty.
 """
 
 
@@ -340,8 +359,11 @@ if __name__ == "__main__":
 def _environment_dockerfile() -> str:
     return """FROM python:3.12-slim
 WORKDIR /workspace
+RUN apt-get update \\
+    && apt-get install -y --no-install-recommends file \\
+    && rm -rf /var/lib/apt/lists/*
 RUN python -m pip install --no-cache-dir --upgrade pip \\
-    && python -m pip install --no-cache-dir pymupdf
+    && python -m pip install --no-cache-dir pymupdf openpyxl pillow
 COPY fetch_input.py /workspace/fetch_input.py
 """
 

@@ -441,8 +441,8 @@ Return only this JSON object:
     {{
       "library_id": "rna",
       "modality": "RNA",
-      "library_sequence": "",
-      "annotated_library_sequence": ""
+      "library_sequence": "AATGATACGGCGACCACCGAGATCTACAC################~~~~~~~~~~~~ATCTCGTATGCCGTCTTCTGCTTG",
+      "annotated_library_sequence": "AATGATACGGCGACCACCGAGATCTACAC[CELL_BARCODE:16][UMI:12]ATCTCGTATGCCGTCTTCTGCTTG"
     }}
   ]
 }}
@@ -464,6 +464,10 @@ Rules:
 - Each `libraries[].library_sequence` is scored. Use expanded placeholder
   characters there. Optional `annotated_library_sequence` may use
   `[ROLE:LENGTH]` placeholders for display/debug.
+- Every `libraries[].library_sequence` must be a non-empty string. If the
+  source confirms a final library exists but you cannot derive any scored
+  sequence for it from the input files, omit that library entry rather than
+  writing an empty string.
 - Include fixed adapter, primer, linker, and flow-cell bases that are part of
   the final construct.
 - Exclude variable cDNA, genomic DNA, or insert sequence. Concatenate the
@@ -479,6 +483,10 @@ Rules:
   degenerate, overhang, or other structural variable bases.
 - Do not use literal base letters or IUPAC ambiguity symbols such as B, U, I,
   R, T, or V as placeholders in library_sequence.
+- Preserve explicit source-visible nucleotide/IUPAC motif letters when they are
+  part of a primer or adapter sequence. In particular, anchored oligo-dT suffixes
+  such as `VN`, `TVN`, `(dT)VN`, or `(T)30VN` should remain literal `VN` after
+  any T-run expansion, not become `??`.
 - Source terms include cell/GEM/bead barcode, barcode1/barcode2/barcode3,
   Round1/Round2/Round3 barcode, BC#01-04, CB1/CB2, CLS1/CLS2/CLS3, VB, HY
   barcode, plate/well/subarray barcode, UMI1, UMI2, sample index, i5/i7 index,

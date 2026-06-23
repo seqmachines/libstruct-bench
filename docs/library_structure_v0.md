@@ -91,6 +91,14 @@ Scored placeholder characters:
 - `?`: spacer, linker, phase block, randomer, degenerate, overhang, or other
   non-biological variable structural bases.
 
+Do not confuse placeholder characters with real sequence symbols. Literal
+source-visible nucleotide/IUPAC motif letters that are part of a primer or
+adapter stay literal in `library_sequence`. Anchored oligo-dT suffixes such as
+`VN`, `TVN`, `(dT)VN`, or `(T)30VN` should keep the `VN` after any T-run
+expansion; they should not become `??`. The `?` placeholder is for named
+non-biological variable structural regions, not for literal IUPAC bases printed
+as part of a primer sequence.
+
 Terms observed in ground truth oligo map as follows:
 
 - `#`: `cell barcode`, `GEM barcode`, `bead barcode`, `CB1`, `CB2`, `CLS1`,

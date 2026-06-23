@@ -33,6 +33,11 @@ Each generated task is self-contained: its verifier image vendors the grader
 package under `tests/libstruct_bench`, so the verifier does not need to install
 this repository over the network.
 
+Generated agent images install PyMuPDF, OpenPyXL, Pillow, and the `file`
+utility. Agents should use PyMuPDF (`import fitz`) for PDFs, OpenPyXL for
+`.xlsx` spreadsheets, and Pillow for local image crops or rendered-page
+inspection.
+
 ## Run With Harbor
 
 ```bash

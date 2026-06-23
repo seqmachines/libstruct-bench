@@ -483,6 +483,10 @@ Rules:
   degenerate, overhang, or other structural variable bases.
 - Do not use literal base letters or IUPAC ambiguity symbols such as B, U, I,
   R, T, or V as placeholders in library_sequence.
+- Preserve explicit source-visible nucleotide/IUPAC motif letters when they are
+  part of a primer or adapter sequence. In particular, anchored oligo-dT suffixes
+  such as `VN`, `TVN`, `(dT)VN`, or `(T)30VN` should remain literal `VN` after
+  any T-run expansion, not become `??`.
 - Source terms include cell/GEM/bead barcode, barcode1/barcode2/barcode3,
   Round1/Round2/Round3 barcode, BC#01-04, CB1/CB2, CLS1/CLS2/CLS3, VB, HY
   barcode, plate/well/subarray barcode, UMI1, UMI2, sample index, i5/i7 index,

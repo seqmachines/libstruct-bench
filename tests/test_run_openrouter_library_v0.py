@@ -97,6 +97,8 @@ class RunOpenRouterLibraryV0Tests(unittest.TestCase):
         self.assertIn("Use only the attached protocol input", prompt)
         self.assertIn("must be a non-empty string", prompt)
         self.assertIn("writing an empty string", prompt)
+        self.assertIn("anchored oligo-dT suffixes", prompt)
+        self.assertIn("not become `??`", prompt)
 
     def test_response_text_explains_reasoning_only_completion(self):
         with self.assertRaisesRegex(OpenRouterResponseError, "reasoning_tokens=128"):

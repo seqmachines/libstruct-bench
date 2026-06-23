@@ -37,8 +37,10 @@ agent runs must use only the protocol input files attached to the request or
 downloaded into `input/`. Do not browse, search, retrieve protocol pages, or
 consult `scg_lib_struct`, benchmark ground truth, prior answer keys, repository
 copies, papers, supplements, vendor pages, or other external sources.
-Generated Harbor agent images install PyMuPDF; agents should use PyMuPDF
-(`import fitz`) or a stronger parser for PDFs, not `pypdf` or `PyPDF2`.
+Generated Harbor agent images install PyMuPDF, OpenPyXL, Pillow, and the
+`file` utility. Agents should use PyMuPDF (`import fitz`) or a stronger parser
+for PDFs, not `pypdf` or `PyPDF2`; use OpenPyXL for `.xlsx` spreadsheets and
+Pillow for local image crops or rendered-page inspection.
 
 For single-modal protocols, one entry in `libraries` is preferred. Legacy
 top-level `library_sequence` predictions are still accepted for compatibility.
@@ -63,6 +65,13 @@ placeholder characters:
 - `$`: feature, capture, antibody, or other measured-target barcode.
 - `?`: spacer, linker, phase block, randomer, degenerate, overhang, or other
   structural variable bases.
+
+Literal source-visible nucleotide/IUPAC motif letters that are part of a primer
+or adapter stay literal in `library_sequence`. Anchored oligo-dT suffixes such
+as `VN`, `TVN`, `(dT)VN`, or `(T)30VN` should keep the `VN` after any T-run
+expansion, not become `??`. The `?` placeholder is for named non-biological
+variable structural regions, not for literal IUPAC bases printed as part of a
+primer sequence.
 
 The grader also expands recognized bracket placeholders in `library_sequence`
 before scoring, so `[UMI:12]` and `[12-bp UMI]` both compare as `~~~~~~~~~~~~`.

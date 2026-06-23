@@ -243,6 +243,9 @@ Rules:
   explicit sequence evidence in the source.
 - For PDF parsing, use PyMuPDF (`import fitz`) or a stronger parser. Do not
   use `pypdf` or `PyPDF2`.
+- For spreadsheet parsing, use `openpyxl` for `.xlsx` files. If a workbook is
+  malformed or `openpyxl` cannot read it, then fall back to inspecting the
+  zipped XML parts directly.
 - For double-stranded adapters, preserve both source-visible strands. Either
   emit each strand as a separate oligo object or emit one object with
   `kind: "double_stranded"` and strand `components`.
@@ -349,8 +352,11 @@ if __name__ == "__main__":
 def _environment_dockerfile() -> str:
     return """FROM python:3.12-slim
 WORKDIR /workspace
+RUN apt-get update \\
+    && apt-get install -y --no-install-recommends file \\
+    && rm -rf /var/lib/apt/lists/*
 RUN python -m pip install --no-cache-dir --upgrade pip \\
-    && python -m pip install --no-cache-dir pymupdf
+    && python -m pip install --no-cache-dir pymupdf openpyxl pillow
 COPY fetch_input.py /workspace/fetch_input.py
 """
 
