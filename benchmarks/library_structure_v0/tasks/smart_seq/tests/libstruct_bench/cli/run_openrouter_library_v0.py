@@ -16,6 +16,14 @@ from typing import Any
 
 from libstruct_bench.hf_io import download_hf_dataset_file
 from libstruct_bench.library_structure import PREDICTION_SCHEMA_VERSION, extract_json_document
+from libstruct_bench.library_structure_policy import (
+    BIOLOGICAL_PAYLOAD_POLICY,
+    LIBRARY_DERIVATION_POLICY,
+    LIBRARY_DERIVATION_SELF_CHECK_RULE,
+    LIBRARY_ENTRY_POLICY,
+    OPENROUTER_SOURCE_POLICY,
+    PLACEHOLDER_POLICY,
+)
 
 DEFAULT_BENCHMARK_DIR = Path("benchmarks/library_structure_v0")
 DEFAULT_MODELS = [
@@ -433,76 +441,34 @@ Input files:
 Parse the attached sequencing protocol inputs and return the final sequencing
 library structure as one 5'->3' sequence entry per final library.
 
-Return only this JSON object:
+Return only JSON with this shape. The values in the block below are dummy schema
+examples only. Do not copy the example `library_id`, `modality`,
+`library_sequence`, `annotated_library_sequence`, bases, placeholder lengths, or
+segment order unless the attached source files support them.
 {{
   "schema_version": "{PREDICTION_SCHEMA_VERSION}",
   "protocol_id": "{protocol_id}",
   "libraries": [
     {{
-      "library_id": "rna",
-      "modality": "RNA",
-      "library_sequence": "AATGATACGGCGACCACCGAGATCTACAC################~~~~~~~~~~~~ATCTCGTATGCCGTCTTCTGCTTG",
-      "annotated_library_sequence": "AATGATACGGCGACCACCGAGATCTACAC[CELL_BARCODE:16][UMI:12]ATCTCGTATGCCGTCTTCTGCTTG"
+      "library_id": "example_library",
+      "modality": "example",
+      "library_sequence": "ACGT####~~~~TGCA",
+      "annotated_library_sequence": "ACGT[CELL_BARCODE:4][UMI:4]TGCA"
     }}
   ]
 }}
 
+{LIBRARY_DERIVATION_POLICY}
+
 Rules:
-- STRICTLY PROHIBITED: do not search the web, browse the internet, retrieve
-  protocol pages, query search engines, or look up scg_lib_struct, benchmark
-  ground truth, prior answer keys, repository copies, papers, supplements,
-  vendor pages, or any external source. Use only the attached protocol input
-  files.
-- Output one entry in `libraries` for each final sequencing library shown by the
-  protocol.
-- If the protocol profiles multiple modalities or products, write separate
-  entries instead of concatenating them. Examples: RNA + ATAC should have
-  separate `rna` and `atac` entries; RNA + feature barcoding should have
-  separate `rna` and `feature` entries; VDJ, sgRNA, gDNA, and cDNA products
-  should each be separated when the source shows them as distinct final
-  libraries.
-- Each `libraries[].library_sequence` is scored. Use expanded placeholder
-  characters there. Optional `annotated_library_sequence` may use
-  `[ROLE:LENGTH]` placeholders for display/debug.
-- Every `libraries[].library_sequence` must be a non-empty string. If the
-  source confirms a final library exists but you cannot derive any scored
-  sequence for it from the input files, omit that library entry rather than
-  writing an empty string.
-- Include fixed adapter, primer, linker, and flow-cell bases that are part of
-  the final construct.
-- Exclude variable cDNA, genomic DNA, or insert sequence. Concatenate the
-  flanking library-structure segments across the insert.
-- In annotated_library_sequence, make omitted biological payloads explicit with
-  no-length debug placeholders such as [CDNA], [GDNA], [VDJ_INSERT], or
-  [SGRNA_SPACER]. Do not include those placeholders in scored library_sequence.
-- Use repeated non-biological placeholder characters for variable regions:
-  `#` for cell-identifying or combinatorial barcode; `~` for UMI; `@` for
-  sample/library index including i5, i7, and RPI; `&` for ligation barcode; `=`
-  for RT barcode; `%` for Tn5/tagmentation barcode or index; `$` for feature,
-  capture, or antibody barcode; `?` for spacer, linker, phase block, randomer,
-  degenerate, overhang, or other structural variable bases.
-- Do not use literal base letters or IUPAC ambiguity symbols such as B, U, I,
-  R, T, or V as placeholders in library_sequence.
-- Preserve explicit source-visible nucleotide/IUPAC motif letters when they are
-  part of a primer or adapter sequence. In particular, anchored oligo-dT suffixes
-  such as `VN`, `TVN`, `(dT)VN`, or `(T)30VN` should remain literal `VN` after
-  any T-run expansion, not become `??`.
-- Source terms include cell/GEM/bead barcode, barcode1/barcode2/barcode3,
-  Round1/Round2/Round3 barcode, BC#01-04, CB1/CB2, CLS1/CLS2/CLS3, VB, HY
-  barcode, plate/well/subarray barcode, UMI1, UMI2, sample index, i5/i7 index,
-  Tn5 index/barcode, N5/N7 barcode, RT barcode, FB, feature barcode, antibody
-  barcodes, PB, phase block, and random 9-mer.
-- Use the exact number of placeholder characters when a region length is known.
-- For a range such as [0-4 bp PB], use the maximum explicit length in the single
-  scored string.
-- If the source shows unknown biological payload as XXX...XXX, ...-V-D-J-...,
-  [sgRNA-Spacer], or similar, annotate it as a biological payload and omit it
-  from library_sequence. Do not encode biological payloads with `?`; `?` is only
-  for non-biological structural variable bases.
-- Bare labels without length, such as [i7], [barcode1], or [CLS1], are not
-  enough for scoring by themselves. Infer their length from context before
-  expanding them in library_sequence, or keep them only in
-  annotated_library_sequence.
+{OPENROUTER_SOURCE_POLICY}
+- The schema block above is only a JSON shape example, not a partial answer and
+  not source evidence. If any source-derived sequence conflicts with the
+  example, the source wins.
+{LIBRARY_ENTRY_POLICY}
+{BIOLOGICAL_PAYLOAD_POLICY}
+{PLACEHOLDER_POLICY}
+{LIBRARY_DERIVATION_SELF_CHECK_RULE}
 - Do not include Markdown, comments, prose, or extra keys.
 """
 

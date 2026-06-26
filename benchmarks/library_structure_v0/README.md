@@ -49,6 +49,18 @@ sequencing libraries, such as RNA + ATAC, RNA + feature barcoding, VDJ, sgRNA,
 gDNA, or cDNA products, write one entry per final library instead of
 concatenating modalities into one string.
 
+## Derivation Rules
+
+Final library structures are often not printed verbatim. Derive them by
+inventorying source-visible oligos/adapters/primers, chaining them through the
+workflow, and writing one consistent 5'->3' top-strand sequence. Reverse
+complement bottom-strand oligos before placing them, keep only the fragment
+retained by the final library-PCR primer pair, and include enzyme-deposited
+junctions only when grounded in source-visible sequence. Before writing
+`prediction.json`, reconcile the construct against Read 1, Read 2, Index 1, and
+Index 2 so every read lands on the expected region with a source-grounded
+length.
+
 ## Placeholder Rules
 
 Keep structured oligos and memory artifacts in canonical `[ROLE:LENGTH]` form,

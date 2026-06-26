@@ -44,6 +44,36 @@ Harbor agent task images install PyMuPDF. Agents should parse PDFs with
 PyMuPDF (`import fitz`) or a stronger parser, and should not use `pypdf` or
 `PyPDF2`.
 
+## Derivation Policy
+
+Final library structures are usually derived constructs, not strings printed
+verbatim in the source. v0.1 LLM calls and v0.2 coding-agent tasks should build
+the final construct by simulating library construction forward from the
+source-visible components.
+
+When deriving a structure:
+
+1. Inventory the source-printed building blocks: capture or RT primer, bead
+   oligo, template-switch oligo, ligation or round adapters, RT or Tn5
+   adapters, PCR primers, sequencing primers, and flow-cell adapters.
+2. Chain them through the workflow steps: capture, reverse transcription,
+   template switch or second strand, amplification, fragmentation or
+   tagmentation, ligation, library PCR, and final construct.
+3. Write one consistent 5'->3' top-strand sequence. Reverse-complement
+   bottom-strand oligos before placing them in the scored string.
+4. For fragmented or tagmented products, keep only the fragment retained by the
+   final library-PCR primer pair and exclude non-amplified dead-end fragments.
+5. Include enzyme-deposited constant junctions only when they are grounded in
+   source-visible adapter or primer sequence. Do not supply remembered bases.
+6. Ground every barcode, UMI, index, and placeholder length in an explicit
+   source statement, read structure, oligo diagram, or table.
+
+Before writing a prediction, reconcile the assembled construct against the
+source read structure. For Read 1, Read 2, Index 1, and Index 2, confirm which
+primer primes the read, which strand is read, what region is read, and how many
+cycles are expected. If the reads cannot be explained by the assembled
+structure, fix the order, orientation, or missing region before scoring.
+
 Each `libraries[].library_sequence` is a scoring target. It should use expanded
 placeholder characters. `annotated_library_sequence` is optional debug/display
 metadata and may use `[ROLE:LENGTH]` placeholders.

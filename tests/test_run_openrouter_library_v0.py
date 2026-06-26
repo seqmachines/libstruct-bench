@@ -99,6 +99,15 @@ class RunOpenRouterLibraryV0Tests(unittest.TestCase):
         self.assertIn("writing an empty string", prompt)
         self.assertIn("anchored oligo-dT suffixes", prompt)
         self.assertIn("not become `??`", prompt)
+        self.assertIn("dummy schema", prompt)
+        self.assertIn("not source evidence", prompt)
+        self.assertIn('"library_sequence": "ACGT####~~~~TGCA"', prompt)
+        self.assertNotIn("AATGATACGGCGACCACCGAGATCTACAC################", prompt)
+        self.assertIn("How to derive the structure", prompt)
+        self.assertIn("simulating library construction forward", prompt)
+        self.assertIn("reverse-complement", prompt)
+        self.assertIn("Reconcile against the sequencing reads", prompt)
+        self.assertIn("self-check each entry", prompt)
 
     def test_response_text_explains_reasoning_only_completion(self):
         with self.assertRaisesRegex(OpenRouterResponseError, "reasoning_tokens=128"):
