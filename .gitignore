@@ -6,6 +6,7 @@ __pycache__/
 # Harbor run outputs
 jobs/
 runs/
+scripts/
 
 # Local secrets and credentials
 .env

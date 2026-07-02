@@ -15,8 +15,8 @@ Input: raw protocol files or paper https://huggingface.co/datasets/sequencing/sc
 export OPENROUTER_API_KEY="<openrouter-key>"
 
 python -m libstruct_bench.cli.run_openrouter_library_v0 \
-    --protocols benchmarks/library_structure_v0/protocols.json \
-    --out runs/library_structure_v0/llm_api \
+    --protocols benchmarks/library_structure/protocols.json \
+    --out runs/library_structure/llm_api \
     --model openai/gpt-5.5 \
     --protocol-id "$protocol" \
     --reasoning-effort xhigh \
@@ -29,8 +29,8 @@ Grade predictions:
 ```bash
 export GROUNDTRUTH_DIR="/Users/seqmachines/playground/protocols-test/scg-v1-upload/groundtruth"
 
-pred="runs/library_structure_v0/llm_api/gpt-5.5/${protocol}/prediction.json"
-grade_dir="runs/library_structure_v0/llm_api/gpt-5.5/${protocol}/grade"
+pred="runs/library_structure/llm_api/gpt-5.5/${protocol}/prediction.json"
+grade_dir="runs/library_structure/llm_api/gpt-5.5/${protocol}/grade"
 mkdir -p "$grade_dir"
 
 python -m libstruct_bench.cli.grade_library_v0 \
@@ -50,11 +50,11 @@ export HF_TOKEN="<token-with-groundtruth-read-access>"
 export CODEX_FORCE_AUTH_JSON=1
 
 harbor run \
-  -p "benchmarks/library_structure_v0/tasks/${protocol}" \
+  -p "benchmarks/library_structure/tasks/${protocol}" \
   -a codex \
   -m gpt-5.5 \
   --ak reasoning_effort=xhigh \
-  --jobs-dir runs/library_structure_v0/harbor \
+  --jobs-dir runs/library_structure/harbor \
   --artifact /logs/verifier/reward.json \
   --artifact /logs/verifier/audit.json \
   --job-name "codex-gpt55-xhigh-${protocol}"
@@ -78,7 +78,7 @@ Current readout: the direct LLM API baseline is slightly higher overall on this
 small set, mainly because Codex performs poorly on `dr_seq`. Codex is better on
 `sci_rna_seq`; both methods tie or nearly tie on the other three protocols.
 
-Detailed benchmark docs live in `docs/library_structure_v0.md`.
+Detailed benchmark docs live in `docs/library_structure.md`.
 
 
 ## Prior v0 LLM snapshot

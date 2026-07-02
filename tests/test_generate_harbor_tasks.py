@@ -45,12 +45,17 @@ class GenerateHarborTasksTests(unittest.TestCase):
             task_dir = out_dir / "example_protocol"
             instruction = (task_dir / "instruction.md").read_text(encoding="utf-8")
             fetch_input = (task_dir / "environment" / "fetch_input.py").read_text(encoding="utf-8")
+            environment_rules = task_dir / "environment" / "protocol_processing_rules.md"
             environment_dockerfile = (task_dir / "environment" / "Dockerfile").read_text(
                 encoding="utf-8"
             )
             task_toml = (task_dir / "task.toml").read_text(encoding="utf-8")
             test_sh = (task_dir / "tests" / "test.sh").read_text(encoding="utf-8")
 
+            self.assertTrue((task_dir / "protocol_processing_rules.md").exists())
+            self.assertTrue(environment_rules.exists())
+            self.assertIn("Shared Protocol Processing Rules", instruction)
+            self.assertIn("protocol_processing_rules.md", instruction)
             self.assertIn("input/paper.pdf", instruction)
             self.assertIn("input/supp.xlsx", instruction)
             self.assertIn("[CDNA]", instruction)
@@ -67,6 +72,10 @@ class GenerateHarborTasksTests(unittest.TestCase):
             self.assertIn("pillow", environment_dockerfile)
             self.assertIn("apt-get install -y --no-install-recommends file", environment_dockerfile)
             self.assertIn("COPY fetch_input.py /workspace/fetch_input.py", environment_dockerfile)
+            self.assertIn(
+                "COPY protocol_processing_rules.md /workspace/protocol_processing_rules.md",
+                environment_dockerfile,
+            )
             self.assertNotIn("pypdf", environment_dockerfile.lower())
             self.assertIn('input_revision = "abc123"', task_toml)
             self.assertIn('groundtruth_revision = "def456"', task_toml)

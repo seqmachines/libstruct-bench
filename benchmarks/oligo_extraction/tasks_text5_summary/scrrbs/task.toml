@@ -1,0 +1,22 @@
+schema_version = "1.0"
+name = "oligo-summary-text5-scrrbs"
+description = "Normalize and collapse oligo/library sequences from text inputs for scRRBS."
+tags = ["genomics", "oligo-summary", "normalization", "parser-control", "sequence-similarity"]
+
+[metadata]
+benchmark = "oligo_extraction"
+benchmark_variant = "oligo_summary_text5"
+protocol_id = "scrrbs"
+protocol_name = "scRRBS"
+input_sources = ["human", "mineru", "pymupdf", "pypdf", "docling"]
+input_paths = [
+  "scrrbs/scRRBS.human_text.txt",
+  "scrrbs/paper.mineru_ocr.txt",
+  "scrrbs/scRRBS.mineru_ocr.txt",
+  "scrrbs/paper.pymupdf_text.txt",
+  "scrrbs/scRRBS.pymupdf_text.txt",
+  "scrrbs/paper.pypdf_text.txt",
+  "scrrbs/scRRBS.pypdf_text.txt",
+  "scrrbs/paper.docling_text.txt",
+  "scrrbs/scRRBS.docling_text.txt",
+]

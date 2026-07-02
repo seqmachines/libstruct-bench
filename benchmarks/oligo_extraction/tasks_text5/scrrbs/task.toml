@@ -1,0 +1,22 @@
+schema_version = "1.0"
+name = "parser-control-text5-scrrbs"
+description = "Extract oligo/library-related nucleotide sequence strings from human and PDF-parser text outputs for scRRBS."
+tags = ["genomics", "oligo-extraction", "parser-control", "pdf-parsing", "sequence-similarity"]
+
+[metadata]
+benchmark = "oligo_extraction"
+benchmark_variant = "parser_control_text5"
+protocol_id = "scrrbs"
+protocol_name = "scRRBS"
+input_sources = ["human", "mineru", "pymupdf", "pypdf", "docling"]
+input_paths = [
+  "scrrbs/scRRBS.human_text.txt",
+  "scrrbs/paper.mineru_ocr.txt",
+  "scrrbs/scRRBS.mineru_ocr.txt",
+  "scrrbs/paper.pymupdf_text.txt",
+  "scrrbs/scRRBS.pymupdf_text.txt",
+  "scrrbs/paper.pypdf_text.txt",
+  "scrrbs/scRRBS.pypdf_text.txt",
+  "scrrbs/paper.docling_text.txt",
+  "scrrbs/scRRBS.docling_text.txt",
+]

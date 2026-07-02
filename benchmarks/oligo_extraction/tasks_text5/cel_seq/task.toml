@@ -1,0 +1,22 @@
+schema_version = "1.0"
+name = "parser-control-text5-cel_seq"
+description = "Extract oligo/library-related nucleotide sequence strings from human and PDF-parser text outputs for CEL-seq."
+tags = ["genomics", "oligo-extraction", "parser-control", "pdf-parsing", "sequence-similarity"]
+
+[metadata]
+benchmark = "oligo_extraction"
+benchmark_variant = "parser_control_text5"
+protocol_id = "cel_seq"
+protocol_name = "CEL-seq"
+input_sources = ["human", "mineru", "pymupdf", "pypdf", "docling"]
+input_paths = [
+  "cel_seq/CEL-Seq.human_text.txt",
+  "cel_seq/CEL-Seq_paper.mineru_ocr.txt",
+  "cel_seq/CEL-Seq_protocol.mineru_ocr.txt",
+  "cel_seq/CEL-Seq_paper.pymupdf_text.txt",
+  "cel_seq/CEL-Seq_protocol.pymupdf_text.txt",
+  "cel_seq/CEL-Seq_paper.pypdf_text.txt",
+  "cel_seq/CEL-Seq_protocol.pypdf_text.txt",
+  "cel_seq/CEL-Seq_paper.docling_text.txt",
+  "cel_seq/CEL-Seq_protocol.docling_text.txt",
+]

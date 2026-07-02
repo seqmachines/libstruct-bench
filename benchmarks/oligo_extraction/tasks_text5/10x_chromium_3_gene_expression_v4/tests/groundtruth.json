@@ -1,0 +1,23 @@
+{
+  "schema_version": "libstruct.parser_control_text5.groundtruth.v1",
+  "protocol_id": "10x_chromium_3_gene_expression_v4",
+  "protocol_name": "10x Chromium 3' Gene Expression v4",
+  "expected_input_ids": [
+    "human",
+    "mineru",
+    "pymupdf",
+    "pypdf",
+    "docling"
+  ],
+  "sequences": [
+    {
+      "sequence": "5'-CTACACGACGCTCTTCCGATCT-N16-N12-TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTVN-3'"
+    },
+    {
+      "sequence": "5'-AATGATACGGCGACCACCGAGATCTACAC-N10-ACACTCTTTCCCTACACGACGCTCTTCCGATCT-N16-N12-T30-VN-cDNA_Insert-AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC-N10-ATCTCGTATGCCGTCTTCTGCTTG-3'"
+    },
+    {
+      "sequence": "3'-TTACTATGCCGCTGGTGGCTCTAGATGTG-N10-TGTGAGAAAGGGATGTGCTGCGAGAAGGCTAGA-N16-N12-A30-BN-cDNA_Insert-TCTAGCCTTCTCGTGTGCAGACTTGAGGTCAGTG-N10-TAGAGCATACGGCAGAAGACGAAC-5'"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+schema_version = "1.0"
+name = "oligo-summary-text5-10x_chromium_3_gene_expression_v4"
+description = "Normalize and collapse oligo/library sequences from text inputs for 10x Chromium 3' Gene Expression v4."
+tags = ["genomics", "oligo-summary", "normalization", "parser-control", "sequence-similarity"]
+
+[metadata]
+benchmark = "oligo_extraction"
+benchmark_variant = "oligo_summary_text5"
+protocol_id = "10x_chromium_3_gene_expression_v4"
+protocol_name = "10x Chromium 3' Gene Expression v4"
+input_sources = ["human", "mineru", "pymupdf", "pypdf", "docling"]
+input_paths = [
+  "10x_chromium_3_gene_expression_v4/10xChromium3v4.human_text.txt",
+  "10x_chromium_3_gene_expression_v4/10xChromium3v4.mineru_ocr.txt",
+  "10x_chromium_3_gene_expression_v4/10xChromium3v4.pymupdf_text.txt",
+  "10x_chromium_3_gene_expression_v4/10xChromium3v4.pypdf_text.txt",
+  "10x_chromium_3_gene_expression_v4/10xChromium3v4.docling_text.txt",
+]

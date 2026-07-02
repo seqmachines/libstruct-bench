@@ -1,0 +1,56 @@
+{
+  "schema_version": "libstruct.parser_control_text5.groundtruth.v1",
+  "protocol_id": "drop_seq",
+  "protocol_name": "Drop-seq",
+  "expected_input_ids": [
+    "human",
+    "mineru",
+    "pymupdf",
+    "pypdf",
+    "docling"
+  ],
+  "sequences": [
+    {
+      "sequence": "5'-Bead-Linker-TTTTTTTAAGCAGTGGTATCAACGCAGAGTACGTJJJJJJJJJJJJNNNNNNNNTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT-3'"
+    },
+    {
+      "sequence": "5'-Bead-Linker-TTTTTTTAAGCAGTGGTATCAACGCAGAGTACJJJJJJJJJJJJNNNNNNNNTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT-3'"
+    },
+    {
+      "sequence": "AAGCAGTGGTATCAACGCAGAGTGAATrGrGrG"
+    },
+    {
+      "sequence": "AAGCAGTGGTATCAACGCAGAGT"
+    },
+    {
+      "sequence": "AATGATACGGCGACCACCGAGATCTACACGCCTGTCCGCGGAAGCAGTGGTATCAACGCAGAGT*A*C"
+    },
+    {
+      "sequence": "CAAGCAGAAGACGGCATACGAGATTCGCCTTAGTCTCGTGGGCTCGG"
+    },
+    {
+      "sequence": "CAAGCAGAAGACGGCATACGAGATCTAGTACGGTCTCGTGGGCTCGG"
+    },
+    {
+      "sequence": "CAAGCAGAAGACGGCATACGAGATTTCTGCCTGTCTCGTGGGCTCGG"
+    },
+    {
+      "sequence": "GCCTGTCCGCGGAAGCAGTGGTATCAACGCAGAGTACGT"
+    },
+    {
+      "sequence": "GCCTGTCCGCGGAAGCAGTGGTATCAACGCAGAGTAC"
+    },
+    {
+      "sequence": "CAAGCAGAAGACGGCATACGAGATCGTGATCGGTCTCGGCGGAAGCAGTGGTATCAACGCAGAGT*A*C"
+    },
+    {
+      "sequence": "AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATC*T"
+    },
+    {
+      "sequence": "CGGTCTCGGCGGAAGCAGTGGTATCAACGCAGAGTAC"
+    },
+    {
+      "sequence": "AAGCAGTGGTATCAACGCAGAGTACNNNNNNNNNTTTTTTTTTTTTTTTTTTTTTTTT"
+    }
+  ]
+}
