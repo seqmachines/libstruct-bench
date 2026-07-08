@@ -17,6 +17,11 @@ from libstruct_bench.library_structure_policy import (
 
 
 DEFAULT_BENCHMARK_DIR = Path("benchmarks/library_structure")
+SHARED_RULES_RELATIVE_PATH = Path("benchmarks/protocol_processing/shared/protocol_processing_rules.md")
+SHARED_RULES_SECTION = """## Shared Protocol Processing Rules
+
+Read `protocol_processing_rules.md` before working. It defines source-grounding, oligo-extraction, normalization, and library-construction rules shared by protocol-processing tasks. The task-specific instructions below define the required output schema and which section or sections to complete.
+"""
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -33,6 +38,7 @@ def main(argv: list[str] | None = None) -> int:
     config = json.loads(config_path.read_text(encoding="utf-8"))
     output_dir = Path(args.out)
     package_src = Path(__file__).resolve().parents[1]
+    shared_rules_path = _shared_rules_path()
     input_repo = _required(config, "input_repo")
     groundtruth_repo = _required(config, "groundtruth_repo")
     input_revision = _required(config, "input_revision")
@@ -43,6 +49,7 @@ def main(argv: list[str] | None = None) -> int:
             protocol=protocol,
             output_dir=output_dir,
             package_src=package_src,
+            shared_rules_path=shared_rules_path,
             input_repo=input_repo,
             groundtruth_repo=groundtruth_repo,
             input_revision=input_revision,
@@ -58,6 +65,7 @@ def _write_task(
     protocol: dict[str, Any],
     output_dir: Path,
     package_src: Path,
+    shared_rules_path: Path,
     input_repo: str,
     groundtruth_repo: str,
     input_revision: str,
@@ -75,6 +83,8 @@ def _write_task(
     environment_dir = task_dir / "environment"
     tests_dir.mkdir(parents=True)
     environment_dir.mkdir(parents=True)
+    shutil.copyfile(shared_rules_path, task_dir / "protocol_processing_rules.md")
+    shutil.copyfile(shared_rules_path, environment_dir / "protocol_processing_rules.md")
 
     display_name = protocol.get("display_name", protocol_id)
     input_paths = _input_paths(protocol)
@@ -152,6 +162,18 @@ def _input_paths(protocol: dict[str, Any]) -> list[str]:
     return [path.strip() for path in paths]
 
 
+def _shared_rules_path() -> Path:
+    repo_root = Path(__file__).resolve().parents[3]
+    candidates = (
+        repo_root / SHARED_RULES_RELATIVE_PATH,
+        Path.cwd() / SHARED_RULES_RELATIVE_PATH,
+    )
+    for candidate in candidates:
+        if candidate.exists():
+            return candidate
+    raise FileNotFoundError(f"missing shared rules file: {SHARED_RULES_RELATIVE_PATH}")
+
+
 def _instruction(
     *,
     protocol_id: str,
@@ -161,6 +183,8 @@ def _instruction(
 ) -> str:
     input_list = "\n".join(f"- `input/{Path(path).name}`" for path in input_paths)
     return f"""# Library Structure: {display_name}
+
+{SHARED_RULES_SECTION}
 
 Extract the final sequencing library structure from the provided {input_kind} files.
 
@@ -204,8 +228,13 @@ Rules:
   not source evidence. If any source-derived sequence conflicts with the
   example, the source wins.
 {LIBRARY_ENTRY_POLICY}
-- For PDF parsing, use PyMuPDF (`import fitz`) or a stronger parser. Do not
-  use `pypdf` or `PyPDF2`.
+- For PDF parsing, use Docling with OCR disabled when available. PyMuPDF
+  (`import fitz`) and `pypdf` layout extraction are acceptable stable
+  alternatives and cross-checks. Do not run OCR or use OCR-derived text because
+  OCR can introduce unstable sequence conversions. Combine native text,
+  layout-sorted text blocks, table cells, appendix text, and stable
+  vector/text-layer labels from diagrams. Render pages only for visual layout
+  checks, not OCR conversion.
 - For spreadsheet parsing, use `openpyxl` for `.xlsx` files. If a workbook is
   malformed or `openpyxl` cannot read it, then fall back to inspecting the
   zipped XML parts directly.
@@ -324,8 +353,9 @@ RUN apt-get update \\
     && apt-get install -y --no-install-recommends file \\
     && rm -rf /var/lib/apt/lists/*
 RUN python -m pip install --no-cache-dir --upgrade pip \\
-    && python -m pip install --no-cache-dir pymupdf openpyxl pillow
+    && python -m pip install --no-cache-dir pymupdf pypdf docling openpyxl pillow
 COPY fetch_input.py /workspace/fetch_input.py
+COPY protocol_processing_rules.md /workspace/protocol_processing_rules.md
 """
 
 

@@ -6,8 +6,22 @@ import shutil
 from pathlib import Path
 from typing import Any
 
+from libstruct_bench.library_structure_policy import (
+    BIOLOGICAL_PAYLOAD_POLICY,
+    HARBOR_SOURCE_POLICY,
+    LIBRARY_DERIVATION_POLICY,
+    LIBRARY_DERIVATION_SELF_CHECK_RULE,
+    LIBRARY_ENTRY_POLICY,
+    PLACEHOLDER_POLICY,
+)
+
 
 DEFAULT_BENCHMARK_DIR = Path("benchmarks/library_structure")
+SHARED_RULES_RELATIVE_PATH = Path("benchmarks/protocol_processing/shared/protocol_processing_rules.md")
+SHARED_RULES_SECTION = """## Shared Protocol Processing Rules
+
+Read `protocol_processing_rules.md` before working. It defines source-grounding, oligo-extraction, normalization, and library-construction rules shared by protocol-processing tasks. The task-specific instructions below define the required output schema and which section or sections to complete.
+"""
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -24,6 +38,7 @@ def main(argv: list[str] | None = None) -> int:
     config = json.loads(config_path.read_text(encoding="utf-8"))
     output_dir = Path(args.out)
     package_src = Path(__file__).resolve().parents[1]
+    shared_rules_path = _shared_rules_path()
     input_repo = _required(config, "input_repo")
     groundtruth_repo = _required(config, "groundtruth_repo")
     input_revision = _required(config, "input_revision")
@@ -34,6 +49,7 @@ def main(argv: list[str] | None = None) -> int:
             protocol=protocol,
             output_dir=output_dir,
             package_src=package_src,
+            shared_rules_path=shared_rules_path,
             input_repo=input_repo,
             groundtruth_repo=groundtruth_repo,
             input_revision=input_revision,
@@ -49,6 +65,7 @@ def _write_task(
     protocol: dict[str, Any],
     output_dir: Path,
     package_src: Path,
+    shared_rules_path: Path,
     input_repo: str,
     groundtruth_repo: str,
     input_revision: str,
@@ -66,6 +83,8 @@ def _write_task(
     environment_dir = task_dir / "environment"
     tests_dir.mkdir(parents=True)
     environment_dir.mkdir(parents=True)
+    shutil.copyfile(shared_rules_path, task_dir / "protocol_processing_rules.md")
+    shutil.copyfile(shared_rules_path, environment_dir / "protocol_processing_rules.md")
 
     display_name = protocol.get("display_name", protocol_id)
     input_paths = _input_paths(protocol)
@@ -143,6 +162,18 @@ def _input_paths(protocol: dict[str, Any]) -> list[str]:
     return [path.strip() for path in paths]
 
 
+def _shared_rules_path() -> Path:
+    repo_root = Path(__file__).resolve().parents[3]
+    candidates = (
+        repo_root / SHARED_RULES_RELATIVE_PATH,
+        Path.cwd() / SHARED_RULES_RELATIVE_PATH,
+    )
+    for candidate in candidates:
+        if candidate.exists():
+            return candidate
+    raise FileNotFoundError(f"missing shared rules file: {SHARED_RULES_RELATIVE_PATH}")
+
+
 def _instruction(
     *,
     protocol_id: str,
@@ -152,6 +183,8 @@ def _instruction(
 ) -> str:
     input_list = "\n".join(f"- `input/{Path(path).name}`" for path in input_paths)
     return f"""# Library Structure: {display_name}
+
+{SHARED_RULES_SECTION}
 
 Extract the final sequencing library structure from the provided {input_kind} files.
 
@@ -165,9 +198,12 @@ Inspect all downloaded files in `input/`:
 
 {input_list}
 
-Create `/logs/artifacts/prediction.json` using exactly this schema. The
-verifier reads only that file; JSON returned only in your final chat response is
-ignored and will score as missing output.
+Create `/logs/artifacts/prediction.json` using this JSON shape. The verifier reads only that file.
+JSON returned only in your final chat response is ignored and will score as
+missing output. The values in the block below are dummy schema examples only. Do
+not copy the example `library_id`, `modality`,
+`library_sequence`, `annotated_library_sequence`, bases, placeholder lengths, or
+segment order unless the downloaded source files support them.
 
 ```json
 {{
@@ -175,87 +211,41 @@ ignored and will score as missing output.
   "protocol_id": "{protocol_id}",
   "libraries": [
     {{
-      "library_id": "rna",
-      "modality": "RNA",
-      "library_sequence": "AATGATACGGCGACCACCGAGATCTACAC################~~~~~~~~~~~~ATCTCGTATGCCGTCTTCTGCTTG",
-      "annotated_library_sequence": "AATGATACGGCGACCACCGAGATCTACAC[CELL_BARCODE:16][UMI:12]ATCTCGTATGCCGTCTTCTGCTTG"
+      "library_id": "example_library",
+      "modality": "example",
+      "library_sequence": "ACGT####~~~~TGCA",
+      "annotated_library_sequence": "ACGT[CELL_BARCODE:4][UMI:4]TGCA"
     }}
   ]
 }}
 ```
 
+{LIBRARY_DERIVATION_POLICY}
+
 Rules:
-- STRICTLY PROHIBITED: do not search the web, browse the internet, retrieve
-  protocol pages, query search engines, or look up scg_lib_struct, benchmark
-  ground truth, prior answer keys, repository copies, papers, supplements,
-  vendor pages, or any external source. Use only the files downloaded into
-  `input/` for this task. The only network use allowed for task evidence is
-  running `python fetch_input.py` to fetch the pinned input files.
-- Do not answer from protocol name, prior knowledge, memory, or expected common
-  constructs. The prediction must be grounded in the downloaded source files.
-- Output one 5'->3' final library structure entry in `libraries` for each final
-  sequencing library shown by the protocol.
-- For PDF parsing, use PyMuPDF (`import fitz`) or a stronger parser. Do not
-  use `pypdf` or `PyPDF2`.
+{HARBOR_SOURCE_POLICY}
+- The schema block above is only a JSON shape example, not a partial answer and
+  not source evidence. If any source-derived sequence conflicts with the
+  example, the source wins.
+{LIBRARY_ENTRY_POLICY}
+- For PDF parsing, use Docling with OCR disabled when available. PyMuPDF
+  (`import fitz`) and `pypdf` layout extraction are acceptable stable
+  alternatives and cross-checks. Do not run OCR or use OCR-derived text because
+  OCR can introduce unstable sequence conversions. Combine native text,
+  layout-sorted text blocks, table cells, appendix text, and stable
+  vector/text-layer labels from diagrams. Render pages only for visual layout
+  checks, not OCR conversion.
 - For spreadsheet parsing, use `openpyxl` for `.xlsx` files. If a workbook is
   malformed or `openpyxl` cannot read it, then fall back to inspecting the
   zipped XML parts directly.
-- If the protocol profiles multiple modalities or products, write separate
-  entries instead of concatenating them. Examples: RNA + ATAC should have
-  separate `rna` and `atac` entries; RNA + feature barcoding should have
-  separate `rna` and `feature` entries; VDJ, sgRNA, gDNA, and cDNA products
-  should each be separated when the source shows them as distinct final
-  libraries.
-- Each `libraries[].library_sequence` is scored. Use expanded placeholder
-  characters there. Optional `annotated_library_sequence` may use
-  `[ROLE:LENGTH]` placeholders for display/debug.
-- Every `libraries[].library_sequence` must be a non-empty string. If the
-  source confirms a final library exists but you cannot derive any scored
-  sequence for it from the input files, omit that library entry rather than
-  writing an empty string.
-- This is a full library construct task, not an oligo extraction task.
-- Include fixed adapter, primer, linker, and flow-cell sequence bases when the
-  final construct contains them.
-- Do not include the variable cDNA, genomic DNA, or insert sequence. Concatenate
-  the flanking library-structure segments across the insert.
-- In `annotated_library_sequence`, make omitted biological payloads explicit
-  with no-length debug placeholders such as `[CDNA]`, `[GDNA]`,
-  `[VDJ_INSERT]`, or `[SGRNA_SPACER]`. Do not include those placeholders in
-  scored `library_sequence`.
-- Use repeated non-biological placeholder characters for variable regions: `#`
-  for cell-identifying or combinatorial barcode; `~` for UMI; `@` for
-  sample/library index including i5, i7, and RPI; `&` for ligation barcode; `=`
-  for RT barcode; `%` for Tn5/tagmentation barcode or index; `$` for feature,
-  capture, or antibody barcode; `?` for spacer, linker, phase block, randomer,
-  degenerate, overhang, or other structural variable bases.
-- Do not use literal base letters or IUPAC ambiguity symbols such as `B`, `U`,
-  `I`, `R`, `T`, or `V` as placeholders in `library_sequence`.
-- Preserve explicit source-visible nucleotide/IUPAC motif letters when they are
-  part of a primer or adapter sequence. In particular, anchored oligo-dT suffixes
-  such as `VN`, `TVN`, `(dT)VN`, or `(T)30VN` should remain literal `VN` after
-  any T-run expansion, not become `??`.
-- Source terms seen in the ground truth include: cell/GEM/bead barcode,
-  barcode1/barcode2/barcode3/barcode4, Round1/Round2/Round3 barcode, BC#01-04,
-  CB1/CB2, CLS1/CLS2/CLS3, VB, HY barcode, plate/well/subarray barcode, UMI1,
-  UMI2, sample index, i5/i7 index, Tn5 index/barcode, N5/N7 barcode, RT barcode,
-  FB, feature barcode, antibody barcodes, PB, phase block, and random 9-mer.
-- The number of repeated placeholder characters must match the region length
-  when the length is known.
-- If the source gives a range such as `[0-4 bp PB]`, use the maximum explicit
-  length for this single scored string.
-- If the source shows unknown biological payload as `XXX...XXX`,
-  `...-V-D-J-...`, `[sgRNA-Spacer]`, or similar, annotate it as a biological
-  payload and omit it from `library_sequence`. Do not encode biological payloads
-  with `?`; `?` is only for non-biological structural variable bases.
-- Bare labels without length, such as `[i7]`, `[barcode1]`, or `[CLS1]`, are not
-  enough for scoring by themselves. Infer their length from the protocol before
-  expanding them in `library_sequence`, or keep them only in
-  `annotated_library_sequence`.
+{BIOLOGICAL_PAYLOAD_POLICY}
+{PLACEHOLDER_POLICY}
 - The file `/logs/artifacts/prediction.json` must contain only JSON. Do not put
   Markdown, comments, or explanations in that file.
 - Before finishing, run `test -s /logs/artifacts/prediction.json` and
   `python -m json.tool /logs/artifacts/prediction.json` to confirm the artifact
   exists and is valid JSON.
+{LIBRARY_DERIVATION_SELF_CHECK_RULE}
 - Also inspect the JSON after validation and make sure no
   `libraries[].library_sequence` value is empty.
 """
@@ -363,8 +353,9 @@ RUN apt-get update \\
     && apt-get install -y --no-install-recommends file \\
     && rm -rf /var/lib/apt/lists/*
 RUN python -m pip install --no-cache-dir --upgrade pip \\
-    && python -m pip install --no-cache-dir pymupdf openpyxl pillow
+    && python -m pip install --no-cache-dir pymupdf pypdf docling openpyxl pillow
 COPY fetch_input.py /workspace/fetch_input.py
+COPY protocol_processing_rules.md /workspace/protocol_processing_rules.md
 """
 
 

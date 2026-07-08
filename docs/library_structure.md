@@ -40,9 +40,13 @@ private ground-truth dataset. Local Docker Harbor runs still require network
 access for the agent model API; that model API access is not permission to use
 the web as evidence.
 
-Harbor agent task images install PyMuPDF. Agents should parse PDFs with
-PyMuPDF (`import fitz`) or a stronger parser, and should not use `pypdf` or
-`PyPDF2`.
+Harbor coding agents should use Docling with OCR disabled when it is available.
+PyMuPDF (`import fitz`) and `pypdf` layout extraction are acceptable stable
+alternatives and cross-checks. Agents should not run OCR or use OCR-derived
+text as evidence for raw PDFs because OCR can introduce unstable sequence
+conversions. They should combine native text, layout-sorted text blocks, table
+cells, appendix text, and stable vector/text-layer labels from diagrams, and
+use rendered pages only for visual layout checks.
 
 ## Derivation Policy
 

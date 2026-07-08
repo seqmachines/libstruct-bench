@@ -37,10 +37,13 @@ agent runs must use only the protocol input files attached to the request or
 downloaded into `input/`. Do not browse, search, retrieve protocol pages, or
 consult `scg_lib_struct`, benchmark ground truth, prior answer keys, repository
 copies, papers, supplements, vendor pages, or other external sources.
-Generated Harbor agent images install PyMuPDF, OpenPyXL, Pillow, and the
-`file` utility. Agents should use PyMuPDF (`import fitz`) or a stronger parser
-for PDFs, not `pypdf` or `PyPDF2`; use OpenPyXL for `.xlsx` spreadsheets and
-Pillow for local image crops or rendered-page inspection.
+Generated Harbor agent images install Docling, PyMuPDF, pypdf, OpenPyXL,
+Pillow, and the `file` utility. Agents should use Docling with OCR disabled
+when available; PyMuPDF (`import fitz`) and `pypdf` layout extraction are
+acceptable stable alternatives and cross-checks. Agents should not run OCR or
+use OCR-derived text as evidence for raw PDFs because OCR can introduce
+unstable sequence conversions. Use OpenPyXL for `.xlsx` spreadsheets and Pillow
+for rendered-page visual layout checks.
 
 For single-modal protocols, one entry in `libraries` is preferred. Legacy
 top-level `library_sequence` predictions are still accepted for compatibility.
@@ -131,9 +134,11 @@ PYTHONPATH=src python -m libstruct_bench.cli.run_openrouter_library_v0 \
 Protocol files are attached directly in the chat request as data URLs by
 default, without forcing OpenRouter's `file-parser` plugin. This tries native
 file pass-through first. Use `--pdf-engine cloudflare-ai` or
-`--pdf-engine mistral-ocr` only when you intentionally want OpenRouter to parse
-PDFs before the model call. Use `--file-mode upload` only if you explicitly
-want to exercise OpenRouter's separate `/api/v1/files` upload endpoint.
+`--pdf-engine mistral-ocr` only when you intentionally want to test OCR as a
+separate condition; it should not be used for the standard benchmark because
+OCR-derived sequence text can be unstable. Use `--file-mode upload` only if you
+explicitly want to exercise OpenRouter's separate `/api/v1/files` upload
+endpoint.
 
 Use `--dry-run` to write request payloads without calling OpenRouter.
 

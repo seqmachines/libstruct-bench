@@ -265,8 +265,13 @@ Placeholder policy:
 Rules:
 - Extract only named oligos, primers, adapters, and adapter strands with
   explicit sequence evidence in the source.
-- For PDF parsing, use PyMuPDF (`import fitz`) or a stronger parser. Do not
-  use `pypdf` or `PyPDF2`.
+- For PDF parsing, use Docling with OCR disabled when available. PyMuPDF
+  (`import fitz`) and `pypdf` layout extraction are acceptable stable
+  alternatives and cross-checks. Do not run OCR or use OCR-derived text because
+  OCR can introduce unstable sequence conversions. Combine native text,
+  layout-sorted text blocks, table cells, appendix text, and stable
+  vector/text-layer labels from diagrams. Render pages only for visual layout
+  checks, not OCR conversion.
 - For spreadsheet parsing, use `openpyxl` for `.xlsx` files. If a workbook is
   malformed or `openpyxl` cannot read it, then fall back to inspecting the
   zipped XML parts directly.
@@ -380,7 +385,7 @@ RUN apt-get update \\
     && apt-get install -y --no-install-recommends file \\
     && rm -rf /var/lib/apt/lists/*
 RUN python -m pip install --no-cache-dir --upgrade pip \\
-    && python -m pip install --no-cache-dir pymupdf openpyxl pillow
+    && python -m pip install --no-cache-dir pymupdf pypdf docling openpyxl pillow
 COPY fetch_input.py /workspace/fetch_input.py
 COPY protocol_processing_rules.md /workspace/protocol_processing_rules.md
 """
