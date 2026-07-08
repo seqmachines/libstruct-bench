@@ -132,6 +132,9 @@ Additional source-normalization carryovers:
 - Normalize phosphate and common slash-tag variants such as `/Phos/` and
   `/phos/` to `/5Phos/`.
 - Remove the source-formatting hyphen in terminal forms such as `/5Phos/-ACGT`.
+- Preserve phosphorothioate/linkage markers such as `*` in source-preserving
+  text extraction outputs, but remove them from normalized scored oligo
+  sequences. For example, `AGAGT*A*C` normalizes to `AGAGTAC`.
 - Expand unambiguous `(T)n`, `Tn`, and `(A)n` shorthand homopolymers.
 
 ## Metrics

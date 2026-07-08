@@ -96,7 +96,8 @@ class SequenceNormalizationTests(unittest.TestCase):
         self.assertEqual(normalize_sequence("/5Bio/ACGT"), "/5Bio/ACGT")
         self.assertEqual(normalize_sequence("Bio-ACGT"), "/5Bio/ACGT")
         self.assertEqual(normalize_sequence("/5Phos/-ACGT"), "/5Phos/ACGT")
-        self.assertEqual(normalize_sequence("A(dU)C+G*T"), "A(dU)C+G*T")
+        self.assertEqual(normalize_sequence("A(dU)C+G*T"), "A(dU)C+GT")
+        self.assertEqual(normalize_sequence("AGAGT*A*C"), "AGAGTAC")
         self.assertEqual(normalize_sequence("ACGT[ddC]"), "ACGT/ddC/")
 
     def test_expands_unambiguous_homopolymer_shorthand(self):

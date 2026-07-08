@@ -103,28 +103,12 @@ def sequence_tokens(sequence: str, *, already_normalized: bool = False) -> list[
 
 
 def _strip_terminal_wrappers(sequence: str) -> str:
-    text = _normalize_sequence_punctuation(sequence.strip())
+    text = sequence.strip()
     text = re.sub(r"^\s*5\s*['’′]?\s*-\s*", "", text, flags=re.IGNORECASE)
     text = re.sub(r"\s*-\s*3\s*['’′]?\s*$", "", text, flags=re.IGNORECASE)
     text = re.sub(r"^\s*bio\s*-\s*", "/5Bio/", text, flags=re.IGNORECASE)
     text = re.sub(r"^(/[^/]+/)\s*-\s*", r"\1", text)
     return text.strip()
-
-
-def _normalize_sequence_punctuation(text: str) -> str:
-    return (
-        text.replace("′", "'")
-        .replace("’", "'")
-        .replace("ʹ", "'")
-        .replace("‘", "'")
-        .replace("‵", "'")
-        .replace("‐", "-")
-        .replace("‑", "-")
-        .replace("‒", "-")
-        .replace("–", "-")
-        .replace("—", "-")
-        .replace("−", "-")
-    )
 
 
 def _next_special(text: str, start: int) -> int:
@@ -265,7 +249,7 @@ def _variable_alternative_length(text: str) -> int | None:
 
 
 def _normalize_plain_segment(segment: str) -> str:
-    text = re.sub(r"\s+", "", _normalize_sequence_punctuation(segment))
+    text = re.sub(r"\s+", "", segment)
     if not text:
         return ""
     text = _expand_homopolymer_shorthand(text)
@@ -286,6 +270,9 @@ def _normalize_plain_segment(segment: str) -> str:
         if char == "+" and next_char.upper() in _BASES:
             normalized.append("+" + next_char.upper())
             i += 2
+            continue
+        if char == "*":
+            i += 1
             continue
         if char.isalpha():
             normalized.append(char.upper())

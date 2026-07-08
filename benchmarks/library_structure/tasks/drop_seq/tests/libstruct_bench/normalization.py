@@ -271,6 +271,9 @@ def _normalize_plain_segment(segment: str) -> str:
             normalized.append("+" + next_char.upper())
             i += 2
             continue
+        if char == "*":
+            i += 1
+            continue
         if char.isalpha():
             normalized.append(char.upper())
         else:
