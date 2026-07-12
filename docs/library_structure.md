@@ -199,3 +199,9 @@ The verifier also reports diagnostic library-detection metrics:
 - `library_f1`: harmonic mean of `library_precision` and `library_recall`.
 
 Malformed or missing predictions receive `sequence_similarity = 0`.
+
+## Run Analysis
+
+See [Codex Library Structure Five-Task Error Analysis](codex_library_structure_5task_error_analysis.md)
+for a detailed comparison of predictions, ground truth, source evidence, and
+evaluator behavior from a five-task Harbor run.
