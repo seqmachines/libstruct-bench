@@ -15,7 +15,11 @@ from pathlib import Path
 from typing import Any
 
 from libstruct_bench.hf_io import download_hf_dataset_file
-from libstruct_bench.library_structure import PREDICTION_SCHEMA_VERSION, extract_json_document
+from libstruct_bench.library_structure import (
+    PREDICTION_SCHEMA_VERSION,
+    LibraryStructureValidationError,
+    extract_json_document,
+)
 from libstruct_bench.library_structure_policy import (
     BIOLOGICAL_PAYLOAD_POLICY,
     LIBRARY_DERIVATION_POLICY,
@@ -68,11 +72,36 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--temperature", type=float)
     parser.add_argument(
         "--reasoning-effort",
-        choices=["none", "minimal", "low", "medium", "high", "xhigh"],
+        choices=["none", "minimal", "low", "medium", "high", "xhigh", "max"],
         help="Optional OpenRouter reasoning.effort value. Leave unset to use provider defaults.",
     )
     parser.add_argument("--dry-run", action="store_true", help="Write requests without calling OpenRouter.")
     parser.add_argument("--force", action="store_true", help="Overwrite existing prediction directories.")
+    parser.add_argument(
+        "--retry-existing-errors",
+        action="store_true",
+        help=(
+            "Retry model/protocol directories that already contain error.json. "
+            "By default, existing errors are skipped so interrupted resume runs do not repeat known failures."
+        ),
+    )
+    parser.add_argument(
+        "--continue-on-error",
+        action="store_true",
+        help="Continue with later model/protocol requests after an OpenRouter API error.",
+    )
+    parser.add_argument(
+        "--request-retries",
+        type=int,
+        default=0,
+        help="Number of times to retry each OpenRouter chat request after a request/response error.",
+    )
+    parser.add_argument(
+        "--retry-delay-sec",
+        type=float,
+        default=10.0,
+        help="Seconds to wait between OpenRouter chat request retries.",
+    )
     args = parser.parse_args(argv)
 
     config = json.loads(Path(args.protocols).read_text(encoding="utf-8"))
@@ -95,28 +124,60 @@ def main(argv: list[str] | None = None) -> int:
         raise ValueError(f"unknown protocol id(s): {', '.join(missing)}")
 
     summary: list[dict[str, Any]] = []
-    for model in models:
-        for protocol in protocols:
-            summary.append(
-                _run_one(
-                    config=config,
-                    protocol=protocol,
-                    model=model,
-                    out_dir=out_dir,
-                    api_key=api_key or "",
-                    chat_url=args.chat_url,
-                    files_url=args.files_url,
-                    file_mode=args.file_mode,
-                    pdf_engine=args.pdf_engine,
-                    max_completion_tokens=args.max_completion_tokens,
-                    temperature=args.temperature,
-                    reasoning_effort=args.reasoning_effort,
-                    dry_run=args.dry_run,
-                    force=args.force,
-                )
+    runs = [(model, protocol) for model in models for protocol in protocols]
+    _log(
+        f"starting OpenRouter library-structure run: "
+        f"{len(protocols)} protocol(s) x {len(models)} model(s) = {len(runs)} request(s)"
+    )
+    _log(f"output directory: {out_dir}")
+    if args.dry_run:
+        _log("dry-run enabled: requests will be written but not sent")
+    if args.pdf_engine:
+        _log(f"pdf parser plugin enabled: {args.pdf_engine}")
+    else:
+        _log("pdf parser plugin disabled: using native direct file pass-through")
+    for index, (model, protocol) in enumerate(runs, start=1):
+        protocol_id = protocol.get("protocol_id", "<unknown>")
+        _log(f"[{index}/{len(runs)}] {protocol_id} | {model}: start")
+        try:
+            result = _run_one(
+                config=config,
+                protocol=protocol,
+                model=model,
+                out_dir=out_dir,
+                api_key=api_key or "",
+                chat_url=args.chat_url,
+                files_url=args.files_url,
+                file_mode=args.file_mode,
+                pdf_engine=args.pdf_engine,
+                max_completion_tokens=args.max_completion_tokens,
+                temperature=args.temperature,
+                reasoning_effort=args.reasoning_effort,
+                dry_run=args.dry_run,
+                force=args.force,
+                skip_existing_errors=not args.retry_existing_errors,
+                request_retries=args.request_retries,
+                retry_delay_sec=args.retry_delay_sec,
             )
+            summary.append(result)
+        except OpenRouterResponseError as exc:
+            _log(f"[{index}/{len(runs)}] {protocol_id} | {model}: failed: {exc}")
+            summary.append(
+                {
+                    "model": model,
+                    "protocol_id": protocol_id,
+                    "status": "failed",
+                    "error": str(exc),
+                    "error_path": str(out_dir / _slug(model) / str(protocol_id) / "error.json"),
+                }
+            )
+            if not args.continue_on_error:
+                _write_summary(out_dir, summary)
+                return 1
+            continue
+        _log(f"[{index}/{len(runs)}] {protocol_id} | {model}: done")
 
-    (out_dir / "summary.json").write_text(json.dumps(summary, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    _write_summary(out_dir, summary)
     return 0
 
 
@@ -136,16 +197,31 @@ def _run_one(
     reasoning_effort: str | None,
     dry_run: bool,
     force: bool,
+    skip_existing_errors: bool,
+    request_retries: int,
+    retry_delay_sec: float,
 ) -> dict[str, Any]:
     protocol_id = _required(protocol, "protocol_id")
     model_dir = out_dir / _slug(model) / protocol_id
     prediction_path = model_dir / "prediction.json"
+    error_path = model_dir / "error.json"
     if prediction_path.exists() and not force:
+        _log(f"{protocol_id} | {model}: skipping existing prediction: {prediction_path}")
         return {
             "model": model,
             "protocol_id": protocol_id,
             "status": "skipped",
             "prediction": str(prediction_path),
+        }
+    if error_path.exists() and skip_existing_errors and not force:
+        error = _read_existing_error(error_path)
+        _log(f"{protocol_id} | {model}: skipping existing error: {error_path}")
+        return {
+            "model": model,
+            "protocol_id": protocol_id,
+            "status": "skipped_error",
+            "error": error,
+            "error_path": str(error_path),
         }
     model_dir.mkdir(parents=True, exist_ok=True)
     if force:
@@ -158,18 +234,33 @@ def _run_one(
     if not isinstance(input_revision, str) or not input_revision:
         raise ValueError("input_revision is required")
     input_paths = _input_paths(protocol)
+    _log(
+        f"{protocol_id} | {model}: downloading {len(input_paths)} input file(s) "
+        f"from {input_repo}@{input_revision}"
+    )
     files = [
         _download_input(repo_id=input_repo, revision=input_revision, input_path=input_path)
         for input_path in input_paths
     ]
+    for item in files:
+        _log(
+            f"{protocol_id} | {model}: downloaded {item['path']} "
+            f"({_format_bytes(len(item['data']))}, {item['mime_type']})"
+        )
     prompt = _prompt(protocol_id=protocol_id, display_name=protocol.get("display_name", protocol_id), input_paths=input_paths)
     file_refs: list[dict[str, Any]] = []
     if file_mode == "direct":
+        _log(f"{protocol_id} | {model}: attaching files directly as data URLs")
         file_refs = [_direct_file_ref(file_item) for file_item in files]
     elif not dry_run:
+        _log(f"{protocol_id} | {model}: uploading files through OpenRouter files API")
         for file_item in files:
+            _log(f"{protocol_id} | {model}: uploading {file_item['filename']}")
             file_refs.append(_upload_file(files_url=files_url, api_key=api_key, file_item=file_item))
+    elif file_mode == "upload":
+        _log(f"{protocol_id} | {model}: dry-run upload mode; request will contain prompt only")
 
+    _log(f"{protocol_id} | {model}: building chat payload")
     request_payload = _chat_payload(
         model=model,
         prompt=prompt,
@@ -179,6 +270,7 @@ def _run_one(
         temperature=temperature,
         reasoning_effort=reasoning_effort,
     )
+    _log(f"{protocol_id} | {model}: writing request and input manifest")
     (model_dir / "request.json").write_text(json.dumps(request_payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     (model_dir / "input_files.json").write_text(
         json.dumps(
@@ -198,6 +290,7 @@ def _run_one(
         encoding="utf-8",
     )
     if dry_run:
+        _log(f"{protocol_id} | {model}: dry-run complete")
         return {
             "model": model,
             "protocol_id": protocol_id,
@@ -205,37 +298,46 @@ def _run_one(
             "request": str(model_dir / "request.json"),
         }
 
-    try:
-        raw_response = _post_json(chat_url, api_key, request_payload)
-        (model_dir / "response.json").write_text(
-            json.dumps(raw_response, indent=2, sort_keys=True) + "\n",
-            encoding="utf-8",
-        )
-        if isinstance(raw_response, dict) and isinstance(raw_response.get("error"), dict):
-            error = raw_response["error"]
-            raise OpenRouterResponseError(
-                f"OpenRouter returned error {error.get('code')}: {error.get('message')}"
+    max_attempts = max(1, request_retries + 1)
+    parsed: dict[str, Any] | None = None
+    for attempt in range(1, max_attempts + 1):
+        try:
+            suffix = f" (attempt {attempt}/{max_attempts})" if max_attempts > 1 else ""
+            _log(f"{protocol_id} | {model}: sending request to OpenRouter{suffix}")
+            raw_response = _post_json(chat_url, api_key, request_payload)
+            _log(f"{protocol_id} | {model}: received response; writing response.json")
+            (model_dir / "response.json").write_text(
+                json.dumps(raw_response, indent=2, sort_keys=True) + "\n",
+                encoding="utf-8",
             )
-    except OpenRouterResponseError as exc:
-        if exc.body is not None:
-            (model_dir / "failed_response.txt").write_text(exc.body, encoding="utf-8")
-        (model_dir / "error.json").write_text(
-            json.dumps(
-                {
-                    "model": model,
-                    "protocol_id": protocol_id,
-                    "error": str(exc),
-                },
-                indent=2,
-                sort_keys=True,
-            )
-            + "\n",
-            encoding="utf-8",
-        )
-        raise
-    text = _response_text(raw_response)
-    (model_dir / "raw_response.txt").write_text(text, encoding="utf-8")
-    parsed = extract_json_document(text)
+            if isinstance(raw_response, dict) and isinstance(raw_response.get("error"), dict):
+                error = raw_response["error"]
+                raise OpenRouterResponseError(
+                    f"OpenRouter returned error {error.get('code')}: {error.get('message')}"
+                )
+            _log(f"{protocol_id} | {model}: extracting JSON from response text")
+            text = _response_text(raw_response)
+            (model_dir / "raw_response.txt").write_text(text, encoding="utf-8")
+            parsed = extract_json_document(text)
+            break
+        except (OpenRouterResponseError, LibraryStructureValidationError) as exc:
+            if attempt < max_attempts:
+                _log(
+                    f"{protocol_id} | {model}: request/response failed: {exc}; "
+                    f"retrying in {retry_delay_sec:g}s"
+                )
+                time.sleep(max(0.0, retry_delay_sec))
+                continue
+            _log(f"{protocol_id} | {model}: OpenRouter request/response failed")
+            if isinstance(exc, OpenRouterResponseError) and exc.body is not None:
+                (model_dir / "failed_response.txt").write_text(exc.body, encoding="utf-8")
+            error = str(exc)
+            _write_error(model_dir=model_dir, model=model, protocol_id=protocol_id, error=error)
+            if isinstance(exc, OpenRouterResponseError):
+                raise
+            raise OpenRouterResponseError(error) from exc
+    if parsed is None:
+        raise OpenRouterResponseError("OpenRouter response parsing failed without an error")
     prediction = {
         "schema_version": PREDICTION_SCHEMA_VERSION,
         "protocol_id": protocol_id,
@@ -247,6 +349,7 @@ def _run_one(
         if isinstance(parsed.get("annotated_library_sequence"), str):
             prediction["annotated_library_sequence"] = parsed["annotated_library_sequence"]
     prediction_path.write_text(json.dumps(prediction, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    _log(f"{protocol_id} | {model}: wrote prediction: {prediction_path}")
     return {
         "model": model,
         "protocol_id": protocol_id,
@@ -267,6 +370,51 @@ def _clear_generated_outputs(model_dir: Path) -> None:
         path = model_dir / filename
         if path.exists():
             path.unlink()
+
+
+def _write_summary(out_dir: Path, summary: list[dict[str, Any]]) -> None:
+    (out_dir / "summary.json").write_text(json.dumps(summary, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    _log(f"wrote summary: {out_dir / 'summary.json'}")
+
+
+def _write_error(*, model_dir: Path, model: str, protocol_id: str, error: str) -> None:
+    (model_dir / "error.json").write_text(
+        json.dumps(
+            {
+                "model": model,
+                "protocol_id": protocol_id,
+                "error": error,
+            },
+            indent=2,
+            sort_keys=True,
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+
+
+def _read_existing_error(error_path: Path) -> str:
+    try:
+        data = json.loads(error_path.read_text(encoding="utf-8"))
+    except (OSError, JSONDecodeError):
+        return "existing error"
+    error = data.get("error") if isinstance(data, dict) else None
+    return error if isinstance(error, str) and error else "existing error"
+
+
+def _log(message: str) -> None:
+    print(f"[openrouter] {message}", flush=True)
+
+
+def _format_bytes(size: int) -> str:
+    units = ["B", "KiB", "MiB", "GiB"]
+    value = float(size)
+    for unit in units:
+        if value < 1024 or unit == units[-1]:
+            if unit == "B":
+                return f"{int(value)} {unit}"
+            return f"{value:.1f} {unit}"
+        value /= 1024
 
 
 def _download_input(*, repo_id: str, revision: str, input_path: str) -> dict[str, Any]:
@@ -386,7 +534,7 @@ def _post_json(url: str, api_key: str, payload: dict[str, Any]) -> Any:
             try:
                 return json.loads(body)
             except JSONDecodeError as exc:
-                snippet = body[:1000].replace("\n", "\\n")
+                snippet = _response_snippet(body)
                 raise OpenRouterResponseError(
                     f"OpenRouter returned non-JSON response: {snippet}",
                     body=body,
@@ -428,6 +576,15 @@ def _response_text(response: Any) -> str:
     if reasoning_tokens is not None:
         detail += f", reasoning_tokens={reasoning_tokens}"
     raise OpenRouterResponseError(f"OpenRouter response did not include text content ({detail})")
+
+
+def _response_snippet(body: str) -> str:
+    if not body:
+        return "<empty body>"
+    if not body.strip():
+        return f"<whitespace-only body, {len(body)} bytes>"
+    collapsed = re.sub(r"\s+", " ", body.strip())
+    return collapsed[:1000]
 
 
 def _prompt(*, protocol_id: str, display_name: str, input_paths: list[str]) -> str:

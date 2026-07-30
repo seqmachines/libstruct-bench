@@ -1,12 +1,16 @@
+import json
 import unittest
 from pathlib import Path
 from tempfile import TemporaryDirectory
+from unittest.mock import patch
 
 from libstruct_bench.cli.run_openrouter_library_v0 import (
     OpenRouterResponseError,
     _chat_payload,
     _clear_generated_outputs,
     _direct_file_ref,
+    _run_one,
+    main,
     _prompt,
     _response_text,
 )
@@ -74,16 +78,16 @@ class RunOpenRouterLibraryV0Tests(unittest.TestCase):
 
     def test_chat_payload_supports_reasoning_effort(self):
         payload = _chat_payload(
-            model="openai/gpt-5.5",
+            model="openai/gpt-5.6-sol",
             prompt="Return JSON.",
             file_refs=[],
             pdf_engine="",
             max_completion_tokens=128,
             temperature=None,
-            reasoning_effort="minimal",
+            reasoning_effort="max",
         )
 
-        self.assertEqual(payload["reasoning"], {"effort": "minimal", "exclude": True})
+        self.assertEqual(payload["reasoning"], {"effort": "max", "exclude": True})
 
     def test_prompt_prohibits_external_search(self):
         prompt = _prompt(
@@ -137,6 +141,88 @@ class RunOpenRouterLibraryV0Tests(unittest.TestCase):
 
             self.assertFalse((tmp_path / "prediction.json").exists())
             self.assertTrue((tmp_path / "request.json").exists())
+
+    def test_run_one_skips_existing_error_by_default(self):
+        with TemporaryDirectory() as tmp:
+            model_dir = Path(tmp) / "model-a" / "drop_seq"
+            model_dir.mkdir(parents=True)
+            (model_dir / "error.json").write_text(
+                json.dumps({"error": "known provider failure"}),
+                encoding="utf-8",
+            )
+
+            result = _run_one(
+                config={"input_repo": "example/repo"},
+                protocol={"protocol_id": "drop_seq", "input_paths": ["drop_seq/protocol.pdf"]},
+                model="model-a",
+                out_dir=Path(tmp),
+                api_key="test-key",
+                chat_url="https://example.invalid/chat",
+                files_url="https://example.invalid/files",
+                file_mode="direct",
+                pdf_engine="",
+                max_completion_tokens=128,
+                temperature=None,
+                reasoning_effort=None,
+                dry_run=False,
+                force=False,
+                skip_existing_errors=True,
+                request_retries=0,
+                retry_delay_sec=0,
+            )
+
+            self.assertEqual(result["status"], "skipped_error")
+            self.assertEqual(result["error"], "known provider failure")
+
+    def test_main_can_continue_after_openrouter_error(self):
+        with TemporaryDirectory() as tmp:
+            tmp_path = Path(tmp)
+            protocols_path = tmp_path / "protocols.json"
+            out_dir = tmp_path / "out"
+            protocols_path.write_text(
+                json.dumps(
+                    {
+                        "input_repo": "example/repo",
+                        "input_revision": "main",
+                        "protocols": [
+                            {
+                                "protocol_id": "drop_seq",
+                                "display_name": "Drop-seq",
+                                "input_paths": ["drop_seq/protocol.pdf"],
+                            }
+                        ],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            with patch(
+                "libstruct_bench.cli.run_openrouter_library_v0._run_one",
+                side_effect=[
+                    OpenRouterResponseError("temporary 500"),
+                    {"model": "model-b", "protocol_id": "drop_seq", "status": "completed"},
+                ],
+            ):
+                exit_code = main(
+                    [
+                        "--protocols",
+                        str(protocols_path),
+                        "--out",
+                        str(out_dir),
+                        "--model",
+                        "model-a",
+                        "--model",
+                        "model-b",
+                        "--dry-run",
+                        "--continue-on-error",
+                    ]
+                )
+
+            self.assertEqual(exit_code, 0)
+            summary = json.loads((out_dir / "summary.json").read_text(encoding="utf-8"))
+            self.assertEqual(summary[0]["status"], "failed")
+            self.assertEqual(summary[0]["error"], "temporary 500")
+            self.assertEqual(summary[1]["status"], "completed")
 
 
 if __name__ == "__main__":

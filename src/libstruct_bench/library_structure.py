@@ -240,9 +240,14 @@ def extract_json_document(text: str) -> dict[str, Any]:
 
     brace_match = re.search(r"\{[\s\S]*\}", text)
     if brace_match:
-        parsed = json.loads(brace_match.group(0))
-        if isinstance(parsed, dict):
-            return parsed
+        try:
+            parsed = json.loads(brace_match.group(0))
+            if isinstance(parsed, dict):
+                return parsed
+        except json.JSONDecodeError as exc:
+            raise LibraryStructureValidationError(
+                f"model response contained malformed JSON: {exc.msg}"
+            ) from exc
     raise LibraryStructureValidationError("model response did not contain a JSON object")
 
 

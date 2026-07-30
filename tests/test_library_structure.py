@@ -7,6 +7,7 @@ from libstruct_bench.cli.grade_library_v0 import main as grade_main
 from libstruct_bench.library_structure import (
     PREDICTION_SCHEMA_VERSION,
     LibraryStructureValidationError,
+    extract_json_document,
     grade_library_prediction,
     normalize_library_sequence,
     parse_prediction_document,
@@ -175,6 +176,10 @@ class LibraryStructureTests(unittest.TestCase):
                 {"protocol_id": "example_protocol", "library_sequence": "ACGT"},
                 expected_protocol_id="example_protocol",
             )
+
+    def test_extract_json_document_reports_malformed_json(self):
+        with self.assertRaisesRegex(LibraryStructureValidationError, "malformed JSON"):
+            extract_json_document('{"protocol_id": "example", "libraries": [}')
 
     def test_cli_writes_zero_metrics_for_invalid_prediction(self):
         with tempfile.TemporaryDirectory() as tmp:
