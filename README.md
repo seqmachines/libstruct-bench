@@ -80,6 +80,16 @@ small set, mainly because Codex performs poorly on `dr_seq`. Codex is better on
 
 Detailed benchmark docs live in `docs/library_structure.md`.
 
+## Ground-truth audit
+
+The ground-truth audit is a human-adjudicated workflow that compares primary
+protocol evidence, legacy `scg_lib_structs` HTML, and the current normalized
+benchmark records. Agents may identify and propose changes, but only recorded
+human decisions can change a release.
+
+The audit architecture, evidence rules, schemas, and review gates are described
+in [`docs/audit/README.md`](docs/audit/README.md).
+
 
 ## Prior v0 LLM snapshot
 
@@ -108,4 +118,3 @@ protocol and input mode. Winner: **Gemini 3.1 Pro (April 2026)**.
 | claude-sonnet-4.6 | 0.817 | 4 | N/A | 0 | N/A | 0 |
 | kimi-k2.5 | 0.969 | 10 | N/A | 0 | N/A | 0 |
 | gpt-5.4-mini | 0.583 | 0 | N/A | 0 | N/A | 0 |
-

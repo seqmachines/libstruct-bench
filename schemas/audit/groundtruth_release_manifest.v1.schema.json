@@ -1,0 +1,257 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/groundtruth_release_manifest.v1.schema.json",
+  "title": "Frozen ground-truth release manifest v1",
+  "description": "Content-addressed manifest for a candidate or frozen sequencing-library ground-truth release.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "release_id",
+    "version",
+    "release_status",
+    "created_at",
+    "generated_by",
+    "policies",
+    "schemas",
+    "source_datasets",
+    "protocols"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "libstruct.groundtruth_release_manifest.v1"
+    },
+    "release_id": {
+      "$ref": "#/$defs/stable_id"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^v?[0-9]+\\.[0-9]+\\.[0-9]+(?:-[0-9A-Za-z.-]+)?$"
+    },
+    "release_status": {
+      "type": "string",
+      "enum": [
+        "candidate",
+        "frozen"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "generated_by": {
+      "$ref": "#/$defs/generator"
+    },
+    "policies": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "$ref": "#/$defs/file_hash"
+      }
+    },
+    "schemas": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "$ref": "#/$defs/file_hash"
+      }
+    },
+    "source_datasets": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/dataset_reference"
+      }
+    },
+    "protocols": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/protocol_release"
+      }
+    },
+    "notes": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  },
+  "$defs": {
+    "stable_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 160,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "file_hash": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "schema_version": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "dataset_reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "repository",
+        "revision"
+      ],
+      "properties": {
+        "repository": {
+          "type": "string",
+          "minLength": 1
+        },
+        "revision": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "generator": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "tool_version",
+        "git_commit"
+      ],
+      "properties": {
+        "tool_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "git_commit": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{40}$"
+        }
+      }
+    },
+    "protocol_release": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "protocol_id",
+        "disposition",
+        "input_manifest_sha256",
+        "audit_ids",
+        "decision_ids",
+        "artifacts",
+        "unresolved_issue_ids",
+        "limitations"
+      ],
+      "properties": {
+        "protocol_id": {
+          "$ref": "#/$defs/stable_id"
+        },
+        "disposition": {
+          "type": "string",
+          "enum": [
+            "included",
+            "excluded",
+            "deferred"
+          ]
+        },
+        "input_manifest_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "audit_ids": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/stable_id"
+          }
+        },
+        "decision_ids": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/stable_id"
+          }
+        },
+        "artifacts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/file_hash"
+          }
+        },
+        "unresolved_issue_ids": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/stable_id"
+          }
+        },
+        "limitations": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "disposition": {
+                "const": "included"
+              }
+            },
+            "required": [
+              "disposition"
+            ]
+          },
+          "then": {
+            "properties": {
+              "artifacts": {
+                "minItems": 1
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "disposition": {
+                "enum": [
+                  "excluded",
+                  "deferred"
+                ]
+              }
+            },
+            "required": [
+              "disposition"
+            ]
+          },
+          "then": {
+            "properties": {
+              "limitations": {
+                "minItems": 1
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

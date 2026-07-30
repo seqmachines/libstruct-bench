@@ -10,6 +10,12 @@ readme = "README.md"
 requires-python = ">=3.10"
 dependencies = []
 
+[project.optional-dependencies]
+test = [
+    "jsonschema>=4.20,<5",
+    "pytest>=8,<10",
+]
+
 [project.scripts]
 libstruct-grade = "libstruct_bench.cli.grade:main"
 libstruct-generate-harbor-tasks = "libstruct_bench.cli.generate_harbor_tasks:main"

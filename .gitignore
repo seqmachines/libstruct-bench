@@ -1,7 +1,13 @@
 __pycache__/
 .venv/
 .DS_Store
-.agents/
+# Local agent state is ignored except for the reviewed project audit skill.
+.agents/*
+!.agents/skills/
+.agents/skills/*
+!.agents/skills/libstruct-audit/
+!.agents/skills/libstruct-audit/**
+.claude/settings.local.json
 
 # Harbor run outputs
 jobs/
