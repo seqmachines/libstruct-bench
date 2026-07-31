@@ -64,6 +64,48 @@ This separation supports error attribution:
 8. Freeze a release only after the release gates in
    `adjudication-policy.md` pass.
 
+## Build the input inventory
+
+Install this repository in editable mode, then run:
+
+```bash
+libstruct-build-audit-inventory \
+  --protocols-dir /path/to/protocols \
+  --html-dir /path/to/scg_html \
+  --out /path/to/private-audit-data/inventory
+```
+
+The command writes `inventory.json` and one validated manifest per ready
+protocol under `manifests/`. It does not copy protocol, HTML, or ground-truth
+files. A nonzero exit reports unresolved input mappings; inspect
+`inventory.json` rather than guessing a mapping.
+
+Reviewed protocol-to-HTML exceptions are supplied with `--html-map`:
+
+```json
+{
+  "schema_version": "libstruct.legacy_html_map.v1",
+  "protocols": {
+    "10x_chromium_3_gene_expression_v4": ["10xChromium3.html"]
+  }
+}
+```
+
+## Prepare one audit packet
+
+```bash
+libstruct-prepare-audit-packet \
+  --manifest /path/to/inventory/manifests/s3_atac.json \
+  --protocols-dir /path/to/protocols \
+  --html-dir /path/to/scg_html \
+  --out /path/to/private-audit-data/packets/s3_atac
+```
+
+The command validates the manifest, rejects stale source hashes, and copies
+only the listed files into role-separated directories. Packet files are made
+read-only. Use `--mode symlink` only when an external filesystem sandbox
+protects the original sources.
+
 The initial pilot protocols are `s3_atac`,
 `10x_chromium_3_feature_barcoding`, `sci_rna_seq`, `petri_seq`, and `dr_seq`.
 

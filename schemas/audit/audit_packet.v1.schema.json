@@ -1,0 +1,159 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/audit_packet.v1.schema.json",
+  "title": "Library-structure audit packet v1",
+  "description": "Verified, role-separated local materialization of one audit input manifest.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "packet_id",
+    "protocol_id",
+    "materialization",
+    "input_manifest",
+    "files"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "libstruct.audit_packet.v1"
+    },
+    "packet_id": {
+      "$ref": "#/$defs/stable_id"
+    },
+    "protocol_id": {
+      "$ref": "#/$defs/stable_id"
+    },
+    "materialization": {
+      "type": "string",
+      "enum": [
+        "copy",
+        "symlink"
+      ]
+    },
+    "input_manifest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256"
+      ],
+      "properties": {
+        "path": {
+          "const": "manifest.json"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "files": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "$ref": "#/$defs/file"
+      }
+    }
+  },
+  "allOf": [
+    {
+      "properties": {
+        "files": {
+          "contains": {
+            "type": "object",
+            "required": [
+              "role"
+            ],
+            "properties": {
+              "role": {
+                "const": "primary_evidence"
+              }
+            }
+          },
+          "minContains": 1
+        }
+      }
+    },
+    {
+      "properties": {
+        "files": {
+          "contains": {
+            "type": "object",
+            "required": [
+              "role"
+            ],
+            "properties": {
+              "role": {
+                "const": "legacy_curated_html"
+              }
+            }
+          },
+          "minContains": 1
+        }
+      }
+    },
+    {
+      "properties": {
+        "files": {
+          "contains": {
+            "type": "object",
+            "required": [
+              "role"
+            ],
+            "properties": {
+              "role": {
+                "const": "current_benchmark_record"
+              }
+            }
+          },
+          "minContains": 1
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "stable_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 160,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "role": {
+      "type": "string",
+      "enum": [
+        "primary_evidence",
+        "legacy_curated_html",
+        "current_benchmark_record"
+      ]
+    },
+    "file": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_id",
+        "role",
+        "path",
+        "sha256"
+      ],
+      "properties": {
+        "source_id": {
+          "$ref": "#/$defs/stable_id"
+        },
+        "role": {
+          "$ref": "#/$defs/role"
+        },
+        "path": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^(primary_evidence|legacy_curated_html|current_benchmark_record)/[^/]+$"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    }
+  }
+}

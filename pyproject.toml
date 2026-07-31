@@ -8,11 +8,12 @@ version = "0.1.0"
 description = "Harbor benchmark utilities for sequencing information extraction."
 readme = "README.md"
 requires-python = ">=3.10"
-dependencies = []
+dependencies = [
+    "jsonschema>=4.20,<5",
+]
 
 [project.optional-dependencies]
 test = [
-    "jsonschema>=4.20,<5",
     "pytest>=8,<10",
 ]
 
@@ -22,6 +23,8 @@ libstruct-generate-harbor-tasks = "libstruct_bench.cli.generate_harbor_tasks:mai
 libstruct-grade-library-v0 = "libstruct_bench.cli.grade_library_v0:main"
 libstruct-generate-library-v0-tasks = "libstruct_bench.cli.generate_library_v0_tasks:main"
 libstruct-run-openrouter-library-v0 = "libstruct_bench.cli.run_openrouter_library_v0:main"
+libstruct-build-audit-inventory = "libstruct_bench.cli.build_audit_inventory:main"
+libstruct-prepare-audit-packet = "libstruct_bench.cli.prepare_audit_packet:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

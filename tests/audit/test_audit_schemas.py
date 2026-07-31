@@ -251,6 +251,7 @@ class AuditSchemaTests(unittest.TestCase):
             names,
             [
                 "audit_input_manifest.v1.schema.json",
+                "audit_packet.v1.schema.json",
                 "groundtruth_release_manifest.v1.schema.json",
                 "protocol_audit.v1.schema.json",
                 "review_decision.v1.schema.json",
