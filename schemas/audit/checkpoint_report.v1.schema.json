@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/checkpoint_report.v1.schema.json",
+  "title": "Ground-truth audit checkpoint report v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "checkpoint_id", "created_at", "reviewed_protocol_count", "proposal_artifacts", "decision_artifacts", "application_artifacts", "regression_results_artifact", "metrics", "protocols"],
+  "properties": {
+    "schema_version": {"const": "libstruct.checkpoint_report.v1"},
+    "checkpoint_id": {"$ref": "#/$defs/stable_id"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "reviewed_protocol_count": {"type": "integer", "minimum": 0},
+    "proposal_artifacts": {"type": "array", "items": {"$ref": "#/$defs/artifact"}},
+    "decision_artifacts": {"type": "array", "items": {"$ref": "#/$defs/artifact"}},
+    "application_artifacts": {"type": "array", "items": {"$ref": "#/$defs/artifact"}},
+    "regression_results_artifact": {"oneOf": [{"$ref": "#/$defs/artifact"}, {"type": "null"}]},
+    "previous_checkpoint": {"oneOf": [{"$ref": "#/$defs/artifact"}, {"type": "null"}]},
+    "deltas": {"oneOf": [{"$ref": "#/$defs/deltas"}, {"type": "null"}]},
+    "metrics": {"$ref": "#/$defs/metrics"},
+    "protocols": {"type": "array", "items": {"$ref": "#/$defs/protocol"}},
+    "new_regressions": {"type": ["array", "null"], "items": {"type": "string", "minLength": 1}}
+  },
+  "$defs": {
+    "stable_id": {"type": "string", "minLength": 1, "maxLength": 240, "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"},
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "artifact": {"type": "object", "additionalProperties": false, "required": ["path", "sha256"], "properties": {"path": {"type": "string", "minLength": 1}, "sha256": {"$ref": "#/$defs/sha256"}}},
+    "counter": {"type": "object", "additionalProperties": {"type": "integer", "minimum": 0}},
+    "deltas": {
+      "type": "object", "additionalProperties": false,
+      "required": ["reviewed_protocol_count", "audited_field_count", "confirmed_error_field_count", "confirmed_issue_count", "human_error_count", "agent_error_count", "human_review_seconds"],
+      "properties": {"reviewed_protocol_count": {"type": "integer"}, "audited_field_count": {"type": "integer"}, "confirmed_error_field_count": {"type": "integer"}, "confirmed_issue_count": {"type": "integer"}, "human_error_count": {"type": "integer"}, "agent_error_count": {"type": "integer"}, "human_review_seconds": {"type": "number"}}
+    },
+    "metrics": {
+      "type": "object", "additionalProperties": false,
+      "required": ["audited_field_count", "confirmed_error_field_count", "confirmed_error_rate", "proposed_issue_count", "confirmed_issue_count", "category_distribution", "responsibility_distribution", "severity_distribution", "task_distribution", "human_error_count", "agent_error_count", "other_error_count", "human_error_proportion", "agent_error_proportion", "human_review_seconds", "new_regression_count"],
+      "properties": {"audited_field_count": {"type": "integer", "minimum": 0}, "confirmed_error_field_count": {"type": "integer", "minimum": 0}, "confirmed_error_rate": {"type": "number", "minimum": 0, "maximum": 1}, "proposed_issue_count": {"type": "integer", "minimum": 0}, "confirmed_issue_count": {"type": "integer", "minimum": 0}, "category_distribution": {"$ref": "#/$defs/counter"}, "responsibility_distribution": {"$ref": "#/$defs/counter"}, "severity_distribution": {"$ref": "#/$defs/counter"}, "task_distribution": {"$ref": "#/$defs/counter"}, "human_error_count": {"type": "integer", "minimum": 0}, "agent_error_count": {"type": "integer", "minimum": 0}, "other_error_count": {"type": "integer", "minimum": 0}, "human_error_proportion": {"type": "number", "minimum": 0, "maximum": 1}, "agent_error_proportion": {"type": "number", "minimum": 0, "maximum": 1}, "human_review_seconds": {"type": "number", "minimum": 0}, "new_regression_count": {"type": ["integer", "null"], "minimum": 0}}
+    },
+    "protocol": {
+      "type": "object", "additionalProperties": false, "required": ["protocol_id", "audit_id", "decision_id", "audited_field_count", "confirmed_error_field_count", "confirmed_issue_count", "review_seconds"],
+      "properties": {"protocol_id": {"$ref": "#/$defs/stable_id"}, "audit_id": {"$ref": "#/$defs/stable_id"}, "decision_id": {"$ref": "#/$defs/stable_id"}, "audited_field_count": {"type": "integer", "minimum": 0}, "confirmed_error_field_count": {"type": "integer", "minimum": 0}, "confirmed_issue_count": {"type": "integer", "minimum": 0}, "review_seconds": {"type": "number", "minimum": 0}}
+    }
+  }
+}

@@ -13,18 +13,33 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+audit-docs = [
+    "pymupdf>=1.24,<2",
+]
 test = [
     "pytest>=8,<10",
 ]
 
 [project.scripts]
 libstruct-grade = "libstruct_bench.cli.grade:main"
+libstruct-grade-oligos = "libstruct_bench.cli.grade_oligos:main"
 libstruct-generate-harbor-tasks = "libstruct_bench.cli.generate_harbor_tasks:main"
 libstruct-grade-library-v0 = "libstruct_bench.cli.grade_library_v0:main"
+libstruct-grade-library = "libstruct_bench.cli.grade_library:main"
 libstruct-generate-library-v0-tasks = "libstruct_bench.cli.generate_library_v0_tasks:main"
 libstruct-run-openrouter-library-v0 = "libstruct_bench.cli.run_openrouter_library_v0:main"
-libstruct-build-audit-inventory = "libstruct_bench.cli.build_audit_inventory:main"
-libstruct-prepare-audit-packet = "libstruct_bench.cli.prepare_audit_packet:main"
+libstruct-build-audit-source-catalog = "libstruct_bench.cli.build_audit_source_catalog:main"
+libstruct-build-audit-manifests = "libstruct_bench.cli.build_audit_manifests:main"
+libstruct-build-audit-renditions = "libstruct_bench.cli.build_audit_renditions:main"
+libstruct-prepare-audit-phase-packet = "libstruct_bench.cli.prepare_audit_phase_packet:main"
+libstruct-run-claude-audit = "libstruct_bench.cli.run_claude_audit:main"
+libstruct-render-audit-review = "libstruct_bench.cli.render_audit_review:main"
+libstruct-validate-audit-review = "libstruct_bench.cli.validate_audit_review:main"
+libstruct-apply-audit-decision = "libstruct_bench.cli.apply_audit_decision:main"
+libstruct-run-audit-regressions = "libstruct_bench.cli.run_audit_regressions:main"
+libstruct-report-audit-checkpoint = "libstruct_bench.cli.report_audit_checkpoint:main"
+libstruct-build-audit-release = "libstruct_bench.cli.build_audit_release:main"
+libstruct-build-audited-oligos = "libstruct_bench.cli.build_audited_oligos:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

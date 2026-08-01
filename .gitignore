@@ -36,6 +36,8 @@ dist/
 
 # Keep private benchmark answers out of GitHub.
 groundtruth/
+!schemas/groundtruth/
+!schemas/groundtruth/*.schema.json
 ground_truth/
 **/groundtruth_oligos.json
 **/ground_truth_oligos.json

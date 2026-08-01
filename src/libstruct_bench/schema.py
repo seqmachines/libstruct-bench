@@ -5,6 +5,8 @@ from typing import Any
 
 
 PREDICTION_SCHEMA_VERSION = "libstruct.oligo_extraction.v1"
+AUDITED_PREDICTION_SCHEMA_VERSION = "libstruct.oligo_extraction.v2"
+AUDITED_GROUNDTRUTH_SCHEMA_VERSION = "libstruct.oligo_groundtruth.v1"
 
 
 class PredictionValidationError(ValueError):
@@ -19,7 +21,12 @@ class Oligo:
     oligo_id: str | None = None
 
 
-def parse_prediction_document(document: Any, *, expected_protocol_id: str | None = None) -> tuple[str, list[Oligo]]:
+def parse_prediction_document(
+    document: Any,
+    *,
+    expected_protocol_id: str | None = None,
+    required_schema_version: str = PREDICTION_SCHEMA_VERSION,
+) -> tuple[str, list[Oligo]]:
     if not isinstance(document, dict):
         raise PredictionValidationError("prediction must be a JSON object")
 
@@ -31,10 +38,10 @@ def parse_prediction_document(document: Any, *, expected_protocol_id: str | None
             f"prediction.protocol_id={protocol_id!r} does not match expected {expected_protocol_id!r}"
         )
 
-    schema_version = document.get("schema_version")
-    if schema_version != PREDICTION_SCHEMA_VERSION:
+    actual_schema_version = document.get("schema_version")
+    if actual_schema_version != required_schema_version:
         raise PredictionValidationError(
-            f"prediction.schema_version must be {PREDICTION_SCHEMA_VERSION!r}"
+            f"prediction.schema_version must be {required_schema_version!r}"
         )
 
     raw_oligos = document.get("oligos")

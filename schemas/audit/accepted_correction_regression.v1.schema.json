@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/accepted_correction_regression.v1.schema.json",
+  "title": "Accepted audit correction regression fixture v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "protocol_id", "audit_id", "decision_id", "issue_id", "artifact_source_id", "baseline_state", "patch", "candidate_document_sha256"],
+  "properties": {
+    "schema_version": {"const": "libstruct.accepted_correction_regression.v1"},
+    "protocol_id": {"$ref": "#/$defs/stable_id"},
+    "audit_id": {"$ref": "#/$defs/stable_id"},
+    "decision_id": {"$ref": "#/$defs/stable_id"},
+    "issue_id": {"$ref": "#/$defs/stable_id"},
+    "artifact_source_id": {"$ref": "#/$defs/stable_id"},
+    "baseline_state": {"type": "string", "enum": ["present", "absent"]},
+    "baseline_sha256": {"$ref": "#/$defs/sha256"},
+    "patch": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/patch"}},
+    "candidate_document_sha256": {"$ref": "#/$defs/sha256"}
+  },
+  "allOf": [
+    {"if": {"properties": {"baseline_state": {"const": "present"}}, "required": ["baseline_state"]}, "then": {"required": ["baseline_sha256"]}, "else": {"not": {"required": ["baseline_sha256"]}}}
+  ],
+  "$defs": {
+    "stable_id": {"type": "string", "minLength": 1, "maxLength": 240, "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"},
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "patch": {
+      "type": "object", "additionalProperties": false, "required": ["op", "path"],
+      "properties": {"op": {"type": "string", "enum": ["add", "remove", "replace", "test"]}, "path": {"type": "string", "pattern": "^(/([^~/]|~0|~1)*)*$"}, "value": {}},
+      "allOf": [
+        {"if": {"properties": {"op": {"enum": ["add", "replace", "test"]}}, "required": ["op"]}, "then": {"required": ["value"]}},
+        {"if": {"properties": {"op": {"const": "remove"}}, "required": ["op"]}, "then": {"not": {"required": ["value"]}}}
+      ]
+    }
+  }
+}

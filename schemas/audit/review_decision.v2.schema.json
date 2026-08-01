@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/review_decision.v2.schema.json",
+  "title": "Human ground-truth audit decision v2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "decision_id", "protocol_id", "audit_id", "proposal_sha256",
+    "baseline_artifacts", "reviewer", "review_started_at", "review_completed_at",
+    "overall_disposition", "issue_decisions"
+  ],
+  "properties": {
+    "schema_version": {"const": "libstruct.review_decision.v2"},
+    "decision_id": {"$ref": "#/$defs/stable_id"},
+    "protocol_id": {"$ref": "#/$defs/stable_id"},
+    "audit_id": {"$ref": "#/$defs/stable_id"},
+    "proposal_sha256": {"$ref": "#/$defs/sha256"},
+    "baseline_artifacts": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/artifact_hash"}},
+    "reviewer": {"$ref": "#/$defs/reviewer"},
+    "review_started_at": {"type": "string", "format": "date-time"},
+    "review_completed_at": {"type": "string", "format": "date-time"},
+    "review_duration_seconds": {"type": "number", "minimum": 0},
+    "overall_disposition": {"type": "string", "enum": ["confirmed", "accepted", "rejected", "partially_accepted", "unresolved", "excluded"]},
+    "issue_decisions": {"type": "array", "items": {"$ref": "#/$defs/issue_decision"}},
+    "review_notes": {"type": ["string", "null"]}
+  },
+  "allOf": [
+    {"if": {"properties": {"overall_disposition": {"const": "confirmed"}}, "required": ["overall_disposition"]}, "then": {"properties": {"issue_decisions": {"maxItems": 0}}}, "else": {"properties": {"issue_decisions": {"minItems": 1}}}}
+  ],
+  "$defs": {
+    "stable_id": {"type": "string", "minLength": 1, "maxLength": 240, "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"},
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "artifact_hash": {"type": "object", "additionalProperties": false, "required": ["source_id", "sha256"], "properties": {"source_id": {"$ref": "#/$defs/stable_id"}, "sha256": {"$ref": "#/$defs/sha256"}}},
+    "reviewer": {
+      "type": "object", "additionalProperties": false, "required": ["reviewer_id"],
+      "properties": {"reviewer_id": {"$ref": "#/$defs/stable_id"}, "name": {"type": ["string", "null"]}, "organization": {"type": ["string", "null"]}}
+    },
+    "patch": {
+      "type": "object", "additionalProperties": false, "required": ["op", "path"],
+      "properties": {"op": {"type": "string", "enum": ["add", "remove", "replace", "test"]}, "path": {"type": "string", "pattern": "^(/([^~/]|~0|~1)*)*$"}, "value": {}},
+      "allOf": [
+        {"if": {"properties": {"op": {"enum": ["add", "replace", "test"]}}, "required": ["op"]}, "then": {"required": ["value"]}},
+        {"if": {"properties": {"op": {"const": "remove"}}, "required": ["op"]}, "then": {"not": {"required": ["value"]}}}
+      ]
+    },
+    "issue_decision": {
+      "type": "object", "additionalProperties": false,
+      "required": ["issue_id", "disposition", "rationale"],
+      "properties": {
+        "issue_id": {"$ref": "#/$defs/stable_id"},
+        "disposition": {"type": "string", "enum": ["accept", "reject", "modify", "unresolved", "exclude"]},
+        "rationale": {"type": "string", "minLength": 1},
+        "replacement_value": {},
+        "replacement_patch": {"type": "array", "items": {"$ref": "#/$defs/patch"}},
+        "category": {"type": "string", "enum": ["source_or_evidence_missing", "source_conflict", "human_curation_error", "agent_reasoning_error", "agent_harness_or_context_error", "pdf_or_table_extraction_error", "formatting_or_schema_error", "naming_or_normalization_inconsistency", "protocol_version_confusion", "benchmark_policy_ambiguity", "evaluator_or_matching_error", "unresolved_scientific_ambiguity", "other"]},
+        "responsibility": {"type": "string", "enum": ["human_curation", "benchmark_agent", "audit_agent", "parser", "harness", "policy", "evaluator", "source_bundle", "unresolved"]},
+        "severity": {"type": "string", "enum": ["blocker", "high", "medium", "low"]},
+        "exclusion_scope": {"type": "string", "enum": ["field", "task", "protocol"]}
+      },
+      "allOf": [
+        {"if": {"properties": {"disposition": {"const": "modify"}}, "required": ["disposition"]}, "then": {"required": ["replacement_value", "replacement_patch"], "properties": {"replacement_patch": {"minItems": 1}}}, "else": {"properties": {"replacement_patch": {"maxItems": 0}}}},
+        {"if": {"properties": {"disposition": {"const": "exclude"}}, "required": ["disposition"]}, "then": {"required": ["exclusion_scope"]}}
+      ]
+    }
+  }
+}

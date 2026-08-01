@@ -30,6 +30,23 @@ def grade_prediction(
             f"ground truth protocol_id={ground_truth_protocol_id!r} does not match expected {expected_protocol_id!r}"
         )
 
+    return grade_oligo_lists(
+        protocol_id=protocol_id,
+        predicted_oligos=predicted_oligos,
+        ground_truth_oligos=ground_truth_oligos,
+        ground_truth_protocol_id=ground_truth_protocol_id,
+    )
+
+
+def grade_oligo_lists(
+    *,
+    protocol_id: str,
+    predicted_oligos: list[Oligo],
+    ground_truth_oligos: list[Oligo],
+    ground_truth_protocol_id: str | None,
+) -> tuple[dict[str, float], dict[str, Any]]:
+    """Score already validated oligo lists with global one-to-one matching."""
+
     predicted = [_prepared_oligo(oligo) for oligo in predicted_oligos]
     ground_truth = [_prepared_oligo(oligo) for oligo in ground_truth_oligos]
 
@@ -52,6 +69,17 @@ def grade_prediction(
         for pred_idx, gt_idx, _ in matches
     ]
     name_similarity_mean = sum(name_scores) / len(name_scores) if name_scores else 0.0
+    direction_pairs = [
+        (predicted_oligos[pred_idx].direction, ground_truth_oligos[gt_idx].direction)
+        for pred_idx, gt_idx, _ in matches
+        if ground_truth_oligos[gt_idx].direction != "unknown"
+    ]
+    direction_accuracy = (
+        sum(predicted_direction == truth_direction for predicted_direction, truth_direction in direction_pairs)
+        / len(direction_pairs)
+        if direction_pairs
+        else 1.0
+    )
 
     metrics = {
         "reward": f1,
@@ -60,6 +88,7 @@ def grade_prediction(
         "sequence_f1": f1,
         "exact_match": exact_match,
         "name_similarity_mean": name_similarity_mean,
+        "direction_accuracy": direction_accuracy,
         "predicted_count": float(predicted_count),
         "ground_truth_count": float(ground_truth_count),
         "matched_count": float(len(matches)),
@@ -80,6 +109,8 @@ def grade_prediction(
                 "ground_truth_name": ground_truth[gt_idx]["name"],
                 "predicted_sequence": predicted[pred_idx]["normalized_sequence"],
                 "ground_truth_sequence": ground_truth[gt_idx]["normalized_sequence"],
+                "predicted_direction": predicted_oligos[pred_idx].direction,
+                "ground_truth_direction": ground_truth_oligos[gt_idx].direction,
             }
             for position, (pred_idx, gt_idx, score) in enumerate(matches)
         ],
@@ -97,6 +128,7 @@ def zero_metrics() -> dict[str, float]:
         "sequence_f1": 0.0,
         "exact_match": 0.0,
         "name_similarity_mean": 0.0,
+        "direction_accuracy": 0.0,
         "predicted_count": 0.0,
         "ground_truth_count": 0.0,
         "matched_count": 0.0,

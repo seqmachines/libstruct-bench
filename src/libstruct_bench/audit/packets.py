@@ -1,8 +1,9 @@
 from __future__ import annotations
 
 import hashlib
+import csv
+import io
 import json
-import os
 import shutil
 import tempfile
 from dataclasses import dataclass
@@ -11,11 +12,19 @@ from typing import Any
 
 from jsonschema import Draft202012Validator, FormatChecker
 
-from .inventory import ROLE_ORDER, sha256_file
+from .artifacts import canonical_json_bytes, sha256_file
 
 
-PACKET_SCHEMA_VERSION = "libstruct.audit_packet.v1"
+PHASE_PACKET_SCHEMA_VERSION = "libstruct.audit_packet.v2"
 MATERIALIZATION_MODES = ("copy", "symlink")
+PACKET_PHASES = ("evidence", "comparison")
+_RENDITION_MEDIA_TYPES = {
+    "application/pdf",
+    "application/msword",
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    "application/vnd.ms-excel",
+    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+}
 
 
 class PacketError(ValueError):
@@ -23,11 +32,13 @@ class PacketError(ValueError):
 
 
 @dataclass(frozen=True)
-class PacketResult:
+class PhasePacketResult:
     output_dir: Path
     packet_path: Path
     protocol_id: str
+    phase: str
     file_count: int
+    rendition_count: int
 
 
 @dataclass(frozen=True)
@@ -37,44 +48,70 @@ class _PlannedFile:
     source_path: Path
     packet_path: PurePosixPath
     sha256: str
+    source_kind: str | None = None
+    source_sha256: str | None = None
+    transformation: str | None = None
+    materialized_bytes: bytes | None = None
 
 
-def build_packet(
+@dataclass(frozen=True)
+class _PlannedRendition:
+    artifact_id: str
+    source_id: str
+    kind: str
+    source_path: Path
+    packet_path: PurePosixPath
+    sha256: str
+    media_type: str
+    page: int | None = None
+    sheet: str | None = None
+
+
+def build_phase_packet(
     *,
     manifest_path: Path,
-    protocols_dir: Path,
-    html_dir: Path,
+    source_dataset_dir: Path,
+    groundtruth_dataset_dir: Path,
     output_dir: Path,
     manifest_schema_path: Path,
     packet_schema_path: Path,
-    baseline_dir: Path | None = None,
+    phase: str,
+    evidence_artifact_path: Path | None = None,
+    run_artifact_dir: Path | None = None,
+    rendition_bundle_dir: Path | None = None,
+    rendition_schema_path: Path | None = None,
     mode: str = "copy",
-) -> PacketResult:
-    """Verify one manifest and materialize only its listed source files."""
+) -> PhasePacketResult:
+    """Materialize an evidence-only or post-evidence comparison packet."""
 
+    if phase not in PACKET_PHASES:
+        raise PacketError(f"phase must be one of: {', '.join(PACKET_PHASES)}")
     if mode not in MATERIALIZATION_MODES:
         raise PacketError(
             f"materialization mode must be one of: {', '.join(MATERIALIZATION_MODES)}"
         )
-
     manifest_path = _required_file(manifest_path, "input manifest")
-    protocols_dir = _required_directory(protocols_dir, "protocols")
-    html_dir = _required_directory(html_dir, "legacy HTML")
-    baseline_dir = _required_directory(
-        baseline_dir if baseline_dir is not None else protocols_dir,
-        "current benchmark records",
+    source_dataset_dir = _required_directory(source_dataset_dir, "source dataset")
+    groundtruth_dataset_dir = _required_directory(
+        groundtruth_dataset_dir, "ground-truth dataset"
     )
+    if run_artifact_dir is not None:
+        run_artifact_dir = _required_directory(run_artifact_dir, "run artifacts")
+    if rendition_bundle_dir is not None:
+        rendition_bundle_dir = _required_directory(
+            rendition_bundle_dir, "rendition bundle"
+        )
     manifest_schema_path = _required_file(
         manifest_schema_path, "input manifest schema"
     )
     packet_schema_path = _required_file(packet_schema_path, "audit packet schema")
     output_dir = output_dir.expanduser().resolve()
-    _validate_output_location(
-        output_dir,
-        protocols_dir=protocols_dir,
-        html_dir=html_dir,
-        baseline_dir=baseline_dir,
-    )
+    roots = {source_dataset_dir, groundtruth_dataset_dir}
+    if run_artifact_dir is not None:
+        roots.add(run_artifact_dir)
+    if rendition_bundle_dir is not None:
+        roots.add(rendition_bundle_dir)
+    _validate_output_location(output_dir, roots)
 
     manifest_bytes = manifest_path.read_bytes()
     try:
@@ -83,59 +120,169 @@ def build_packet(
         raise PacketError(f"cannot read input manifest as JSON: {error}") from error
     if not isinstance(manifest, dict):
         raise PacketError("input manifest must be a JSON object")
-    _validate_document(
-        manifest,
-        manifest_schema_path,
-        label="input manifest",
-    )
+    _validate_document(manifest, manifest_schema_path, label="input manifest")
+    if manifest.get("schema_version") != "libstruct.audit_input_manifest.v2":
+        raise PacketError("phase packets require libstruct.audit_input_manifest.v2")
+    pending = [
+        source["source_id"]
+        for source in manifest["sources"]
+        if source["approval_status"] == "pending"
+    ]
+    if pending:
+        raise PacketError(
+            "input manifest contains pending source decisions: " + ", ".join(pending)
+        )
+
+    if phase == "comparison":
+        if evidence_artifact_path is None:
+            raise PacketError("comparison phase requires --evidence-artifact")
+        evidence_artifact_path = _required_file(
+            evidence_artifact_path, "frozen evidence artifact"
+        )
+    elif evidence_artifact_path is not None:
+        raise PacketError("evidence phase must not receive a frozen evidence artifact")
 
     protocol_id = manifest["protocol_id"]
-    planned_files = _plan_files(
-        manifest=manifest,
-        protocol_id=protocol_id,
-        protocols_dir=protocols_dir,
-        html_dir=html_dir,
-        baseline_dir=baseline_dir,
+    selected_sources = [
+        source
+        for source in manifest["sources"]
+        if source["approval_status"] == "included"
+        and (phase == "comparison" or source["role"] == "primary_evidence")
+    ]
+    planned_files = _plan_phase_files(
+        sources=selected_sources,
+        source_dataset_dir=source_dataset_dir,
+        groundtruth_dataset_dir=groundtruth_dataset_dir,
+        run_artifact_dir=run_artifact_dir,
     )
-    manifest_sha256 = hashlib.sha256(manifest_bytes).hexdigest()
-    packet_document = {
-        "schema_version": PACKET_SCHEMA_VERSION,
-        "packet_id": f"{protocol_id}:packet:{manifest_sha256[:16]}",
+    if not planned_files:
+        raise PacketError(f"{phase} packet has no included files")
+
+    source_manifest_sha = hashlib.sha256(manifest_bytes).hexdigest()
+    primary_sources_requiring_renditions = [
+        source
+        for source in selected_sources
+        if source["role"] == "primary_evidence"
+        and source.get("media_type") in _RENDITION_MEDIA_TYPES
+    ]
+    planned_renditions = _plan_renditions(
+        rendition_bundle_dir=rendition_bundle_dir,
+        rendition_schema_path=rendition_schema_path,
+        expected_sources=primary_sources_requiring_renditions,
+        protocol_id=protocol_id,
+        manifest_sha256=source_manifest_sha,
+    )
+    projected_manifest = {
+        "schema_version": "libstruct.audit_packet_manifest.v1",
         "protocol_id": protocol_id,
+        "phase": phase,
+        "source_manifest_sha256": source_manifest_sha,
+        "checkpoint": manifest["checkpoint"],
+        "sources": [
+            {
+                key: source[key]
+                for key in (
+                    "source_id",
+                    "role",
+                    "source_kind",
+                    "path",
+                    "sha256",
+                    "media_type",
+                    "title",
+                    "document_version",
+                    "task_relevance",
+                    "row_filter",
+                )
+                if key in source
+            }
+            for source in selected_sources
+        ],
+    }
+    projected_bytes = canonical_json_bytes(projected_manifest)
+    projected_sha = hashlib.sha256(projected_bytes).hexdigest()
+    evidence_sha = (
+        sha256_file(evidence_artifact_path)
+        if evidence_artifact_path is not None
+        else None
+    )
+    identity = hashlib.sha256(
+        f"{source_manifest_sha}:{phase}:{evidence_sha or ''}".encode("utf-8")
+    ).hexdigest()
+    packet_document: dict[str, Any] = {
+        "schema_version": PHASE_PACKET_SCHEMA_VERSION,
+        "packet_id": f"{protocol_id}:{phase}-packet:{identity[:16]}",
+        "protocol_id": protocol_id,
+        "phase": phase,
         "materialization": mode,
         "input_manifest": {
             "path": "manifest.json",
-            "sha256": manifest_sha256,
+            "sha256": projected_sha,
+            "source_sha256": source_manifest_sha,
         },
         "files": [
             {
-                "source_id": planned.source_id,
-                "role": planned.role,
-                "path": planned.packet_path.as_posix(),
-                "sha256": planned.sha256,
+                key: value
+                for key, value in {
+                    "source_id": planned.source_id,
+                    "role": planned.role,
+                    "source_kind": planned.source_kind or "unclassified",
+                    "path": planned.packet_path.as_posix(),
+                    "sha256": planned.sha256,
+                    "source_sha256": planned.source_sha256,
+                    "transformation": planned.transformation,
+                }.items()
+                if value is not None
             }
             for planned in planned_files
         ],
     }
-    _validate_document(
-        packet_document,
-        packet_schema_path,
-        label="audit packet metadata",
-    )
+    if evidence_sha is not None:
+        packet_document["frozen_evidence"] = {
+            "path": "frozen_evidence/evidence.json",
+            "sha256": evidence_sha,
+        }
+    if planned_renditions:
+        packet_document["renditions"] = [
+            {
+                key: value
+                for key, value in {
+                    "artifact_id": planned.artifact_id,
+                    "source_id": planned.source_id,
+                    "kind": planned.kind,
+                    "path": planned.packet_path.as_posix(),
+                    "sha256": planned.sha256,
+                    "media_type": planned.media_type,
+                    "page": planned.page,
+                    "sheet": planned.sheet,
+                }.items()
+                if value is not None
+            }
+            for planned in planned_renditions
+        ]
+    _validate_document(packet_document, packet_schema_path, label="audit packet metadata")
 
     output_dir.parent.mkdir(parents=True, exist_ok=True)
     temporary_dir = Path(
-        tempfile.mkdtemp(
-            prefix=f".{output_dir.name}.building-",
-            dir=output_dir.parent,
-        )
+        tempfile.mkdtemp(prefix=f".{output_dir.name}.building-", dir=output_dir.parent)
     )
     try:
-        packet_manifest_path = temporary_dir / "manifest.json"
-        packet_manifest_path.write_bytes(manifest_bytes)
-        packet_manifest_path.chmod(0o444)
-
+        projected_path = temporary_dir / "manifest.json"
+        projected_path.write_bytes(projected_bytes)
+        projected_path.chmod(0o444)
         for planned in planned_files:
+            destination = temporary_dir.joinpath(*planned.packet_path.parts)
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            if planned.materialized_bytes is not None:
+                destination.write_bytes(planned.materialized_bytes)
+                destination.chmod(0o444)
+            elif mode == "copy":
+                shutil.copyfile(planned.source_path, destination)
+                destination.chmod(0o444)
+            else:
+                destination.symlink_to(planned.source_path)
+            if sha256_file(destination) != planned.sha256:
+                raise PacketError(f"source changed while materializing {planned.source_id}")
+        for planned in planned_renditions:
             destination = temporary_dir.joinpath(*planned.packet_path.parts)
             destination.parent.mkdir(parents=True, exist_ok=True)
             if mode == "copy":
@@ -143,13 +290,17 @@ def build_packet(
                 destination.chmod(0o444)
             else:
                 destination.symlink_to(planned.source_path)
-            actual_hash = sha256_file(destination)
-            if actual_hash != planned.sha256:
+            if sha256_file(destination) != planned.sha256:
                 raise PacketError(
-                    f"source changed while materializing {planned.source_id}: "
-                    f"expected {planned.sha256}, got {actual_hash}"
+                    f"rendition changed while materializing {planned.artifact_id}"
                 )
-
+        if evidence_artifact_path is not None:
+            evidence_destination = temporary_dir / "frozen_evidence" / "evidence.json"
+            evidence_destination.parent.mkdir()
+            shutil.copyfile(evidence_artifact_path, evidence_destination)
+            evidence_destination.chmod(0o444)
+            if sha256_file(evidence_destination) != evidence_sha:
+                raise PacketError("frozen evidence changed while materializing packet")
         packet_path = temporary_dir / "packet.json"
         _write_json(packet_path, packet_document)
         packet_path.chmod(0o444)
@@ -157,112 +308,240 @@ def build_packet(
     except BaseException:
         shutil.rmtree(temporary_dir, ignore_errors=True)
         raise
-
-    return PacketResult(
+    return PhasePacketResult(
         output_dir=output_dir,
         packet_path=output_dir / "packet.json",
         protocol_id=protocol_id,
+        phase=phase,
         file_count=len(planned_files),
+        rendition_count=len(planned_renditions),
     )
 
 
-def _plan_files(
+def _plan_phase_files(
     *,
-    manifest: dict[str, Any],
-    protocol_id: str,
-    protocols_dir: Path,
-    html_dir: Path,
-    baseline_dir: Path,
+    sources: list[dict[str, Any]],
+    source_dataset_dir: Path,
+    groundtruth_dataset_dir: Path,
+    run_artifact_dir: Path | None,
 ) -> list[_PlannedFile]:
     source_ids: set[str] = set()
     role_counts: dict[str, int] = {}
-    planned_files: list[_PlannedFile] = []
-    sources = sorted(
-        manifest["sources"],
-        key=lambda source: (ROLE_ORDER[source["role"]], source["path"]),
-    )
-
-    for source in sources:
+    planned: list[_PlannedFile] = []
+    role_order = {
+        "primary_evidence": 0,
+        "legacy_curated_html": 1,
+        "current_benchmark_record": 2,
+        "benchmark_run_artifact": 3,
+    }
+    for source in sorted(
+        sources, key=lambda item: (role_order[item["role"]], item["path"])
+    ):
         source_id = source["source_id"]
         if source_id in source_ids:
             raise PacketError(f"duplicate source_id in manifest: {source_id}")
         source_ids.add(source_id)
-
         role = source["role"]
-        actual_path = _resolve_source_path(
-            role=role,
-            logical_path=source["path"],
-            protocol_id=protocol_id,
-            protocols_dir=protocols_dir,
-            html_dir=html_dir,
-            baseline_dir=baseline_dir,
-        )
+        if role in {"primary_evidence", "legacy_curated_html"}:
+            root = source_dataset_dir
+        elif role == "current_benchmark_record":
+            root = groundtruth_dataset_dir
+        elif role == "benchmark_run_artifact":
+            if run_artifact_dir is None:
+                raise PacketError(
+                    f"run artifact root is required for source {source_id}"
+                )
+            root = run_artifact_dir
+        else:
+            raise PacketError(f"unsupported source role: {role}")
+        actual_path = _resolve_dataset_path(root, source["dataset_reference"]["path"])
         actual_hash = sha256_file(actual_path)
-        expected_hash = source["sha256"]
-        if actual_hash != expected_hash:
+        if actual_hash != source["sha256"]:
             raise PacketError(
-                f"stale hash for {source_id}: expected {expected_hash}, got {actual_hash}"
+                f"stale hash for {source_id}: expected {source['sha256']}, got {actual_hash}"
             )
-
+        if actual_path.stat().st_size != source["size_bytes"]:
+            raise PacketError(
+                f"stale size for {source_id}: expected {source['size_bytes']}, "
+                f"got {actual_path.stat().st_size}"
+            )
+        materialized_bytes: bytes | None = None
+        source_sha256: str | None = None
+        transformation: str | None = None
+        packet_sha256 = source["sha256"]
+        if "row_filter" in source:
+            if source.get("media_type") != "text/tab-separated-values":
+                raise PacketError(
+                    f"row_filter is only supported for TSV source {source_id}"
+                )
+            materialized_bytes = _filter_tsv_bytes(
+                actual_path, source["row_filter"], source_id
+            )
+            source_sha256 = source["sha256"]
+            packet_sha256 = hashlib.sha256(materialized_bytes).hexdigest()
+            transformation = "tsv_row_filter"
         role_counts[role] = role_counts.get(role, 0) + 1
         packet_name = f"{role_counts[role]:03d}-{actual_path.name}"
-        packet_path = PurePosixPath(role, packet_name)
-        planned_files.append(
+        planned.append(
             _PlannedFile(
                 source_id=source_id,
                 role=role,
                 source_path=actual_path,
-                packet_path=packet_path,
-                sha256=expected_hash,
+                packet_path=PurePosixPath(role, packet_name),
+                sha256=packet_sha256,
+                source_kind=source["source_kind"],
+                source_sha256=source_sha256,
+                transformation=transformation,
+                materialized_bytes=materialized_bytes,
             )
         )
+    return planned
 
-    return planned_files
+
+def _filter_tsv_bytes(
+    path: Path, row_filter: dict[str, Any], source_id: str
+) -> bytes:
+    try:
+        with path.open("r", encoding="utf-8", newline="") as handle:
+            reader = csv.DictReader(handle, delimiter="\t")
+            if reader.fieldnames is None:
+                raise PacketError(f"TSV source has no header: {source_id}")
+            column = row_filter["column"]
+            if column not in reader.fieldnames:
+                raise PacketError(
+                    f"TSV source {source_id} has no filter column {column!r}"
+                )
+            rows = [
+                (row_number, row)
+                for row_number, row in enumerate(reader, start=2)
+                if row.get(column) == row_filter["value"]
+            ]
+    except (OSError, UnicodeDecodeError, csv.Error) as error:
+        raise PacketError(f"cannot filter TSV source {source_id}: {error}") from error
+    output = io.StringIO(newline="")
+    fieldnames = ["source_row_number", *reader.fieldnames]
+    writer = csv.DictWriter(
+        output,
+        fieldnames=fieldnames,
+        delimiter="\t",
+        lineterminator="\n",
+        extrasaction="raise",
+    )
+    writer.writeheader()
+    for row_number, row in rows:
+        writer.writerow({"source_row_number": row_number, **row})
+    return output.getvalue().encode("utf-8")
 
 
-def _resolve_source_path(
+def _plan_renditions(
     *,
-    role: str,
-    logical_path: str,
+    rendition_bundle_dir: Path | None,
+    rendition_schema_path: Path | None,
+    expected_sources: list[dict[str, Any]],
     protocol_id: str,
-    protocols_dir: Path,
-    html_dir: Path,
-    baseline_dir: Path,
-) -> Path:
-    portable = PurePosixPath(logical_path)
-    if portable.is_absolute() or ".." in portable.parts or "." in portable.parts:
-        raise PacketError(f"unsafe portable source path: {logical_path}")
-
-    if role == "primary_evidence":
-        prefix = ("protocols", protocol_id)
-        root = protocols_dir / protocol_id
-    elif role == "legacy_curated_html":
-        prefix = ("legacy", "scg_html")
-        root = html_dir
-    elif role == "current_benchmark_record":
-        prefix = ("baselines", protocol_id)
-        root = baseline_dir / protocol_id
-    else:
-        raise PacketError(f"unsupported source role: {role}")
-
-    if portable.parts[: len(prefix)] != prefix or len(portable.parts) <= len(prefix):
+    manifest_sha256: str,
+) -> list[_PlannedRendition]:
+    if not expected_sources:
+        if rendition_bundle_dir is not None:
+            raise PacketError(
+                "a rendition bundle was supplied but no selected primary source requires it"
+            )
+        return []
+    if rendition_bundle_dir is None:
         raise PacketError(
-            f"source path does not match role {role!r}: {logical_path}"
+            "selected primary documents require --rendition-bundle-dir"
         )
-    relative_parts = portable.parts[len(prefix) :]
+    if rendition_schema_path is None:
+        raise PacketError(
+            "--rendition-schema is required with --rendition-bundle-dir"
+        )
+    schema_path = _required_file(rendition_schema_path, "rendition schema")
+    bundle_path = _required_file(
+        rendition_bundle_dir / "rendition_bundle.json", "rendition metadata"
+    )
+    try:
+        bundle = json.loads(bundle_path.read_text(encoding="utf-8"))
+    except (OSError, UnicodeDecodeError, json.JSONDecodeError) as error:
+        raise PacketError(f"cannot read rendition metadata: {error}") from error
+    _validate_document(bundle, schema_path, label="rendition bundle")
+    if bundle.get("schema_version") != "libstruct.rendition_bundle.v1":
+        raise PacketError("unsupported rendition bundle schema")
+    if bundle["protocol_id"] != protocol_id:
+        raise PacketError("rendition bundle protocol does not match packet")
+    if bundle["input_manifest_sha256"] != manifest_sha256:
+        raise PacketError("rendition bundle references a stale input manifest")
+    expected = {source["source_id"]: source["sha256"] for source in expected_sources}
+    actual = {source["source_id"]: source for source in bundle["sources"]}
+    if len(actual) != len(bundle["sources"]):
+        raise PacketError("rendition bundle contains duplicate source IDs")
+    if set(actual) != set(expected):
+        raise PacketError(
+            "rendition source coverage mismatch; "
+            f"missing={sorted(set(expected) - set(actual))}, "
+            f"extra={sorted(set(actual) - set(expected))}"
+        )
+    planned: list[_PlannedRendition] = []
+    for source_index, source_id in enumerate(sorted(expected), start=1):
+        source = actual[source_id]
+        if source["source_sha256"] != expected[source_id]:
+            raise PacketError(f"rendition source hash is stale: {source_id}")
+        for artifact_index, artifact in enumerate(source["artifacts"], start=1):
+            actual_path = _resolve_dataset_path(
+                rendition_bundle_dir, artifact["path"]
+            )
+            if sha256_file(actual_path) != artifact["sha256"]:
+                raise PacketError(
+                    f"rendition artifact hash is stale: {artifact['artifact_id']}"
+                )
+            if actual_path.stat().st_size != artifact["size_bytes"]:
+                raise PacketError(
+                    f"rendition artifact size is stale: {artifact['artifact_id']}"
+                )
+            packet_name = f"{artifact_index:04d}-{actual_path.name}"
+            planned.append(
+                _PlannedRendition(
+                    artifact_id=artifact["artifact_id"],
+                    source_id=source_id,
+                    kind=artifact["kind"],
+                    source_path=actual_path,
+                    packet_path=PurePosixPath(
+                        "renditions",
+                        f"{source_index:03d}-{_safe_packet_component(source_id)}",
+                        packet_name,
+                    ),
+                    sha256=artifact["sha256"],
+                    media_type=artifact["media_type"],
+                    page=artifact.get("page"),
+                    sheet=artifact.get("sheet"),
+                )
+            )
+    return planned
+
+
+def _safe_packet_component(value: str) -> str:
+    return "".join(
+        character if character.isalnum() or character in "._-" else "-"
+        for character in value
+    )[:100] or "source"
+
+
+def _resolve_dataset_path(root: Path, logical_path: str) -> Path:
+    portable = PurePosixPath(logical_path)
+    if portable.is_absolute() or not portable.parts or any(
+        part in {".", ".."} for part in portable.parts
+    ):
+        raise PacketError(f"unsafe dataset path: {logical_path}")
     root = root.resolve()
-    unresolved_path = root.joinpath(*relative_parts)
-    if unresolved_path.is_symlink():
+    unresolved = root.joinpath(*portable.parts)
+    if unresolved.is_symlink():
         raise PacketError(f"source file must not be a symlink: {logical_path}")
     try:
-        actual_path = unresolved_path.resolve(strict=True)
+        actual = unresolved.resolve(strict=True)
     except FileNotFoundError as error:
         raise PacketError(f"manifest source is missing: {logical_path}") from error
-    if not actual_path.is_relative_to(root):
-        raise PacketError(f"manifest source escapes its configured root: {logical_path}")
-    if not actual_path.is_file():
-        raise PacketError(f"manifest source is not a file: {logical_path}")
-    return actual_path
+    if not actual.is_relative_to(root) or not actual.is_file():
+        raise PacketError(f"manifest source escapes its configured dataset: {logical_path}")
+    return actual
 
 
 def _validate_document(
@@ -285,16 +564,10 @@ def _validate_document(
     raise PacketError(f"{label} schema error at {location}: {first.message}")
 
 
-def _validate_output_location(
-    output_dir: Path,
-    *,
-    protocols_dir: Path,
-    html_dir: Path,
-    baseline_dir: Path,
-) -> None:
+def _validate_output_location(output_dir: Path, roots: set[Path]) -> None:
     if output_dir.exists():
         raise PacketError(f"packet output already exists: {output_dir}")
-    for source_dir in {protocols_dir, html_dir, baseline_dir}:
+    for source_dir in roots:
         if output_dir == source_dir or output_dir.is_relative_to(source_dir):
             raise PacketError(
                 f"packet output must not be inside source directory: {source_dir}"

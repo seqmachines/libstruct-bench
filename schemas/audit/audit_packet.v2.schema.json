@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/audit_packet.v2.schema.json",
+  "title": "Phase-gated ground-truth audit packet v2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "packet_id", "protocol_id", "phase", "materialization", "input_manifest", "files"],
+  "properties": {
+    "schema_version": {"const": "libstruct.audit_packet.v2"},
+    "packet_id": {"$ref": "#/$defs/stable_id"},
+    "protocol_id": {"$ref": "#/$defs/stable_id"},
+    "phase": {"type": "string", "enum": ["evidence", "comparison"]},
+    "materialization": {"type": "string", "enum": ["copy", "symlink"]},
+    "input_manifest": {
+      "type": "object", "additionalProperties": false, "required": ["path", "sha256", "source_sha256"],
+      "properties": {"path": {"const": "manifest.json"}, "sha256": {"$ref": "#/$defs/sha256"}, "source_sha256": {"$ref": "#/$defs/sha256"}}
+    },
+    "frozen_evidence": {
+      "type": "object", "additionalProperties": false, "required": ["path", "sha256"],
+      "properties": {"path": {"const": "frozen_evidence/evidence.json"}, "sha256": {"$ref": "#/$defs/sha256"}}
+    },
+    "files": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/file"}},
+    "renditions": {"type": "array", "items": {"$ref": "#/$defs/rendition"}}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"phase": {"const": "evidence"}}, "required": ["phase"]},
+      "then": {
+        "not": {"required": ["frozen_evidence"]},
+        "properties": {"files": {"items": {"properties": {"role": {"const": "primary_evidence"}}, "required": ["role"]}}}
+      },
+      "else": {"required": ["frozen_evidence"]}
+    }
+  ],
+  "$defs": {
+    "stable_id": {"type": "string", "minLength": 1, "maxLength": 200, "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"},
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "file": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_id", "role", "source_kind", "path", "sha256"],
+      "properties": {
+        "source_id": {"$ref": "#/$defs/stable_id"},
+        "role": {"type": "string", "enum": ["primary_evidence", "legacy_curated_html", "current_benchmark_record", "benchmark_run_artifact"]},
+        "source_kind": {"type": "string", "minLength": 1},
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "source_sha256": {"$ref": "#/$defs/sha256"},
+        "transformation": {"type": "string", "enum": ["tsv_row_filter"]}
+      },
+      "allOf": [
+        {"if": {"required": ["transformation"]}, "then": {"required": ["source_sha256"]}},
+        {"if": {"required": ["source_sha256"]}, "then": {"required": ["transformation"]}}
+      ]
+    },
+    "rendition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["artifact_id", "source_id", "kind", "path", "sha256", "media_type"],
+      "properties": {
+        "artifact_id": {"$ref": "#/$defs/stable_id"},
+        "source_id": {"$ref": "#/$defs/stable_id"},
+        "kind": {"type": "string", "enum": ["native_text", "table_text", "page_image", "embedded_image"]},
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "media_type": {"type": "string", "minLength": 1},
+        "page": {"type": "integer", "minimum": 1},
+        "sheet": {"type": "string", "minLength": 1}
+      }
+    }
+  }
+}

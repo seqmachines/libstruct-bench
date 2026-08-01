@@ -5,7 +5,9 @@ description: Build, review, or independently exercise the sequencing-library gro
 
 # Library-structure audit
 
-Read `docs/audit/README.md` and the two policy documents it links before work.
+Read `docs/audit/README.md`, `evidence-policy.md`,
+`adjudication-policy.md`, and `benchmark-standardization-policy.md` before
+work.
 
 For pipeline engineering:
 
@@ -13,14 +15,18 @@ For pipeline engineering:
    benchmark records, agent proposals, human decisions, and releases.
 2. Keep public artifacts schema-versioned and reject stale hashes or
    unapproved corrections.
-3. Implement deterministic behavior in `src/libstruct_bench/audit/` and cover
+3. Require an accepted human decision and deterministic root patch when a
+   ground-truth artifact, such as the first T3 workflow, does not yet exist.
+4. Implement deterministic behavior in `src/libstruct_bench/audit/` and cover
    it under `tests/audit/`.
-4. Do not copy private source bundles or ground truth into this repository.
+5. Do not copy private source bundles or ground truth into this repository.
 
 For an independent protocol audit:
 
-1. Use only the files in the validated input manifest.
+1. Use only the files in the validated phase packet.
 2. Follow `docs/audit/evidence-policy.md`.
-3. Emit a `libstruct.protocol_audit.v1` proposal and identify the run as an
+3. Respect the evidence-first phase boundary and use deterministic renditions
+   only as aids for the original sources.
+4. Emit a `libstruct.protocol_audit.v2` proposal and identify the run as an
    independent Codex review.
-4. Do not approve or apply your own findings.
+5. Do not approve or apply your own findings.

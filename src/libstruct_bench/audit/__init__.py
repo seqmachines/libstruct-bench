@@ -1,19 +1,33 @@
 """Deterministic tooling for the library-structure ground-truth audit."""
 
-from .inventory import (
-    DatasetReference,
-    InventoryError,
-    InventoryResult,
-    build_inventory,
+from .packets import (
+    PacketError,
+    PhasePacketResult,
+    build_phase_packet,
 )
-from .packets import PacketError, PacketResult, build_packet
+from .oligo_catalog import (
+    OligoCatalogError,
+    OligoCatalogResult,
+    build_oligo_outputs,
+)
+from .source_catalog import (
+    ManifestBuildResult,
+    SourceCatalogError,
+    SourceCatalogResult,
+    build_manifests_from_catalog,
+    build_source_catalog,
+)
 
 __all__ = [
-    "DatasetReference",
-    "InventoryError",
-    "InventoryResult",
     "PacketError",
-    "PacketResult",
-    "build_inventory",
-    "build_packet",
+    "PhasePacketResult",
+    "ManifestBuildResult",
+    "OligoCatalogError",
+    "OligoCatalogResult",
+    "SourceCatalogError",
+    "SourceCatalogResult",
+    "build_phase_packet",
+    "build_source_catalog",
+    "build_manifests_from_catalog",
+    "build_oligo_outputs",
 ]

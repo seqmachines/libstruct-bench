@@ -11,30 +11,34 @@ it does not rewrite review history.
 
 Each reported issue receives one disposition:
 
-- `accepted`: approve the issue's exact proposed patch;
-- `rejected`: retain the current value;
-- `needs_more_evidence`: require a new versioned source or further review;
-- `deferred`: acknowledge the issue without changing the current release.
+- `accept`: approve the issue's exact proposed patch;
+- `reject`: retain the current value;
+- `modify`: approve a reviewer-supplied replacement value and exact patch;
+- `unresolved`: preserve the ambiguity and determine release eligibility;
+- `exclude`: exclude the affected field, task, or protocol from scoring.
 
-Decisions require a stable reviewer ID, timestamp, and rationale. An overall
-decision may be `accepted`, `rejected`, `partially_accepted`,
-`needs_more_evidence`, or `deferred`, but deterministic application follows
-the issue-level decisions.
+Decisions require a stable reviewer ID, review start/completion timestamps, and
+a rationale. An overall decision may be `confirmed`, `accepted`, `rejected`,
+`partially_accepted`, `unresolved`, or `excluded`, but deterministic
+application follows issue-level decisions.
 
 ## Applying corrections
 
 The apply step must:
 
 1. validate the proposal and decision schemas;
-2. recompute and match the proposal and baseline SHA-256 values;
-3. select only issue patches explicitly marked `accepted`;
+2. recompute and match the proposal and existing baseline SHA-256 values, or
+   record that a human-approved new artifact had no baseline;
+3. select only proposal patches marked `accept` or reviewer-supplied patches
+   marked `modify`;
 4. reject overlapping, stale, or invalid JSON Pointer operations;
-5. write a new candidate artifact without changing the immutable baseline;
+5. write a new candidate artifact without changing an immutable baseline;
 6. emit a machine-readable application log;
 7. generate or update a regression fixture for every accepted correction.
 
-Rerunning the same accepted decisions against the same baseline must produce
-byte-identical candidate artifacts.
+Rerunning the same accepted decisions against the same baseline, including an
+explicitly absent baseline for a new artifact, must produce byte-identical
+candidate artifacts.
 
 ## Release gates
 
@@ -47,6 +51,8 @@ A frozen release requires:
 - explicit inclusion, exclusion, or deferral of unresolved protocols;
 - passing schema, leakage, deterministic-application, evaluator, and
   regression tests;
+- every released T1/T2/T3 artifact hash matching its latest deterministic
+  application candidate or unchanged pinned baseline;
 - a release manifest pinning policy versions, schema versions, source
   revisions, and the producing code commit.
 

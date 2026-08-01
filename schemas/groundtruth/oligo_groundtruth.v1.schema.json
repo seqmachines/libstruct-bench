@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/oligo_groundtruth.v1.schema.json",
+  "title": "Audited protocol oligo ground truth v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "protocol_id", "protocol_name", "oligos"],
+  "properties": {
+    "schema_version": {"const": "libstruct.oligo_groundtruth.v1"},
+    "protocol_id": {"$ref": "#/$defs/stable_id"},
+    "protocol_name": {"type": "string", "minLength": 1},
+    "oligos": {"type": "array", "items": {"$ref": "#/$defs/oligo"}},
+    "limitations": {"type": "array", "items": {"type": "string", "minLength": 1}}
+  },
+  "$defs": {
+    "stable_id": {"type": "string", "minLength": 1, "maxLength": 240, "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"},
+    "evidence": {"type": "object", "additionalProperties": false, "required": ["source_id", "locator"], "properties": {"source_id": {"$ref": "#/$defs/stable_id"}, "locator": {"type": "object", "minProperties": 1}, "excerpt": {"type": ["string", "null"]}}},
+    "component": {
+      "type": "object", "additionalProperties": false, "required": ["component_id", "name", "role", "sequence", "direction"],
+      "properties": {"component_id": {"$ref": "#/$defs/stable_id"}, "name": {"type": "string", "minLength": 1}, "role": {"type": "string", "minLength": 1}, "sequence": {"type": "string", "minLength": 1}, "direction": {"type": "string", "enum": ["5_to_3", "3_to_5", "unknown"]}, "modifications": {"type": "array", "items": {"type": "string", "minLength": 1}}, "evidence": {"type": "array", "items": {"$ref": "#/$defs/evidence"}}}
+    },
+    "lineage": {
+      "type": "object", "additionalProperties": false, "required": ["artifact_sha256", "row_number"],
+      "properties": {"artifact_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}, "row_number": {"type": "integer", "minimum": 2}, "old_name": {"type": ["string", "null"]}, "old_sequence": {"type": ["string", "null"]}}
+    },
+    "oligo": {
+      "type": "object", "additionalProperties": false,
+      "required": ["oligo_id", "name", "source_names", "aliases", "role", "kind", "direction", "components", "modifications", "benchmark_status", "support_status", "evidence", "baseline_lineage"],
+      "properties": {
+        "oligo_id": {"$ref": "#/$defs/stable_id"}, "canonical_oligo_id": {"oneOf": [{"$ref": "#/$defs/stable_id"}, {"type": "null"}]}, "family_id": {"oneOf": [{"$ref": "#/$defs/stable_id"}, {"type": "null"}]},
+        "name": {"type": "string", "minLength": 1}, "source_names": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}}, "aliases": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "role": {"type": "string", "minLength": 1}, "kind": {"type": "string", "enum": ["single", "assembled", "double_stranded", "hairpin", "unknown"]}, "sequence": {"type": ["string", "null"]}, "direction": {"type": "string", "enum": ["5_to_3", "3_to_5", "unknown"]},
+        "components": {"type": "array", "items": {"$ref": "#/$defs/component"}}, "modifications": {"type": "array", "items": {"type": "string", "minLength": 1}},
+        "benchmark_status": {"type": "string", "enum": ["included", "excluded"]}, "exclusion_reason": {"type": ["string", "null"], "minLength": 1},
+        "support_status": {"type": "string", "enum": ["explicit", "derivable", "externally_completed", "ambiguous", "unsupported"]}, "evidence": {"type": "array", "items": {"$ref": "#/$defs/evidence"}}, "baseline_lineage": {"type": "array", "items": {"$ref": "#/$defs/lineage"}}, "notes": {"type": ["string", "null"]}
+      },
+      "allOf": [
+        {"if": {"properties": {"benchmark_status": {"const": "excluded"}}, "required": ["benchmark_status"]}, "then": {"required": ["exclusion_reason"]}},
+        {"if": {"properties": {"support_status": {"enum": ["explicit", "derivable", "externally_completed"]}}, "required": ["support_status"]}, "then": {"properties": {"evidence": {"minItems": 1}}}}
+      ],
+      "anyOf": [{"required": ["sequence"], "properties": {"sequence": {"type": "string", "minLength": 1}}}, {"properties": {"components": {"minItems": 1}}}]
+    }
+  }
+}
