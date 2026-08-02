@@ -19,9 +19,15 @@ Those inputs are intentionally absent.
      orientation, modality, constant segment, and variable-region length;
    - T2: oligo names, source-visible aliases, sequences, roles, orientations,
      modifications, components, and families;
-   - T3: each ordered molecular step, its inputs, reagents/oligos,
-     transformations, products, and final-library linkage.
-5. Give every extracted field a stable ID and exact source locator. Record all
+   - T3: molecular states and transitions, including initial/final states,
+     substrates, operations, reagents/oligos, all relevant products,
+     carried-forward and discarded products, and final-library linkage.
+5. Review T2 and T3 in one chronological pass. Register an oligo with a stable
+   T2 ID when it first appears, then use that same ID in each T3 transition
+   that uses it. Create a state only for a meaningful molecular or physical
+   change. Do not create a transition for a figure or paragraph that merely
+   displays the preceding product, and represent PCR cycling as one transition.
+6. Give every extracted field a stable ID and exact source locator. Record all
    transformations. Preserve source conflicts and alternatives rather than
    selecting one silently.
 

@@ -18,6 +18,11 @@ from .artifacts import (
     write_json_atomic,
 )
 from .review import ReviewError, validate_review_decision
+from .groundtruth import (
+    GroundtruthValidationError,
+    documents_by_task,
+    validate_cross_task_links,
+)
 
 
 class ApplicationError(ValueError):
@@ -43,6 +48,7 @@ def apply_review_decision(
     application_schema_path: Path,
     regression_schema_path: Path | None = None,
     artifact_schema_paths: Mapping[str, Path] | None = None,
+    allow_in_progress: bool = False,
 ) -> ApplicationResult:
     """Apply only human-approved ground-truth patches to immutable baselines."""
 
@@ -52,6 +58,7 @@ def apply_review_decision(
             decision_path=decision_path,
             proposal_schema_path=proposal_schema_path,
             decision_schema_path=decision_schema_path,
+            require_final=not allow_in_progress,
         )
     except ReviewError as error:
         raise ApplicationError(str(error)) from error
@@ -61,7 +68,7 @@ def apply_review_decision(
             Path(__file__).resolve().parents[3]
             / "schemas"
             / "audit"
-            / "accepted_correction_regression.v1.schema.json"
+            / "accepted_correction_regression.schema.json"
         )
     regression_schema_path = _file(
         regression_schema_path, "regression fixture schema"
@@ -99,7 +106,10 @@ def apply_review_decision(
     new_artifact_names: set[str] = set()
     for issue in proposal["issues"]:
         issue_id = issue["issue_id"]
-        review = decisions[issue_id]
+        review = decisions.get(issue_id)
+        if review is None:
+            skipped.append(issue_id)
+            continue
         disposition = review["disposition"]
         if disposition not in {"accept", "modify"}:
             skipped.append(issue_id)
@@ -159,7 +169,6 @@ def apply_review_decision(
         applied.append(issue_id)
         regression_candidate = apply_json_patch(baselines[source_id], patch)
         regression_record = {
-            "schema_version": "libstruct.accepted_correction_regression.v1",
             "protocol_id": proposal["protocol_id"],
             "audit_id": proposal["audit_id"],
             "decision_id": decision["decision_id"],
@@ -194,6 +203,11 @@ def apply_review_decision(
                 label=f"candidate {source_id}",
             )
         except AuditArtifactError as error:
+            raise ApplicationError(str(error)) from error
+    if decision["review_state"] == "final":
+        try:
+            validate_cross_task_links(documents_by_task(candidates))
+        except GroundtruthValidationError as error:
             raise ApplicationError(str(error)) from error
 
     output_dir = output_dir.expanduser().resolve()
@@ -235,11 +249,11 @@ def apply_review_decision(
         decision_sha = sha256_file(decision_path)
         identity = hashlib.sha256(f"{proposal_sha}:{decision_sha}".encode()).hexdigest()
         log = {
-            "schema_version": "libstruct.application_log.v1",
             "application_id": f"{proposal['protocol_id']}:application:{identity[:16]}",
             "protocol_id": proposal["protocol_id"],
             "audit_id": proposal["audit_id"],
             "decision_id": decision["decision_id"],
+            "review_state": decision["review_state"],
             "proposal_sha256": proposal_sha,
             "decision_sha256": decision_sha,
             "created_at": decision["review_completed_at"],

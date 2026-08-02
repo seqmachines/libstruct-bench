@@ -1,6 +1,6 @@
 # Benchmark Standardization Policy
 
-Policy version: `libstruct.benchmark-standardization.v1`.
+Policy identifier: `libstruct.benchmark-standardization`.
 
 This policy controls benchmark representation and matching only. It must not
 contain protocol-specific sequences, source conclusions, or learned agent

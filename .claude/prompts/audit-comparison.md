@@ -1,34 +1,38 @@
 # Frozen-evidence comparison phase
 
-Read `frozen_evidence/evidence.json` first. It is immutable. Then inspect every
-packet-listed legacy HTML page, current benchmark record, primary source, and
-optional benchmark-run artifact.
+Read `frozen_evidence/evidence.json` first. It is immutable and was created
+without legacy curation, current ground truth, prior agent answers, or external
+knowledge. Then read every packet-listed comparison input:
+
+- legacy `scg_lib_structs` HTML and included assets;
+- current T1, T2, and T3 records when present;
+- the protocol-only projection of `groundtruth_oligos.tsv`;
+- optional benchmark-run artifacts used only for error attribution.
 
 For every T1, T2, and T3 field:
 
-1. Record a field-ledger entry even when the current value agrees.
-2. Compare primary evidence, legacy curation, current records, and optional
-   agent/evaluator artifacts without treating any one of them as automatic
-   truth.
-3. Emit every possible defect or ambiguity with exact current/proposed values,
-   source locations, support status, severity, category, defect type, and
-   responsibility attribution.
-4. Distinguish ground-truth corrections from source-bundle, policy, harness,
-   model-reasoning, extraction, and evaluator problems. Only an exact
-   ground-truth correction may carry a JSON patch.
-5. Preserve multiple final products, conflicting protocol versions,
-   schematic-versus-final-product disagreements, strand alternatives, and
-   unresolved scientific ambiguity.
-6. For T2, compare the protocol-only `groundtruth_oligos.tsv` projection as a
-   non-authoritative baseline. Preserve each `source_row_number`, the full TSV
-   `source_sha256` from `packet.json`, and old name/sequence in
-   `baseline_lineage` when proposing the audited T2 document.
+1. Record a field-ledger entry for each current scientific field and each
+   source-supported field missing from the current records.
+2. Assign exactly one status: `verified_no_change`, `proposed_correction`,
+   `missing_source_evidence`, `ambiguous`, or `external_knowledge_required`.
+3. Compare the frozen evidence with the existing curation without treating
+   either the human curation or the audit agent as automatic truth.
+4. Emit an issue for every status except `verified_no_change`. Include exact
+   current/proposed values, source locations, support status, category,
+   severity, responsibility, explanation, and impact.
+5. Use a JSON patch only for an exact T1, T2, or T3 ground-truth correction.
+   Source-bundle, policy, harness, extraction, prediction, and evaluator
+   defects are issues but never ground-truth patches.
+6. Preserve multiple final products, source conflicts, protocol-version
+   conflicts, strand alternatives, schematic-versus-final-product differences,
+   and unresolved scientific ambiguity.
+7. Check the linked design: T3 oligo IDs resolve to T2, final T3 states link to
+   T1 libraries, carried products continue downstream, final states are
+   reachable, the graph is acyclic, scopes agree, and terminal states match T1.
 
-When no current T3 artifact exists, audit that absence explicitly. If the
-evidence supports a complete workflow artifact, propose one
-`new_groundtruth_record` issue using source ID `new-t3`, filename
-`groundtruth_library_generation_workflow.json`, JSON pointer `""`, and one
-root-level `add` patch containing the complete proposed document. It remains
-only a proposal until a human accepts or modifies it.
+If a current T1, T2, or T3 file is absent, propose a complete new document only
+when the frozen evidence supports it. Use the canonical task filename and one
+root-level patch. Otherwise record missing, ambiguous, or external evidence
+without inventing a document.
 
-Do not approve a proposal. A human reviewer will decide every issue.
+Do not approve or apply a proposal. A human reviewer is the final authority.

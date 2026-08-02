@@ -22,35 +22,38 @@ class AuditSchemaTests(unittest.TestCase):
         self.assertEqual(
             names,
             [
-                "accepted_correction_regression.v1.schema.json",
-                "application_log.v1.schema.json",
-                "audit_input_manifest.v2.schema.json",
-                "audit_packet.v2.schema.json",
-                "checkpoint_report.v1.schema.json",
-                "groundtruth_release_manifest.v2.schema.json",
-                "oligo_output_build.v1.schema.json",
-                "protocol_audit.v2.schema.json",
-                "protocol_evidence.v1.schema.json",
-                "regression_results.v1.schema.json",
-                "release_spec.v1.schema.json",
-                "rendition_bundle.v1.schema.json",
-                "review_decision.v2.schema.json",
-                "source_catalog.v1.schema.json",
+                "accepted_correction_regression.schema.json",
+                "application_log.schema.json",
+                "audit_input_manifest.schema.json",
+                "audit_packet.schema.json",
+                "checkpoint_report.schema.json",
+                "groundtruth_release_manifest.schema.json",
+                "oligo_output_build.schema.json",
+                "promotion_log.schema.json",
+                "protocol_audit.schema.json",
+                "protocol_evidence.schema.json",
+                "regression_results.schema.json",
+                "release_spec.schema.json",
+                "rendition_bundle.schema.json",
+                "review_decision.schema.json",
+                "source_catalog.schema.json",
             ],
         )
         for name in names:
             with self.subTest(schema=name):
-                Draft202012Validator.check_schema(load_schema(name))
+                schema = load_schema(name)
+                Draft202012Validator.check_schema(schema)
+                self.assertNotIn("schema_version", json.dumps(schema))
 
     def test_groundtruth_schemas_are_valid_draft_2020_12(self):
         names = sorted(path.name for path in GROUNDTRUTH_SCHEMA_DIR.glob("*.schema.json"))
         self.assertEqual(
             names,
             [
-                "final_library_groundtruth.v1.schema.json",
-                "library_generation_workflow.v1.schema.json",
-                "oligo_catalog.v1.schema.json",
-                "oligo_groundtruth.v1.schema.json",
+                "final_library_groundtruth.schema.json",
+                "library_generation_workflow.schema.json",
+                "oligo_catalog.schema.json",
+                "oligo_groundtruth.schema.json",
             ],
         )
         for name in names:
@@ -59,6 +62,7 @@ class AuditSchemaTests(unittest.TestCase):
                     (GROUNDTRUTH_SCHEMA_DIR / name).read_text(encoding="utf-8")
                 )
                 Draft202012Validator.check_schema(schema)
+                self.assertNotIn("schema_version", json.dumps(schema))
 
 
 if __name__ == "__main__":

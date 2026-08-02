@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/library_generation_workflow.schema.json",
+  "title": "Human-approved molecular library-generation workflow",
+  "description": "T3: a state-transition graph whose edges are derived from transition substrate and product references.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["protocol_id", "protocol_name", "protocol_scope", "workflows"],
+  "properties": {
+    "protocol_id": {"$ref": "#/$defs/stable_id"},
+    "protocol_name": {"type": "string", "minLength": 1},
+    "protocol_scope": {"$ref": "#/$defs/protocol_scope"},
+    "workflows": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/workflow"}},
+    "limitations": {"type": "array", "items": {"type": "string", "minLength": 1}}
+  },
+  "$defs": {
+    "stable_id": {"type": "string", "minLength": 1, "maxLength": 240, "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"},
+    "protocol_scope": {
+      "type": "object", "additionalProperties": false, "required": ["protocol_version", "applicable_variants"],
+      "properties": {"protocol_version": {"type": ["string", "null"], "minLength": 1}, "applicable_variants": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}}}
+    },
+    "locator": {
+      "type": "object", "additionalProperties": false, "minProperties": 1,
+      "properties": {"page": {"type": "integer", "minimum": 1}, "page_end": {"type": "integer", "minimum": 1}, "section": {"type": "string", "minLength": 1}, "figure": {"type": "string", "minLength": 1}, "table": {"type": "string", "minLength": 1}, "sheet": {"type": "string", "minLength": 1}, "cell_range": {"type": "string", "minLength": 1}, "html_selector": {"type": "string", "minLength": 1}, "line": {"type": "integer", "minimum": 1}}
+    },
+    "evidence": {
+      "type": "object", "additionalProperties": false, "required": ["source_id", "locator"],
+      "properties": {"source_id": {"$ref": "#/$defs/stable_id"}, "locator": {"$ref": "#/$defs/locator"}, "excerpt": {"type": ["string", "null"]}, "notes": {"type": ["string", "null"]}}
+    },
+    "support_status": {"type": "string", "enum": ["explicit", "derivable", "externally_completed", "ambiguous", "unsupported"]},
+    "ground_truth_status": {"type": "string", "enum": ["included", "excluded", "ambiguous"]},
+    "architecture_segment": {
+      "type": "object", "additionalProperties": false, "required": ["segment_id", "role"],
+      "properties": {"segment_id": {"$ref": "#/$defs/stable_id"}, "role": {"type": "string", "minLength": 1}, "sequence": {"type": ["string", "null"], "minLength": 1}, "length": {"type": ["integer", "null"], "minimum": 0}, "placeholder": {"type": ["string", "null"], "minLength": 1}, "oligo_ids": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/stable_id"}}}
+    },
+    "state": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["state_id", "name", "molecule_type", "strand_state", "physical_state", "modality", "workflow_branch", "properties", "protocol_scope", "support_status", "evidence"],
+      "properties": {
+        "state_id": {"$ref": "#/$defs/stable_id"},
+        "name": {"type": "string", "minLength": 1},
+        "molecule_type": {"type": "string", "minLength": 1},
+        "strand_state": {"type": "string", "enum": ["single_stranded", "double_stranded", "partially_double_stranded", "mixed", "unknown"]},
+        "physical_state": {"type": "string", "minLength": 1},
+        "modality": {"type": "string", "minLength": 1},
+        "workflow_branch": {"type": ["string", "null"], "minLength": 1},
+        "sequence_architecture": {"type": ["string", "null"], "minLength": 1},
+        "segments": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/architecture_segment"}},
+        "properties": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "protocol_scope": {"$ref": "#/$defs/protocol_scope"},
+        "support_status": {"$ref": "#/$defs/support_status"},
+        "evidence": {"type": "array", "items": {"$ref": "#/$defs/evidence"}},
+        "notes": {"type": ["string", "null"]}
+      },
+      "anyOf": [
+        {"required": ["sequence_architecture"], "properties": {"sequence_architecture": {"type": "string", "minLength": 1}}},
+        {"required": ["segments"], "properties": {"segments": {"minItems": 1}}}
+      ],
+      "allOf": [{"if": {"properties": {"support_status": {"enum": ["explicit", "derivable", "externally_completed"]}}, "required": ["support_status"]}, "then": {"properties": {"evidence": {"minItems": 1}}}}]
+    },
+    "reagent": {
+      "type": "object", "additionalProperties": false, "required": ["name"],
+      "properties": {"name": {"type": "string", "minLength": 1}, "role": {"type": ["string", "null"], "minLength": 1}}
+    },
+    "transition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["transition_id", "substrate_state_ids", "operation", "oligo_ids", "major_reagents", "product_state_ids", "carried_forward_product_ids", "discarded_product_ids", "protocol_scope", "support_status", "evidence"],
+      "properties": {
+        "transition_id": {"$ref": "#/$defs/stable_id"},
+        "substrate_state_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/stable_id"}},
+        "operation": {"type": "string", "enum": ["reverse_transcription", "ligation", "tagmentation", "extension", "pcr", "amplification", "fragmentation", "denaturation", "strand_synthesis", "cleanup", "size_selection", "affinity_selection", "pooling", "indexing", "circularization", "capture", "other"]},
+        "operation_detail": {"type": ["string", "null"], "minLength": 1},
+        "oligo_ids": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/stable_id"}},
+        "major_reagents": {"type": "array", "items": {"$ref": "#/$defs/reagent"}},
+        "product_state_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/stable_id"}},
+        "carried_forward_product_ids": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/stable_id"}},
+        "discarded_product_ids": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/stable_id"}},
+        "protocol_scope": {"$ref": "#/$defs/protocol_scope"},
+        "support_status": {"$ref": "#/$defs/support_status"},
+        "evidence": {"type": "array", "items": {"$ref": "#/$defs/evidence"}},
+        "notes": {"type": ["string", "null"]}
+      },
+      "allOf": [{"if": {"properties": {"support_status": {"enum": ["explicit", "derivable", "externally_completed"]}}, "required": ["support_status"]}, "then": {"properties": {"evidence": {"minItems": 1}}}}]
+    },
+    "final_library_link": {
+      "type": "object", "additionalProperties": false, "required": ["state_id", "library_id"],
+      "properties": {"state_id": {"$ref": "#/$defs/stable_id"}, "library_id": {"$ref": "#/$defs/stable_id"}, "notes": {"type": ["string", "null"]}}
+    },
+    "workflow": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["workflow_id", "modality", "workflow_branch", "protocol_scope", "ground_truth_status", "states", "transitions", "initial_state_ids", "final_state_ids", "final_library_links"],
+      "properties": {
+        "workflow_id": {"$ref": "#/$defs/stable_id"},
+        "modality": {"type": "string", "minLength": 1},
+        "workflow_branch": {"type": ["string", "null"], "minLength": 1},
+        "protocol_scope": {"$ref": "#/$defs/protocol_scope"},
+        "ground_truth_status": {"$ref": "#/$defs/ground_truth_status"},
+        "status_reason": {"type": ["string", "null"], "minLength": 1},
+        "states": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/state"}},
+        "transitions": {"type": "array", "items": {"$ref": "#/$defs/transition"}},
+        "initial_state_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/stable_id"}},
+        "final_state_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/stable_id"}},
+        "final_library_links": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/final_library_link"}},
+        "notes": {"type": ["string", "null"]}
+      },
+      "allOf": [{"if": {"properties": {"ground_truth_status": {"enum": ["excluded", "ambiguous"]}}, "required": ["ground_truth_status"]}, "then": {"required": ["status_reason"]}}]
+    }
+  }
+}

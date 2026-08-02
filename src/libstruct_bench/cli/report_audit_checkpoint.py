@@ -21,11 +21,11 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--previous-checkpoint", type=Path)
     parser.add_argument("--created-at")
     parser.add_argument("--out", type=Path, required=True)
-    parser.add_argument("--proposal-schema", type=Path, default=SCHEMA_DIR / "protocol_audit.v2.schema.json")
-    parser.add_argument("--decision-schema", type=Path, default=SCHEMA_DIR / "review_decision.v2.schema.json")
-    parser.add_argument("--report-schema", type=Path, default=SCHEMA_DIR / "checkpoint_report.v1.schema.json")
-    parser.add_argument("--application-schema", type=Path, default=SCHEMA_DIR / "application_log.v1.schema.json")
-    parser.add_argument("--regression-results-schema", type=Path, default=SCHEMA_DIR / "regression_results.v1.schema.json")
+    parser.add_argument("--proposal-schema", type=Path, default=SCHEMA_DIR / "protocol_audit.schema.json")
+    parser.add_argument("--decision-schema", type=Path, default=SCHEMA_DIR / "review_decision.schema.json")
+    parser.add_argument("--report-schema", type=Path, default=SCHEMA_DIR / "checkpoint_report.schema.json")
+    parser.add_argument("--application-schema", type=Path, default=SCHEMA_DIR / "application_log.schema.json")
+    parser.add_argument("--regression-results-schema", type=Path, default=SCHEMA_DIR / "regression_results.schema.json")
     args = parser.parse_args(argv)
     try:
         report = build_checkpoint_report(

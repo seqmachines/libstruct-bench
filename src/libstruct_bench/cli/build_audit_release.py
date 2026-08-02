@@ -15,8 +15,8 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--spec", type=Path, required=True)
     parser.add_argument("--artifact-root", type=Path, required=True)
     parser.add_argument("--out", type=Path, required=True)
-    parser.add_argument("--spec-schema", type=Path, default=SCHEMA_DIR / "release_spec.v1.schema.json")
-    parser.add_argument("--release-schema", type=Path, default=SCHEMA_DIR / "groundtruth_release_manifest.v2.schema.json")
+    parser.add_argument("--spec-schema", type=Path, default=SCHEMA_DIR / "release_spec.schema.json")
+    parser.add_argument("--release-schema", type=Path, default=SCHEMA_DIR / "groundtruth_release_manifest.schema.json")
     args = parser.parse_args(argv)
     try:
         manifest = build_release_manifest(

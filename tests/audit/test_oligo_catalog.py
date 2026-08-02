@@ -13,9 +13,9 @@ from libstruct_bench.audit.oligo_catalog import (
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-T2_SCHEMA = REPO_ROOT / "schemas" / "groundtruth" / "oligo_groundtruth.v1.schema.json"
-CATALOG_SCHEMA = REPO_ROOT / "schemas" / "groundtruth" / "oligo_catalog.v1.schema.json"
-METADATA_SCHEMA = REPO_ROOT / "schemas" / "audit" / "oligo_output_build.v1.schema.json"
+T2_SCHEMA = REPO_ROOT / "schemas" / "groundtruth" / "oligo_groundtruth.schema.json"
+CATALOG_SCHEMA = REPO_ROOT / "schemas" / "groundtruth" / "oligo_catalog.schema.json"
+METADATA_SCHEMA = REPO_ROOT / "schemas" / "audit" / "oligo_output_build.schema.json"
 NOW = "2026-08-01T12:00:00Z"
 
 
@@ -28,13 +28,14 @@ def _oligo(
     oligo_id: str,
     source_name: str,
     canonical_id: str | None,
-    direction: str = "5_to_3",
+    orientation: str = "5_to_3",
 ) -> dict:
     return {
         "oligo_id": oligo_id,
         "canonical_oligo_id": canonical_id,
         "family_id": None,
         "name": "Illumina P5 adapter" if canonical_id else source_name,
+        "source_name": source_name,
         "source_names": [source_name],
         "aliases": ["P5"] if canonical_id else [],
         "role": "sequencing_adapter" if canonical_id else "assay_primer",
@@ -42,10 +43,11 @@ def _oligo(
         "sequence": "AATGATACGGCGACCACCGAGATCTACAC"
         if canonical_id
         else "ACGT",
-        "direction": direction,
+        "orientation": orientation,
         "components": [],
         "modifications": [],
-        "benchmark_status": "included",
+        "protocol_scope": {"protocol_version": None, "applicable_variants": []},
+        "ground_truth_status": "included",
         "support_status": "explicit",
         "evidence": [
             {"source_id": "primary-paper", "locator": {"page": 2}}
@@ -54,8 +56,8 @@ def _oligo(
             {
                 "artifact_sha256": "a" * 64,
                 "row_number": 2,
-                "old_name": source_name,
-                "old_sequence": "5'- ACGT -3'",
+                "source_name": source_name,
+                "source_sequence": "5'- ACGT -3'",
             }
         ],
     }
@@ -63,9 +65,9 @@ def _oligo(
 
 def _t2(protocol_id: str, oligos: list[dict]) -> dict:
     return {
-        "schema_version": "libstruct.oligo_groundtruth.v1",
         "protocol_id": protocol_id,
         "protocol_name": protocol_id.replace("_", " ").title(),
+        "protocol_scope": {"protocol_version": None, "applicable_variants": []},
         "oligos": oligos,
     }
 
@@ -179,12 +181,12 @@ def test_shared_canonical_oligo_conflict_requires_human_resolution(
                     oligo_id="p5",
                     source_name="B P5",
                     canonical_id="illumina_p5",
-                    direction="3_to_5",
+                    orientation="3_to_5",
                 )
             ],
         ),
     )
-    with pytest.raises(OligoCatalogError, match="conflicting direction"):
+    with pytest.raises(OligoCatalogError, match="conflicting orientation"):
         build_oligo_outputs(
             t2_paths=[first, second],
             decision_ids_by_protocol={

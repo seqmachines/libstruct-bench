@@ -17,12 +17,13 @@ from .artifacts import (
     validate_document,
     write_json_atomic,
 )
+from .groundtruth import TASK_ARTIFACTS
 
 
-HARNESS_VERSION = "libstruct-bench-audit/0.2.0"
-PHASE_SCHEMAS = {
-    "evidence": "libstruct.protocol_evidence.v1",
-    "comparison": "libstruct.protocol_audit.v2",
+HARNESS_VERSION = "libstruct-bench-audit/0.4.0"
+PHASE_SCHEMA_FILES = {
+    "evidence": "protocol_evidence.schema.json",
+    "comparison": "protocol_audit.schema.json",
 }
 MODEL_ALIASES = {"default", "sonnet", "opus", "haiku", "fable"}
 READ_ONLY_TOOLS = ("Read", "Glob", "Grep")
@@ -59,7 +60,7 @@ def run_claude_audit(
     timeout_seconds: int = 3600,
     claude_executable: str = "claude",
 ) -> ClaudeRunResult:
-    """Run one isolated Claude phase and store an immutable structured transcript."""
+    """Run one isolated Claude evidence or comparison phase."""
 
     packet_dir = _directory(packet_dir, "audit packet")
     packet_path = _file(packet_dir / "packet.json", "packet metadata")
@@ -71,7 +72,7 @@ def run_claude_audit(
     if not policies:
         raise ClaudeAuditError("at least one policy file is required")
     if model.strip().lower() in MODEL_ALIASES or not any(char.isdigit() for char in model):
-        raise ClaudeAuditError("--model must be a full versioned model ID, not a moving alias")
+        raise ClaudeAuditError("--model must be a full model ID, not a moving alias")
     if not run_id or any(char.isspace() for char in run_id):
         raise ClaudeAuditError("run ID must be a non-empty identifier without whitespace")
     if effort not in {"low", "medium", "high", "xhigh", "max"}:
@@ -85,16 +86,15 @@ def run_claude_audit(
 
     packet = load_json_object(packet_path, label="packet metadata")
     _validate(packet, packet_schema_path, "packet metadata")
-    if packet.get("schema_version") != "libstruct.audit_packet.v2":
-        raise ClaudeAuditError("Claude audit runner requires a v2 phase packet")
     phase = packet["phase"]
-    expected_schema_version = PHASE_SCHEMAS[phase]
+    if phase not in PHASE_SCHEMA_FILES:
+        raise ClaudeAuditError(f"unsupported audit phase: {phase}")
+    if output_schema_path.name != PHASE_SCHEMA_FILES[phase]:
+        raise ClaudeAuditError(
+            f"{phase} phase requires {PHASE_SCHEMA_FILES[phase]}"
+        )
     _verify_packet_files(packet_dir, packet)
     output_schema = load_json_object(output_schema_path, label="output schema")
-    if output_schema.get("properties", {}).get("schema_version", {}).get("const") != expected_schema_version:
-        raise ClaudeAuditError(
-            f"{phase} phase requires output schema {expected_schema_version}"
-        )
 
     output_dir = output_dir.expanduser().resolve()
     _reject_output(output_dir, packet_dir)
@@ -163,7 +163,7 @@ def run_claude_audit(
             f"Claude exited with {completed.returncode}: {stderr[-1000:]}"
         )
 
-    artifact = _extract_artifact(completed.stdout, expected_schema_version)
+    artifact = _extract_artifact(completed.stdout, phase)
     run = {
         "run_id": run_id,
         "agent": "claude-code",
@@ -205,7 +205,6 @@ def run_claude_audit(
         artifact_path = temporary_dir / artifact_name
         write_json_atomic(artifact_path, artifact)
         metadata = {
-            "schema_version": "libstruct.claude_audit_run.v1",
             "run": run,
             "phase": phase,
             "packet_sha256": sha256_file(packet_path),
@@ -258,9 +257,9 @@ def _system_prompt(
         f"PHASE: {phase}\n\n"
         "PHASE INSTRUCTIONS\n"
         f"{prompt}\n\n"
-        "VERSIONED SKILL\n"
+        "AUDIT SKILL\n"
         f"{skill}\n\n"
-        "VERSIONED POLICIES\n"
+        "AUDIT POLICIES\n"
         + "\n\n".join(policies)
     )
 
@@ -269,13 +268,14 @@ def _user_prompt(packet_dir: Path, phase: str) -> str:
     if phase == "evidence":
         action = (
             "Read packet.json, manifest.json, every file under primary_evidence, "
-            "and every packet-listed rendition. "
-            "Account for every source in source_coverage before extracting T1, T2, and T3."
+            "and every packet-listed rendition. Account for every approved source "
+            "before independently extracting T1, T2, and graph-shaped T3 evidence."
         )
     else:
         action = (
-            "Read the frozen evidence first, then compare it with every packet-listed "
-            "legacy, current benchmark, primary, and run artifact. Do not alter the frozen evidence."
+            "Read the frozen evidence first. Then compare it with every packet-listed "
+            "legacy HTML, current T1/T2/T3 record, reviewed TSV projection, and optional "
+            "benchmark-run artifact. Do not alter the frozen evidence or approve changes."
         )
     return (
         f"Audit packet: {packet_dir}\n{action}\n"
@@ -285,25 +285,19 @@ def _user_prompt(packet_dir: Path, phase: str) -> str:
 
 def _agent_output_schema(schema: dict[str, Any], phase: str) -> dict[str, Any]:
     relaxed = copy.deepcopy(schema)
+    # Claude CLI's validator does not register the 2020-12 meta-schema. The
+    # unmodified schema is still applied locally after generation.
+    relaxed.pop("$schema", None)
+    relaxed.pop("$id", None)
     injected = {
         "evidence": {
-            "schema_version",
-            "evidence_id",
-            "protocol_id",
-            "packet_sha256",
-            "input_manifest_sha256",
-            "run",
+            "evidence_id", "protocol_id", "packet_sha256",
+            "input_manifest_sha256", "run",
         },
         "comparison": {
-            "schema_version",
-            "audit_id",
-            "protocol_id",
-            "packet_sha256",
-            "input_manifest_sha256",
-            "evidence_id",
-            "evidence_sha256",
-            "baseline_artifacts",
-            "run",
+            "audit_id", "protocol_id", "packet_sha256",
+            "input_manifest_sha256", "evidence_id", "evidence_sha256",
+            "baseline_artifacts", "run",
         },
     }[phase]
     relaxed["required"] = [
@@ -313,11 +307,14 @@ def _agent_output_schema(schema: dict[str, Any], phase: str) -> dict[str, Any]:
 
 
 def _finalize_artifact(
-    *, artifact: dict[str, Any], packet: dict[str, Any], packet_dir: Path,
-    phase: str, run: dict[str, Any]
+    *,
+    artifact: dict[str, Any],
+    packet: dict[str, Any],
+    packet_dir: Path,
+    phase: str,
+    run: dict[str, Any],
 ) -> dict[str, Any]:
     value = copy.deepcopy(artifact)
-    value["schema_version"] = PHASE_SCHEMAS[phase]
     value["protocol_id"] = packet["protocol_id"]
     value["packet_sha256"] = sha256_file(packet_dir / "packet.json")
     value["input_manifest_sha256"] = packet["input_manifest"]["source_sha256"]
@@ -343,7 +340,10 @@ def _finalize_artifact(
 
 
 def _validate_semantics(
-    artifact: dict[str, Any], packet: dict[str, Any], packet_dir: Path, phase: str
+    artifact: dict[str, Any],
+    packet: dict[str, Any],
+    packet_dir: Path,
+    phase: str,
 ) -> None:
     if phase == "evidence":
         expected = {
@@ -356,12 +356,13 @@ def _validate_semantics(
         if len(actual) != len(coverage):
             raise ClaudeAuditError("source_coverage contains duplicate source IDs")
         if actual != expected:
-            missing = sorted(expected - actual)
-            extra = sorted(actual - expected)
             raise ClaudeAuditError(
-                f"source coverage mismatch; missing={missing}, extra={extra}"
+                "source coverage mismatch; "
+                f"missing={sorted(expected - actual)}, extra={sorted(actual - expected)}"
             )
-        unreadable = [item["source_id"] for item in coverage if item["status"] == "unreadable"]
+        unreadable = [
+            item["source_id"] for item in coverage if item["status"] == "unreadable"
+        ]
         if unreadable:
             raise ClaudeAuditError(
                 "primary sources were unreadable and must be repaired before comparison: "
@@ -372,48 +373,72 @@ def _validate_semantics(
     evidence_path = packet_dir / packet["frozen_evidence"]["path"]
     if sha256_file(evidence_path) != artifact["evidence_sha256"]:
         raise ClaudeAuditError("comparison artifact references stale frozen evidence")
-    field_ids = {field["field_id"] for field in artifact["audited_fields"]}
+    evidence = load_json_object(evidence_path, label="frozen evidence")
+    if evidence["evidence_id"] != artifact["evidence_id"]:
+        raise ClaudeAuditError("comparison artifact references the wrong evidence ID")
+
+    field_values = artifact["audited_fields"]
+    field_ids = {field["field_id"] for field in field_values}
+    if len(field_ids) != len(field_values):
+        raise ClaudeAuditError("audited field ledger contains duplicate field IDs")
     issue_ids: set[str] = set()
     baseline_ids = {item["source_id"] for item in artifact["baseline_artifacts"]}
     new_artifact_ids: set[str] = set()
     new_artifact_filenames: set[str] = set()
+    expected_filenames = {
+        task: details["filename"] for task, details in TASK_ARTIFACTS.items()
+    }
+    allowed_evidence_ids = {
+        item["source_id"] for item in packet["files"]
+    } | {item["source_id"] for item in evidence["source_coverage"]}
     for issue in artifact["issues"]:
-        if issue["issue_id"] in issue_ids:
-            raise ClaudeAuditError(f"duplicate issue ID: {issue['issue_id']}")
-        issue_ids.add(issue["issue_id"])
+        issue_id = issue["issue_id"]
+        if issue_id in issue_ids:
+            raise ClaudeAuditError(f"duplicate issue ID: {issue_id}")
+        issue_ids.add(issue_id)
         if issue["field_id"] not in field_ids:
             raise ClaudeAuditError(
-                f"issue {issue['issue_id']} references unknown field {issue['field_id']}"
+                f"issue {issue_id} references unknown field {issue['field_id']}"
             )
-        if issue["recommendation"] == "propose_change":
-            target_kind = issue["target"]["kind"]
-            source_id = issue["target"].get("artifact_source_id")
-            if target_kind == "groundtruth_record" and source_id not in baseline_ids:
+        cited_ids = {item["source_id"] for item in issue["evidence"]}
+        if not cited_ids.issubset(allowed_evidence_ids):
+            raise ClaudeAuditError(
+                f"issue {issue_id} cites sources outside the comparison packet"
+            )
+        if issue["recommendation"] != "propose_change":
+            continue
+        target_kind = issue["target"]["kind"]
+        source_id = issue["target"].get("artifact_source_id")
+        if target_kind == "groundtruth_record" and source_id not in baseline_ids:
+            raise ClaudeAuditError(
+                f"issue {issue_id} targets unknown baseline {source_id!r}"
+            )
+        if target_kind == "new_groundtruth_record":
+            if source_id in baseline_ids:
                 raise ClaudeAuditError(
-                    f"issue {issue['issue_id']} targets unknown baseline {source_id!r}"
+                    f"issue {issue_id} tries to recreate existing baseline {source_id!r}"
                 )
-            if target_kind == "new_groundtruth_record":
-                if source_id in baseline_ids:
-                    raise ClaudeAuditError(
-                        f"issue {issue['issue_id']} tries to recreate existing baseline {source_id!r}"
-                    )
-                filename = issue["target"]["artifact_filename"]
-                if source_id in new_artifact_ids or filename in new_artifact_filenames:
-                    raise ClaudeAuditError(
-                        f"duplicate new ground-truth artifact target in issue {issue['issue_id']}"
-                    )
-                _validate_new_artifact_patch(
-                    issue["issue_id"], issue["proposed_patch"]
+            filename = issue["target"]["artifact_filename"]
+            if source_id in new_artifact_ids or filename in new_artifact_filenames:
+                raise ClaudeAuditError(
+                    f"duplicate new ground-truth artifact target in issue {issue_id}"
                 )
-                new_artifact_ids.add(source_id)
-                new_artifact_filenames.add(filename)
+            _validate_new_artifact_patch(issue_id, issue["proposed_patch"])
+            if issue["task"] not in expected_filenames or filename != expected_filenames[issue["task"]]:
+                raise ClaudeAuditError(
+                    f"new artifact issue {issue_id} uses the wrong task filename"
+                )
+            new_artifact_ids.add(source_id)
+            new_artifact_filenames.add(filename)
     referenced = {
         issue_id
         for field in artifact["audited_fields"]
         for issue_id in field.get("issue_ids", [])
     }
-    if not referenced.issubset(issue_ids):
-        raise ClaudeAuditError("audited field ledger references unknown issues")
+    if referenced != issue_ids:
+        raise ClaudeAuditError(
+            "audited field ledger and issues must reference each other exactly"
+        )
 
 
 def _validate_new_artifact_patch(
@@ -451,7 +476,12 @@ def _verify_packet_files(packet_dir: Path, packet: dict[str, Any]) -> None:
             raise ClaudeAuditError("frozen evidence is missing or stale")
 
 
-def _extract_artifact(stdout: bytes, schema_version: str) -> dict[str, Any]:
+def _extract_artifact(stdout: bytes, phase: str) -> dict[str, Any]:
+    required_markers = (
+        {"source_coverage", "t1", "t2", "t3"}
+        if phase == "evidence"
+        else {"audited_fields", "issues", "disposition"}
+    )
     candidates: list[Any] = []
     for raw_line in stdout.decode("utf-8", errors="replace").splitlines():
         try:
@@ -460,20 +490,13 @@ def _extract_artifact(stdout: bytes, schema_version: str) -> dict[str, Any]:
             continue
         candidates.extend(_walk_candidates(event))
     for candidate in reversed(candidates):
-        if isinstance(candidate, dict) and candidate.get("schema_version") == schema_version:
-            return candidate
-    for candidate in reversed(candidates):
-        if isinstance(candidate, dict) and any(
-            key in candidate for key in ("t1", "audited_fields", "issues")
-        ):
-            return candidate
         if isinstance(candidate, str):
             try:
-                value = json.loads(candidate)
+                candidate = json.loads(candidate)
             except json.JSONDecodeError:
                 continue
-            if isinstance(value, dict):
-                return value
+        if isinstance(candidate, dict) and required_markers.issubset(candidate):
+            return candidate
     raise ClaudeAuditError("Claude transcript did not contain a structured audit artifact")
 
 
@@ -540,8 +563,8 @@ def _reject_output(output_dir: Path, packet_dir: Path) -> None:
     if (repo / ".git").exists() and (
         output_dir == repo or output_dir.is_relative_to(repo)
     ):
-        raise ClaudeAuditError("private run output must not be written inside libstruct-bench")
+        raise ClaudeAuditError("audit run output must be outside libstruct-bench")
 
 
 def _now() -> str:
-    return datetime.now(timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z")
+    return datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")

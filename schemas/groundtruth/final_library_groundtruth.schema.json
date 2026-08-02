@@ -1,0 +1,124 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/final_library_groundtruth.schema.json",
+  "title": "Human-approved final-library ground truth",
+  "description": "T1: final sequencing-ready molecular products. Workflow history belongs in T3.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["protocol_id", "protocol_name", "protocol_scope", "libraries"],
+  "properties": {
+    "protocol_id": {"$ref": "#/$defs/stable_id"},
+    "protocol_name": {"type": "string", "minLength": 1},
+    "protocol_scope": {"$ref": "#/$defs/protocol_scope"},
+    "libraries": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/library"}},
+    "limitations": {"type": "array", "items": {"type": "string", "minLength": 1}}
+  },
+  "$defs": {
+    "stable_id": {"type": "string", "minLength": 1, "maxLength": 240, "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"},
+    "protocol_scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["protocol_version", "applicable_variants"],
+      "properties": {
+        "protocol_version": {"type": ["string", "null"], "minLength": 1},
+        "applicable_variants": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
+      }
+    },
+    "locator": {
+      "type": "object",
+      "additionalProperties": false,
+      "minProperties": 1,
+      "properties": {
+        "page": {"type": "integer", "minimum": 1},
+        "page_end": {"type": "integer", "minimum": 1},
+        "section": {"type": "string", "minLength": 1},
+        "figure": {"type": "string", "minLength": 1},
+        "table": {"type": "string", "minLength": 1},
+        "sheet": {"type": "string", "minLength": 1},
+        "cell_range": {"type": "string", "minLength": 1},
+        "html_selector": {"type": "string", "minLength": 1},
+        "line": {"type": "integer", "minimum": 1}
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_id", "locator"],
+      "properties": {
+        "source_id": {"$ref": "#/$defs/stable_id"},
+        "locator": {"$ref": "#/$defs/locator"},
+        "excerpt": {"type": ["string", "null"]},
+        "notes": {"type": ["string", "null"]}
+      }
+    },
+    "support_status": {"type": "string", "enum": ["explicit", "derivable", "externally_completed", "ambiguous", "unsupported"]},
+    "ground_truth_status": {"type": "string", "enum": ["included", "excluded", "ambiguous"]},
+    "segment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["segment_id", "kind", "role", "ground_truth_status", "support_status", "evidence"],
+      "properties": {
+        "segment_id": {"$ref": "#/$defs/stable_id"},
+        "kind": {"type": "string", "enum": ["constant", "variable", "biological_insert", "unknown"]},
+        "role": {"type": "string", "minLength": 1},
+        "sequence": {"type": ["string", "null"], "minLength": 1},
+        "length": {"type": ["integer", "null"], "minimum": 0},
+        "placeholder": {"type": ["string", "null"], "minLength": 1},
+        "orientation": {"type": "string", "enum": ["5_to_3", "3_to_5", "unknown"]},
+        "oligo_ids": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/stable_id"}},
+        "protocol_scope": {"$ref": "#/$defs/protocol_scope"},
+        "ground_truth_status": {"$ref": "#/$defs/ground_truth_status"},
+        "support_status": {"$ref": "#/$defs/support_status"},
+        "evidence": {"type": "array", "items": {"$ref": "#/$defs/evidence"}},
+        "notes": {"type": ["string", "null"]}
+      },
+      "anyOf": [
+        {"required": ["sequence"], "properties": {"sequence": {"type": "string", "minLength": 1}}},
+        {"required": ["length"], "properties": {"length": {"type": "integer", "minimum": 0}}},
+        {"required": ["placeholder"], "properties": {"placeholder": {"type": "string", "minLength": 1}}}
+      ],
+      "allOf": [{"if": {"properties": {"support_status": {"enum": ["explicit", "derivable", "externally_completed"]}}, "required": ["support_status"]}, "then": {"properties": {"evidence": {"minItems": 1}}}}]
+    },
+    "strand": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["strand_id", "strand", "orientation", "sequence", "support_status", "evidence"],
+      "properties": {
+        "strand_id": {"$ref": "#/$defs/stable_id"},
+        "strand": {"type": "string", "enum": ["top", "bottom", "single", "unknown"]},
+        "orientation": {"type": "string", "enum": ["5_to_3", "3_to_5", "unknown"]},
+        "sequence": {"type": "string", "minLength": 1},
+        "support_status": {"$ref": "#/$defs/support_status"},
+        "evidence": {"type": "array", "items": {"$ref": "#/$defs/evidence"}}
+      },
+      "allOf": [{"if": {"properties": {"support_status": {"enum": ["explicit", "derivable", "externally_completed"]}}, "required": ["support_status"]}, "then": {"properties": {"evidence": {"minItems": 1}}}}]
+    },
+    "library": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["library_id", "modality", "protocol_scope", "library_sequence", "annotated_library_sequence", "strand", "orientation", "ground_truth_status", "support_status", "evidence", "segments"],
+      "properties": {
+        "library_id": {"$ref": "#/$defs/stable_id"},
+        "modality": {"type": "string", "minLength": 1},
+        "protocol_scope": {"$ref": "#/$defs/protocol_scope"},
+        "final_molecule": {"type": ["string", "null"], "minLength": 1},
+        "library_sequence": {"type": ["string", "null"], "minLength": 1},
+        "annotated_library_sequence": {"type": ["string", "null"], "minLength": 1},
+        "strand": {"type": "string", "enum": ["top", "bottom", "single", "duplex", "unknown"]},
+        "orientation": {"type": "string", "enum": ["5_to_3", "3_to_5", "unknown"]},
+        "strands": {"type": "array", "items": {"$ref": "#/$defs/strand"}},
+        "segments": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/segment"}},
+        "ground_truth_status": {"$ref": "#/$defs/ground_truth_status"},
+        "status_reason": {"type": ["string", "null"], "minLength": 1},
+        "support_status": {"$ref": "#/$defs/support_status"},
+        "evidence": {"type": "array", "items": {"$ref": "#/$defs/evidence"}},
+        "notes": {"type": ["string", "null"]}
+      },
+      "allOf": [
+        {"if": {"properties": {"ground_truth_status": {"const": "included"}}, "required": ["ground_truth_status"]}, "then": {"properties": {"library_sequence": {"type": "string", "minLength": 1}}}},
+        {"if": {"properties": {"ground_truth_status": {"enum": ["excluded", "ambiguous"]}}, "required": ["ground_truth_status"]}, "then": {"required": ["status_reason"]}},
+        {"if": {"properties": {"support_status": {"enum": ["explicit", "derivable", "externally_completed"]}}, "required": ["support_status"]}, "then": {"properties": {"evidence": {"minItems": 1}}}}
+      ]
+    }
+  }
+}

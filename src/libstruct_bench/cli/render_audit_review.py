@@ -7,7 +7,7 @@ from pathlib import Path
 from libstruct_bench.audit.review import ReviewError, render_review_packet
 
 
-DEFAULT_SCHEMA = Path(__file__).resolve().parents[3] / "schemas" / "audit" / "protocol_audit.v2.schema.json"
+DEFAULT_SCHEMA = Path(__file__).resolve().parents[3] / "schemas" / "audit" / "protocol_audit.schema.json"
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -21,6 +21,7 @@ def main(argv: list[str] | None = None) -> int:
     except ReviewError as error:
         print(f"error: {error}", file=sys.stderr)
         return 2
+    print((args.out.expanduser().resolve() / "review.txt").read_text(encoding="utf-8"))
     print(f"Review report: {report}")
     print(f"Decision template: {template}")
     return 0

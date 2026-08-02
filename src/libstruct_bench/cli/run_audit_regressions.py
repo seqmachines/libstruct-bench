@@ -27,12 +27,12 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument(
         "--fixture-schema",
         type=Path,
-        default=SCHEMA_DIR / "accepted_correction_regression.v1.schema.json",
+        default=SCHEMA_DIR / "accepted_correction_regression.schema.json",
     )
     parser.add_argument(
         "--results-schema",
         type=Path,
-        default=SCHEMA_DIR / "regression_results.v1.schema.json",
+        default=SCHEMA_DIR / "regression_results.schema.json",
     )
     args = parser.parse_args(argv)
     try:

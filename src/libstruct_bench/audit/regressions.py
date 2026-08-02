@@ -106,7 +106,6 @@ def run_regressions(
         )
     failed = [item["issue_id"] for item in results if item["status"] == "failed"]
     document = {
-        "schema_version": "libstruct.regression_results.v1",
         "created_at": _timestamp(created_at),
         "fixture_count": len(results),
         "passed_count": len(results) - len(failed),

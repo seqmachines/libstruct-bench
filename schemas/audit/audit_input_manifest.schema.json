@@ -1,0 +1,95 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "$id": "https://seqmachines.org/schemas/libstruct/audit_input_manifest.schema.json",
+ "title": "Ground-truth audit input manifest",
+ "description": "A phase-gated, content-addressed manifest retaining included, excluded, unavailable, and pending source dispositions.",
+ "type": "object",
+ "additionalProperties": false,
+ "required": [
+ "manifest_id", "protocol_id", "created_at",
+ "source_catalog_sha256", "checkpoint", "sources"
+ ],
+ "properties": {
+ "manifest_id": {"$ref": "#/$defs/stable_id"},
+ "protocol_id": {"$ref": "#/$defs/stable_id"},
+ "created_at": {"type": "string", "format": "date-time"},
+ "source_catalog_sha256": {"$ref": "#/$defs/sha256"},
+ "checkpoint": {"$ref": "#/$defs/checkpoint"},
+ "sources": {"type": "array", "minItems": 3, "items": {"$ref": "#/$defs/source"}},
+ "notes": {"type": ["string", "null"]}
+ },
+ "allOf": [
+ {"properties": {"sources": {"contains": {"properties": {"role": {"const": "primary_evidence"}, "approval_status": {"const": "included"}}, "required": ["role", "approval_status"]}, "minContains": 1}}},
+ {"properties": {"sources": {"contains": {"properties": {"role": {"const": "legacy_curated_html"}, "approval_status": {"const": "included"}}, "required": ["role", "approval_status"]}, "minContains": 1}}},
+ {"properties": {"sources": {"contains": {"properties": {"role": {"const": "current_benchmark_record"}, "approval_status": {"const": "included"}}, "required": ["role", "approval_status"]}, "minContains": 1}}}
+ ],
+ "$defs": {
+ "stable_id": {"type": "string", "minLength": 1, "maxLength": 200, "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"},
+ "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+ "checkpoint": {
+ "type": "object",
+ "additionalProperties": false,
+ "required": ["checkpoint_id", "protocol_ordinal", "reviewed_protocol_count"],
+ "properties": {
+ "checkpoint_id": {"$ref": "#/$defs/stable_id"},
+ "protocol_ordinal": {"type": "integer", "minimum": 1},
+ "reviewed_protocol_count": {"type": "integer", "minimum": 0}
+ }
+ },
+ "dataset_reference": {
+ "type": "object",
+ "additionalProperties": false,
+ "required": ["provider", "repository", "revision", "path"],
+ "properties": {
+ "provider": {"type": "string", "enum": ["huggingface", "git", "local_fixture"]},
+ "repository": {"type": "string", "minLength": 1},
+ "revision": {"type": "string", "minLength": 7},
+ "path": {"type": "string", "minLength": 1}
+ }
+ },
+ "review": {
+ "type": "object",
+ "additionalProperties": false,
+ "required": ["reviewer_id", "reviewed_at", "reason"],
+ "properties": {
+ "reviewer_id": {"$ref": "#/$defs/stable_id"},
+ "reviewed_at": {"type": "string", "format": "date-time"},
+ "reason": {"type": "string", "minLength": 1}
+ }
+ },
+ "source": {
+ "type": "object",
+ "additionalProperties": false,
+ "required": ["source_id", "role", "source_kind", "approval_status", "task_relevance"],
+ "properties": {
+ "source_id": {"$ref": "#/$defs/stable_id"},
+ "role": {"type": "string", "enum": ["primary_evidence", "legacy_curated_html", "current_benchmark_record", "benchmark_run_artifact"]},
+ "source_kind": {"type": "string", "minLength": 1},
+ "approval_status": {"type": "string", "enum": ["pending", "included", "excluded", "unavailable"]},
+ "task_relevance": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "enum": ["T1", "T2", "T3", "cross_task"]}},
+ "path": {"type": "string", "minLength": 1},
+ "sha256": {"$ref": "#/$defs/sha256"},
+ "declared_sha256": {"$ref": "#/$defs/sha256"},
+ "integrity_status": {"type": "string", "enum": ["matched", "mismatch", "missing"]},
+ "size_bytes": {"type": "integer", "minimum": 0},
+ "media_type": {"type": "string", "minLength": 1},
+ "title": {"type": ["string", "null"]},
+ "document_version": {"type": ["string", "null"]},
+ "dataset_reference": {"$ref": "#/$defs/dataset_reference"},
+ "original_uri": {"type": ["string", "null"], "format": "uri"},
+ "row_filter": {"$ref": "#/$defs/row_filter"},
+ "review": {"$ref": "#/$defs/review"},
+ "notes": {"type": ["string", "null"]}
+ },
+ "allOf": [
+ {"if": {"properties": {"approval_status": {"const": "included"}}, "required": ["approval_status"]}, "then": {"required": ["path", "sha256", "size_bytes", "media_type", "dataset_reference", "review"]}},
+ {"if": {"properties": {"approval_status": {"enum": ["excluded", "unavailable"]}}, "required": ["approval_status"]}, "then": {"required": ["review"]}}
+ ]
+ },
+ "row_filter": {
+ "type": "object", "additionalProperties": false,
+ "required": ["column", "value", "include_source_row_number"],
+ "properties": {"column": {"type": "string", "minLength": 1}, "value": {"type": "string", "minLength": 1}, "include_source_row_number": {"const": true}}
+ }
+ }
+}

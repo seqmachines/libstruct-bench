@@ -16,7 +16,7 @@ STABLE_ID_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._:-]*$")
 
 
 class AuditArtifactError(ValueError):
-    """Raised when a versioned audit artifact is missing or invalid."""
+    """Raised when an audit artifact is missing or invalid."""
 
 
 def sha256_bytes(value: bytes) -> str:

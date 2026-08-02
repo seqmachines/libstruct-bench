@@ -21,10 +21,6 @@ from .artifacts import (
 )
 
 
-CATALOG_SCHEMA_VERSION = "libstruct.source_catalog.v1"
-MANIFEST_SCHEMA_VERSION = "libstruct.audit_input_manifest.v2"
-MANIFEST_REPORT_VERSION = "libstruct.audit_manifest_report.v2"
-HTML_MAP_SCHEMA_VERSION = "libstruct.legacy_html_map.v1"
 IGNORED_FILENAMES = {".DS_Store"}
 PRIMARY_MEDIA_TYPES = {
     ".doc": "application/msword",
@@ -78,27 +74,30 @@ class ManifestBuildResult:
 def build_source_catalog(
     *,
     protocols_dir: Path,
+    baseline_dir: Path,
     html_dir: Path,
     html_asset_root: Path | None = None,
     output_path: Path,
     schema_path: Path,
-    source_repository: str,
-    source_revision: str,
-    groundtruth_repository: str,
-    groundtruth_revision: str,
+    source_repository: str | None = None,
+    source_revision: str | None = None,
+    groundtruth_repository: str | None = None,
+    groundtruth_revision: str | None = None,
+    local_snapshots: bool = False,
     source_manifest_tsv: Path | None = None,
     html_map_path: Path | None = None,
     oligo_tsv_path: Path | None = None,
     source_protocols_prefix: str = "protocols",
-    groundtruth_protocols_prefix: str = "groundtruth",
+    groundtruth_protocols_prefix: str = "ground_truth_audit/baselines",
     html_prefix: str = "scg_html",
-    oligo_tsv_dataset_path: str = "groundtruth/groundtruth_oligos.tsv",
+    oligo_tsv_dataset_path: str = "groundtruth_oligos.tsv",
     previous_catalog_path: Path | None = None,
     created_at: str | None = None,
 ) -> SourceCatalogResult:
     """Discover all local inputs and create a reviewable, version-pinned catalog."""
 
     protocols_dir = _directory(protocols_dir, "protocols")
+    baseline_dir = _directory(baseline_dir, "current ground-truth baselines")
     html_dir = _directory(html_dir, "legacy HTML")
     html_asset_root = _directory(
         html_asset_root if html_asset_root is not None else html_dir.parent,
@@ -116,52 +115,62 @@ def build_source_catalog(
         "", oligo_tsv_dataset_path, label="oligo TSV dataset path"
     )
     timestamp = _timestamp(created_at)
-    if not source_repository.strip() or not _immutable_revision(source_revision):
-        raise SourceCatalogError(
-            "source Hugging Face repository and immutable 40-64 character commit hash are required"
-        )
-    if not groundtruth_repository.strip() or not _immutable_revision(
-        groundtruth_revision
+    remote_values = (
+        source_repository,
+        source_revision,
+        groundtruth_repository,
+        groundtruth_revision,
+    )
+    if local_snapshots:
+        if any(value is not None for value in remote_values):
+            raise SourceCatalogError(
+                "--local-snapshots cannot be combined with repository or revision options"
+            )
+    elif (
+        not source_repository
+        or not source_revision
+        or not groundtruth_repository
+        or not groundtruth_revision
+        or not _immutable_revision(source_revision)
+        or not _immutable_revision(groundtruth_revision)
     ):
         raise SourceCatalogError(
-            "ground-truth repository and immutable 40-64 character commit hash are required"
+            "remote catalogs require both repositories and immutable 40-64 character commit hashes"
         )
 
     ledger = _load_source_ledger(source_manifest_tsv, protocols_dir)
     html_map = _load_html_map(html_map_path)
     previous = _load_previous(previous_catalog_path, schema_path)
-    datasets = [
-        {
-            "dataset_id": "protocol_sources",
-            "provider": "huggingface",
-            "repository": source_repository.strip(),
-            "revision": source_revision.strip(),
-            "repo_type": "dataset",
-        },
-        {
-            "dataset_id": "benchmark_baselines",
-            "provider": "huggingface",
-            "repository": groundtruth_repository.strip(),
-            "revision": groundtruth_revision.strip(),
-            "repo_type": "dataset",
-        },
-    ]
-
     protocols: list[dict[str, Any]] = []
-    for protocol_dir in sorted(
+    protocol_dirs = sorted(
         (path for path in protocols_dir.iterdir() if path.is_dir() and not path.is_symlink()),
         key=lambda path: path.name,
-    ):
+    )
+    protocol_ids = {path.name for path in protocol_dirs}
+    extra_baselines = sorted(
+        path.name
+        for path in baseline_dir.iterdir()
+        if path.is_dir() and not path.is_symlink() and path.name not in protocol_ids
+    )
+    if extra_baselines:
+        raise SourceCatalogError(
+            "baseline directory contains unknown protocol IDs: "
+            + ", ".join(extra_baselines)
+        )
+    for protocol_dir in protocol_dirs:
         protocol_id = protocol_dir.name
         if not STABLE_ID_RE.fullmatch(protocol_id):
             raise SourceCatalogError(f"invalid protocol ID: {protocol_id}")
         sources = _discover_protocol_sources(
             protocol_id=protocol_id,
             protocol_dir=protocol_dir,
+            baseline_protocol_dir=baseline_dir / protocol_id,
             protocols_dir=protocols_dir,
             html_dir=html_dir,
             html_asset_root=html_asset_root,
-            html_names=_html_names(protocol_id, protocol_dir, html_map),
+            html_names=_html_names(
+                protocol_id, baseline_dir / protocol_id, html_map
+            ),
             ledger=ledger,
             oligo_tsv_path=oligo_tsv_path,
             source_protocols_prefix=source_protocols_prefix,
@@ -171,6 +180,33 @@ def build_source_catalog(
             previous=previous,
         )
         protocols.append({"protocol_id": protocol_id, "sources": sources})
+
+    if local_snapshots:
+        datasets = [
+            _local_dataset("protocol_sources", protocols),
+            _local_dataset("benchmark_baselines", protocols),
+        ]
+    else:
+        assert source_repository is not None
+        assert source_revision is not None
+        assert groundtruth_repository is not None
+        assert groundtruth_revision is not None
+        datasets = [
+            {
+                "dataset_id": "protocol_sources",
+                "provider": "huggingface",
+                "repository": source_repository.strip(),
+                "revision": source_revision.strip(),
+                "repo_type": "dataset",
+            },
+            {
+                "dataset_id": "benchmark_baselines",
+                "provider": "huggingface",
+                "repository": groundtruth_repository.strip(),
+                "revision": groundtruth_revision.strip(),
+                "repo_type": "dataset",
+            },
+        ]
 
     identity = {
         "datasets": datasets,
@@ -198,7 +234,6 @@ def build_source_catalog(
     }
     identity_hash = hashlib.sha256(canonical_json_bytes(identity)).hexdigest()
     document = {
-        "schema_version": CATALOG_SCHEMA_VERSION,
         "catalog_id": f"source-catalog:{identity_hash[:20]}",
         "created_at": timestamp,
         "datasets": datasets,
@@ -234,7 +269,7 @@ def build_manifests_from_catalog(
     created_at: str | None = None,
     protocol_ids: Iterable[str] | None = None,
 ) -> ManifestBuildResult:
-    """Build strict per-protocol v2 manifests from a reviewed source catalog."""
+    """Build strict per-protocol manifests from a reviewed source catalog."""
 
     catalog_path = _file(catalog_path, "source catalog")
     catalog_schema_path = _file(catalog_schema_path, "source catalog schema")
@@ -288,7 +323,6 @@ def build_manifests_from_catalog(
             canonical_json_bytes({"protocol_id": protocol_id, "sources": manifest_sources, "catalog": catalog_sha})
         ).hexdigest()
         manifest = {
-            "schema_version": MANIFEST_SCHEMA_VERSION,
             "manifest_id": f"{protocol_id}:inputs:{identity_hash[:16]}",
             "protocol_id": protocol_id,
             "created_at": timestamp,
@@ -307,7 +341,6 @@ def build_manifests_from_catalog(
         ready_count += 1
 
     report = {
-        "schema_version": MANIFEST_REPORT_VERSION,
         "created_at": timestamp,
         "source_catalog_sha256": catalog_sha,
         "summary": {"protocol_count": len(selected), "ready_count": ready_count, "blocked_count": len(selected) - ready_count},
@@ -322,6 +355,7 @@ def _discover_protocol_sources(
     *,
     protocol_id: str,
     protocol_dir: Path,
+    baseline_protocol_dir: Path,
     protocols_dir: Path,
     html_dir: Path,
     html_asset_root: Path,
@@ -340,21 +374,12 @@ def _discover_protocol_sources(
         if not path.is_file() or path.is_symlink() or path.name in IGNORED_FILENAMES:
             continue
         relative = path.relative_to(protocol_dir).as_posix()
-        if relative in CURRENT_RECORD_KIND_BY_FILENAME:
-            role = "current_benchmark_record"
-            kind = CURRENT_RECORD_KIND_BY_FILENAME[relative]
-            dataset_id = "benchmark_baselines"
-            portable = _dataset_path(
-                groundtruth_protocols_prefix, protocol_id, relative
+        if path.name in CURRENT_RECORD_KIND_BY_FILENAME:
+            raise SourceCatalogError(
+                "current ground-truth JSON must be stored under --baseline-dir, "
+                f"not in the protocol source folder: {protocol_id}/{relative}"
             )
-            media_type = "application/json"
-            task = {
-                "current_t1": "T1",
-                "current_t2": "T2",
-                "current_t3": "T3",
-            }[kind]
-            metadata: dict[str, Any] = {"task_relevance": [task]}
-        elif path.suffix.lower() in PRIMARY_MEDIA_TYPES:
+        if path.suffix.lower() in PRIMARY_MEDIA_TYPES:
             role = "primary_evidence"
             row = ledger.get(f"{protocol_id}/{relative}", {})
             kind = _KIND_MAP.get(row.get("kind", ""), "unclassified")
@@ -385,6 +410,45 @@ def _discover_protocol_sources(
                 previous=previous,
             )
         )
+
+    for filename, kind in CURRENT_RECORD_KIND_BY_FILENAME.items():
+        baseline_path = baseline_protocol_dir / filename
+        portable = _dataset_path(
+            groundtruth_protocols_prefix, protocol_id, filename
+        )
+        task = {
+            "current_t1": "T1",
+            "current_t2": "T2",
+            "current_t3": "T3",
+        }[kind]
+        if baseline_path.is_file() and not baseline_path.is_symlink():
+            discovered.append(
+                _catalog_source(
+                    protocol_id=protocol_id,
+                    role="current_benchmark_record",
+                    source_kind=kind,
+                    dataset_id="benchmark_baselines",
+                    path=portable,
+                    local_path=baseline_path,
+                    media_type="application/json",
+                    metadata={"task_relevance": [task]},
+                    previous=previous,
+                )
+            )
+        elif kind in {"current_t1", "current_t2"}:
+            discovered.append(
+                _missing_catalog_source(
+                    protocol_id=protocol_id,
+                    role="current_benchmark_record",
+                    source_kind=kind,
+                    path=portable,
+                    previous=previous,
+                    notes=(
+                        "Expected current benchmark baseline is missing from "
+                        f"--baseline-dir: {protocol_id}/{filename}"
+                    ),
+                )
+            )
 
     ledger_prefix = f"{protocol_id}/"
     for expected_path, row in sorted(ledger.items()):
@@ -583,6 +647,39 @@ def _manifest_source(source: dict[str, Any], datasets: dict[str, dict[str, Any]]
     return result
 
 
+def _local_dataset(
+    dataset_id: str, protocols: list[dict[str, Any]]
+) -> dict[str, str]:
+    """Describe a content-addressed local snapshot without implying publication."""
+
+    entries = {
+        (
+            source["path"],
+            source["sha256"],
+            source["size_bytes"],
+        )
+        for protocol in protocols
+        for source in protocol["sources"]
+        if source.get("dataset_id") == dataset_id and "sha256" in source
+    }
+    if not entries:
+        raise SourceCatalogError(
+            f"local snapshot contains no available files for dataset {dataset_id}"
+        )
+    identity = [
+        {"path": path, "sha256": digest, "size_bytes": size_bytes}
+        for path, digest, size_bytes in sorted(entries)
+    ]
+    revision = hashlib.sha256(canonical_json_bytes(identity)).hexdigest()
+    return {
+        "dataset_id": dataset_id,
+        "provider": "local_fixture",
+        "repository": f"local/{dataset_id}",
+        "revision": revision,
+        "repo_type": "dataset",
+    }
+
+
 def _load_source_ledger(path: Path | None, protocols_dir: Path) -> dict[str, dict[str, str]]:
     if path is None:
         candidate = protocols_dir / "SOURCE_MANIFEST.tsv"
@@ -681,7 +778,7 @@ def _load_html_map(path: Path | None) -> dict[str, list[str]]:
     if path is None:
         return {}
     document = load_json_object(_file(path, "legacy HTML map"), label="legacy HTML map")
-    if document.get("schema_version") != HTML_MAP_SCHEMA_VERSION or not isinstance(document.get("protocols"), dict):
+    if not isinstance(document.get("protocols"), dict):
         raise SourceCatalogError("invalid legacy HTML map")
     result: dict[str, list[str]] = {}
     for protocol_id, values in document["protocols"].items():

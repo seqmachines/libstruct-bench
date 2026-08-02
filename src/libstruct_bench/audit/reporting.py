@@ -42,12 +42,12 @@ def build_checkpoint_report(
     schema_root = Path(__file__).resolve().parents[3] / "schemas" / "audit"
     application_schema_path = _file(
         application_schema_path
-        or schema_root / "application_log.v1.schema.json",
+        or schema_root / "application_log.schema.json",
         "application log schema",
     )
     regression_results_schema_path = _file(
         regression_results_schema_path
-        or schema_root / "regression_results.v1.schema.json",
+        or schema_root / "regression_results.schema.json",
         "regression results schema",
     )
     if reviewed_protocol_count < 0:
@@ -78,6 +78,7 @@ def build_checkpoint_report(
     responsibilities: dict[str, int] = {}
     severities: dict[str, int] = {}
     tasks: dict[str, int] = {}
+    confirmed_causes: dict[str, int] = {}
     proposed_issue_count = 0
     confirmed_issue_count = 0
     review_seconds = 0.0
@@ -103,6 +104,9 @@ def build_checkpoint_report(
         confirmed_for_protocol: set[tuple[str, str]] = set()
         confirmed_count = 0
         for item in decision["issue_decisions"]:
+            cause = item.get("confirmed_cause")
+            if cause is not None:
+                _increment(confirmed_causes, cause)
             if item["disposition"] not in {"accept", "modify"}:
                 continue
             issue = issues[item["issue_id"]]
@@ -138,12 +142,17 @@ def build_checkpoint_report(
             f"reviewed_protocol_count={reviewed_protocol_count} but artifacts contain "
             f"{len(unique_protocols)} unique protocols"
         )
-    human_count = responsibilities.get("human_curation", 0)
+    human_count = confirmed_causes.get("original_human_curation_error", 0)
     agent_count = sum(
-        responsibilities.get(key, 0)
-        for key in ("benchmark_agent", "audit_agent", "parser", "harness")
+        confirmed_causes.get(key, 0)
+        for key in (
+            "audit_agent_reasoning_error",
+            "agent_harness_or_context_error",
+            "pdf_table_or_figure_extraction_error",
+        )
     )
-    other_count = confirmed_issue_count - human_count - agent_count
+    confirmed_cause_count = sum(confirmed_causes.values())
+    other_count = confirmed_cause_count - human_count - agent_count
     human_agent_total = human_count + agent_count
     applied_issue_ids: set[str] = set()
     for path in applications:
@@ -188,7 +197,6 @@ def build_checkpoint_report(
                 "previous checkpoint must have a smaller reviewed protocol count"
             )
     report = {
-        "schema_version": "libstruct.checkpoint_report.v1",
         "checkpoint_id": checkpoint_id,
         "created_at": _timestamp(created_at),
         "reviewed_protocol_count": reviewed_protocol_count,
@@ -205,6 +213,7 @@ def build_checkpoint_report(
             "proposed_issue_count": proposed_issue_count,
             "confirmed_issue_count": confirmed_issue_count,
             "category_distribution": dict(sorted(categories.items())),
+            "confirmed_cause_distribution": dict(sorted(confirmed_causes.items())),
             "responsibility_distribution": dict(sorted(responsibilities.items())),
             "severity_distribution": dict(sorted(severities.items())),
             "task_distribution": dict(sorted(tasks.items())),

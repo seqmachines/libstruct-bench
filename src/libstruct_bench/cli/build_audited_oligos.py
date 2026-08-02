@@ -35,7 +35,7 @@ def main(argv: list[str] | None = None) -> int:
         default=REPO_ROOT
         / "schemas"
         / "groundtruth"
-        / "oligo_groundtruth.v1.schema.json",
+        / "oligo_groundtruth.schema.json",
     )
     parser.add_argument(
         "--catalog-schema",
@@ -43,7 +43,7 @@ def main(argv: list[str] | None = None) -> int:
         default=REPO_ROOT
         / "schemas"
         / "groundtruth"
-        / "oligo_catalog.v1.schema.json",
+        / "oligo_catalog.schema.json",
     )
     parser.add_argument(
         "--metadata-schema",
@@ -51,7 +51,7 @@ def main(argv: list[str] | None = None) -> int:
         default=REPO_ROOT
         / "schemas"
         / "audit"
-        / "oligo_output_build.v1.schema.json",
+        / "oligo_output_build.schema.json",
     )
     args = parser.parse_args(argv)
     try:

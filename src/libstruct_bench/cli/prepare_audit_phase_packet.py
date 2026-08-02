@@ -12,31 +12,33 @@ SCHEMA_DIR = Path(__file__).resolve().parents[3] / "schemas" / "audit"
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
-        description="Build a physically isolated evidence or comparison audit packet."
+        description="Build an isolated evidence or comparison audit packet."
     )
     parser.add_argument("--manifest", type=Path, required=True)
     parser.add_argument("--source-dataset-dir", type=Path, required=True)
     parser.add_argument("--groundtruth-dataset-dir", type=Path, required=True)
     parser.add_argument("--run-artifact-dir", type=Path)
     parser.add_argument("--rendition-bundle-dir", type=Path)
-    parser.add_argument("--phase", choices=("evidence", "comparison"), required=True)
+    parser.add_argument(
+        "--phase", choices=("evidence", "comparison"), required=True
+    )
     parser.add_argument("--evidence-artifact", type=Path)
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument("--mode", choices=("copy", "symlink"), default="copy")
     parser.add_argument(
         "--manifest-schema",
         type=Path,
-        default=SCHEMA_DIR / "audit_input_manifest.v2.schema.json",
+        default=SCHEMA_DIR / "audit_input_manifest.schema.json",
     )
     parser.add_argument(
         "--packet-schema",
         type=Path,
-        default=SCHEMA_DIR / "audit_packet.v2.schema.json",
+        default=SCHEMA_DIR / "audit_packet.schema.json",
     )
     parser.add_argument(
         "--rendition-schema",
         type=Path,
-        default=SCHEMA_DIR / "rendition_bundle.v1.schema.json",
+        default=SCHEMA_DIR / "rendition_bundle.schema.json",
     )
     args = parser.parse_args(argv)
     try:

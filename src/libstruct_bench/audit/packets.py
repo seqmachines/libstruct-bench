@@ -15,7 +15,6 @@ from jsonschema import Draft202012Validator, FormatChecker
 from .artifacts import canonical_json_bytes, sha256_file
 
 
-PHASE_PACKET_SCHEMA_VERSION = "libstruct.audit_packet.v2"
 MATERIALIZATION_MODES = ("copy", "symlink")
 PACKET_PHASES = ("evidence", "comparison")
 _RENDITION_MEDIA_TYPES = {
@@ -82,7 +81,7 @@ def build_phase_packet(
     rendition_schema_path: Path | None = None,
     mode: str = "copy",
 ) -> PhasePacketResult:
-    """Materialize an evidence-only or post-evidence comparison packet."""
+    """Materialize an isolated primary-evidence or comparison packet."""
 
     if phase not in PACKET_PHASES:
         raise PacketError(f"phase must be one of: {', '.join(PACKET_PHASES)}")
@@ -106,12 +105,6 @@ def build_phase_packet(
     )
     packet_schema_path = _required_file(packet_schema_path, "audit packet schema")
     output_dir = output_dir.expanduser().resolve()
-    roots = {source_dataset_dir, groundtruth_dataset_dir}
-    if run_artifact_dir is not None:
-        roots.add(run_artifact_dir)
-    if rendition_bundle_dir is not None:
-        roots.add(rendition_bundle_dir)
-    _validate_output_location(output_dir, roots)
 
     manifest_bytes = manifest_path.read_bytes()
     try:
@@ -121,8 +114,6 @@ def build_phase_packet(
     if not isinstance(manifest, dict):
         raise PacketError("input manifest must be a JSON object")
     _validate_document(manifest, manifest_schema_path, label="input manifest")
-    if manifest.get("schema_version") != "libstruct.audit_input_manifest.v2":
-        raise PacketError("phase packets require libstruct.audit_input_manifest.v2")
     pending = [
         source["source_id"]
         for source in manifest["sources"]
@@ -147,7 +138,7 @@ def build_phase_packet(
         source
         for source in manifest["sources"]
         if source["approval_status"] == "included"
-        and (phase == "comparison" or source["role"] == "primary_evidence")
+        and _source_in_phase(source, phase)
     ]
     planned_files = _plan_phase_files(
         sources=selected_sources,
@@ -172,8 +163,12 @@ def build_phase_packet(
         protocol_id=protocol_id,
         manifest_sha256=source_manifest_sha,
     )
+    protected_files = {
+        *(planned.source_path for planned in planned_files),
+        *(planned.source_path for planned in planned_renditions),
+    }
+    _validate_output_location(output_dir, protected_files)
     projected_manifest = {
-        "schema_version": "libstruct.audit_packet_manifest.v1",
         "protocol_id": protocol_id,
         "phase": phase,
         "source_manifest_sha256": source_manifest_sha,
@@ -209,7 +204,6 @@ def build_phase_packet(
         f"{source_manifest_sha}:{phase}:{evidence_sha or ''}".encode("utf-8")
     ).hexdigest()
     packet_document: dict[str, Any] = {
-        "schema_version": PHASE_PACKET_SCHEMA_VERSION,
         "packet_id": f"{protocol_id}:{phase}-packet:{identity[:16]}",
         "protocol_id": protocol_id,
         "phase": phase,
@@ -316,6 +310,17 @@ def build_phase_packet(
         file_count=len(planned_files),
         rendition_count=len(planned_renditions),
     )
+
+
+def _source_in_phase(source: dict[str, Any], phase: str) -> bool:
+    role = source["role"]
+    if phase == "evidence":
+        return role == "primary_evidence"
+    return role in {
+        "legacy_curated_html",
+        "current_benchmark_record",
+        "benchmark_run_artifact",
+    }
 
 
 def _plan_phase_files(
@@ -464,8 +469,6 @@ def _plan_renditions(
     except (OSError, UnicodeDecodeError, json.JSONDecodeError) as error:
         raise PacketError(f"cannot read rendition metadata: {error}") from error
     _validate_document(bundle, schema_path, label="rendition bundle")
-    if bundle.get("schema_version") != "libstruct.rendition_bundle.v1":
-        raise PacketError("unsupported rendition bundle schema")
     if bundle["protocol_id"] != protocol_id:
         raise PacketError("rendition bundle protocol does not match packet")
     if bundle["input_manifest_sha256"] != manifest_sha256:
@@ -564,13 +567,18 @@ def _validate_document(
     raise PacketError(f"{label} schema error at {location}: {first.message}")
 
 
-def _validate_output_location(output_dir: Path, roots: set[Path]) -> None:
+def _validate_output_location(output_dir: Path, protected_files: set[Path]) -> None:
     if output_dir.exists():
         raise PacketError(f"packet output already exists: {output_dir}")
-    for source_dir in roots:
-        if output_dir == source_dir or output_dir.is_relative_to(source_dir):
+    for source_file in protected_files:
+        source_parent = source_file.resolve().parent
+        if (
+            output_dir == source_parent
+            or output_dir.is_relative_to(source_parent)
+            or source_parent.is_relative_to(output_dir)
+        ):
             raise PacketError(
-                f"packet output must not be inside source directory: {source_dir}"
+                f"packet output overlaps an input directory: {source_parent}"
             )
     repository_root = Path(__file__).resolve().parents[3]
     if (repository_root / ".git").exists() and (

@@ -1,89 +1,49 @@
-# Audit Evidence Policy
+# Audit evidence policy
 
-## Evidence scope
+Only approved, manifest-listed files may support a scientific conclusion.
+Online search, memory, and unlisted kit knowledge are out of scope.
 
-Only files listed in the protocol's validated input manifest may support an
-audit conclusion. Online search, remembered commercial-kit sequence, and
-unversioned local files are out of scope.
+## Isolation
 
-If missing external evidence is scientifically important, record a
-`source_or_evidence_missing` issue and recommend adding a pinned source. Do
-not insert remembered bases into a proposed benchmark record.
+Primary-evidence extraction may see only approved papers, protocols,
+supplements, tables/spreadsheets, figures/diagrams, and deterministic
+renditions. It must not see legacy HTML, current ground truth, reviewed TSV
+rows, prior agent answers, or benchmark outputs.
 
-## Source roles
+After that evidence is frozen, comparison may see:
 
-### Primary evidence
+- legacy `scg_lib_structs` HTML and included assets;
+- current T1, T2, and T3 records;
+- the protocol-only projection of `groundtruth_oligos.tsv`;
+- optional benchmark-run artifacts for error attribution.
 
-Primary protocol documents establish what an agent could recover from the
-versioned source bundle. Record document identity and version as well as the
-page, sheet, table, cell range, section, figure, or other stable locator.
+Legacy and current curation establish the value being checked, not scientific
+correctness. TSV projections retain original row numbers and the full-file
+hash. Every included primary source appears once in the coverage ledger. An
+unreadable source blocks comparison until a human repairs or reclassifies it.
 
-### Legacy curated HTML
+## Extraction
 
-The HTML is valuable human-curated provenance and may encode cross-protocol or
-kit knowledge. It is not unquestioned truth and is never relabeled as primary
-evidence.
+- Read complete documents, sheets, tables, figures, diagrams, appendices, and
+  alternate products.
+- Review T2 and T3 chronologically: register an oligo when first seen, then
+  reference it from each molecular transition.
+- Create a T3 state only for a meaningful change in molecule type, strand or
+  sequence architecture, barcode/UMI/index/adapter content, physical state,
+  selected fraction, amplifiability, or workflow branch.
+- Record every transition’s substrates, normalized operation, T2 oligos,
+  major reagents, products, carried products, and important dead ends.
+- A display-only paragraph or figure is not a transition. PCR cycling is one
+  transition, not a graph cycle.
+- Record reverse complements, assembly, placeholder normalization, and every
+  other derivation. Preserve conflicts and do not invent missing sequences.
 
-### Current benchmark record
+Support is `explicit`, `derivable`, `externally_completed`, `ambiguous`, or
+`unsupported`. Confidence does not change evidentiary status.
 
-The current JSON is the artifact under review. It can demonstrate what the
-benchmark currently scores but cannot independently support its own scientific
-correctness.
+## Comparison statuses
 
-The global oligo TSV is exposed only as a deterministic protocol-row
-projection. Its original row numbers, full-file hash, old names, and old
-sequences are lineage, not scientific support, and must survive accepted T2
-conversions.
-
-## Evidence-first phase gate
-
-The primary-source extraction must be completed and hash-frozen before legacy
-HTML, current benchmark records, predictions, traces, or evaluator output are
-made visible to the audit agent. A prompt instruction alone is not an adequate
-phase boundary.
-
-Every included primary source must appear exactly once in the source-coverage
-ledger. An unreadable source blocks comparison until it is repaired or a human
-changes its source disposition.
-
-## Required comparisons
-
-For every final library, relevant oligo, and molecular workflow step:
-
-1. Start from the frozen primary-evidence artifact.
-2. Compare the current JSON with the legacy HTML to detect extraction,
-   omission, strand, and normalization changes.
-3. Compare both with primary evidence to determine whether every scored
-   constant and variable-region length is recoverable.
-4. Check all primary documents for version and internal conflicts.
-5. Check that every distinct final sequencing product is represented.
-6. Check read orientation and reverse-complement operations.
-7. Check evaluator identifiers and assignments separately from biological
-   structure.
-
-## Conflicts and transformations
-
-Do not silently choose between a schematic and an explicit final PCR product,
-between documents, or between protocol versions. Cite each side and emit a
-human-review finding.
-
-Record transformations that connect evidence to a proposed value, including
-reverse complementation, wrapper removal, homopolymer expansion, placeholder
-normalization, biological-insert omission, and construct assembly. Preserve
-the before and after values plus a rationale.
-
-Evidence excerpts should be the shortest text or sequence span needed to
-support the finding. Never substitute an uncited summary for a stable source
-locator.
-
-## Support classifications
-
-- `explicit`: printed directly in an approved source.
-- `derivable`: reproducibly assembled from cited approved components.
-- `externally_completed`: supported by an approved manifest-listed vendor or
-  cited-method source rather than the assay's core documents.
-- `ambiguous`: evidence supports multiple interpretations or cannot select one.
-- `unsupported`: no manifest-listed source supports the value.
-
-Agent confidence describes the audit assistant's uncertainty; it does not
-change evidentiary status or authorize a correction.
+Each T1–T3 field is `verified_no_change`, `proposed_correction`,
+`missing_source_evidence`, `ambiguous`, or `external_knowledge_required`.
+Every non-verified status is preserved as a human-review issue. Only an exact
+`proposed_correction` may carry a ground-truth patch.

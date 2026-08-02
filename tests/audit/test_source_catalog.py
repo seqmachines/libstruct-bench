@@ -14,9 +14,9 @@ from libstruct_bench.audit.source_catalog import (
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-CATALOG_SCHEMA = REPO_ROOT / "schemas" / "audit" / "source_catalog.v1.schema.json"
+CATALOG_SCHEMA = REPO_ROOT / "schemas" / "audit" / "source_catalog.schema.json"
 MANIFEST_SCHEMA = (
-    REPO_ROOT / "schemas" / "audit" / "audit_input_manifest.v2.schema.json"
+    REPO_ROOT / "schemas" / "audit" / "audit_input_manifest.schema.json"
 )
 NOW = "2026-08-01T12:00:00Z"
 SOURCE_REVISION = "a" * 40
@@ -27,15 +27,18 @@ def _write_json(path: Path, value: object) -> None:
     path.write_text(json.dumps(value), encoding="utf-8")
 
 
-def _fixture(tmp_path: Path) -> tuple[Path, Path, Path]:
+def _fixture(tmp_path: Path) -> tuple[Path, Path, Path, Path]:
     protocols = tmp_path / "protocols"
     protocol = protocols / "example_protocol"
+    baselines = tmp_path / "ground_truth_audit" / "baselines"
+    baseline = baselines / "example_protocol"
     html = tmp_path / "scg_html"
     protocol.mkdir(parents=True)
+    baseline.mkdir(parents=True)
     html.mkdir()
     (protocol / "paper.pdf").write_bytes(b"%PDF primary")
     _write_json(
-        protocol / "groundtruth_final_lib_struct.json",
+        baseline / "groundtruth_final_lib_struct.json",
         {
             "protocol_id": "example_protocol",
             "source_html_file": "Example.html",
@@ -43,11 +46,11 @@ def _fixture(tmp_path: Path) -> tuple[Path, Path, Path]:
         },
     )
     _write_json(
-        protocol / "groundtruth_oligos.json",
+        baseline / "groundtruth_oligos.json",
         {"protocol_id": "example_protocol", "oligos": []},
     )
     _write_json(
-        protocol / "groundtruth_library_generation_workflow.json",
+        baseline / "groundtruth_library_generation_workflow.json",
         {"protocol_id": "example_protocol", "workflows": []},
     )
     (html / "Example.html").write_text(
@@ -79,7 +82,7 @@ def _fixture(tmp_path: Path) -> tuple[Path, Path, Path]:
                 "notes": "Not present in snapshot",
             }
         )
-    return protocols, html, ledger
+    return protocols, baselines, html, ledger
 
 
 def _build_catalog(
@@ -88,13 +91,15 @@ def _build_catalog(
     output_name: str,
     previous: Path | None = None,
 ) -> Path:
-    protocols, html, ledger = _fixture(tmp_path) if not (tmp_path / "protocols").exists() else (
+    protocols, baselines, html, ledger = _fixture(tmp_path) if not (tmp_path / "protocols").exists() else (
         tmp_path / "protocols",
+        tmp_path / "ground_truth_audit" / "baselines",
         tmp_path / "scg_html",
         tmp_path / "protocols" / "SOURCE_MANIFEST.tsv",
     )
     result = build_source_catalog(
         protocols_dir=protocols,
+        baseline_dir=baselines,
         html_dir=html,
         output_path=tmp_path / output_name,
         schema_path=CATALOG_SCHEMA,
@@ -137,18 +142,19 @@ def test_catalog_preserves_discovered_expected_and_missing_sources(tmp_path: Pat
     assert by_path["protocols/example_protocol/missing-supplement.pdf"]["source_kind"] == "supplementary_methods"
     assert "sha256" not in by_path["protocols/example_protocol/missing-supplement.pdf"]
     assert by_path["protocols/example_protocol/missing-supplement.pdf"]["integrity_status"] == "missing"
-    assert "groundtruth/example_protocol/groundtruth_final_lib_struct.json" in by_path
+    prefix = "ground_truth_audit/baselines/example_protocol"
+    assert f"{prefix}/groundtruth_final_lib_struct.json" in by_path
     assert by_path[
-        "groundtruth/example_protocol/groundtruth_final_lib_struct.json"
+        f"{prefix}/groundtruth_final_lib_struct.json"
     ]["task_relevance"] == ["T1"]
     assert by_path[
-        "groundtruth/example_protocol/groundtruth_oligos.json"
+        f"{prefix}/groundtruth_oligos.json"
     ]["task_relevance"] == ["T2"]
     assert by_path[
-        "groundtruth/example_protocol/groundtruth_library_generation_workflow.json"
+        f"{prefix}/groundtruth_library_generation_workflow.json"
     ]["source_kind"] == "current_t3"
     assert by_path[
-        "groundtruth/example_protocol/groundtruth_library_generation_workflow.json"
+        f"{prefix}/groundtruth_library_generation_workflow.json"
     ]["task_relevance"] == ["T3"]
     assert "scg_html/missing/diagram.png" in by_path
 
@@ -216,10 +222,11 @@ def test_changed_source_resets_prior_approval_to_pending(tmp_path: Path) -> None
 
 
 def test_catalog_requires_immutable_hugging_face_revisions(tmp_path: Path) -> None:
-    protocols, html, ledger = _fixture(tmp_path)
+    protocols, baselines, html, ledger = _fixture(tmp_path)
     with pytest.raises(SourceCatalogError, match="immutable"):
         build_source_catalog(
             protocols_dir=protocols,
+            baseline_dir=baselines,
             html_dir=html,
             output_path=tmp_path / "catalog.json",
             schema_path=CATALOG_SCHEMA,
@@ -235,7 +242,7 @@ def test_catalog_requires_immutable_hugging_face_revisions(tmp_path: Path) -> No
 def test_global_oligo_tsv_is_cataloged_with_a_protocol_row_filter(
     tmp_path: Path,
 ) -> None:
-    protocols, html, ledger = _fixture(tmp_path)
+    protocols, baselines, html, ledger = _fixture(tmp_path)
     oligo_tsv = tmp_path / "groundtruth_oligos.tsv"
     oligo_tsv.write_text(
         "protocol_id\toligo_name\nexample_protocol\tPrimer\nother\tOther\n",
@@ -243,6 +250,7 @@ def test_global_oligo_tsv_is_cataloged_with_a_protocol_row_filter(
     )
     result = build_source_catalog(
         protocols_dir=protocols,
+        baseline_dir=baselines,
         html_dir=html,
         output_path=tmp_path / "catalog.json",
         schema_path=CATALOG_SCHEMA,
@@ -266,13 +274,14 @@ def test_global_oligo_tsv_is_cataloged_with_a_protocol_row_filter(
         "value": "example_protocol",
         "include_source_row_number": True,
     }
-    assert source["path"] == "groundtruth/groundtruth_oligos.tsv"
+    assert source["path"] == "groundtruth_oligos.tsv"
 
 
 def test_catalog_dataset_prefixes_are_configurable(tmp_path: Path) -> None:
-    protocols, html, ledger = _fixture(tmp_path)
+    protocols, baselines, html, ledger = _fixture(tmp_path)
     result = build_source_catalog(
         protocols_dir=protocols,
+        baseline_dir=baselines,
         html_dir=html,
         output_path=tmp_path / "catalog.json",
         schema_path=CATALOG_SCHEMA,
@@ -296,10 +305,11 @@ def test_catalog_dataset_prefixes_are_configurable(tmp_path: Path) -> None:
 
 
 def test_catalog_rejects_unsafe_dataset_prefix(tmp_path: Path) -> None:
-    protocols, html, ledger = _fixture(tmp_path)
+    protocols, baselines, html, ledger = _fixture(tmp_path)
     with pytest.raises(SourceCatalogError, match="unsafe"):
         build_source_catalog(
             protocols_dir=protocols,
+            baseline_dir=baselines,
             html_dir=html,
             output_path=tmp_path / "catalog.json",
             schema_path=CATALOG_SCHEMA,
@@ -309,5 +319,51 @@ def test_catalog_rejects_unsafe_dataset_prefix(tmp_path: Path) -> None:
             groundtruth_revision=GROUNDTRUTH_REVISION,
             source_manifest_tsv=ledger,
             source_protocols_prefix="../protocols",
+            created_at=NOW,
+        )
+
+
+def test_catalog_supports_content_addressed_local_snapshots(tmp_path: Path) -> None:
+    protocols, baselines, html, ledger = _fixture(tmp_path)
+    result = build_source_catalog(
+        protocols_dir=protocols,
+        baseline_dir=baselines,
+        html_dir=html,
+        output_path=tmp_path / "catalog.json",
+        schema_path=CATALOG_SCHEMA,
+        local_snapshots=True,
+        source_manifest_tsv=ledger,
+        created_at=NOW,
+    )
+    document = json.loads(result.catalog_path.read_text(encoding="utf-8"))
+    assert {dataset["provider"] for dataset in document["datasets"]} == {
+        "local_fixture"
+    }
+    assert all(
+        len(dataset["revision"]) == 64 for dataset in document["datasets"]
+    )
+    assert {dataset["repository"] for dataset in document["datasets"]} == {
+        "local/protocol_sources",
+        "local/benchmark_baselines",
+    }
+
+
+def test_catalog_rejects_ground_truth_json_inside_protocol_sources(
+    tmp_path: Path,
+) -> None:
+    protocols, baselines, html, ledger = _fixture(tmp_path)
+    _write_json(
+        protocols / "example_protocol" / "groundtruth_oligos.json",
+        {"protocol_id": "example_protocol", "oligos": []},
+    )
+    with pytest.raises(SourceCatalogError, match="--baseline-dir"):
+        build_source_catalog(
+            protocols_dir=protocols,
+            baseline_dir=baselines,
+            html_dir=html,
+            output_path=tmp_path / "catalog.json",
+            schema_path=CATALOG_SCHEMA,
+            local_snapshots=True,
+            source_manifest_tsv=ledger,
             created_at=NOW,
         )

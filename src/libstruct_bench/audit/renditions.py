@@ -23,7 +23,6 @@ from .artifacts import (
 )
 
 
-RENDITION_SCHEMA_VERSION = "libstruct.rendition_bundle.v1"
 SUPPORTED_SUFFIXES = {".pdf", ".doc", ".docx", ".xls", ".xlsx"}
 _WORD_NS = "http://schemas.openxmlformats.org/wordprocessingml/2006/main"
 _SHEET_NS = "http://schemas.openxmlformats.org/spreadsheetml/2006/main"
@@ -64,8 +63,6 @@ def build_rendition_bundle(
         raise RenditionError("PDF DPI must be between 72 and 300")
     manifest = load_json_object(manifest_path, label="audit input manifest")
     _validate(manifest, manifest_schema_path, "audit input manifest")
-    if manifest.get("schema_version") != "libstruct.audit_input_manifest.v2":
-        raise RenditionError("renditions require libstruct.audit_input_manifest.v2")
     sources = [
         source
         for source in manifest["sources"]
@@ -85,8 +82,15 @@ def build_rendition_bundle(
     if not sources:
         raise RenditionError("manifest has no included primary documents")
 
+    resolved_sources = {
+        source["source_id"]: _resolve_dataset_path(
+            source_dataset_dir, source["dataset_reference"]["path"]
+        )
+        for source in sources
+    }
+
     output_dir = output_dir.expanduser().resolve()
-    _reject_output(output_dir, source_dataset_dir)
+    _reject_output(output_dir, set(resolved_sources.values()))
     if output_dir.exists():
         raise RenditionError(f"rendition output already exists: {output_dir}")
     output_dir.parent.mkdir(parents=True, exist_ok=True)
@@ -99,9 +103,7 @@ def build_rendition_bundle(
         for source_index, source in enumerate(
             sorted(sources, key=lambda item: item["source_id"]), start=1
         ):
-            actual = _resolve_dataset_path(
-                source_dataset_dir, source["dataset_reference"]["path"]
-            )
+            actual = resolved_sources[source["source_id"]]
             if sha256_file(actual) != source["sha256"]:
                 raise RenditionError(f"stale source hash: {source['source_id']}")
             if actual.stat().st_size != source["size_bytes"]:
@@ -158,7 +160,6 @@ def build_rendition_bundle(
             )
         ).hexdigest()
         bundle = {
-            "schema_version": RENDITION_SCHEMA_VERSION,
             "bundle_id": f"{manifest['protocol_id']}:renditions:{identity[:16]}",
             "protocol_id": manifest["protocol_id"],
             "input_manifest_sha256": sha256_file(manifest_path),
@@ -491,9 +492,17 @@ def _directory(path: Path, label: str) -> Path:
     return resolved
 
 
-def _reject_output(output: Path, source_root: Path) -> None:
-    if output == source_root or output.is_relative_to(source_root):
-        raise RenditionError("rendition output must not be inside the source dataset")
+def _reject_output(output: Path, protected_sources: set[Path]) -> None:
+    for source in protected_sources:
+        source_parent = source.parent
+        if (
+            output == source_parent
+            or output.is_relative_to(source_parent)
+            or source_parent.is_relative_to(output)
+        ):
+            raise RenditionError(
+                f"rendition output overlaps an approved source directory: {source_parent}"
+            )
     repo = Path(__file__).resolve().parents[3]
     if (repo / ".git").exists() and (output == repo or output.is_relative_to(repo)):
         raise RenditionError("private rendition output must not be written inside libstruct-bench")

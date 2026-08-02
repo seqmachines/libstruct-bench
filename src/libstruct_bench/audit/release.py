@@ -16,6 +16,25 @@ from .artifacts import (
 )
 from .review import ReviewError, validate_review_decision
 from .oligo_catalog import OligoCatalogError, build_oligo_outputs
+from .groundtruth import GroundtruthValidationError, validate_cross_task_links
+
+
+SCHEMA_FILES = {
+    "manifest": "audit_input_manifest.schema.json",
+    "evidence": "protocol_evidence.schema.json",
+    "audit": "protocol_audit.schema.json",
+    "decision": "review_decision.schema.json",
+    "application": "application_log.schema.json",
+    "regression_fixture": "accepted_correction_regression.schema.json",
+    "regression_results": "regression_results.schema.json",
+    "checkpoint": "checkpoint_report.schema.json",
+    "release_manifest": "groundtruth_release_manifest.schema.json",
+    "t1": "final_library_groundtruth.schema.json",
+    "t2": "oligo_groundtruth.schema.json",
+    "t3": "library_generation_workflow.schema.json",
+    "oligo_catalog": "oligo_catalog.schema.json",
+    "oligo_build": "oligo_output_build.schema.json",
+}
 
 
 class ReleaseError(ValueError):
@@ -51,36 +70,19 @@ def build_release_manifest(
 
     policies = [_hash_path(artifact_root, path) for path in spec["policy_paths"]]
     schemas: list[dict[str, str]] = []
-    schema_by_version: dict[str, Path] = {}
-    for item in spec["schema_paths"]:
-        path = _resolve(artifact_root, item["path"])
-        if item["schema_version"] in schema_by_version:
-            raise ReleaseError(f"duplicate schema version: {item['schema_version']}")
-        schema_by_version[item["schema_version"]] = path
-        schemas.append(
-            {
-                "path": item["path"],
-                "sha256": sha256_file(path),
-                "schema_version": item["schema_version"],
-            }
+    schema_by_name: dict[str, Path] = {}
+    for relative in spec["schema_paths"]:
+        path = _resolve(artifact_root, relative)
+        filename = PurePosixPath(relative).name
+        if filename in schema_by_name:
+            raise ReleaseError(f"duplicate schema filename: {filename}")
+        schema_by_name[filename] = path
+        schemas.append({"path": relative, "sha256": sha256_file(path)})
+    missing_schemas = sorted(set(SCHEMA_FILES.values()) - set(schema_by_name))
+    if missing_schemas:
+        raise ReleaseError(
+            "release is missing required schemas: " + ", ".join(missing_schemas)
         )
-    required_versions = {
-        "libstruct.audit_input_manifest.v2",
-        "libstruct.protocol_evidence.v1",
-        "libstruct.protocol_audit.v2",
-        "libstruct.review_decision.v2",
-        "libstruct.application_log.v1",
-        "libstruct.accepted_correction_regression.v1",
-        "libstruct.regression_results.v1",
-        "libstruct.checkpoint_report.v1",
-        "libstruct.groundtruth_release_manifest.v2",
-        "libstruct.oligo_groundtruth.v1",
-        "libstruct.oligo_catalog.v1",
-        "libstruct.oligo_output_build.v1",
-    }
-    missing_versions = sorted(required_versions - set(schema_by_version))
-    if missing_versions:
-        raise ReleaseError("release is missing required schemas: " + ", ".join(missing_versions))
 
     checkpoint_documents: list[tuple[str, dict[str, Any]]] = []
     checkpoints: list[dict[str, Any]] = []
@@ -89,7 +91,7 @@ def build_release_manifest(
         document = load_json_object(path, label="checkpoint report")
         _validate(
             document,
-            schema_by_version["libstruct.checkpoint_report.v1"],
+            schema_by_name[SCHEMA_FILES["checkpoint"]],
             "checkpoint report",
         )
         checkpoint_documents.append((relative, document))
@@ -118,7 +120,7 @@ def build_release_manifest(
         record, high_impact, independent_ids = _verify_protocol(
             protocol=protocol,
             root=artifact_root,
-            schemas=schema_by_version,
+            schemas=schema_by_name,
             pinned_datasets=pinned_datasets,
         )
         protocol_records.append(record)
@@ -152,7 +154,7 @@ def build_release_manifest(
         checkpoint=final_checkpoint,
         specification=spec,
         root=artifact_root,
-        regression_schema=schema_by_version["libstruct.regression_results.v1"],
+        regression_schema=schema_by_name[SCHEMA_FILES["regression_results"]],
     )
     if final_checkpoint["metrics"]["new_regression_count"] not in {0, None}:
         raise ReleaseError("release has newly introduced regressions")
@@ -162,14 +164,12 @@ def build_release_manifest(
     oligo_outputs = _verify_oligo_outputs(
         specification=spec["oligo_outputs"],
         root=artifact_root,
-        schemas=schema_by_version,
+        schemas=schema_by_name,
         protocol_records=protocol_records,
     )
 
     manifest = {
-        "schema_version": "libstruct.groundtruth_release_manifest.v2",
         "release_id": spec["release_id"],
-        "version": spec["version"],
         "release_status": spec["release_status"],
         "created_at": spec["created_at"],
         "generated_by": spec["generated_by"],
@@ -260,12 +260,12 @@ def _verify_oligo_outputs(
     metadata = load_json_object(metadata_path, label="oligo output build metadata")
     _validate(
         catalog,
-        schemas["libstruct.oligo_catalog.v1"],
+        schemas[SCHEMA_FILES["oligo_catalog"]],
         "canonical oligo catalog",
     )
     _validate(
         metadata,
-        schemas["libstruct.oligo_output_build.v1"],
+        schemas[SCHEMA_FILES["oligo_build"]],
         "oligo output build metadata",
     )
     catalog_sha = sha256_file(catalog_path)
@@ -321,9 +321,9 @@ def _verify_oligo_outputs(
                 t2_paths=t2_paths,
                 decision_ids_by_protocol=decisions,
                 output_dir=Path(temporary) / "rebuilt",
-                t2_schema_path=schemas["libstruct.oligo_groundtruth.v1"],
-                catalog_schema_path=schemas["libstruct.oligo_catalog.v1"],
-                metadata_schema_path=schemas["libstruct.oligo_output_build.v1"],
+                t2_schema_path=schemas[SCHEMA_FILES["t2"]],
+                catalog_schema_path=schemas[SCHEMA_FILES["oligo_catalog"]],
+                metadata_schema_path=schemas[SCHEMA_FILES["oligo_build"]],
                 created_at=metadata["created_at"],
             )
             if rebuilt.catalog_path.read_bytes() != catalog_path.read_bytes():
@@ -358,7 +358,7 @@ def _verify_protocol(
     manifest = load_json_object(manifest_path, label="audit input manifest")
     _validate(
         manifest,
-        schemas["libstruct.audit_input_manifest.v2"],
+        schemas[SCHEMA_FILES["manifest"]],
         "audit input manifest",
     )
     if manifest["protocol_id"] != protocol_id:
@@ -388,7 +388,7 @@ def _verify_protocol(
     for item in protocol["evidence"]:
         path = _resolve(root, item["path"])
         document = load_json_object(path, label="protocol evidence")
-        _validate(document, schemas["libstruct.protocol_evidence.v1"], "protocol evidence")
+        _validate(document, schemas[SCHEMA_FILES["evidence"]], "protocol evidence")
         if document["protocol_id"] != protocol_id or document["evidence_id"] != item["id"]:
             raise ReleaseError(f"evidence identity mismatch for {protocol_id}")
         if (
@@ -412,7 +412,7 @@ def _verify_protocol(
     for item in protocol["audits"]:
         path = _resolve(root, item["path"])
         document = load_json_object(path, label="audit proposal")
-        _validate(document, schemas["libstruct.protocol_audit.v2"], "audit proposal")
+        _validate(document, schemas[SCHEMA_FILES["audit"]], "audit proposal")
         if document["protocol_id"] != protocol_id or document["audit_id"] != item["id"]:
             raise ReleaseError(f"audit identity mismatch for {protocol_id}")
         if item["id"] in audits:
@@ -451,8 +451,8 @@ def _verify_protocol(
             proposal, validated = validate_review_decision(
                 proposal_path=audits[audit_id][0],
                 decision_path=path,
-                proposal_schema_path=schemas["libstruct.protocol_audit.v2"],
-                decision_schema_path=schemas["libstruct.review_decision.v2"],
+                proposal_schema_path=schemas[SCHEMA_FILES["audit"]],
+                decision_schema_path=schemas[SCHEMA_FILES["decision"]],
             )
         except ReviewError as error:
             raise ReleaseError(str(error)) from error
@@ -522,7 +522,7 @@ def _verify_protocol(
     for item in protocol["applications"]:
         path = _resolve(root, item["path"])
         document = load_json_object(path, label="application log")
-        _validate(document, schemas["libstruct.application_log.v1"], "application log")
+        _validate(document, schemas[SCHEMA_FILES["application"]], "application log")
         if document["protocol_id"] != protocol_id or document["application_id"] != item["id"]:
             raise ReleaseError(f"application identity mismatch for {protocol_id}")
         audit_id = document["audit_id"]
@@ -620,7 +620,7 @@ def _verify_protocol(
             )
             _validate(
                 fixture,
-                schemas["libstruct.accepted_correction_regression.v1"],
+                schemas[SCHEMA_FILES["regression_fixture"]],
                 "accepted correction regression fixture",
             )
             issue_id = fixture["issue_id"]
@@ -689,9 +689,17 @@ def _verify_protocol(
     allowed_source_ids = {source["source_id"] for source in manifest["sources"]}
     for item in protocol["artifacts"]:
         path = _resolve(root, item["path"])
-        schema = schemas.get(item["schema_version"])
+        schema_key = {
+            "T1": "t1",
+            "T2": "t2",
+            "T3": "t3",
+            "oligo_catalog": "oligo_catalog",
+        }[item["task"]]
+        schema = schemas.get(SCHEMA_FILES[schema_key])
         if schema is None:
-            raise ReleaseError(f"artifact schema not pinned: {item['schema_version']}")
+            raise ReleaseError(
+                f"artifact schema not pinned: {SCHEMA_FILES[schema_key]}"
+            )
         document = load_json_object(path, label="ground-truth artifact")
         _validate(document, schema, f"{protocol_id} {item['task']} artifact")
         if item["task"] != "oligo_catalog" and document.get("protocol_id") != protocol_id:
@@ -726,24 +734,22 @@ def _verify_protocol(
                 "task": item["task"],
                 "path": item["path"],
                 "sha256": artifact_sha256,
-                "schema_version": item["schema_version"],
                 "artifact_source_id": source_id,
             }
         )
     for task, disposition in protocol["task_dispositions"].items():
         if disposition == "included" and task not in artifact_tasks:
             raise ReleaseError(f"included task {task} has no artifact for {protocol_id}")
-    if "T1" in artifact_documents and "T3" in artifact_documents:
-        library_ids = {
-            item["library_id"] for item in artifact_documents["T1"]["libraries"]
-        }
-        for workflow in artifact_documents["T3"]["workflows"]:
-            unknown = sorted(set(workflow["final_library_refs"]) - library_ids)
-            if unknown:
-                raise ReleaseError(
-                    f"T3 workflow {workflow['workflow_id']} references unknown T1 "
-                    f"libraries for {protocol_id}: {', '.join(unknown)}"
-                )
+    try:
+        validate_cross_task_links(
+            {
+                task: document
+                for task, document in artifact_documents.items()
+                if task in {"T1", "T2", "T3"}
+            }
+        )
+    except GroundtruthValidationError as error:
+        raise ReleaseError(str(error)) from error
 
     record = {
         "protocol_id": protocol_id,
@@ -784,7 +790,7 @@ def _verify_groundtruth_semantics(
                     segment.get("evidence", []), allowed_source_ids, protocol_id
                 )
         if not any(
-            item["benchmark_status"] == "included" for item in document["libraries"]
+            item["ground_truth_status"] == "included" for item in document["libraries"]
         ):
             raise ReleaseError(f"{protocol_id} T1 has no benchmark-included library")
         return
@@ -807,25 +813,20 @@ def _verify_groundtruth_semantics(
     if task == "T3":
         _unique_ids(document["workflows"], "workflow_id", f"{protocol_id} T3")
         for workflow in document["workflows"]:
-            _unique_ids(
-                workflow["steps"],
-                "step_id",
-                f"{protocol_id} T3 workflow {workflow['workflow_id']}",
-            )
-            orders = [step["order"] for step in workflow["steps"]]
-            if sorted(orders) != list(range(1, len(orders) + 1)):
-                raise ReleaseError(
-                    f"T3 step order must be consecutive from 1 for {protocol_id} "
-                    f"workflow {workflow['workflow_id']}"
-                )
-            for step in workflow["steps"]:
+            _unique_ids(workflow["states"], "state_id", f"{protocol_id} T3 workflow {workflow['workflow_id']} states")
+            _unique_ids(workflow["transitions"], "transition_id", f"{protocol_id} T3 workflow {workflow['workflow_id']} transitions")
+            for state in workflow["states"]:
                 _verify_evidence_sources(
-                    step["evidence"], allowed_source_ids, protocol_id
+                    state["evidence"], allowed_source_ids, protocol_id
+                )
+            for transition in workflow["transitions"]:
+                _verify_evidence_sources(
+                    transition["evidence"], allowed_source_ids, protocol_id
                 )
         if not any(
-            item["benchmark_status"] == "included" for item in document["workflows"]
+            item["ground_truth_status"] == "included" for item in document["workflows"]
         ):
-            raise ReleaseError(f"{protocol_id} T3 has no benchmark-included workflow")
+            raise ReleaseError(f"{protocol_id} T3 has no included workflow")
 
 
 def _unique_ids(values: list[dict[str, Any]], key: str, label: str) -> None:

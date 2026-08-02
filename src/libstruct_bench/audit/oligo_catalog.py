@@ -42,15 +42,15 @@ TSV_FIELDS = (
     "oligo_id",
     "oligo_name",
     "oligo_sequence",
-    "direction",
+    "orientation",
     "old_oligo_name",
     "old_oligo_sequence",
     "canonical_oligo_id",
     "family_id",
     "role",
     "kind",
-    "benchmark_status",
-    "exclusion_reason",
+    "ground_truth_status",
+    "status_reason",
     "support_status",
     "source_names_json",
     "aliases_json",
@@ -132,7 +132,7 @@ def build_oligo_outputs(
                     decision_ids=decisions,
                 )
             )
-            if oligo["benchmark_status"] != "included":
+            if oligo["ground_truth_status"] != "included":
                 continue
             sequence = oligo.get("sequence")
             if not isinstance(sequence, str) or not sequence:
@@ -155,7 +155,7 @@ def build_oligo_outputs(
                 ),
                 "role": oligo["role"],
                 "sequence": sequence,
-                "direction": oligo["direction"],
+                "orientation": oligo["orientation"],
                 "family_id": oligo.get("family_id"),
                 "protocol_refs": [f"{protocol_id}:{oligo_id}"],
                 "decision_ids": list(decisions),
@@ -169,7 +169,6 @@ def build_oligo_outputs(
     catalog_entries = [catalog_groups[key] for key in sorted(catalog_groups)]
     identity = hashlib.sha256(canonical_json_bytes(catalog_entries)).hexdigest()
     catalog = {
-        "schema_version": "libstruct.oligo_catalog.v1",
         "catalog_id": f"oligo-catalog:{identity[:20]}",
         "created_at": timestamp,
         "oligos": catalog_entries,
@@ -195,7 +194,6 @@ def build_oligo_outputs(
             writer.writeheader()
             writer.writerows(tsv_rows)
         metadata = {
-            "schema_version": "libstruct.oligo_output_build.v1",
             "created_at": timestamp,
             "inputs": metadata_inputs,
             "catalog": {
@@ -228,7 +226,7 @@ def _merge_catalog_entry(existing: dict[str, Any], incoming: dict[str, Any]) -> 
         "canonical_name",
         "role",
         "sequence",
-        "direction",
+        "orientation",
         "family_id",
     ):
         if existing.get(key) != incoming.get(key):
@@ -254,10 +252,10 @@ def _tsv_row(
 ) -> dict[str, str]:
     lineage = oligo["baseline_lineage"]
     old_name = next(
-        (item["old_name"] for item in lineage if item.get("old_name")), ""
+        (item["source_name"] for item in lineage if item.get("source_name")), ""
     )
     old_sequence = next(
-        (item["old_sequence"] for item in lineage if item.get("old_sequence")),
+        (item["source_sequence"] for item in lineage if item.get("source_sequence")),
         "",
     )
     return {
@@ -266,15 +264,15 @@ def _tsv_row(
         "oligo_id": oligo["oligo_id"],
         "oligo_name": oligo["name"],
         "oligo_sequence": oligo.get("sequence") or "",
-        "direction": oligo["direction"],
+        "orientation": oligo["orientation"],
         "old_oligo_name": old_name,
         "old_oligo_sequence": old_sequence,
         "canonical_oligo_id": oligo.get("canonical_oligo_id") or "",
         "family_id": oligo.get("family_id") or "",
         "role": oligo["role"],
         "kind": oligo["kind"],
-        "benchmark_status": oligo["benchmark_status"],
-        "exclusion_reason": oligo.get("exclusion_reason") or "",
+        "ground_truth_status": oligo["ground_truth_status"],
+        "status_reason": oligo.get("status_reason") or "",
         "support_status": oligo["support_status"],
         "source_names_json": _compact_json(oligo["source_names"]),
         "aliases_json": _compact_json(oligo["aliases"]),

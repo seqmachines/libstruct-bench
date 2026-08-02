@@ -8,14 +8,14 @@ from pathlib import Path
 import pytest
 
 from libstruct_bench.audit.packets import PacketError, build_phase_packet
-from libstruct_bench.audit.renditions import build_rendition_bundle
+from libstruct_bench.audit.renditions import RenditionError, build_rendition_bundle
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 SCHEMA_DIR = REPO_ROOT / "schemas" / "audit"
-MANIFEST_SCHEMA = SCHEMA_DIR / "audit_input_manifest.v2.schema.json"
-PACKET_SCHEMA = SCHEMA_DIR / "audit_packet.v2.schema.json"
-RENDITION_SCHEMA = SCHEMA_DIR / "rendition_bundle.v1.schema.json"
+MANIFEST_SCHEMA = SCHEMA_DIR / "audit_input_manifest.schema.json"
+PACKET_SCHEMA = SCHEMA_DIR / "audit_packet.schema.json"
+RENDITION_SCHEMA = SCHEMA_DIR / "rendition_bundle.schema.json"
 NOW = "2026-08-01T12:00:00Z"
 
 
@@ -105,8 +105,7 @@ def _fixture(tmp_path: Path) -> tuple[Path, Path, Path]:
         }
 
     manifest = {
-        "schema_version": "libstruct.audit_input_manifest.v2",
-        "manifest_id": "example_protocol:inputs:v2",
+        "manifest_id": "example_protocol:inputs:test",
         "protocol_id": "example_protocol",
         "created_at": NOW,
         "source_catalog_sha256": "b" * 64,
@@ -224,4 +223,44 @@ def test_packet_rejects_renditions_from_a_stale_manifest(tmp_path: Path) -> None
             rendition_bundle_dir=result.output_dir,
             rendition_schema_path=RENDITION_SCHEMA,
             phase="evidence",
+        )
+
+
+def test_renditions_allow_a_sibling_audit_directory_under_a_common_root(
+    tmp_path: Path,
+) -> None:
+    manifest, _source_root, _groundtruth_root = _fixture(tmp_path)
+    value = json.loads(manifest.read_text(encoding="utf-8"))
+    primary = next(
+        source for source in value["sources"] if source["role"] == "primary_evidence"
+    )
+    primary["dataset_reference"]["path"] = (
+        f"source-dataset/{primary['dataset_reference']['path']}"
+    )
+    _write_json(manifest, value)
+
+    result = build_rendition_bundle(
+        manifest_path=manifest,
+        source_dataset_dir=tmp_path,
+        output_dir=tmp_path / "ground_truth_audit" / "renditions" / "example_protocol",
+        manifest_schema_path=MANIFEST_SCHEMA,
+        rendition_schema_path=RENDITION_SCHEMA,
+        created_at=NOW,
+    )
+
+    assert result.bundle_path.is_file()
+
+
+def test_renditions_reject_output_inside_an_actual_source_directory(
+    tmp_path: Path,
+) -> None:
+    manifest, source_root, _groundtruth_root = _fixture(tmp_path)
+    with pytest.raises(RenditionError, match="overlaps an approved source directory"):
+        build_rendition_bundle(
+            manifest_path=manifest,
+            source_dataset_dir=source_root,
+            output_dir=source_root / "example_protocol" / "renditions",
+            manifest_schema_path=MANIFEST_SCHEMA,
+            rendition_schema_path=RENDITION_SCHEMA,
+            created_at=NOW,
         )

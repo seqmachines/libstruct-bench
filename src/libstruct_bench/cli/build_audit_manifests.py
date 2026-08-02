@@ -26,12 +26,12 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument(
         "--catalog-schema",
         type=Path,
-        default=SCHEMA_DIR / "source_catalog.v1.schema.json",
+        default=SCHEMA_DIR / "source_catalog.schema.json",
     )
     parser.add_argument(
         "--manifest-schema",
         type=Path,
-        default=SCHEMA_DIR / "audit_input_manifest.v2.schema.json",
+        default=SCHEMA_DIR / "audit_input_manifest.schema.json",
     )
     args = parser.parse_args(argv)
     try:
