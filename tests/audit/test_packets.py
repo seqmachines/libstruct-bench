@@ -137,6 +137,27 @@ def test_comparison_freezes_evidence_and_includes_all_comparison_inputs(tmp_path
     assert "source_row_number" in (result.output_dir / projected_tsv["path"]).read_text()
 
 
+def test_comparison_packet_can_share_dataset_root_with_oligo_tsv(tmp_path: Path) -> None:
+    manifest, source_root, groundtruth_root, run_root = _fixture(tmp_path)
+    evidence = tmp_path / "evidence.json"
+    output_dir = groundtruth_root / "ground_truth_audit/pilot/packets/example/comparison"
+
+    result = build_phase_packet(
+        manifest_path=manifest,
+        source_dataset_dir=source_root,
+        groundtruth_dataset_dir=groundtruth_root,
+        run_artifact_dir=run_root,
+        output_dir=output_dir,
+        manifest_schema_path=AUDIT_SCHEMAS / "audit_input_manifest.schema.json",
+        packet_schema_path=AUDIT_SCHEMAS / "audit_packet.schema.json",
+        phase="comparison",
+        evidence_artifact_path=evidence,
+    )
+
+    assert result.output_dir == output_dir
+    assert (output_dir / "packet.json").is_file()
+
+
 def test_comparison_requires_frozen_evidence(tmp_path: Path) -> None:
     with pytest.raises(PacketError, match="requires --evidence-artifact"):
         _build(tmp_path, phase="comparison")

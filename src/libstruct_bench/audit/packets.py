@@ -571,14 +571,14 @@ def _validate_output_location(output_dir: Path, protected_files: set[Path]) -> N
     if output_dir.exists():
         raise PacketError(f"packet output already exists: {output_dir}")
     for source_file in protected_files:
-        source_parent = source_file.resolve().parent
+        source_file = source_file.resolve()
         if (
-            output_dir == source_parent
-            or output_dir.is_relative_to(source_parent)
-            or source_parent.is_relative_to(output_dir)
+            output_dir == source_file
+            or output_dir.is_relative_to(source_file)
+            or source_file.is_relative_to(output_dir)
         ):
             raise PacketError(
-                f"packet output overlaps an input directory: {source_parent}"
+                f"packet output overlaps an input file: {source_file}"
             )
     repository_root = Path(__file__).resolve().parents[3]
     if (repository_root / ".git").exists() and (

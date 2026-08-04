@@ -32,18 +32,36 @@ description: Audit one sequencing protocol or prepare up to ten protocol proposa
    - run comparison and stop with a validated proposal.
 5. Keep packets and runs immutable and hash-pinned. Workers are read-only. If
    invoking a nested Claude process, use `env -u CLAUDECODE`.
-6. In the console show only review cases: task/field, current value, proposed
-   value, source locator, reason, severity, and impact. Summarize
-   `verified_no_change` fields by count.
-7. Record only explicit human dispositions: `accept`, `reject`, `modify`,
+6. Prepare `review.txt` and a working decision JSON for the protocol iteration.
+   Do not generate HTML; adjudication happens entirely in this console.
+7. Walk review-required issues interactively by default. An issue requires an
+   individual decision when it has a patch; has blocker, high, or medium
+   severity; is unresolved scientific ambiguity, protocol-version confusion,
+   or an evaluator/matching conflict; or recommends changing the evaluator,
+   harness, or scoring inclusion.
+   Show exactly one such undecided issue at a time: task/field, current value,
+   proposed value, source locator, reason, severity, and impact.
+8. Summarize `verified_no_change` fields and low informational findings once by
+   task and count. Ask for one explicit grouped decision on the low findings:
+   accept as observations with no ground-truth edit, reject and keep current,
+   leave unresolved, or expand for individual review. If the human chooses a
+   group disposition, write a separate issue decision for every issue ID using
+   that explicit answer. Never treat the summary as approval.
+9. Record only an explicit human disposition: `accept`, `reject`, `modify`,
    `unresolved`, or `exclude`, with rationale and confirmed cause. “Continue”
-   is never scientific approval.
-8. Save each review iteration immutably. A working decision may generate a
-   fresh preview from the pinned baselines. Continue until the human confirms
-   it is correct.
-9. Finalize only after every issue has a decision. Apply accepted patches,
-   validate linked T1–T3, run correction regressions, and promote the three
-   canonical files without overwriting an approved protocol directory.
+   is never scientific approval. `back`, `skip`, `status`, `quit`, and `resume`
+   navigate the review and do not imply a disposition.
+10. Immediately after each answer, atomically update the working decision JSON
+   and validate it in working mode. On restart, preserve recorded decisions and
+   resume at the first undecided issue. Never alter the immutable proposal.
+11. After every proposal issue has a recorded decision, show a concise decision
+    summary and ask the human to confirm finalization. Only then mark the
+    decision final and save the review iteration immutably. Do not apply or
+    promote merely because the walkthrough ended.
+12. After explicit human authorization to apply, generate a fresh preview from
+    pinned baselines, apply accepted patches deterministically, validate linked
+    T1–T3, run correction regressions, and promote the three canonical files
+    without overwriting an approved protocol directory.
 
 ## Batch mode
 
@@ -53,8 +71,9 @@ description: Audit one sequencing protocol or prepare up to ten protocol proposa
 3. A worker stops after its validated proposal. It cannot adjudicate, apply,
    promote, publish, or edit another protocol.
 4. Isolate failures. Keep completed proposals when another protocol blocks.
-5. Sort the review queue by protocol ID and severity. Human review can happen
-   later, one protocol at a time.
+5. Sort the review queue by protocol ID and severity. Human review happens
+   later, one protocol and one issue at a time, using the interactive controller
+   rules above.
 
 ## Evidence worker
 
@@ -74,11 +93,30 @@ description: Audit one sequencing protocol or prepare up to ten protocol proposa
 ## Comparison worker
 
 - Read frozen evidence first, then only the packet-listed comparison inputs.
+- If current T3 JSON is absent but legacy HTML contains human-curated workflow
+  steps, first translate those steps in document order into the complete T3
+  candidate. Preserve legacy wording and locators on its states and transitions.
+  Use current T1/T2 IDs only as explicit identifier normalization.
+- Compare that legacy-derived T3 candidate with frozen primary evidence. Emit
+  every primary-supported correction, addition, conflict, or unsupported claim
+  as a separate issue; never silently fold it into the root candidate patch.
+  Classify the absent T3 JSON as a migration/schema omission, not an original
+  human-curation error. An HTML reference to a missing asset does not establish
+  the unseen asset's contents.
+- Reference only T2 oligos actually used during library generation. Sequencing
+  primers may remain valid T2 records without being referenced from T3.
 - Assign each audited field one status: `verified_no_change`,
   `proposed_correction`, `missing_source_evidence`, `ambiguous`, or
   `external_knowledge_required`.
 - Every non-verified status has an issue. Only an exact ground-truth correction
   may carry an RFC 6902 patch.
+- Keep the issue count proportional to human decisions. Group related fields
+  with the same cause and remedy into one issue. Do not create separate issues
+  for optional aliases, conditions, family sizes, or descriptive metadata when
+  the scientific/scoring value is unchanged; summarize those observations in
+  notes. Calibrate molecular or scoring conflicts at medium severity or above.
+  Use `unresolved_scientific_ambiguity`, not a low generic source conflict, when
+  conflicting sources leave the molecular interpretation genuinely unresolved.
 - Validate T1/T2/T3 links and graph consistency. Propose, but never approve or
   apply, changes.
 

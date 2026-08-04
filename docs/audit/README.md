@@ -50,11 +50,19 @@ benchmark-run artifacts. Every field receives one status:
 
 Only the last four become review issues.
 
+When no T3 JSON exists but the legacy HTML contains a curated workflow, the
+comparison first converts that HTML into the T3 candidate with legacy
+provenance. Primary-source corrections and additions remain separate review
+issues rather than being silently incorporated into the candidate.
+
 ### 3. Human adjudication
 
-The console shows only conflicts and unsupported fields, with current and
-proposed values, evidence location, explanation, severity, and impact. The
-human accepts, rejects, modifies, leaves unresolved, or excludes each issue.
+The console walks through only review-required findings one issue at a time,
+with current and proposed values, evidence location, explanation, severity,
+and impact. Each explicit human decision is checkpointed immediately so review
+can stop and resume. Low, non-changing findings are summarized by task and
+count, then receive one explicit grouped human decision that is stored once per
+issue ID. Nothing is accepted automatically. Review HTML is not generated.
 
 ### 4. Deterministic application
 

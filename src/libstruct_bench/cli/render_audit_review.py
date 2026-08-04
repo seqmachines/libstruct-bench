@@ -11,7 +11,7 @@ DEFAULT_SCHEMA = Path(__file__).resolve().parents[3] / "schemas" / "audit" / "pr
 
 
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description="Render a static human-review packet for one audit proposal.")
+    parser = argparse.ArgumentParser(description="Prepare a console review queue for one audit proposal.")
     parser.add_argument("--proposal", type=Path, required=True)
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument("--schema", type=Path, default=DEFAULT_SCHEMA)
@@ -21,8 +21,8 @@ def main(argv: list[str] | None = None) -> int:
     except ReviewError as error:
         print(f"error: {error}", file=sys.stderr)
         return 2
-    print((args.out.expanduser().resolve() / "review.txt").read_text(encoding="utf-8"))
-    print(f"Review report: {report}")
+    print(report.read_text(encoding="utf-8"))
+    print(f"Review queue: {report}")
     print(f"Decision template: {template}")
     return 0
 

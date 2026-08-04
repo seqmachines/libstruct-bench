@@ -9,7 +9,13 @@ import pytest
 from libstruct_bench.audit.application import ApplicationError, apply_review_decision
 from libstruct_bench.audit.artifacts import sha256_file
 from libstruct_bench.audit.promotion import promote_reviewed_groundtruth
-from libstruct_bench.audit.review import render_console_summary, render_review_packet
+from libstruct_bench.audit.review import (
+    ReviewError,
+    issue_requires_individual_review,
+    render_console_summary,
+    render_review_packet,
+    validate_review_decision,
+)
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
@@ -203,12 +209,83 @@ def test_review_console_is_conflict_only_and_template_is_unversioned(tmp_path: P
     value = json.loads(proposal.read_text())
     console = render_console_summary(value)
     assert "Current:" in console and "Proposed:" in console
-    _, template = render_review_packet(
+    report, template = render_review_packet(
         proposal_path=proposal,
         proposal_schema_path=AUDIT / "protocol_audit.schema.json",
         output_dir=tmp_path / "review",
     )
+    assert report.name == "review.txt"
+    assert not (tmp_path / "review/review.html").exists()
     assert "schema_version" not in json.loads(template.read_text())
+
+
+def test_low_informational_finding_uses_grouped_human_decision(tmp_path: Path) -> None:
+    baseline = _write(tmp_path / "baselines/groundtruth_final_lib_struct.json", _t1())
+    value = _proposal(sha256_file(baseline))
+    informational = dict(value["issues"][0])
+    informational.update(
+        {
+            "issue_id": "issue-info",
+            "field_id": "field-info",
+            "title": "Optional alias metadata is absent",
+            "category": "naming_or_normalization_inconsistency",
+            "severity": "low",
+            "recommendation": "needs_human_review",
+            "proposed_patch": [],
+        }
+    )
+    value["issues"].append(informational)
+    value["audited_fields"].append(
+        {
+            "field_id": "field-info",
+            "task": "T2",
+            "object_id": "oligo",
+            "field_path": "/oligos/0/aliases",
+            "comparison_status": "ambiguous",
+            "issue_ids": ["issue-info"],
+        }
+    )
+    proposal = _write(tmp_path / "audit.json", value)
+    decision = _write(tmp_path / "decision.json", _decision(proposal))
+
+    assert not issue_requires_individual_review(informational)
+    low_source_conflict = dict(informational, category="source_conflict")
+    assert not issue_requires_individual_review(low_source_conflict)
+    unresolved = dict(
+        informational, category="unresolved_scientific_ambiguity"
+    )
+    assert issue_requires_individual_review(unresolved)
+    console = render_console_summary(value)
+    assert "1 issue(s) need individual review; 1 finding(s) need one grouped decision" in console
+    assert "Optional alias metadata is absent" not in console
+    assert "nothing is accepted or updated automatically" in console
+    with pytest.raises(ReviewError, match="every proposal issue exactly once"):
+        validate_review_decision(
+            proposal_path=proposal,
+            decision_path=decision,
+            proposal_schema_path=AUDIT / "protocol_audit.schema.json",
+            decision_schema_path=AUDIT / "review_decision.schema.json",
+        )
+
+    grouped_decision = json.loads(decision.read_text())
+    grouped_decision["issue_decisions"].append(
+        {
+            "issue_id": "issue-info",
+            "disposition": "accept",
+            "rationale": "Accepted in the grouped informational review; no ground-truth edit.",
+            "category": "naming_or_normalization_inconsistency",
+            "responsibility": "human_curation",
+            "severity": "low",
+            "confirmed_cause": "naming_or_normalization_inconsistency",
+        }
+    )
+    _write(decision, grouped_decision)
+    validate_review_decision(
+        proposal_path=proposal,
+        decision_path=decision,
+        proposal_schema_path=AUDIT / "protocol_audit.schema.json",
+        decision_schema_path=AUDIT / "review_decision.schema.json",
+    )
 
 
 def test_accepted_patch_is_applied_and_regression_is_recorded(tmp_path: Path) -> None:

@@ -4,14 +4,18 @@ import json
 from pathlib import Path
 
 import pytest
+from jsonschema import Draft202012Validator
 
 from libstruct_bench.audit.claude_runner import (
     ClaudeAuditError,
     _agent_output_schema,
+    _claude_result_error,
+    _progress_messages,
     run_claude_audit,
 )
 from libstruct_bench.audit.packets import build_phase_packet
 from tests.audit.test_packets import _fixture
+from tests.audit.test_review_application import _proposal
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
@@ -97,8 +101,62 @@ def test_agent_schema_omits_cli_unsupported_dialect_and_injected_fields() -> Non
         relaxed = _agent_output_schema(schema, phase)
         assert "$schema" not in relaxed
         assert "$id" not in relaxed
+        assert not {"allOf", "anyOf", "oneOf"} & relaxed.keys()
         assert "run" not in relaxed["required"]
         assert "$schema" in schema
+
+
+def test_canonical_schema_keeps_disposition_issue_invariant() -> None:
+    schema = json.loads(
+        (AUDIT_SCHEMAS / "protocol_audit.schema.json").read_text()
+    )
+    assert "allOf" in schema
+    artifact = _proposal("a" * 64)
+    validator = Draft202012Validator(schema)
+    assert validator.is_valid(artifact)
+    artifact["disposition"] = "no_issues"
+
+    errors = list(validator.iter_errors(artifact))
+    assert any(
+        error.validator == "maxItems" and list(error.path) == ["issues"]
+        for error in errors
+    )
+
+
+def test_claude_api_error_is_extracted_from_stdout_result() -> None:
+    event = {
+        "type": "result",
+        "subtype": "error_during_execution",
+        "is_error": True,
+        "result": "API Error: 400 tools.3.custom.input_schema",
+        "api_error_status": 400,
+    }
+    assert _claude_result_error((json.dumps(event) + "\n").encode()) == (
+        "API Error: 400 tools.3.custom.input_schema; api_error_status=400"
+    )
+
+
+def test_stream_progress_reports_tools_without_assistant_text(tmp_path: Path) -> None:
+    event = {
+        "type": "assistant",
+        "message": {
+            "content": [
+                {"type": "text", "text": "private reasoning is not progress"},
+                {
+                    "type": "tool_use",
+                    "id": "tool-1",
+                    "name": "Read",
+                    "input": {"file_path": str(tmp_path / "primary_evidence" / "paper.pdf")},
+                },
+            ]
+        },
+    }
+    seen: set[str] = set()
+    line = json.dumps(event).encode()
+    assert _progress_messages(line, tmp_path, seen) == [
+        "reading primary_evidence/paper.pdf"
+    ]
+    assert _progress_messages(line, tmp_path, seen) == []
 
 
 def test_evidence_runner_records_hash_pinned_metadata(tmp_path: Path) -> None:

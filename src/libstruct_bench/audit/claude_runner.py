@@ -3,11 +3,14 @@ from __future__ import annotations
 import copy
 import json
 import subprocess
+import sys
 import tempfile
+import threading
+import time
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Iterable
+from typing import Any, Callable, Iterable
 
 from .artifacts import (
     AuditArtifactError,
@@ -114,7 +117,7 @@ def run_claude_audit(
     agent_schema = _agent_output_schema(output_schema, phase)
     claude_version = _claude_version(claude_executable)
     started_at = _now()
-    started_monotonic = datetime.now(timezone.utc).timestamp()
+    started_monotonic = time.monotonic()
     command = [
         claude_executable,
         "--print",
@@ -141,13 +144,14 @@ def run_claude_audit(
         system_prompt,
         _user_prompt(packet_dir, phase),
     ]
+    progress = _progress_reporter(packet["protocol_id"], phase)
+    progress(f"starting run {run_id}")
     try:
-        completed = subprocess.run(
+        completed = _run_streaming(
             command,
             cwd=packet_dir,
-            check=False,
-            capture_output=True,
-            timeout=timeout_seconds,
+            timeout_seconds=timeout_seconds,
+            progress=progress,
         )
     except FileNotFoundError as error:
         raise ClaudeAuditError(f"Claude executable not found: {claude_executable}") from error
@@ -156,13 +160,21 @@ def run_claude_audit(
             f"Claude audit exceeded {timeout_seconds} seconds"
         ) from error
     completed_at = _now()
-    duration = max(0.0, datetime.now(timezone.utc).timestamp() - started_monotonic)
+    duration = max(0.0, time.monotonic() - started_monotonic)
     if completed.returncode != 0:
+        stdout_error = _claude_result_error(completed.stdout)
         stderr = completed.stderr.decode("utf-8", errors="replace").strip()
+        details = []
+        if stdout_error:
+            details.append(stdout_error)
+        if stderr:
+            details.append(f"stderr: {stderr[-1000:]}")
         raise ClaudeAuditError(
-            f"Claude exited with {completed.returncode}: {stderr[-1000:]}"
+            f"Claude exited with {completed.returncode}: "
+            + ("; ".join(details) or "no error details were emitted")
         )
 
+    progress("Claude finished; validating the structured artifact")
     artifact = _extract_artifact(completed.stdout, phase)
     run = {
         "run_id": run_id,
@@ -228,6 +240,7 @@ def run_claude_audit(
 
         shutil.rmtree(temporary_dir, ignore_errors=True)
         raise
+    progress(f"validated and saved {output_dir / artifact_name}")
     return ClaudeRunResult(
         output_dir=output_dir,
         artifact_path=output_dir / artifact_name,
@@ -236,6 +249,183 @@ def run_claude_audit(
         phase=phase,
         run_id=run_id,
     )
+
+
+def _run_streaming(
+    command: list[str],
+    *,
+    cwd: Path,
+    timeout_seconds: int,
+    progress: Callable[[str], None],
+) -> subprocess.CompletedProcess[bytes]:
+    """Capture the exact transcript while reporting safe, readable live progress."""
+
+    process = subprocess.Popen(
+        command,
+        cwd=cwd,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    )
+    if process.stdout is None or process.stderr is None:  # pragma: no cover
+        raise ClaudeAuditError("Claude process pipes were not created")
+
+    stdout_parts: list[bytes] = []
+    stderr_parts: list[bytes] = []
+    seen_tool_ids: set[str] = set()
+
+    def read_stdout() -> None:
+        for line in iter(process.stdout.readline, b""):
+            stdout_parts.append(line)
+            for message in _progress_messages(line, cwd, seen_tool_ids):
+                progress(message)
+
+    def read_stderr() -> None:
+        for line in iter(process.stderr.readline, b""):
+            stderr_parts.append(line)
+            message = line.decode("utf-8", errors="replace").strip()
+            if message:
+                progress(f"Claude: {message}")
+
+    readers = [
+        threading.Thread(target=read_stdout, name="claude-audit-stdout", daemon=True),
+        threading.Thread(target=read_stderr, name="claude-audit-stderr", daemon=True),
+    ]
+    for reader in readers:
+        reader.start()
+
+    started = time.monotonic()
+    next_heartbeat = started + 30
+    try:
+        while process.poll() is None:
+            elapsed = time.monotonic() - started
+            remaining = timeout_seconds - elapsed
+            if remaining <= 0:
+                process.kill()
+                process.wait()
+                raise subprocess.TimeoutExpired(command, timeout_seconds)
+            try:
+                process.wait(timeout=min(1.0, remaining))
+            except subprocess.TimeoutExpired:
+                pass
+            now = time.monotonic()
+            if process.poll() is None and now >= next_heartbeat:
+                progress(
+                    f"still running ({int(now - started)}s, "
+                    f"{len(seen_tool_ids)} source operations)"
+                )
+                next_heartbeat = now + 30
+    except BaseException:
+        if process.poll() is None:
+            process.kill()
+            process.wait()
+        raise
+    finally:
+        for reader in readers:
+            reader.join()
+
+    return subprocess.CompletedProcess(
+        args=command,
+        returncode=process.returncode,
+        stdout=b"".join(stdout_parts),
+        stderr=b"".join(stderr_parts),
+    )
+
+
+def _progress_reporter(protocol_id: str, phase: str) -> Callable[[str], None]:
+    lock = threading.Lock()
+
+    def report(message: str) -> None:
+        with lock:
+            print(f"[{protocol_id} {phase}] {message}", file=sys.stderr, flush=True)
+
+    return report
+
+
+def _progress_messages(
+    line: bytes, packet_dir: Path, seen_tool_ids: set[str]
+) -> list[str]:
+    """Render tool activity from stream-json without exposing model reasoning."""
+
+    try:
+        event = json.loads(line)
+    except (UnicodeDecodeError, json.JSONDecodeError):
+        return []
+    if not isinstance(event, dict) or event.get("type") != "assistant":
+        return []
+    message = event.get("message")
+    if not isinstance(message, dict) or not isinstance(message.get("content"), list):
+        return []
+
+    rendered: list[str] = []
+    for block in message["content"]:
+        if not isinstance(block, dict) or block.get("type") != "tool_use":
+            continue
+        tool_id = block.get("id")
+        if isinstance(tool_id, str):
+            if tool_id in seen_tool_ids:
+                continue
+            seen_tool_ids.add(tool_id)
+        rendered.append(_tool_progress(block, packet_dir))
+    return rendered
+
+
+def _claude_result_error(stdout: bytes) -> str | None:
+    """Extract the useful API failure from Claude's stream-json result event."""
+
+    error: str | None = None
+    for line in stdout.decode("utf-8", errors="replace").splitlines():
+        try:
+            event = json.loads(line)
+        except json.JSONDecodeError:
+            continue
+        if not isinstance(event, dict) or event.get("type") != "result":
+            continue
+        subtype = event.get("subtype")
+        status = event.get("api_error_status")
+        if not event.get("is_error") and status is None and subtype == "success":
+            continue
+        details: list[str] = []
+        result = event.get("result")
+        if isinstance(result, str) and result.strip():
+            details.append(result.strip())
+        if status is not None:
+            details.append(f"api_error_status={status}")
+        if not details and isinstance(subtype, str) and subtype:
+            details.append(f"result subtype={subtype}")
+        if details:
+            error = "; ".join(details)
+    return error
+
+
+def _tool_progress(block: dict[str, Any], packet_dir: Path) -> str:
+    name = str(block.get("name", "tool"))
+    arguments = block.get("input")
+    if not isinstance(arguments, dict):
+        return f"using {name}"
+
+    if name == "Read":
+        target = _display_path(arguments.get("file_path"), packet_dir)
+        pages = arguments.get("pages")
+        return f"reading {target}" + (f" (pages {pages})" if pages else "")
+    if name == "Glob":
+        pattern = arguments.get("pattern", "")
+        root = _display_path(arguments.get("path"), packet_dir)
+        return f"listing {pattern!r} under {root}"
+    if name == "Grep":
+        pattern = arguments.get("pattern", "")
+        root = _display_path(arguments.get("path"), packet_dir)
+        return f"searching for {pattern!r} in {root}"
+    return f"using {name}"
+
+
+def _display_path(value: Any, packet_dir: Path) -> str:
+    if not isinstance(value, str) or not value:
+        return "."
+    path = Path(value)
+    try:
+        return str(path.resolve().relative_to(packet_dir))
+    except ValueError:
+        return str(path)
 
 
 def packet_manifest_checkpoint(packet_dir: Path) -> str:
@@ -285,10 +475,13 @@ def _user_prompt(packet_dir: Path, phase: str) -> str:
 
 def _agent_output_schema(schema: dict[str, Any], phase: str) -> dict[str, Any]:
     relaxed = copy.deepcopy(schema)
-    # Claude CLI's validator does not register the 2020-12 meta-schema. The
-    # unmodified schema is still applied locally after generation.
+    # Claude CLI does not register the 2020-12 meta-schema, and Anthropic's
+    # StructuredOutput tool rejects combinators at the input-schema root. The
+    # unmodified canonical schema is still applied locally after generation.
     relaxed.pop("$schema", None)
     relaxed.pop("$id", None)
+    for keyword in ("allOf", "anyOf", "oneOf"):
+        relaxed.pop(keyword, None)
     injected = {
         "evidence": {
             "evidence_id", "protocol_id", "packet_sha256",

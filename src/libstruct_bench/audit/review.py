@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import html
 import json
 from datetime import datetime
 from pathlib import Path
@@ -19,13 +18,37 @@ class ReviewError(ValueError):
     """Raised when a human review packet or decision is inconsistent."""
 
 
+INDIVIDUAL_REVIEW_CATEGORIES = {
+    "protocol_version_confusion",
+    "evaluator_or_matching_error",
+    "unresolved_scientific_ambiguity",
+}
+INDIVIDUAL_REVIEW_RECOMMENDATIONS = {
+    "propose_change",
+    "fix_evaluator",
+    "fix_harness",
+    "exclude_from_scoring",
+}
+
+
+def issue_requires_individual_review(issue: dict[str, Any]) -> bool:
+    """Return whether an issue should be presented individually."""
+
+    return (
+        bool(issue.get("proposed_patch"))
+        or issue.get("severity") in {"blocker", "high", "medium"}
+        or issue.get("category") in INDIVIDUAL_REVIEW_CATEGORIES
+        or issue.get("recommendation") in INDIVIDUAL_REVIEW_RECOMMENDATIONS
+    )
+
+
 def render_review_packet(
     *,
     proposal_path: Path,
     proposal_schema_path: Path,
     output_dir: Path,
 ) -> tuple[Path, Path]:
-    """Render a standalone human report and an explicit decision template."""
+    """Render a console review queue and an explicit decision template."""
 
     proposal_path = _file(proposal_path, "audit proposal")
     proposal_schema_path = _file(proposal_schema_path, "audit proposal schema")
@@ -37,11 +60,8 @@ def render_review_packet(
         raise ReviewError(f"review output already exists: {output_dir}")
     output_dir.mkdir(parents=True)
 
-    report_path = output_dir / "review.html"
-    report_path.write_text(_render_html(proposal, sha256_file(proposal_path)), encoding="utf-8")
-    (output_dir / "review.txt").write_text(
-        render_console_summary(proposal), encoding="utf-8"
-    )
+    report_path = output_dir / "review.txt"
+    report_path.write_text(render_console_summary(proposal), encoding="utf-8")
     template = {
         "decision_id": f"{proposal['protocol_id']}:decision:REPLACE",
         "protocol_id": proposal["protocol_id"],
@@ -69,14 +89,21 @@ def render_console_summary(proposal: dict[str, Any]) -> str:
         field["comparison_status"] == "verified_no_change"
         for field in proposal["audited_fields"]
     )
+    review_issues = [
+        issue for issue in proposal["issues"] if issue_requires_individual_review(issue)
+    ]
+    informational = [
+        issue for issue in proposal["issues"] if not issue_requires_individual_review(issue)
+    ]
     lines = [
-        f"{proposal['protocol_id']}: {len(proposal['issues'])} issue(s); "
+        f"{proposal['protocol_id']}: {len(review_issues)} issue(s) need individual review; "
+        f"{len(informational)} finding(s) need one grouped decision; "
         f"{verified} field(s) verified without change"
     ]
     severity_order = {"blocker": 0, "high": 1, "medium": 2, "low": 3}
     for number, issue in enumerate(
         sorted(
-            proposal["issues"],
+            review_issues,
             key=lambda value: (
                 severity_order[value["severity"]],
                 value["task"],
@@ -101,7 +128,25 @@ def render_console_summary(proposal: dict[str, Any]) -> str:
                 "Decision: accept / reject / modify / unresolved / exclude",
             ]
         )
-    if not proposal["issues"]:
+    if informational:
+        counts: dict[str, int] = {}
+        for issue in informational:
+            counts[issue["task"]] = counts.get(issue["task"], 0) + 1
+        summary = ", ".join(
+            f"{task} {count}" for task, count in sorted(counts.items())
+        )
+        lines.extend(
+            [
+                "",
+                f"Grouped informational review: {summary}.",
+                "One explicit human decision is required for this group: "
+                "accept as observations (no ground-truth edit) / reject and keep current / "
+                "unresolved / review individually.",
+                "The group answer must be recorded as a separate decision for every issue ID; "
+                "nothing is accepted or updated automatically.",
+            ]
+        )
+    if not review_issues:
         lines.append("Human confirmation is still required before promotion.")
     return "\n".join(lines) + "\n"
 
@@ -160,11 +205,11 @@ def validate_review_decision(
     if not is_final:
         if decision["overall_disposition"] != "in_progress":
             raise ReviewError("an in-progress review must use overall_disposition=in_progress")
-    elif not issue_ids and decision["overall_disposition"] != "confirmed":
-        raise ReviewError("an issue-free final proposal must be confirmed")
-    elif issue_ids and decision["overall_disposition"] == "confirmed":
-        raise ReviewError("a final proposal with issues cannot be confirmed")
-    if is_final and issue_ids:
+    elif not decision_ids and decision["overall_disposition"] != "confirmed":
+        raise ReviewError("a final proposal with no reviewed issues must be confirmed")
+    elif decision_ids and decision["overall_disposition"] == "confirmed":
+        raise ReviewError("a final proposal with reviewed issues cannot be confirmed")
+    if is_final and decision_ids:
         dispositions = {item["disposition"] for item in decision["issue_decisions"]}
         if dispositions <= {"accept", "modify"}:
             expected_overall = "accepted"
@@ -227,57 +272,6 @@ def _validate_new_artifact_patch(
         raise ReviewError(
             f"new artifact issue {issue_id} must contain one root add/replace patch"
         )
-
-
-def _render_html(proposal: dict[str, Any], proposal_sha: str) -> str:
-    issue_blocks = "".join(_issue_html(issue) for issue in proposal["issues"])
-    field_counts: dict[str, int] = {}
-    for field in proposal["audited_fields"]:
-        key = f"{field['task']} / {field['comparison_status']}"
-        field_counts[key] = field_counts.get(key, 0) + 1
-    counts = "".join(
-        f"<li>{html.escape(key)}: {value}</li>"
-        for key, value in sorted(field_counts.items())
-    )
-    return f"""<!doctype html>
-<html lang="en"><head><meta charset="utf-8">
-<title>Audit review — {html.escape(proposal['protocol_id'])}</title>
-<style>
-body{{font-family:system-ui,sans-serif;max-width:1100px;margin:2rem auto;padding:0 1rem;line-height:1.45}}
-code,pre{{font-family:ui-monospace,monospace}}pre{{white-space:pre-wrap;background:#f5f5f5;padding:.75rem;overflow:auto}}
-.issue{{border:1px solid #bbb;border-radius:8px;padding:1rem;margin:1.2rem 0}}.meta{{color:#444}}table{{border-collapse:collapse}}td,th{{border:1px solid #ccc;padding:.35rem;text-align:left}}
-</style></head><body>
-<h1>Protocol audit review: {html.escape(proposal['protocol_id'])}</h1>
-<p class="meta">Audit <code>{html.escape(proposal['audit_id'])}</code><br>Proposal SHA-256 <code>{proposal_sha}</code><br>Checkpoint <code>{html.escape(proposal['run']['checkpoint_id'])}</code></p>
-<h2>Agent summary</h2><p>{html.escape(proposal['summary'])}</p>
-<h2>Audited-field ledger</h2><ul>{counts or '<li>No fields recorded</li>'}</ul>
-<h2>Proposed issues ({len(proposal['issues'])})</h2>
-{issue_blocks or '<p>No issues proposed. The human reviewer must still confirm the audit.</p>'}
-<h2>Decision instructions</h2><p>Edit <code>decision-template.json</code>, then run the review-validation CLI. The proposal itself must not be edited.</p>
-</body></html>"""
-
-
-def _issue_html(issue: dict[str, Any]) -> str:
-    evidence = "".join(
-        "<li><code>"
-        + html.escape(item["source_id"])
-        + "</code> — "
-        + html.escape(json.dumps(item["locator"], sort_keys=True))
-        + ("<pre>" + html.escape(item.get("excerpt") or item.get("observed_sequence") or "") + "</pre>")
-        + "</li>"
-        for item in issue["evidence"]
-    )
-    return f"""<section class="issue">
-<h3>{html.escape(issue['issue_id'])}: {html.escape(issue['title'])}</h3>
-<table><tr><th>Task / field</th><td>{html.escape(issue['task'])} / <code>{html.escape(issue['field_id'])}</code></td></tr>
-<tr><th>Category</th><td>{html.escape(issue['category'])}</td></tr><tr><th>Defect</th><td>{html.escape(issue['defect_type'])}</td></tr>
-<tr><th>Responsibility</th><td>{html.escape(issue['responsibility'])}</td></tr><tr><th>Severity</th><td>{html.escape(issue['severity'])}</td></tr>
-<tr><th>Support</th><td>{html.escape(issue['support_status'])}</td></tr><tr><th>Recommendation</th><td>{html.escape(issue['recommendation'])}</td></tr></table>
-<h4>Current value</h4><pre>{html.escape(json.dumps(issue['current_value'], ensure_ascii=False, indent=2, sort_keys=True))}</pre>
-<h4>Proposed value</h4><pre>{html.escape(json.dumps(issue['proposed_value'], ensure_ascii=False, indent=2, sort_keys=True))}</pre>
-<h4>Explanation</h4><p>{html.escape(issue['explanation'])}</p><h4>Evidence</h4><ul>{evidence}</ul>
-<h4>Proposed patch</h4><pre>{html.escape(json.dumps(issue['proposed_patch'], ensure_ascii=False, indent=2, sort_keys=True))}</pre>
-</section>"""
 
 
 def _validate_review_time(decision: dict[str, Any]) -> None:
