@@ -16,6 +16,20 @@ def load_schema(name: str) -> dict:
     return json.loads((SCHEMA_DIR / name).read_text(encoding="utf-8"))
 
 
+def property_names(value: object) -> list[str]:
+    names: list[str] = []
+    if isinstance(value, dict):
+        properties = value.get("properties")
+        if isinstance(properties, dict):
+            names.extend(properties)
+        for child in value.values():
+            names.extend(property_names(child))
+    elif isinstance(value, list):
+        for child in value:
+            names.extend(property_names(child))
+    return names
+
+
 class AuditSchemaTests(unittest.TestCase):
     def test_all_audit_schemas_are_valid_draft_2020_12(self):
         names = sorted(path.name for path in SCHEMA_DIR.glob("*.schema.json"))
@@ -44,6 +58,45 @@ class AuditSchemaTests(unittest.TestCase):
                 schema = load_schema(name)
                 Draft202012Validator.check_schema(schema)
                 self.assertNotIn("schema_version", json.dumps(schema))
+
+    def test_groundtruth_schemas_omit_audit_only_fields(self):
+        forbidden = {
+            "final_library_groundtruth.schema.json": {
+                "evidence",
+                "ground_truth_status",
+                "library_id",
+                "strands",
+            },
+            "oligo_groundtruth.schema.json": {
+                "limitations",
+                "baseline_lineage",
+                "evidence",
+                "ground_truth_status",
+                "notes",
+            },
+            "library_generation_workflow.schema.json": {
+                "limitations",
+                "ground_truth_status",
+                "notes",
+                "evidence",
+                "workflow_branch",
+            },
+        }
+        for name, removed in forbidden.items():
+            with self.subTest(schema=name):
+                schema = json.loads(
+                    (GROUNDTRUTH_SCHEMA_DIR / name).read_text(encoding="utf-8")
+                )
+                self.assertTrue(removed.isdisjoint(property_names(schema)))
+
+        t3 = json.loads(
+            (
+                GROUNDTRUTH_SCHEMA_DIR
+                / "library_generation_workflow.schema.json"
+            ).read_text(encoding="utf-8")
+        )
+        self.assertEqual(property_names(t3).count("modality"), 1)
+        self.assertIn("modality", t3["required"])
 
     def test_groundtruth_schemas_are_valid_draft_2020_12(self):
         names = sorted(path.name for path in GROUNDTRUTH_SCHEMA_DIR.glob("*.schema.json"))

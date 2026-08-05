@@ -20,11 +20,29 @@ region. The role and length must be explicit or reproducibly derivable. Do not
 invent a length for an unlabeled or proprietary region. Preserve ranges as an
 ambiguity unless a separately reviewed benchmark rule selects a value.
 
+`ROLE` is biological, never directional. Use canonical placeholders such as
+`[I5_INDEX:8]`, `[TN5_INDEX:8]`, and `[I7_INDEX:8]`. Never append `_RC`,
+`_REVCOMP`, `_REVERSE`, `_FWD`, or another orientation marker to a placeholder
+role. In particular, `[TN5_INDEX_RC:8]` and `[I7_INDEX_RC:8]` are invalid.
+
 ## Orientation
 
 Store oligo sequences in their source-visible orientation and record
 `5_to_3`, `3_to_5`, or `unknown`. Reverse complementation is a transformation,
-not an implicit normalization. Final-library strands remain distinct.
+not an implicit normalization. Final-library strands remain distinct. T3
+molecular states contain explicit physical strands, each recorded 5′→3′;
+duplex pairing is represented between strands rather than by assigning one
+orientation to the whole state. Oligo-derived T3 segments explicitly record
+whether they preserve or reverse-complement the T2 oligo orientation.
+
+For an oligo-derived T1 or T3 segment, `sequence` stores the exact bases on the
+modeled strand. The referenced T2 record's `sequence` stores the source-visible
+oligo bases. The segment's `oligo_derivations[].orientation_to_source` stores
+`same_orientation`, `reverse_complement`, or `unknown`. For example, a T1
+segment may use placeholder `[TN5_INDEX:8]` and sequence `CGCGGTTC`, link to a
+T2 oligo whose sequence is `GAACCGCG`, and record
+`orientation_to_source: reverse_complement`. Do not copy the T2 source sequence
+into the segment or encode this relationship as `[TN5_INDEX_RC:8]`.
 
 ## Names and aliases
 
@@ -36,11 +54,9 @@ also required.
 
 ## Evaluator assignment
 
-For T1, lock unique stable library identifiers first. Normalize identifiers
-and modalities with Unicode-compatible case folding and collapse each run of
-non-alphanumeric separators to one underscore. Lock a unique modality only
-after identifier matches are removed. Assign all remaining entries with a
-global optimal one-to-one sequence match. T1 reward is the soft F1 of sequence
+For T1, use a global optimal one-to-one sequence assignment; cleaned T1 does
+not store library identifiers. Modality is retained as a diagnostic and must
+not override a better structural match. T1 reward is the soft F1 of sequence
 similarities, so missing and extra libraries are both penalized.
 
 For T2, use a global optimal one-to-one sequence assignment. Names and

@@ -501,7 +501,7 @@ def _reject_output(output: Path, protected_sources: set[Path]) -> None:
             or source_parent.is_relative_to(output)
         ):
             raise RenditionError(
-                f"rendition output overlaps an approved source directory: {source_parent}"
+                f"rendition output overlaps an input source directory: {source_parent}"
             )
     repo = Path(__file__).resolve().parents[3]
     if (repo / ".git").exists() and (output == repo or output.is_relative_to(repo)):

@@ -8,7 +8,7 @@ Each issue requiring human review receives one disposition:
 
 - `accept`: confirm the finding and use the agent's exact patch when one exists;
 - `reject`: keep the current ground-truth value;
-- `modify`: use a human-supplied value and patch;
+- `modify`: use a human-supplied value and patch for a ground-truth target;
 - `unresolved`: preserve the uncertainty;
 - `exclude`: exclude the field, task, or protocol from scoring.
 
@@ -22,6 +22,29 @@ decision artifact. `back`, `skip`, `status`, `quit`, and `resume` are navigation
 commands, not dispositions. Resume at the first undecided issue without
 discarding earlier decisions. Do not generate HTML review files.
 
+In Claude Code, every human gate uses `AskUserQuestion` as a single-select
+interactive prompt. Source availability is resolved automatically and is not a
+human gate. Human gates include individual and grouped issue decisions, the
+combined final candidate/finalization approval, and authorization to apply.
+Printing disposition options is not an interactive gate and must not end the
+controller turn while `AskUserQuestion` is available. After clarification or a
+requested edit, update the working candidate when needed and ask the same
+unresolved question interactively again.
+
+For each individual issue, the controller first prints a complete evidence card
+in normal console text and then invokes `AskUserQuestion` in the same turn. The
+card includes identity and classification, target and patch status, full current
+and proposed values, exact locators grouped by which value they support, reason,
+impact, and relevant policy notes. The question-tool prompt is a decision
+control, not a substitute for this context, and must not reduce the card to a
+one-sentence summary.
+
+The `/audit-protocol` skill enforces this with a skill-scoped `Stop` hook. A
+rendered issue card carries an internal pending-question marker. If Claude tries
+to finish before invoking `AskUserQuestion`, the hook blocks that stop and tells
+the controller to call the selector without repeating the card. The hook does
+not run outside the audit skill and does not make or infer a human decision.
+
 Individual review is required for any patch, blocker/high/medium finding,
 unresolved scientific ambiguity, protocol-version conflict, evaluator/matching
 conflict, or recommendation to change the evaluator, harness, or scoring
@@ -32,14 +55,44 @@ no ground-truth edit, reject and keep current, leave unresolved, or expand for
 individual review. A grouped answer is expanded into a separate decision record
 for every issue ID; no finding is accepted or changed by default.
 
-Review may be iterative. The in-progress working decision is updated atomically
-after each answer and may be applied with `--working` to make a separate
-preview. Every preview is regenerated from the pinned input records, so
-iterations do not stack untracked edits. The finalized decision receives its
-immutable decision ID and is never edited. Final review must decide every
-proposal issue. Before changing the review state to final, show the
-disposition summary and obtain explicit human confirmation. Completion of the
-walkthrough alone does not authorize application or promotion.
+Use one interactive review pass per protocol by default. The in-progress
+working decision is updated atomically after each answer and may be applied
+with `--working` to make a separate preview. If the reviewer asks for a change
+or clarification, discuss it, update the working decision or root candidate,
+revalidate it, and continue in the same Claude Code session. Do not create a
+second review iteration merely to incorporate human edits.
+
+A new proposal or review iteration is justified only when a manifest-listed source,
+input manifest, pinned baseline, canonical schema, or immutable finalized
+decision has changed. Every preview is regenerated from the pinned input
+records, so revisions do not stack untracked edits. The finalized decision
+receives its immutable decision ID and is never edited.
+
+Final review must decide every proposal issue. After issue review and root
+candidate compilation, show one concise T1–T3 result and ask one final
+scientific-approval question. That answer records any required root candidate
+decision and confirms finalization. Completion of the walkthrough alone does
+not authorize application or promotion; deterministic application remains a
+separate explicitly authorized action.
+
+Evidence, source-bundle, policy, harness, and evaluator findings do not directly
+edit ground truth and therefore cannot use `modify`. Accept or reject the
+finding itself. If an accepted finding changes a newly proposed T1, T2, or T3
+document, incorporate the reviewed resolution into one complete replacement
+patch on that document's `new_groundtruth_record` issue.
+
+When a proposal creates a new ground-truth document or converts a legacy-shaped
+existing record, review its associated delta issues first. Then build one final
+candidate from the conversion candidate and the recorded human decisions,
+validate it against the canonical task schema, show the human a concise change
+summary, and record `accept` for an unchanged candidate or `modify` with a
+complete root replacement patch. This final root decision is the only operation
+that creates or converts the artifact. Representation-only conversion is a
+schema migration, not a scientific human-curation error.
+
+The approved candidate contains only scientific ground-truth fields. Evidence,
+baseline lineage, review decisions, inclusion status, and audit notes remain in
+the proposal, decision, and application records.
 
 ## Deterministic application
 

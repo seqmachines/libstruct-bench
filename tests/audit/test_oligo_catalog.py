@@ -35,9 +35,7 @@ def _oligo(
         "canonical_oligo_id": canonical_id,
         "family_id": None,
         "name": "Illumina P5 adapter" if canonical_id else source_name,
-        "source_name": source_name,
-        "source_names": [source_name],
-        "aliases": ["P5"] if canonical_id else [],
+        "aliases": [source_name, "P5"] if canonical_id else [],
         "role": "sequencing_adapter" if canonical_id else "assay_primer",
         "kind": "single",
         "sequence": "AATGATACGGCGACCACCGAGATCTACAC"
@@ -47,19 +45,7 @@ def _oligo(
         "components": [],
         "modifications": [],
         "protocol_scope": {"protocol_version": None, "applicable_variants": []},
-        "ground_truth_status": "included",
         "support_status": "explicit",
-        "evidence": [
-            {"source_id": "primary-paper", "locator": {"page": 2}}
-        ],
-        "baseline_lineage": [
-            {
-                "artifact_sha256": "a" * 64,
-                "row_number": 2,
-                "source_name": source_name,
-                "source_sequence": "5'- ACGT -3'",
-            }
-        ],
     }
 
 
@@ -72,7 +58,7 @@ def _t2(protocol_id: str, oligos: list[dict]) -> dict:
     }
 
 
-def test_builds_canonical_catalog_and_lineage_preserving_tsv(
+def test_builds_canonical_catalog_and_minimal_tsv(
     tmp_path: Path,
 ) -> None:
     first = tmp_path / "first.json"
@@ -141,8 +127,8 @@ def test_builds_canonical_catalog_and_lineage_preserving_tsv(
         ("protocol_a", "p5"),
         ("protocol_b", "p5"),
     ]
-    assert rows[0]["old_oligo_name"] == "Protocol A primer"
-    assert json.loads(rows[0]["baseline_lineage_json"])[0]["row_number"] == 2
+    assert "baseline_lineage_json" not in rows[0]
+    assert "ground_truth_status" not in rows[0]
     metadata = json.loads(result.metadata_path.read_text(encoding="utf-8"))
     assert metadata["catalog"]["sha256"]
     assert metadata["tsv"]["sha256"]

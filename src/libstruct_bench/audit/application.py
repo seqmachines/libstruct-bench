@@ -20,6 +20,7 @@ from .artifacts import (
 from .review import ReviewError, validate_review_decision
 from .groundtruth import (
     GroundtruthValidationError,
+    TASK_ARTIFACTS,
     documents_by_task,
     validate_cross_task_links,
 )
@@ -104,6 +105,7 @@ def apply_review_decision(
     skipped: list[str] = []
     new_artifact_ids: set[str] = set()
     new_artifact_names: set[str] = set()
+    selected_artifact_tasks: dict[str, str] = {}
     for issue in proposal["issues"]:
         issue_id = issue["issue_id"]
         review = decisions.get(issue_id)
@@ -145,6 +147,13 @@ def apply_review_decision(
             new_artifact_ids.add(source_id)
             new_artifact_names.add(filename)
             baselines[source_id] = {}
+        if issue["task"] in TASK_ARTIFACTS:
+            previous_task = selected_artifact_tasks.setdefault(source_id, issue["task"])
+            if previous_task != issue["task"]:
+                raise ApplicationError(
+                    f"artifact {source_id!r} is targeted as both "
+                    f"{previous_task} and {issue['task']}"
+                )
         selected.append((issue_id, source_id, patch, target_kind, filename))
     _reject_overlapping_patches(
         [(issue_id, source_id, patch) for issue_id, source_id, patch, _, _ in selected]
@@ -192,10 +201,31 @@ def apply_review_decision(
         except AuditArtifactError as error:
             raise ApplicationError(str(error)) from error
 
-    schema_map = artifact_schema_paths or {}
+    schema_map = dict(artifact_schema_paths or {})
+    unknown_schema_ids = sorted(set(schema_map) - set(candidates))
+    if unknown_schema_ids:
+        raise ApplicationError(
+            "artifact schema supplied for unknown source: "
+            + ", ".join(unknown_schema_ids)
+        )
+    canonical_schema_dir = (
+        Path(__file__).resolve().parents[3] / "schemas" / "groundtruth"
+    )
+    for source_id, candidate in candidates.items():
+        task = selected_artifact_tasks.get(source_id)
+        if task is None:
+            matching_tasks = [
+                candidate_task
+                for candidate_task, details in TASK_ARTIFACTS.items()
+                if details["root_key"] in candidate
+            ]
+            if len(matching_tasks) != 1:
+                continue
+            task = matching_tasks[0]
+        schema_map.setdefault(
+            source_id, canonical_schema_dir / TASK_ARTIFACTS[task]["schema"]
+        )
     for source_id, schema_path in schema_map.items():
-        if source_id not in candidates:
-            raise ApplicationError(f"artifact schema supplied for unknown source {source_id}")
         try:
             validate_document(
                 candidates[source_id],

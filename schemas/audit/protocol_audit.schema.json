@@ -55,7 +55,7 @@
       "properties": {
         "issue_id": {"$ref": "#/$defs/stable_id"}, "task": {"$ref": "#/$defs/task"}, "field_id": {"$ref": "#/$defs/stable_id"},
         "category": {"type": "string", "enum": ["source_or_evidence_missing", "source_conflict", "human_curation_error", "agent_reasoning_error", "agent_harness_or_context_error", "pdf_or_table_extraction_error", "formatting_or_schema_error", "naming_or_normalization_inconsistency", "protocol_version_confusion", "benchmark_policy_ambiguity", "evaluator_or_matching_error", "unresolved_scientific_ambiguity", "other"]},
-        "defect_type": {"type": "string", "enum": ["incorrect_sequence", "variable_region_length", "strand_orientation", "schematic_final_product_conflict", "missing_final_library", "incomplete_workflow", "incorrect_oligo_metadata", "identifier_assignment", "source_scope", "other"]},
+        "defect_type": {"type": "string", "enum": ["incorrect_sequence", "variable_region_length", "strand_orientation", "strand_architecture", "schematic_final_product_conflict", "missing_final_library", "incomplete_workflow", "incorrect_oligo_metadata", "identifier_assignment", "source_scope", "other"]},
         "responsibility": {"type": "string", "enum": ["human_curation", "benchmark_agent", "audit_agent", "parser", "harness", "policy", "evaluator", "source_bundle", "unresolved"]},
         "severity": {"type": "string", "enum": ["blocker", "high", "medium", "low"]}, "title": {"type": "string", "minLength": 1}, "target": {"$ref": "#/$defs/target"},
         "current_value": {}, "proposed_value": {}, "support_status": {"type": "string", "enum": ["explicit", "derivable", "externally_completed", "ambiguous", "unsupported"]},

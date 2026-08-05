@@ -2,7 +2,7 @@
  "$schema": "https://json-schema.org/draft/2020-12/schema",
  "$id": "https://seqmachines.org/schemas/libstruct/source_catalog.schema.json",
  "title": "Ground-truth audit source catalog",
- "description": "Reviewed inventory of every discovered, expected, excluded, or unavailable source for the protocol audit corpus.",
+ "description": "Inventory that automatically includes available files and retains missing files as unavailable provenance.",
  "type": "object",
  "additionalProperties": false,
  "required": ["catalog_id", "created_at", "datasets", "protocols"],
@@ -79,7 +79,8 @@
  },
  "approval_status": {
  "type": "string",
- "enum": ["pending", "included", "excluded", "unavailable"]
+ "enum": ["pending", "included", "excluded", "unavailable"],
+ "description": "Automatic availability disposition. Current builders emit included for present files and unavailable for missing files; pending/excluded remain readable for archived catalogs."
  },
  "task_relevance": {
  "type": "array",
@@ -109,11 +110,7 @@
  "allOf": [
  {
  "if": {"properties": {"approval_status": {"const": "included"}}, "required": ["approval_status"]},
- "then": {"required": ["dataset_id", "path", "sha256", "size_bytes", "media_type", "review"]}
- },
- {
- "if": {"properties": {"approval_status": {"enum": ["excluded", "unavailable"]}}, "required": ["approval_status"]},
- "then": {"required": ["review"]}
+ "then": {"required": ["dataset_id", "path", "sha256", "size_bytes", "media_type"]}
  },
  {
  "if": {"properties": {"approval_status": {"const": "pending"}}, "required": ["approval_status"]},

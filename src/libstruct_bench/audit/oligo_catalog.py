@@ -43,19 +43,13 @@ TSV_FIELDS = (
     "oligo_name",
     "oligo_sequence",
     "orientation",
-    "old_oligo_name",
-    "old_oligo_sequence",
     "canonical_oligo_id",
     "family_id",
     "role",
     "kind",
-    "ground_truth_status",
-    "status_reason",
     "support_status",
-    "source_names_json",
     "aliases_json",
     "modifications_json",
-    "baseline_lineage_json",
     "decision_ids_json",
 )
 
@@ -132,12 +126,10 @@ def build_oligo_outputs(
                     decision_ids=decisions,
                 )
             )
-            if oligo["ground_truth_status"] != "included":
-                continue
             sequence = oligo.get("sequence")
             if not isinstance(sequence, str) or not sequence:
                 raise OligoCatalogError(
-                    f"included oligo lacks a catalog sequence: {protocol_id}/{oligo_id}"
+                    f"oligo lacks a catalog sequence: {protocol_id}/{oligo_id}"
                 )
             canonical_id = oligo.get("canonical_oligo_id") or (
                 f"{protocol_id}:{oligo_id}"
@@ -146,12 +138,7 @@ def build_oligo_outputs(
                 "canonical_oligo_id": canonical_id,
                 "canonical_name": oligo["name"],
                 "aliases": sorted(
-                    (
-                        set(oligo["source_names"])
-                        | set(oligo["aliases"])
-                        | {oligo["name"]}
-                    )
-                    - {oligo["name"]}
+                    set(oligo["aliases"]) - {oligo["name"]}
                 ),
                 "role": oligo["role"],
                 "sequence": sequence,
@@ -250,14 +237,6 @@ def _tsv_row(
     oligo: dict[str, Any],
     decision_ids: tuple[str, ...],
 ) -> dict[str, str]:
-    lineage = oligo["baseline_lineage"]
-    old_name = next(
-        (item["source_name"] for item in lineage if item.get("source_name")), ""
-    )
-    old_sequence = next(
-        (item["source_sequence"] for item in lineage if item.get("source_sequence")),
-        "",
-    )
     return {
         "protocol_id": protocol_id,
         "protocol_name": protocol_name,
@@ -265,19 +244,13 @@ def _tsv_row(
         "oligo_name": oligo["name"],
         "oligo_sequence": oligo.get("sequence") or "",
         "orientation": oligo["orientation"],
-        "old_oligo_name": old_name,
-        "old_oligo_sequence": old_sequence,
         "canonical_oligo_id": oligo.get("canonical_oligo_id") or "",
         "family_id": oligo.get("family_id") or "",
         "role": oligo["role"],
         "kind": oligo["kind"],
-        "ground_truth_status": oligo["ground_truth_status"],
-        "status_reason": oligo.get("status_reason") or "",
         "support_status": oligo["support_status"],
-        "source_names_json": _compact_json(oligo["source_names"]),
         "aliases_json": _compact_json(oligo["aliases"]),
         "modifications_json": _compact_json(oligo["modifications"]),
-        "baseline_lineage_json": _compact_json(lineage),
         "decision_ids_json": _compact_json(decision_ids),
     }
 

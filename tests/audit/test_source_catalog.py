@@ -114,29 +114,17 @@ def _build_catalog(
     return result.catalog_path
 
 
-def _review_catalog(path: Path, reviewed_path: Path) -> Path:
-    document = json.loads(path.read_text(encoding="utf-8"))
-    for protocol in document["protocols"]:
-        for source in protocol["sources"]:
-            source["approval_status"] = (
-                "included" if "sha256" in source else "unavailable"
-            )
-            source["review"] = {
-                "reviewer_id": "curator-001",
-                "reviewed_at": NOW,
-                "reason": "Approved for pilot or explicitly recorded as unavailable.",
-            }
-    _write_json(reviewed_path, document)
-    return reviewed_path
-
-
 def test_catalog_preserves_discovered_expected_and_missing_sources(tmp_path: Path) -> None:
     catalog_path = _build_catalog(tmp_path, output_name="catalog.json")
     catalog = json.loads(catalog_path.read_text(encoding="utf-8"))
     sources = catalog["protocols"][0]["sources"]
 
-    assert all(source["approval_status"] == "pending" for source in sources)
     by_path = {source["path"]: source for source in sources}
+    assert all(
+        source["approval_status"]
+        == ("included" if "sha256" in source else "unavailable")
+        for source in sources
+    )
     assert by_path["protocols/example_protocol/paper.pdf"]["source_kind"] == "original_paper"
     assert by_path["protocols/example_protocol/paper.pdf"]["integrity_status"] == "mismatch"
     assert by_path["protocols/example_protocol/missing-supplement.pdf"]["source_kind"] == "supplementary_methods"
@@ -159,28 +147,18 @@ def test_catalog_preserves_discovered_expected_and_missing_sources(tmp_path: Pat
     assert "scg_html/missing/diagram.png" in by_path
 
 
-def test_manifest_gate_blocks_pending_then_accepts_reviewed_catalog(tmp_path: Path) -> None:
+def test_manifest_automatically_resolves_archived_pending_catalog(tmp_path: Path) -> None:
     catalog_path = _build_catalog(tmp_path, output_name="catalog.json")
-    blocked = build_manifests_from_catalog(
-        catalog_path=catalog_path,
-        output_dir=tmp_path / "blocked-manifests",
-        catalog_schema_path=CATALOG_SCHEMA,
-        manifest_schema_path=MANIFEST_SCHEMA,
-        checkpoint_id="pilot-0",
-        reviewed_protocol_count=0,
-        created_at=NOW,
-    )
-    assert blocked.blocked_count == 1
-    assert not list(blocked.manifest_dir.glob("*.json"))
+    archived = json.loads(catalog_path.read_text(encoding="utf-8"))
+    for protocol in archived["protocols"]:
+        for source in protocol["sources"]:
+            source["approval_status"] = "pending"
+            source.pop("review", None)
+    archived_path = tmp_path / "archived-pending.json"
+    _write_json(archived_path, archived)
 
-    reviewed = _review_catalog(catalog_path, tmp_path / "reviewed.json")
-    refreshed = _build_catalog(
-        tmp_path,
-        output_name="refreshed.json",
-        previous=reviewed,
-    )
     ready = build_manifests_from_catalog(
-        catalog_path=refreshed,
+        catalog_path=archived_path,
         output_dir=tmp_path / "ready-manifests",
         catalog_schema_path=CATALOG_SCHEMA,
         manifest_schema_path=MANIFEST_SCHEMA,
@@ -197,11 +175,12 @@ def test_manifest_gate_blocks_pending_then_accepts_reviewed_catalog(tmp_path: Pa
     ]
     assert unavailable
     assert all("dataset_reference" not in source for source in unavailable)
+    assert all(source["approval_status"] != "pending" for source in manifest["sources"])
+    assert all("review" not in source for source in manifest["sources"])
 
 
-def test_changed_source_resets_prior_approval_to_pending(tmp_path: Path) -> None:
+def test_changed_available_source_remains_automatically_included(tmp_path: Path) -> None:
     catalog_path = _build_catalog(tmp_path, output_name="catalog.json")
-    reviewed = _review_catalog(catalog_path, tmp_path / "reviewed.json")
     (tmp_path / "protocols" / "example_protocol" / "paper.pdf").write_bytes(
         b"%PDF changed"
     )
@@ -209,7 +188,7 @@ def test_changed_source_resets_prior_approval_to_pending(tmp_path: Path) -> None
     refreshed = _build_catalog(
         tmp_path,
         output_name="refreshed.json",
-        previous=reviewed,
+        previous=catalog_path,
     )
     document = json.loads(refreshed.read_text(encoding="utf-8"))
     paper = next(
@@ -217,7 +196,7 @@ def test_changed_source_resets_prior_approval_to_pending(tmp_path: Path) -> None
         for source in document["protocols"][0]["sources"]
         if source["path"] == "protocols/example_protocol/paper.pdf"
     )
-    assert paper["approval_status"] == "pending"
+    assert paper["approval_status"] == "included"
     assert "review" not in paper
 
 

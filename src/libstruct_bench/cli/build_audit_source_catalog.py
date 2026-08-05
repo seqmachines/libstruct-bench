@@ -17,7 +17,7 @@ SCHEMA = (
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
-        description="Discover every audit input and create a reviewable source catalog."
+        description="Discover audit inputs, include available files, and mark missing files unavailable."
     )
     parser.add_argument("--protocols-dir", type=Path, required=True)
     parser.add_argument(
@@ -98,10 +98,11 @@ def main(argv: list[str] | None = None) -> int:
         return 2
     print(
         f"Catalog created: {result.protocol_count} protocols, "
-        f"{result.source_count} sources, {result.pending_count} pending review."
+        f"{result.source_count} sources, {result.included_count} included, "
+        f"{result.unavailable_count} unavailable."
     )
     print(result.catalog_path)
-    return 1 if result.pending_count else 0
+    return 0
 
 
 if __name__ == "__main__":

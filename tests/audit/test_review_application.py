@@ -35,10 +35,6 @@ def _scope() -> dict:
     return {"protocol_version": "paper", "applicable_variants": ["default"]}
 
 
-def _evidence() -> list[dict]:
-    return [{"source_id": "primary:paper", "locator": {"page": 1}}]
-
-
 def _t1(sequence: str = "AAA") -> dict:
     return {
         "protocol_id": "example_protocol",
@@ -46,7 +42,6 @@ def _t1(sequence: str = "AAA") -> dict:
         "protocol_scope": _scope(),
         "libraries": [
             {
-                "library_id": "library",
                 "modality": "rna",
                 "protocol_scope": _scope(),
                 "final_molecule": "DNA",
@@ -61,46 +56,58 @@ def _t1(sequence: str = "AAA") -> dict:
                         "role": "adapter",
                         "sequence": sequence,
                         "orientation": "5_to_3",
-                        "oligo_ids": [],
-                        "ground_truth_status": "included",
+                        "oligo_derivations": [],
                         "support_status": "explicit",
-                        "evidence": _evidence(),
                     }
                 ],
-                "ground_truth_status": "included",
                 "support_status": "explicit",
-                "evidence": _evidence(),
             }
         ],
     }
 
 
 def _t3(sequence: str = "CCC") -> dict:
-    state = lambda state_id, role, value: {
-        "state_id": state_id,
-        "name": state_id.title(),
-        "molecule_type": "DNA",
-        "strand_state": "single_stranded",
-        "physical_state": "solution",
-        "modality": "rna",
-        "workflow_branch": None,
-        "segments": [{"segment_id": f"{state_id}-segment", "role": role, "sequence": value}],
-        "properties": [],
-        "protocol_scope": _scope(),
-        "support_status": "explicit",
-        "evidence": _evidence(),
-    }
+    def state(state_id: str, role: str, value: str) -> dict:
+        strand_id = f"{state_id}-strand"
+        return {
+            "state_id": state_id,
+            "name": state_id.title(),
+            "molecule_type": "DNA",
+            "strand_architecture": "single_stranded",
+            "reference_strand_id": strand_id,
+            "physical_state": "solution",
+            "strands": [
+                {
+                    "strand_id": strand_id,
+                    "name": f"{state_id.title()} strand",
+                    "molecule_type": "DNA",
+                    "orientation": "5_to_3",
+                    "segments": [
+                        {
+                            "segment_id": f"{state_id}-segment",
+                            "role": role,
+                            "structural_role": "unpaired",
+                            "sequence": value,
+                        }
+                    ],
+                    "support_status": "explicit",
+                }
+            ],
+            "paired_regions": [],
+            "discontinuities": [],
+            "properties": [],
+            "protocol_scope": _scope(),
+            "support_status": "explicit",
+        }
     return {
         "protocol_id": "example_protocol",
         "protocol_name": "Example",
+        "modality": "rna",
         "protocol_scope": _scope(),
         "workflows": [
             {
                 "workflow_id": "workflow",
-                "modality": "rna",
-                "workflow_branch": None,
                 "protocol_scope": _scope(),
-                "ground_truth_status": "included",
                 "states": [state("input", "input", "GGG"), state("final", "adapter", sequence)],
                 "transitions": [
                     {
@@ -115,12 +122,10 @@ def _t3(sequence: str = "CCC") -> dict:
                         "discarded_product_ids": [],
                         "protocol_scope": _scope(),
                         "support_status": "explicit",
-                        "evidence": _evidence(),
                     }
                 ],
                 "initial_state_ids": ["input"],
                 "final_state_ids": ["final"],
-                "final_library_links": [{"state_id": "final", "library_id": "library"}],
             }
         ],
     }
@@ -209,6 +214,9 @@ def test_review_console_is_conflict_only_and_template_is_unversioned(tmp_path: P
     value = json.loads(proposal.read_text())
     console = render_console_summary(value)
     assert "Current:" in console and "Proposed:" in console
+    assert "Category / defect:" in console
+    assert "Evidence locators: supports proposed:" in console
+    assert "Reason / impact:" in console
     report, template = render_review_packet(
         proposal_path=proposal,
         proposal_schema_path=AUDIT / "protocol_audit.schema.json",
@@ -217,6 +225,25 @@ def test_review_console_is_conflict_only_and_template_is_unversioned(tmp_path: P
     assert report.name == "review.txt"
     assert not (tmp_path / "review/review.html").exists()
     assert "schema_version" not in json.loads(template.read_text())
+
+
+def test_console_does_not_offer_modify_for_evidence_only_finding() -> None:
+    value = _proposal("a" * 64)
+    issue = value["issues"][0]
+    issue.update(
+        {
+            "target": {"kind": "source_bundle"},
+            "recommendation": "needs_human_review",
+            "proposed_patch": [],
+            "severity": "medium",
+        }
+    )
+
+    console = render_console_summary(value)
+
+    assert "Decision: accept / reject / unresolved / exclude" in console
+    assert "Decision: accept / reject / modify" not in console
+    assert "modify the linked ground-truth candidate" in console
 
 
 def test_low_informational_finding_uses_grouped_human_decision(tmp_path: Path) -> None:
@@ -320,6 +347,59 @@ def test_stale_baseline_is_rejected(tmp_path: Path) -> None:
         )
 
 
+def test_root_conversion_replaces_legacy_baseline_before_validation(
+    tmp_path: Path,
+) -> None:
+    legacy = {
+        "schema_version": "legacy",
+        "protocol_id": "example_protocol",
+        "protocol_name": "Example",
+        "source_html_file": "example.html",
+        "libraries": [],
+    }
+    baseline = _write(
+        tmp_path / "baselines/groundtruth_final_lib_struct.json", legacy
+    )
+    candidate = _t1()
+    proposal_value = _proposal(sha256_file(baseline))
+    proposal_value["issues"][0].update(
+        {
+            "category": "formatting_or_schema_error",
+            "defect_type": "other",
+            "responsibility": "harness",
+            "title": "Convert legacy T1 to canonical ground truth",
+            "target": {
+                "kind": "groundtruth_record",
+                "artifact_source_id": "current:t1",
+                "json_pointer": "",
+            },
+            "current_value": legacy,
+            "proposed_value": candidate,
+            "proposed_patch": [
+                {"op": "replace", "path": "", "value": candidate}
+            ],
+        }
+    )
+    proposal = _write(tmp_path / "audit.json", proposal_value)
+    decision = _write(tmp_path / "decision.json", _decision(proposal))
+
+    result = apply_review_decision(
+        proposal_path=proposal,
+        decision_path=decision,
+        baseline_paths={"current:t1": baseline},
+        output_dir=tmp_path / "application",
+        proposal_schema_path=AUDIT / "protocol_audit.schema.json",
+        decision_schema_path=AUDIT / "review_decision.schema.json",
+        application_schema_path=AUDIT / "application_log.schema.json",
+    )
+
+    converted = json.loads(
+        result.candidate_paths["current:t1"].read_text(encoding="utf-8")
+    )
+    assert converted == candidate
+    assert "schema_version" not in converted
+
+
 def test_new_t3_is_created_and_cross_task_validated(tmp_path: Path) -> None:
     baseline, proposal, decision = _artifacts(tmp_path, new_t3=True)
     result = apply_review_decision(
@@ -334,6 +414,33 @@ def test_new_t3_is_created_and_cross_task_validated(tmp_path: Path) -> None:
         },
     )
     assert result.candidate_paths["new:t3"].name == "groundtruth_library_generation_workflow.json"
+
+
+def test_modified_new_t3_is_always_schema_validated(tmp_path: Path) -> None:
+    baseline, proposal, decision = _artifacts(tmp_path, new_t3=True)
+    decision_value = json.loads(decision.read_text())
+    invalid_t3 = {"protocol_id": "example_protocol", "legacy_steps": []}
+    decision_value["issue_decisions"][0].update(
+        {
+            "disposition": "modify",
+            "replacement_value": invalid_t3,
+            "replacement_patch": [
+                {"op": "add", "path": "", "value": invalid_t3}
+            ],
+        }
+    )
+    _write(decision, decision_value)
+
+    with pytest.raises(ApplicationError, match="candidate new:t3 schema error"):
+        apply_review_decision(
+            proposal_path=proposal,
+            decision_path=decision,
+            baseline_paths={"current:t1": baseline},
+            output_dir=tmp_path / "application",
+            proposal_schema_path=AUDIT / "protocol_audit.schema.json",
+            decision_schema_path=AUDIT / "review_decision.schema.json",
+            application_schema_path=AUDIT / "application_log.schema.json",
+        )
 
 
 def test_final_application_promotes_without_overwrite(tmp_path: Path) -> None:

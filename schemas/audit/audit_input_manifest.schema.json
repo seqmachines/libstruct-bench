@@ -2,7 +2,7 @@
  "$schema": "https://json-schema.org/draft/2020-12/schema",
  "$id": "https://seqmachines.org/schemas/libstruct/audit_input_manifest.schema.json",
  "title": "Ground-truth audit input manifest",
- "description": "A phase-gated, content-addressed manifest retaining included, excluded, unavailable, and pending source dispositions.",
+ "description": "A phase-gated, content-addressed manifest that includes available files and retains missing files as unavailable provenance.",
  "type": "object",
  "additionalProperties": false,
  "required": [
@@ -65,7 +65,7 @@
  "source_id": {"$ref": "#/$defs/stable_id"},
  "role": {"type": "string", "enum": ["primary_evidence", "legacy_curated_html", "current_benchmark_record", "benchmark_run_artifact"]},
  "source_kind": {"type": "string", "minLength": 1},
- "approval_status": {"type": "string", "enum": ["pending", "included", "excluded", "unavailable"]},
+ "approval_status": {"type": "string", "enum": ["pending", "included", "excluded", "unavailable"], "description": "Automatic availability disposition; current manifests contain only included or unavailable."},
  "task_relevance": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "enum": ["T1", "T2", "T3", "cross_task"]}},
  "path": {"type": "string", "minLength": 1},
  "sha256": {"$ref": "#/$defs/sha256"},
@@ -82,8 +82,7 @@
  "notes": {"type": ["string", "null"]}
  },
  "allOf": [
- {"if": {"properties": {"approval_status": {"const": "included"}}, "required": ["approval_status"]}, "then": {"required": ["path", "sha256", "size_bytes", "media_type", "dataset_reference", "review"]}},
- {"if": {"properties": {"approval_status": {"enum": ["excluded", "unavailable"]}}, "required": ["approval_status"]}, "then": {"required": ["review"]}}
+ {"if": {"properties": {"approval_status": {"const": "included"}}, "required": ["approval_status"]}, "then": {"required": ["path", "sha256", "size_bytes", "media_type", "dataset_reference"]}}
  ]
  },
  "row_filter": {

@@ -121,7 +121,8 @@ def build_phase_packet(
     ]
     if pending:
         raise PacketError(
-            "input manifest contains pending source decisions: " + ", ".join(pending)
+            "input manifest contains legacy pending source statuses; rebuild it "
+            "with the automatic availability policy: " + ", ".join(pending)
         )
 
     if phase == "comparison":

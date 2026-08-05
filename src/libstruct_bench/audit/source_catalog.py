@@ -51,7 +51,7 @@ _KIND_MAP = {
 
 
 class SourceCatalogError(ValueError):
-    """Raised when source discovery or approval state is inconsistent."""
+    """Raised when source discovery or availability state is inconsistent."""
 
 
 @dataclass(frozen=True)
@@ -59,7 +59,8 @@ class SourceCatalogResult:
     catalog_path: Path
     protocol_count: int
     source_count: int
-    pending_count: int
+    included_count: int
+    unavailable_count: int
 
 
 @dataclass(frozen=True)
@@ -94,7 +95,7 @@ def build_source_catalog(
     previous_catalog_path: Path | None = None,
     created_at: str | None = None,
 ) -> SourceCatalogResult:
-    """Discover all local inputs and create a reviewable, version-pinned catalog."""
+    """Discover inputs and select them deterministically by local availability."""
 
     protocols_dir = _directory(protocols_dir, "protocols")
     baseline_dir = _directory(baseline_dir, "current ground-truth baselines")
@@ -239,8 +240,8 @@ def build_source_catalog(
         "datasets": datasets,
         "protocols": protocols,
         "notes": (
-            "Discovery does not imply approval. Review every pending source and preserve "
-            "excluded or unavailable entries with a reason."
+            "Every discovered available file is included automatically. Missing files "
+            "are retained as unavailable provenance and excluded from phase packets."
         ),
     }
     _validate(document, schema_path, "source catalog")
@@ -250,12 +251,19 @@ def build_source_catalog(
         raise SourceCatalogError(f"source catalog output already exists: {output_path}")
     write_json_atomic(output_path, document)
     source_count = sum(len(protocol["sources"]) for protocol in protocols)
-    pending_count = sum(
-        source["approval_status"] == "pending"
+    included_count = sum(
+        source["approval_status"] == "included"
         for protocol in protocols
         for source in protocol["sources"]
     )
-    return SourceCatalogResult(output_path, len(protocols), source_count, pending_count)
+    unavailable_count = source_count - included_count
+    return SourceCatalogResult(
+        output_path,
+        len(protocols),
+        source_count,
+        included_count,
+        unavailable_count,
+    )
 
 
 def build_manifests_from_catalog(
@@ -269,7 +277,7 @@ def build_manifests_from_catalog(
     created_at: str | None = None,
     protocol_ids: Iterable[str] | None = None,
 ) -> ManifestBuildResult:
-    """Build strict per-protocol manifests from a reviewed source catalog."""
+    """Build manifests after resolving every source by file availability."""
 
     catalog_path = _file(catalog_path, "source catalog")
     catalog_schema_path = _file(catalog_schema_path, "source catalog schema")
@@ -299,25 +307,26 @@ def build_manifests_from_catalog(
     ready_count = 0
     for ordinal, protocol_id in enumerate(selected, start=1):
         protocol = protocols[protocol_id]
+        sources = [
+            _automatic_source_disposition(source)
+            for source in protocol["sources"]
+        ]
         findings: list[dict[str, str]] = []
-        pending = [source["source_id"] for source in protocol["sources"] if source["approval_status"] == "pending"]
-        if pending:
-            findings.append({"severity": "error", "code": "pending_source_review", "message": ", ".join(pending)})
         included_roles = {
             source["role"]
-            for source in protocol["sources"]
+            for source in sources
             if source["approval_status"] == "included"
         }
         for role in ("primary_evidence", "legacy_curated_html", "current_benchmark_record"):
             if role not in included_roles:
-                findings.append({"severity": "error", "code": f"missing_included_{role}", "message": f"No reviewed included source has role {role}."})
+                findings.append({"severity": "error", "code": f"missing_included_{role}", "message": f"No available source has role {role}."})
         if findings:
             reports.append({"protocol_id": protocol_id, "status": "blocked", "manifest_path": None, "findings": findings})
             continue
 
         manifest_sources = [
             _manifest_source(source, datasets)
-            for source in protocol["sources"]
+            for source in sources
         ]
         identity_hash = hashlib.sha256(
             canonical_json_bytes({"protocol_id": protocol_id, "sources": manifest_sources, "catalog": catalog_sha})
@@ -593,7 +602,7 @@ def _catalog_source(
         "source_id": source_id,
         "role": role,
         "source_kind": source_kind,
-        "approval_status": "pending",
+        "approval_status": "included",
         "task_relevance": ["T1", "T2", "T3"],
         "dataset_id": dataset_id,
         "path": path,
@@ -613,7 +622,7 @@ def _catalog_source(
         and old.get("row_filter") == source.get("row_filter")
         and old.get("declared_sha256") == source.get("declared_sha256")
     ):
-        for key in ("source_kind", "approval_status", "task_relevance", "review", "document_version", "original_uri", "notes"):
+        for key in ("source_kind", "task_relevance", "document_version", "original_uri", "notes"):
             if key in old:
                 source[key] = old[key]
     return source
@@ -624,16 +633,24 @@ def _missing_catalog_source(
     previous: dict[tuple[str, str, str], dict[str, Any]], notes: str,
     declared_sha256: str | None = None,
 ) -> dict[str, Any]:
-    source = {"source_id": _source_id(role, path), "role": role, "source_kind": source_kind, "approval_status": "pending", "task_relevance": ["T1", "T2", "T3"], "path": path, "notes": notes}
+    source = {"source_id": _source_id(role, path), "role": role, "source_kind": source_kind, "approval_status": "unavailable", "task_relevance": ["T1", "T2", "T3"], "path": path, "notes": notes}
     if declared_sha256:
         source["declared_sha256"] = declared_sha256
         source["integrity_status"] = "missing"
-    old = previous.get((protocol_id, role, path))
-    if old is not None and old.get("approval_status") in {"excluded", "unavailable"}:
-        for key in ("approval_status", "task_relevance", "review", "notes"):
-            if key in old:
-                source[key] = old[key]
     return source
+
+
+def _automatic_source_disposition(source: dict[str, Any]) -> dict[str, Any]:
+    """Normalize archived/manual catalog states using current file availability."""
+
+    result = dict(source)
+    result.pop("review", None)
+    available = all(
+        key in result
+        for key in ("dataset_id", "path", "sha256", "size_bytes", "media_type")
+    )
+    result["approval_status"] = "included" if available else "unavailable"
+    return result
 
 
 def _manifest_source(source: dict[str, Any], datasets: dict[str, dict[str, Any]]) -> dict[str, Any]:

@@ -15,7 +15,7 @@ SCHEMA_DIR = Path(__file__).resolve().parents[3] / "schemas" / "audit"
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
-        description="Build strict phase-gated audit manifests from a reviewed source catalog."
+        description="Build phase manifests using all available catalog sources."
     )
     parser.add_argument("--catalog", type=Path, required=True)
     parser.add_argument("--out", type=Path, required=True)

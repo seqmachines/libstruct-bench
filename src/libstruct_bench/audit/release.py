@@ -686,7 +686,6 @@ def _verify_protocol(
     artifacts: list[dict[str, str]] = []
     artifact_tasks: set[str] = set()
     artifact_documents: dict[str, dict[str, Any]] = {}
-    allowed_source_ids = {source["source_id"] for source in manifest["sources"]}
     for item in protocol["artifacts"]:
         path = _resolve(root, item["path"])
         schema_key = {
@@ -714,7 +713,6 @@ def _verify_protocol(
             protocol_id=protocol_id,
             task=item["task"],
             document=document,
-            allowed_source_ids=allowed_source_ids,
         )
         artifact_sha256 = sha256_file(path)
         source_id = item["artifact_source_id"]
@@ -772,27 +770,14 @@ def _verify_groundtruth_semantics(
     protocol_id: str,
     task: str,
     document: dict[str, Any],
-    allowed_source_ids: set[str],
 ) -> None:
     if task == "T1":
-        _unique_ids(document["libraries"], "library_id", f"{protocol_id} T1")
-        for library in document["libraries"]:
+        for library_index, library in enumerate(document["libraries"]):
             _unique_ids(
                 library["segments"],
                 "segment_id",
-                f"{protocol_id} T1 library {library['library_id']}",
+                f"{protocol_id} T1 library at index {library_index}",
             )
-            _verify_evidence_sources(
-                library["evidence"], allowed_source_ids, protocol_id
-            )
-            for segment in library["segments"]:
-                _verify_evidence_sources(
-                    segment.get("evidence", []), allowed_source_ids, protocol_id
-                )
-        if not any(
-            item["ground_truth_status"] == "included" for item in document["libraries"]
-        ):
-            raise ReleaseError(f"{protocol_id} T1 has no benchmark-included library")
         return
     if task == "T2":
         _unique_ids(document["oligos"], "oligo_id", f"{protocol_id} T2")
@@ -802,50 +787,18 @@ def _verify_groundtruth_semantics(
                 "component_id",
                 f"{protocol_id} T2 oligo {oligo['oligo_id']}",
             )
-            _verify_evidence_sources(
-                oligo["evidence"], allowed_source_ids, protocol_id
-            )
-            for component in oligo["components"]:
-                _verify_evidence_sources(
-                    component.get("evidence", []), allowed_source_ids, protocol_id
-                )
         return
     if task == "T3":
         _unique_ids(document["workflows"], "workflow_id", f"{protocol_id} T3")
         for workflow in document["workflows"]:
             _unique_ids(workflow["states"], "state_id", f"{protocol_id} T3 workflow {workflow['workflow_id']} states")
             _unique_ids(workflow["transitions"], "transition_id", f"{protocol_id} T3 workflow {workflow['workflow_id']} transitions")
-            for state in workflow["states"]:
-                _verify_evidence_sources(
-                    state["evidence"], allowed_source_ids, protocol_id
-                )
-            for transition in workflow["transitions"]:
-                _verify_evidence_sources(
-                    transition["evidence"], allowed_source_ids, protocol_id
-                )
-        if not any(
-            item["ground_truth_status"] == "included" for item in document["workflows"]
-        ):
-            raise ReleaseError(f"{protocol_id} T3 has no included workflow")
 
 
 def _unique_ids(values: list[dict[str, Any]], key: str, label: str) -> None:
     identifiers = [item[key] for item in values]
     if len(identifiers) != len(set(identifiers)):
         raise ReleaseError(f"{label} contains duplicate {key} values")
-
-
-def _verify_evidence_sources(
-    evidence: list[dict[str, Any]], allowed: set[str], protocol_id: str
-) -> None:
-    unknown = sorted(
-        {item["source_id"] for item in evidence if item["source_id"] not in allowed}
-    )
-    if unknown:
-        raise ReleaseError(
-            f"ground-truth evidence references sources outside {protocol_id} manifest: "
-            + ", ".join(unknown)
-        )
 
 
 def _independent_selection(

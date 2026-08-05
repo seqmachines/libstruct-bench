@@ -61,8 +61,45 @@ def _fixture(tmp_path: Path) -> tuple[Path, Path, Path, Path]:
     run = run_root / "example/prediction.json"
     _write(primary, b"primary evidence")
     _write(legacy, b"<html>curation</html>")
-    _write(t1, b'{"protocol_id":"example","libraries":[]}')
-    _write(t2, b'{"protocol_id":"example","oligos":[]}')
+    _write(
+        t1,
+        json.dumps(
+            {
+                "protocol_id": "example",
+                "protocol_name": "Example",
+                "libraries": [
+                    {
+                        "modality": "test",
+                        "library_sequence": "A",
+                        "annotated_library_sequence": "A",
+                        "strand": "single",
+                        "orientation": "5_to_3",
+                        "support_status": "explicit",
+                        "segments": [
+                            {
+                                "segment_id": "library-segment",
+                                "kind": "constant",
+                                "role": "adapter",
+                                "sequence": "A",
+                                "orientation": "5_to_3",
+                                "support_status": "explicit",
+                            }
+                        ],
+                    }
+                ],
+            }
+        ).encode(),
+    )
+    _write(
+        t2,
+        json.dumps(
+            {
+                "protocol_id": "example",
+                "protocol_name": "Example",
+                "oligos": [],
+            }
+        ).encode(),
+    )
     _write(tsv, b"protocol\toligo_name\nexample\tP5\nother\tP7\n")
     _write(run, b'{"score":0.5}')
     sources = [

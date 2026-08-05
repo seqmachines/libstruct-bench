@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import copy
 import json
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -10,7 +11,7 @@ import time
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Callable, Iterable
+from typing import Any, Callable, Iterable, Mapping
 
 from .artifacts import (
     AuditArtifactError,
@@ -20,7 +21,13 @@ from .artifacts import (
     validate_document,
     write_json_atomic,
 )
-from .groundtruth import TASK_ARTIFACTS
+from .groundtruth import (
+    GroundtruthValidationError,
+    TASK_ARTIFACTS,
+    documents_by_task,
+    validate_cross_task_links,
+    validate_molecular_state_architecture,
+)
 
 
 HARNESS_VERSION = "libstruct-bench-audit/0.4.0"
@@ -30,6 +37,12 @@ PHASE_SCHEMA_FILES = {
 }
 MODEL_ALIASES = {"default", "sonnet", "opus", "haiku", "fable"}
 READ_ONLY_TOOLS = ("Read", "Glob", "Grep")
+GROUNDTRUTH_SCHEMA_DIR = Path(__file__).resolve().parents[3] / "schemas" / "groundtruth"
+CURRENT_TASK_BY_SOURCE_KIND = {
+    "current_t1": "T1",
+    "current_t2": "T2",
+    "current_t3": "T3",
+}
 
 
 class ClaudeAuditError(ValueError):
@@ -62,6 +75,7 @@ def run_claude_audit(
     max_budget_usd: float = 20.0,
     timeout_seconds: int = 3600,
     claude_executable: str = "claude",
+    groundtruth_schema_paths: Mapping[str, Path] | None = None,
 ) -> ClaudeRunResult:
     """Run one isolated Claude evidence or comparison phase."""
 
@@ -96,13 +110,27 @@ def run_claude_audit(
         raise ClaudeAuditError(
             f"{phase} phase requires {PHASE_SCHEMA_FILES[phase]}"
         )
+    groundtruth_schemas = _resolve_groundtruth_schemas(
+        phase, groundtruth_schema_paths
+    )
     _verify_packet_files(packet_dir, packet)
+    if phase == "comparison":
+        _validate_frozen_evidence(
+            packet_dir,
+            packet,
+            output_schema_path.parent / PHASE_SCHEMA_FILES["evidence"],
+        )
     output_schema = load_json_object(output_schema_path, label="output schema")
 
     output_dir = output_dir.expanduser().resolve()
     _reject_output(output_dir, packet_dir)
     if output_dir.exists():
         raise ClaudeAuditError(f"run output already exists: {output_dir}")
+    rejected_output_dir = _rejected_output_dir(output_dir)
+    if rejected_output_dir.exists():
+        raise ClaudeAuditError(
+            f"rejected run output already exists: {rejected_output_dir}"
+        )
     output_dir.parent.mkdir(parents=True, exist_ok=True)
 
     prompt_bytes = prompt_path.read_bytes()
@@ -113,6 +141,7 @@ def run_claude_audit(
         prompt=prompt_bytes.decode("utf-8"),
         skill=skill_bytes.decode("utf-8"),
         policies=[path.read_text(encoding="utf-8") for path in policies],
+        groundtruth_schemas=groundtruth_schemas,
     )
     agent_schema = _agent_output_schema(output_schema, phase)
     claude_version = _claude_version(claude_executable)
@@ -161,21 +190,6 @@ def run_claude_audit(
         ) from error
     completed_at = _now()
     duration = max(0.0, time.monotonic() - started_monotonic)
-    if completed.returncode != 0:
-        stdout_error = _claude_result_error(completed.stdout)
-        stderr = completed.stderr.decode("utf-8", errors="replace").strip()
-        details = []
-        if stdout_error:
-            details.append(stdout_error)
-        if stderr:
-            details.append(f"stderr: {stderr[-1000:]}")
-        raise ClaudeAuditError(
-            f"Claude exited with {completed.returncode}: "
-            + ("; ".join(details) or "no error details were emitted")
-        )
-
-    progress("Claude finished; validating the structured artifact")
-    artifact = _extract_artifact(completed.stdout, phase)
     run = {
         "run_id": run_id,
         "agent": "claude-code",
@@ -195,15 +209,64 @@ def run_claude_audit(
         "permission_mode": "plan",
         "checkpoint_id": packet_manifest_checkpoint(packet_dir),
     }
-    artifact = _finalize_artifact(
-        artifact=artifact,
-        packet=packet,
-        packet_dir=packet_dir,
-        phase=phase,
-        run=run,
-    )
-    _validate(artifact, output_schema_path, f"{phase} audit artifact")
-    _validate_semantics(artifact, packet, packet_dir, phase)
+    artifact: dict[str, Any] | None = None
+    try:
+        if completed.returncode != 0:
+            stdout_error = _claude_result_error(completed.stdout)
+            stderr = completed.stderr.decode("utf-8", errors="replace").strip()
+            details = []
+            if stdout_error:
+                details.append(stdout_error)
+            if stderr:
+                details.append(f"stderr: {stderr[-1000:]}")
+            raise ClaudeAuditError(
+                f"Claude exited with {completed.returncode}: "
+                + ("; ".join(details) or "no error details were emitted")
+            )
+
+        progress("Claude finished; validating the structured artifact")
+        artifact = _extract_artifact(completed.stdout, phase)
+        artifact = _finalize_artifact(
+            artifact=artifact,
+            packet=packet,
+            packet_dir=packet_dir,
+            phase=phase,
+            run=run,
+        )
+        _validate(artifact, output_schema_path, f"{phase} audit artifact")
+        _validate_semantics(
+            artifact, packet, packet_dir, phase, groundtruth_schemas
+        )
+    except Exception as error:
+        try:
+            rejected_dir = _preserve_rejected_run(
+                output_dir=output_dir,
+                completed=completed,
+                artifact=artifact,
+                error=error,
+                run=run,
+                phase=phase,
+                packet_path=packet_path,
+                duration=duration,
+                max_budget_usd=max_budget_usd,
+                timeout_seconds=timeout_seconds,
+                effort=effort,
+                groundtruth_schemas=groundtruth_schemas,
+                command=command,
+                system_prompt=system_prompt,
+                agent_schema=agent_schema,
+            )
+        except Exception as preservation_error:
+            raise ClaudeAuditError(
+                f"{error}; additionally failed to preserve the rejected run: "
+                f"{preservation_error}"
+            ) from error
+        progress(f"rejected run preserved at {rejected_dir}")
+        if isinstance(error, ClaudeAuditError):
+            raise ClaudeAuditError(
+                f"{error}; rejected run preserved at {rejected_dir}"
+            ) from error
+        raise
 
     temporary_dir = Path(
         tempfile.mkdtemp(prefix=f".{output_dir.name}.building-", dir=output_dir.parent)
@@ -230,14 +293,20 @@ def run_claude_audit(
             "max_budget_usd": max_budget_usd,
             "timeout_seconds": timeout_seconds,
             "effort": effort,
+            "groundtruth_schemas": [
+                {
+                    "task": task,
+                    "filename": path.name,
+                    "sha256": sha256_file(path),
+                }
+                for task, path in sorted(groundtruth_schemas.items())
+            ],
             "command": _redacted_command(command, system_prompt, agent_schema),
         }
         metadata_path = temporary_dir / "run-metadata.json"
         write_json_atomic(metadata_path, metadata)
         temporary_dir.rename(output_dir)
     except BaseException:
-        import shutil
-
         shutil.rmtree(temporary_dir, ignore_errors=True)
         raise
     progress(f"validated and saved {output_dir / artifact_name}")
@@ -249,6 +318,83 @@ def run_claude_audit(
         phase=phase,
         run_id=run_id,
     )
+
+
+def _rejected_output_dir(output_dir: Path) -> Path:
+    return output_dir.with_name(f"{output_dir.name}.rejected")
+
+
+def _preserve_rejected_run(
+    *,
+    output_dir: Path,
+    completed: subprocess.CompletedProcess[bytes],
+    artifact: dict[str, Any] | None,
+    error: Exception,
+    run: dict[str, Any],
+    phase: str,
+    packet_path: Path,
+    duration: float,
+    max_budget_usd: float,
+    timeout_seconds: int,
+    effort: str,
+    groundtruth_schemas: Mapping[str, Path],
+    command: list[str],
+    system_prompt: str,
+    agent_schema: dict[str, Any],
+) -> Path:
+    """Persist a completed but rejected model run for diagnosis and provenance."""
+
+    rejected_dir = _rejected_output_dir(output_dir)
+    if rejected_dir.exists():
+        raise ClaudeAuditError(f"rejected run output already exists: {rejected_dir}")
+    temporary_dir = Path(
+        tempfile.mkdtemp(
+            prefix=f".{rejected_dir.name}.building-", dir=rejected_dir.parent
+        )
+    )
+    try:
+        transcript_path = temporary_dir / "transcript.jsonl"
+        transcript_path.write_bytes(completed.stdout)
+        stderr_path = temporary_dir / "stderr.txt"
+        stderr_path.write_bytes(completed.stderr)
+        artifact_path: Path | None = None
+        if artifact is not None:
+            artifact_path = temporary_dir / "rejected-artifact.json"
+            write_json_atomic(artifact_path, artifact)
+        failure = {
+            "status": "rejected",
+            "phase": phase,
+            "run": run,
+            "reason": str(error),
+            "error_type": type(error).__name__,
+            "returncode": completed.returncode,
+            "packet_sha256": sha256_file(packet_path),
+            "transcript_path": "transcript.jsonl",
+            "transcript_sha256": sha256_file(transcript_path),
+            "stderr_path": "stderr.txt",
+            "stderr_sha256": sha256_file(stderr_path),
+            "artifact_path": artifact_path.name if artifact_path else None,
+            "artifact_sha256": sha256_file(artifact_path) if artifact_path else None,
+            "duration_seconds": round(duration, 6),
+            "max_budget_usd": max_budget_usd,
+            "timeout_seconds": timeout_seconds,
+            "effort": effort,
+            "groundtruth_schemas": [
+                {
+                    "task": task,
+                    "filename": path.name,
+                    "sha256": sha256_file(path),
+                }
+                for task, path in sorted(groundtruth_schemas.items())
+            ],
+            "command": _redacted_command(command, system_prompt, agent_schema),
+        }
+        write_json_atomic(temporary_dir / "failure.json", failure)
+        temporary_dir.rename(rejected_dir)
+    except BaseException:
+        shutil.rmtree(temporary_dir, ignore_errors=True)
+        raise
+    return rejected_dir
 
 
 def _run_streaming(
@@ -439,8 +585,27 @@ def packet_manifest_checkpoint(packet_dir: Path) -> str:
 
 
 def _system_prompt(
-    *, phase: str, prompt: str, skill: str, policies: list[str]
+    *,
+    phase: str,
+    prompt: str,
+    skill: str,
+    policies: list[str],
+    groundtruth_schemas: Mapping[str, Path],
 ) -> str:
+    schema_section = ""
+    if groundtruth_schemas:
+        rendered = []
+        for task, path in sorted(groundtruth_schemas.items()):
+            rendered.append(
+                f"{task} — {path.name}\n{path.read_text(encoding='utf-8')}"
+            )
+        schema_section = (
+            "\n\nCANONICAL GROUND-TRUTH ARTIFACT SCHEMAS\n"
+            "These schemas constrain proposed T1-T3 documents; they are not "
+            "scientific evidence. Any complete new or root-converted "
+            "ground-truth document must satisfy its task schema exactly.\n"
+            + "\n\n".join(rendered)
+        )
     return (
         "You are a read-only sequencing-library ground-truth audit assistant. "
         "A human reviewer is the final authority. Use only packet-listed files.\n\n"
@@ -451,6 +616,7 @@ def _system_prompt(
         f"{skill}\n\n"
         "AUDIT POLICIES\n"
         + "\n\n".join(policies)
+        + schema_section
     )
 
 
@@ -458,14 +624,18 @@ def _user_prompt(packet_dir: Path, phase: str) -> str:
     if phase == "evidence":
         action = (
             "Read packet.json, manifest.json, every file under primary_evidence, "
-            "and every packet-listed rendition. Account for every approved source "
+            "and every packet-listed rendition. Account for every included source "
             "before independently extracting T1, T2, and graph-shaped T3 evidence."
         )
     else:
         action = (
             "Read the frozen evidence first. Then compare it with every packet-listed "
             "legacy HTML, current T1/T2/T3 record, reviewed TSV projection, and optional "
-            "benchmark-run artifact. Do not alter the frozen evidence or approve changes."
+            "benchmark-run artifact. First root-convert every legacy-shaped current "
+            "record using legacy inputs only, then compare with the frozen evidence. "
+            "Use the canonical ground-truth schemas embedded in the system instructions "
+            "for every complete candidate document. Do not alter the frozen evidence or "
+            "approve changes."
         )
     return (
         f"Audit packet: {packet_dir}\n{action}\n"
@@ -537,6 +707,7 @@ def _validate_semantics(
     packet: dict[str, Any],
     packet_dir: Path,
     phase: str,
+    groundtruth_schemas: Mapping[str, Path],
 ) -> None:
     if phase == "evidence":
         expected = {
@@ -561,6 +732,20 @@ def _validate_semantics(
                 "primary sources were unreadable and must be repaired before comparison: "
                 + ", ".join(unreadable)
             )
+        try:
+            for workflow in artifact["t3"]["workflows"]:
+                for state in workflow["states"]:
+                    validate_molecular_state_architecture(
+                        state,
+                        label=(
+                            f"primary evidence workflow {workflow['workflow_id']} "
+                            f"state {state['state_id']}"
+                        ),
+                    )
+        except GroundtruthValidationError as error:
+            raise ClaudeAuditError(
+                f"primary evidence has invalid strand architecture: {error}"
+            ) from error
         return
 
     evidence_path = packet_dir / packet["frozen_evidence"]["path"]
@@ -576,14 +761,26 @@ def _validate_semantics(
         raise ClaudeAuditError("audited field ledger contains duplicate field IDs")
     issue_ids: set[str] = set()
     baseline_ids = {item["source_id"] for item in artifact["baseline_artifacts"]}
+    baseline_tasks, legacy_baseline_ids = _baseline_schema_status(
+        packet, packet_dir, groundtruth_schemas
+    )
     new_artifact_ids: set[str] = set()
     new_artifact_filenames: set[str] = set()
+    root_conversion_issues: dict[str, str] = {}
+    root_conversion_candidates: dict[str, dict[str, Any]] = {}
+    groundtruth_patch_issues: dict[str, list[str]] = {}
+    new_groundtruth_candidates: dict[str, dict[str, Any]] = {}
     expected_filenames = {
         task: details["filename"] for task, details in TASK_ARTIFACTS.items()
     }
     allowed_evidence_ids = {
         item["source_id"] for item in packet["files"]
     } | {item["source_id"] for item in evidence["source_coverage"]}
+    conversion_evidence_ids = {
+        item["source_id"]
+        for item in packet["files"]
+        if item["role"] in {"legacy_curated_html", "current_benchmark_record"}
+    }
     for issue in artifact["issues"]:
         issue_id = issue["issue_id"]
         if issue_id in issue_ids:
@@ -606,6 +803,40 @@ def _validate_semantics(
             raise ClaudeAuditError(
                 f"issue {issue_id} targets unknown baseline {source_id!r}"
             )
+        if target_kind == "groundtruth_record":
+            expected_task = baseline_tasks.get(source_id)
+            if issue["task"] != expected_task:
+                raise ClaudeAuditError(
+                    f"issue {issue_id} targets {source_id!r} as {issue['task']}; "
+                    f"expected {expected_task}"
+                )
+            groundtruth_patch_issues.setdefault(source_id, []).append(issue_id)
+            candidate = _root_replacement_candidate(issue["proposed_patch"])
+            if candidate is not None:
+                previous = root_conversion_issues.setdefault(source_id, issue_id)
+                if previous != issue_id:
+                    raise ClaudeAuditError(
+                        f"baseline {source_id!r} has multiple root conversion issues"
+                    )
+                if candidate.get("protocol_id") != packet["protocol_id"]:
+                    raise ClaudeAuditError(
+                        f"root conversion candidate {issue_id} uses the wrong protocol_id"
+                    )
+                _validate(
+                    candidate,
+                    groundtruth_schemas[issue["task"]],
+                    f"root conversion candidate {issue_id}",
+                )
+                unexpected_evidence = (
+                    _nested_evidence_source_ids(candidate)
+                    - conversion_evidence_ids
+                )
+                if unexpected_evidence:
+                    raise ClaudeAuditError(
+                        f"root conversion candidate {issue_id} uses non-legacy "
+                        "evidence: " + ", ".join(sorted(unexpected_evidence))
+                    )
+                root_conversion_candidates[source_id] = candidate
         if target_kind == "new_groundtruth_record":
             if source_id in baseline_ids:
                 raise ClaudeAuditError(
@@ -621,8 +852,43 @@ def _validate_semantics(
                 raise ClaudeAuditError(
                     f"new artifact issue {issue_id} uses the wrong task filename"
                 )
+            candidate = _new_artifact_candidate(issue_id, issue["proposed_patch"])
+            if candidate.get("protocol_id") != packet["protocol_id"]:
+                raise ClaudeAuditError(
+                    f"new ground-truth candidate {issue_id} uses the wrong protocol_id"
+                )
+            _validate(
+                candidate,
+                groundtruth_schemas[issue["task"]],
+                f"new ground-truth candidate {issue_id}",
+            )
+            new_groundtruth_candidates[source_id] = candidate
             new_artifact_ids.add(source_id)
             new_artifact_filenames.add(filename)
+    missing_conversions = sorted(legacy_baseline_ids - set(root_conversion_issues))
+    if missing_conversions:
+        raise ClaudeAuditError(
+            "legacy-shaped baselines require schema-valid root conversion issues: "
+            + ", ".join(missing_conversions)
+        )
+    overlapping_conversions = sorted(
+        source_id
+        for source_id in root_conversion_issues
+        if len(groundtruth_patch_issues.get(source_id, [])) > 1
+    )
+    if overlapping_conversions:
+        raise ClaudeAuditError(
+            "root-converted baselines cannot also receive field patches; record "
+            "source deltas without patches and compile them into the reviewed root: "
+            + ", ".join(overlapping_conversions)
+        )
+    _validate_linked_root_candidates(
+        packet=packet,
+        packet_dir=packet_dir,
+        baseline_tasks=baseline_tasks,
+        root_candidates=root_conversion_candidates,
+        new_candidates=new_groundtruth_candidates,
+    )
     referenced = {
         issue_id
         for field in artifact["audited_fields"]
@@ -648,6 +914,130 @@ def _validate_new_artifact_patch(
         )
 
 
+def _new_artifact_candidate(
+    issue_id: str, operations: list[dict[str, Any]]
+) -> dict[str, Any]:
+    mutation = next(item for item in operations if item["op"] != "test")
+    value = mutation.get("value")
+    if not isinstance(value, dict):
+        raise ClaudeAuditError(
+            f"new ground-truth candidate {issue_id} must be a JSON object"
+        )
+    return value
+
+
+def _root_replacement_candidate(
+    operations: list[dict[str, Any]],
+) -> dict[str, Any] | None:
+    mutations = [item for item in operations if item["op"] != "test"]
+    if (
+        len(mutations) != 1
+        or mutations[0]["op"] != "replace"
+        or mutations[0]["path"] != ""
+    ):
+        return None
+    value = mutations[0].get("value")
+    return value if isinstance(value, dict) else None
+
+
+def _nested_evidence_source_ids(value: Any) -> set[str]:
+    result: set[str] = set()
+    if isinstance(value, dict):
+        evidence = value.get("evidence")
+        if isinstance(evidence, list):
+            for item in evidence:
+                if isinstance(item, dict) and isinstance(item.get("source_id"), str):
+                    result.add(item["source_id"])
+        for child in value.values():
+            result.update(_nested_evidence_source_ids(child))
+    elif isinstance(value, list):
+        for child in value:
+            result.update(_nested_evidence_source_ids(child))
+    return result
+
+
+def _baseline_schema_status(
+    packet: dict[str, Any],
+    packet_dir: Path,
+    groundtruth_schemas: Mapping[str, Path],
+) -> tuple[dict[str, str], set[str]]:
+    tasks: dict[str, str] = {}
+    legacy: set[str] = set()
+    for item in packet["files"]:
+        task = CURRENT_TASK_BY_SOURCE_KIND.get(item["source_kind"])
+        if task is None:
+            continue
+        source_id = item["source_id"]
+        tasks[source_id] = task
+        document = load_json_object(
+            packet_dir / item["path"], label=f"baseline {source_id}"
+        )
+        try:
+            validate_document(
+                document,
+                groundtruth_schemas[task],
+                label=f"baseline {source_id}",
+            )
+        except AuditArtifactError:
+            legacy.add(source_id)
+    return tasks, legacy
+
+
+def _validate_linked_root_candidates(
+    *,
+    packet: dict[str, Any],
+    packet_dir: Path,
+    baseline_tasks: Mapping[str, str],
+    root_candidates: Mapping[str, dict[str, Any]],
+    new_candidates: Mapping[str, dict[str, Any]],
+) -> None:
+    documents: dict[str, dict[str, Any]] = {}
+    for item in packet["files"]:
+        source_id = item["source_id"]
+        if source_id not in baseline_tasks:
+            continue
+        documents[source_id] = root_candidates.get(source_id) or load_json_object(
+            packet_dir / item["path"], label=f"baseline {source_id}"
+        )
+    documents.update(new_candidates)
+    try:
+        validate_cross_task_links(documents_by_task(documents))
+    except GroundtruthValidationError as error:
+        raise ClaudeAuditError(
+            f"linked root conversion candidates are inconsistent: {error}"
+        ) from error
+
+
+def _resolve_groundtruth_schemas(
+    phase: str, configured: Mapping[str, Path] | None
+) -> dict[str, Path]:
+    if phase != "comparison":
+        if configured:
+            raise ClaudeAuditError(
+                "ground-truth artifact schemas are only used in comparison runs"
+            )
+        return {}
+    paths = configured or {
+        task: GROUNDTRUTH_SCHEMA_DIR / details["schema"]
+        for task, details in TASK_ARTIFACTS.items()
+    }
+    expected = set(TASK_ARTIFACTS)
+    if set(paths) != expected:
+        raise ClaudeAuditError(
+            "ground-truth schema map must contain exactly T1, T2, and T3"
+        )
+    resolved: dict[str, Path] = {}
+    for task, path in paths.items():
+        schema_path = _file(path, f"{task} ground-truth schema")
+        expected_name = TASK_ARTIFACTS[task]["schema"]
+        if schema_path.name != expected_name:
+            raise ClaudeAuditError(
+                f"{task} requires canonical schema filename {expected_name}"
+            )
+        resolved[task] = schema_path
+    return resolved
+
+
 def _verify_packet_files(packet_dir: Path, packet: dict[str, Any]) -> None:
     manifest_path = packet_dir / packet["input_manifest"]["path"]
     if sha256_file(manifest_path) != packet["input_manifest"]["sha256"]:
@@ -667,6 +1057,27 @@ def _verify_packet_files(packet_dir: Path, packet: dict[str, Any]) -> None:
         path = packet_dir / frozen["path"]
         if not path.is_file() or sha256_file(path) != frozen["sha256"]:
             raise ClaudeAuditError("frozen evidence is missing or stale")
+
+
+def _validate_frozen_evidence(
+    packet_dir: Path,
+    packet: dict[str, Any],
+    evidence_schema_path: Path,
+) -> None:
+    frozen = packet.get("frozen_evidence")
+    if frozen is None:
+        raise ClaudeAuditError("comparison packet has no frozen evidence")
+    evidence_schema_path = _file(evidence_schema_path, "evidence schema")
+    evidence = load_json_object(
+        packet_dir / frozen["path"], label="frozen evidence"
+    )
+    _validate(evidence, evidence_schema_path, "frozen evidence")
+    expected_schema_sha = sha256_file(evidence_schema_path)
+    if evidence["run"]["schema_sha256"] != expected_schema_sha:
+        raise ClaudeAuditError(
+            "frozen evidence was produced against a different evidence schema; "
+            "rerun the evidence phase before comparison"
+        )
 
 
 def _extract_artifact(stdout: bytes, phase: str) -> dict[str, Any]:

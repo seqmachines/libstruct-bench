@@ -2,16 +2,15 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://seqmachines.org/schemas/libstruct/oligo_groundtruth.schema.json",
   "title": "Human-approved oligo ground truth",
-  "description": "T2: oligo identity and composition. Workflow usage belongs in T3.",
+  "description": "T2: minimal oligo identity and composition. Audit evidence and lineage remain in audit artifacts.",
   "type": "object",
   "additionalProperties": false,
-  "required": ["protocol_id", "protocol_name", "protocol_scope", "oligos"],
+  "required": ["protocol_id", "protocol_name", "oligos"],
   "properties": {
     "protocol_id": {"$ref": "#/$defs/stable_id"},
     "protocol_name": {"type": "string", "minLength": 1},
     "protocol_scope": {"$ref": "#/$defs/protocol_scope"},
-    "oligos": {"type": "array", "items": {"$ref": "#/$defs/oligo"}},
-    "limitations": {"type": "array", "items": {"type": "string", "minLength": 1}}
+    "oligos": {"type": "array", "items": {"$ref": "#/$defs/oligo"}}
   },
   "$defs": {
     "stable_id": {"type": "string", "minLength": 1, "maxLength": 240, "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"},
@@ -24,93 +23,57 @@
         "applicable_variants": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
       }
     },
-    "locator": {
-      "type": "object",
-      "additionalProperties": false,
-      "minProperties": 1,
-      "properties": {
-        "page": {"type": "integer", "minimum": 1}, "page_end": {"type": "integer", "minimum": 1},
-        "section": {"type": "string", "minLength": 1}, "figure": {"type": "string", "minLength": 1},
-        "table": {"type": "string", "minLength": 1}, "sheet": {"type": "string", "minLength": 1},
-        "cell_range": {"type": "string", "minLength": 1}, "html_selector": {"type": "string", "minLength": 1},
-        "line": {"type": "integer", "minimum": 1}
-      }
-    },
-    "evidence": {
-      "type": "object", "additionalProperties": false, "required": ["source_id", "locator"],
-      "properties": {"source_id": {"$ref": "#/$defs/stable_id"}, "locator": {"$ref": "#/$defs/locator"}, "excerpt": {"type": ["string", "null"]}, "notes": {"type": ["string", "null"]}}
-    },
     "support_status": {"type": "string", "enum": ["explicit", "derivable", "externally_completed", "ambiguous", "unsupported"]},
-    "ground_truth_status": {"type": "string", "enum": ["included", "excluded", "ambiguous"]},
+    "placeholder": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^\\[(?![A-Z0-9_]*(?:_RC|_REVCOMP|_REVERSE_COMPLEMENT|_FWD|_FORWARD|_REV|_REVERSE)(?::[1-9][0-9]*)?\\]$)[A-Z][A-Z0-9]*(?:_[A-Z0-9]+)*(?::[1-9][0-9]*)?\\]$",
+      "description": "Orientation-free [ROLE] or [ROLE:LENGTH] placeholder."
+    },
     "component": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["component_id", "name", "role", "orientation", "modifications", "support_status", "evidence"],
+      "required": ["component_id", "name", "role", "orientation", "modifications", "support_status"],
       "properties": {
         "component_id": {"$ref": "#/$defs/stable_id"},
         "name": {"type": "string", "minLength": 1},
         "role": {"type": "string", "minLength": 1},
         "sequence": {"type": ["string", "null"], "minLength": 1},
         "length": {"type": ["integer", "null"], "minimum": 0},
-        "placeholder": {"type": ["string", "null"], "minLength": 1},
+        "placeholder": {"oneOf": [{"$ref": "#/$defs/placeholder"}, {"type": "null"}]},
         "orientation": {"type": "string", "enum": ["5_to_3", "3_to_5", "unknown"]},
         "modifications": {"type": "array", "items": {"type": "string", "minLength": 1}},
         "protocol_scope": {"$ref": "#/$defs/protocol_scope"},
-        "support_status": {"$ref": "#/$defs/support_status"},
-        "evidence": {"type": "array", "items": {"$ref": "#/$defs/evidence"}},
-        "notes": {"type": ["string", "null"]}
+        "support_status": {"$ref": "#/$defs/support_status"}
       },
       "anyOf": [
         {"required": ["sequence"], "properties": {"sequence": {"type": "string", "minLength": 1}}},
         {"required": ["length"], "properties": {"length": {"type": "integer", "minimum": 0}}},
         {"required": ["placeholder"], "properties": {"placeholder": {"type": "string", "minLength": 1}}}
-      ],
-      "allOf": [{"if": {"properties": {"support_status": {"enum": ["explicit", "derivable", "externally_completed"]}}, "required": ["support_status"]}, "then": {"properties": {"evidence": {"minItems": 1}}}}]
-    },
-    "lineage": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["artifact_sha256", "row_number"],
-      "properties": {
-        "artifact_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
-        "row_number": {"type": "integer", "minimum": 2},
-        "source_name": {"type": ["string", "null"]},
-        "source_sequence": {"type": ["string", "null"]}
-      }
+      ]
     },
     "oligo": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["oligo_id", "name", "source_name", "source_names", "aliases", "role", "kind", "orientation", "components", "modifications", "protocol_scope", "ground_truth_status", "support_status", "evidence", "baseline_lineage"],
+      "required": ["oligo_id", "name", "aliases", "role", "kind", "orientation", "components", "modifications", "support_status"],
       "properties": {
         "oligo_id": {"$ref": "#/$defs/stable_id"},
         "canonical_oligo_id": {"oneOf": [{"$ref": "#/$defs/stable_id"}, {"type": "null"}]},
         "family_id": {"oneOf": [{"$ref": "#/$defs/stable_id"}, {"type": "null"}]},
-        "name": {"type": "string", "minLength": 1, "description": "Canonical display name; use the source name for assay-specific oligos."},
-        "source_name": {"type": "string", "minLength": 1},
-        "source_names": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "name": {"type": "string", "minLength": 1, "description": "Canonical display name; use the source-visible name for assay-specific oligos."},
         "aliases": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
         "role": {"type": "string", "minLength": 1},
         "kind": {"type": "string", "enum": ["single", "assembled", "double_stranded", "hairpin", "unknown"]},
-        "sequence": {"type": ["string", "null"], "minLength": 1},
+        "sequence": {"type": ["string", "null"], "minLength": 1, "description": "Source-visible oligo sequence in the recorded orientation."},
         "orientation": {"type": "string", "enum": ["5_to_3", "3_to_5", "unknown"]},
         "components": {"type": "array", "items": {"$ref": "#/$defs/component"}},
         "modifications": {"type": "array", "items": {"type": "string", "minLength": 1}},
         "protocol_scope": {"$ref": "#/$defs/protocol_scope"},
-        "ground_truth_status": {"$ref": "#/$defs/ground_truth_status"},
-        "status_reason": {"type": ["string", "null"], "minLength": 1},
-        "support_status": {"$ref": "#/$defs/support_status"},
-        "evidence": {"type": "array", "items": {"$ref": "#/$defs/evidence"}},
-        "baseline_lineage": {"type": "array", "items": {"$ref": "#/$defs/lineage"}},
-        "notes": {"type": ["string", "null"]}
+        "support_status": {"$ref": "#/$defs/support_status"}
       },
       "anyOf": [
         {"required": ["sequence"], "properties": {"sequence": {"type": "string", "minLength": 1}}},
         {"required": ["components"], "properties": {"components": {"minItems": 1}}}
-      ],
-      "allOf": [
-        {"if": {"properties": {"ground_truth_status": {"enum": ["excluded", "ambiguous"]}}, "required": ["ground_truth_status"]}, "then": {"required": ["status_reason"]}},
-        {"if": {"properties": {"support_status": {"enum": ["explicit", "derivable", "externally_completed"]}}, "required": ["support_status"]}, "then": {"properties": {"evidence": {"minItems": 1}}}}
       ]
     }
   }

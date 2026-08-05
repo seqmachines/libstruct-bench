@@ -255,7 +255,7 @@ def test_renditions_reject_output_inside_an_actual_source_directory(
     tmp_path: Path,
 ) -> None:
     manifest, source_root, _groundtruth_root = _fixture(tmp_path)
-    with pytest.raises(RenditionError, match="overlaps an approved source directory"):
+    with pytest.raises(RenditionError, match="overlaps an input source directory"):
         build_rendition_bundle(
             manifest_path=manifest,
             source_dataset_dir=source_root,

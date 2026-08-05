@@ -113,7 +113,8 @@ def render_console_summary(proposal: dict[str, Any]) -> str:
         start=1,
     ):
         evidence = "; ".join(
-            f"{item['source_id']} {json.dumps(item['locator'], sort_keys=True)}"
+            f"supports {item['supports']}: {item['source_id']} "
+            f"{json.dumps(item['locator'], sort_keys=True)}"
             for item in issue["evidence"][:3]
         )
         lines.extend(
@@ -121,13 +122,33 @@ def render_console_summary(proposal: dict[str, Any]) -> str:
                 "",
                 f"[{number}] {issue['severity'].upper()} {issue['task']} — {issue['title']}",
                 f"Issue: {issue['issue_id']}",
+                f"Field: {issue['field_id']}",
+                f"Category / defect: {issue['category']} / {issue['defect_type']}",
+                f"Target: {issue['target']['kind']} "
+                f"({'patch' if issue['proposed_patch'] else 'no patch'})",
+                f"Support: {issue['support_status']}",
                 f"Current: {_short_json(issue['current_value'])}",
                 f"Proposed: {_short_json(issue['proposed_value'])}",
-                f"Why: {issue['explanation']}",
-                f"Evidence: {evidence}",
-                "Decision: accept / reject / modify / unresolved / exclude",
+                f"Evidence locators: {evidence}",
+                f"Reason / impact: {issue['explanation']}",
+                (
+                    "Decision: accept / reject / modify / unresolved / exclude"
+                    if issue["target"]["kind"]
+                    in {"groundtruth_record", "new_groundtruth_record"}
+                    else "Decision: accept / reject / unresolved / exclude"
+                ),
             ]
         )
+        if issue.get("notes"):
+            lines.append(f"Notes: {issue['notes']}")
+        if issue["target"]["kind"] not in {
+            "groundtruth_record",
+            "new_groundtruth_record",
+        }:
+            lines.append(
+                "To change ground truth, modify the linked ground-truth candidate; "
+                "this finding itself has no patch."
+            )
     if informational:
         counts: dict[str, int] = {}
         for issue in informational:
