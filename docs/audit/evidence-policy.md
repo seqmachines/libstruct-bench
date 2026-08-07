@@ -8,22 +8,29 @@ of scope.
 
 ## Isolation
 
-Primary-evidence extraction may see only included papers, protocols,
-supplements, tables/spreadsheets, figures/diagrams, and deterministic
-renditions. It must not see legacy HTML, current ground truth, reviewed TSV
-rows, prior agent answers, or benchmark outputs.
+The audit uses one conversion-first comparison worker, not a separate
+primary-evidence reconstruction phase. Within that worker, the order is strict:
 
-After that evidence is frozen, comparison may see:
+1. Read only legacy `scg_lib_structs` HTML and included assets, current T1/T2/T3
+   records, and the protocol-only `groundtruth_oligos.tsv` projection. Convert
+   those human-curated inputs into canonical candidates without changing their
+   scientific claims. T3 comes primarily from the ordered HTML workflow.
+2. Only after the conversion is complete, read all included primary papers,
+   protocols, supplements, tables/spreadsheets, figures/diagrams, and
+   deterministic renditions. Verify the candidate against those sources.
+3. Read optional benchmark-run artifacts only for error attribution.
 
-- legacy `scg_lib_structs` HTML and included assets;
-- current T1, T2, and T3 records;
-- the protocol-only projection of `groundtruth_oligos.tsv`;
-- optional benchmark-run artifacts for error attribution.
+The worker must not use online search, remembered kits, prior agent answers, or
+review memory. Primary-source findings may propose changes but must not be
+silently folded into the legacy-derived conversion.
 
 Legacy and current curation establish the value being checked, not scientific
 correctness. TSV projections retain original row numbers and the full-file
-hash. Every included primary source appears once in the coverage ledger. An
-unreadable source blocks comparison until a human repairs or reclassifies it.
+hash. Every included primary source appears once in the proposal's coverage
+ledger. The coverage ledger is primary-only: legacy HTML, current
+records, TSV projections, renditions, and benchmark-run artifacts are not
+separate coverage entries. An unreadable source blocks review until its input
+is repaired.
 
 ## Extraction
 
@@ -39,7 +46,7 @@ unreadable source blocks comparison until a human repairs or reclassifies it.
   selection, pooling, washing, QC, quantification, dilution, routine reagent
   addition, incubation, quenching, and protein inactivation into the nearest
   substantive transition's operation detail and major reagents. Preserve its
-  supporting details and locators in the audit evidence artifact rather than
+  supporting details and locators in the audit proposal rather than
   copying them into cleaned T3.
 - Use a separate non-sequence state or transition only when it is essential to
   represent a distinct workflow branch or a carried molecular product needed
@@ -81,8 +88,10 @@ unreadable source blocks comparison until a human repairs or reclassifies it.
   `unknown` relative to the source oligo.
 - For every T3 final state matched to T1, prefer a complete
   `sequence_architecture` on its identified reference strand, copied exactly
-  from the matching T1 annotated or plain library sequence. That strand's T3
-  segment annotations may remain simpler than T1. When the complete
+  from the matching T1 `library_sequence`. T1 has no separate
+  `annotated_library_sequence`; its one canonical sequence retains biological
+  insert locations with placeholders such as `[CDNA]`. That strand's T3 segment
+  annotations may remain simpler than T1. When the complete
   architecture is absent, its ordered segment representation must match T1
   exactly. Matching is a unique one-to-one assignment by reference-strand
   structure and protocol scope; do not store T1 library IDs or a separate link
@@ -101,3 +110,15 @@ Each T1–T3 field is `verified_no_change`, `proposed_correction`,
 `missing_source_evidence`, `ambiguous`, or `external_knowledge_required`.
 Every non-verified status is preserved as a human-review issue. Only an exact
 `proposed_correction` may carry a ground-truth patch.
+
+The field ledger and issue list are reciprocal. Every issue is referenced by
+the `issue_ids` array of its audited field, every ledger issue ID resolves, and
+the union of ledger IDs equals the set of proposal issue IDs. A
+`verified_no_change` field has no issue IDs.
+
+Linked T1, T2, and T3 candidates use a coherent scope. Root-level
+`protocol_scope` values, when present, have identical `protocol_version` and
+`applicable_variants`; child scopes may narrow but not widen their parent, and
+linked object scopes overlap. A legacy page that covers a protocol family does
+not justify widening only one task artifact; preserve the audited protocol's
+scope and report the family/version ambiguity for review.

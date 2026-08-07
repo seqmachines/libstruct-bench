@@ -46,7 +46,6 @@ def _t1(sequence: str = "AAA") -> dict:
                 "protocol_scope": _scope(),
                 "final_molecule": "DNA",
                 "library_sequence": sequence,
-                "annotated_library_sequence": sequence,
                 "strand": "single",
                 "orientation": "5_to_3",
                 "segments": [
@@ -154,7 +153,6 @@ def _proposal(baseline_sha: str, *, new_t3: dict | None = None) -> dict:
         if new_t3 is not None
         else [
             {"op": "replace", "path": "/libraries/0/library_sequence", "value": "CCC"},
-            {"op": "replace", "path": "/libraries/0/annotated_library_sequence", "value": "CCC"},
             {"op": "replace", "path": "/libraries/0/segments/0/sequence", "value": "CCC"},
         ]
     )
@@ -164,10 +162,16 @@ def _proposal(baseline_sha: str, *, new_t3: dict | None = None) -> dict:
         "protocol_id": "example_protocol",
         "packet_sha256": "5" * 64,
         "input_manifest_sha256": "6" * 64,
-        "evidence_id": "example_protocol:evidence:evidence-001",
-        "evidence_sha256": "7" * 64,
         "baseline_artifacts": [{"source_id": "current:t1", "sha256": baseline_sha}],
         "run": _run(),
+        "source_coverage": [
+            {
+                "source_id": "primary:paper",
+                "status": "reviewed",
+                "tasks": ["T1", "T2", "T3"],
+                "portions_reviewed": [{"page": 1}],
+            }
+        ],
         "disposition": "issues_proposed",
         "summary": "One field needs human review.",
         "audited_fields": [

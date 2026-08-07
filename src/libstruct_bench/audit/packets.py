@@ -16,13 +16,19 @@ from .artifacts import canonical_json_bytes, sha256_file
 
 
 MATERIALIZATION_MODES = ("copy", "symlink")
-PACKET_PHASES = ("evidence", "comparison")
+PACKET_PHASES = ("comparison",)
 _RENDITION_MEDIA_TYPES = {
     "application/pdf",
     "application/msword",
     "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
     "application/vnd.ms-excel",
     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+}
+_COMPARISON_ROLE_ORDER = {
+    "legacy_curated_html": 0,
+    "current_benchmark_record": 1,
+    "primary_evidence": 2,
+    "benchmark_run_artifact": 3,
 }
 
 
@@ -75,13 +81,12 @@ def build_phase_packet(
     manifest_schema_path: Path,
     packet_schema_path: Path,
     phase: str,
-    evidence_artifact_path: Path | None = None,
     run_artifact_dir: Path | None = None,
     rendition_bundle_dir: Path | None = None,
     rendition_schema_path: Path | None = None,
     mode: str = "copy",
 ) -> PhasePacketResult:
-    """Materialize an isolated primary-evidence or comparison packet."""
+    """Materialize one conversion-first comparison packet."""
 
     if phase not in PACKET_PHASES:
         raise PacketError(f"phase must be one of: {', '.join(PACKET_PHASES)}")
@@ -125,22 +130,16 @@ def build_phase_packet(
             "with the automatic availability policy: " + ", ".join(pending)
         )
 
-    if phase == "comparison":
-        if evidence_artifact_path is None:
-            raise PacketError("comparison phase requires --evidence-artifact")
-        evidence_artifact_path = _required_file(
-            evidence_artifact_path, "frozen evidence artifact"
-        )
-    elif evidence_artifact_path is not None:
-        raise PacketError("evidence phase must not receive a frozen evidence artifact")
-
     protocol_id = manifest["protocol_id"]
-    selected_sources = [
-        source
-        for source in manifest["sources"]
-        if source["approval_status"] == "included"
-        and _source_in_phase(source, phase)
-    ]
+    selected_sources = sorted(
+        (
+            source
+            for source in manifest["sources"]
+            if source["approval_status"] == "included"
+            and _source_in_phase(source, phase)
+        ),
+        key=lambda item: (_COMPARISON_ROLE_ORDER[item["role"]], item["path"]),
+    )
     planned_files = _plan_phase_files(
         sources=selected_sources,
         source_dataset_dir=source_dataset_dir,
@@ -196,13 +195,8 @@ def build_phase_packet(
     }
     projected_bytes = canonical_json_bytes(projected_manifest)
     projected_sha = hashlib.sha256(projected_bytes).hexdigest()
-    evidence_sha = (
-        sha256_file(evidence_artifact_path)
-        if evidence_artifact_path is not None
-        else None
-    )
     identity = hashlib.sha256(
-        f"{source_manifest_sha}:{phase}:{evidence_sha or ''}".encode("utf-8")
+        f"{source_manifest_sha}:{phase}".encode("utf-8")
     ).hexdigest()
     packet_document: dict[str, Any] = {
         "packet_id": f"{protocol_id}:{phase}-packet:{identity[:16]}",
@@ -231,11 +225,6 @@ def build_phase_packet(
             for planned in planned_files
         ],
     }
-    if evidence_sha is not None:
-        packet_document["frozen_evidence"] = {
-            "path": "frozen_evidence/evidence.json",
-            "sha256": evidence_sha,
-        }
     if planned_renditions:
         packet_document["renditions"] = [
             {
@@ -289,13 +278,6 @@ def build_phase_packet(
                 raise PacketError(
                     f"rendition changed while materializing {planned.artifact_id}"
                 )
-        if evidence_artifact_path is not None:
-            evidence_destination = temporary_dir / "frozen_evidence" / "evidence.json"
-            evidence_destination.parent.mkdir()
-            shutil.copyfile(evidence_artifact_path, evidence_destination)
-            evidence_destination.chmod(0o444)
-            if sha256_file(evidence_destination) != evidence_sha:
-                raise PacketError("frozen evidence changed while materializing packet")
         packet_path = temporary_dir / "packet.json"
         _write_json(packet_path, packet_document)
         packet_path.chmod(0o444)
@@ -314,10 +296,10 @@ def build_phase_packet(
 
 
 def _source_in_phase(source: dict[str, Any], phase: str) -> bool:
-    role = source["role"]
-    if phase == "evidence":
-        return role == "primary_evidence"
-    return role in {
+    if phase != "comparison":
+        return False
+    return source["role"] in {
+        "primary_evidence",
         "legacy_curated_html",
         "current_benchmark_record",
         "benchmark_run_artifact",
@@ -334,14 +316,9 @@ def _plan_phase_files(
     source_ids: set[str] = set()
     role_counts: dict[str, int] = {}
     planned: list[_PlannedFile] = []
-    role_order = {
-        "primary_evidence": 0,
-        "legacy_curated_html": 1,
-        "current_benchmark_record": 2,
-        "benchmark_run_artifact": 3,
-    }
     for source in sorted(
-        sources, key=lambda item: (role_order[item["role"]], item["path"])
+        sources,
+        key=lambda item: (_COMPARISON_ROLE_ORDER[item["role"]], item["path"]),
     ):
         source_id = source["source_id"]
         if source_id in source_ids:

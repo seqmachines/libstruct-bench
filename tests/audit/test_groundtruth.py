@@ -33,7 +33,6 @@ def _documents() -> dict[str, dict]:
                 "protocol_scope": _scope(),
                 "final_molecule": "DNA",
                 "library_sequence": "AAA",
-                "annotated_library_sequence": "AAA",
                 "strand": "single",
                 "orientation": "5_to_3",
                 "segments": [
@@ -294,6 +293,7 @@ def test_protocol_scope_is_optional_and_inherited() -> None:
         ("T1", ("libraries", 0), "ground_truth_status", "included"),
         ("T1", ("libraries", 0), "library_id", "library"),
         ("T1", ("libraries", 0), "strands", []),
+        ("T1", ("libraries", 0), "annotated_library_sequence", "AAA"),
         ("T2", (), "limitations", []),
         ("T2", ("oligos", 0), "baseline_lineage", []),
         ("T2", ("oligos", 0), "evidence", []),
@@ -365,6 +365,50 @@ def test_t2_rejects_redundant_source_name_fields() -> None:
             protocol_id="example_protocol",
             schema_dir=SCHEMAS,
         )
+
+
+def test_t2_components_are_ordered_inline_without_ids() -> None:
+    document = _documents()["T2"]
+    component = {
+        "name": "Adapter segment",
+        "role": "adapter",
+        "sequence": "AAA",
+        "orientation": "5_to_3",
+        "modifications": [],
+        "support_status": "explicit",
+    }
+    document["oligos"][0]["components"] = [component]
+    validate_task_document(
+        "T2",
+        document,
+        protocol_id="example_protocol",
+        schema_dir=SCHEMAS,
+    )
+
+    component["component_id"] = "removed-component-id"
+    with pytest.raises(GroundtruthValidationError, match="component_id"):
+        validate_task_document(
+            "T2",
+            document,
+            protocol_id="example_protocol",
+            schema_dir=SCHEMAS,
+        )
+
+
+def test_t1_single_sequence_retains_biological_insert_and_links_to_t3() -> None:
+    documents = _documents()
+    library = documents["T1"]["libraries"][0]
+    library["library_sequence"] = "AAA[CDNA]"
+    final_strand = documents["T3"]["workflows"][0]["states"][1]["strands"][0]
+    final_strand["sequence_architecture"] = "AAA[CDNA]"
+
+    validate_task_document(
+        "T1",
+        documents["T1"],
+        protocol_id="example_protocol",
+        schema_dir=SCHEMAS,
+    )
+    validate_cross_task_links(documents)
 
 
 def test_t3_requires_explicit_five_to_three_strands() -> None:
@@ -542,7 +586,6 @@ def test_placeholder_roles_cannot_encode_orientation(task: str) -> None:
         segment["placeholder"] = "[TN5_INDEX_RC:8]"
     elif task == "T2":
         component = {
-            "component_id": "index-component",
             "name": "Tn5 index",
             "role": "tn5_index",
             "placeholder": "[TN5_INDEX_RC:8]",
@@ -575,7 +618,6 @@ def test_canonical_placeholder_roles_are_valid(task: str) -> None:
         )
     elif task == "T2":
         component = {
-            "component_id": "index-component",
             "name": "Tn5 index",
             "role": "tn5_index",
             "placeholder": "[TN5_INDEX:8]",
@@ -653,7 +695,6 @@ def test_terminal_state_must_match_t1() -> None:
 def _add_second_library_and_terminal_state(documents: dict[str, dict]) -> None:
     library = copy.deepcopy(documents["T1"]["libraries"][0])
     library["library_sequence"] = "CCC"
-    library["annotated_library_sequence"] = "CCC"
     library["segments"][0]["segment_id"] = "library-adapter-2"
     library["segments"][0]["sequence"] = "CCC"
     library["segments"][0]["oligo_derivations"] = []
@@ -688,7 +729,6 @@ def test_terminal_matching_rejects_ambiguous_duplicate_libraries() -> None:
     _add_second_library_and_terminal_state(documents)
     second_library = documents["T1"]["libraries"][1]
     second_library["library_sequence"] = "AAA"
-    second_library["annotated_library_sequence"] = "AAA"
     documents["T3"]["workflows"][0]["states"][2]["strands"][0][
         "sequence_architecture"
     ] = "AAA"

@@ -13,13 +13,11 @@ AUDIT_SCHEMAS = REPO_ROOT / "schemas" / "audit"
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
-        description="Run one bounded, read-only Claude audit phase."
+        description="Run one bounded, read-only Claude conversion and comparison."
     )
     parser.add_argument("--packet", type=Path, required=True)
     parser.add_argument("--out", type=Path, required=True)
-    parser.add_argument(
-        "--phase", choices=("evidence", "comparison"), required=True
-    )
+    parser.add_argument("--phase", choices=("comparison",), default="comparison")
     parser.add_argument("--model", required=True, help="full immutable Claude model ID")
     parser.add_argument("--run-id", required=True)
     parser.add_argument("--effort", choices=("low", "medium", "high", "xhigh", "max"), default="high")
@@ -40,14 +38,8 @@ def main(argv: list[str] | None = None) -> int:
         default=AUDIT_SCHEMAS / "audit_packet.schema.json",
     )
     args = parser.parse_args(argv)
-    schema = args.schema or AUDIT_SCHEMAS / {
-        "evidence": "protocol_evidence.schema.json",
-        "comparison": "protocol_audit.schema.json",
-    }[args.phase]
-    prompt = args.prompt or REPO_ROOT / ".claude" / "prompts" / {
-        "evidence": "audit-evidence.md",
-        "comparison": "audit-comparison.md",
-    }[args.phase]
+    schema = args.schema or AUDIT_SCHEMAS / "protocol_audit.schema.json"
+    prompt = args.prompt or REPO_ROOT / ".claude" / "prompts" / "audit-comparison.md"
     policies = args.policy or [
         REPO_ROOT / "docs" / "audit" / "evidence-policy.md",
         REPO_ROOT / "docs" / "audit" / "benchmark-standardization-policy.md",

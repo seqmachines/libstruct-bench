@@ -172,12 +172,12 @@ def test_spreadsheet_rendition_is_content_addressed_and_packet_visible(
         manifest_path=manifest,
         source_dataset_dir=source_root,
         groundtruth_dataset_dir=groundtruth_root,
-        output_dir=tmp_path / "evidence-packet",
+        output_dir=tmp_path / "comparison-packet",
         manifest_schema_path=MANIFEST_SCHEMA,
         packet_schema_path=PACKET_SCHEMA,
         rendition_bundle_dir=result.output_dir,
         rendition_schema_path=RENDITION_SCHEMA,
-        phase="evidence",
+        phase="comparison",
     )
     metadata = json.loads(packet.packet_path.read_text(encoding="utf-8"))
     assert packet.rendition_count == 1
@@ -192,10 +192,10 @@ def test_document_packet_is_blocked_without_renditions(tmp_path: Path) -> None:
             manifest_path=manifest,
             source_dataset_dir=source_root,
             groundtruth_dataset_dir=groundtruth_root,
-            output_dir=tmp_path / "evidence-packet",
+            output_dir=tmp_path / "comparison-packet",
             manifest_schema_path=MANIFEST_SCHEMA,
             packet_schema_path=PACKET_SCHEMA,
-            phase="evidence",
+            phase="comparison",
         )
 
 
@@ -217,12 +217,12 @@ def test_packet_rejects_renditions_from_a_stale_manifest(tmp_path: Path) -> None
             manifest_path=manifest,
             source_dataset_dir=source_root,
             groundtruth_dataset_dir=groundtruth_root,
-            output_dir=tmp_path / "evidence-packet",
+            output_dir=tmp_path / "comparison-packet",
             manifest_schema_path=MANIFEST_SCHEMA,
             packet_schema_path=PACKET_SCHEMA,
             rendition_bundle_dir=result.output_dir,
             rendition_schema_path=RENDITION_SCHEMA,
-            phase="evidence",
+            phase="comparison",
         )
 
 

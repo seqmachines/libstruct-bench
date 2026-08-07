@@ -2,7 +2,7 @@
  "$schema": "https://json-schema.org/draft/2020-12/schema",
  "$id": "https://seqmachines.org/schemas/libstruct/audit_input_manifest.schema.json",
  "title": "Ground-truth audit input manifest",
- "description": "A phase-gated, content-addressed manifest that includes available files and retains missing files as unavailable provenance.",
+ "description": "A content-addressed audit manifest that includes available files and retains missing files as unavailable provenance.",
  "type": "object",
  "additionalProperties": false,
  "required": [

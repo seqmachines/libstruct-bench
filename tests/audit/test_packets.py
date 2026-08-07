@@ -71,7 +71,6 @@ def _fixture(tmp_path: Path) -> tuple[Path, Path, Path, Path]:
                     {
                         "modality": "test",
                         "library_sequence": "A",
-                        "annotated_library_sequence": "A",
                         "strand": "single",
                         "orientation": "5_to_3",
                         "support_status": "explicit",
@@ -120,39 +119,12 @@ def _fixture(tmp_path: Path) -> tuple[Path, Path, Path, Path]:
     }
     manifest_path = tmp_path / "manifest.json"
     manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
-    evidence = tmp_path / "evidence.json"
-    evidence.write_text(json.dumps({"evidence_id": "example:evidence:run"}), encoding="utf-8")
     return manifest_path, source_root, groundtruth_root, run_root
 
 
-def _build(tmp_path: Path, *, phase: str, evidence: Path | None = None):
+def _build(tmp_path: Path):
     manifest, source_root, groundtruth_root, run_root = _fixture(tmp_path)
     return build_phase_packet(
-        manifest_path=manifest,
-        source_dataset_dir=source_root,
-        groundtruth_dataset_dir=groundtruth_root,
-        run_artifact_dir=run_root,
-        output_dir=tmp_path / f"{phase}-packet",
-        manifest_schema_path=AUDIT_SCHEMAS / "audit_input_manifest.schema.json",
-        packet_schema_path=AUDIT_SCHEMAS / "audit_packet.schema.json",
-        phase=phase,
-        evidence_artifact_path=evidence,
-    )
-
-
-def test_evidence_packet_is_primary_only(tmp_path: Path) -> None:
-    result = _build(tmp_path, phase="evidence")
-    packet = json.loads(result.packet_path.read_text())
-    assert "schema_version" not in packet
-    assert {item["role"] for item in packet["files"]} == {"primary_evidence"}
-    assert not (result.output_dir / "legacy_curated_html").exists()
-    assert not (result.output_dir / "current_benchmark_record").exists()
-
-
-def test_comparison_freezes_evidence_and_includes_all_comparison_inputs(tmp_path: Path) -> None:
-    manifest, source_root, groundtruth_root, run_root = _fixture(tmp_path)
-    evidence = tmp_path / "evidence.json"
-    result = build_phase_packet(
         manifest_path=manifest,
         source_dataset_dir=source_root,
         groundtruth_dataset_dir=groundtruth_root,
@@ -161,14 +133,27 @@ def test_comparison_freezes_evidence_and_includes_all_comparison_inputs(tmp_path
         manifest_schema_path=AUDIT_SCHEMAS / "audit_input_manifest.schema.json",
         packet_schema_path=AUDIT_SCHEMAS / "audit_packet.schema.json",
         phase="comparison",
-        evidence_artifact_path=evidence,
     )
+
+
+def test_comparison_packet_contains_conversion_and_primary_inputs(tmp_path: Path) -> None:
+    result = _build(tmp_path)
     packet = json.loads(result.packet_path.read_text())
+    assert "schema_version" not in packet
     assert {item["role"] for item in packet["files"]} == {
-        "legacy_curated_html", "current_benchmark_record", "benchmark_run_artifact"
+        "primary_evidence",
+        "legacy_curated_html",
+        "current_benchmark_record",
+        "benchmark_run_artifact",
     }
-    assert "primary_evidence" not in {item["role"] for item in packet["files"]}
-    assert (result.output_dir / packet["frozen_evidence"]["path"]).read_bytes() == evidence.read_bytes()
+    roles = [item["role"] for item in packet["files"]]
+    assert roles[0] == "legacy_curated_html"
+    assert roles.index("primary_evidence") > max(
+        index
+        for index, role in enumerate(roles)
+        if role == "current_benchmark_record"
+    )
+    assert "frozen_evidence" not in packet
     projected_tsv = next(item for item in packet["files"] if item["source_kind"] == "oligo_tsv_baseline")
     assert "other" not in (result.output_dir / projected_tsv["path"]).read_text()
     assert "source_row_number" in (result.output_dir / projected_tsv["path"]).read_text()
@@ -176,8 +161,7 @@ def test_comparison_freezes_evidence_and_includes_all_comparison_inputs(tmp_path
 
 def test_comparison_packet_can_share_dataset_root_with_oligo_tsv(tmp_path: Path) -> None:
     manifest, source_root, groundtruth_root, run_root = _fixture(tmp_path)
-    evidence = tmp_path / "evidence.json"
-    output_dir = groundtruth_root / "ground_truth_audit/pilot/packets/example/comparison"
+    output_dir = groundtruth_root / "ground_truth_audit/packets/example/comparison"
 
     result = build_phase_packet(
         manifest_path=manifest,
@@ -188,16 +172,10 @@ def test_comparison_packet_can_share_dataset_root_with_oligo_tsv(tmp_path: Path)
         manifest_schema_path=AUDIT_SCHEMAS / "audit_input_manifest.schema.json",
         packet_schema_path=AUDIT_SCHEMAS / "audit_packet.schema.json",
         phase="comparison",
-        evidence_artifact_path=evidence,
     )
 
     assert result.output_dir == output_dir
     assert (output_dir / "packet.json").is_file()
-
-
-def test_comparison_requires_frozen_evidence(tmp_path: Path) -> None:
-    with pytest.raises(PacketError, match="requires --evidence-artifact"):
-        _build(tmp_path, phase="comparison")
 
 
 def test_packet_rejects_stale_source_hash(tmp_path: Path) -> None:
@@ -212,5 +190,5 @@ def test_packet_rejects_stale_source_hash(tmp_path: Path) -> None:
             output_dir=tmp_path / "packet",
             manifest_schema_path=AUDIT_SCHEMAS / "audit_input_manifest.schema.json",
             packet_schema_path=AUDIT_SCHEMAS / "audit_packet.schema.json",
-            phase="evidence",
+            phase="comparison",
         )

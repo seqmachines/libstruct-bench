@@ -166,7 +166,6 @@ def validate_cross_task_links(documents: Mapping[str, dict[str, Any]]) -> None:
                         )
 
     if t2 is not None:
-        component_ids: set[str] = set()
         for oligo in t2["oligos"]:
             oligo_scope = _resolved_scope(oligo, document_scope)
             _validate_child_scope(
@@ -174,12 +173,11 @@ def validate_cross_task_links(documents: Mapping[str, dict[str, Any]]) -> None:
                 document_scope,
                 f"T2 oligo {oligo['oligo_id']}",
             )
-            for component in oligo["components"]:
-                _add_unique(component_ids, component["component_id"], "T2 component")
+            for component_index, component in enumerate(oligo["components"]):
                 _validate_child_scope(
                     component.get("protocol_scope"),
                     oligo_scope,
-                    f"T2 component {component['component_id']}",
+                    f"T2 oligo {oligo['oligo_id']} component at index {component_index}",
                 )
 
     if t3 is None:
@@ -373,14 +371,7 @@ def _preflight_cross_task_shape(
             label = f"T2 oligo at index {index}"
             oligo_id = _required_field(oligo, "oligo_id", label)
             label = f"T2 oligo {oligo_id}"
-            for component_index, component in enumerate(
-                _required_list(oligo, "components", label)
-            ):
-                _required_field(
-                    component,
-                    "component_id",
-                    f"{label} component at index {component_index}",
-                )
+            _required_list(oligo, "components", label)
 
     t3 = documents.get("T3")
     if t3 is not None:
@@ -961,14 +952,7 @@ def _terminal_library_error(
     ):
         return "reference-strand orientation differs"
     architecture = reference_strand.get("sequence_architecture")
-    expected = {
-        value
-        for value in (
-            library.get("library_sequence"),
-            library.get("annotated_library_sequence"),
-        )
-        if isinstance(value, str)
-    }
+    expected = {library["library_sequence"]}
     if isinstance(architecture, str):
         if architecture not in expected:
             return "sequence architecture differs"

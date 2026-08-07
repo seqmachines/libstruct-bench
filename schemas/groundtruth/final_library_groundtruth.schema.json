@@ -67,13 +67,16 @@
     "library": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["modality", "library_sequence", "annotated_library_sequence", "strand", "orientation", "support_status", "segments"],
+      "required": ["modality", "library_sequence", "strand", "orientation", "support_status", "segments"],
       "properties": {
         "modality": {"type": "string", "minLength": 1},
         "protocol_scope": {"$ref": "#/$defs/protocol_scope"},
         "final_molecule": {"type": ["string", "null"], "minLength": 1},
-        "library_sequence": {"type": "string", "minLength": 1},
-        "annotated_library_sequence": {"type": "string", "minLength": 1},
+        "library_sequence": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Canonical reference-strand architecture. Retain biological insert locations with placeholders such as [CDNA]; benchmark scoring projections are derived separately."
+        },
         "strand": {"type": "string", "enum": ["top", "bottom", "single", "duplex", "unknown"]},
         "orientation": {"type": "string", "enum": ["5_to_3", "3_to_5", "unknown"]},
         "segments": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/segment"}},

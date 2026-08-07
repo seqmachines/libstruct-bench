@@ -16,8 +16,8 @@ hooks:
 
 - `/audit-protocol <protocol_id>` audits one protocol.
 - `/audit-protocol <id1> ... <id10>` prepares up to ten protocols concurrently.
-- When the system prompt declares `PHASE: evidence` or `PHASE: comparison`,
-  act only as that read-only worker.
+- When the system prompt declares `PHASE: comparison`, act only as the
+  conversion-first, read-only worker.
 - Otherwise act as the interactive controller and keep commands/details out of
   the console unless they are needed to resolve a blocker.
 
@@ -56,32 +56,32 @@ for a typed reply. The stop hook will return control with an instruction to call
 the tool if this contract is missed; on that continuation, call
 `AskUserQuestion` immediately without repeating the card.
 
-1. Read `CLAUDE.md` and `docs/audit/`. Reuse valid immutable artifacts.
-   Reuse frozen evidence only when it validates against the current canonical
-   evidence schema and its recorded schema hash matches. Otherwise preserve it
-   as history and rerun the isolated evidence phase before comparison.
-   Do not reuse a comparison proposal for application when a current baseline
+1. Read `CLAUDE.md` and `docs/audit/`. Reuse valid immutable proposals only
+   when their manifest, packet, baselines, schemas, prompt, and policy hashes
+   still match. Do not reuse a comparison proposal for application when a current baseline
    is legacy-shaped and the proposal lacks its canonical root conversion.
-   Preserve that proposal and decision as history, reuse the frozen evidence,
-   and create a fresh comparison run and review iteration.
+   Preserve that proposal and decision as history and create a fresh
+   conversion-first comparison run and review iteration.
 2. Use `/Users/seqmachines/playground/protocols-test` as the data root,
    `ground_truth_audit/` for private audit history, and `ground_truth/` for
-   human-approved records. Never modify `scg-v1-upload` or upload audit data.
+   human-approved records. Write manifests, renditions, packets, runs, reviews,
+   applications, and promotions directly under their corresponding
+   `ground_truth_audit/<kind>/` directories. Do not create or reuse a `pilot/`
+   namespace for active work; `archive/` is history only. Never modify
+   `scg-v1-upload` or upload audit data.
 3. Catalog sources without a human gate. Include every discovered file that is
    present and hashable. Mark every missing file `unavailable`, retain it in the
    catalog/manifest for provenance, and exclude it from phase packets. When an
    archived catalog contains `pending` statuses, let the manifest builder
    resolve them by availability instead of asking the human.
 4. For each approved protocol:
-   - inspect current T1/T2/T3 records against the canonical schemas and require
-     one reviewed root conversion for every legacy-shaped record;
    - create deterministic renditions;
-   - run primary-evidence extraction in an isolated packet;
-   - freeze and validate the evidence;
-   - build a comparison packet containing the frozen evidence, legacy HTML,
-     current T1/T2/T3 records, reviewed TSV projection, and optional run
+   - build one packet containing legacy HTML, current T1/T2/T3 records, the
+     reviewed TSV projection, primary sources and renditions, and optional run
      artifacts;
-   - run comparison and stop with a validated proposal.
+   - run one comparison worker. It must finish the canonical legacy conversion
+     before reading primary sources, then validate that candidate against them;
+   - stop with one validated proposal.
 5. Keep packets and runs immutable and hash-pinned. Workers are read-only. If
    invoking a nested Claude process, use `env -u CLAUDECODE`.
    A completed worker run that fails validation is retained beside its intended
@@ -129,18 +129,34 @@ the tool if this contract is missed; on that continuation, call
     issues are decided. Build one final document from the conversion candidate
     and those explicit decisions, using the current T3 granularity policy.
     Validate it against the canonical task schema. Do not treat accepted delta
-    prose as an independently applicable patch. Keep frozen primary
-    locators in the audit proposal and decision; cleaned T1–T3 must not contain
+    prose as an independently applicable patch. Keep primary-source locators
+    in the audit proposal and decision; cleaned T1–T3 must not contain
     evidence, lineage, review status, or audit notes.
     Every T3 state must use a controlled `strand_architecture`, contain each
     physical strand explicitly in its own 5′→3′ direction, and identify its
     `reference_strand_id`. A terminal state's reference strand should carry
-    `sequence_architecture` exactly matching a T1 annotated or plain
-    library sequence. Its optional segment annotations may be simpler than T1
+    `sequence_architecture` exactly matching the single canonical T1
+    `library_sequence`. Keep biological insert placeholders in that T1 sequence;
+    do not emit `annotated_library_sequence` or a benchmark scoring projection.
+    T2 components are ordered inline descriptions and must not carry
+    `component_id`. Optional T3 segment annotations may be simpler than T1
     and must not be expanded merely to duplicate T1. If the complete
     architecture is omitted, exact ordered segment identity is the validation
     fallback. Match terminal states and T1 libraries one-to-one; do not create
     T1 library IDs or `final_library_links`.
+    Before asking for any final T3 root decision or scientific approval, the
+    controller must directly open the immutable packet's primary PDFs,
+    supplementary tables/spreadsheets, and relevant figures or renditions. Do
+    not rely only on the comparison worker's summary, proposal prose,
+    transcript, or cited locators. For every T3 state and transition, fact-check
+    the substrate/current molecular state, operation, T2 oligos and major
+    reagents, products, carried-forward product, strand architecture, and
+    sequence change against exact primary-source locations. Show a concise
+    console table with one row per state or transition and status `verified`,
+    `conflict`, `missing`, or `ambiguous`. A material conflict or missing
+    support is a review blocker: present it to the human and keep the review
+    working until it is explicitly resolved; never silently change the
+    candidate. Only then may the controller open the final approval selector.
 12. After every proposal issue has a recorded decision, show one concise
     combined summary of the final T1–T3 candidates and dispositions. Use one
     `AskUserQuestion` call to approve any complete root decisions and confirm
@@ -148,114 +164,54 @@ the tool if this contract is missed; on that continuation, call
     the same working candidate, then return to this final question; do not open
     another iteration. Only after approval mark the decision final and save it
     immutably. Do not apply or promote merely because the walkthrough ended.
-13. After explicit human authorization to apply, generate a fresh preview from
-    pinned baselines, apply accepted patches deterministically, validate linked
-    T1–T3, run correction regressions, and promote the three canonical files
-    without overwriting an approved protocol directory. Obtain the application
-    authorization with `AskUserQuestion`.
+13. Treat every finalized decision without a corresponding approved
+    `ground_truth/<protocol_id>/` directory as finalized but unpromoted. On
+    controller start or resume, detect that state and do not rerun its review.
+    For a single protocol, immediately after finalization print the exact
+    protocol and destination, append
+    `<!-- audit-application-question-required -->`, and call `AskUserQuestion`
+    with two choices: apply and promote now, or leave the finalized review
+    unapplied. In batch mode, retain each finalized protocol in an unpromoted
+    queue, finish the remaining human reviews, then show the exact queued
+    protocol IDs and ask one grouped application question with the same two
+    choices. Do not stop at a finalization recap or silently move past the
+    application gate once the selected review queue is complete.
+14. Only an explicit apply-and-promote answer authorizes the deterministic
+    action. Generate fresh candidates from the pinned baselines, verify proposal
+    and decision hashes, apply accepted patches, validate linked T1–T3, run
+    correction regressions, and promote each successful protocol's three files
+    to `/Users/seqmachines/playground/protocols-test/ground_truth/<protocol_id>/`.
+    Keep application and promotion logs under `ground_truth_audit/`, isolate a
+    failure in one batch protocol, and never overwrite an existing approved
+    protocol directory. A leave-unapplied answer preserves the finalized review
+    and performs no application or promotion.
 
 ## Batch mode
 
 1. Build the availability-resolved manifest for each protocol before starting
    its worker. Do not stop for source approval.
 2. Launch at most ten protocol-scoped workers concurrently. Each worker owns
-   only its protocol audit directory and runs evidence then comparison.
+   only its protocol audit directory and runs one conversion-first comparison.
 3. A worker stops after its validated proposal. It cannot adjudicate, apply,
    promote, publish, or edit another protocol.
 4. Isolate failures. Keep completed proposals when another protocol blocks.
 5. Sort the review queue by protocol ID and severity. Human review happens
    later, one protocol and one issue at a time, using the interactive controller
-   rules above.
-
-## Evidence worker
-
-- Read every included primary paper, protocol, supplement, spreadsheet, table,
-  figure, diagram, and rendition completely. Account for every included source
-  once. Never infer content from entries marked unavailable.
-- Do not use legacy curation, current ground truth, prior answers, web search,
-  remembered kits, or review memory.
-- Review T2 and T3 chronologically. Register each oligo on first appearance,
-  then reference its T2 ID from T3 transitions.
-- Model T3 as the smallest scientifically sufficient molecular graph. Create
-  states and transitions primarily for sequence architecture or strand
-  structure changes. When neither changes, fold cleanup, purification, size
-  selection, pooling, washing, QC, quantification, dilution, routine reagent
-  handling, and inactivation into the nearest substantive transition's
-  operation detail and major reagents; retain source details in the audit
-  evidence artifact. Add a separate
-  non-sequence node only when a distinct branch or carried molecular product is
-  essential downstream, and explain why. Keep only scientifically important
-  products and dead ends;
-  represent PCR cycling as one transition; do not create a transition for a
-  display-only paragraph or figure.
-- States represent meaningful carried-forward products, not transient reaction
-  complexes. For template switching, model the pre-switch state as an
-  mRNA:cDNA hybrid with exactly two logical strands, one RNA and one DNA. Put
-  the template-switch oligo in the template-switching transition's `oligo_ids`
-  and represent the product as cDNA containing the incorporated TSO-derived
-  sequence. Do not create a persistent third TSO strand unless a packet-listed
-  source explicitly establishes that the three-strand complex is carried
-  forward.
-- Do not assume a product is single- or double-stranded. For every state,
-  choose `single_stranded`, `double_stranded`, `partially_duplex`,
-  `rna_dna_hybrid`, `y_shaped_duplex`, `mixed_population`, or `unknown` from
-  the source evidence. Represent one strand for a single-stranded state and
-  both strands for a duplex, each written independently 5′→3′ with its segments
-  in that order. Identify the reference strand corresponding to T1; split
-  segments at pairing boundaries and list each paired side 5′→3′;
-  preserve paired regions, overhangs, internal unpaired regions, nicks, gaps,
-  and RNA/DNA strand identity. Explicit paired sequences must be reverse
-  complements unless the source documents noncanonical or unknown pairing.
-- Before returning evidence, preflight every state against
-  `validate_molecular_state_architecture` in `groundtruth.py` and repair
-  representation or bookkeeping inconsistencies:
-  - strand IDs and state-wide segment IDs are unique, `reference_strand_id`
-    resolves, and every strand is written `5_to_3`;
-  - `single_stranded` has exactly one strand and no paired region;
-    `double_stranded` has exactly two strands, a paired region, and no unpaired
-    segment; `partially_duplex` has at least two strands, a paired region, and
-    at least one unpaired segment; `rna_dna_hybrid` has exactly two logical
-    strands, one RNA and one DNA, plus a paired region; and `y_shaped_duplex`
-    has exactly two logical strands, a paired region, and an unpaired arm on
-    both strands. Pairing declared for `mixed_population` or `unknown` still
-    obeys the reference and ordering rules;
-  - paired-region and discontinuity IDs are unique. Each pairing side resolves
-    to a different known strand and lists nonempty, contiguous segment IDs in
-    that strand's 5′→3′ order. Except for `mixed_population`, a segment may not
-    appear in more than one paired region;
-  - every segment labeled `paired_region` appears in `paired_regions`, and a
-    segment absent from `paired_regions` is not labeled `paired_region`.
-    Preserve genuinely unpaired random-primer, SMART, overhang, linker, and
-    adapter regions with an unpaired structural role; never invent a pairing
-    merely to pass validation. A declared paired side contains only
-    `paired_region`, `mixed`, or `unknown` segments;
-  - an explicit `reverse_complementary` relationship must be
-    reverse-complementary; preserve supported `documented_noncanonical` or
-    `unknown` pairing instead of changing source sequence; and
-  - every discontinuity references adjacent segments on its declared strand in
-    5′→3′ order.
-  Do not change scientifically supported sequence, strand identity, or pairing
-  merely to satisfy the validator.
-- Keep variable-region placeholder roles biological and orientation-free. Use
-  canonical `[ROLE:LENGTH]` placeholders such as `[I5_INDEX:8]`,
-  `[TN5_INDEX:8]`, and `[I7_INDEX:8]`; never create `_RC`, `_REVERSE`, `_FWD`,
-  or similar directional role variants.
-- On every oligo-derived strand segment, retain the T2 oligo ID, store the
-  bases on that modeled strand in `sequence`, and set `orientation_to_source`
-  to `same_orientation`, `reverse_complement`, or `unknown`. The linked T2
-  record, not the segment, owns the source-visible oligo sequence.
-- Preserve missing data, alternatives, and conflicts. Never fill a sequence
-  from external memory.
+   rules above. After the selected queue is fully reviewed, ask once whether to
+   apply and promote the finalized, unpromoted protocols.
 
 ## Comparison worker
 
-- Read frozen evidence first, then only the packet-listed comparison inputs.
-- Before scientific comparison, convert every legacy-shaped current T1/T2/T3
-  record into a canonical candidate using only the current record, legacy HTML,
-  and reviewed TSV projection. Emit one complete root replacement issue for
-  each such record. Preserve legacy values in audit lineage, remove legacy-only
-  metadata from the candidate, and do not call a representation migration a
-  scientific human-curation error.
+- This is one audit pass, not a benchmark task. First read only legacy HTML,
+  current T1/T2/T3 records, and the reviewed TSV projection. Do not open primary
+  sources or renditions until the complete legacy-derived candidate is fixed in
+  working context.
+- Convert every legacy-shaped current T1/T2/T3 record into a canonical
+  candidate without changing its scientific claims. T3 comes primarily from
+  the ordered legacy HTML workflow. Emit one complete root replacement issue
+  for each legacy-shaped record, or a root add when HTML-derived T3 has no JSON.
+  Preserve legacy values and locators in audit lineage, remove legacy-only
+  metadata, and do not call migration a scientific human-curation error.
 - Keep approved candidates minimal. T1 has no `evidence`,
   `ground_truth_status`, `library_id`, or `strands`. T2 has no `limitations`,
   `baseline_lineage`, `evidence`, `ground_truth_status`, or `notes`. T3 has no
@@ -267,16 +223,23 @@ the tool if this contract is missed; on that continuation, call
   `sequence`, the source-visible oligo bases in T2, and their relationship in
   `oligo_derivations[].orientation_to_source`; never generate an `_RC`,
   `_REVERSE`, or `_FWD` placeholder role.
+  Use canonical examples such as `[I5_INDEX:8]`, `[TN5_INDEX:8]`, and
+  `[I7_INDEX:8]`. Set `orientation_to_source` to `same_orientation`,
+  `reverse_complement`, or `unknown`.
 - For a root-converted artifact, keep primary-source deltas patch-free so the
   controller can compile human decisions into one final root replacement.
 - The harness supplies the canonical T1, T2, and T3 schemas as non-evidentiary
   formatting constraints. Every complete new ground-truth root patch must
   satisfy its task schema exactly; never reconstruct an outer document shape
   from legacy fields or sibling style.
-- Apply the same compact T3 rule as the evidence worker when translating legacy
-  steps and proposing primary-source deltas. Do not propose a standalone state
-  or transition for a non-sequence preparation detail unless the narrow branch
-  or essential-carried-product exception applies.
+- Use the smallest scientifically sufficient T3 graph. Create states and
+  transitions primarily for sequence architecture or strand-structure changes.
+  Fold cleanup, purification, size selection, pooling, washing, QC,
+  quantification, dilution, routine reagent handling, and inactivation into the
+  nearest substantive transition when those structures do not change. A
+  separate non-sequence node requires an essential branch or distinct
+  carried-forward molecular product. PCR cycling is one transition, and a
+  display-only paragraph or figure is not one.
 - Preserve the strand architecture actually curated in legacy HTML before
   comparison. Do not collapse top/bottom strands, partial duplexes, Y-shaped
   constructs, hybrids, overhangs, or nicks into a single sequence. Treat a
@@ -287,19 +250,53 @@ the tool if this contract is missed; on that continuation, call
   candidate. Preserve legacy wording and locators in audit lineage, not on its
   states and transitions. Use current T2 IDs only as explicit identifier
   normalization; match T3 terminal states to T1 by structure.
-- Compare that legacy-derived T3 candidate with frozen primary evidence. Emit
-  every primary-supported correction, addition, conflict, or unsupported claim
-  as a separate issue; never silently fold it into the root candidate patch.
+- Only after conversion is complete, read every included primary source and
+  rendition. Account for each primary source exactly once in `source_coverage`.
+  Coverage is primary-only: never add legacy HTML, current records, the TSV
+  projection, renditions as separate sources, or benchmark-run artifacts to
+  `source_coverage`.
+  Review T2 and T3 chronologically, then verify the legacy-derived candidate
+  rather than constructing an unrelated second answer.
+- Emit every primary-supported correction, addition, conflict, or unsupported
+  claim as a separate issue; never silently fold it into the root candidate patch.
   Classify the absent T3 JSON as a migration/schema omission, not an original
   human-curation error. An HTML reference to a missing asset does not establish
   the unseen asset's contents.
 - Reference only T2 oligos actually used during library generation. Sequencing
   primers may remain valid T2 records without being referenced from T3.
+- States are meaningful carried-forward products, not transient complexes. For
+  template switching, represent the pre-switch product as an mRNA:cDNA hybrid
+  with exactly two logical strands, put the TSO in the template-switching
+  transition's `oligo_ids`, and represent the product as cDNA containing its
+  incorporated sequence. Do not persist a third TSO strand unless a source
+  explicitly establishes that it is carried forward.
+- Before returning the proposal, preflight every state against
+  `validate_molecular_state_architecture` in `groundtruth.py`: strand and
+  segment IDs are unique; `reference_strand_id` resolves; every strand is
+  `5_to_3`; `single_stranded` has exactly one strand and no pairing;
+  `double_stranded` has exactly two strands, pairing, and no unpaired segment;
+  `partially_duplex` has at least two strands, pairing, and an unpaired segment;
+  `rna_dna_hybrid` has exactly two logical strands, one RNA and one DNA, plus
+  pairing; and `y_shaped_duplex` has exactly two logical strands, pairing, and
+  unpaired arms on both. Pairing sides must resolve to different strands and contain nonempty,
+  contiguous segment IDs in 5′→3′ order; every segment labeled
+  `paired_region` must occur in a declared paired region, and absent segments
+  must not carry that label. Preserve genuinely unpaired random-primer, SMART,
+  overhang, linker, or adapter regions. Explicit `reverse_complementary`
+  regions must be reverse-complementary. Preserve documented noncanonical or
+  unknown pairing rather than changing source content; every discontinuity
+  references adjacent segments. Do not change scientifically supported
+  sequence, strand identity, or pairing merely to validate.
 - Assign each audited field one status: `verified_no_change`,
   `proposed_correction`, `missing_source_evidence`, `ambiguous`, or
   `external_knowledge_required`.
 - Every non-verified status has an issue. Only an exact ground-truth correction
   may carry an RFC 6902 patch.
+- Before returning, make issues and the field ledger exactly reciprocal. Every
+  `issues[].issue_id` appears in the `issue_ids` of its referenced field; a
+  field with multiple issues lists all of them; every ledger ID resolves to an
+  issue; and verified fields list none. The union of
+  `audited_fields[].issue_ids` must equal the set of `issues[].issue_id` values.
 - Keep the issue count proportional to human decisions. Group related fields
   with the same cause and remedy into one issue. Do not create separate issues
   for optional aliases, conditions, family sizes, or descriptive metadata when
@@ -307,7 +304,14 @@ the tool if this contract is missed; on that continuation, call
   the audit issue. Calibrate molecular or scoring conflicts at medium severity or above.
   Use `unresolved_scientific_ambiguity`, not a low generic source conflict, when
   conflicting sources leave the molecular interpretation genuinely unresolved.
-- Validate T1/T2/T3 links and graph consistency. Propose, but never approve or
-  apply, changes.
+- Validate T1/T2/T3 links and graph consistency. Present root-level
+  `protocol_scope` values must be identical across T1, T2, and T3 (same
+  `protocol_version` and `applicable_variants`); child scopes may only narrow
+  their parent, and linked object scopes must overlap. When legacy curation is
+  a multi-protocol family page, keep the audited protocol consistently scoped
+  and report any family/version ambiguity instead of widening one task alone.
+  Preserve missing data,
+  alternatives, and conflicts; never fill a sequence from memory or the web.
+  Propose, but never approve or apply, changes.
 
 The audit agent assists. The human reviewer is the final authority.

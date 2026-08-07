@@ -33,9 +33,9 @@
     "component": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["component_id", "name", "role", "orientation", "modifications", "support_status"],
+      "description": "Ordered inline oligo component. Components are not independently identified or referenced.",
+      "required": ["name", "role", "orientation", "modifications", "support_status"],
       "properties": {
-        "component_id": {"$ref": "#/$defs/stable_id"},
         "name": {"type": "string", "minLength": 1},
         "role": {"type": "string", "minLength": 1},
         "sequence": {"type": ["string", "null"], "minLength": 1},

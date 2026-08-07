@@ -9,16 +9,32 @@ paths:
 # Ground-truth audit changes
 
 - Read the canonical policies under `docs/audit/` before editing these paths.
+- Put active audit artifacts directly in `ground_truth_audit/manifests/`,
+  `renditions/`, `packets/`, `runs/`, `reviews/`, `applications/`, and
+  `promotions/`. Do not create a `pilot/` namespace for new work; retain old
+  pilot artifacts under `archive/` when history must be preserved.
 - Keep the three source roles distinct in code, schemas, fixtures, and prose.
 - Resolve source availability automatically. Include every discovered file that
   exists and is hashable; mark missing files unavailable and exclude them from
   packets. Never ask the human to approve source inclusion.
 - Preserve agent proposal and human decision as separate artifact types.
+- Use one conversion-first comparison worker per protocol. It must finish the
+  T1/T2/T3 candidate from legacy HTML, current JSON, and reviewed TSV before it
+  opens primary sources. Do not run a separate source-only T1/T2/T3 extraction
+  phase or create a frozen evidence artifact.
+- T3 conversion comes primarily from the ordered molecular workflow in the
+  legacy HTML; primary sources verify and may propose corrections to that
+  candidate but do not silently replace it.
 - Keep approved ground-truth JSON minimal. Do not copy audit evidence,
   provenance lineage, review decisions, inclusion status, or audit notes into
   T1–T3. T1 has no `library_id` or duplicate `strands`; T2 has no
   `baseline_lineage`; T3 stores `modality` once at its document root and uses
   graph topology instead of `workflow_branch`.
+- T1 has one canonical `library_sequence`, which retains biological insert
+  placeholders such as `[CDNA]`; never duplicate it as
+  `annotated_library_sequence` or store a benchmark scoring projection in
+  approved ground truth. T2 components are ordered inline descriptions and do
+  not carry `component_id`.
 - Require one schema-valid, human-reviewed root conversion for every
   legacy-shaped current T1/T2/T3 record. Preserve legacy values in audit
   lineage, not as legacy-only fields in cleaned ground truth. Keep source
@@ -43,6 +59,20 @@ paths:
 - After issue decisions, show the complete T1–T3 result and use one combined
   final scientific-approval question for root decisions and finalization.
   Application authorization remains separate.
+- Before any final T3 approval, directly inspect the packet-listed primary
+  PDFs, supplementary tables/spreadsheets, and relevant figures or renditions.
+  Fact-check every T3 state and transition—substrate, operation,
+  oligos/reagents, products, carried product, strand architecture, and sequence
+  change—against exact primary locators. Show a concise
+  verified/conflict/missing/ambiguous table in the console. Do not rely only on
+  the worker's summary or proposal; any material gap remains a human-review
+  blocker.
+- Do not stop with a finalized-but-unpromoted review. After one protocol, or
+  after the selected batch review queue is complete, show the exact unpromoted
+  protocol IDs, append `<!-- audit-application-question-required -->`, and use
+  `AskUserQuestion` for a separate apply-and-promote authorization. A yes writes
+  validated T1–T3 to `protocols-test/ground_truth/<protocol_id>/`; a no leaves
+  the immutable finalized decision unapplied.
 - Keep T3 graphs compact. Do not create standalone states or transitions for
   cleanup, purification, size selection, QC, dilution, washing, or routine
   handling when sequence architecture and strand structure are unchanged. Fold

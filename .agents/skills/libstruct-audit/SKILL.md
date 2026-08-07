@@ -25,8 +25,10 @@ For an independent protocol audit:
 
 1. Use only the files in the validated phase packet.
 2. Follow `docs/audit/evidence-policy.md`.
-3. Respect the isolated primary-evidence phase and use deterministic
-   renditions only as aids for the original sources.
+3. Respect the conversion-first order: finish the candidate from legacy HTML,
+   current records, and the reviewed TSV before opening primary evidence. Use
+   deterministic renditions only as aids for their original primary sources,
+   and list only primary source IDs in `source_coverage`.
 4. Emit a protocol audit proposal and identify the run as an
    independent Codex review.
 5. Do not approve or apply your own findings.

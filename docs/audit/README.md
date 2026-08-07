@@ -14,6 +14,11 @@ are reviewed together but remain separate linked artifacts.
   provenance.
 - `protocols-test/ground_truth/`: final human-approved records only.
 
+Use the production directories directly under `ground_truth_audit/`:
+`manifests/`, `renditions/`, `packets/`, `runs/`, `reviews/`,
+`applications/`, and `promotions/`. Do not create a `pilot/` namespace for new
+work. Historical pilot artifacts may be retained under `archive/`.
+
 Never modify `scg-v1-upload` or upload audit data before review is complete.
 
 Each approved protocol has:
@@ -25,9 +30,13 @@ Each approved protocol has:
 Protocol version/variant scope is optional at the document level and inherited
 by child records. Add a child scope only when it narrows the parent. T2 uses one
 `name` plus `aliases`; the original reviewed TSV row remains in audit lineage,
-not in cleaned T2. T3 stores modality once at the document root. Every T3 state
-records an explicit strand architecture, physical strands in their own 5′→3′
-orientations, and the strand that corresponds to T1.
+not in cleaned T2. T2 components are ordered inline descriptions and do not
+carry IDs. T1 stores one canonical `library_sequence`, including placeholders
+for biological inserts such as `[CDNA]`; its `segments` provide the detailed
+annotation. Do not duplicate that sequence in an `annotated_library_sequence`
+field. T3 stores modality once at the document root. Every T3 state records an
+explicit strand architecture, physical strands in their own 5′→3′ orientations,
+and the strand that corresponds to T1.
 
 Approved T1–T3 JSON is intentionally minimal. Evidence, lineage, review
 decisions, inclusion status, and audit notes remain in the hash-pinned audit
@@ -48,22 +57,22 @@ extraction, normalization, and schema-label fields do not enter cleaned ground
 truth. Each legacy-shaped record receives one schema-valid root conversion
 proposal and remains unapproved.
 An older finalized decision that lacks a required conversion remains immutable
-audit history but cannot be applied. Reuse its frozen evidence in a fresh
-comparison and review iteration.
+audit history but cannot be applied. Start a fresh conversion-first comparison
+and review iteration.
 
-### 2. Primary evidence and comparison
+### 2. Verify against primary evidence
 
 Source selection has no human gate. The catalog automatically includes every
-discovered file that exists and records missing files as unavailable; unavailable
-entries remain provenance but do not enter phase packets. In an isolated packet,
-Claude reads every included paper, protocol, supplement, spreadsheet, table,
-figure, and diagram. It reconstructs T1–T3 without seeing legacy curation,
-current ground truth, earlier answers, or external knowledge. T2 oligos and T3
-state transitions are captured in one chronological pass.
-
-After evidence is frozen, Claude compares it with legacy HTML, current T1/T2/T3
-records, the protocol projection of `groundtruth_oligos.tsv`, and optional
-benchmark-run artifacts. Every field receives one status:
+discovered file that exists and records missing files as unavailable;
+unavailable entries remain provenance but do not enter packets. One read-only
+Claude worker first converts legacy HTML, current T1/T2/T3 records, and the
+protocol TSV projection into canonical candidates. It must complete that
+conversion before opening primary evidence. It then reads every included paper,
+protocol, supplement, spreadsheet, table, figure, diagram, and rendition and
+verifies the legacy-derived candidates. This is one comparison run, with no
+separate primary-evidence agent phase or evidence artifact. T2 oligos and T3
+state transitions are checked in one chronological source pass. Every field
+receives one status:
 
 - `verified_no_change`
 - `proposed_correction`
@@ -108,6 +117,11 @@ actions. After all issue decisions, Claude shows the complete T1–T3 result and
 uses one final scientific-approval question for any root candidate decisions
 and review finalization. Deterministic application authorization remains a
 separate action.
+Before final T3 approval, the controller directly checks every state and
+transition against the packet-listed primary PDFs, supplementary tables, and
+relevant figures and shows a concise source-check table in the console. It does
+not rely only on the comparison worker's summary. Any material conflict or
+missing support remains open for explicit human resolution.
 
 ### 4. Deterministic application
 
@@ -138,8 +152,8 @@ contains the bases on its modeled strand; the linked T2 sequence remains the
 source-visible oligo.
 
 For terminal-state matching, the preferred consistency key is the identified
-reference strand's `sequence_architecture`, which exactly equals a T1 annotated
-or plain library sequence. That strand may keep a simpler segment
+reference strand's `sequence_architecture`, which exactly equals the T1
+`library_sequence`. That strand may keep a simpler segment
 decomposition than T1; exact ordered segment identity is used only when the
 terminal architecture string is absent.
 Use the smallest scientifically sufficient graph. New states and transitions

@@ -26,13 +26,11 @@ from .groundtruth import (
     TASK_ARTIFACTS,
     documents_by_task,
     validate_cross_task_links,
-    validate_molecular_state_architecture,
 )
 
 
-HARNESS_VERSION = "libstruct-bench-audit/0.4.0"
+HARNESS_VERSION = "libstruct-bench-audit/0.5.0"
 PHASE_SCHEMA_FILES = {
-    "evidence": "protocol_evidence.schema.json",
     "comparison": "protocol_audit.schema.json",
 }
 MODEL_ALIASES = {"default", "sonnet", "opus", "haiku", "fable"}
@@ -77,7 +75,7 @@ def run_claude_audit(
     claude_executable: str = "claude",
     groundtruth_schema_paths: Mapping[str, Path] | None = None,
 ) -> ClaudeRunResult:
-    """Run one isolated Claude evidence or comparison phase."""
+    """Run one conversion-first Claude comparison audit."""
 
     packet_dir = _directory(packet_dir, "audit packet")
     packet_path = _file(packet_dir / "packet.json", "packet metadata")
@@ -114,12 +112,6 @@ def run_claude_audit(
         phase, groundtruth_schema_paths
     )
     _verify_packet_files(packet_dir, packet)
-    if phase == "comparison":
-        _validate_frozen_evidence(
-            packet_dir,
-            packet,
-            output_schema_path.parent / PHASE_SCHEMA_FILES["evidence"],
-        )
     output_schema = load_json_object(output_schema_path, label="output schema")
 
     output_dir = output_dir.expanduser().resolve()
@@ -143,7 +135,16 @@ def run_claude_audit(
         policies=[path.read_text(encoding="utf-8") for path in policies],
         groundtruth_schemas=groundtruth_schemas,
     )
-    agent_schema = _agent_output_schema(output_schema, phase)
+    primary_source_ids = sorted(
+        item["source_id"]
+        for item in packet["files"]
+        if item["role"] == "primary_evidence"
+    )
+    agent_schema = _agent_output_schema(
+        output_schema,
+        phase,
+        primary_source_ids=primary_source_ids,
+    )
     claude_version = _claude_version(claude_executable)
     started_at = _now()
     started_monotonic = time.monotonic()
@@ -276,7 +277,7 @@ def run_claude_audit(
         transcript_path.write_bytes(completed.stdout)
         stderr_path = temporary_dir / "stderr.txt"
         stderr_path.write_bytes(completed.stderr)
-        artifact_name = "evidence.json" if phase == "evidence" else "audit.json"
+        artifact_name = "audit.json"
         artifact_path = temporary_dir / artifact_name
         write_json_atomic(artifact_path, artifact)
         metadata = {
@@ -621,29 +622,30 @@ def _system_prompt(
 
 
 def _user_prompt(packet_dir: Path, phase: str) -> str:
-    if phase == "evidence":
-        action = (
-            "Read packet.json, manifest.json, every file under primary_evidence, "
-            "and every packet-listed rendition. Account for every included source "
-            "before independently extracting T1, T2, and graph-shaped T3 evidence."
-        )
-    else:
-        action = (
-            "Read the frozen evidence first. Then compare it with every packet-listed "
-            "legacy HTML, current T1/T2/T3 record, reviewed TSV projection, and optional "
-            "benchmark-run artifact. First root-convert every legacy-shaped current "
-            "record using legacy inputs only, then compare with the frozen evidence. "
-            "Use the canonical ground-truth schemas embedded in the system instructions "
-            "for every complete candidate document. Do not alter the frozen evidence or "
-            "approve changes."
-        )
+    action = (
+        "Read packet.json and manifest.json. First use only legacy_curated_html and "
+        "current_benchmark_record files to convert the existing human curation into "
+        "canonical T1, T2, and T3 candidates. Finish that conversion before opening "
+        "primary_evidence or its renditions. Then read every primary source and "
+        "rendition. In source_coverage, list every included primary_evidence source "
+        "exactly once and do not list legacy, current-record, TSV, or benchmark-run "
+        "inputs. Verify the completed legacy-derived candidates field by field. "
+        "Optional benchmark-run artifacts "
+        "are only for error attribution. Use the embedded canonical schemas for every "
+        "complete candidate. Propose issues, but do not approve or apply changes."
+    )
     return (
         f"Audit packet: {packet_dir}\n{action}\n"
         "Return only one object satisfying the supplied JSON Schema."
     )
 
 
-def _agent_output_schema(schema: dict[str, Any], phase: str) -> dict[str, Any]:
+def _agent_output_schema(
+    schema: dict[str, Any],
+    phase: str,
+    *,
+    primary_source_ids: Iterable[str] | None = None,
+) -> dict[str, Any]:
     relaxed = copy.deepcopy(schema)
     # Claude CLI does not register the 2020-12 meta-schema, and Anthropic's
     # StructuredOutput tool rejects combinators at the input-schema root. The
@@ -653,19 +655,24 @@ def _agent_output_schema(schema: dict[str, Any], phase: str) -> dict[str, Any]:
     for keyword in ("allOf", "anyOf", "oneOf"):
         relaxed.pop(keyword, None)
     injected = {
-        "evidence": {
-            "evidence_id", "protocol_id", "packet_sha256",
-            "input_manifest_sha256", "run",
-        },
         "comparison": {
             "audit_id", "protocol_id", "packet_sha256",
-            "input_manifest_sha256", "evidence_id", "evidence_sha256",
-            "baseline_artifacts", "run",
+            "input_manifest_sha256", "baseline_artifacts", "run",
         },
     }[phase]
     relaxed["required"] = [
         item for item in relaxed.get("required", []) if item not in injected
     ]
+    if phase == "comparison" and primary_source_ids is not None:
+        source_ids = sorted(set(primary_source_ids))
+        if not source_ids:
+            raise ClaudeAuditError(
+                "comparison output schema requires at least one primary source ID"
+            )
+        relaxed["$defs"]["source_coverage"]["properties"]["source_id"] = {
+            "type": "string",
+            "enum": source_ids,
+        }
     return relaxed
 
 
@@ -682,23 +689,16 @@ def _finalize_artifact(
     value["packet_sha256"] = sha256_file(packet_dir / "packet.json")
     value["input_manifest_sha256"] = packet["input_manifest"]["source_sha256"]
     value["run"] = run
-    if phase == "evidence":
-        value["evidence_id"] = f"{packet['protocol_id']}:evidence:{run['run_id']}"
-    else:
-        evidence_path = packet_dir / packet["frozen_evidence"]["path"]
-        evidence = load_json_object(evidence_path, label="frozen evidence")
-        value["audit_id"] = f"{packet['protocol_id']}:audit:{run['run_id']}"
-        value["evidence_id"] = evidence["evidence_id"]
-        value["evidence_sha256"] = packet["frozen_evidence"]["sha256"]
-        value["baseline_artifacts"] = [
-            {"source_id": item["source_id"], "sha256": item["sha256"]}
-            for item in packet["files"]
-            if item["role"] == "current_benchmark_record"
-            and item["source_kind"] in {"current_t1", "current_t2", "current_t3"}
-        ]
-        for issue in value.get("issues", []):
-            issue["run_id"] = run["run_id"]
-            issue["checkpoint_id"] = run["checkpoint_id"]
+    value["audit_id"] = f"{packet['protocol_id']}:audit:{run['run_id']}"
+    value["baseline_artifacts"] = [
+        {"source_id": item["source_id"], "sha256": item["sha256"]}
+        for item in packet["files"]
+        if item["role"] == "current_benchmark_record"
+        and item["source_kind"] in {"current_t1", "current_t2", "current_t3"}
+    ]
+    for issue in value.get("issues", []):
+        issue["run_id"] = run["run_id"]
+        issue["checkpoint_id"] = run["checkpoint_id"]
     return value
 
 
@@ -709,51 +709,29 @@ def _validate_semantics(
     phase: str,
     groundtruth_schemas: Mapping[str, Path],
 ) -> None:
-    if phase == "evidence":
-        expected = {
-            item["source_id"]
-            for item in packet["files"]
-            if item["role"] == "primary_evidence"
-        }
-        coverage = artifact["source_coverage"]
-        actual = {item["source_id"] for item in coverage}
-        if len(actual) != len(coverage):
-            raise ClaudeAuditError("source_coverage contains duplicate source IDs")
-        if actual != expected:
-            raise ClaudeAuditError(
-                "source coverage mismatch; "
-                f"missing={sorted(expected - actual)}, extra={sorted(actual - expected)}"
-            )
-        unreadable = [
-            item["source_id"] for item in coverage if item["status"] == "unreadable"
-        ]
-        if unreadable:
-            raise ClaudeAuditError(
-                "primary sources were unreadable and must be repaired before comparison: "
-                + ", ".join(unreadable)
-            )
-        try:
-            for workflow in artifact["t3"]["workflows"]:
-                for state in workflow["states"]:
-                    validate_molecular_state_architecture(
-                        state,
-                        label=(
-                            f"primary evidence workflow {workflow['workflow_id']} "
-                            f"state {state['state_id']}"
-                        ),
-                    )
-        except GroundtruthValidationError as error:
-            raise ClaudeAuditError(
-                f"primary evidence has invalid strand architecture: {error}"
-            ) from error
-        return
-
-    evidence_path = packet_dir / packet["frozen_evidence"]["path"]
-    if sha256_file(evidence_path) != artifact["evidence_sha256"]:
-        raise ClaudeAuditError("comparison artifact references stale frozen evidence")
-    evidence = load_json_object(evidence_path, label="frozen evidence")
-    if evidence["evidence_id"] != artifact["evidence_id"]:
-        raise ClaudeAuditError("comparison artifact references the wrong evidence ID")
+    expected_primary = {
+        item["source_id"]
+        for item in packet["files"]
+        if item["role"] == "primary_evidence"
+    }
+    coverage = artifact["source_coverage"]
+    covered_primary = {item["source_id"] for item in coverage}
+    if len(covered_primary) != len(coverage):
+        raise ClaudeAuditError("source_coverage contains duplicate source IDs")
+    if covered_primary != expected_primary:
+        raise ClaudeAuditError(
+            "primary-source coverage mismatch; "
+            f"missing={sorted(expected_primary - covered_primary)}, "
+            f"extra={sorted(covered_primary - expected_primary)}"
+        )
+    unreadable = [
+        item["source_id"] for item in coverage if item["status"] == "unreadable"
+    ]
+    if unreadable:
+        raise ClaudeAuditError(
+            "primary sources were unreadable and must be repaired before review: "
+            + ", ".join(unreadable)
+        )
 
     field_values = artifact["audited_fields"]
     field_ids = {field["field_id"] for field in field_values}
@@ -773,9 +751,7 @@ def _validate_semantics(
     expected_filenames = {
         task: details["filename"] for task, details in TASK_ARTIFACTS.items()
     }
-    allowed_evidence_ids = {
-        item["source_id"] for item in packet["files"]
-    } | {item["source_id"] for item in evidence["source_coverage"]}
+    allowed_evidence_ids = {item["source_id"] for item in packet["files"]}
     conversion_evidence_ids = {
         item["source_id"]
         for item in packet["files"]
@@ -895,8 +871,12 @@ def _validate_semantics(
         for issue_id in field.get("issue_ids", [])
     }
     if referenced != issue_ids:
+        missing = sorted(issue_ids - referenced)
+        unknown = sorted(referenced - issue_ids)
         raise ClaudeAuditError(
-            "audited field ledger and issues must reference each other exactly"
+            "audited field ledger and issues must reference each other exactly; "
+            f"issues_missing_from_ledger={missing}, "
+            f"unknown_issue_ids_in_ledger={unknown}"
         )
 
 
@@ -1012,11 +992,7 @@ def _resolve_groundtruth_schemas(
     phase: str, configured: Mapping[str, Path] | None
 ) -> dict[str, Path]:
     if phase != "comparison":
-        if configured:
-            raise ClaudeAuditError(
-                "ground-truth artifact schemas are only used in comparison runs"
-            )
-        return {}
+        raise ClaudeAuditError(f"unsupported audit phase: {phase}")
     paths = configured or {
         task: GROUNDTRUTH_SCHEMA_DIR / details["schema"]
         for task, details in TASK_ARTIFACTS.items()
@@ -1052,40 +1028,13 @@ def _verify_packet_files(packet_dir: Path, packet: dict[str, Any]) -> None:
             raise ClaudeAuditError(
                 f"packet rendition is missing or stale: {item['path']}"
             )
-    frozen = packet.get("frozen_evidence")
-    if frozen is not None:
-        path = packet_dir / frozen["path"]
-        if not path.is_file() or sha256_file(path) != frozen["sha256"]:
-            raise ClaudeAuditError("frozen evidence is missing or stale")
-
-
-def _validate_frozen_evidence(
-    packet_dir: Path,
-    packet: dict[str, Any],
-    evidence_schema_path: Path,
-) -> None:
-    frozen = packet.get("frozen_evidence")
-    if frozen is None:
-        raise ClaudeAuditError("comparison packet has no frozen evidence")
-    evidence_schema_path = _file(evidence_schema_path, "evidence schema")
-    evidence = load_json_object(
-        packet_dir / frozen["path"], label="frozen evidence"
-    )
-    _validate(evidence, evidence_schema_path, "frozen evidence")
-    expected_schema_sha = sha256_file(evidence_schema_path)
-    if evidence["run"]["schema_sha256"] != expected_schema_sha:
-        raise ClaudeAuditError(
-            "frozen evidence was produced against a different evidence schema; "
-            "rerun the evidence phase before comparison"
-        )
-
-
 def _extract_artifact(stdout: bytes, phase: str) -> dict[str, Any]:
-    required_markers = (
-        {"source_coverage", "t1", "t2", "t3"}
-        if phase == "evidence"
-        else {"audited_fields", "issues", "disposition"}
-    )
+    required_markers = {
+        "source_coverage",
+        "audited_fields",
+        "issues",
+        "disposition",
+    }
     candidates: list[Any] = []
     for raw_line in stdout.decode("utf-8", errors="replace").splitlines():
         try:

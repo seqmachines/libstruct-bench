@@ -1,7 +1,7 @@
 # Claude Code guidance
 
 Use `/audit-protocol <protocol_id>` for one protocol or pass up to ten protocol
-IDs to prepare proposals concurrently. The skill runs the evidence-first audit,
+IDs to prepare proposals concurrently. The skill runs the conversion-first audit,
 resumes existing work, includes every available discovered source, marks missing
 sources unavailable, and pauses only for scientific adjudication.
 
@@ -19,24 +19,20 @@ Never modify `scg-v1-upload` or upload to Hugging Face during the audit.
 The workflow is:
 
 1. Identify every legacy-shaped current T1–T3 record and require a canonical
-   root conversion candidate derived only from legacy curation. The candidate
-   remains unapproved.
-2. Independently reconstruct T1–T3 evidence from every available,
-   manifest-listed primary source in an isolated phase that cannot see the
-   conversion candidate. Missing sources remain recorded as unavailable and do
-   not enter the packet.
-3. Freeze that evidence, then compare it with legacy HTML, current T1–T3
-   records, the reviewed oligo TSV, and optional benchmark-run artifacts. When
-   T3 JSON is missing, first convert the legacy HTML workflow into the T3
-   candidate with legacy locators, then report primary-source differences as
-   separate issues. Do not blend those differences into the legacy candidate.
-4. Review conflicts or unsupported fields interactively in this console, one
+   root conversion candidate derived only from legacy HTML, current records,
+   and the reviewed oligo TSV. T3 comes primarily from the HTML workflow. The
+   candidate remains unapproved.
+2. In the same read-only worker, only after conversion is complete, read every
+   available manifest-listed primary source and verify the candidate against
+   it. Missing sources remain recorded as unavailable. Report primary-source
+   differences as separate issues; do not blend them into the conversion.
+3. Review conflicts or unsupported fields interactively in this console, one
    issue at a time. Save each explicit human decision immediately to the
    working decision JSON and resume at the first undecided issue. Do not
    generate HTML review files. Use one interactive review pass per protocol. If
    the human requests edits, discuss them and revise the working candidate in
    this session rather than starting another review iteration.
-5. Apply accepted human corrections deterministically to separate candidates.
+4. Apply accepted human corrections deterministically to separate candidates.
 
 Legacy conversion preserves original values and locations in audit lineage but
 omits legacy-only schema labels, source HTML, extraction, and normalization
@@ -51,10 +47,10 @@ the reference strand corresponding to T1. Primary-source deltas against a
 converted artifact remain patch-free until human decisions are compiled into
 its one final root patch.
 If an older finalized review lacks required root conversions, preserve it as
-history and start a fresh comparison/review iteration from the frozen evidence;
-never try to apply or rewrite that decision.
+history and start a fresh conversion-first comparison/review iteration; never
+try to apply or rewrite that decision.
 
-Phase workers are read-only and may use only packet-listed files. They must
+Comparison workers are read-only and may use only packet-listed files. They must
 preserve source locators, report conflicts instead of resolving them silently,
 and never interpret an agent proposal as human approval. Only deterministic
 repository tools may apply or promote changes.
@@ -90,6 +86,15 @@ review final. Human-requested refinements happen conversationally against the
 same working candidate. Never apply or promote while any issue is undecided or
 merely because the walkthrough ended.
 
+Before that final approval when T3 is included, directly read the immutable
+packet's primary PDFs, supplementary tables/spreadsheets, and relevant figures
+or renditions. Fact-check every T3 state and transition against exact primary
+locators, including substrate, operation, oligos/reagents, products, carried
+product, strand architecture, and sequence change. Show a concise
+verified/conflict/missing/ambiguous table. Do not rely only on the comparison
+worker's summary or proposal, and do not finalize while a material T3 gap is
+unresolved.
+
 The interactive controller must call Claude Code's `AskUserQuestion` tool for
 every scientific human gate: each individual issue, the grouped low-issue
 decision, the combined final candidate/finalization approval, and application
@@ -100,6 +105,17 @@ disposition.” If the human asks for clarification or requests an edit, answer,
 update and validate the working candidate when appropriate, then invoke
 `AskUserQuestion` again for the same gate. Use a plain-text fallback only when
 the tool is genuinely unavailable.
+
+A finalized review is not the end of the controller workflow while its approved
+T1–T3 files remain unpromoted. For one protocol, immediately ask a separate
+application-and-promotion question after finalization. For a batch, finish the
+selected review queue and then ask once for the exact finalized, unpromoted
+protocols. Append `<!-- audit-application-question-required -->` immediately
+before that `AskUserQuestion` call. An affirmative answer runs deterministic
+application, linked validation, regressions, and promotion to
+`/Users/seqmachines/playground/protocols-test/ground_truth/<protocol_id>/`; a
+decline leaves the immutable review unapplied. Never infer this authorization
+from scientific approval.
 
 For an individual issue, first print the complete review card in normal console
 text, then invoke `AskUserQuestion` in the same turn. The card must include the

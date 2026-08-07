@@ -45,7 +45,6 @@ class AuditSchemaTests(unittest.TestCase):
                 "oligo_output_build.schema.json",
                 "promotion_log.schema.json",
                 "protocol_audit.schema.json",
-                "protocol_evidence.schema.json",
                 "regression_results.schema.json",
                 "release_spec.schema.json",
                 "rendition_bundle.schema.json",

@@ -8,10 +8,14 @@ memory.
 
 ## Evidence versus scoring representations
 
-Preserve source-visible strings and orientations in evidence. A canonical
-scoring representation is a derived field and must cite the transformation
-that produced it. Biological inserts may be omitted only in the scoring
-projection; their location remains explicit in the annotated structure.
+Preserve source-visible strings and orientations in evidence. Approved T1
+stores one canonical `library_sequence`; retain biological insert locations in
+that sequence with placeholders such as `[CDNA]`. Detailed roles remain in the
+T1 segment decomposition. Do not store a duplicate
+`annotated_library_sequence` or a benchmark scoring projection in approved T1.
+A canonical scoring representation is derived downstream and must cite the
+transformation that produced it. Biological inserts may be omitted only from
+that derived scoring projection.
 
 ## Variable regions
 

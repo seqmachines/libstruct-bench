@@ -21,7 +21,6 @@ from .groundtruth import GroundtruthValidationError, validate_cross_task_links
 
 SCHEMA_FILES = {
     "manifest": "audit_input_manifest.schema.json",
-    "evidence": "protocol_evidence.schema.json",
     "audit": "protocol_audit.schema.json",
     "decision": "review_decision.schema.json",
     "application": "application_log.schema.json",
@@ -383,30 +382,6 @@ def _verify_protocol(
         and source["role"] == "current_benchmark_record"
     }
     manifest_sha256 = sha256_file(manifest_path)
-    evidence_ids: list[str] = []
-    evidence_hashes: dict[str, str] = {}
-    for item in protocol["evidence"]:
-        path = _resolve(root, item["path"])
-        document = load_json_object(path, label="protocol evidence")
-        _validate(document, schemas[SCHEMA_FILES["evidence"]], "protocol evidence")
-        if document["protocol_id"] != protocol_id or document["evidence_id"] != item["id"]:
-            raise ReleaseError(f"evidence identity mismatch for {protocol_id}")
-        if (
-            document["run"]["review_mode"] != "primary"
-            or document["run"]["agent"] != "claude-code"
-        ):
-            raise ReleaseError(
-                f"primary evidence must be extracted by Claude Code for {protocol_id}"
-            )
-        if item["id"] in evidence_hashes:
-            raise ReleaseError(
-                f"duplicate evidence ID for {protocol_id}: {item['id']}"
-            )
-        if document["input_manifest_sha256"] != manifest_sha256:
-            raise ReleaseError(f"evidence input manifest is stale for {protocol_id}")
-        evidence_ids.append(item["id"])
-        evidence_hashes[item["id"]] = sha256_file(path)
-
     audits: dict[str, tuple[Path, dict[str, Any]]] = {}
     independent_ids: list[str] = []
     for item in protocol["audits"]:
@@ -418,13 +393,6 @@ def _verify_protocol(
         if item["id"] in audits:
             raise ReleaseError(f"duplicate audit ID for {protocol_id}: {item['id']}")
         audits[item["id"]] = (path, document)
-        evidence_id = document["evidence_id"]
-        if evidence_id not in evidence_hashes:
-            raise ReleaseError(
-                f"audit references unknown evidence for {protocol_id}: {evidence_id}"
-            )
-        if document["evidence_sha256"] != evidence_hashes[evidence_id]:
-            raise ReleaseError(f"audit evidence hash is stale for {protocol_id}")
         if document["input_manifest_sha256"] != manifest_sha256:
             raise ReleaseError(f"audit input manifest is stale for {protocol_id}")
         if document["run"]["review_mode"] == "independent":
@@ -753,7 +721,6 @@ def _verify_protocol(
         "protocol_id": protocol_id,
         "task_dispositions": protocol["task_dispositions"],
         "input_manifest_sha256": manifest_sha256,
-        "evidence_ids": evidence_ids,
         "audit_ids": list(audits),
         "independent_audit_ids": sorted(independent_ids),
         "decision_ids": [decisions[audit_id][1]["decision_id"] for audit_id in audits],
@@ -781,12 +748,6 @@ def _verify_groundtruth_semantics(
         return
     if task == "T2":
         _unique_ids(document["oligos"], "oligo_id", f"{protocol_id} T2")
-        for oligo in document["oligos"]:
-            _unique_ids(
-                oligo["components"],
-                "component_id",
-                f"{protocol_id} T2 oligo {oligo['oligo_id']}",
-            )
         return
     if task == "T3":
         _unique_ids(document["workflows"], "workflow_id", f"{protocol_id} T3")

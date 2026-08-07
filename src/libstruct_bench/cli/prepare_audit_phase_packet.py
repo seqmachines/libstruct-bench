@@ -12,17 +12,14 @@ SCHEMA_DIR = Path(__file__).resolve().parents[3] / "schemas" / "audit"
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
-        description="Build an isolated evidence or comparison audit packet."
+        description="Build one conversion-first comparison audit packet."
     )
     parser.add_argument("--manifest", type=Path, required=True)
     parser.add_argument("--source-dataset-dir", type=Path, required=True)
     parser.add_argument("--groundtruth-dataset-dir", type=Path, required=True)
     parser.add_argument("--run-artifact-dir", type=Path)
     parser.add_argument("--rendition-bundle-dir", type=Path)
-    parser.add_argument(
-        "--phase", choices=("evidence", "comparison"), required=True
-    )
-    parser.add_argument("--evidence-artifact", type=Path)
+    parser.add_argument("--phase", choices=("comparison",), default="comparison")
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument("--mode", choices=("copy", "symlink"), default="copy")
     parser.add_argument(
@@ -50,7 +47,6 @@ def main(argv: list[str] | None = None) -> int:
             rendition_bundle_dir=args.rendition_bundle_dir,
             rendition_schema_path=args.rendition_schema,
             phase=args.phase,
-            evidence_artifact_path=args.evidence_artifact,
             output_dir=args.out,
             mode=args.mode,
             manifest_schema_path=args.manifest_schema,

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Prevent an audit skill turn from stopping after a card but before its selector."""
+"""Prevent an audit skill turn from stopping before a required selector."""
 
 from __future__ import annotations
 
@@ -10,24 +10,29 @@ from typing import Any
 
 
 _MARKER = "<!-- audit-question-required -->"
+_APPLICATION_MARKER = "<!-- audit-application-question-required -->"
 _ISSUE_HEADING = re.compile(r"\bIssue\s+\d+\s+of\s+\d+\b", re.IGNORECASE)
 
 
-def _awaits_question(payload: dict[str, Any]) -> bool:
+def _pending_gate(payload: dict[str, Any]) -> str | None:
     message = payload.get("last_assistant_message")
     if not isinstance(message, str):
-        return False
+        return None
+    if _APPLICATION_MARKER in message:
+        return "application"
     if _MARKER in message:
-        return True
+        return "issue"
     # Backstop for cards rendered by older sessions before the marker rule was
     # loaded. Keep this narrow so ordinary Claude turns are never affected.
-    return (
+    if (
         _ISSUE_HEADING.search(message) is not None
         and "Current value" in message
         and "Proposed value" in message
         and "Evidence" in message
         and ("Reason and impact" in message or "Reason / impact" in message)
-    )
+    ):
+        return "issue"
+    return None
 
 
 def main() -> int:
@@ -35,16 +40,26 @@ def main() -> int:
         payload = json.load(sys.stdin)
     except (json.JSONDecodeError, OSError):
         return 0
-    if not isinstance(payload, dict) or not _awaits_question(payload):
+    if not isinstance(payload, dict):
         return 0
+    gate = _pending_gate(payload)
+    if gate is None:
+        return 0
+    reason = (
+        "A finalized audit is awaiting separate application authorization. "
+        "Immediately call AskUserQuestion to offer deterministic application "
+        "and promotion, or leaving the finalized review unapplied."
+        if gate == "application"
+        else (
+            "An audit decision card is awaiting interactive input. Do not "
+            "repeat or summarize the card. Immediately call AskUserQuestion "
+            "with the valid dispositions for this issue before stopping."
+        )
+    )
     json.dump(
         {
             "decision": "block",
-            "reason": (
-                "An audit decision card is awaiting interactive input. Do not "
-                "repeat or summarize the card. Immediately call AskUserQuestion "
-                "with the valid dispositions for this issue before stopping."
-            ),
+            "reason": reason,
         },
         sys.stdout,
     )

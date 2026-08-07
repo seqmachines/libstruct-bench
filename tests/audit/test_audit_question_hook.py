@@ -45,6 +45,16 @@ def test_audit_question_hook_blocks_stop_after_unmarked_full_card() -> None:
     assert "Immediately call AskUserQuestion" in result["reason"]
 
 
+def test_audit_question_hook_blocks_before_application_authorization() -> None:
+    result = _run_hook(
+        "Review finalized and validated.\n"
+        "<!-- audit-application-question-required -->"
+    )
+    assert result["decision"] == "block"
+    assert "application authorization" in result["reason"]
+    assert "AskUserQuestion" in result["reason"]
+
+
 def test_audit_question_hook_ignores_normal_completion() -> None:
     assert _run_hook("Audit proposal saved; no human gate is pending.") == {}
 

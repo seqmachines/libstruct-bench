@@ -75,6 +75,26 @@ decision and confirms finalization. Completion of the walkthrough alone does
 not authorize application or promotion; deterministic application remains a
 separate explicitly authorized action.
 
+T3 requires a direct primary-source fact-check before that final question. The
+interactive controller must open the immutable packet's primary PDFs,
+supplementary tables/spreadsheets, and relevant figures or renditions itself;
+the comparison worker's summary, transcript, proposal prose, and locators alone
+are insufficient. For every T3 state and transition, verify the substrate or
+current molecular state, operation, T2 oligos and major reagents, products,
+carried-forward product, strand architecture, and sequence change against exact
+primary-source locations. Present a concise console table with status
+`verified`, `conflict`, `missing`, or `ambiguous` for every state and
+transition. A material conflict, missing source support, or unresolved
+interpretation blocks finalization and must be presented for an explicit human
+resolution; it must not be silently folded into the candidate.
+
+After finalization, the interactive controller must not silently stop with an
+unpromoted review. For a single protocol it immediately asks the separate
+application question. For a batch it completes the selected human-review queue,
+lists the exact finalized and unpromoted protocol IDs, and asks once whether to
+apply and promote that set. Declining preserves the finalized decisions without
+writing approved ground truth; accepting authorizes only the listed protocols.
+
 Evidence, source-bundle, policy, harness, and evaluator findings do not directly
 edit ground truth and therefore cannot use `modify`. Accept or reject the
 finding itself. If an accepted finding changes a newly proposed T1, T2, or T3

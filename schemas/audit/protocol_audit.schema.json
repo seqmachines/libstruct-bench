@@ -2,16 +2,16 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://seqmachines.org/schemas/libstruct/protocol_audit.schema.json",
   "title": "Ground-truth protocol audit proposal",
-  "description": "Comparison of frozen primary evidence with legacy curation and current T1-T3 records. This artifact proposes but never approves changes.",
+  "description": "A legacy-derived T1-T3 conversion checked against primary sources in one read-only audit pass. This artifact proposes but never approves changes.",
   "type": "object",
   "additionalProperties": false,
-  "required": ["audit_id", "protocol_id", "packet_sha256", "input_manifest_sha256", "evidence_id", "evidence_sha256", "baseline_artifacts", "run", "disposition", "summary", "audited_fields", "issues"],
+  "required": ["audit_id", "protocol_id", "packet_sha256", "input_manifest_sha256", "baseline_artifacts", "run", "source_coverage", "disposition", "summary", "audited_fields", "issues"],
   "properties": {
     "audit_id": {"$ref": "#/$defs/stable_id"}, "protocol_id": {"$ref": "#/$defs/stable_id"},
     "packet_sha256": {"$ref": "#/$defs/sha256"}, "input_manifest_sha256": {"$ref": "#/$defs/sha256"},
-    "evidence_id": {"$ref": "#/$defs/stable_id"}, "evidence_sha256": {"$ref": "#/$defs/sha256"},
     "baseline_artifacts": {"type": "array", "items": {"$ref": "#/$defs/artifact_hash"}},
     "run": {"$ref": "#/$defs/run"}, "subject_runs": {"type": "array", "items": {"$ref": "#/$defs/subject_run"}},
+    "source_coverage": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/source_coverage"}},
     "disposition": {"type": "string", "enum": ["no_issues", "issues_proposed", "ambiguous", "insufficient_evidence"]},
     "summary": {"type": "string", "minLength": 1},
     "audited_fields": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/audited_field"}},
@@ -32,6 +32,11 @@
     },
     "subject_run": {"type": "object", "additionalProperties": false, "required": ["run_id", "agent", "model", "prompt_sha256", "skills", "tools", "harness_version"], "properties": {"run_id": {"$ref": "#/$defs/stable_id"}, "agent": {"type": "string", "minLength": 1}, "model": {"type": "string", "minLength": 1}, "prompt_sha256": {"$ref": "#/$defs/sha256"}, "skills": {"type": "array", "items": {"type": "string", "minLength": 1}}, "tools": {"type": "array", "items": {"type": "string", "minLength": 1}}, "harness_version": {"type": "string", "minLength": 1}}},
     "locator": {"type": "object", "additionalProperties": false, "minProperties": 1, "properties": {"page": {"type": "integer", "minimum": 1}, "page_end": {"type": "integer", "minimum": 1}, "section": {"type": "string", "minLength": 1}, "figure": {"type": "string", "minLength": 1}, "table": {"type": "string", "minLength": 1}, "sheet": {"type": "string", "minLength": 1}, "cell_range": {"type": "string", "minLength": 1}, "html_selector": {"type": "string", "minLength": 1}, "line": {"type": "integer", "minimum": 1}}},
+    "source_coverage": {
+      "type": "object", "additionalProperties": false, "required": ["source_id", "status", "tasks", "portions_reviewed"],
+      "properties": {"source_id": {"$ref": "#/$defs/stable_id"}, "status": {"type": "string", "enum": ["reviewed", "unreadable", "not_relevant"]}, "tasks": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/task"}}, "portions_reviewed": {"type": "array", "items": {"$ref": "#/$defs/locator"}}, "notes": {"type": ["string", "null"]}},
+      "allOf": [{"if": {"properties": {"status": {"const": "reviewed"}}, "required": ["status"]}, "then": {"properties": {"portions_reviewed": {"minItems": 1}}}}, {"if": {"properties": {"status": {"const": "unreadable"}}, "required": ["status"]}, "then": {"required": ["notes"]}}]
+    },
     "evidence": {"type": "object", "additionalProperties": false, "required": ["source_id", "locator", "supports"], "properties": {"source_id": {"$ref": "#/$defs/stable_id"}, "locator": {"$ref": "#/$defs/locator"}, "supports": {"type": "string", "enum": ["current", "proposed", "alternative", "context"]}, "excerpt": {"type": ["string", "null"]}, "observed_sequence": {"type": ["string", "null"]}, "notes": {"type": ["string", "null"]}}},
     "transformation": {"type": "object", "additionalProperties": false, "required": ["operation", "input", "output", "rationale"], "properties": {"operation": {"type": "string", "enum": ["reverse_complement", "remove_direction_wrapper", "expand_homopolymer", "normalize_placeholder", "omit_biological_insert", "assemble_construct", "other"]}, "input": {}, "output": {}, "rationale": {"type": "string", "minLength": 1}}},
     "patch": {
