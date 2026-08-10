@@ -22,6 +22,11 @@ paths:
   T1/T2/T3 candidate from legacy HTML, current JSON, and reviewed TSV before it
   opens primary sources. Do not run a separate source-only T1/T2/T3 extraction
   phase or create a frozen evidence artifact.
+- If a complete comparison artifact fails deterministic audit/T1/T2/T3 schema
+  or linked validation, use at most two evidence-isolated repair attempts.
+  Give the repair worker only the artifact and exact validator error, preserve
+  all attempt provenance, re-run full validation, and reject any change to
+  source coverage, evidence, issue conclusions, or audited-field statuses.
 - T3 conversion comes primarily from the ordered molecular workflow in the
   legacy HTML; primary sources verify and may propose corrections to that
   candidate but do not silently replace it.

@@ -1,0 +1,48 @@
+{
+  "schema_version": "libstruct.paper_results.v0",
+  "generated_on": "2026-08-08",
+  "task1": {
+    "status": "preliminary_pre_audit",
+    "protocol_count": 20,
+    "model_families": 3,
+    "paired_observation_count": 38,
+    "paired_api_mean_sequence_similarity": 0.754822,
+    "paired_agent_mean_sequence_similarity": 0.731526,
+    "paired_agent_minus_api": -0.023296,
+    "paired_api_exact_count": 7,
+    "paired_agent_exact_count": 8,
+    "paired_agent_wins": 5,
+    "paired_ties": 25,
+    "paired_api_wins": 8,
+    "agent_prediction_count": 60,
+    "agent_exact_count": 12,
+    "agent_exact_rate": 0.2,
+    "source": "analysis/library_structure/grades_long.json",
+    "caveat": "API request failures are excluded from paired accuracy. Pooled observations repeat protocols across model families."
+  },
+  "parser_control": {
+    "protocol_count": 5,
+    "reference_sequence_count": 80,
+    "human_exact_count": 80,
+    "pymupdf_exact_count": 80,
+    "pypdf_exact_count": 80,
+    "docling_exact_count": 80,
+    "mineru_ocr_exact_count": 71,
+    "mineru_ocr_mean_max_similarity": 0.982209,
+    "mineru_ocr_min_max_similarity": 0.31746,
+    "source": "/Users/seqmachines/playground/important_runs/parser_control_text5/harbor/parser-control-text5-all/gt_max_sequence_similarity_scatter.csv",
+    "metric": "Per-reference maximum normalized edit similarity to any recovered candidate."
+  },
+  "ground_truth_audit": {
+    "reviewed_protocol_count": 10,
+    "audited_field_count": 187,
+    "confirmed_finding_count": 68,
+    "schema_or_formatting_error_count": 31,
+    "source_or_protocol_ambiguity_count": 15,
+    "original_human_curation_error_count": 12,
+    "protocol_version_error_count": 9,
+    "naming_or_normalization_inconsistency_count": 1,
+    "human_review_seconds": 19500,
+    "caveat": "Schema conversions and missing representations are not biological error labels."
+  }
+}

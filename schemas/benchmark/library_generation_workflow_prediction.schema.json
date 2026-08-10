@@ -1,0 +1,311 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/benchmark/library_generation_workflow_prediction.schema.json",
+  "title": "Molecular library-generation workflow prediction",
+  "description": "Agent-visible T3 state-transition graph. Audit-only evidence, support, lineage, and review fields are deliberately excluded.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["protocol_id", "modality", "workflows"],
+  "properties": {
+    "protocol_id": {"$ref": "#/$defs/stable_id"},
+    "modality": {"type": "string", "minLength": 1},
+    "workflows": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/workflow"}
+    }
+  },
+  "$defs": {
+    "stable_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 240,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+    },
+    "placeholder": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^\\[(?![A-Z0-9_]*(?:_RC|_REVCOMP|_REVERSE_COMPLEMENT|_FWD|_FORWARD|_REV|_REVERSE)(?::[1-9][0-9]*)?\\]$)[A-Z][A-Z0-9]*(?:_[A-Z0-9]+)*(?::[1-9][0-9]*)?\\]$"
+    },
+    "oligo_derivation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["oligo_id", "orientation_to_source"],
+      "properties": {
+        "oligo_id": {"$ref": "#/$defs/stable_id"},
+        "orientation_to_source": {
+          "type": "string",
+          "enum": ["same_orientation", "reverse_complement", "unknown"]
+        }
+      }
+    },
+    "architecture_segment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["segment_id", "role", "structural_role"],
+      "properties": {
+        "segment_id": {"$ref": "#/$defs/stable_id"},
+        "role": {"type": "string", "minLength": 1},
+        "structural_role": {
+          "type": "string",
+          "enum": [
+            "paired_region",
+            "five_prime_overhang",
+            "three_prime_overhang",
+            "internal_unpaired",
+            "unpaired",
+            "mixed",
+            "unknown"
+          ]
+        },
+        "sequence": {"type": "string", "minLength": 1},
+        "length": {"type": "integer", "minimum": 1},
+        "placeholder": {"$ref": "#/$defs/placeholder"},
+        "oligo_derivations": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/oligo_derivation"}
+        }
+      },
+      "anyOf": [
+        {"required": ["sequence"]},
+        {"required": ["length"]},
+        {"required": ["placeholder"]}
+      ]
+    },
+    "strand": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["strand_id", "name", "molecule_type", "orientation", "segments"],
+      "properties": {
+        "strand_id": {"$ref": "#/$defs/stable_id"},
+        "name": {"type": "string", "minLength": 1},
+        "molecule_type": {
+          "type": "string",
+          "enum": ["DNA", "RNA", "other", "unknown"]
+        },
+        "orientation": {"const": "5_to_3"},
+        "sequence_architecture": {"type": "string", "minLength": 1},
+        "segments": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/architecture_segment"}
+        }
+      }
+    },
+    "paired_region_side": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["strand_id", "segment_ids"],
+      "properties": {
+        "strand_id": {"$ref": "#/$defs/stable_id"},
+        "segment_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/stable_id"}
+        }
+      }
+    },
+    "paired_region": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["paired_region_id", "side_1", "side_2", "relationship"],
+      "properties": {
+        "paired_region_id": {"$ref": "#/$defs/stable_id"},
+        "side_1": {"$ref": "#/$defs/paired_region_side"},
+        "side_2": {"$ref": "#/$defs/paired_region_side"},
+        "relationship": {
+          "type": "string",
+          "enum": ["reverse_complementary", "documented_noncanonical", "unknown"]
+        }
+      }
+    },
+    "discontinuity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "discontinuity_id",
+        "strand_id",
+        "after_segment_id",
+        "before_segment_id",
+        "kind"
+      ],
+      "properties": {
+        "discontinuity_id": {"$ref": "#/$defs/stable_id"},
+        "strand_id": {"$ref": "#/$defs/stable_id"},
+        "after_segment_id": {"$ref": "#/$defs/stable_id"},
+        "before_segment_id": {"$ref": "#/$defs/stable_id"},
+        "kind": {"type": "string", "enum": ["nick", "gap", "break", "unknown"]}
+      }
+    },
+    "state": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "state_id",
+        "name",
+        "molecule_type",
+        "strand_architecture",
+        "reference_strand_id",
+        "physical_state",
+        "strands",
+        "paired_regions",
+        "discontinuities",
+        "properties"
+      ],
+      "properties": {
+        "state_id": {"$ref": "#/$defs/stable_id"},
+        "name": {"type": "string", "minLength": 1},
+        "molecule_type": {"type": "string", "minLength": 1},
+        "strand_architecture": {
+          "type": "string",
+          "enum": [
+            "single_stranded",
+            "double_stranded",
+            "partially_duplex",
+            "rna_dna_hybrid",
+            "y_shaped_duplex",
+            "mixed_population",
+            "unknown"
+          ]
+        },
+        "reference_strand_id": {"$ref": "#/$defs/stable_id"},
+        "physical_state": {"type": "string", "minLength": 1},
+        "strands": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/strand"}
+        },
+        "paired_regions": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/paired_region"}
+        },
+        "discontinuities": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/discontinuity"}
+        },
+        "properties": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "reagent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name"],
+      "properties": {
+        "name": {"type": "string", "minLength": 1},
+        "role": {"type": ["string", "null"], "minLength": 1}
+      }
+    },
+    "transition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "transition_id",
+        "substrate_state_ids",
+        "operation",
+        "oligo_ids",
+        "major_reagents",
+        "product_state_ids",
+        "carried_forward_product_ids",
+        "discarded_product_ids"
+      ],
+      "properties": {
+        "transition_id": {"$ref": "#/$defs/stable_id"},
+        "substrate_state_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/stable_id"}
+        },
+        "operation": {
+          "type": "string",
+          "enum": [
+            "reverse_transcription",
+            "ligation",
+            "tagmentation",
+            "extension",
+            "pcr",
+            "amplification",
+            "fragmentation",
+            "denaturation",
+            "strand_synthesis",
+            "cleanup",
+            "size_selection",
+            "affinity_selection",
+            "pooling",
+            "indexing",
+            "circularization",
+            "capture",
+            "other"
+          ]
+        },
+        "operation_detail": {"type": ["string", "null"], "minLength": 1},
+        "oligo_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/stable_id"}
+        },
+        "major_reagents": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/reagent"}
+        },
+        "product_state_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/stable_id"}
+        },
+        "carried_forward_product_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/stable_id"}
+        },
+        "discarded_product_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/stable_id"}
+        }
+      }
+    },
+    "workflow": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "workflow_id",
+        "states",
+        "transitions",
+        "initial_state_ids",
+        "final_state_ids"
+      ],
+      "properties": {
+        "workflow_id": {"$ref": "#/$defs/stable_id"},
+        "states": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/state"}
+        },
+        "transitions": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/transition"}
+        },
+        "initial_state_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/stable_id"}
+        },
+        "final_state_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/stable_id"}
+        }
+      }
+    }
+  }
+}

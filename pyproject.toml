@@ -41,6 +41,13 @@ libstruct-run-audit-regressions = "libstruct_bench.cli.run_audit_regressions:mai
 libstruct-report-audit-checkpoint = "libstruct_bench.cli.report_audit_checkpoint:main"
 libstruct-build-audit-release = "libstruct_bench.cli.build_audit_release:main"
 libstruct-build-audited-oligos = "libstruct_bench.cli.build_audited_oligos:main"
+libstruct-grade-libgen = "libstruct_bench.cli.grade_libgen:main"
+libstruct-validate-libgen-predictions = "libstruct_bench.cli.validate_libgen_predictions:main"
+libstruct-generate-libgen-tasks = "libstruct_bench.cli.generate_libgen_tasks:main"
+libstruct-check-libgen-staging = "libstruct_bench.cli.check_libgen_staging:main"
+libstruct-prepare-libgen-hf-export = "libstruct_bench.cli.prepare_libgen_hf_export:main"
+libstruct-plan-libgen-matrix = "libstruct_bench.cli.plan_libgen_matrix:main"
+libstruct-summarize-libgen-runs = "libstruct_bench.cli.summarize_libgen_runs:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

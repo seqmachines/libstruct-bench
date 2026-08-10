@@ -24,6 +24,7 @@ from tests.audit.test_review_application import _proposal
 REPO_ROOT = Path(__file__).resolve().parents[2]
 AUDIT_SCHEMAS = REPO_ROOT / "schemas" / "audit"
 PROMPTS = REPO_ROOT / ".claude" / "prompts"
+REPAIR_PROMPT = PROMPTS / "audit-comparison-repair.md"
 SKILL = REPO_ROOT / ".claude" / "skills" / "audit-protocol" / "SKILL.md"
 POLICIES = [
     REPO_ROOT / "docs" / "audit" / "evidence-policy.md",
@@ -37,6 +38,31 @@ def _fake_claude(path: Path, artifact: dict) -> Path:
         "#!/bin/sh\n"
         "if [ \"$1\" = \"--version\" ]; then echo 'Claude Code 2.1.0'; exit 0; fi\n"
         f"printf '%s\\n' '{payload}'\n",
+        encoding="utf-8",
+    )
+    path.chmod(0o755)
+    return path
+
+
+def _fake_claude_sequence(path: Path, artifacts: list[dict]) -> Path:
+    responses_path = path.with_suffix(".responses.json")
+    counter_path = path.with_suffix(".counter")
+    responses_path.write_text(json.dumps(artifacts), encoding="utf-8")
+    path.write_text(
+        "#!/usr/bin/env python3\n"
+        "import json\n"
+        "import sys\n"
+        "from pathlib import Path\n"
+        f"responses_path = Path({str(responses_path)!r})\n"
+        f"counter_path = Path({str(counter_path)!r})\n"
+        "if '--version' in sys.argv:\n"
+        "    print('Claude Code 2.1.0')\n"
+        "    raise SystemExit(0)\n"
+        "responses = json.loads(responses_path.read_text(encoding='utf-8'))\n"
+        "index = int(counter_path.read_text()) if counter_path.exists() else 0\n"
+        "counter_path.write_text(str(index + 1))\n"
+        "artifact = responses[min(index, len(responses) - 1)]\n"
+        "print(json.dumps({'structured_output': artifact}))\n",
         encoding="utf-8",
     )
     path.chmod(0o755)
@@ -69,6 +95,31 @@ def _run(tmp_path: Path, *, packet: Path, output: dict):
         model="claude-sonnet-4-20250514",
         run_id="comparison-001",
         claude_executable=str(_fake_claude(tmp_path / "fake-comparison-claude", output)),
+    )
+
+
+def _run_sequence(
+    tmp_path: Path,
+    *,
+    packet: Path,
+    outputs: list[dict],
+    max_repair_attempts: int = 2,
+):
+    return run_claude_audit(
+        packet_dir=packet,
+        output_dir=tmp_path / "comparison-run",
+        output_schema_path=AUDIT_SCHEMAS / "protocol_audit.schema.json",
+        packet_schema_path=AUDIT_SCHEMAS / "audit_packet.schema.json",
+        prompt_path=PROMPTS / "audit-comparison.md",
+        repair_prompt_path=REPAIR_PROMPT,
+        skill_path=SKILL,
+        policy_paths=POLICIES,
+        model="claude-sonnet-4-20250514",
+        run_id="comparison-001",
+        max_repair_attempts=max_repair_attempts,
+        claude_executable=str(
+            _fake_claude_sequence(tmp_path / "fake-comparison-claude", outputs)
+        ),
     )
 
 
@@ -113,6 +164,162 @@ def _canonical_t1() -> dict:
             }
         ],
     }
+
+
+def _canonical_t3(sequence: str = "A") -> dict:
+    def state(state_id: str, role: str, value: str) -> dict:
+        strand_id = f"{state_id}-strand"
+        return {
+            "state_id": state_id,
+            "name": state_id.title(),
+            "molecule_type": "DNA",
+            "strand_architecture": "single_stranded",
+            "reference_strand_id": strand_id,
+            "physical_state": "solution",
+            "strands": [
+                {
+                    "strand_id": strand_id,
+                    "name": f"{state_id.title()} strand",
+                    "molecule_type": "DNA",
+                    "orientation": "5_to_3",
+                    "sequence_architecture": value,
+                    "segments": [
+                        {
+                            "segment_id": f"{state_id}-segment",
+                            "role": role,
+                            "structural_role": "unpaired",
+                            "sequence": value,
+                        }
+                    ],
+                    "support_status": "explicit",
+                }
+            ],
+            "paired_regions": [],
+            "discontinuities": [],
+            "properties": [],
+            "support_status": "explicit",
+        }
+
+    return {
+        "protocol_id": "example",
+        "protocol_name": "Example",
+        "modality": "test",
+        "workflows": [
+            {
+                "workflow_id": "workflow",
+                "states": [
+                    state("input", "input", "G"),
+                    state("final", "adapter", sequence),
+                ],
+                "transitions": [
+                    {
+                        "transition_id": "extension",
+                        "substrate_state_ids": ["input"],
+                        "operation": "extension",
+                        "operation_detail": None,
+                        "oligo_ids": [],
+                        "major_reagents": [],
+                        "product_state_ids": ["final"],
+                        "carried_forward_product_ids": ["final"],
+                        "discarded_product_ids": [],
+                        "support_status": "explicit",
+                    }
+                ],
+                "initial_state_ids": ["input"],
+                "final_state_ids": ["final"],
+            }
+        ],
+    }
+
+
+def _paired_terminal_t3(*, include_terminal_pair: bool) -> dict:
+    document = _canonical_t3("A")
+    final_state = {
+        "state_id": "final",
+        "name": "Final duplex",
+        "molecule_type": "DNA",
+        "strand_architecture": "double_stranded",
+        "reference_strand_id": "top",
+        "physical_state": "solution",
+        "strands": [
+            {
+                "strand_id": "top",
+                "name": "Top strand",
+                "molecule_type": "DNA",
+                "orientation": "5_to_3",
+                "sequence_architecture": "A",
+                "segments": [
+                    {
+                        "segment_id": "top-left",
+                        "role": "adapter",
+                        "structural_role": "paired_region",
+                        "sequence": "A",
+                    },
+                    {
+                        "segment_id": "top-terminal",
+                        "role": "adapter",
+                        "structural_role": "paired_region",
+                        "sequence": "C",
+                    },
+                ],
+                "support_status": "explicit",
+            },
+            {
+                "strand_id": "bottom",
+                "name": "Bottom strand",
+                "molecule_type": "DNA",
+                "orientation": "5_to_3",
+                "segments": [
+                    {
+                        "segment_id": "bottom-terminal",
+                        "role": "adapter",
+                        "structural_role": "paired_region",
+                        "sequence": "G",
+                    },
+                    {
+                        "segment_id": "bottom-right",
+                        "role": "adapter",
+                        "structural_role": "paired_region",
+                        "sequence": "T",
+                    },
+                ],
+                "support_status": "explicit",
+            },
+        ],
+        "paired_regions": [
+            {
+                "paired_region_id": "left-pair",
+                "side_1": {"strand_id": "top", "segment_ids": ["top-left"]},
+                "side_2": {
+                    "strand_id": "bottom",
+                    "segment_ids": ["bottom-right"],
+                },
+                "relationship": "reverse_complementary",
+                "support_status": "explicit",
+            }
+        ],
+        "discontinuities": [],
+        "properties": [],
+        "support_status": "explicit",
+    }
+    if include_terminal_pair:
+        final_state["paired_regions"].append(
+            {
+                "paired_region_id": "terminal-pair",
+                "side_1": {
+                    "strand_id": "top",
+                    "segment_ids": ["top-terminal"],
+                },
+                "side_2": {
+                    "strand_id": "bottom",
+                    "segment_ids": ["bottom-terminal"],
+                },
+                "relationship": "reverse_complementary",
+                "support_status": "explicit",
+            }
+        )
+    document["workflows"][0]["states"][1] = final_state
+    return document
 
 
 def _root_conversion_proposal(candidate: dict) -> dict:
@@ -284,6 +491,17 @@ def test_prompt_contract_rejections_are_not_attributed_to_human_curation() -> No
     assert "worker guidance omitted a deterministic validator invariant" in skill
     assert "agent_harness_or_context_error" in skill
     assert "not to human curation" in skill
+
+
+def test_repair_worker_is_evidence_isolated_and_scope_bounded() -> None:
+    prompt = " ".join(REPAIR_PROMPT.read_text(encoding="utf-8").split())
+
+    assert "Read only `repair-input.json`" in prompt
+    assert "Do not open the comparison packet" in prompt
+    assert "do not add or remove a finding" in prompt
+    assert "do not change scientifically supported sequence content" in prompt
+    assert "smallest change necessary" in prompt
+    assert "re-run the full audit schema" in prompt
 
 
 def test_placeholder_orientation_contract_reaches_comparison_worker() -> None:
@@ -511,6 +729,106 @@ def test_comparison_reports_issue_missing_from_field_ledger(tmp_path: Path) -> N
         _run(tmp_path, packet=packet, output=output)
 
 
+def test_comparison_repairs_complete_schema_invalid_artifact_once(
+    tmp_path: Path,
+) -> None:
+    packet = _packet(tmp_path)
+    invalid_t3 = {"protocol_id": "example", "legacy_steps": []}
+    repaired_t3 = _canonical_t3()
+    initial = _proposal("a" * 64, new_t3=invalid_t3)
+    repaired = _proposal("a" * 64, new_t3=repaired_t3)
+
+    result = _run_sequence(
+        tmp_path,
+        packet=packet,
+        outputs=[initial, repaired],
+    )
+
+    artifact = json.loads(result.artifact_path.read_text(encoding="utf-8"))
+    metadata = json.loads(result.metadata_path.read_text(encoding="utf-8"))
+    repair = metadata["validation_repair"]
+    assert artifact["issues"][0]["proposed_value"] == repaired_t3
+    assert repair["status"] == "succeeded"
+    assert repair["attempt_count"] == 1
+    attempt = repair["attempts"][0]
+    assert attempt["status"] == "validated"
+    assert attempt["tools"] == ["Read"]
+    assert (result.output_dir / attempt["input_artifact_path"]).is_file()
+    assert (result.output_dir / attempt["candidate_artifact_path"]).is_file()
+    preserved_input = json.loads(
+        (result.output_dir / attempt["input_artifact_path"]).read_text(
+            encoding="utf-8"
+        )
+    )
+    assert preserved_input["issues"][0]["proposed_value"] == invalid_t3
+    validator_errors = json.loads(
+        (result.output_dir / attempt["validator_errors_path"]).read_text(
+            encoding="utf-8"
+        )
+    )
+    assert "new ground-truth candidate issue-1 schema error" in validator_errors[
+        "errors"
+    ][0]
+
+
+def test_comparison_repairs_linked_t1_t3_validation_failure(tmp_path: Path) -> None:
+    packet = _packet(tmp_path)
+    initial = _proposal(
+        "a" * 64,
+        new_t3=_paired_terminal_t3(include_terminal_pair=False),
+    )
+    repaired_t3 = _paired_terminal_t3(include_terminal_pair=True)
+    repaired = _proposal("a" * 64, new_t3=repaired_t3)
+
+    result = _run_sequence(
+        tmp_path,
+        packet=packet,
+        outputs=[initial, repaired],
+    )
+
+    artifact = json.loads(result.artifact_path.read_text(encoding="utf-8"))
+    metadata = json.loads(result.metadata_path.read_text(encoding="utf-8"))
+    attempt = metadata["validation_repair"]["attempts"][0]
+    errors = json.loads(
+        (result.output_dir / attempt["validator_errors_path"]).read_text(
+            encoding="utf-8"
+        )
+    )["errors"]
+    assert artifact["issues"][0]["proposed_value"] == repaired_t3
+    assert metadata["validation_repair"]["status"] == "succeeded"
+    assert "linked root conversion candidates are inconsistent" in errors[0]
+    assert "top-terminal" in errors[0]
+
+
+def test_comparison_repair_rejects_changed_issue_conclusion(tmp_path: Path) -> None:
+    packet = _packet(tmp_path)
+    initial = _proposal(
+        "a" * 64,
+        new_t3={"protocol_id": "example", "legacy_steps": []},
+    )
+    out_of_scope = _proposal("a" * 64, new_t3=_canonical_t3())
+    out_of_scope["summary"] = "The repair silently changed the conclusion."
+
+    with pytest.raises(
+        ClaudeAuditError,
+        match="repair changed protected comparison field 'summary'",
+    ):
+        _run_sequence(
+            tmp_path,
+            packet=packet,
+            outputs=[initial, out_of_scope],
+        )
+
+    failure = json.loads(
+        (tmp_path / "comparison-run.rejected/failure.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    assert failure["validation_repair"]["status"] == "failed"
+    assert failure["validation_repair"]["attempt_count"] == 1
+    assert failure["validation_repair"]["attempts"][0]["status"] == "rejected"
+
+
 def test_comparison_rejects_schema_invalid_new_groundtruth(tmp_path: Path) -> None:
     packet = _packet(tmp_path)
     invalid_t3 = {"protocol_id": "example", "legacy_steps": []}
@@ -536,10 +854,17 @@ def test_comparison_rejects_schema_invalid_new_groundtruth(tmp_path: Path) -> No
         (rejected_dir / "failure.json").read_text(encoding="utf-8")
     )
     assert rejected_artifact["issues"][0]["issue_id"] == "issue-1"
+    assert rejected_artifact["issues"][0]["proposed_value"] == invalid_t3
     assert failure["status"] == "rejected"
     assert failure["artifact_path"] == "rejected-artifact.json"
     assert failure["artifact_sha256"]
     assert "new ground-truth candidate issue-1" in failure["reason"]
+    assert failure["validation_repair"]["status"] == "exhausted"
+    assert failure["validation_repair"]["attempt_count"] == 2
+    assert all(
+        item["status"] == "validation_failed"
+        for item in failure["validation_repair"]["attempts"]
+    )
 
 
 def test_comparison_requires_root_conversion_for_legacy_baseline(

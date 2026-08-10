@@ -4,7 +4,11 @@ import argparse
 import sys
 from pathlib import Path
 
-from libstruct_bench.audit.claude_runner import ClaudeAuditError, run_claude_audit
+from libstruct_bench.audit.claude_runner import (
+    MAX_COMPARISON_REPAIR_ATTEMPTS,
+    ClaudeAuditError,
+    run_claude_audit,
+)
 
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
@@ -25,6 +29,14 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--timeout-seconds", type=int, default=3600)
     parser.add_argument("--claude-executable", default="claude")
     parser.add_argument("--prompt", type=Path)
+    parser.add_argument("--repair-prompt", type=Path)
+    parser.add_argument(
+        "--max-repair-attempts",
+        type=int,
+        choices=range(MAX_COMPARISON_REPAIR_ATTEMPTS + 1),
+        default=MAX_COMPARISON_REPAIR_ATTEMPTS,
+        help="bounded deterministic-validation repairs after a complete artifact",
+    )
     parser.add_argument(
         "--skill",
         type=Path,
@@ -60,6 +72,8 @@ def main(argv: list[str] | None = None) -> int:
             max_budget_usd=args.max_budget_usd,
             timeout_seconds=args.timeout_seconds,
             claude_executable=args.claude_executable,
+            repair_prompt_path=args.repair_prompt,
+            max_repair_attempts=args.max_repair_attempts,
         )
     except ClaudeAuditError as error:
         print(f"error: {error}", file=sys.stderr)

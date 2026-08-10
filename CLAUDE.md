@@ -55,6 +55,16 @@ preserve source locators, report conflicts instead of resolving them silently,
 and never interpret an agent proposal as human approval. Only deterministic
 repository tools may apply or promote changes.
 
+If a complete comparison artifact fails the audit schema, a canonical
+T1/T2/T3 schema, or linked validation, the runner may make at most two bounded
+repair attempts before rejecting the run. Repair is evidence-isolated: the
+worker receives only the artifact and exact validator error and cannot reopen
+the packet or sources. It may repair only the root candidate representation or
+deterministic ledger linkage required by that error. Source coverage, evidence,
+audited-field conclusions, and issue identities and classifications are fixed.
+Re-run full validation and preserve the inputs, candidates, errors, transcripts,
+changed paths, and hashes for every attempt.
+
 For T3, prefer the smallest scientifically sufficient graph. Create new states
 and transitions primarily for changes in sequence architecture or strand
 structure. When those are unchanged, fold cleanup, purification, size

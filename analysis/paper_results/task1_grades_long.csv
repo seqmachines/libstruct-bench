@@ -1,0 +1,123 @@
+ai,method,protocol,protocol_display,status,parse_valid,sequence_similarity,matched_sequence_similarity,library_f1,library_precision,library_recall,edit_distance,predicted_library_count,ground_truth_library_count,fail_reason
+Claude,API,10x_chromium_single_cell_atac_v2,10x Chromium Single Cell ATAC v2,ok,1,1.0,1.0,1.0,1.0,1.0,0.0,1.0,1.0,
+Claude,API,10x_chromium_3_gene_expression_v4,10x Chromium 3' Gene Expression v4,ok,1,1.0,1.0,1.0,1.0,1.0,0.0,1.0,1.0,
+Claude,API,10x_chromium_3_feature_barcoding,10x Chromium 3' Feature Barcoding,ok,1,0.9551886792452831,0.9551886792452831,1.0,1.0,1.0,19.0,2.0,2.0,
+Claude,API,drop_seq,Drop-seq,ok,1,0.8967391304347826,0.8967391304347826,0.6666666666666666,0.5,1.0,19.0,2.0,1.0,
+Claude,API,seq_well_s3,Seq-Well S3,failed,,,,,,,,,,"api_error:OpenRouter request failed with HTTP 502: error code: 502
+"
+Claude,API,indrop_v1,inDrop v1,failed,,,,,,,,,,"api_error:OpenRouter response did not include text content (finish_reason='length', comple"
+Claude,API,s3_atac,s3-ATAC,failed,,,,,,,,,,"api_error:OpenRouter request failed with HTTP 400: {""error"":{""message"":""Provider returned "
+Claude,API,cel_seq,CEL-seq,ok,1,0.9536423841059603,0.9536423841059603,1.0,1.0,1.0,7.0,1.0,1.0,
+Claude,API,split_seq,SPLiT-seq,failed,,,,,,,,,,"api_error:OpenRouter request failed with HTTP 400: {""error"":{""message"":""Provider returned "
+Claude,API,sci_rna_seq,sci-RNA-seq,ok,1,0.9,0.9,1.0,1.0,1.0,19.0,1.0,1.0,
+Claude,API,sci_atac_seq,sci-ATAC-seq,failed,,,,,,,,,,"api_error:OpenRouter request failed with HTTP 400: {""error"":{""message"":""Provider returned "
+Claude,API,microwell_seq,Microwell-seq,failed,,,,,,,,,,"api_error:OpenRouter request failed with HTTP 400: {""error"":{""message"":""Provider returned "
+Claude,API,scrrbs,scRRBS,ok,1,0.9166666666666666,0.9166666666666666,1.0,1.0,1.0,11.0,1.0,1.0,
+Claude,API,pip_seq_v4,PIP-seq v4,ok,1,0.8416289592760181,0.8416289592760181,1.0,1.0,1.0,35.0,1.0,1.0,
+Claude,API,scdamid,scDamID,ok,1,0.9821428571428571,0.9821428571428571,1.0,1.0,1.0,3.0,1.0,1.0,
+Claude,API,ddseq_single_cell_3_rna_seq_kit,ddSEQ Single-Cell 3' RNA-Seq Kit,ok,1,0.1950551156652694,0.1950551156652694,1.0,1.0,1.0,410.0,2.0,2.0,
+Claude,API,smart_seq,SMART-seq,ok,1,0.3529411764705882,0.3529411764705882,0.6666666666666666,0.5,1.0,88.0,2.0,1.0,
+Claude,API,share_seq,SHARE-seq,failed,,,,,,,,,,"api_error:OpenRouter request failed with HTTP 400: {""error"":{""message"":""Provider returned "
+Claude,API,dr_seq,DR-seq,ok,1,0.47210755647288155,0.7081613347093223,0.8,1.0,0.6666666666666666,240.0,2.0,3.0,
+Claude,API,petri_seq,PETRI-seq,failed,,,,,,,,,,api_error:OpenRouter returned error 400: Provider returned error
+GPT,API,10x_chromium_single_cell_atac_v2,10x Chromium Single Cell ATAC v2,ok,1,1.0,1.0,1.0,1.0,1.0,0.0,1.0,1.0,
+GPT,API,10x_chromium_3_gene_expression_v4,10x Chromium 3' Gene Expression v4,ok,1,1.0,1.0,1.0,1.0,1.0,0.0,1.0,1.0,
+GPT,API,10x_chromium_3_feature_barcoding,10x Chromium 3' Feature Barcoding,ok,1,0.9976415094339622,0.9976415094339622,1.0,1.0,1.0,1.0,2.0,2.0,
+GPT,API,drop_seq,Drop-seq,ok,1,0.8967391304347826,0.8967391304347826,0.6666666666666666,0.5,1.0,19.0,2.0,1.0,
+GPT,API,seq_well_s3,Seq-Well S3,failed,,,,,,,,,,api_error:OpenRouter returned error 504: Provider returned error
+GPT,API,indrop_v1,inDrop v1,ok,1,0.9621621621621621,0.9621621621621621,1.0,1.0,1.0,7.0,1.0,1.0,
+GPT,API,s3_atac,s3-ATAC,failed,,,,,,,,,,api_error:OpenRouter returned error 400: Provider returned error
+GPT,API,cel_seq,CEL-seq,ok,1,0.39072847682119205,0.39072847682119205,1.0,1.0,1.0,92.0,1.0,1.0,
+GPT,API,split_seq,SPLiT-seq,failed,,,,,,,,,,api_error:OpenRouter returned error 400: Provider returned error
+GPT,API,sci_rna_seq,sci-RNA-seq,ok,1,0.9,0.9,1.0,1.0,1.0,19.0,1.0,1.0,
+GPT,API,sci_atac_seq,sci-ATAC-seq,failed,,,,,,,,,,api_error:OpenRouter returned error 400: Provider returned error
+GPT,API,microwell_seq,Microwell-seq,failed,,,,,,,,,,api_error:OpenRouter returned error 400: Provider returned error
+GPT,API,scrrbs,scRRBS,ok,1,0.9242424242424242,0.9242424242424242,1.0,1.0,1.0,10.0,1.0,1.0,
+GPT,API,pip_seq_v4,PIP-seq v4,ok,1,0.8416289592760181,0.8416289592760181,1.0,1.0,1.0,35.0,1.0,1.0,
+GPT,API,scdamid,scDamID,ok,1,0.9821428571428571,0.9821428571428571,1.0,1.0,1.0,3.0,1.0,1.0,
+GPT,API,ddseq_single_cell_3_rna_seq_kit,ddSEQ Single-Cell 3' RNA-Seq Kit,ok,1,0.06346840552709204,0.06346840552709204,1.0,1.0,1.0,479.0,2.0,2.0,
+GPT,API,smart_seq,SMART-seq,ok,1,0.3897058823529411,0.3897058823529411,1.0,1.0,1.0,83.0,1.0,1.0,
+GPT,API,share_seq,SHARE-seq,failed,,,,,,,,,,api_error:OpenRouter returned error 400: Provider returned error
+GPT,API,dr_seq,DR-seq,ok,1,0.06617647058823528,0.19852941176470584,0.5,1.0,0.3333333333333333,384.0,1.0,3.0,
+GPT,API,petri_seq,PETRI-seq,failed,,,,,,,,,,api_error:OpenRouter returned error 400: Provider returned error
+Gemini,API,10x_chromium_single_cell_atac_v2,10x Chromium Single Cell ATAC v2,ok,1,1.0,1.0,1.0,1.0,1.0,0.0,1.0,1.0,
+Gemini,API,10x_chromium_3_gene_expression_v4,10x Chromium 3' Gene Expression v4,ok,1,1.0,1.0,1.0,1.0,1.0,0.0,1.0,1.0,
+Gemini,API,10x_chromium_3_feature_barcoding,10x Chromium 3' Feature Barcoding,ok,1,0.9976415094339622,0.9976415094339622,1.0,1.0,1.0,1.0,2.0,2.0,
+Gemini,API,drop_seq,Drop-seq,ok,1,0.9891304347826086,0.9891304347826086,1.0,1.0,1.0,2.0,1.0,1.0,
+Gemini,API,seq_well_s3,Seq-Well S3,failed,,,,,,,,,,"api_error:OpenRouter request failed with HTTP 502: error code: 502
+"
+Gemini,API,indrop_v1,inDrop v1,ok,1,0.5606060606060606,0.5606060606060606,1.0,1.0,1.0,87.0,1.0,1.0,
+Gemini,API,s3_atac,s3-ATAC,failed,,,,,,,,,,"api_error:OpenRouter request failed with HTTP 400: {""error"":{""message"":""Provider returned "
+Gemini,API,cel_seq,CEL-seq,ok,1,0.9602649006622517,0.9602649006622517,1.0,1.0,1.0,6.0,1.0,1.0,
+Gemini,API,split_seq,SPLiT-seq,failed,,,,,,,,,,"api_error:OpenRouter request failed with HTTP 400: {""error"":{""message"":""Provider returned "
+Gemini,API,sci_rna_seq,sci-RNA-seq,ok,1,1.0,1.0,1.0,1.0,1.0,0.0,1.0,1.0,
+Gemini,API,sci_atac_seq,sci-ATAC-seq,failed,,,,,,,,,,"api_error:OpenRouter request failed with HTTP 400: {""error"":{""message"":""Provider returned "
+Gemini,API,microwell_seq,Microwell-seq,failed,,,,,,,,,,"api_error:OpenRouter request failed with HTTP 400: {""error"":{""message"":""Provider returned "
+Gemini,API,scrrbs,scRRBS,ok,1,0.9545454545454546,0.9545454545454546,1.0,1.0,1.0,6.0,1.0,1.0,
+Gemini,API,pip_seq_v4,PIP-seq v4,ok,1,0.8461538461538461,0.8461538461538461,1.0,1.0,1.0,34.0,1.0,1.0,
+Gemini,API,scdamid,scDamID,ok,1,0.9821428571428571,0.9821428571428571,1.0,1.0,1.0,3.0,1.0,1.0,
+Gemini,API,ddseq_single_cell_3_rna_seq_kit,ddSEQ Single-Cell 3' RNA-Seq Kit,ok,1,0.06346840552709204,0.06346840552709204,1.0,1.0,1.0,479.0,2.0,2.0,
+Gemini,API,smart_seq,SMART-seq,ok,1,0.38235294117647056,0.38235294117647056,1.0,1.0,1.0,84.0,1.0,1.0,
+Gemini,API,share_seq,SHARE-seq,failed,,,,,,,,,,"api_error:OpenRouter request failed with HTTP 400: {""error"":{""message"":""Provider returned "
+Gemini,API,dr_seq,DR-seq,ok,1,0.06617647058823528,0.19852941176470584,0.5,1.0,0.3333333333333333,384.0,1.0,3.0,
+Gemini,API,petri_seq,PETRI-seq,failed,,,,,,,,,,"api_error:OpenRouter request failed with HTTP 400: {""error"":{""message"":""Provider returned "
+Claude,Agent,10x_chromium_single_cell_atac_v2,10x Chromium Single Cell ATAC v2,ok,1,1.0,1.0,1.0,1.0,1.0,0.0,1.0,1.0,
+Claude,Agent,10x_chromium_3_gene_expression_v4,10x Chromium 3' Gene Expression v4,ok,1,1.0,1.0,1.0,1.0,1.0,0.0,1.0,1.0,
+Claude,Agent,10x_chromium_3_feature_barcoding,10x Chromium 3' Feature Barcoding,ok,1,0.9551886792452831,0.9551886792452831,1.0,1.0,1.0,19.0,2.0,2.0,
+Claude,Agent,drop_seq,Drop-seq,ok,1,0.8858695652173914,0.8858695652173914,1.0,1.0,1.0,21.0,1.0,1.0,
+Claude,Agent,seq_well_s3,Seq-Well S3,ok,1,0.6813186813186813,0.6813186813186813,1.0,1.0,1.0,58.0,1.0,1.0,
+Claude,Agent,indrop_v1,inDrop v1,ok,1,0.9621621621621621,0.9621621621621621,1.0,1.0,1.0,7.0,1.0,1.0,
+Claude,Agent,s3_atac,s3-ATAC,ok,1,1.0,1.0,1.0,1.0,1.0,0.0,1.0,1.0,
+Claude,Agent,cel_seq,CEL-seq,ok,1,0.39072847682119205,0.39072847682119205,1.0,1.0,1.0,92.0,1.0,1.0,
+Claude,Agent,split_seq,SPLiT-seq,ok,1,0.8436213991769548,0.8436213991769548,1.0,1.0,1.0,38.0,1.0,1.0,
+Claude,Agent,sci_rna_seq,sci-RNA-seq,ok,1,0.9,0.9,1.0,1.0,1.0,19.0,1.0,1.0,
+Claude,Agent,sci_atac_seq,sci-ATAC-seq,ok,1,0.7414634146341463,0.7414634146341463,1.0,1.0,1.0,53.0,1.0,1.0,
+Claude,Agent,microwell_seq,Microwell-seq,ok,1,0.9128440366972477,0.9128440366972477,1.0,1.0,1.0,19.0,1.0,1.0,
+Claude,Agent,scrrbs,scRRBS,ok,1,0.9242424242424242,0.9242424242424242,1.0,1.0,1.0,10.0,1.0,1.0,
+Claude,Agent,pip_seq_v4,PIP-seq v4,ok,1,0.8416289592760181,0.8416289592760181,1.0,1.0,1.0,35.0,1.0,1.0,
+Claude,Agent,scdamid,scDamID,ok,1,0.9821428571428571,0.9821428571428571,1.0,1.0,1.0,3.0,1.0,1.0,
+Claude,Agent,ddseq_single_cell_3_rna_seq_kit,ddSEQ Single-Cell 3' RNA-Seq Kit,ok,1,0.1950551156652694,0.1950551156652694,1.0,1.0,1.0,410.0,2.0,2.0,
+Claude,Agent,smart_seq,SMART-seq,ok,1,1.0,1.0,0.6666666666666666,0.5,1.0,0.0,2.0,1.0,
+Claude,Agent,share_seq,SHARE-seq,ok,1,0.868396406396337,0.868396406396337,1.0,1.0,1.0,64.0,2.0,2.0,
+Claude,Agent,dr_seq,DR-seq,ok,1,0.06617647058823528,0.19852941176470584,0.5,1.0,0.3333333333333333,384.0,1.0,3.0,
+Claude,Agent,petri_seq,PETRI-seq,ok,1,0.9698492462311558,0.9698492462311558,1.0,1.0,1.0,6.0,1.0,1.0,
+GPT,Agent,10x_chromium_single_cell_atac_v2,10x Chromium Single Cell ATAC v2,ok,1,1.0,1.0,1.0,1.0,1.0,0.0,1.0,1.0,
+GPT,Agent,10x_chromium_3_gene_expression_v4,10x Chromium 3' Gene Expression v4,ok,1,1.0,1.0,1.0,1.0,1.0,0.0,1.0,1.0,
+GPT,Agent,10x_chromium_3_feature_barcoding,10x Chromium 3' Feature Barcoding,ok,1,0.9976415094339622,0.9976415094339622,1.0,1.0,1.0,1.0,2.0,2.0,
+GPT,Agent,drop_seq,Drop-seq,ok,1,0.8967391304347826,0.8967391304347826,0.6666666666666666,0.5,1.0,19.0,2.0,1.0,
+GPT,Agent,seq_well_s3,Seq-Well S3,ok,1,0.6813186813186813,0.6813186813186813,1.0,1.0,1.0,58.0,1.0,1.0,
+GPT,Agent,indrop_v1,inDrop v1,ok,1,0.9621621621621621,0.9621621621621621,1.0,1.0,1.0,7.0,1.0,1.0,
+GPT,Agent,s3_atac,s3-ATAC,ok,1,0.5,0.5,1.0,1.0,1.0,82.0,1.0,1.0,
+GPT,Agent,cel_seq,CEL-seq,ok,1,0.39072847682119205,0.39072847682119205,1.0,1.0,1.0,92.0,1.0,1.0,
+GPT,Agent,split_seq,SPLiT-seq,ok,1,0.9743589743589743,0.9743589743589743,0.6666666666666666,0.5,1.0,6.0,2.0,1.0,
+GPT,Agent,sci_rna_seq,sci-RNA-seq,ok,1,0.9,0.9,1.0,1.0,1.0,19.0,1.0,1.0,
+GPT,Agent,sci_atac_seq,sci-ATAC-seq,ok,1,0.6926829268292682,0.6926829268292682,1.0,1.0,1.0,63.0,1.0,1.0,
+GPT,Agent,microwell_seq,Microwell-seq,ok,1,0.9128440366972477,0.9128440366972477,0.6666666666666666,0.5,1.0,19.0,2.0,1.0,
+GPT,Agent,scrrbs,scRRBS,ok,1,0.9242424242424242,0.9242424242424242,1.0,1.0,1.0,10.0,1.0,1.0,
+GPT,Agent,pip_seq_v4,PIP-seq v4,ok,1,0.8416289592760181,0.8416289592760181,1.0,1.0,1.0,35.0,1.0,1.0,
+GPT,Agent,scdamid,scDamID,ok,1,0.9821428571428571,0.9821428571428571,1.0,1.0,1.0,3.0,1.0,1.0,
+GPT,Agent,ddseq_single_cell_3_rna_seq_kit,ddSEQ Single-Cell 3' RNA-Seq Kit,ok,1,0.1950551156652694,0.1950551156652694,1.0,1.0,1.0,410.0,2.0,2.0,
+GPT,Agent,smart_seq,SMART-seq,ok,0,0.0,0.0,0.0,,,0.0,0.0,0.0,unscorable_pred:document.libraries must be a non-empty array when present
+GPT,Agent,share_seq,SHARE-seq,ok,1,0.9704724409448819,0.9704724409448819,1.0,1.0,1.0,15.0,2.0,2.0,
+GPT,Agent,dr_seq,DR-seq,ok,1,0.06617647058823528,0.19852941176470584,0.5,1.0,0.3333333333333333,384.0,1.0,3.0,
+GPT,Agent,petri_seq,PETRI-seq,ok,1,0.6424870466321244,0.6424870466321244,1.0,1.0,1.0,69.0,1.0,1.0,
+Gemini,Agent,10x_chromium_single_cell_atac_v2,10x Chromium Single Cell ATAC v2,ok,1,1.0,1.0,1.0,1.0,1.0,0.0,1.0,1.0,
+Gemini,Agent,10x_chromium_3_gene_expression_v4,10x Chromium 3' Gene Expression v4,ok,1,1.0,1.0,1.0,1.0,1.0,0.0,1.0,1.0,
+Gemini,Agent,10x_chromium_3_feature_barcoding,10x Chromium 3' Feature Barcoding,ok,1,0.9976415094339622,0.9976415094339622,1.0,1.0,1.0,1.0,2.0,2.0,
+Gemini,Agent,drop_seq,Drop-seq,ok,1,0.8967391304347826,0.8967391304347826,0.5,0.3333333333333333,1.0,19.0,3.0,1.0,
+Gemini,Agent,seq_well_s3,Seq-Well S3,ok,1,1.0,1.0,1.0,1.0,1.0,0.0,1.0,1.0,
+Gemini,Agent,indrop_v1,inDrop v1,ok,1,0.9621621621621621,0.9621621621621621,1.0,1.0,1.0,7.0,1.0,1.0,
+Gemini,Agent,s3_atac,s3-ATAC,ok,1,1.0,1.0,0.5,0.3333333333333333,1.0,0.0,3.0,1.0,
+Gemini,Agent,cel_seq,CEL-seq,ok,1,0.3841059602649006,0.3841059602649006,1.0,1.0,1.0,93.0,1.0,1.0,
+Gemini,Agent,split_seq,SPLiT-seq,ok,1,0.8717948717948718,0.8717948717948718,0.6666666666666666,0.5,1.0,30.0,2.0,1.0,
+Gemini,Agent,sci_rna_seq,sci-RNA-seq,ok,1,1.0,1.0,1.0,1.0,1.0,0.0,1.0,1.0,
+Gemini,Agent,sci_atac_seq,sci-ATAC-seq,ok,1,0.7414634146341463,0.7414634146341463,1.0,1.0,1.0,53.0,1.0,1.0,
+Gemini,Agent,microwell_seq,Microwell-seq,ok,1,1.0,1.0,0.6666666666666666,0.5,1.0,0.0,2.0,1.0,
+Gemini,Agent,scrrbs,scRRBS,ok,1,0.9166666666666666,0.9166666666666666,1.0,1.0,1.0,11.0,1.0,1.0,
+Gemini,Agent,pip_seq_v4,PIP-seq v4,ok,1,0.8416289592760181,0.8416289592760181,1.0,1.0,1.0,35.0,1.0,1.0,
+Gemini,Agent,scdamid,scDamID,ok,1,0.9821428571428571,0.9821428571428571,1.0,1.0,1.0,3.0,1.0,1.0,
+Gemini,Agent,ddseq_single_cell_3_rna_seq_kit,ddSEQ Single-Cell 3' RNA-Seq Kit,ok,1,0.06346840552709204,0.06346840552709204,1.0,1.0,1.0,479.0,2.0,2.0,
+Gemini,Agent,smart_seq,SMART-seq,ok,1,0.3897058823529411,0.3897058823529411,1.0,1.0,1.0,83.0,1.0,1.0,
+Gemini,Agent,share_seq,SHARE-seq,ok,1,0.9704724409448819,0.9704724409448819,1.0,1.0,1.0,15.0,2.0,2.0,
+Gemini,Agent,dr_seq,DR-seq,ok,1,0.06617647058823528,0.19852941176470584,0.5,1.0,0.3333333333333333,384.0,1.0,3.0,
+Gemini,Agent,petri_seq,PETRI-seq,ok,1,0.9698492462311558,0.9698492462311558,1.0,1.0,1.0,6.0,1.0,1.0,

@@ -32,6 +32,23 @@ records, TSV projections, renditions, and benchmark-run artifacts are not
 separate coverage entries. An unreadable source blocks review until its input
 is repaired.
 
+## Deterministic validation repair
+
+A complete comparison artifact that fails the audit schema, a canonical
+T1/T2/T3 schema, or linked T1/T2/T3 validation may receive at most two bounded
+repair attempts. A repair worker receives only the failed artifact and exact
+validator errors. It must not open the source packet, primary evidence,
+renditions, current records, online sources, or remembered knowledge.
+
+Repair is representational, not evidentiary. It may reconcile only fields
+needed by the reported deterministic failure, such as declaring a pairing for
+segments the artifact already labels as paired. It must preserve source
+coverage, evidence and locators, audited-field statuses, issue identities and
+classifications, current values, recommendations, explanations, and scientific
+conclusions. It cannot add or remove findings. The harness re-runs all schema,
+semantic, and linked validation after each attempt and preserves the complete
+attempt provenance. A repaired proposal remains subject to human review.
+
 ## Extraction
 
 - Read complete documents, sheets, tables, figures, diagrams, appendices, and

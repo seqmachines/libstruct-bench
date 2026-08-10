@@ -84,9 +84,17 @@ the tool if this contract is missed; on that continuation, call
    - stop with one validated proposal.
 5. Keep packets and runs immutable and hash-pinned. Workers are read-only. If
    invoking a nested Claude process, use `env -u CLAUDECODE`.
-   A completed worker run that fails validation is retained beside its intended
-   output as `<run>.rejected/`; preserve it for diagnosis and use a new run ID
-   after fixing the cause.
+   When a completed worker artifact fails the audit schema, a canonical
+   T1/T2/T3 schema, or linked validation, let the runner perform at most two
+   bounded repair attempts before rejection. Each repair receives only the
+   current artifact and exact validator error, cannot read the packet or
+   sources, and is followed by full validation. It may change only the root
+   candidate representation or deterministic ledger link needed by the error;
+   source coverage, evidence, audited-field conclusions, and issue identities
+   and classifications remain fixed. Preserve every input, output, transcript,
+   validator error, changed-path list, and hash. If repair is exhausted, retain
+   the original artifact and all attempts as `<run>.rejected/`; do not rerun the
+   full comparison merely to fix a deterministic formatting inconsistency.
    When worker guidance omitted a deterministic validator invariant and that
    omission caused a rejection, attribute the failure to
    `agent_harness_or_context_error` with harness responsibility and confirmed

@@ -80,6 +80,9 @@ small set, mainly because Codex performs poorly on `dr_seq`. Codex is better on
 
 Detailed benchmark docs live in `docs/library_structure.md`.
 
+The linked T2/T3 protocol-understanding benchmark and its 15-cell
+model-by-harness design live in [`benchmarks/libgen/`](benchmarks/libgen/README.md).
+
 ## Ground-truth audit
 
 The ground-truth audit is a human-adjudicated workflow that compares primary

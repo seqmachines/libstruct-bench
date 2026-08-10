@@ -1,0 +1,501 @@
+{
+  "extracted_at": "2026-08-08",
+  "note": "Evidence digest extracted from rejected comparison runs that produced no artifact, before those run directories were deleted. Supports docs/audit/defect-max-output-tokens.md.",
+  "runs": [
+    {
+      "artifact_path": null,
+      "assistant_turns": 29,
+      "duration_seconds": 1969.221076,
+      "effort": "high",
+      "error_type": "ClaudeAuditError",
+      "max_budget_usd": 30.0,
+      "model": null,
+      "model_max_output_tokens": {
+        "claude-haiku-4-5-20251001": 32000,
+        "claude-opus-5": 64000
+      },
+      "packet_sha256": "75e7380406627ae75009be04a60c2c16af0671719e75e14f2f1336b6ebfcc0a0",
+      "reason": "Claude exited with 1: You've hit your session limit \u00b7 resets 7:50pm (America/New_York); api_error_status=429; stderr: strict mode: missing type \"array\" for keyword \"minItems\" at \"#/allOf/0/then/properties/portions_reviewed\" (strictTypes)\nstrict mode: missing type \"array\" for keyword \"maxItems\" at \"#/allOf/0/then/properties/issue_ids\" (strictTypes)\nstrict mode: missing type \"array\" for keyword \"minItems\" at \"#/allOf/0/else/properties/issue_ids\" (strictTypes)\nstrict mode: missing type \"array\" for keyword \"minItems\" at \"#/allOf/0/then/properties/proposed_patch\" (strictTypes)\nstrict mode: missing type \"object\" for keyword \"required\" at \"#/allOf/0/then/properties/target\" (strictTypes)\nstrict mode: missing type \"object\" for keyword \"properties\" at \"#/allOf/0/then/properties/target\" (strictTypes)\nstrict mode: missing type \"array\" for keyword \"maxItems\" at \"#/allOf/0/else/properties/proposed_patch\" (strictTypes)\nstrict mode: missing type \"array\" for keyword \"minItems\" at \"#/allOf/1/then/properties/evidence\" (strictTypes)",
+      "result": {
+        "duration_api_ms": 1965857,
+        "is_error": true,
+        "num_turns": 16,
+        "stop_reason": "stop_sequence",
+        "terminal_reason": "api_error",
+        "total_cost_usd": 4.129584
+      },
+      "run": {
+        "checkpoint_id": "batch-002-2026-08-07",
+        "completed_at": "2026-08-07T23:36:18.903405Z",
+        "harness_version": "libstruct-bench-audit/0.5.0",
+        "model": "claude-opus-5",
+        "policy_sha256": "87c888c9aa41e3b36c4f7103813dc0baa75047885d571ce8a2d1580366a2f7c9",
+        "prompt_sha256": "afce8ae7606d38a0fa773577700fe1e53b35ad7a24002b5a46018e81f20a2ac7",
+        "run_id": "ddseq_single_cell_3_rna_seq_kit:comparison-001",
+        "schema_sha256": "ceec9afb4428acb6c7f998c984098700308d8ea76635eb2c25b0fa051083eea1",
+        "skill_sha256": "b3ff56501db3d17ec4857bf04a949104b68c4c78215cdbe456822df8a61114f3",
+        "started_at": "2026-08-07T23:03:29.679320Z",
+        "tool_version": "2.1.224 (Claude Code)"
+      },
+      "run_dir": "ddseq_single_cell_3_rna_seq_kit/comparison-001.rejected",
+      "stderr_sha256": "14ad645336dc09c1f26f463cd85f670239642af4b6ba28983b3a893832f4be44",
+      "timeout_seconds": 5400,
+      "tool_calls": 15,
+      "transcript_bytes": 2594427,
+      "transcript_sha256": "c954f26b9556b3dd4bd9e27ccdeb9cea951c4283e23064ede34f8cb603d1d24b",
+      "transcript_sha256_recomputed": "c954f26b9556b3dd4bd9e27ccdeb9cea951c4283e23064ede34f8cb603d1d24b",
+      "usage": {
+        "cache_creation_input_tokens": 185576,
+        "cache_read_input_tokens": 1088007,
+        "input_tokens": 20,
+        "iterations": [
+          {
+            "output_tokens": 64000,
+            "type": "message"
+          }
+        ],
+        "output_tokens": 88522
+      }
+    },
+    {
+      "artifact_path": null,
+      "assistant_turns": 19,
+      "duration_seconds": 300.757944,
+      "effort": "high",
+      "error_type": "ClaudeAuditError",
+      "max_budget_usd": 30.0,
+      "model": null,
+      "model_max_output_tokens": {
+        "claude-haiku-4-5-20251001": 32000,
+        "claude-opus-5": 64000
+      },
+      "packet_sha256": "75e7380406627ae75009be04a60c2c16af0671719e75e14f2f1336b6ebfcc0a0",
+      "reason": "Claude exited with 1: You've hit your session limit \u00b7 resets 12:50am (America/New_York); api_error_status=429; stderr: from a slow command, redirect stdin explicitly: < /dev/null to skip, or wait longer.\u001b[39m\nstrict mode: missing type \"array\" for keyword \"minItems\" at \"#/allOf/0/then/properties/portions_reviewed\" (strictTypes)\nstrict mode: missing type \"array\" for keyword \"maxItems\" at \"#/allOf/0/then/properties/issue_ids\" (strictTypes)\nstrict mode: missing type \"array\" for keyword \"minItems\" at \"#/allOf/0/else/properties/issue_ids\" (strictTypes)\nstrict mode: missing type \"array\" for keyword \"minItems\" at \"#/allOf/0/then/properties/proposed_patch\" (strictTypes)\nstrict mode: missing type \"object\" for keyword \"required\" at \"#/allOf/0/then/properties/target\" (strictTypes)\nstrict mode: missing type \"object\" for keyword \"properties\" at \"#/allOf/0/then/properties/target\" (strictTypes)\nstrict mode: missing type \"array\" for keyword \"maxItems\" at \"#/allOf/0/else/properties/proposed_patch\" (strictTypes)\nstrict mode: missing type \"array\" for keyword \"minItems\" at \"#/allOf/1/then/properties/evidence\" (strictTypes)",
+      "result": {
+        "duration_api_ms": 296718,
+        "is_error": true,
+        "num_turns": 11,
+        "stop_reason": "stop_sequence",
+        "terminal_reason": "api_error",
+        "total_cost_usd": 2.254163
+      },
+      "run": {
+        "checkpoint_id": "batch-002-2026-08-07",
+        "completed_at": "2026-08-07T23:57:10.552529Z",
+        "harness_version": "libstruct-bench-audit/0.5.0",
+        "model": "claude-opus-5",
+        "policy_sha256": "87c888c9aa41e3b36c4f7103813dc0baa75047885d571ce8a2d1580366a2f7c9",
+        "prompt_sha256": "afce8ae7606d38a0fa773577700fe1e53b35ad7a24002b5a46018e81f20a2ac7",
+        "run_id": "ddseq_single_cell_3_rna_seq_kit:comparison-002",
+        "schema_sha256": "ceec9afb4428acb6c7f998c984098700308d8ea76635eb2c25b0fa051083eea1",
+        "skill_sha256": "b3ff56501db3d17ec4857bf04a949104b68c4c78215cdbe456822df8a61114f3",
+        "started_at": "2026-08-07T23:52:09.792166Z",
+        "tool_version": "2.1.224 (Claude Code)"
+      },
+      "run_dir": "ddseq_single_cell_3_rna_seq_kit/comparison-002.rejected",
+      "stderr_sha256": "b8a1779534523c2da71b8a95c81b0c8c5d5080e960047956eb511d91bd6c8bda",
+      "timeout_seconds": 5400,
+      "tool_calls": 10,
+      "transcript_bytes": 675319,
+      "transcript_sha256": "a722b665c29fde3ae04415d98307d120f676287000bef8536223afaa4f6ebb62",
+      "transcript_sha256_recomputed": "a722b665c29fde3ae04415d98307d120f676287000bef8536223afaa4f6ebb62",
+      "usage": {
+        "cache_creation_input_tokens": 138832,
+        "cache_read_input_tokens": 489090,
+        "input_tokens": 12,
+        "iterations": [
+          {
+            "output_tokens": 242,
+            "type": "message"
+          }
+        ],
+        "output_tokens": 24817
+      }
+    },
+    {
+      "artifact_path": null,
+      "assistant_turns": 17,
+      "duration_seconds": 1046.430136,
+      "effort": "high",
+      "error_type": "ClaudeAuditError",
+      "max_budget_usd": 30.0,
+      "model": null,
+      "model_max_output_tokens": {
+        "claude-haiku-4-5-20251001": 32000,
+        "claude-opus-5": 64000
+      },
+      "packet_sha256": "2f10872aff7779fbfb0f8dd1cd9068a163b4800c03983372eb085f2b39d91443",
+      "reason": "Claude exited with 1: You've hit your session limit \u00b7 resets 7:50pm (America/New_York); api_error_status=429; stderr: strict mode: missing type \"array\" for keyword \"minItems\" at \"#/allOf/0/then/properties/portions_reviewed\" (strictTypes)\nstrict mode: missing type \"array\" for keyword \"maxItems\" at \"#/allOf/0/then/properties/issue_ids\" (strictTypes)\nstrict mode: missing type \"array\" for keyword \"minItems\" at \"#/allOf/0/else/properties/issue_ids\" (strictTypes)\nstrict mode: missing type \"array\" for keyword \"minItems\" at \"#/allOf/0/then/properties/proposed_patch\" (strictTypes)\nstrict mode: missing type \"object\" for keyword \"required\" at \"#/allOf/0/then/properties/target\" (strictTypes)\nstrict mode: missing type \"object\" for keyword \"properties\" at \"#/allOf/0/then/properties/target\" (strictTypes)\nstrict mode: missing type \"array\" for keyword \"maxItems\" at \"#/allOf/0/else/properties/proposed_patch\" (strictTypes)\nstrict mode: missing type \"array\" for keyword \"minItems\" at \"#/allOf/1/then/properties/evidence\" (strictTypes)",
+      "result": {
+        "duration_api_ms": 1044737,
+        "is_error": true,
+        "num_turns": 10,
+        "stop_reason": "stop_sequence",
+        "terminal_reason": "api_error",
+        "total_cost_usd": 4.0666575
+      },
+      "run": {
+        "checkpoint_id": "batch-002-2026-08-07",
+        "completed_at": "2026-08-07T23:20:56.109290Z",
+        "harness_version": "libstruct-bench-audit/0.5.0",
+        "model": "claude-opus-5",
+        "policy_sha256": "87c888c9aa41e3b36c4f7103813dc0baa75047885d571ce8a2d1580366a2f7c9",
+        "prompt_sha256": "afce8ae7606d38a0fa773577700fe1e53b35ad7a24002b5a46018e81f20a2ac7",
+        "run_id": "dr_seq:comparison-001",
+        "schema_sha256": "ceec9afb4428acb6c7f998c984098700308d8ea76635eb2c25b0fa051083eea1",
+        "skill_sha256": "b3ff56501db3d17ec4857bf04a949104b68c4c78215cdbe456822df8a61114f3",
+        "started_at": "2026-08-07T23:03:29.660142Z",
+        "tool_version": "2.1.224 (Claude Code)"
+      },
+      "run_dir": "dr_seq/comparison-001.rejected",
+      "stderr_sha256": "14ad645336dc09c1f26f463cd85f670239642af4b6ba28983b3a893832f4be44",
+      "timeout_seconds": 5400,
+      "tool_calls": 9,
+      "transcript_bytes": 2004279,
+      "transcript_sha256": "b09a540ec57e9aef1f869e53a9e50461c1924cc001d54b15863384b3c7871c01",
+      "transcript_sha256_recomputed": "b09a540ec57e9aef1f869e53a9e50461c1924cc001d54b15863384b3c7871c01",
+      "usage": {
+        "cache_creation_input_tokens": 201903,
+        "cache_read_input_tokens": 298365,
+        "input_tokens": 12,
+        "iterations": [
+          {
+            "output_tokens": 17349,
+            "type": "message"
+          }
+        ],
+        "output_tokens": 98364
+      }
+    },
+    {
+      "artifact_path": null,
+      "assistant_turns": 23,
+      "duration_seconds": 770.080667,
+      "effort": "high",
+      "error_type": "ClaudeAuditError",
+      "max_budget_usd": 30.0,
+      "model": null,
+      "model_max_output_tokens": {
+        "claude-haiku-4-5-20251001": 32000,
+        "claude-opus-5": 64000
+      },
+      "packet_sha256": "2f10872aff7779fbfb0f8dd1cd9068a163b4800c03983372eb085f2b39d91443",
+      "reason": "Claude exited with 1: API Error: Connection closed mid-response. The response above may be incomplete.; stderr: from a slow command, redirect stdin explicitly: < /dev/null to skip, or wait longer.\u001b[39m\nstrict mode: missing type \"array\" for keyword \"minItems\" at \"#/allOf/0/then/properties/portions_reviewed\" (strictTypes)\nstrict mode: missing type \"array\" for keyword \"maxItems\" at \"#/allOf/0/then/properties/issue_ids\" (strictTypes)\nstrict mode: missing type \"array\" for keyword \"minItems\" at \"#/allOf/0/else/properties/issue_ids\" (strictTypes)\nstrict mode: missing type \"array\" for keyword \"minItems\" at \"#/allOf/0/then/properties/proposed_patch\" (strictTypes)\nstrict mode: missing type \"object\" for keyword \"required\" at \"#/allOf/0/then/properties/target\" (strictTypes)\nstrict mode: missing type \"object\" for keyword \"properties\" at \"#/allOf/0/then/properties/target\" (strictTypes)\nstrict mode: missing type \"array\" for keyword \"maxItems\" at \"#/allOf/0/else/properties/proposed_patch\" (strictTypes)\nstrict mode: missing type \"array\" for keyword \"minItems\" at \"#/allOf/1/then/properties/evidence\" (strictTypes)",
+      "result": {
+        "duration_api_ms": 766371,
+        "is_error": true,
+        "num_turns": 12,
+        "stop_reason": "stop_sequence",
+        "terminal_reason": "api_error",
+        "total_cost_usd": 1.895991
+      },
+      "run": {
+        "checkpoint_id": "batch-002-2026-08-07",
+        "completed_at": "2026-08-08T00:21:45.338943Z",
+        "harness_version": "libstruct-bench-audit/0.5.0",
+        "model": "claude-opus-5",
+        "policy_sha256": "87c888c9aa41e3b36c4f7103813dc0baa75047885d571ce8a2d1580366a2f7c9",
+        "prompt_sha256": "afce8ae7606d38a0fa773577700fe1e53b35ad7a24002b5a46018e81f20a2ac7",
+        "run_id": "dr_seq:comparison-002",
+        "schema_sha256": "ceec9afb4428acb6c7f998c984098700308d8ea76635eb2c25b0fa051083eea1",
+        "skill_sha256": "b3ff56501db3d17ec4857bf04a949104b68c4c78215cdbe456822df8a61114f3",
+        "started_at": "2026-08-07T23:52:09.851487Z",
+        "tool_version": "2.1.224 (Claude Code)"
+      },
+      "run_dir": "dr_seq/comparison-002.rejected",
+      "stderr_sha256": "b8a1779534523c2da71b8a95c81b0c8c5d5080e960047956eb511d91bd6c8bda",
+      "timeout_seconds": 5400,
+      "tool_calls": 11,
+      "transcript_bytes": 1934039,
+      "transcript_sha256": "04f58fa68aa5bdd9a9552085bdd6d65a1ef59be1ce5ddec6c75e4eb3f5d49bc6",
+      "transcript_sha256_recomputed": "04f58fa68aa5bdd9a9552085bdd6d65a1ef59be1ce5ddec6c75e4eb3f5d49bc6",
+      "usage": {
+        "cache_creation_input_tokens": 102836,
+        "cache_read_input_tokens": 367785,
+        "input_tokens": 12,
+        "iterations": [
+          {
+            "output_tokens": 1010,
+            "type": "message"
+          }
+        ],
+        "output_tokens": 23277
+      }
+    },
+    {
+      "artifact_path": null,
+      "assistant_turns": 38,
+      "duration_seconds": 897.71429,
+      "effort": "high",
+      "error_type": "ClaudeAuditError",
+      "max_budget_usd": 30.0,
+      "model": null,
+      "model_max_output_tokens": {
+        "claude-haiku-4-5-20251001": 32000,
+        "claude-opus-5": 64000
+      },
+      "packet_sha256": "a3eab9095dafdeb5e1995783d3f49aa4353aa4534c4a6bed24f9891dda52b552",
+      "reason": "Claude exited with 1: You've hit your session limit \u00b7 resets 12:50pm (America/New_York); api_error_status=429; stderr: strict mode: missing type \"array\" for keyword \"minItems\" at \"#/allOf/0/then/properties/portions_reviewed\" (strictTypes)\nstrict mode: missing type \"array\" for keyword \"maxItems\" at \"#/allOf/0/then/properties/issue_ids\" (strictTypes)\nstrict mode: missing type \"array\" for keyword \"minItems\" at \"#/allOf/0/else/properties/issue_ids\" (strictTypes)\nstrict mode: missing type \"array\" for keyword \"minItems\" at \"#/allOf/0/then/properties/proposed_patch\" (strictTypes)\nstrict mode: missing type \"object\" for keyword \"required\" at \"#/allOf/0/then/properties/target\" (strictTypes)\nstrict mode: missing type \"object\" for keyword \"properties\" at \"#/allOf/0/then/properties/target\" (strictTypes)\nstrict mode: missing type \"array\" for keyword \"maxItems\" at \"#/allOf/0/else/properties/proposed_patch\" (strictTypes)\nstrict mode: missing type \"array\" for keyword \"minItems\" at \"#/allOf/1/then/properties/evidence\" (strictTypes)",
+      "result": {
+        "duration_api_ms": 896627,
+        "is_error": true,
+        "num_turns": 21,
+        "stop_reason": "stop_sequence",
+        "terminal_reason": "api_error",
+        "total_cost_usd": 3.4693094999999996
+      },
+      "run": {
+        "checkpoint_id": "batch-002-2026-08-07",
+        "completed_at": "2026-08-08T12:35:28.848094Z",
+        "harness_version": "libstruct-bench-audit/0.5.0",
+        "model": "claude-opus-5",
+        "policy_sha256": "87c888c9aa41e3b36c4f7103813dc0baa75047885d571ce8a2d1580366a2f7c9",
+        "prompt_sha256": "afce8ae7606d38a0fa773577700fe1e53b35ad7a24002b5a46018e81f20a2ac7",
+        "run_id": "microwell_seq:comparison-003",
+        "schema_sha256": "ceec9afb4428acb6c7f998c984098700308d8ea76635eb2c25b0fa051083eea1",
+        "skill_sha256": "b3ff56501db3d17ec4857bf04a949104b68c4c78215cdbe456822df8a61114f3",
+        "started_at": "2026-08-08T12:20:31.125532Z",
+        "tool_version": "2.1.226 (Claude Code)"
+      },
+      "run_dir": "microwell_seq/comparison-003.rejected",
+      "stderr_sha256": "14ad645336dc09c1f26f463cd85f670239642af4b6ba28983b3a893832f4be44",
+      "timeout_seconds": 5400,
+      "tool_calls": 20,
+      "transcript_bytes": 424056,
+      "transcript_sha256": "403c4305c28e50d5487dabb026ae48cf513a0d7e1342b9dee93d36689d39e776",
+      "transcript_sha256_recomputed": "403c4305c28e50d5487dabb026ae48cf513a0d7e1342b9dee93d36689d39e776",
+      "usage": {
+        "cache_creation_input_tokens": 75194,
+        "cache_read_input_tokens": 1244947,
+        "input_tokens": 32,
+        "iterations": [
+          {
+            "output_tokens": 64000,
+            "type": "message"
+          }
+        ],
+        "output_tokens": 83758
+      }
+    },
+    {
+      "artifact_path": null,
+      "assistant_turns": 21,
+      "duration_seconds": 983.992803,
+      "effort": "high",
+      "error_type": "ClaudeAuditError",
+      "max_budget_usd": 30.0,
+      "model": null,
+      "model_max_output_tokens": {
+        "claude-haiku-4-5-20251001": 32000,
+        "claude-opus-5": 64000
+      },
+      "packet_sha256": "1fa6987f8f948ca4a0898c90f418574db4fb3dd7138b8f9d57a50a851691f87e",
+      "reason": "Claude exited with 1: You've hit your session limit \u00b7 resets 7:50pm (America/New_York); api_error_status=429; stderr: strict mode: missing type \"array\" for keyword \"minItems\" at \"#/allOf/0/then/properties/portions_reviewed\" (strictTypes)\nstrict mode: missing type \"array\" for keyword \"maxItems\" at \"#/allOf/0/then/properties/issue_ids\" (strictTypes)\nstrict mode: missing type \"array\" for keyword \"minItems\" at \"#/allOf/0/else/properties/issue_ids\" (strictTypes)\nstrict mode: missing type \"array\" for keyword \"minItems\" at \"#/allOf/0/then/properties/proposed_patch\" (strictTypes)\nstrict mode: missing type \"object\" for keyword \"required\" at \"#/allOf/0/then/properties/target\" (strictTypes)\nstrict mode: missing type \"object\" for keyword \"properties\" at \"#/allOf/0/then/properties/target\" (strictTypes)\nstrict mode: missing type \"array\" for keyword \"maxItems\" at \"#/allOf/0/else/properties/proposed_patch\" (strictTypes)\nstrict mode: missing type \"array\" for keyword \"minItems\" at \"#/allOf/1/then/properties/evidence\" (strictTypes)",
+      "result": {
+        "duration_api_ms": 982364,
+        "is_error": true,
+        "num_turns": 12,
+        "stop_reason": "stop_sequence",
+        "terminal_reason": "api_error",
+        "total_cost_usd": 3.68024325
+      },
+      "run": {
+        "checkpoint_id": "batch-002-2026-08-07",
+        "completed_at": "2026-08-07T23:19:53.678502Z",
+        "harness_version": "libstruct-bench-audit/0.5.0",
+        "model": "claude-opus-5",
+        "policy_sha256": "87c888c9aa41e3b36c4f7103813dc0baa75047885d571ce8a2d1580366a2f7c9",
+        "prompt_sha256": "afce8ae7606d38a0fa773577700fe1e53b35ad7a24002b5a46018e81f20a2ac7",
+        "run_id": "scrrbs:comparison-001",
+        "schema_sha256": "ceec9afb4428acb6c7f998c984098700308d8ea76635eb2c25b0fa051083eea1",
+        "skill_sha256": "b3ff56501db3d17ec4857bf04a949104b68c4c78215cdbe456822df8a61114f3",
+        "started_at": "2026-08-07T23:03:29.667966Z",
+        "tool_version": "2.1.224 (Claude Code)"
+      },
+      "run_dir": "scrrbs/comparison-001.rejected",
+      "stderr_sha256": "14ad645336dc09c1f26f463cd85f670239642af4b6ba28983b3a893832f4be44",
+      "timeout_seconds": 5400,
+      "tool_calls": 11,
+      "transcript_bytes": 3007948,
+      "transcript_sha256": "7861e4bd8b76f9a665fd95f983f21bd10b65fb449b533c92e1b73883d2134d6c",
+      "transcript_sha256_recomputed": "7861e4bd8b76f9a665fd95f983f21bd10b65fb449b533c92e1b73883d2134d6c",
+      "usage": {
+        "cache_creation_input_tokens": 147507,
+        "cache_read_input_tokens": 499794,
+        "input_tokens": 14,
+        "iterations": [
+          {
+            "output_tokens": 64000,
+            "type": "message"
+          }
+        ],
+        "output_tokens": 93976
+      }
+    },
+    {
+      "artifact_path": null,
+      "assistant_turns": 26,
+      "duration_seconds": 363.947882,
+      "effort": "high",
+      "error_type": "ClaudeAuditError",
+      "max_budget_usd": 30.0,
+      "model": null,
+      "model_max_output_tokens": {
+        "claude-haiku-4-5-20251001": 32000,
+        "claude-opus-5": 64000
+      },
+      "packet_sha256": "1fa6987f8f948ca4a0898c90f418574db4fb3dd7138b8f9d57a50a851691f87e",
+      "reason": "Claude exited with 1: You've hit your session limit \u00b7 resets 12:50am (America/New_York); api_error_status=429; stderr: from a slow command, redirect stdin explicitly: < /dev/null to skip, or wait longer.\u001b[39m\nstrict mode: missing type \"array\" for keyword \"minItems\" at \"#/allOf/0/then/properties/portions_reviewed\" (strictTypes)\nstrict mode: missing type \"array\" for keyword \"maxItems\" at \"#/allOf/0/then/properties/issue_ids\" (strictTypes)\nstrict mode: missing type \"array\" for keyword \"minItems\" at \"#/allOf/0/else/properties/issue_ids\" (strictTypes)\nstrict mode: missing type \"array\" for keyword \"minItems\" at \"#/allOf/0/then/properties/proposed_patch\" (strictTypes)\nstrict mode: missing type \"object\" for keyword \"required\" at \"#/allOf/0/then/properties/target\" (strictTypes)\nstrict mode: missing type \"object\" for keyword \"properties\" at \"#/allOf/0/then/properties/target\" (strictTypes)\nstrict mode: missing type \"array\" for keyword \"maxItems\" at \"#/allOf/0/else/properties/proposed_patch\" (strictTypes)\nstrict mode: missing type \"array\" for keyword \"minItems\" at \"#/allOf/1/then/properties/evidence\" (strictTypes)",
+      "result": {
+        "duration_api_ms": 359212,
+        "is_error": true,
+        "num_turns": 16,
+        "stop_reason": "stop_sequence",
+        "terminal_reason": "api_error",
+        "total_cost_usd": 1.7084005
+      },
+      "run": {
+        "checkpoint_id": "batch-002-2026-08-07",
+        "completed_at": "2026-08-07T23:58:13.673877Z",
+        "harness_version": "libstruct-bench-audit/0.5.0",
+        "model": "claude-opus-5",
+        "policy_sha256": "87c888c9aa41e3b36c4f7103813dc0baa75047885d571ce8a2d1580366a2f7c9",
+        "prompt_sha256": "afce8ae7606d38a0fa773577700fe1e53b35ad7a24002b5a46018e81f20a2ac7",
+        "run_id": "scrrbs:comparison-002",
+        "schema_sha256": "ceec9afb4428acb6c7f998c984098700308d8ea76635eb2c25b0fa051083eea1",
+        "skill_sha256": "b3ff56501db3d17ec4857bf04a949104b68c4c78215cdbe456822df8a61114f3",
+        "started_at": "2026-08-07T23:52:09.722626Z",
+        "tool_version": "2.1.224 (Claude Code)"
+      },
+      "run_dir": "scrrbs/comparison-002.rejected",
+      "stderr_sha256": "b8a1779534523c2da71b8a95c81b0c8c5d5080e960047956eb511d91bd6c8bda",
+      "timeout_seconds": 5400,
+      "tool_calls": 15,
+      "transcript_bytes": 455640,
+      "transcript_sha256": "33cab1af3857e1f9dcf84c9945d47fec39ad2bd021fd34c3f1b9de4a0d0ed672",
+      "transcript_sha256_recomputed": "33cab1af3857e1f9dcf84c9945d47fec39ad2bd021fd34c3f1b9de4a0d0ed672",
+      "usage": {
+        "cache_creation_input_tokens": 60243,
+        "cache_read_input_tokens": 684841,
+        "input_tokens": 22,
+        "iterations": [
+          {
+            "output_tokens": 10963,
+            "type": "message"
+          }
+        ],
+        "output_tokens": 30506
+      }
+    },
+    {
+      "artifact_path": null,
+      "assistant_turns": 25,
+      "duration_seconds": 914.915204,
+      "effort": "high",
+      "error_type": "ClaudeAuditError",
+      "max_budget_usd": 30.0,
+      "model": null,
+      "model_max_output_tokens": {
+        "claude-haiku-4-5-20251001": 32000,
+        "claude-opus-5": 64000
+      },
+      "packet_sha256": "d497ab33694ed127ccd9bb8f4e25eb3fc171f4e05b13446074c03682afc3d65e",
+      "reason": "Claude exited with 1: You've hit your session limit \u00b7 resets 7:50pm (America/New_York); api_error_status=429; stderr: strict mode: missing type \"array\" for keyword \"minItems\" at \"#/allOf/0/then/properties/portions_reviewed\" (strictTypes)\nstrict mode: missing type \"array\" for keyword \"maxItems\" at \"#/allOf/0/then/properties/issue_ids\" (strictTypes)\nstrict mode: missing type \"array\" for keyword \"minItems\" at \"#/allOf/0/else/properties/issue_ids\" (strictTypes)\nstrict mode: missing type \"array\" for keyword \"minItems\" at \"#/allOf/0/then/properties/proposed_patch\" (strictTypes)\nstrict mode: missing type \"object\" for keyword \"required\" at \"#/allOf/0/then/properties/target\" (strictTypes)\nstrict mode: missing type \"object\" for keyword \"properties\" at \"#/allOf/0/then/properties/target\" (strictTypes)\nstrict mode: missing type \"array\" for keyword \"maxItems\" at \"#/allOf/0/else/properties/proposed_patch\" (strictTypes)\nstrict mode: missing type \"array\" for keyword \"minItems\" at \"#/allOf/1/then/properties/evidence\" (strictTypes)",
+      "result": {
+        "duration_api_ms": 912688,
+        "is_error": true,
+        "num_turns": 14,
+        "stop_reason": "stop_sequence",
+        "terminal_reason": "api_error",
+        "total_cost_usd": 3.6479725000000007
+      },
+      "run": {
+        "checkpoint_id": "batch-002-2026-08-07",
+        "completed_at": "2026-08-07T23:18:44.556858Z",
+        "harness_version": "libstruct-bench-audit/0.5.0",
+        "model": "claude-opus-5",
+        "policy_sha256": "87c888c9aa41e3b36c4f7103813dc0baa75047885d571ce8a2d1580366a2f7c9",
+        "prompt_sha256": "afce8ae7606d38a0fa773577700fe1e53b35ad7a24002b5a46018e81f20a2ac7",
+        "run_id": "share_seq:comparison-001",
+        "schema_sha256": "ceec9afb4428acb6c7f998c984098700308d8ea76635eb2c25b0fa051083eea1",
+        "skill_sha256": "b3ff56501db3d17ec4857bf04a949104b68c4c78215cdbe456822df8a61114f3",
+        "started_at": "2026-08-07T23:03:29.624739Z",
+        "tool_version": "2.1.224 (Claude Code)"
+      },
+      "run_dir": "share_seq/comparison-001.rejected",
+      "stderr_sha256": "14ad645336dc09c1f26f463cd85f670239642af4b6ba28983b3a893832f4be44",
+      "timeout_seconds": 5400,
+      "tool_calls": 13,
+      "transcript_bytes": 1495199,
+      "transcript_sha256": "9bb9ff6938e820df8dd1446bc7f8848d96170aaed4e50e417efa0627fd38c585",
+      "transcript_sha256_recomputed": "9bb9ff6938e820df8dd1446bc7f8848d96170aaed4e50e417efa0627fd38c585",
+      "usage": {
+        "cache_creation_input_tokens": 150405,
+        "cache_read_input_tokens": 753225,
+        "input_tokens": 18,
+        "iterations": [
+          {
+            "output_tokens": 64000,
+            "type": "message"
+          }
+        ],
+        "output_tokens": 86375
+      }
+    },
+    {
+      "artifact_path": null,
+      "assistant_turns": 15,
+      "duration_seconds": 381.809427,
+      "effort": "high",
+      "error_type": "ClaudeAuditError",
+      "max_budget_usd": 30.0,
+      "model": null,
+      "model_max_output_tokens": {
+        "claude-haiku-4-5-20251001": 32000,
+        "claude-opus-5": 64000
+      },
+      "packet_sha256": "d497ab33694ed127ccd9bb8f4e25eb3fc171f4e05b13446074c03682afc3d65e",
+      "reason": "Claude exited with 1: You've hit your session limit \u00b7 resets 12:50am (America/New_York); api_error_status=429; stderr: from a slow command, redirect stdin explicitly: < /dev/null to skip, or wait longer.\u001b[39m\nstrict mode: missing type \"array\" for keyword \"minItems\" at \"#/allOf/0/then/properties/portions_reviewed\" (strictTypes)\nstrict mode: missing type \"array\" for keyword \"maxItems\" at \"#/allOf/0/then/properties/issue_ids\" (strictTypes)\nstrict mode: missing type \"array\" for keyword \"minItems\" at \"#/allOf/0/else/properties/issue_ids\" (strictTypes)\nstrict mode: missing type \"array\" for keyword \"minItems\" at \"#/allOf/0/then/properties/proposed_patch\" (strictTypes)\nstrict mode: missing type \"object\" for keyword \"required\" at \"#/allOf/0/then/properties/target\" (strictTypes)\nstrict mode: missing type \"object\" for keyword \"properties\" at \"#/allOf/0/then/properties/target\" (strictTypes)\nstrict mode: missing type \"array\" for keyword \"maxItems\" at \"#/allOf/0/else/properties/proposed_patch\" (strictTypes)\nstrict mode: missing type \"array\" for keyword \"minItems\" at \"#/allOf/1/then/properties/evidence\" (strictTypes)",
+      "result": {
+        "duration_api_ms": 379364,
+        "is_error": true,
+        "num_turns": 9,
+        "stop_reason": "stop_sequence",
+        "terminal_reason": "api_error",
+        "total_cost_usd": 1.383902
+      },
+      "run": {
+        "checkpoint_id": "batch-002-2026-08-07",
+        "completed_at": "2026-08-07T23:58:31.557034Z",
+        "harness_version": "libstruct-bench-audit/0.5.0",
+        "model": "claude-opus-5",
+        "policy_sha256": "87c888c9aa41e3b36c4f7103813dc0baa75047885d571ce8a2d1580366a2f7c9",
+        "prompt_sha256": "afce8ae7606d38a0fa773577700fe1e53b35ad7a24002b5a46018e81f20a2ac7",
+        "run_id": "share_seq:comparison-002",
+        "schema_sha256": "ceec9afb4428acb6c7f998c984098700308d8ea76635eb2c25b0fa051083eea1",
+        "skill_sha256": "b3ff56501db3d17ec4857bf04a949104b68c4c78215cdbe456822df8a61114f3",
+        "started_at": "2026-08-07T23:52:09.744696Z",
+        "tool_version": "2.1.224 (Claude Code)"
+      },
+      "run_dir": "share_seq/comparison-002.rejected",
+      "stderr_sha256": "b8a1779534523c2da71b8a95c81b0c8c5d5080e960047956eb511d91bd6c8bda",
+      "timeout_seconds": 5400,
+      "tool_calls": 8,
+      "transcript_bytes": 402532,
+      "transcript_sha256": "058ee64c29320901f7886d18cf89b13fef65eaa27cf03816d0392e4fd37e0781",
+      "transcript_sha256_recomputed": "058ee64c29320901f7886d18cf89b13fef65eaa27cf03816d0392e4fd37e0781",
+      "usage": {
+        "cache_creation_input_tokens": 47507,
+        "cache_read_input_tokens": 178774,
+        "input_tokens": 8,
+        "iterations": [
+          {
+            "output_tokens": 32026,
+            "type": "message"
+          }
+        ],
+        "output_tokens": 32745
+      }
+    }
+  ]
+}

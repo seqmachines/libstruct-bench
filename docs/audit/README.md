@@ -82,11 +82,23 @@ receives one status:
 
 Only the last four become review issues.
 
-A completed Claude worker run that fails schema or semantic validation is
-retained beside the requested output as `<run>.rejected/`. It contains the
-transcript, stderr, the rejected structured artifact when one was recoverable,
-and a hash-pinned failure record. It is diagnostic history, not an accepted
-proposal; retry with a new run ID after fixing the cause.
+A completed Claude worker run that produces a full artifact but fails the audit
+schema, a canonical T1/T2/T3 schema, or linked T1/T2/T3 validation enters a
+bounded repair loop before final rejection. For at most two attempts, a
+read-only repair worker receives only the current artifact and the exact local
+validator error; it cannot read protocol sources. It may repair only the root
+candidate representation or deterministic field/issue linkage needed to clear
+that error. Source coverage, evidence, audited-field conclusions, and the set
+and classification of issues are immutable during repair. Full validation runs
+after every attempt.
+
+Every repair input, validator error, candidate, transcript, stderr stream,
+changed-path list, and hash-pinned attempt record is preserved. A successful
+run stores this history under `repair-attempts/`. If both attempts fail—or the
+worker did not produce a complete artifact—the run is retained beside the
+requested output as `<run>.rejected/`, including the original rejected artifact
+and all repair attempts. Repaired output remains an unapproved agent proposal;
+it still requires normal human adjudication.
 
 When no T3 JSON exists but the legacy HTML contains a curated workflow, the
 comparison first converts that HTML into the T3 candidate with legacy

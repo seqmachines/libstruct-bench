@@ -15,6 +15,7 @@ from typing import Any, Callable, Iterable, Mapping
 
 from .artifacts import (
     AuditArtifactError,
+    canonical_json_bytes,
     load_json_object,
     sha256_bytes,
     sha256_file,
@@ -29,13 +30,21 @@ from .groundtruth import (
 )
 
 
-HARNESS_VERSION = "libstruct-bench-audit/0.5.0"
+HARNESS_VERSION = "libstruct-bench-audit/0.6.0"
 PHASE_SCHEMA_FILES = {
     "comparison": "protocol_audit.schema.json",
 }
 MODEL_ALIASES = {"default", "sonnet", "opus", "haiku", "fable"}
 READ_ONLY_TOOLS = ("Read", "Glob", "Grep")
+REPAIR_TOOLS = ("Read",)
+MAX_COMPARISON_REPAIR_ATTEMPTS = 2
 GROUNDTRUTH_SCHEMA_DIR = Path(__file__).resolve().parents[3] / "schemas" / "groundtruth"
+DEFAULT_REPAIR_PROMPT = (
+    Path(__file__).resolve().parents[3]
+    / ".claude"
+    / "prompts"
+    / "audit-comparison-repair.md"
+)
 CURRENT_TASK_BY_SOURCE_KIND = {
     "current_t1": "T1",
     "current_t2": "T2",
@@ -47,6 +56,14 @@ class ClaudeAuditError(ValueError):
     """Raised when a bounded Claude audit run cannot produce a valid artifact."""
 
 
+class _RepairableValidationError(ClaudeAuditError):
+    """A deterministic artifact failure eligible for bounded model repair."""
+
+    def __init__(self, message: str, *, validation_kind: str) -> None:
+        super().__init__(message)
+        self.validation_kind = validation_kind
+
+
 @dataclass(frozen=True)
 class ClaudeRunResult:
     output_dir: Path
@@ -55,6 +72,26 @@ class ClaudeRunResult:
     metadata_path: Path
     phase: str
     run_id: str
+
+
+@dataclass
+class _RepairAttempt:
+    attempt: int
+    input_artifact: dict[str, Any]
+    validator_errors: list[str]
+    started_at: str
+    completed_at: str
+    duration_seconds: float
+    status: str
+    completed: subprocess.CompletedProcess[bytes] | None
+    candidate_artifact: dict[str, Any] | None
+    changed_paths: list[str]
+    result_error: str | None
+    error_type: str | None
+    command: list[str]
+    system_prompt: str
+    agent_schema: dict[str, Any]
+    repair_prompt_sha256: str
 
 
 def run_claude_audit(
@@ -74,6 +111,8 @@ def run_claude_audit(
     timeout_seconds: int = 3600,
     claude_executable: str = "claude",
     groundtruth_schema_paths: Mapping[str, Path] | None = None,
+    repair_prompt_path: Path | None = None,
+    max_repair_attempts: int = MAX_COMPARISON_REPAIR_ATTEMPTS,
 ) -> ClaudeRunResult:
     """Run one conversion-first Claude comparison audit."""
 
@@ -82,6 +121,10 @@ def run_claude_audit(
     output_schema_path = _file(output_schema_path, "output schema")
     packet_schema_path = _file(packet_schema_path, "packet schema")
     prompt_path = _file(prompt_path, "phase prompt")
+    repair_prompt_path = _file(
+        repair_prompt_path or DEFAULT_REPAIR_PROMPT,
+        "comparison repair prompt",
+    )
     skill_path = _file(skill_path, "audit skill")
     policies = [_file(path, "audit policy") for path in policy_paths]
     if not policies:
@@ -98,6 +141,11 @@ def run_claude_audit(
         )
     if max_budget_usd <= 0 or timeout_seconds <= 0:
         raise ClaudeAuditError("budget and timeout must be positive")
+    if not 0 <= max_repair_attempts <= MAX_COMPARISON_REPAIR_ATTEMPTS:
+        raise ClaudeAuditError(
+            "comparison repair attempts must be between 0 and "
+            f"{MAX_COMPARISON_REPAIR_ATTEMPTS}"
+        )
 
     packet = load_json_object(packet_path, label="packet metadata")
     _validate(packet, packet_schema_path, "packet metadata")
@@ -126,6 +174,7 @@ def run_claude_audit(
     output_dir.parent.mkdir(parents=True, exist_ok=True)
 
     prompt_bytes = prompt_path.read_bytes()
+    repair_prompt_bytes = repair_prompt_path.read_bytes()
     skill_bytes = skill_path.read_bytes()
     policy_bytes = b"\n".join(path.read_bytes() for path in policies)
     system_prompt = _system_prompt(
@@ -190,7 +239,6 @@ def run_claude_audit(
             f"Claude audit exceeded {timeout_seconds} seconds"
         ) from error
     completed_at = _now()
-    duration = max(0.0, time.monotonic() - started_monotonic)
     run = {
         "run_id": run_id,
         "agent": "claude-code",
@@ -211,6 +259,8 @@ def run_claude_audit(
         "checkpoint_id": packet_manifest_checkpoint(packet_dir),
     }
     artifact: dict[str, Any] | None = None
+    initial_rejected_artifact: dict[str, Any] | None = None
+    repair_attempts: list[_RepairAttempt] = []
     try:
         if completed.returncode != 0:
             stdout_error = _claude_result_error(completed.stdout)
@@ -234,16 +284,75 @@ def run_claude_audit(
             phase=phase,
             run=run,
         )
-        _validate(artifact, output_schema_path, f"{phase} audit artifact")
-        _validate_semantics(
-            artifact, packet, packet_dir, phase, groundtruth_schemas
+        try:
+            _validate_comparison_artifact(
+                artifact=artifact,
+                output_schema_path=output_schema_path,
+                packet=packet,
+                packet_dir=packet_dir,
+                phase=phase,
+                groundtruth_schemas=groundtruth_schemas,
+            )
+        except _RepairableValidationError as validation_error:
+            initial_rejected_artifact = copy.deepcopy(artifact)
+            if max_repair_attempts == 0:
+                raise
+            progress(
+                "deterministic validation failed; starting bounded repair "
+                f"(up to {max_repair_attempts} attempts)"
+            )
+            artifact, repair_attempts, repair_error = _repair_comparison_artifact(
+                artifact=artifact,
+                initial_artifact=initial_rejected_artifact,
+                validation_error=validation_error,
+                max_attempts=max_repair_attempts,
+                output_dir=output_dir,
+                output_schema_path=output_schema_path,
+                packet=packet,
+                packet_dir=packet_dir,
+                phase=phase,
+                run=run,
+                groundtruth_schemas=groundtruth_schemas,
+                agent_schema=agent_schema,
+                repair_prompt=repair_prompt_bytes.decode("utf-8"),
+                repair_prompt_sha256=sha256_bytes(repair_prompt_bytes),
+                model=model,
+                effort=effort,
+                max_budget_usd=max_budget_usd,
+                timeout_seconds=timeout_seconds,
+                claude_executable=claude_executable,
+                progress=progress,
+            )
+            if repair_error is not None:
+                raise repair_error
+            progress(
+                f"repair attempt {len(repair_attempts)} produced a valid artifact"
+            )
+
+        run["completed_at"] = _now()
+        artifact = _finalize_artifact(
+            artifact=artifact,
+            packet=packet,
+            packet_dir=packet_dir,
+            phase=phase,
+            run=run,
+        )
+        _validate_comparison_artifact(
+            artifact=artifact,
+            output_schema_path=output_schema_path,
+            packet=packet,
+            packet_dir=packet_dir,
+            phase=phase,
+            groundtruth_schemas=groundtruth_schemas,
         )
     except Exception as error:
+        run["completed_at"] = _now()
+        duration = max(0.0, time.monotonic() - started_monotonic)
         try:
             rejected_dir = _preserve_rejected_run(
                 output_dir=output_dir,
                 completed=completed,
-                artifact=artifact,
+                artifact=initial_rejected_artifact or artifact,
                 error=error,
                 run=run,
                 phase=phase,
@@ -256,6 +365,8 @@ def run_claude_audit(
                 command=command,
                 system_prompt=system_prompt,
                 agent_schema=agent_schema,
+                repair_attempts=repair_attempts,
+                max_repair_attempts=max_repair_attempts,
             )
         except Exception as preservation_error:
             raise ClaudeAuditError(
@@ -269,6 +380,7 @@ def run_claude_audit(
             ) from error
         raise
 
+    duration = max(0.0, time.monotonic() - started_monotonic)
     temporary_dir = Path(
         tempfile.mkdtemp(prefix=f".{output_dir.name}.building-", dir=output_dir.parent)
     )
@@ -280,6 +392,7 @@ def run_claude_audit(
         artifact_name = "audit.json"
         artifact_path = temporary_dir / artifact_name
         write_json_atomic(artifact_path, artifact)
+        repair_summaries = _write_repair_attempts(temporary_dir, repair_attempts)
         metadata = {
             "run": run,
             "phase": phase,
@@ -294,6 +407,12 @@ def run_claude_audit(
             "max_budget_usd": max_budget_usd,
             "timeout_seconds": timeout_seconds,
             "effort": effort,
+            "validation_repair": {
+                "status": "succeeded" if repair_attempts else "not_needed",
+                "max_attempts": max_repair_attempts,
+                "attempt_count": len(repair_attempts),
+                "attempts": repair_summaries,
+            },
             "groundtruth_schemas": [
                 {
                     "task": task,
@@ -342,6 +461,8 @@ def _preserve_rejected_run(
     command: list[str],
     system_prompt: str,
     agent_schema: dict[str, Any],
+    repair_attempts: list[_RepairAttempt],
+    max_repair_attempts: int,
 ) -> Path:
     """Persist a completed but rejected model run for diagnosis and provenance."""
 
@@ -362,6 +483,7 @@ def _preserve_rejected_run(
         if artifact is not None:
             artifact_path = temporary_dir / "rejected-artifact.json"
             write_json_atomic(artifact_path, artifact)
+        repair_summaries = _write_repair_attempts(temporary_dir, repair_attempts)
         failure = {
             "status": "rejected",
             "phase": phase,
@@ -380,6 +502,12 @@ def _preserve_rejected_run(
             "max_budget_usd": max_budget_usd,
             "timeout_seconds": timeout_seconds,
             "effort": effort,
+            "validation_repair": {
+                "status": _repair_failure_status(repair_attempts),
+                "max_attempts": max_repair_attempts,
+                "attempt_count": len(repair_attempts),
+                "attempts": repair_summaries,
+            },
             "groundtruth_schemas": [
                 {
                     "task": task,
@@ -396,6 +524,495 @@ def _preserve_rejected_run(
         shutil.rmtree(temporary_dir, ignore_errors=True)
         raise
     return rejected_dir
+
+
+def _repair_comparison_artifact(
+    *,
+    artifact: dict[str, Any],
+    initial_artifact: dict[str, Any],
+    validation_error: _RepairableValidationError,
+    max_attempts: int,
+    output_dir: Path,
+    output_schema_path: Path,
+    packet: dict[str, Any],
+    packet_dir: Path,
+    phase: str,
+    run: dict[str, Any],
+    groundtruth_schemas: Mapping[str, Path],
+    agent_schema: dict[str, Any],
+    repair_prompt: str,
+    repair_prompt_sha256: str,
+    model: str,
+    effort: str,
+    max_budget_usd: float,
+    timeout_seconds: int,
+    claude_executable: str,
+    progress: Callable[[str], None],
+) -> tuple[dict[str, Any], list[_RepairAttempt], Exception | None]:
+    current_artifact = artifact
+    current_error: Exception = validation_error
+    attempts: list[_RepairAttempt] = []
+    for attempt_number in range(1, max_attempts + 1):
+        progress(
+            f"repair attempt {attempt_number}/{max_attempts}: "
+            f"{current_error}"
+        )
+        attempt, candidate, result_error = _run_repair_attempt(
+            attempt_number=attempt_number,
+            input_artifact=current_artifact,
+            initial_artifact=initial_artifact,
+            validator_errors=[str(current_error)],
+            output_dir=output_dir,
+            output_schema_path=output_schema_path,
+            packet=packet,
+            packet_dir=packet_dir,
+            phase=phase,
+            run=run,
+            groundtruth_schemas=groundtruth_schemas,
+            agent_schema=agent_schema,
+            repair_prompt=repair_prompt,
+            repair_prompt_sha256=repair_prompt_sha256,
+            model=model,
+            effort=effort,
+            max_budget_usd=max_budget_usd,
+            timeout_seconds=timeout_seconds,
+            claude_executable=claude_executable,
+            progress=progress,
+        )
+        attempts.append(attempt)
+        if candidate is not None:
+            current_artifact = candidate
+        if result_error is None:
+            return current_artifact, attempts, None
+        current_error = result_error
+        if not isinstance(result_error, _RepairableValidationError):
+            break
+    return current_artifact, attempts, current_error
+
+
+def _run_repair_attempt(
+    *,
+    attempt_number: int,
+    input_artifact: dict[str, Any],
+    initial_artifact: dict[str, Any],
+    validator_errors: list[str],
+    output_dir: Path,
+    output_schema_path: Path,
+    packet: dict[str, Any],
+    packet_dir: Path,
+    phase: str,
+    run: dict[str, Any],
+    groundtruth_schemas: Mapping[str, Path],
+    agent_schema: dict[str, Any],
+    repair_prompt: str,
+    repair_prompt_sha256: str,
+    model: str,
+    effort: str,
+    max_budget_usd: float,
+    timeout_seconds: int,
+    claude_executable: str,
+    progress: Callable[[str], None],
+) -> tuple[_RepairAttempt, dict[str, Any] | None, Exception | None]:
+    repair_dir = Path(
+        tempfile.mkdtemp(
+            prefix=f".{output_dir.name}.repair-{attempt_number:03d}-",
+            dir=output_dir.parent,
+        )
+    )
+    repair_input_path = repair_dir / "repair-input.json"
+    write_json_atomic(
+        repair_input_path,
+        {
+            "mode": "deterministic_validation_repair",
+            "attempt": attempt_number,
+            "protocol_id": packet["protocol_id"],
+            "source_artifact_sha256": _artifact_sha256(input_artifact),
+            "validator_errors": validator_errors,
+            "artifact": input_artifact,
+        },
+    )
+    system_prompt = _repair_system_prompt(
+        repair_prompt=repair_prompt,
+        groundtruth_schemas=groundtruth_schemas,
+    )
+    command = [
+        claude_executable,
+        "--print",
+        "--safe-mode",
+        "--no-session-persistence",
+        "--no-chrome",
+        "--strict-mcp-config",
+        "--permission-mode",
+        "plan",
+        "--tools",
+        ",".join(REPAIR_TOOLS),
+        "--model",
+        model,
+        "--effort",
+        effort,
+        "--max-budget-usd",
+        str(max_budget_usd),
+        "--output-format",
+        "stream-json",
+        "--verbose",
+        "--json-schema",
+        json.dumps(agent_schema, separators=(",", ":")),
+        "--system-prompt",
+        system_prompt,
+        _repair_user_prompt(repair_input_path),
+    ]
+    started_at = _now()
+    started_monotonic = time.monotonic()
+    completed: subprocess.CompletedProcess[bytes] | None = None
+    candidate: dict[str, Any] | None = None
+    changed_paths: list[str] = []
+    result_error: Exception | None = None
+    status = "execution_failed"
+    try:
+        completed = _run_streaming(
+            command,
+            cwd=repair_dir,
+            timeout_seconds=timeout_seconds,
+            progress=progress,
+        )
+        if completed.returncode != 0:
+            stdout_error = _claude_result_error(completed.stdout)
+            stderr = completed.stderr.decode("utf-8", errors="replace").strip()
+            details = []
+            if stdout_error:
+                details.append(stdout_error)
+            if stderr:
+                details.append(f"stderr: {stderr[-1000:]}")
+            raise ClaudeAuditError(
+                f"repair attempt {attempt_number} exited with "
+                f"{completed.returncode}: "
+                + ("; ".join(details) or "no error details were emitted")
+            )
+        candidate = _extract_artifact(completed.stdout, phase)
+        candidate = _finalize_artifact(
+            artifact=candidate,
+            packet=packet,
+            packet_dir=packet_dir,
+            phase=phase,
+            run=run,
+        )
+        changed_paths = _changed_json_paths(input_artifact, candidate)
+        _assert_repair_scope(initial_artifact, candidate)
+        _validate_comparison_artifact(
+            artifact=candidate,
+            output_schema_path=output_schema_path,
+            packet=packet,
+            packet_dir=packet_dir,
+            phase=phase,
+            groundtruth_schemas=groundtruth_schemas,
+        )
+        status = "validated"
+    except _RepairableValidationError as error:
+        status = "validation_failed"
+        result_error = error
+    except subprocess.TimeoutExpired:
+        result_error = ClaudeAuditError(
+            f"comparison repair attempt {attempt_number} exceeded "
+            f"{timeout_seconds} seconds"
+        )
+    except Exception as error:
+        status = "rejected"
+        result_error = (
+            error
+            if isinstance(error, ClaudeAuditError)
+            else ClaudeAuditError(
+                f"comparison repair attempt {attempt_number} failed: {error}"
+            )
+        )
+    finally:
+        completed_at = _now()
+        duration = max(0.0, time.monotonic() - started_monotonic)
+        shutil.rmtree(repair_dir, ignore_errors=True)
+
+    attempt = _RepairAttempt(
+        attempt=attempt_number,
+        input_artifact=copy.deepcopy(input_artifact),
+        validator_errors=list(validator_errors),
+        started_at=started_at,
+        completed_at=completed_at,
+        duration_seconds=duration,
+        status=status,
+        completed=completed,
+        candidate_artifact=copy.deepcopy(candidate),
+        changed_paths=changed_paths,
+        result_error=str(result_error) if result_error is not None else None,
+        error_type=type(result_error).__name__ if result_error is not None else None,
+        command=command,
+        system_prompt=system_prompt,
+        agent_schema=agent_schema,
+        repair_prompt_sha256=repair_prompt_sha256,
+    )
+    return attempt, candidate, result_error
+
+
+def _repair_system_prompt(
+    *,
+    repair_prompt: str,
+    groundtruth_schemas: Mapping[str, Path],
+) -> str:
+    rendered_schemas = []
+    for task, path in sorted(groundtruth_schemas.items()):
+        rendered_schemas.append(
+            f"{task} — {path.name}\n{path.read_text(encoding='utf-8')}"
+        )
+    return (
+        "You are a read-only deterministic-validation repair worker. "
+        "You cannot adjudicate, apply, or introduce scientific findings.\n\n"
+        "REPAIR INSTRUCTIONS\n"
+        f"{repair_prompt}\n\n"
+        "CANONICAL GROUND-TRUTH ARTIFACT SCHEMAS\n"
+        "These schemas are formatting and consistency constraints, not evidence.\n"
+        + "\n\n".join(rendered_schemas)
+    )
+
+
+def _repair_user_prompt(repair_input_path: Path) -> str:
+    return (
+        f"Read {repair_input_path.name}. It contains the complete failed artifact "
+        "and the exact deterministic validator errors. Read no other file. Make "
+        "only the smallest allowed repair and return the complete audit artifact "
+        "satisfying the supplied JSON Schema."
+    )
+
+
+def _assert_repair_scope(
+    initial_artifact: dict[str, Any], candidate: dict[str, Any]
+) -> None:
+    mutable_top_level = {"run", "audited_fields", "issues"}
+    for key in sorted(set(initial_artifact) | set(candidate)):
+        if key in mutable_top_level:
+            continue
+        if key not in initial_artifact or key not in candidate:
+            raise ClaudeAuditError(
+                f"repair changed protected comparison field {key!r}"
+            )
+        if candidate[key] != initial_artifact[key]:
+            raise ClaudeAuditError(
+                f"repair changed protected comparison field {key!r}"
+            )
+
+    initial_fields = _objects_by_id(
+        initial_artifact.get("audited_fields"), "field_id", "audited fields"
+    )
+    candidate_fields = _objects_by_id(
+        candidate.get("audited_fields"), "field_id", "audited fields"
+    )
+    if set(initial_fields) != set(candidate_fields):
+        raise ClaudeAuditError("repair changed the set of audited fields")
+    for field_id, initial_field in initial_fields.items():
+        repaired_field = candidate_fields[field_id]
+        initial_protected = {
+            key: value for key, value in initial_field.items() if key != "issue_ids"
+        }
+        repaired_protected = {
+            key: value for key, value in repaired_field.items() if key != "issue_ids"
+        }
+        if repaired_protected != initial_protected:
+            raise ClaudeAuditError(
+                f"repair changed the conclusion of audited field {field_id}"
+            )
+
+    initial_issues = _objects_by_id(
+        initial_artifact.get("issues"), "issue_id", "issues"
+    )
+    candidate_issues = _objects_by_id(candidate.get("issues"), "issue_id", "issues")
+    if set(initial_issues) != set(candidate_issues):
+        raise ClaudeAuditError("repair changed the set of comparison issues")
+    for issue_id, initial_issue in initial_issues.items():
+        repaired_issue = candidate_issues[issue_id]
+        mutable = {"run_id", "checkpoint_id"}
+        if _issue_has_root_candidate(initial_issue):
+            mutable.update({"proposed_value", "proposed_patch"})
+        initial_protected = {
+            key: value for key, value in initial_issue.items() if key not in mutable
+        }
+        repaired_protected = {
+            key: value for key, value in repaired_issue.items() if key not in mutable
+        }
+        if repaired_protected != initial_protected:
+            raise ClaudeAuditError(
+                f"repair changed protected conclusion fields for issue {issue_id}"
+            )
+        if not _issue_has_root_candidate(initial_issue):
+            if repaired_issue.get("proposed_value") != initial_issue.get(
+                "proposed_value"
+            ) or repaired_issue.get("proposed_patch") != initial_issue.get(
+                "proposed_patch"
+            ):
+                raise ClaudeAuditError(
+                    f"repair changed a non-root proposal for issue {issue_id}"
+                )
+            continue
+        repaired_root = _issue_root_candidate(repaired_issue)
+        if repaired_root is None:
+            raise ClaudeAuditError(
+                f"repair removed the complete root candidate for issue {issue_id}"
+            )
+        if repaired_issue.get("proposed_value") != repaired_root:
+            raise ClaudeAuditError(
+                f"repair made proposed_value and proposed_patch disagree for "
+                f"issue {issue_id}"
+            )
+
+
+def _objects_by_id(value: Any, key: str, label: str) -> dict[str, dict[str, Any]]:
+    if not isinstance(value, list):
+        raise ClaudeAuditError(f"repair scope cannot be verified: {label} is not a list")
+    result: dict[str, dict[str, Any]] = {}
+    for item in value:
+        if not isinstance(item, dict) or not isinstance(item.get(key), str):
+            raise ClaudeAuditError(
+                f"repair scope cannot be verified: {label} has no stable {key}"
+            )
+        item_id = item[key]
+        if item_id in result:
+            raise ClaudeAuditError(
+                f"repair scope cannot be verified: duplicate {key} {item_id}"
+            )
+        result[item_id] = item
+    return result
+
+
+def _issue_has_root_candidate(issue: Mapping[str, Any]) -> bool:
+    return _issue_root_candidate(issue) is not None
+
+
+def _issue_root_candidate(issue: Mapping[str, Any]) -> dict[str, Any] | None:
+    target = issue.get("target")
+    operations = issue.get("proposed_patch")
+    if not isinstance(target, dict) or not isinstance(operations, list):
+        return None
+    if target.get("kind") not in {"groundtruth_record", "new_groundtruth_record"}:
+        return None
+    if not all(isinstance(item, dict) for item in operations):
+        return None
+    mutations = [item for item in operations if item.get("op") != "test"]
+    if (
+        len(mutations) != 1
+        or mutations[0].get("op") not in {"add", "replace"}
+        or mutations[0].get("path") != ""
+        or not isinstance(mutations[0].get("value"), dict)
+    ):
+        return None
+    return mutations[0]["value"]
+
+
+def _changed_json_paths(before: Any, after: Any, path: str = "") -> list[str]:
+    if type(before) is not type(after):
+        return [path or ""]
+    if isinstance(before, dict):
+        changes: list[str] = []
+        for key in sorted(set(before) | set(after)):
+            child = f"{path}/{_json_pointer_token(str(key))}"
+            if key not in before or key not in after:
+                changes.append(child)
+            else:
+                changes.extend(_changed_json_paths(before[key], after[key], child))
+        return changes
+    if isinstance(before, list):
+        if len(before) != len(after):
+            return [path or ""]
+        changes = []
+        for index, (before_item, after_item) in enumerate(zip(before, after)):
+            changes.extend(
+                _changed_json_paths(before_item, after_item, f"{path}/{index}")
+            )
+        return changes
+    return [] if before == after else [path or ""]
+
+
+def _json_pointer_token(value: str) -> str:
+    return value.replace("~", "~0").replace("/", "~1")
+
+
+def _artifact_sha256(artifact: Mapping[str, Any]) -> str:
+    return sha256_bytes(canonical_json_bytes(artifact))
+
+
+def _write_repair_attempts(
+    root: Path, attempts: Iterable[_RepairAttempt]
+) -> list[dict[str, Any]]:
+    summaries: list[dict[str, Any]] = []
+    for attempt in attempts:
+        relative_dir = Path("repair-attempts") / f"attempt-{attempt.attempt:03d}"
+        attempt_dir = root / relative_dir
+        attempt_dir.mkdir(parents=True, exist_ok=False)
+        input_path = attempt_dir / "input-artifact.json"
+        errors_path = attempt_dir / "validator-errors.json"
+        changes_path = attempt_dir / "changed-paths.json"
+        write_json_atomic(input_path, attempt.input_artifact)
+        write_json_atomic(errors_path, {"errors": attempt.validator_errors})
+        write_json_atomic(changes_path, {"paths": attempt.changed_paths})
+
+        transcript_path: Path | None = None
+        stderr_path: Path | None = None
+        if attempt.completed is not None:
+            transcript_path = attempt_dir / "transcript.jsonl"
+            stderr_path = attempt_dir / "stderr.txt"
+            transcript_path.write_bytes(attempt.completed.stdout)
+            stderr_path.write_bytes(attempt.completed.stderr)
+        candidate_path: Path | None = None
+        if attempt.candidate_artifact is not None:
+            candidate_path = attempt_dir / "candidate-artifact.json"
+            write_json_atomic(candidate_path, attempt.candidate_artifact)
+
+        summary = {
+            "attempt": attempt.attempt,
+            "status": attempt.status,
+            "started_at": attempt.started_at,
+            "completed_at": attempt.completed_at,
+            "duration_seconds": round(attempt.duration_seconds, 6),
+            "input_artifact_path": str(relative_dir / input_path.name),
+            "input_artifact_sha256": sha256_file(input_path),
+            "validator_errors_path": str(relative_dir / errors_path.name),
+            "validator_errors_sha256": sha256_file(errors_path),
+            "changed_paths_path": str(relative_dir / changes_path.name),
+            "changed_paths_sha256": sha256_file(changes_path),
+            "candidate_artifact_path": (
+                str(relative_dir / candidate_path.name) if candidate_path else None
+            ),
+            "candidate_artifact_sha256": (
+                sha256_file(candidate_path) if candidate_path else None
+            ),
+            "transcript_path": (
+                str(relative_dir / transcript_path.name) if transcript_path else None
+            ),
+            "transcript_sha256": (
+                sha256_file(transcript_path) if transcript_path else None
+            ),
+            "stderr_path": (
+                str(relative_dir / stderr_path.name) if stderr_path else None
+            ),
+            "stderr_sha256": sha256_file(stderr_path) if stderr_path else None,
+            "result_error": attempt.result_error,
+            "error_type": attempt.error_type,
+            "repair_prompt_sha256": attempt.repair_prompt_sha256,
+            "system_prompt_sha256": sha256_bytes(attempt.system_prompt.encode()),
+            "tools": list(REPAIR_TOOLS),
+            "permission_mode": "plan",
+            "command": _redacted_command(
+                attempt.command, attempt.system_prompt, attempt.agent_schema
+            ),
+        }
+        metadata_path = attempt_dir / "attempt.json"
+        write_json_atomic(metadata_path, summary)
+        summary["metadata_path"] = str(relative_dir / metadata_path.name)
+        summary["metadata_sha256"] = sha256_file(metadata_path)
+        summaries.append(summary)
+    return summaries
+
+
+def _repair_failure_status(attempts: list[_RepairAttempt]) -> str:
+    if not attempts:
+        return "not_attempted"
+    if all(attempt.status == "validation_failed" for attempt in attempts):
+        return "exhausted"
+    return "failed"
 
 
 def _run_streaming(
@@ -702,6 +1319,27 @@ def _finalize_artifact(
     return value
 
 
+def _validate_comparison_artifact(
+    *,
+    artifact: dict[str, Any],
+    output_schema_path: Path,
+    packet: dict[str, Any],
+    packet_dir: Path,
+    phase: str,
+    groundtruth_schemas: Mapping[str, Path],
+) -> None:
+    """Run the complete deterministic validation gate for a comparison artifact."""
+
+    _validate(
+        artifact,
+        output_schema_path,
+        f"{phase} audit artifact",
+        repairable=True,
+        validation_kind="audit_schema",
+    )
+    _validate_semantics(artifact, packet, packet_dir, phase, groundtruth_schemas)
+
+
 def _validate_semantics(
     artifact: dict[str, Any],
     packet: dict[str, Any],
@@ -802,6 +1440,8 @@ def _validate_semantics(
                     candidate,
                     groundtruth_schemas[issue["task"]],
                     f"root conversion candidate {issue_id}",
+                    repairable=True,
+                    validation_kind="groundtruth_schema",
                 )
                 unexpected_evidence = (
                     _nested_evidence_source_ids(candidate)
@@ -837,6 +1477,8 @@ def _validate_semantics(
                 candidate,
                 groundtruth_schemas[issue["task"]],
                 f"new ground-truth candidate {issue_id}",
+                repairable=True,
+                validation_kind="groundtruth_schema",
             )
             new_groundtruth_candidates[source_id] = candidate
             new_artifact_ids.add(source_id)
@@ -873,10 +1515,11 @@ def _validate_semantics(
     if referenced != issue_ids:
         missing = sorted(issue_ids - referenced)
         unknown = sorted(referenced - issue_ids)
-        raise ClaudeAuditError(
+        raise _RepairableValidationError(
             "audited field ledger and issues must reference each other exactly; "
             f"issues_missing_from_ledger={missing}, "
-            f"unknown_issue_ids_in_ledger={unknown}"
+            f"unknown_issue_ids_in_ledger={unknown}",
+            validation_kind="field_issue_linkage",
         )
 
 
@@ -983,8 +1626,9 @@ def _validate_linked_root_candidates(
     try:
         validate_cross_task_links(documents_by_task(documents))
     except GroundtruthValidationError as error:
-        raise ClaudeAuditError(
-            f"linked root conversion candidates are inconsistent: {error}"
+        raise _RepairableValidationError(
+            f"linked root conversion candidates are inconsistent: {error}",
+            validation_kind="linked_groundtruth",
         ) from error
 
 
@@ -1088,10 +1732,21 @@ def _redacted_command(
     return result
 
 
-def _validate(document: dict[str, Any], schema: Path, label: str) -> None:
+def _validate(
+    document: dict[str, Any],
+    schema: Path,
+    label: str,
+    *,
+    repairable: bool = False,
+    validation_kind: str = "schema",
+) -> None:
     try:
         validate_document(document, schema, label=label)
     except AuditArtifactError as error:
+        if repairable:
+            raise _RepairableValidationError(
+                str(error), validation_kind=validation_kind
+            ) from error
         raise ClaudeAuditError(str(error)) from error
 
 

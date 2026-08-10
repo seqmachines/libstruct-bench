@@ -1,0 +1,328 @@
+{
+  "schema_version": "libstruct.paper_protocol_selection.v0",
+  "selection_id": "aidar-2026-small-input-40",
+  "selected_on": "2026-08-08",
+  "protocol_count": 40,
+  "source_directory": "../protocols-test/protocols",
+  "cost_proxy": {
+    "formula": "native_text_characters / 4 + 500 * pdf_pages + unparsed_binary_bytes / 16",
+    "units": "approximate input tokens",
+    "scope": "all files recursively contained in each protocol input directory",
+    "caveat": "This is a selection heuristic, not a billing estimate. Actual usage depends on the model, parser, harness, and which files or pages the agent reads."
+  },
+  "selection_policy": [
+    "Include all 10 protocols with promoted, human-reviewed ground truth.",
+    "Include the 4 additional protocols with completed comparison-audit proposals; these proposals are not human approval.",
+    "Retain the other 6 protocols in the existing 20-protocol T1 baseline so completed model runs remain usable.",
+    "Fill the remaining 20 positions with the lowest-cost unused protocol directories under the cost proxy."
+  ],
+  "aggregate": {
+    "estimated_input_k_tokens": 5369.1,
+    "pdf_pages": 1763,
+    "raw_mb": 615.71,
+    "estimated_k_token_premium_over_absolute_minimum": 10.3,
+    "estimated_percent_premium_over_absolute_minimum": 0.19
+  },
+  "cost_hotspots": [
+    {
+      "protocol_id": "10x_chromium_single_cell_atac_v2",
+      "file": "10x_scATAC_barcode_table.xlsx",
+      "estimated_input_k_tokens": 3133.5,
+      "handling_note": "Keep the file in the source bundle, but expose rows lazily instead of eagerly serializing the complete barcode table into model context."
+    },
+    {
+      "protocol_id": "s3_atac",
+      "file": "s3-ATAC.xlsx",
+      "estimated_input_k_tokens": 199.6,
+      "handling_note": "Keep the file in the source bundle, but expose sheets or rows lazily through deterministic tooling."
+    },
+    {
+      "protocol_id": "seq_well_s3",
+      "file": "SeqWell_S3_supp.pdf and supplementary_mmc1.pdf",
+      "estimated_input_k_tokens": 90.6,
+      "handling_note": "Both supplements remain source evidence; verify whether both are scientifically distinct before deciding how a benchmark harness should present them."
+    }
+  ],
+  "protocols": [
+    {
+      "protocol_id": "cel_seq",
+      "cohort": "reviewed_promoted",
+      "estimated_input_k_tokens": 21.9,
+      "pdf_pages": 17,
+      "raw_mb": 2.05
+    },
+    {
+      "protocol_id": "indrop_v1",
+      "cohort": "reviewed_promoted",
+      "estimated_input_k_tokens": 54.8,
+      "pdf_pages": 40,
+      "raw_mb": 5.49
+    },
+    {
+      "protocol_id": "split_seq",
+      "cohort": "reviewed_promoted",
+      "estimated_input_k_tokens": 66.3,
+      "pdf_pages": 63,
+      "raw_mb": 6.52
+    },
+    {
+      "protocol_id": "drop_seq",
+      "cohort": "reviewed_promoted",
+      "estimated_input_k_tokens": 70.8,
+      "pdf_pages": 64,
+      "raw_mb": 5.2
+    },
+    {
+      "protocol_id": "sci_rna_seq",
+      "cohort": "reviewed_promoted",
+      "estimated_input_k_tokens": 74.0,
+      "pdf_pages": 78,
+      "raw_mb": 7.32
+    },
+    {
+      "protocol_id": "10x_chromium_3_gene_expression_v4",
+      "cohort": "reviewed_promoted",
+      "estimated_input_k_tokens": 95.3,
+      "pdf_pages": 106,
+      "raw_mb": 17.54
+    },
+    {
+      "protocol_id": "10x_chromium_3_feature_barcoding",
+      "cohort": "reviewed_promoted",
+      "estimated_input_k_tokens": 105.0,
+      "pdf_pages": 113,
+      "raw_mb": 11.36
+    },
+    {
+      "protocol_id": "seq_well_s3",
+      "cohort": "reviewed_promoted",
+      "estimated_input_k_tokens": 132.4,
+      "pdf_pages": 133,
+      "raw_mb": 157.16
+    },
+    {
+      "protocol_id": "s3_atac",
+      "cohort": "reviewed_promoted",
+      "estimated_input_k_tokens": 230.2,
+      "pdf_pages": 17,
+      "raw_mb": 20.61
+    },
+    {
+      "protocol_id": "10x_chromium_single_cell_atac_v2",
+      "cohort": "reviewed_promoted",
+      "estimated_input_k_tokens": 3233.8,
+      "pdf_pages": 89,
+      "raw_mb": 46.13
+    },
+    {
+      "protocol_id": "smart_seq",
+      "cohort": "comparison_audit_complete_unreviewed",
+      "estimated_input_k_tokens": 28.1,
+      "pdf_pages": 20,
+      "raw_mb": 2.35
+    },
+    {
+      "protocol_id": "sci_atac_seq",
+      "cohort": "comparison_audit_complete_unreviewed",
+      "estimated_input_k_tokens": 51.1,
+      "pdf_pages": 51,
+      "raw_mb": 5.23
+    },
+    {
+      "protocol_id": "petri_seq",
+      "cohort": "comparison_audit_complete_unreviewed",
+      "estimated_input_k_tokens": 65.2,
+      "pdf_pages": 40,
+      "raw_mb": 14.06
+    },
+    {
+      "protocol_id": "pip_seq_v4",
+      "cohort": "comparison_audit_complete_unreviewed",
+      "estimated_input_k_tokens": 75.5,
+      "pdf_pages": 71,
+      "raw_mb": 23.99
+    },
+    {
+      "protocol_id": "scrrbs",
+      "cohort": "existing_baseline_reuse",
+      "estimated_input_k_tokens": 43.4,
+      "pdf_pages": 26,
+      "raw_mb": 2.67
+    },
+    {
+      "protocol_id": "scdamid",
+      "cohort": "existing_baseline_reuse",
+      "estimated_input_k_tokens": 48.1,
+      "pdf_pages": 31,
+      "raw_mb": 5.22
+    },
+    {
+      "protocol_id": "dr_seq",
+      "cohort": "existing_baseline_reuse",
+      "estimated_input_k_tokens": 53.6,
+      "pdf_pages": 57,
+      "raw_mb": 75.3
+    },
+    {
+      "protocol_id": "microwell_seq",
+      "cohort": "existing_baseline_reuse",
+      "estimated_input_k_tokens": 56.9,
+      "pdf_pages": 37,
+      "raw_mb": 15.14
+    },
+    {
+      "protocol_id": "share_seq",
+      "cohort": "existing_baseline_reuse",
+      "estimated_input_k_tokens": 61.9,
+      "pdf_pages": 36,
+      "raw_mb": 18.94
+    },
+    {
+      "protocol_id": "ddseq_single_cell_3_rna_seq_kit",
+      "cohort": "existing_baseline_reuse",
+      "estimated_input_k_tokens": 68.2,
+      "pdf_pages": 90,
+      "raw_mb": 11.03
+    },
+    {
+      "protocol_id": "cel_seq2",
+      "cohort": "small_input_addition",
+      "estimated_input_k_tokens": 16.2,
+      "pdf_pages": 8,
+      "raw_mb": 2.86
+    },
+    {
+      "protocol_id": "snare_seq",
+      "cohort": "small_input_addition",
+      "estimated_input_k_tokens": 19.8,
+      "pdf_pages": 10,
+      "raw_mb": 15.31
+    },
+    {
+      "protocol_id": "strt_seq_2i",
+      "cohort": "small_input_addition",
+      "estimated_input_k_tokens": 20.1,
+      "pdf_pages": 16,
+      "raw_mb": 19.37
+    },
+    {
+      "protocol_id": "scifi_atac_seq",
+      "cohort": "small_input_addition",
+      "estimated_input_k_tokens": 24.4,
+      "pdf_pages": 20,
+      "raw_mb": 3.51
+    },
+    {
+      "protocol_id": "strt_seq_c1",
+      "cohort": "small_input_addition",
+      "estimated_input_k_tokens": 24.4,
+      "pdf_pages": 22,
+      "raw_mb": 2.43
+    },
+    {
+      "protocol_id": "plate_scatac_seq",
+      "cohort": "small_input_addition",
+      "estimated_input_k_tokens": 28.7,
+      "pdf_pages": 27,
+      "raw_mb": 12.75
+    },
+    {
+      "protocol_id": "scrb_seq",
+      "cohort": "small_input_addition",
+      "estimated_input_k_tokens": 33.6,
+      "pdf_pages": 35,
+      "raw_mb": 4.8
+    },
+    {
+      "protocol_id": "pi_atac_seq",
+      "cohort": "small_input_addition",
+      "estimated_input_k_tokens": 34.5,
+      "pdf_pages": 27,
+      "raw_mb": 3.99
+    },
+    {
+      "protocol_id": "scdnase_seq",
+      "cohort": "small_input_addition",
+      "estimated_input_k_tokens": 34.7,
+      "pdf_pages": 30,
+      "raw_mb": 5.22
+    },
+    {
+      "protocol_id": "malbac",
+      "cohort": "small_input_addition",
+      "estimated_input_k_tokens": 36.9,
+      "pdf_pages": 44,
+      "raw_mb": 3.29
+    },
+    {
+      "protocol_id": "paired_seq",
+      "cohort": "small_input_addition",
+      "estimated_input_k_tokens": 37.3,
+      "pdf_pages": 22,
+      "raw_mb": 11.08
+    },
+    {
+      "protocol_id": "smart_seq2",
+      "cohort": "small_input_addition",
+      "estimated_input_k_tokens": 38.7,
+      "pdf_pages": 29,
+      "raw_mb": 2.89
+    },
+    {
+      "protocol_id": "smart_seq3xpress",
+      "cohort": "small_input_addition",
+      "estimated_input_k_tokens": 40.7,
+      "pdf_pages": 36,
+      "raw_mb": 22.18
+    },
+    {
+      "protocol_id": "strt_seq",
+      "cohort": "small_input_addition",
+      "estimated_input_k_tokens": 42.6,
+      "pdf_pages": 24,
+      "raw_mb": 1.7
+    },
+    {
+      "protocol_id": "lianti",
+      "cohort": "small_input_addition",
+      "estimated_input_k_tokens": 43.0,
+      "pdf_pages": 44,
+      "raw_mb": 7.27
+    },
+    {
+      "protocol_id": "spear_atac",
+      "cohort": "small_input_addition",
+      "estimated_input_k_tokens": 43.7,
+      "pdf_pages": 40,
+      "raw_mb": 13.59
+    },
+    {
+      "protocol_id": "ddseq_scatac_seq",
+      "cohort": "small_input_addition",
+      "estimated_input_k_tokens": 47.6,
+      "pdf_pages": 31,
+      "raw_mb": 6.53
+    },
+    {
+      "protocol_id": "indrop_v2",
+      "cohort": "small_input_addition",
+      "estimated_input_k_tokens": 53.7,
+      "pdf_pages": 35,
+      "raw_mb": 2.43
+    },
+    {
+      "protocol_id": "tang_2009",
+      "cohort": "small_input_addition",
+      "estimated_input_k_tokens": 53.7,
+      "pdf_pages": 42,
+      "raw_mb": 6.21
+    },
+    {
+      "protocol_id": "crispr_sciatac",
+      "cohort": "small_input_addition",
+      "estimated_input_k_tokens": 58.3,
+      "pdf_pages": 42,
+      "raw_mb": 14.99
+    }
+  ]
+}

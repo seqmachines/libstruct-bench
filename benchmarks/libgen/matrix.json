@@ -1,0 +1,93 @@
+{
+  "research_question": "How much protocol-understanding performance comes from the underlying model, and how much comes from the harness controlling context, tools, and iteration?",
+  "models": [
+    {
+      "model_key": "gpt_5_6_sol",
+      "display_name": "GPT 5.6 Sol",
+      "core_model_id_env": "LIBGEN_CORE_MODEL_GPT_5_6_SOL",
+      "native_model_id_env": "LIBGEN_NATIVE_MODEL_GPT_5_6_SOL"
+    },
+    {
+      "model_key": "claude_opus_5",
+      "display_name": "Claude Opus 5.0",
+      "core_model_id_env": "LIBGEN_CORE_MODEL_CLAUDE_OPUS_5",
+      "native_model_id_env": "LIBGEN_NATIVE_MODEL_CLAUDE_OPUS_5"
+    },
+    {
+      "model_key": "gemini_3_6_flash",
+      "display_name": "Gemini 3.6 Flash",
+      "core_model_id_env": "LIBGEN_CORE_MODEL_GEMINI_3_6_FLASH",
+      "native_model_id_env": "LIBGEN_NATIVE_MODEL_GEMINI_3_6_FLASH"
+    },
+    {
+      "model_key": "kimi_k3",
+      "display_name": "Kimi K3",
+      "core_model_id_env": "LIBGEN_CORE_MODEL_KIMI_K3"
+    }
+  ],
+  "core_harnesses": [
+    {
+      "harness_key": "kimi_code",
+      "display_name": "Kimi Code",
+      "harbor_agent": "kimi-cli",
+      "version_env": "LIBGEN_KIMI_CLI_VERSION",
+      "reasoning_setting": "provider_default",
+      "agent_kwargs": {}
+    },
+    {
+      "harness_key": "mini_swe_agent_v2",
+      "display_name": "mini-SWE-agent v2",
+      "harbor_agent": "mini-swe-agent",
+      "version_env": "LIBGEN_MINI_SWE_AGENT_VERSION",
+      "reasoning_setting": "high",
+      "agent_kwargs": {"reasoning_effort": "high"}
+    },
+    {
+      "harness_key": "pi",
+      "display_name": "Pi",
+      "harbor_agent": "pi",
+      "version_env": "LIBGEN_PI_VERSION",
+      "reasoning_setting": "xhigh",
+      "agent_kwargs": {"thinking": "xhigh"}
+    }
+  ],
+  "native_extensions": [
+    {
+      "model_key": "gpt_5_6_sol",
+      "harness_key": "codex",
+      "display_name": "Codex",
+      "harbor_agent": "codex",
+      "version_env": "LIBGEN_CODEX_VERSION",
+      "reasoning_setting": "max",
+      "agent_kwargs": {"reasoning_effort": "max"}
+    },
+    {
+      "model_key": "claude_opus_5",
+      "harness_key": "claude_code",
+      "display_name": "Claude Code",
+      "harbor_agent": "claude-code",
+      "version_env": "LIBGEN_CLAUDE_CODE_VERSION",
+      "reasoning_setting": "max",
+      "agent_kwargs": {"reasoning_effort": "max"}
+    },
+    {
+      "model_key": "gemini_3_6_flash",
+      "harness_key": "gemini_cli",
+      "display_name": "Gemini CLI",
+      "harbor_agent": "gemini-cli",
+      "version_env": "LIBGEN_GEMINI_CLI_VERSION",
+      "reasoning_setting": "high",
+      "agent_kwargs": {"reasoning_effort": "high"}
+    }
+  ],
+  "pilot_protocols": [
+    "s3_atac",
+    "drop_seq",
+    "split_seq",
+    "10x_chromium_3_feature_barcoding"
+  ],
+  "pilot_attempts": 1,
+  "full_attempts": 2,
+  "n_concurrent_trials": 4,
+  "environment": "e2b"
+}
