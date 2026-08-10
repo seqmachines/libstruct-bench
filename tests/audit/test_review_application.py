@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import hashlib
 import json
 from pathlib import Path
 
@@ -101,11 +100,11 @@ def _t3(sequence: str = "CCC") -> dict:
     return {
         "protocol_id": "example_protocol",
         "protocol_name": "Example",
-        "modality": "rna",
         "protocol_scope": _scope(),
         "workflows": [
             {
                 "workflow_id": "workflow",
+                "modality": "rna",
                 "protocol_scope": _scope(),
                 "states": [state("input", "input", "GGG"), state("final", "adapter", sequence)],
                 "transitions": [

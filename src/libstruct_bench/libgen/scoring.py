@@ -2,16 +2,14 @@ from __future__ import annotations
 
 import re
 from collections import Counter
-from typing import Any, Callable, Iterable
+from typing import Any, Callable, Iterable, Mapping
 
 from libstruct_bench.matching import best_one_to_one_matching, edit_similarity
 from libstruct_bench.normalization import normalize_sequence, sequence_tokens
+from libstruct_bench.libgen.validation import derive_required_t2_ids
 
 
 SCORABLE_SUPPORT = frozenset({"explicit", "derivable"})
-NEUTRAL_SUPPORT = frozenset(
-    {"externally_completed", "ambiguous", "unsupported"}
-)
 
 STATE_WEIGHTS = {
     "reference_strand": 0.40,
@@ -21,10 +19,10 @@ STATE_WEIGHTS = {
 }
 TRANSITION_WEIGHTS = {
     "operation": 0.30,
-    "topology": 0.35,
-    "oligos": 0.15,
-    "disposition": 0.10,
-    "reagents": 0.10,
+    "substrates": 0.15,
+    "products": 0.20,
+    "disposition": 0.15,
+    "oligos": 0.20,
 }
 
 
@@ -36,25 +34,28 @@ def grade_libgen(
 ) -> tuple[dict[str, float], dict[str, Any]]:
     """Score linked T2/T3 predictions without relying on generated IDs."""
 
-    t2_metrics, t2_details, oligo_map = score_t2(
-        t2_prediction["oligos"], t2_groundtruth["oligos"]
+    required_oligo_ids = derive_required_t2_ids(t3_groundtruth)
+    t2_metrics, t2_details = score_t2(
+        t2_prediction["oligos"],
+        t2_groundtruth["oligos"],
+        required_oligo_ids=required_oligo_ids,
     )
     t3_metrics, t3_details = score_t3(
         t3_prediction,
         t3_groundtruth,
-        oligo_map=oligo_map,
+        t2_prediction=t2_prediction,
+        t2_groundtruth=t2_groundtruth,
     )
-    reward = 0.30 * t2_metrics["sequence_f1"] + 0.70 * t3_metrics["t3_score"]
+    reward = (
+        0.30 * t2_metrics["required_sequence_f1"]
+        + 0.70 * t3_metrics["molecular_transition_f1"]
+    )
     metrics = {
         "reward": reward,
-        "t2_score": t2_metrics["sequence_f1"],
-        "t3_score": t3_metrics["t3_score"],
+        "t2_score": t2_metrics["required_sequence_f1"],
+        "t3_score": t3_metrics["molecular_transition_f1"],
         **{f"t2_{key}": value for key, value in t2_metrics.items()},
-        **{
-            f"t3_{key}": value
-            for key, value in t3_metrics.items()
-            if key != "t3_score"
-        },
+        **{f"t3_{key}": value for key, value in t3_metrics.items()},
     }
     return metrics, {"t2": t2_details, "t3": t3_details}
 
@@ -62,33 +63,37 @@ def grade_libgen(
 def score_t2(
     predictions: list[dict[str, Any]],
     groundtruth: list[dict[str, Any]],
-) -> tuple[dict[str, float], dict[str, Any], dict[str, str]]:
-    """Sequence-only global one-to-one T2 scoring with recoverability masking."""
+    *,
+    required_oligo_ids: set[str],
+) -> tuple[dict[str, float], dict[str, Any]]:
+    """Score required T2 records by sequence; exact optional records are neutral."""
 
-    all_scores = [
-        [_oligo_similarity(prediction, truth, scorable_only=False) for truth in groundtruth]
+    required_truth = {
+        index
+        for index, truth in enumerate(groundtruth)
+        if truth["oligo_id"] in required_oligo_ids
+    }
+    optional_truth = {
+        index
+        for index, truth in enumerate(groundtruth)
+        if truth["oligo_id"] not in required_oligo_ids
+    }
+    required_indices = sorted(required_truth)
+    required_scores = [
+        [
+            _oligo_similarity(prediction, groundtruth[index])
+            for index in required_indices
+        ]
         for prediction in predictions
     ]
-    assignment_scores = [
-        [
-            score + 1e-9 * _name_similarity(prediction["name"], truth["name"])
-            for score, truth in zip(row, groundtruth, strict=True)
-        ]
-        for prediction, row in zip(predictions, all_scores, strict=True)
-    ]
-    matches = best_one_to_one_matching(assignment_scores)
-    actual_matches = [
-        (prediction_index, truth_index, all_scores[prediction_index][truth_index])
-        for prediction_index, truth_index, _ in matches
+    raw_matches = best_one_to_one_matching(required_scores)
+    matches = [
+        (prediction_index, required_indices[required_position], score)
+        for prediction_index, required_position, score in raw_matches
     ]
 
-    scorable_truth = {
-        index for index, truth in enumerate(groundtruth) if _oligo_is_scorable(truth)
-    }
-    neutral_truth = set(range(len(groundtruth))) - scorable_truth
-    matched_predictions: set[int] = set()
+    matched_predictions = {item[0] for item in matches}
     score_sum = 0.0
-    oligo_map: dict[str, str] = {}
     match_details: list[dict[str, Any]] = []
     name_scores: list[float] = []
     role_scores: list[float] = []
@@ -97,20 +102,10 @@ def score_t2(
     modification_scores: list[float] = []
     kind_scores: list[float] = []
 
-    for prediction_index, truth_index, all_score in actual_matches:
+    for prediction_index, truth_index, sequence_score in matches:
         prediction = predictions[prediction_index]
         truth = groundtruth[truth_index]
-        matched_predictions.add(prediction_index)
-        if all_score >= 0.80:
-            oligo_map[prediction["oligo_id"]] = truth["oligo_id"]
-        scored = truth_index in scorable_truth
-        sequence_score = (
-            _oligo_similarity(prediction, truth, scorable_only=True)
-            if scored
-            else None
-        )
-        if sequence_score is not None:
-            score_sum += sequence_score
+        score_sum += sequence_score
         name_score = _name_similarity(prediction["name"], truth["name"])
         name_scores.append(name_score)
         role_scores.append(_name_similarity(prediction["role"], truth["role"]))
@@ -132,22 +127,17 @@ def score_t2(
                 "prediction_index": prediction_index,
                 "groundtruth_index": truth_index,
                 "sequence_score": sequence_score,
-                "alignment_sequence_score": all_score,
-                "scored": scored,
+                "groundtruth_oligo_id": truth["oligo_id"],
             }
         )
 
-    neutralized_predictions = {
-        prediction_index
-        for prediction_index, truth_index, score in actual_matches
-        if truth_index in neutral_truth and score == 1.0
-    }
     unmatched_predictions = set(range(len(predictions))) - matched_predictions
-    for prediction_index in list(unmatched_predictions):
+    neutralized_predictions: set[int] = set()
+    for prediction_index in unmatched_predictions:
         if any(
-            _oligo_similarity(predictions[prediction_index], groundtruth[index], scorable_only=False)
+            _oligo_similarity(predictions[prediction_index], groundtruth[index])
             == 1.0
-            for index in neutral_truth
+            for index in optional_truth
         ):
             neutralized_predictions.add(prediction_index)
 
@@ -155,12 +145,18 @@ def score_t2(
     precision, recall, f1 = _soft_prf(
         score_sum,
         effective_prediction_count,
-        len(scorable_truth),
+        len(required_truth),
+    )
+    exact_required_matches = sum(score == 1.0 for _, _, score in matches)
+    all_required_exact = float(
+        exact_required_matches == len(required_truth)
+        and effective_prediction_count == len(required_truth)
     )
     metrics = {
-        "sequence_precision": precision,
-        "sequence_recall": recall,
-        "sequence_f1": f1,
+        "required_sequence_precision": precision,
+        "required_sequence_recall": recall,
+        "required_sequence_f1": f1,
+        "all_required_exact": all_required_exact,
         "name_similarity": _mean(name_scores),
         "role_similarity": _mean(role_scores),
         "alias_f1": _mean(alias_scores),
@@ -168,116 +164,248 @@ def score_t2(
         "kind_accuracy": _mean(kind_scores),
         "orientation_accuracy": _mean(orientation_scores, empty=1.0),
         "predicted_count": float(len(predictions)),
-        "scorable_groundtruth_count": float(len(scorable_truth)),
-        "neutral_groundtruth_count": float(len(neutral_truth)),
+        "required_groundtruth_count": float(len(required_truth)),
+        "optional_groundtruth_count": float(len(optional_truth)),
         "neutralized_prediction_count": float(len(neutralized_predictions)),
     }
     details = {
         "matches": match_details,
-        "unmatched_prediction_indices": sorted(unmatched_predictions),
-        "unmatched_groundtruth_indices": sorted(
-            set(range(len(groundtruth))) - {truth_index for _, truth_index, _ in actual_matches}
+        "unmatched_prediction_indices": sorted(
+            unmatched_predictions - neutralized_predictions
+        ),
+        "unmatched_required_oligo_ids": sorted(
+            groundtruth[index]["oligo_id"]
+            for index in required_truth
+            - {truth_index for _, truth_index, _ in matches}
         ),
         "neutralized_prediction_indices": sorted(neutralized_predictions),
-        "matching_policy": "global one-to-one sequence similarity; names only break exact assignment ties",
-        "recoverability_policy": "explicit and derivable claims scored; externally completed, ambiguous, and unsupported claims neutral",
+        "required_oligo_ids": sorted(required_oligo_ids),
+        "optional_oligo_ids": sorted(
+            groundtruth[index]["oligo_id"] for index in optional_truth
+        ),
+        "matching_policy": "global maximum-weight one-to-one normalized Levenshtein sequence matching; metadata never affects assignment or reward",
+        "scope_policy": "every T2 record referenced by T3 is required; exact predictions of all other T2 records are neutral",
     }
-    return metrics, details, oligo_map
+    return metrics, details
 
 
 def score_t3(
     prediction: dict[str, Any],
     groundtruth: dict[str, Any],
     *,
-    oligo_map: dict[str, str],
+    t2_prediction: dict[str, Any],
+    t2_groundtruth: dict[str, Any],
 ) -> tuple[dict[str, float], dict[str, Any]]:
-    predicted_states, predicted_transitions, predicted_initial, predicted_final = _flatten_t3(
-        prediction
-    )
-    truth_states, truth_transitions, truth_initial, truth_final = _flatten_t3(groundtruth)
-
-    all_state_scores = [
-        [_state_similarity(item, truth, scorable_only=False) for truth in truth_states]
-        for item in predicted_states
-    ]
-    state_matches = best_one_to_one_matching(all_state_scores)
-    state_map = {
-        predicted_states[prediction_index]["state_id"]: truth_states[truth_index]["state_id"]
-        for prediction_index, truth_index, score in state_matches
-        if score >= 0.25
+    predicted_by_modality = _workflows_by_modality(prediction)
+    truth_by_modality = _workflows_by_modality(groundtruth)
+    predicted_oligos = {
+        item["oligo_id"]: item for item in t2_prediction.get("oligos", [])
     }
-    state_prf, state_details = _score_matched_entities(
-        predicted_states,
-        truth_states,
-        state_matches,
-        all_state_scores,
-        score=lambda item, truth: _state_similarity(item, truth, scorable_only=True),
-        scorable=_state_is_scorable,
-    )
+    truth_oligos = {
+        item["oligo_id"]: item for item in t2_groundtruth.get("oligos", [])
+    }
 
-    all_transition_scores = [
-        [
-            _transition_similarity(
+    state_score_sum = 0.0
+    predicted_state_count = 0
+    truth_state_count = 0
+    transition_score_sum = 0.0
+    predicted_transition_count = 0
+    truth_transition_count = 0
+    matched_typed_edges = 0
+    predicted_typed_edges = 0
+    truth_typed_edges = 0
+    reagent_scores: list[float] = []
+    boundary_scores: list[float] = []
+    modality_details: dict[str, Any] = {}
+
+    for modality in sorted(set(predicted_by_modality) | set(truth_by_modality)):
+        predicted_workflow = predicted_by_modality.get(modality)
+        truth_workflow = truth_by_modality.get(modality)
+        predicted_states = (
+            list(predicted_workflow.get("states", [])) if predicted_workflow else []
+        )
+        truth_states = list(truth_workflow.get("states", [])) if truth_workflow else []
+        state_scores = [
+            [_state_similarity(item, truth, scorable_only=False) for truth in truth_states]
+            for item in predicted_states
+        ]
+        state_matches = best_one_to_one_matching(state_scores)
+        state_map = {
+            predicted_states[prediction_index]["state_id"]: truth_states[truth_index]["state_id"]
+            for prediction_index, truth_index, score in state_matches
+            if score >= 0.25
+        }
+        state_counts, state_details = _matched_entity_counts(
+            predicted_states,
+            truth_states,
+            state_matches,
+            state_scores,
+            score=lambda item, truth: _state_similarity(
+                item, truth, scorable_only=True
+            ),
+            scorable=_state_is_scorable,
+        )
+        state_score_sum += state_counts[0]
+        predicted_state_count += state_counts[1]
+        truth_state_count += state_counts[2]
+
+        predicted_transitions = (
+            list(predicted_workflow.get("transitions", []))
+            if predicted_workflow
+            else []
+        )
+        truth_transitions = (
+            list(truth_workflow.get("transitions", [])) if truth_workflow else []
+        )
+        transition_scores = [
+            [
+                _transition_similarity(
+                    item,
+                    truth,
+                    state_map=state_map,
+                    predicted_oligos=predicted_oligos,
+                    truth_oligos=truth_oligos,
+                )
+                for truth in truth_transitions
+            ]
+            for item in predicted_transitions
+        ]
+        transition_matches = best_one_to_one_matching(transition_scores)
+        transition_map = {
+            predicted_transitions[prediction_index]["transition_id"]:
+            truth_transitions[truth_index]["transition_id"]
+            for prediction_index, truth_index, score in transition_matches
+            if score >= 0.25
+        }
+        transition_counts, transition_details = _matched_entity_counts(
+            predicted_transitions,
+            truth_transitions,
+            transition_matches,
+            transition_scores,
+            score=lambda item, truth: _transition_similarity(
                 item,
                 truth,
                 state_map=state_map,
-                oligo_map=oligo_map,
-            )
-            for truth in truth_transitions
-        ]
-        for item in predicted_transitions
-    ]
-    transition_matches = best_one_to_one_matching(all_transition_scores)
-    transition_prf, transition_details = _score_matched_entities(
-        predicted_transitions,
-        truth_transitions,
-        transition_matches,
-        all_transition_scores,
-        score=lambda item, truth: _transition_similarity(
-            item,
-            truth,
-            state_map=state_map,
-            oligo_map=oligo_map,
-        ),
-        scorable=_supported,
-    )
+                predicted_oligos=predicted_oligos,
+                truth_oligos=truth_oligos,
+            ),
+            scorable=lambda _: True,
+        )
+        transition_score_sum += transition_counts[0]
+        predicted_transition_count += transition_counts[1]
+        truth_transition_count += transition_counts[2]
 
-    truth_state_by_id = {item["state_id"]: item for item in truth_states}
-    initial_score = _mapped_masked_boundary_f1(
-        predicted_initial, truth_initial, state_map, truth_state_by_id
+        for prediction_index, truth_index, _ in transition_matches:
+            reagent_scores.append(
+                _text_collection_f1(
+                    [
+                        item.get("name", "")
+                        for item in predicted_transitions[prediction_index].get(
+                            "major_reagents", []
+                        )
+                    ],
+                    [
+                        item.get("name", "")
+                        for item in truth_transitions[truth_index].get(
+                            "major_reagents", []
+                        )
+                    ],
+                )
+            )
+
+        edge_counts = _typed_edge_counts(
+            predicted_workflow,
+            truth_workflow,
+            state_map=state_map,
+            transition_map=transition_map,
+        )
+        matched_typed_edges += edge_counts[0]
+        predicted_typed_edges += edge_counts[1]
+        truth_typed_edges += edge_counts[2]
+
+        if predicted_workflow and truth_workflow:
+            truth_state_by_id = {
+                item["state_id"]: item for item in truth_states
+            }
+            initial_score = _mapped_masked_boundary_f1(
+                predicted_workflow["initial_state_ids"],
+                truth_workflow["initial_state_ids"],
+                state_map,
+                truth_state_by_id,
+            )
+            final_score = _mapped_masked_boundary_f1(
+                predicted_workflow["final_state_ids"],
+                truth_workflow["final_state_ids"],
+                state_map,
+                truth_state_by_id,
+            )
+            boundary_scores.extend((initial_score, final_score))
+        else:
+            initial_score = final_score = 0.0
+
+        modality_details[modality] = {
+            "predicted_modality": (
+                predicted_workflow.get("modality") if predicted_workflow else None
+            ),
+            "groundtruth_modality": (
+                truth_workflow.get("modality") if truth_workflow else None
+            ),
+            "state_matches": state_details,
+            "transition_matches": transition_details,
+            "state_id_map": state_map,
+            "transition_id_map": transition_map,
+            "initial_boundary_f1": initial_score,
+            "final_boundary_f1": final_score,
+            "typed_edges": {
+                "matched": edge_counts[0],
+                "predicted": edge_counts[1],
+                "groundtruth": edge_counts[2],
+            },
+        }
+
+    state_prf = _soft_prf(
+        state_score_sum, predicted_state_count, truth_state_count
     )
-    final_score = _mapped_masked_boundary_f1(
-        predicted_final, truth_final, state_map, truth_state_by_id
+    transition_prf = _soft_prf(
+        transition_score_sum,
+        predicted_transition_count,
+        truth_transition_count,
     )
-    boundary_score = (initial_score + final_score) / 2
-    t3_score = (
-        0.45 * state_prf[2]
-        + 0.45 * transition_prf[2]
-        + 0.10 * boundary_score
+    typed_edge_f1 = (
+        1.0
+        if predicted_typed_edges == truth_typed_edges == 0
+        else (
+            2.0 * matched_typed_edges
+            / (predicted_typed_edges + truth_typed_edges)
+            if predicted_typed_edges + truth_typed_edges
+            else 0.0
+        )
     )
     metrics = {
-        "t3_score": t3_score,
+        "molecular_transition_precision": transition_prf[0],
+        "molecular_transition_recall": transition_prf[1],
+        "molecular_transition_f1": transition_prf[2],
+        "typed_edge_f1": typed_edge_f1,
         "state_precision": state_prf[0],
         "state_recall": state_prf[1],
         "state_f1": state_prf[2],
-        "transition_precision": transition_prf[0],
-        "transition_recall": transition_prf[1],
-        "transition_f1": transition_prf[2],
-        "initial_boundary_f1": initial_score,
-        "final_boundary_f1": final_score,
-        "boundary_f1": boundary_score,
-        "predicted_state_count": float(len(predicted_states)),
-        "groundtruth_state_count": float(len(truth_states)),
-        "predicted_transition_count": float(len(predicted_transitions)),
-        "groundtruth_transition_count": float(len(truth_transitions)),
+        "boundary_f1": _mean(boundary_scores),
+        "major_reagent_name_f1": _mean(reagent_scores),
+        "predicted_workflow_count": float(len(predicted_by_modality)),
+        "groundtruth_workflow_count": float(len(truth_by_modality)),
+        "predicted_state_count": float(predicted_state_count),
+        "groundtruth_state_count": float(truth_state_count),
+        "predicted_transition_count": float(predicted_transition_count),
+        "groundtruth_transition_count": float(truth_transition_count),
+        "matched_typed_edge_count": float(matched_typed_edges),
+        "predicted_typed_edge_count": float(predicted_typed_edges),
+        "groundtruth_typed_edge_count": float(truth_typed_edges),
     }
     details = {
-        "state_matches": state_details,
-        "transition_matches": transition_details,
-        "state_id_map": state_map,
-        "oligo_id_map": oligo_map,
+        "modalities": modality_details,
+        "workflow_matching_policy": "exact normalized modality; one workflow per modality",
+        "oligo_use_policy": "resolve transition-local T2 IDs to nucleotide sequence signatures and compare multisets directly",
         "weights": {
-            "t3": {"states": 0.45, "transitions": 0.45, "boundaries": 0.10},
             "state": STATE_WEIGHTS,
             "transition": TRANSITION_WEIGHTS,
         },
@@ -285,7 +413,7 @@ def score_t3(
     return metrics, details
 
 
-def _score_matched_entities(
+def _matched_entity_counts(
     predicted: list[dict[str, Any]],
     truth: list[dict[str, Any]],
     matches: list[tuple[int, int, float]],
@@ -293,7 +421,7 @@ def _score_matched_entities(
     *,
     score: Callable[[dict[str, Any], dict[str, Any]], float],
     scorable: Callable[[dict[str, Any]], bool],
-) -> tuple[tuple[float, float, float], list[dict[str, Any]]]:
+) -> tuple[tuple[float, int, int], list[dict[str, Any]]]:
     scorable_truth = {index for index, item in enumerate(truth) if scorable(item)}
     neutral_truth = set(range(len(truth))) - scorable_truth
     score_sum = 0.0
@@ -320,25 +448,18 @@ def _score_matched_entities(
         if any(all_scores[prediction_index][index] == 1.0 for index in neutral_truth):
             neutralized_predictions.add(prediction_index)
     effective_prediction_count = len(predicted) - len(neutralized_predictions)
-    return (
-        _soft_prf(score_sum, effective_prediction_count, len(scorable_truth)),
-        details,
-    )
+    return (score_sum, effective_prediction_count, len(scorable_truth)), details
 
 
-def _oligo_is_scorable(item: dict[str, Any]) -> bool:
-    return any(status in SCORABLE_SUPPORT for _, status in _truth_sequence_claims(item))
-
-
-def _truth_sequence_claims(item: dict[str, Any]) -> list[tuple[str, str]]:
+def _truth_sequence_values(item: dict[str, Any]) -> list[str]:
     sequence = item.get("sequence")
     if isinstance(sequence, str) and sequence:
-        return [(sequence, item.get("support_status", "explicit"))]
-    claims: list[tuple[str, str]] = []
+        return [sequence]
+    claims: list[str] = []
     for component in item.get("components", []):
         value = component.get("sequence") or component.get("placeholder")
         if isinstance(value, str) and value:
-            claims.append((value, component.get("support_status", item.get("support_status", "explicit"))))
+            claims.append(value)
     return claims
 
 
@@ -357,33 +478,9 @@ def _prediction_sequence_claims(item: dict[str, Any]) -> list[str]:
 def _oligo_similarity(
     prediction: dict[str, Any],
     truth: dict[str, Any],
-    *,
-    scorable_only: bool,
 ) -> float:
     predicted_claims = _prediction_sequence_claims(prediction)
-    truth_claims_with_status = _truth_sequence_claims(truth)
-    truth_claims = [
-        value
-        for value, status in truth_claims_with_status
-        if not scorable_only or status in SCORABLE_SUPPORT
-    ]
-    if scorable_only:
-        neutral_claims = [
-            value for value, status in truth_claims_with_status if status in NEUTRAL_SUPPORT
-        ]
-        predicted_claims = _remove_exact_neutral_claims(predicted_claims, neutral_claims)
-    return _sequence_collection_f1(predicted_claims, truth_claims)
-
-
-def _remove_exact_neutral_claims(predicted: list[str], neutral: list[str]) -> list[str]:
-    remaining = list(predicted)
-    for neutral_value in neutral:
-        normalized = _sequence_value(neutral_value)
-        for index, predicted_value in enumerate(remaining):
-            if _sequence_value(predicted_value) == normalized:
-                remaining.pop(index)
-                break
-    return remaining
+    return _sequence_collection_f1(predicted_claims, _truth_sequence_values(truth))
 
 
 def _sequence_collection_f1(predicted: list[str], truth: list[str]) -> float:
@@ -620,25 +717,26 @@ def _transition_similarity(
     truth: dict[str, Any],
     *,
     state_map: dict[str, str],
-    oligo_map: dict[str, str],
+    predicted_oligos: Mapping[str, dict[str, Any]],
+    truth_oligos: Mapping[str, dict[str, Any]],
 ) -> float:
     dimensions = {
         "operation": float(prediction.get("operation") == truth.get("operation")),
-        "topology": (
-            _mapped_set_f1(
-                prediction.get("substrate_state_ids", []),
-                set(truth.get("substrate_state_ids", [])),
-                state_map,
-            )
-            + _mapped_set_f1(
-                prediction.get("product_state_ids", []),
-                set(truth.get("product_state_ids", [])),
-                state_map,
-            )
-        )
-        / 2,
-        "oligos": _mapped_set_f1(
-            prediction.get("oligo_ids", []), set(truth.get("oligo_ids", [])), oligo_map
+        "substrates": _mapped_set_f1(
+            prediction.get("substrate_state_ids", []),
+            set(truth.get("substrate_state_ids", [])),
+            state_map,
+        ),
+        "products": _mapped_set_f1(
+            prediction.get("product_state_ids", []),
+            set(truth.get("product_state_ids", [])),
+            state_map,
+        ),
+        "oligos": _transition_oligo_sequence_f1(
+            prediction.get("oligo_ids", []),
+            truth.get("oligo_ids", []),
+            predicted_oligos=predicted_oligos,
+            truth_oligos=truth_oligos,
         ),
         "disposition": (
             _mapped_set_f1(
@@ -653,27 +751,88 @@ def _transition_similarity(
             )
         )
         / 2,
-        "reagents": _text_collection_f1(
-            [item.get("name", "") for item in prediction.get("major_reagents", [])],
-            [item.get("name", "") for item in truth.get("major_reagents", [])],
-        ),
     }
     return sum(TRANSITION_WEIGHTS[key] * value for key, value in dimensions.items())
 
 
-def _flatten_t3(
-    document: dict[str, Any],
-) -> tuple[list[dict[str, Any]], list[dict[str, Any]], set[str], set[str]]:
-    states: list[dict[str, Any]] = []
-    transitions: list[dict[str, Any]] = []
-    initial: set[str] = set()
-    final: set[str] = set()
-    for workflow in document.get("workflows", []):
-        states.extend(workflow.get("states", []))
-        transitions.extend(workflow.get("transitions", []))
-        initial.update(workflow.get("initial_state_ids", []))
-        final.update(workflow.get("final_state_ids", []))
-    return states, transitions, initial, final
+def _transition_oligo_sequence_f1(
+    predicted_ids: Iterable[str],
+    truth_ids: Iterable[str],
+    *,
+    predicted_oligos: Mapping[str, dict[str, Any]],
+    truth_oligos: Mapping[str, dict[str, Any]],
+) -> float:
+    predicted = [predicted_oligos[item] for item in predicted_ids]
+    truth = [truth_oligos[item] for item in truth_ids]
+    scores = [
+        [
+            _oligo_similarity(left, right)
+            for right in truth
+        ]
+        for left in predicted
+    ]
+    matches = best_one_to_one_matching(scores)
+    return _soft_prf(
+        sum(item[2] for item in matches),
+        len(predicted),
+        len(truth),
+    )[2]
+
+
+def _workflows_by_modality(
+    document: Mapping[str, Any],
+) -> dict[str, dict[str, Any]]:
+    return {
+        _normalize_text(workflow["modality"]): workflow
+        for workflow in document.get("workflows", [])
+    }
+
+
+def _typed_edges(workflow: Mapping[str, Any]) -> set[tuple[str, str, str]]:
+    result: set[tuple[str, str, str]] = set()
+    for transition in workflow.get("transitions", []):
+        transition_id = transition["transition_id"]
+        result.update(
+            ("substrate", state_id, transition_id)
+            for state_id in transition.get("substrate_state_ids", [])
+        )
+        result.update(
+            ("carried_product", transition_id, state_id)
+            for state_id in transition.get("carried_forward_product_ids", [])
+        )
+        result.update(
+            ("discarded_product", transition_id, state_id)
+            for state_id in transition.get("discarded_product_ids", [])
+        )
+    return result
+
+
+def _typed_edge_counts(
+    predicted_workflow: Mapping[str, Any] | None,
+    truth_workflow: Mapping[str, Any] | None,
+    *,
+    state_map: Mapping[str, str],
+    transition_map: Mapping[str, str],
+) -> tuple[int, int, int]:
+    predicted_edges = _typed_edges(predicted_workflow or {})
+    truth_edges = _typed_edges(truth_workflow or {})
+    if truth_workflow is None:
+        return 0, len(predicted_edges), 0
+    if predicted_workflow is None:
+        return 0, 0, len(truth_edges)
+
+    mapped_predicted: set[tuple[str, str, str]] = set()
+    for edge_type, left, right in predicted_edges:
+        if edge_type == "substrate":
+            mapped_left = state_map.get(left)
+            mapped_right = transition_map.get(right)
+        else:
+            mapped_left = transition_map.get(left)
+            mapped_right = state_map.get(right)
+        if mapped_left is not None and mapped_right is not None:
+            mapped_predicted.add((edge_type, mapped_left, mapped_right))
+    matched = len(mapped_predicted & truth_edges)
+    return matched, len(predicted_edges), len(truth_edges)
 
 
 def _mapped_set_f1(

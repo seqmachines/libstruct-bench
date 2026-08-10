@@ -203,10 +203,10 @@ def _canonical_t3(sequence: str = "A") -> dict:
     return {
         "protocol_id": "example",
         "protocol_name": "Example",
-        "modality": "test",
         "workflows": [
             {
                 "workflow_id": "workflow",
+                "modality": "test",
                 "states": [
                     state("input", "input", "G"),
                     state("final", "adapter", sequence),
@@ -433,7 +433,8 @@ def test_minimal_groundtruth_contract_reaches_comparison_worker() -> None:
 
     assert "do not create a T1 `library_id`" in prompt
     assert "Do not emit `final_library_links`" in prompt
-    assert "store T3 `modality` once at the document root" in prompt
+    assert "store T3 `modality` on each workflow" in prompt
+    assert "one workflow per" in prompt
     for field in (
         "baseline_lineage",
         "ground_truth_status",

@@ -17,6 +17,23 @@ class LibgenValidationError(ValueError):
     """Raised when a libgen prediction or private truth bundle is invalid."""
 
 
+def derive_required_t2_ids(t3_document: Mapping[str, Any]) -> set[str]:
+    """Derive required T2 IDs from transition use and state-segment provenance."""
+
+    required: set[str] = set()
+    for workflow in t3_document.get("workflows", []):
+        for transition in workflow.get("transitions", []):
+            required.update(transition.get("oligo_ids", []))
+        for state in workflow.get("states", []):
+            for strand in state.get("strands", []):
+                for segment in strand.get("segments", []):
+                    required.update(
+                        item["oligo_id"]
+                        for item in segment.get("oligo_derivations", [])
+                    )
+    return required
+
+
 def default_schema_root() -> Path:
     return Path(__file__).resolve().parents[3] / "schemas"
 

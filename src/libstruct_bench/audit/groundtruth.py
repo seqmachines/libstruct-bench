@@ -121,6 +121,7 @@ def validate_cross_task_links(documents: Mapping[str, dict[str, Any]]) -> None:
         segment_ids: set[str] = set()
         for library_index, library in enumerate(t1["libraries"]):
             library_label = f"T1 library at index {library_index}"
+            _required_field(library, "modality", library_label)
             library_scope = _resolved_scope(library, document_scope)
             _validate_child_scope(
                 library.get("protocol_scope"),
@@ -183,12 +184,24 @@ def validate_cross_task_links(documents: Mapping[str, dict[str, Any]]) -> None:
     if t3 is None:
         return
     workflow_ids: set[str] = set()
-    all_state_ids: set[str] = set()
-    all_transition_ids: set[str] = set()
-    terminal_states: list[tuple[dict[str, Any], dict[str, Any] | None]] = []
+    workflow_modalities: dict[str, str] = {}
+    terminal_states: list[
+        tuple[dict[str, Any], dict[str, Any] | None, str]
+    ] = []
     for workflow in t3["workflows"]:
         workflow_id = workflow["workflow_id"]
         _add_unique(workflow_ids, workflow_id, "T3 workflow")
+        workflow_modality = _required_field(
+            workflow, "modality", f"T3 workflow {workflow_id}"
+        )
+        modality_key = _modality_key(workflow_modality)
+        if modality_key in workflow_modalities:
+            raise GroundtruthValidationError(
+                "T3 must contain exactly one workflow per modality; "
+                f"workflows {workflow_modalities[modality_key]} and {workflow_id} "
+                f"both use {workflow_modality!r}"
+            )
+        workflow_modalities[modality_key] = workflow_id
         workflow_scope = _resolved_scope(workflow, document_scope)
         _validate_child_scope(
             workflow.get("protocol_scope"),
@@ -198,7 +211,6 @@ def validate_cross_task_links(documents: Mapping[str, dict[str, Any]]) -> None:
         states = {state["state_id"]: state for state in workflow["states"]}
         _require_unique_count(states, workflow["states"], f"T3 workflow {workflow_id} states")
         for state in workflow["states"]:
-            _add_unique(all_state_ids, state["state_id"], "T3 state")
             state_scope = _resolved_scope(state, workflow_scope)
             _validate_child_scope(
                 state.get("protocol_scope"),
@@ -251,7 +263,7 @@ def validate_cross_task_links(documents: Mapping[str, dict[str, Any]]) -> None:
         _require_refs(workflow["final_state_ids"], state_ids, f"T3 workflow {workflow_id} final_state_ids", target_available=True)
 
         terminal_states.extend(
-            (states[state_id], workflow_scope)
+            (states[state_id], workflow_scope, workflow_modality)
             for state_id in workflow["final_state_ids"]
         )
 
@@ -260,9 +272,14 @@ def validate_cross_task_links(documents: Mapping[str, dict[str, Any]]) -> None:
         carried: set[str] = set()
         discarded_products: set[str] = set()
         downstream_substrates: set[str] = set()
+        transition_ids: set[str] = set()
         for transition in workflow["transitions"]:
             transition_id = transition["transition_id"]
-            _add_unique(all_transition_ids, transition_id, "T3 transition")
+            _add_unique(
+                transition_ids,
+                transition_id,
+                f"T3 workflow {workflow_id} transition",
+            )
             _validate_child_scope(
                 transition.get("protocol_scope"),
                 workflow_scope,
@@ -329,6 +346,33 @@ def validate_cross_task_links(documents: Mapping[str, dict[str, Any]]) -> None:
                     )
 
     if t1 is not None:
+        library_modalities = {
+            _modality_key(library["modality"]): library["modality"]
+            for library in libraries
+        }
+        missing_modalities = set(library_modalities) - set(workflow_modalities)
+        unexpected_modalities = set(workflow_modalities) - set(library_modalities)
+        if missing_modalities or unexpected_modalities:
+            details: list[str] = []
+            if missing_modalities:
+                details.append(
+                    "missing workflows for "
+                    + ", ".join(
+                        repr(library_modalities[item])
+                        for item in sorted(missing_modalities)
+                    )
+                )
+            if unexpected_modalities:
+                details.append(
+                    "workflows without T1 libraries for "
+                    + ", ".join(
+                        repr(item) for item in sorted(unexpected_modalities)
+                    )
+                )
+            raise GroundtruthValidationError(
+                "T1 libraries and T3 workflow modalities must agree: "
+                + "; ".join(details)
+            )
         _validate_terminal_libraries(
             terminal_states=terminal_states,
             libraries=libraries,
@@ -338,6 +382,10 @@ def validate_cross_task_links(documents: Mapping[str, dict[str, Any]]) -> None:
 
 def _scope_key(scope: dict[str, Any]) -> tuple[str | None, tuple[str, ...]]:
     return scope["protocol_version"], tuple(sorted(scope["applicable_variants"]))
+
+
+def _modality_key(value: str) -> str:
+    return " ".join(value.strip().casefold().split())
 
 
 def _preflight_cross_task_shape(
@@ -354,6 +402,7 @@ def _preflight_cross_task_shape(
             _required_list(t1, "libraries", "T1 ground truth")
         ):
             label = f"T1 library at index {index}"
+            _required_field(library, "modality", label)
             for segment_index, segment in enumerate(
                 _required_list(library, "segments", label)
             ):
@@ -381,6 +430,7 @@ def _preflight_cross_task_shape(
             label = f"T3 workflow at index {workflow_index}"
             workflow_id = _required_field(workflow, "workflow_id", label)
             label = f"T3 workflow {workflow_id}"
+            _required_field(workflow, "modality", label)
             for state_index, state in enumerate(
                 _required_list(workflow, "states", label)
             ):
@@ -864,7 +914,9 @@ def _require_scope_compatibility(
 
 def _validate_terminal_libraries(
     *,
-    terminal_states: list[tuple[dict[str, Any], dict[str, Any] | None]],
+    terminal_states: list[
+        tuple[dict[str, Any], dict[str, Any] | None, str]
+    ],
     libraries: list[dict[str, Any]],
     document_scope: dict[str, Any] | None,
 ) -> None:
@@ -875,7 +927,9 @@ def _validate_terminal_libraries(
             "T3 final-state count must equal the T1 library count"
         )
     candidates: dict[int, list[int]] = {}
-    for state_index, (state, workflow_scope) in enumerate(terminal_states):
+    for state_index, (state, workflow_scope, workflow_modality) in enumerate(
+        terminal_states
+    ):
         state_scope = _resolved_scope(state, workflow_scope)
         mismatch_reasons = [
             _terminal_library_error(state, library) for library in libraries
@@ -884,6 +938,8 @@ def _validate_terminal_libraries(
             library_index
             for library_index, library in enumerate(libraries)
             if mismatch_reasons[library_index] is None
+            and _modality_key(library["modality"])
+            == _modality_key(workflow_modality)
             and _scopes_are_compatible(
                 state_scope,
                 _resolved_scope(library, document_scope),
@@ -892,7 +948,8 @@ def _validate_terminal_libraries(
         ]
         if not candidates[state_index]:
             details = "; ".join(
-                f"library {index}: {reason or 'protocol scope differs'}"
+                f"library {index} ({libraries[index]['modality']}): "
+                f"{reason or 'protocol scope or modality differs'}"
                 for index, reason in enumerate(mismatch_reasons)
             )
             raise GroundtruthValidationError(

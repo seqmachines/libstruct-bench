@@ -44,16 +44,18 @@ T1/T2/T3 set, or a linked ground-truth validation failure.
 Overall reward is `0.30 * T2 + 0.70 * T3`.
 
 - T2 uses sequence-only global optimal one-to-one soft F1. Names, roles,
-  orientations, and modifications are diagnostics. Ground-truth claims marked
-  `explicit` or `derivable` are scored. `externally_completed`, `ambiguous`,
-  and `unsupported` claims are neutral and cannot turn missing packet evidence
-  into an apparent model error.
-- T3 uses deterministic, ID-invariant global matching. State score is 40%
-  reference-strand structure, 25% architecture, 20% segment structure, and 15%
-  pairing/discontinuities. Transition score is 30% operation, 35% mapped graph
-  topology, 15% mapped T2 oligos, 10% carried/discarded products, and 10% major
-  reagents. T3 combines state F1 (45%), transition F1 (45%), and initial/final
-  boundary F1 (10%). Missing and extra entities are penalized.
+  orientations, and modifications are diagnostics. Required T2 oligos are
+  derived from T3 transition `oligo_ids` and state-segment
+  `oligo_derivations`. Exact predictions of optional T2 records are neutral;
+  unknown and duplicate extra predictions reduce precision. The primary metric
+  is `t2_required_sequence_f1`.
+- T3 contains one workflow per modality and is scored within matched
+  modalities. Its primary metric, `t3_molecular_transition_f1`, globally
+  matches transitions using operation, matched substrate/product states,
+  carried/discarded classification, and transition-local T2 sequence
+  multisets. Major reagent names are diagnostic. `t3_typed_edge_f1` directly
+  compares substrate, carried-product, and discarded-product edges after
+  semantic state and transition alignment.
 - Schema-invalid or semantically invalid linked predictions receive zero.
   Verifier infrastructure or private-ground-truth failures fail the trial
   instead of being mislabeled as model errors.
@@ -90,11 +92,8 @@ PYTHONPATH=src python -m libstruct_bench.cli.check_libgen_staging \
   --schema-root schemas
 ```
 
-At implementation time this correctly blocks production: the staging source
-tree is missing 23 approved primary files, and canonical ground truth is still
-missing for `share_seq`. Sync those files or point `--source-root` at the
-complete approved `protocols/` tree, and finish that remaining audit before
-proceeding.
+The complete approved `protocols/` tree and all 20 canonical T1/T2/T3 bundles
+must pass this gate before export.
 
 Once the check passes, create clean, separate upload trees (the command never
 uploads anything). The complete approved source tree currently passes all 58

@@ -224,8 +224,9 @@ the tool if this contract is missed; on that continuation, call
   `ground_truth_status`, `library_id`, or `strands`. T2 has no `limitations`,
   `baseline_lineage`, `evidence`, `ground_truth_status`, or `notes`. T3 has no
   `limitations`, `ground_truth_status`, `notes`, `evidence`, or
-  `workflow_branch`, and no repeated `modality`; store modality once at the
-  document root.
+  `workflow_branch`; store `modality` on each workflow and require exactly one
+  workflow per modality. Keep same-modality alternatives as branches in that
+  workflow.
 - During conversion, normalize placeholders to orientation-free
   `[ROLE:LENGTH]` values. Preserve the strand-specific bases in T1/T3 segment
   `sequence`, the source-visible oligo bases in T2, and their relationship in

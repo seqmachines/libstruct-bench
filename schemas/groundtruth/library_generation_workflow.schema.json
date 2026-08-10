@@ -5,11 +5,10 @@
   "description": "T3: a minimal molecular state-transition graph. Audit evidence and decisions remain in audit artifacts.",
   "type": "object",
   "additionalProperties": false,
-  "required": ["protocol_id", "protocol_name", "modality", "workflows"],
+  "required": ["protocol_id", "protocol_name", "workflows"],
   "properties": {
     "protocol_id": {"$ref": "#/$defs/stable_id"},
     "protocol_name": {"type": "string", "minLength": 1},
-    "modality": {"type": "string", "minLength": 1},
     "protocol_scope": {"$ref": "#/$defs/protocol_scope"},
     "workflows": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/workflow"}}
   },
@@ -152,9 +151,10 @@
     "workflow": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["workflow_id", "states", "transitions", "initial_state_ids", "final_state_ids"],
+      "required": ["workflow_id", "modality", "states", "transitions", "initial_state_ids", "final_state_ids"],
       "properties": {
         "workflow_id": {"$ref": "#/$defs/stable_id"},
+        "modality": {"type": "string", "minLength": 1},
         "protocol_scope": {"$ref": "#/$defs/protocol_scope"},
         "states": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/state"}},
         "transitions": {"type": "array", "items": {"$ref": "#/$defs/transition"}},

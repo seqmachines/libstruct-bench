@@ -60,10 +60,10 @@ def t1_groundtruth() -> dict[str, Any]:
 def t3_prediction() -> dict[str, Any]:
     return {
         "protocol_id": "example_protocol",
-        "modality": "RNA",
         "workflows": [
             {
                 "workflow_id": "workflow_main",
+                "modality": "RNA",
                 "states": [
                     _single_state("state_input", "RNA input", "RNA", "[RNA]"),
                     _single_state(

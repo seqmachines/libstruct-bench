@@ -33,8 +33,9 @@ paths:
 - Keep approved ground-truth JSON minimal. Do not copy audit evidence,
   provenance lineage, review decisions, inclusion status, or audit notes into
   T1–T3. T1 has no `library_id` or duplicate `strands`; T2 has no
-  `baseline_lineage`; T3 stores `modality` once at its document root and uses
-  graph topology instead of `workflow_branch`.
+  `baseline_lineage`; T3 stores `modality` on each workflow, requires one
+  workflow per modality, and uses graph topology instead of `workflow_branch`.
+  Alternative routes for the same modality remain branches in that workflow.
 - T1 has one canonical `library_sequence`, which retains biological insert
   placeholders such as `[CDNA]`; never duplicate it as
   `annotated_library_sequence` or store a benchmark scoring projection in

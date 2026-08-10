@@ -55,6 +55,12 @@ attempt provenance. A repaired proposal remains subject to human review.
   alternate products.
 - Review T2 and T3 chronologically: register an oligo when first seen, then
   reference it from each molecular transition.
+- Build exactly one T3 workflow per modality represented in T1. Preserve
+  alternative routes for the same modality as branches and multiple final
+  states inside that workflow; do not split them into duplicate workflows.
+- T3 `oligo_ids` and segment `oligo_derivations` identify the physical oligo
+  used or incorporated during library generation. Do not substitute a platform
+  sequencing primer merely because its sequence matches the resulting segment.
 - Prefer the smallest scientifically sufficient T3 graph. Create states and
   transitions primarily for changes in molecular sequence architecture or
   strand structure, including barcode, UMI, index, or adapter acquisition.

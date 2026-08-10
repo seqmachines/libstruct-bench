@@ -34,7 +34,9 @@ not in cleaned T2. T2 components are ordered inline descriptions and do not
 carry IDs. T1 stores one canonical `library_sequence`, including placeholders
 for biological inserts such as `[CDNA]`; its `segments` provide the detailed
 annotation. Do not duplicate that sequence in an `annotated_library_sequence`
-field. T3 stores modality once at the document root. Every T3 state records an
+field. T3 stores modality on each workflow and contains exactly one workflow
+per T1 modality. Alternative routes for the same modality remain branches
+inside that workflow. Every T3 state records an
 explicit strand architecture, physical strands in their own 5′→3′ orientations,
 and the strand that corresponds to T1.
 

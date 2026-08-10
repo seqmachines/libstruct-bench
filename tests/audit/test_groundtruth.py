@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import copy
-import json
 from pathlib import Path
 
 import pytest
@@ -80,11 +79,11 @@ def _documents() -> dict[str, dict]:
     t3 = {
         "protocol_id": "example_protocol",
         "protocol_name": "Example",
-        "modality": "rna",
         "protocol_scope": _scope(),
         "workflows": [
             {
                 "workflow_id": "workflow",
+                "modality": "rna",
                 "protocol_scope": _scope(),
                 "states": [
                     {
@@ -304,7 +303,7 @@ def test_protocol_scope_is_optional_and_inherited() -> None:
         ("T3", ("workflows", 0), "notes", "audit-only"),
         ("T3", ("workflows", 0), "evidence", []),
         ("T3", ("workflows", 0), "workflow_branch", "main"),
-        ("T3", ("workflows", 0), "modality", "rna"),
+        ("T3", (), "modality", "rna"),
         ("T3", ("workflows", 0, "states", 0), "modality", "rna"),
     ],
 )
@@ -330,9 +329,9 @@ def test_removed_groundtruth_fields_are_rejected(
         )
 
 
-def test_t3_modality_is_required_only_at_protocol_root() -> None:
+def test_t3_modality_is_required_on_each_workflow() -> None:
     document = _documents()["T3"]
-    del document["modality"]
+    del document["workflows"][0]["modality"]
 
     with pytest.raises(GroundtruthValidationError, match="modality"):
         validate_task_document(
@@ -341,6 +340,44 @@ def test_t3_modality_is_required_only_at_protocol_root() -> None:
             protocol_id="example_protocol",
             schema_dir=SCHEMAS,
         )
+
+
+def test_t3_rejects_multiple_workflows_for_one_modality() -> None:
+    documents = _documents()
+    duplicate = copy.deepcopy(documents["T3"]["workflows"][0])
+    duplicate["workflow_id"] = "workflow-duplicate"
+    documents["T3"]["workflows"].append(duplicate)
+
+    with pytest.raises(
+        GroundtruthValidationError, match="exactly one workflow per modality"
+    ):
+        validate_cross_task_links(documents)
+
+
+def test_t1_and_t3_modality_sets_must_agree() -> None:
+    documents = _documents()
+    documents["T3"]["workflows"][0]["modality"] = "dna"
+
+    with pytest.raises(
+        GroundtruthValidationError,
+        match="T1 libraries and T3 workflow modalities must agree",
+    ):
+        validate_cross_task_links(documents)
+
+
+def test_state_and_transition_ids_are_local_to_modality_workflows() -> None:
+    documents = _documents()
+    second_library = copy.deepcopy(documents["T1"]["libraries"][0])
+    second_library["modality"] = "dna"
+    second_library["segments"][0]["segment_id"] = "dna-library-adapter"
+    documents["T1"]["libraries"].append(second_library)
+
+    second_workflow = copy.deepcopy(documents["T3"]["workflows"][0])
+    second_workflow["workflow_id"] = "dna-workflow"
+    second_workflow["modality"] = "dna"
+    documents["T3"]["workflows"].append(second_workflow)
+
+    validate_cross_task_links(documents)
 
 
 def test_legacy_shape_reports_missing_field_instead_of_keyerror() -> None:

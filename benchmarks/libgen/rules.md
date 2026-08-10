@@ -15,6 +15,10 @@ chronological pass:
 5. Record the scientifically meaningful product and which product continues.
 6. Reference the same local T2 oligo IDs from T3.
 
+T3 must contain exactly one workflow per modality. Put `modality` on each
+workflow, not at the document root. Keep alternative routes for the same
+modality as branches with multiple final states in that one workflow.
+
 For PDFs, prefer native text, layout-sorted text blocks, and table cells. Use
 Docling with OCR disabled, PyMuPDF, and pypdf as complementary parsers. Render
 pages for visual inspection of figures and diagrams, but do not use OCR-derived
@@ -34,6 +38,9 @@ tables when applicable.
 - Preserve assembled, double-stranded, and hairpin oligos with ordered
   components when one flat sequence would be misleading.
 - Do not invent vendor or kit sequences absent from the provided sources.
+- T3 provenance must reference the physical oligo that is used or incorporated
+  during library generation. A platform sequencing primer with the same
+  sequence is not a substitute for that oligo.
 
 ## T3
 

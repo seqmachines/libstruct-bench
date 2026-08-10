@@ -39,9 +39,9 @@ omits legacy-only schema labels, source HTML, extraction, and normalization
 fields from cleaned ground truth. Cleaned T1–T3 is deliberately minimal:
 evidence, lineage, decisions, inclusion status, and review notes remain in audit
 artifacts rather than being copied into the approved JSON. T1 libraries have no
-stored ID or duplicate strand list. T2 uses `name` plus `aliases`. T3 stores
-`modality` once at the document root; graph topology replaces
-`workflow_branch`. Protocol scope is optional and inherited. Every T3 state uses a controlled strand architecture,
+stored ID or duplicate strand list. T2 uses `name` plus `aliases`. T3 requires
+exactly one workflow per modality; same-modality alternatives are branches in
+that workflow. Graph topology replaces `workflow_branch`. Protocol scope is optional and inherited. Every T3 state uses a controlled strand architecture,
 stores each physical strand separately in its own 5′→3′ direction, and names
 the reference strand corresponding to T1. Primary-source deltas against a
 converted artifact remain patch-free until human decisions are compiled into

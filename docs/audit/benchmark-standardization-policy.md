@@ -63,7 +63,19 @@ not store library identifiers. Modality is retained as a diagnostic and must
 not override a better structural match. T1 reward is the soft F1 of sequence
 similarities, so missing and extra libraries are both penalized.
 
-For T2, use a global optimal one-to-one sequence assignment. Names and
-orientations are retained as diagnostics; they do not silently change or
-reverse-complement a source sequence. Never use order-dependent greedy
-matching.
+For T2, derive the required set from every T2 ID referenced by T3 transition
+`oligo_ids` or state-segment `oligo_derivations`. All other approved T2 records
+are optional. Use normalized nucleotide sequence alone with global optimal
+one-to-one assignment; names, aliases, roles, orientation, modifications, and
+support metadata do not affect assignment or reward. An exact prediction of an
+optional record is neutral, while an unmatched unknown or duplicate prediction
+reduces precision. Never use order-dependent greedy matching.
+
+For T3, require exactly one workflow per modality and match workflows by
+normalized modality. Preserve alternative routes for one modality as branches
+inside that workflow. The primary score is molecular-transition soft F1 using
+operation, semantically matched substrate and product states,
+carried/discarded classification, and transition-local T2 sequence multisets.
+Major reagent names are diagnostic. Also report typed-edge F1 for substrate,
+carried-product, and discarded-product edges after state and transition
+alignment. Do not use spectral or graph-distance metrics.

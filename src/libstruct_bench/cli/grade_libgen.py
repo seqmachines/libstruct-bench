@@ -173,6 +173,10 @@ def _zero_metrics() -> dict[str, float]:
         "reward": 0.0,
         "t2_score": 0.0,
         "t3_score": 0.0,
+        "t2_required_sequence_f1": 0.0,
+        "t2_all_required_exact": 0.0,
+        "t3_molecular_transition_f1": 0.0,
+        "t3_typed_edge_f1": 0.0,
         "prediction_valid": 0.0,
     }
 
