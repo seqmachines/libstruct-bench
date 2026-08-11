@@ -156,7 +156,10 @@ Each state uses a controlled `strand_architecture` and contains explicit strand
 records. A single-stranded product has one strand; a duplex has both strands,
 each written 5′→3′. Paired-region links and strand discontinuities preserve
 overhangs, unpaired regions, nicks, RNA–DNA hybrids, Y-shaped adapters, and
-other partial duplexes. Explicit paired sequences are validated as reverse
+other partial duplexes. `partially_duplex` also covers a single physical strand
+with intramolecular hairpin pairing: the two disjoint stem arms reference the
+same strand, while `hairpin` or `covalently_closed_dumbbell` in `properties`
+records the supported topology. Explicit paired sequences are validated as reverse
 complements, while documented noncanonical or unknown pairing remains allowed.
 Oligo-derived segments retain their T2 source and record
 `orientation_to_source` as `same_orientation`, `reverse_complement`, or
@@ -166,10 +169,13 @@ contains the bases on its modeled strand; the linked T2 sequence remains the
 source-visible oligo.
 
 For terminal-state matching, the preferred consistency key is the identified
-reference strand's `sequence_architecture`, which exactly equals the T1
-`library_sequence`. That strand may keep a simpler segment
-decomposition than T1; exact ordered segment identity is used only when the
-terminal architecture string is absent.
+reference strand's `sequence_architecture`. It may equal the canonical T1
+`library_sequence` or its token-aware reverse complement when the physical
+terminal strand runs in the opposite direction. Placeholder tokens remain
+opaque while their order reverses. Never rewrite a physical T3 strand merely
+to follow T1's display orientation. That strand may keep a simpler segment
+decomposition than T1; same- or reverse-complement ordered segment identity is
+used only when the terminal architecture string is absent.
 Use the smallest scientifically sufficient graph. New states and transitions
 normally represent changes in sequence architecture or strand structure.
 Cleanup, purification, size selection, QC, dilution, washes, inactivation, and

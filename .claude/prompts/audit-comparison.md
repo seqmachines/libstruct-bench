@@ -130,8 +130,9 @@ set `strand_architecture` and obey this deterministic contract:
 - `single_stranded` has exactly one strand and no paired region;
 - `double_stranded` has exactly two strands, paired regions, and no unpaired
   segments;
-- `partially_duplex` has at least two strands, a paired region, and at least one
-  unpaired segment;
+- `partially_duplex` has at least one strand, a paired region, and at least one
+  unpaired segment; it may use one strand when two disjoint arms pair
+  intramolecularly to form a hairpin;
 - `rna_dna_hybrid` has exactly two logical strands, one RNA and one DNA, and a
   paired region;
 - `y_shaped_duplex` has exactly two logical strands, a paired region, and an
@@ -140,8 +141,10 @@ set `strand_architecture` and obey this deterministic contract:
   strand is written independently 5′→3′;
 - every segment labeled `paired_region` appears in one declared paired region;
   segments absent from paired regions are not labeled `paired_region`;
-- each pairing side names nonempty contiguous segments on a different strand,
-  in that strand's 5′→3′ order;
+- each pairing side names nonempty contiguous, non-overlapping segments in its
+  strand's 5′→3′ order; sides normally name different strands, but a
+  `partially_duplex` intramolecular hairpin names two disjoint arms on the same
+  strand;
 - explicit `reverse_complementary` pairs are reverse-complementary; preserve a
   supported noncanonical or unknown relationship instead of changing source
   content; and
@@ -150,13 +153,21 @@ set `strand_architecture` and obey this deterministic contract:
 Preserve genuinely unpaired random-primer, SMART, overhang, linker, and adapter
 regions. Do not invent pairings. Do not change scientifically supported sequence,
 strand identity, or architecture merely to pass validation.
+For a source-supported hairpin, keep one physical strand and use the property
+`hairpin` or `covalently_closed_dumbbell`. If hairpin-adaptor ligation creates a
+closed dumbbell that is carried forward before enzymatic opening, preserve the
+dumbbell and opened product as separate states and transitions because strand
+architecture changes.
 
 Validate all cross-task links: every T3 oligo resolves to T2, carried products
 continue, final states are reachable, the graph is acyclic, scopes agree, and
 terminal T3 states match T1 libraries one-to-one. Prefer a terminal reference
-strand `sequence_architecture` exactly equal to T1 `library_sequence`; T3
-segment annotations may be simpler. If that string is absent, ordered segments
-must match exactly. Do not create T1 library IDs. Do not emit `final_library_links`.
+strand `sequence_architecture` equal to T1 `library_sequence` or its token-aware
+reverse complement. Preserve the physical T3 strand in its actual 5′→3′
+direction; do not rewrite it to follow T1's canonical display orientation.
+T3 segment annotations may be simpler. If that string is absent, ordered
+segments must match in the same or reverse-complement orientation. Do not create
+T1 library IDs. Do not emit `final_library_links`.
 
 For linked root candidates, use one coherent protocol scope across T1, T2, and
 T3. Any root-level `protocol_scope` values that are present must have the same

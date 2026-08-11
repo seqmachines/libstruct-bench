@@ -36,7 +36,11 @@ Store oligo sequences in their source-visible orientation and record
 not an implicit normalization. Final-library strands remain distinct. T3
 molecular states contain explicit physical strands, each recorded 5′→3′;
 duplex pairing is represented between strands rather than by assigning one
-orientation to the whole state. Oligo-derived T3 segments explicitly record
+orientation to the whole state. A `partially_duplex` state may instead contain
+one physical strand with a paired region between two disjoint arms of that same
+strand, representing a source-supported intramolecular hairpin. Use state
+properties to distinguish `hairpin` and `covalently_closed_dumbbell` topology.
+Oligo-derived T3 segments explicitly record
 whether they preserve or reverse-complement the T2 oligo orientation.
 
 For an oligo-derived T1 or T3 segment, `sequence` stores the exact bases on the
@@ -63,13 +67,18 @@ not store library identifiers. Modality is retained as a diagnostic and must
 not override a better structural match. T1 reward is the soft F1 of sequence
 similarities, so missing and extra libraries are both penalized.
 
-For T2, derive the required set from every T2 ID referenced by T3 transition
-`oligo_ids` or state-segment `oligo_derivations`. All other approved T2 records
-are optional. Use normalized nucleotide sequence alone with global optimal
-one-to-one assignment; names, aliases, roles, orientation, modifications, and
-support metadata do not affect assignment or reward. An exact prediction of an
-optional record is neutral, while an unmatched unknown or duplicate prediction
-reduces precision. Never use order-dependent greedy matching.
+For T2, let `O_used` contain every T2 ID referenced by T3 transition
+`oligo_ids` or state-segment `oligo_derivations`. For a source-only benchmark,
+let `O_score` restrict `O_used` to sequence claims marked `explicit` or
+`derivable` from the agent-visible source bundle. Externally completed,
+ambiguous, and unsupported claims remain in approved ground truth but are
+neutral in source-only scoring. All records outside `O_used` are optional. Use
+normalized nucleotide sequence alone with global optimal one-to-one
+assignment; names, aliases, roles, orientation, modifications, and support
+metadata do not affect sequence assignment within `O_score`. Exact predictions
+of optional or neutral claims are neutral, while an unmatched unknown or
+duplicate prediction reduces precision. Never use order-dependent greedy
+matching.
 
 For T3, require exactly one workflow per modality and match workflows by
 normalized modality. Preserve alternative routes for one modality as branches
@@ -78,4 +87,6 @@ operation, semantically matched substrate and product states,
 carried/discarded classification, and transition-local T2 sequence multisets.
 Major reagent names are diagnostic. Also report typed-edge F1 for substrate,
 carried-product, and discarded-product edges after state and transition
-alignment. Do not use spectral or graph-distance metrics.
+alignment. Apply the same source-recoverability mask to supported state
+architecture, transition, transition-local oligo, and typed-edge claims. Do not
+use spectral or graph-distance metrics.

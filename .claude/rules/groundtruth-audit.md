@@ -45,6 +45,12 @@ paths:
   legacy-shaped current T1/T2/T3 record. Preserve legacy values in audit
   lineage, not as legacy-only fields in cleaned ground truth. Keep source
   deltas patch-free until they are compiled into that root conversion.
+- For an unfinalized proposal affected only by the T3 modality schema move,
+  keep the proposal immutable and reshape its working root candidate in the
+  same review. Freeze scientific payloads, put modality on each workflow, keep
+  one workflow per modality, and require the final human-approved root
+  `modify` decision. Never guess an ambiguous multimodal split. Finalized stale
+  decisions require a new iteration.
 - Default human adjudication to one issue at a time in the Claude console,
   checkpointing each explicit decision in the working decision artifact.
 - Use one interactive review pass per protocol by default. Handle questions and
@@ -91,13 +97,21 @@ paths:
   discontinuities, and never infer a missing complementary strand. Validate
   explicit paired sequences as reverse complements while allowing documented
   noncanonical or unknown pairing.
+- Model an intramolecular hairpin as one `partially_duplex` physical strand
+  whose paired-region sides reference two disjoint arms of that strand. Use
+  `hairpin` or `covalently_closed_dumbbell` in state properties. Preserve a
+  carried closed dumbbell and its enzymatically opened product as distinct
+  molecular states because strand architecture changes.
 - Keep placeholder roles canonical and orientation-free. Use `[ROLE:LENGTH]`
   such as `[TN5_INDEX:8]`, never `[TN5_INDEX_RC:8]` or another directional
   suffix. Put strand-specific bases in the T1/T3 segment `sequence`, keep the
   source-visible sequence in its linked T2 oligo, and record
   `oligo_derivations[].orientation_to_source` separately.
 - Match every terminal T3 state one-to-one to a distinct T1 library by its
-  reference-strand architecture and protocol scope. Do not emit
+  reference-strand architecture and protocol scope. A physical terminal strand
+  may match the canonical T1 sequence in the same orientation or by token-aware
+  reverse complement; keep the physical T3 strand in its actual 5′→3′ direction.
+  Do not emit
   `final_library_links` or recreate a removed T1 library identifier.
 - Never add a path that lets an audit proposal overwrite canonical ground
   truth without a validated human decision and baseline hash.

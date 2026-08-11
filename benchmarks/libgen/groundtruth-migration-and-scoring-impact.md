@@ -153,11 +153,12 @@ modality in each protocol.
 ### T2
 
 - Primary metric becomes `t2_required_sequence_f1`.
-- Gold recall denominator changes from every T2 record to only the T2 records
-  referenced by T3.
+- `O_used` contains the T2 records referenced by T3; the source-only recall
+  denominator `O_score` further restricts these to explicit or derivable
+  sequence claims.
 - Names, aliases, roles, orientation, modifications, and kind are diagnostics
-  only and do not influence matching or reward. Support labels do not remove a
-  T3-referenced oligo from the required set.
+  only and do not influence matching or reward. Externally completed,
+  ambiguous, and unsupported claims remain canonical but are neutral.
 - The current `1e-9` name-based assignment tie-break is removed.
 - Exact predictions of optional T2 sequences are neutral. Unknown extra
   sequences still reduce precision; duplicate predicted copies remain extras
@@ -177,6 +178,8 @@ modality in each protocol.
   assignment.
 - `t3_typed_edge_f1` measures substrate, carried-product, and
   discarded-product edges after state and transition matching.
+- State architecture, transitions, transition-local oligos, and typed edges
+  use the same source-recoverability mask where support metadata applies.
 - Major reagent names remain diagnostic. No spectral or graph-distance metric
   is introduced.
 
@@ -218,13 +221,12 @@ workflow; the migration did not invent new nucleotide sequence claims. The
 SHA-256 digest of the sorted post-migration 60-file hash listing is
 `2273ed3dd56f40e2ef3ed40a263989dd25c5e80cb9b738f06fa2e0e1bba37682`.
 
-Under the requested sequence-only scope, every T3-referenced record is required
-regardless of support metadata. Of the 163 required records, 116 are explicit,
-6 derivable, 39 externally completed, and 2 ambiguous. This is an important
-scoring consequence: the 41 externally completed or ambiguous records are not
-silently neutralized by the scorer. Their T3 inclusion, source availability,
-and suitability as benchmark targets should remain visible in future audit
-reviews.
+The migration produced 163 T3-referenced records in `O_used`: 116 explicit, 6
+derivable, 39 externally completed, and 2 ambiguous by record-level support
+status. The current source-only scorer keeps all 163 in canonical ground truth
+but excludes externally completed, ambiguous, and unsupported sequence claims
+from `O_score`. Their T3 inclusion and source availability remain visible for
+audit and error analysis rather than being mislabeled as agent failures.
 
 Three sequencing-primer-named records remain required, but their approved T2
 roles show that the physical molecules are also used in library generation:

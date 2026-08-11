@@ -246,6 +246,61 @@ def test_matrix_planner_creates_15_cells_and_60_trial_pilot(monkeypatch: pytest.
         assert first["environment"]["type"] == "e2b"
         assert first["agents"][0]["skills"] == []
         assert first["agents"][0]["mcp_servers"] == []
+        assert first["agents"][0]["include_logs"] == []
+        assert first["agents"][0]["exclude_logs"] == []
+        assert len(lock["task_bundle_sha256"]) == 64
+        assert lock["error_analysis_policy"]["automatic_process_attribution"] is False
+
+        with pytest.raises(ValueError, match="pilot-clearance"):
+            plan_main(
+                [
+                    "--matrix",
+                    str(ROOT / "benchmarks/libgen/matrix.json"),
+                    "--tasks",
+                    str(tasks),
+                    "--mode",
+                    "full",
+                    "--out",
+                    str(root / "full-without-clearance"),
+                    "--harbor-version",
+                    "9.9.9",
+                ]
+            )
+
+        clearance = root / "pilot_review_status.json"
+        clearance.write_text(
+            json.dumps(
+                {
+                    "full_run_ready": True,
+                    "expected_trial_count": 60,
+                    "task_bundle_sha256": lock["task_bundle_sha256"],
+                }
+            ),
+            encoding="utf-8",
+        )
+        full_out = root / "full-plan"
+        assert (
+            plan_main(
+                [
+                    "--matrix",
+                    str(ROOT / "benchmarks/libgen/matrix.json"),
+                    "--tasks",
+                    str(tasks),
+                    "--mode",
+                    "full",
+                    "--out",
+                    str(full_out),
+                    "--harbor-version",
+                    "9.9.9",
+                    "--pilot-clearance",
+                    str(clearance),
+                ]
+            )
+            == 0
+        )
+        full_lock = json.loads((full_out / "experiment_lock.json").read_text())
+        assert full_lock["expected_trial_count"] == 600
+        assert full_lock["pilot_clearance"]["full_run_ready"] is True
 
 
 def test_run_summarizer_keeps_core_and_native_estimands_separate(tmp_path: Path) -> None:

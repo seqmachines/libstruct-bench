@@ -46,6 +46,15 @@ stores each physical strand separately in its own 5′→3′ direction, and nam
 the reference strand corresponding to T1. Primary-source deltas against a
 converted artifact remain patch-free until human decisions are compiled into
 its one final root patch.
+The physical T3 terminal reference strand may match canonical T1 in the same
+orientation or as its token-aware reverse complement. Keep that T3 strand in
+its actual 5′→3′ direction; do not rewrite it solely to follow T1's display
+orientation.
+An unfinalized candidate from the former root-level T3 modality schema may be
+reshaped in the same review as a representation-only root modification. Keep
+the proposal immutable, freeze its scientific payload, require one workflow
+per T1 modality, and obtain final human approval. Do not infer an ambiguous
+multimodal split; finalized stale-schema decisions require a new iteration.
 If an older finalized review lacks required root conversions, preserve it as
 history and start a fresh conversion-first comparison/review iteration; never
 try to apply or rewrite that decision.
@@ -75,6 +84,10 @@ essential to understand downstream library generation, and explain why.
 Within every state, preserve the actual molecular strands rather than assuming
 single- or double-strandedness. Record paired regions, overhangs, unpaired
 regions, nicks/gaps, RNA–DNA hybrids, and Y-shaped duplexes when supported.
+Represent an intramolecular hairpin as one `partially_duplex` strand with two
+disjoint self-paired arms, retaining the loop as unpaired. Use `hairpin` or
+`covalently_closed_dumbbell` in state properties, and preserve enzymatic
+opening of a carried dumbbell as a strand-architecture-changing transition.
 Explicit paired sequence regions must be reverse-complementary unless the
 source documents noncanonical or unknown pairing. Oligo-derived segments record
 their T2 ID and `orientation_to_source` as `same_orientation`,

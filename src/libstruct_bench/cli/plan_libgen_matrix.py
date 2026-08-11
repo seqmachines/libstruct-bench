@@ -8,6 +8,8 @@ import subprocess
 from pathlib import Path
 from typing import Any
 
+from libstruct_bench.libgen.error_analysis import task_bundle_sha256
+
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
@@ -19,6 +21,10 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--out", required=True)
     parser.add_argument("--jobs-dir", default="runs/libgen")
     parser.add_argument("--harbor-version", required=True)
+    parser.add_argument(
+        "--pilot-clearance",
+        help="validated pilot-review status; required before planning the full run",
+    )
     args = parser.parse_args(argv)
 
     installed_harbor = _harbor_version()
@@ -45,6 +51,22 @@ def main(argv: list[str] | None = None) -> int:
         raise ValueError("generated tasks are missing: " + ", ".join(sorted(missing)))
     if args.mode == "full" and len(task_ids) != 20:
         raise ValueError(f"full matrix requires exactly 20 generated tasks, found {len(task_ids)}")
+    task_digest = task_bundle_sha256(tasks_root, task_ids)
+    pilot_clearance = None
+    if args.mode == "full":
+        if not args.pilot_clearance:
+            raise ValueError("--pilot-clearance is required for the full matrix")
+        pilot_clearance = json.loads(
+            Path(args.pilot_clearance).read_text(encoding="utf-8")
+        )
+        if pilot_clearance.get("full_run_ready") is not True:
+            raise ValueError("pilot error review has not cleared the full production run")
+        if pilot_clearance.get("expected_trial_count") != 60:
+            raise ValueError("pilot clearance does not cover the approved 60 trials")
+        if pilot_clearance.get("task_bundle_sha256") != task_digest:
+            raise ValueError(
+                "generated tasks changed after the benchmark was refrozen and cleared"
+            )
 
     models = {item["model_key"]: item for item in matrix["models"]}
     cells: list[dict[str, Any]] = []
@@ -95,6 +117,8 @@ def main(argv: list[str] | None = None) -> int:
                     "kwargs": cell["agent_kwargs"],
                     "skills": [],
                     "mcp_servers": [],
+                    "include_logs": [],
+                    "exclude_logs": [],
                 }
             ],
             "datasets": [
@@ -122,6 +146,7 @@ def main(argv: list[str] | None = None) -> int:
         "environment": matrix["environment"],
         "attempts": attempts,
         "protocol_ids": selected,
+        "task_bundle_sha256": task_digest,
         "cells": cells,
         "expected_trial_count": len(cells) * len(selected) * attempts,
         "analysis_design": {
@@ -130,6 +155,14 @@ def main(argv: list[str] | None = None) -> int:
             "model_and_harness_effects_use": "balanced_core",
             "native_extensions_are_reported_separately": True,
         },
+        "error_analysis_policy": {
+            "preserve_all_agent_logs": True,
+            "preserve_all_verifier_diagnostics": True,
+            "automatic_process_attribution": False,
+            "pilot_substantive_mismatches_require_adjudication": True,
+            "full_run_requires_refrozen_benchmark": True,
+        },
+        "pilot_clearance": pilot_clearance,
     }
     (output_root / "experiment_lock.json").write_text(
         json.dumps(lock, indent=2, sort_keys=True) + "\n", encoding="utf-8"

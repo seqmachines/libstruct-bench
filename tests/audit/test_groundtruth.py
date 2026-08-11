@@ -248,6 +248,64 @@ def _paired_state(
     }
 
 
+def _intramolecular_hairpin_state() -> dict:
+    return {
+        "state_id": "hairpin",
+        "name": "Intramolecular hairpin",
+        "molecule_type": "DNA",
+        "strand_architecture": "partially_duplex",
+        "reference_strand_id": "hairpin-strand",
+        "physical_state": "solution",
+        "strands": [
+            {
+                "strand_id": "hairpin-strand",
+                "name": "Hairpin-forming strand",
+                "molecule_type": "DNA",
+                "orientation": "5_to_3",
+                "segments": [
+                    {
+                        "segment_id": "stem-5p",
+                        "role": "hairpin_stem",
+                        "structural_role": "paired_region",
+                        "sequence": "AACG",
+                    },
+                    {
+                        "segment_id": "loop",
+                        "role": "hairpin_loop",
+                        "structural_role": "internal_unpaired",
+                        "sequence": "TT",
+                    },
+                    {
+                        "segment_id": "stem-3p",
+                        "role": "hairpin_stem",
+                        "structural_role": "paired_region",
+                        "sequence": "CGTT",
+                    },
+                ],
+                "support_status": "explicit",
+            }
+        ],
+        "paired_regions": [
+            {
+                "paired_region_id": "hairpin-stem",
+                "side_1": {
+                    "strand_id": "hairpin-strand",
+                    "segment_ids": ["stem-5p"],
+                },
+                "side_2": {
+                    "strand_id": "hairpin-strand",
+                    "segment_ids": ["stem-3p"],
+                },
+                "relationship": "reverse_complementary",
+                "support_status": "explicit",
+            }
+        ],
+        "discontinuities": [],
+        "properties": ["hairpin"],
+        "support_status": "explicit",
+    }
+
+
 def test_canonical_documents_validate_and_link() -> None:
     documents = _documents()
     for task, document in documents.items():
@@ -488,6 +546,79 @@ def test_partially_duplex_state_allows_an_unpaired_overhang() -> None:
         architecture="partially_duplex",
         top_overhang="TT",
     )
+
+    validate_molecular_state_architecture(state)
+
+
+def test_partially_duplex_state_allows_an_intramolecular_hairpin() -> None:
+    validate_molecular_state_architecture(_intramolecular_hairpin_state())
+
+
+def test_intramolecular_hairpin_stem_must_be_reverse_complementary() -> None:
+    state = _intramolecular_hairpin_state()
+    state["strands"][0]["segments"][2]["sequence"] = "AAAA"
+
+    with pytest.raises(GroundtruthValidationError, match="reverse-complementary"):
+        validate_molecular_state_architecture(state)
+
+
+def test_intramolecular_pairing_sides_must_not_overlap() -> None:
+    state = _intramolecular_hairpin_state()
+    state["paired_regions"][0]["side_2"]["segment_ids"] = ["stem-5p"]
+
+    with pytest.raises(GroundtruthValidationError, match="overlapping sides"):
+        validate_molecular_state_architecture(state)
+
+
+def test_intramolecular_pairing_requires_partially_duplex_architecture() -> None:
+    state = _intramolecular_hairpin_state()
+    state["strand_architecture"] = "y_shaped_duplex"
+
+    with pytest.raises(GroundtruthValidationError, match="only for partially_duplex"):
+        validate_molecular_state_architecture(state)
+
+
+def test_partially_duplex_state_allows_a_covalently_closed_dumbbell() -> None:
+    state = _intramolecular_hairpin_state()
+    strand = state["strands"][0]
+    strand["segments"].extend(
+        [
+            {
+                "segment_id": "second-stem-5p",
+                "role": "hairpin_stem",
+                "structural_role": "paired_region",
+                "sequence": "GG",
+            },
+            {
+                "segment_id": "second-loop",
+                "role": "hairpin_loop",
+                "structural_role": "internal_unpaired",
+                "sequence": "AA",
+            },
+            {
+                "segment_id": "second-stem-3p",
+                "role": "hairpin_stem",
+                "structural_role": "paired_region",
+                "sequence": "CC",
+            },
+        ]
+    )
+    state["paired_regions"].append(
+        {
+            "paired_region_id": "second-hairpin-stem",
+            "side_1": {
+                "strand_id": "hairpin-strand",
+                "segment_ids": ["second-stem-5p"],
+            },
+            "side_2": {
+                "strand_id": "hairpin-strand",
+                "segment_ids": ["second-stem-3p"],
+            },
+            "relationship": "reverse_complementary",
+            "support_status": "explicit",
+        }
+    )
+    state["properties"] = ["covalently_closed_dumbbell"]
 
     validate_molecular_state_architecture(state)
 
@@ -791,6 +922,31 @@ def test_matching_terminal_architecture_allows_simplified_t3_segments() -> None:
     validate_cross_task_links(documents)
 
 
+def test_terminal_architecture_accepts_token_aware_reverse_complement() -> None:
+    documents = _documents()
+    documents["T1"]["libraries"][0]["library_sequence"] = (
+        "GA[UMI:2]C[CDNA]TT"
+    )
+    documents["T3"]["workflows"][0]["states"][1]["strands"][0][
+        "sequence_architecture"
+    ] = "AA[CDNA]G[UMI:2]TC"
+
+    validate_cross_task_links(documents)
+
+
+def test_terminal_segment_fallback_accepts_reverse_complement() -> None:
+    documents = _documents()
+    segment = documents["T3"]["workflows"][0]["states"][1]["strands"][0][
+        "segments"
+    ][0]
+    segment["sequence"] = "TTT"
+    segment["oligo_derivations"][0]["orientation_to_source"] = (
+        "reverse_complement"
+    )
+
+    validate_cross_task_links(documents)
+
+
 def test_terminal_architecture_mismatch_is_not_hidden_by_matching_segments() -> None:
     documents = _documents()
     documents["T3"]["workflows"][0]["states"][1]["strands"][0][
@@ -810,8 +966,26 @@ def test_duplex_terminal_state_links_its_reference_strand_to_t1() -> None:
 
     validate_cross_task_links(documents)
 
+    final_state["strands"][1]["sequence_architecture"] = "TTT"
     final_state["reference_strand_id"] = "bottom"
+    validate_cross_task_links(documents)
+
+    final_state["strands"][1]["sequence_architecture"] = "CCC"
     with pytest.raises(GroundtruthValidationError, match="does not match any"):
+        validate_cross_task_links(documents)
+
+
+def test_reverse_complement_candidates_keep_matching_ambiguity_strict() -> None:
+    documents = _documents()
+    _add_second_library_and_terminal_state(documents)
+    second_library = documents["T1"]["libraries"][1]
+    second_library["library_sequence"] = "TTT"
+    second_library["segments"][0]["sequence"] = "TTT"
+    documents["T3"]["workflows"][0]["states"][2]["strands"][0][
+        "sequence_architecture"
+    ] = "TTT"
+
+    with pytest.raises(GroundtruthValidationError, match="matching is ambiguous"):
         validate_cross_task_links(documents)
 
 

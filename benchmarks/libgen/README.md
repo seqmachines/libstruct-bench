@@ -44,24 +44,28 @@ T1/T2/T3 set, or a linked ground-truth validation failure.
 Overall reward is `0.30 * T2 + 0.70 * T3`.
 
 - T2 uses sequence-only global optimal one-to-one soft F1. Names, roles,
-  orientations, and modifications are diagnostics. Required T2 oligos are
-  derived from T3 transition `oligo_ids` and state-segment
-  `oligo_derivations`. Exact predictions of optional T2 records are neutral;
-  unknown and duplicate extra predictions reduce precision. The primary metric
-  is `t2_required_sequence_f1`.
+  orientations, and modifications are diagnostics. `O_used` contains the T2
+  oligos referenced by T3 transition `oligo_ids` or state-segment
+  `oligo_derivations`; `O_score` restricts that set to sequence claims that are
+  explicit or derivable from the agent-visible source bundle. Canonical but
+  externally completed, ambiguous, or unsupported claims are neutral, as are
+  exact predictions of optional T2 records. Unknown and duplicate extras reduce
+  precision. The primary metric is `t2_required_sequence_f1`.
 - T3 contains one workflow per modality and is scored within matched
   modalities. Its primary metric, `t3_molecular_transition_f1`, globally
   matches transitions using operation, matched substrate/product states,
   carried/discarded classification, and transition-local T2 sequence
   multisets. Major reagent names are diagnostic. `t3_typed_edge_f1` directly
   compares substrate, carried-product, and discarded-product edges after
-  semantic state and transition alignment.
+  semantic state and transition alignment. T3 sequence and architecture claims
+  use the same explicit-or-derivable recoverability mask.
 - Schema-invalid or semantically invalid linked predictions receive zero.
   Verifier infrastructure or private-ground-truth failures fail the trial
   instead of being mislabeled as model errors.
 
 The verifier writes `reward.json`, `details.json`, and, on failure,
-`error.json` under `/logs/verifier/`.
+`error.json` under `/logs/verifier/`. See [error-analysis.md](error-analysis.md)
+for the separate discrepancy-adjudication and trajectory-review procedure.
 
 ## Experiment design
 
@@ -157,11 +161,37 @@ PYTHONPATH=src python -m libstruct_bench.cli.plan_libgen_matrix \
 bash runs/libgen/plans/pilot/run.sh
 ```
 
-Only after all 15 pilot cells pass their compatibility and data checks, create
-the full plan by changing `--mode pilot` to `--mode full` and choosing a new
-output directory. The planner records model IDs, harness versions, reasoning
-settings, Harbor version, protocols, attempts, and expected trial count in
-`experiment_lock.json`.
+After the pilot, preserve and adjudicate its 60 trial records:
+
+```bash
+PYTHONPATH=src python -m libstruct_bench.cli.prepare_libgen_error_review \
+  --runs-root runs/libgen \
+  --experiment-lock runs/libgen/plans/pilot/experiment_lock.json \
+  --out analysis/libgen/pilot-error-review
+
+PYTHONPATH=src python -m libstruct_bench.cli.validate_libgen_error_review \
+  --review-root analysis/libgen/pilot-error-review \
+  --tasks benchmarks/libgen/tasks \
+  --record-refreeze \
+  --recorded-by CURATOR_ID \
+  --out analysis/libgen/pilot-review-status.json
+```
+
+Fix confirmed benchmark or evaluator defects before recording the refreeze.
+Only after the pilot status is clear should the full plan be created:
+
+```bash
+PYTHONPATH=src python -m libstruct_bench.cli.plan_libgen_matrix \
+  --mode full \
+  --tasks benchmarks/libgen/tasks \
+  --harbor-version "$(harbor --version)" \
+  --pilot-clearance analysis/libgen/pilot-review-status.json \
+  --out runs/libgen/plans/full
+```
+
+The planner records model IDs, harness versions, reasoning settings, Harbor
+version, protocols, attempts, the frozen task digest, and expected trial count
+in `experiment_lock.json`.
 
 ## Summarize
 

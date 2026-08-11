@@ -444,6 +444,21 @@ def test_minimal_groundtruth_contract_reaches_comparison_worker() -> None:
         assert field in skill
 
 
+def test_in_progress_t3_modality_migration_reaches_controller() -> None:
+    skill = SKILL.read_text(encoding="utf-8")
+    policy = (
+        REPO_ROOT / "docs" / "audit" / "adjudication-policy.md"
+    ).read_text(encoding="utf-8")
+
+    for raw_text in (skill, policy):
+        text = " ".join(raw_text.split())
+        assert "unfinalized proposal" in text
+        assert "proposal immutable" in text
+        assert "one workflow per modality" in text
+        assert "Freeze" in text or "freeze" in text
+        assert "ambiguous" in text
+
+
 def test_strand_architecture_contract_reaches_comparison_worker() -> None:
     instruction_paths = [
         REPO_ROOT / "docs" / "audit" / "evidence-policy.md",
@@ -469,12 +484,14 @@ def test_comparison_worker_receives_deterministic_state_validator_contract() -> 
         "`validate_molecular_state_architecture`",
         "`single_stranded` has exactly one strand",
         "`double_stranded` has exactly two strands",
-        "`partially_duplex` has at least two strands",
+        "`partially_duplex` has at least one strand",
         "`rna_dna_hybrid` has exactly two logical strands",
         "one RNA and one DNA",
         "`y_shaped_duplex` has exactly two",
         "every segment labeled `paired_region`",
         "contiguous",
+        "intramolecular",
+        "non-overlapping",
         "reverse-complementary",
         "every discontinuity",
         "adjacent",

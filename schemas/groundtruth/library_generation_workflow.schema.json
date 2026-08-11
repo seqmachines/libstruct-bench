@@ -78,6 +78,7 @@
       }
     },
     "paired_region": {
+      "description": "A paired region between two strands, or between two distinct arms of one strand for a partially_duplex intramolecular hairpin.",
       "type": "object",
       "additionalProperties": false,
       "required": ["paired_region_id", "side_1", "side_2", "relationship", "support_status"],
@@ -110,7 +111,7 @@
         "state_id": {"$ref": "#/$defs/stable_id"},
         "name": {"type": "string", "minLength": 1},
         "molecule_type": {"type": "string", "minLength": 1},
-        "strand_architecture": {"type": "string", "enum": ["single_stranded", "double_stranded", "partially_duplex", "rna_dna_hybrid", "y_shaped_duplex", "mixed_population", "unknown"]},
+        "strand_architecture": {"type": "string", "enum": ["single_stranded", "double_stranded", "partially_duplex", "rna_dna_hybrid", "y_shaped_duplex", "mixed_population", "unknown"], "description": "Overall pairing class. partially_duplex includes intermolecular partial duplexes and single-strand intramolecular hairpins."},
         "reference_strand_id": {"$ref": "#/$defs/stable_id"},
         "physical_state": {"type": "string", "minLength": 1},
         "strands": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/strand"}},

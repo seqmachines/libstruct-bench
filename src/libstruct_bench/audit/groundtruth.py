@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from collections import defaultdict, deque
 from pathlib import Path
+import re
 from typing import Any, Mapping
 
 from .artifacts import AuditArtifactError, validate_document
@@ -584,13 +585,21 @@ def validate_molecular_state_architecture(
             segment_locations,
             f"{state_label} paired region {region_id} side_2",
         )
-        if side_1_value["strand_id"] == side_2_value["strand_id"]:
+        same_strand = side_1_value["strand_id"] == side_2_value["strand_id"]
+        if same_strand and architecture != "partially_duplex":
             raise GroundtruthValidationError(
-                f"{state_label} paired region {region_id} must join distinct strands"
+                f"{state_label} paired region {region_id} may pair one strand "
+                "with itself only for partially_duplex architecture"
             )
-        region_segment_ids = {
-            item["segment_id"] for item in side_1 + side_2
-        }
+        side_1_ids = {item["segment_id"] for item in side_1}
+        side_2_ids = {item["segment_id"] for item in side_2}
+        if side_1_ids & side_2_ids:
+            repeated = ", ".join(sorted(side_1_ids & side_2_ids))
+            raise GroundtruthValidationError(
+                f"{state_label} paired region {region_id} has overlapping sides: "
+                f"{repeated}"
+            )
+        region_segment_ids = side_1_ids | side_2_ids
         if architecture != "mixed_population" and (
             paired_segment_ids & region_segment_ids
         ):
@@ -743,7 +752,6 @@ def _validate_strand_architecture_class(
         return
     if architecture in {
         "double_stranded",
-        "partially_duplex",
         "rna_dna_hybrid",
         "y_shaped_duplex",
     }:
@@ -767,6 +775,11 @@ def _validate_strand_architecture_class(
                 "unpaired or overhanging segments"
             )
     elif architecture == "partially_duplex":
+        if not paired_regions:
+            raise GroundtruthValidationError(
+                f"{label} partially_duplex architecture requires at least one "
+                "paired region"
+            )
         if paired_segment_ids == set(segment_locations):
             raise GroundtruthValidationError(
                 f"{label} partially_duplex architecture requires an unpaired region"
@@ -802,6 +815,11 @@ _IUPAC_COMPLEMENT = str.maketrans(
     "TGCAYRSWMKVHDBN",
 )
 
+_ARCHITECTURE_PART_RE = re.compile(
+    r"\[[A-Z][A-Z0-9]*(?:_[A-Z0-9]+)*(?::[1-9][0-9]*)?\]"
+    r"|[ACGTURYSWKMBDHVN]+"
+)
+
 _IUPAC_BASES = {
     "A": frozenset("A"),
     "C": frozenset("C"),
@@ -832,6 +850,21 @@ def _normalized_nucleic_acid(sequence: str | None) -> str | None:
 
 def _reverse_complement(sequence: str) -> str:
     return sequence.translate(_IUPAC_COMPLEMENT)[::-1]
+
+
+def _reverse_complement_architecture(sequence: str) -> str | None:
+    """Reverse-complement bases while preserving placeholders as opaque units."""
+
+    parts = _ARCHITECTURE_PART_RE.findall(sequence)
+    if not parts or "".join(parts) != sequence:
+        return None
+    reversed_parts = []
+    for part in reversed(parts):
+        if part.startswith("["):
+            reversed_parts.append(part)
+        else:
+            reversed_parts.append(_reverse_complement(part.replace("U", "T")))
+    return "".join(reversed_parts)
 
 
 def _validate_oligo_derivation_orientation(
@@ -1009,7 +1042,11 @@ def _terminal_library_error(
     ):
         return "reference-strand orientation differs"
     architecture = reference_strand.get("sequence_architecture")
-    expected = {library["library_sequence"]}
+    library_architecture = library["library_sequence"]
+    reverse_architecture = _reverse_complement_architecture(library_architecture)
+    expected = {library_architecture}
+    if reverse_architecture is not None:
+        expected.add(reverse_architecture)
     if isinstance(architecture, str):
         if architecture not in expected:
             return "sequence architecture differs"
@@ -1026,7 +1063,13 @@ def _terminal_library_error(
             for item in state_segments
         ]
         right = [_segment_signature(item) for item in library_segments]
-        if left != right:
+        reverse_right = [
+            _reverse_complement_segment_signature(item)
+            for item in reversed(library_segments)
+        ]
+        if left != right and (
+            any(item is None for item in reverse_right) or left != reverse_right
+        ):
             return "segment representation differs"
         return None
     return "no checkable sequence representation"
@@ -1064,6 +1107,37 @@ def _segment_signature(
         item.get("length"),
         item.get("placeholder"),
         item.get("orientation", inherited_orientation),
+        oligo_derivations,
+    )
+
+
+def _reverse_complement_segment_signature(
+    item: dict[str, Any],
+) -> tuple[Any, ...] | None:
+    sequence = item.get("sequence")
+    if isinstance(sequence, str):
+        sequence = _reverse_complement_architecture(sequence)
+        if sequence is None:
+            return None
+    oligo_derivations = tuple(
+        sorted(
+            (
+                derivation["oligo_id"],
+                {
+                    "same_orientation": "reverse_complement",
+                    "reverse_complement": "same_orientation",
+                    "unknown": "unknown",
+                }[derivation["orientation_to_source"]],
+            )
+            for derivation in item.get("oligo_derivations", [])
+        )
+    )
+    return (
+        item["role"],
+        sequence,
+        item.get("length"),
+        item.get("placeholder"),
+        item.get("orientation"),
         oligo_derivations,
     )
 

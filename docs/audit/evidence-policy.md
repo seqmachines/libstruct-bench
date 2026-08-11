@@ -103,6 +103,15 @@ attempt provenance. A repaired proposal remains subject to human review.
   preserve overhangs, internal unpaired regions, partial duplexes, Y-shaped
   adapters, and RNA–DNA hybrids. Record nicks, gaps, and breaks as strand
   discontinuities.
+- Use `partially_duplex` for a source-supported intramolecular hairpin. Record
+  the molecule as one physical strand, put the two disjoint stem arms on the
+  two sides of a paired region with the same `strand_id`, and retain the loop as
+  unpaired. Use the state property `hairpin` or
+  `covalently_closed_dumbbell` as appropriate. Same-strand pairing is not valid
+  for the other controlled architecture classes. Hairpin-adaptor ligation and
+  subsequent enzymatic opening are separate transitions when the closed
+  dumbbell is a meaningful carried-forward intermediate, because opening it
+  changes strand architecture even if the base inventory is unchanged.
 - For paired regions with explicit canonical sequences, the two 5′→3′ strings
   must be reverse complements. Preserve documented noncanonical pairing or an
   unknown relationship explicitly; do not alter a source sequence to make it
@@ -110,15 +119,17 @@ attempt provenance. A repaired proposal remains subject to human review.
   `orientation_to_source` to `same_orientation`, `reverse_complement`, or
   `unknown` relative to the source oligo.
 - For every T3 final state matched to T1, prefer a complete
-  `sequence_architecture` on its identified reference strand, copied exactly
-  from the matching T1 `library_sequence`. T1 has no separate
+  `sequence_architecture` on its identified reference strand. Preserve the
+  physical strand in its actual 5′→3′ direction: it may equal the matching T1
+  `library_sequence` or its token-aware reverse complement. Placeholder tokens
+  remain opaque while their order reverses. T1 has no separate
   `annotated_library_sequence`; its one canonical sequence retains biological
   insert locations with placeholders such as `[CDNA]`. That strand's T3 segment
   annotations may remain simpler than T1. When the complete
-  architecture is absent, its ordered segment representation must match T1
-  exactly. Matching is a unique one-to-one assignment by reference-strand
-  structure and protocol scope; do not store T1 library IDs or a separate link
-  table.
+  architecture is absent, its ordered segment representation must match T1 in
+  the same or reverse-complement orientation. Matching is a unique one-to-one
+  assignment by reference-strand structure and protocol scope; do not store T1
+  library IDs or a separate link table.
 
 Evidence, provenance lineage, review decisions, inclusion status, and audit
 notes belong to audit artifacts. Do not copy those fields into approved T1,

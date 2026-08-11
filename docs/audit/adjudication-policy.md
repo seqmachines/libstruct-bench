@@ -68,6 +68,19 @@ decision has changed. Every preview is regenerated from the pinned input
 records, so revisions do not stack untracked edits. The finalized decision
 receives its immutable decision ID and is never edited.
 
+An unfinalized proposal may continue through a representation-only canonical
+schema migration without repeating its scientific review. Keep the proposal
+immutable and compile the current-schema document as a complete root
+replacement in the working decision. Freeze sequences, placeholders,
+orientations, oligo identities, molecular states, operations, and branch order.
+For the T3 modality migration, put the exact T1 modality on each workflow,
+retain one workflow per modality, and keep same-modality alternatives as
+branches. Shared upstream graph records may be duplicated into applicable
+modality workflows without changing their content. Any ambiguous assignment
+returns to the human or a fresh comparison. The final combined candidate and
+root `modify` decision remain subject to normal human approval and linked
+validation. This exception does not permit editing a finalized decision.
+
 Final review must decide every proposal issue. After issue review and root
 candidate compilation, show one concise T1–T3 result and ask one final
 scientific-approval question. That answer records any required root candidate

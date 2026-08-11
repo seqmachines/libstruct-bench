@@ -140,7 +140,7 @@ def test_external_oligo_is_neutral_whether_omitted_or_exactly_predicted() -> Non
     assert included_metrics["required_sequence_f1"] == pytest.approx(1.0)
 
 
-def test_t3_referenced_oligo_is_required_regardless_of_support_status() -> None:
+def test_t3_referenced_oligo_is_neutral_when_not_source_recoverable() -> None:
     truth = t2_groundtruth()
     truth["oligos"][0]["support_status"] = "externally_completed"
 
@@ -148,9 +148,71 @@ def test_t3_referenced_oligo_is_required_regardless_of_support_status() -> None:
         [], truth["oligos"], required_oligo_ids={"oligo_rt"}
     )
 
-    assert metrics["required_groundtruth_count"] == 1.0
-    assert metrics["required_sequence_recall"] == 0.0
-    assert details["unmatched_required_oligo_ids"] == ["oligo_rt"]
+    assert metrics["used_groundtruth_count"] == 1.0
+    assert metrics["required_groundtruth_count"] == 0.0
+    assert metrics["neutral_used_groundtruth_count"] == 1.0
+    assert metrics["required_sequence_recall"] == 1.0
+    assert details["used_oligo_ids"] == ["oligo_rt"]
+    assert details["scored_oligo_ids"] == []
+    assert details["neutral_used_oligo_ids"] == ["oligo_rt"]
+    assert details["unmatched_required_oligo_ids"] == []
+
+
+def test_mixed_support_oligo_scores_only_recoverable_components() -> None:
+    truth = t2_groundtruth()
+    oligo = truth["oligos"][0]
+    oligo["sequence"] = None
+    oligo["kind"] = "assembled"
+    oligo["components"] = [
+        {
+            "name": "visible",
+            "role": "adapter",
+            "sequence": "ACGT",
+            "orientation": "5_to_3",
+            "modifications": [],
+            "support_status": "explicit",
+        },
+        {
+            "name": "completed",
+            "role": "vendor completion",
+            "sequence": "TTTT",
+            "orientation": "5_to_3",
+            "modifications": [],
+            "support_status": "externally_completed",
+        },
+    ]
+    prediction = t2_prediction()
+    predicted = prediction["oligos"][0]
+    predicted["sequence"] = None
+    predicted["kind"] = "assembled"
+    predicted["components"] = [
+        {
+            "name": "visible",
+            "role": "adapter",
+            "sequence": "ACGT",
+            "orientation": "5_to_3",
+            "modifications": [],
+        }
+    ]
+
+    metrics, _ = score_t2(
+        prediction["oligos"], truth["oligos"], required_oligo_ids={"oligo_rt"}
+    )
+    assert metrics["required_sequence_f1"] == pytest.approx(1.0)
+
+    predicted["components"].append(
+        {
+            "name": "completed",
+            "role": "vendor completion",
+            "sequence": "TTTT",
+            "orientation": "5_to_3",
+            "modifications": [],
+        }
+    )
+    metrics, _ = score_t2(
+        prediction["oligos"], truth["oligos"], required_oligo_ids={"oligo_rt"}
+    )
+    assert metrics["required_sequence_f1"] == pytest.approx(1.0)
 
 
 def _additional_oligo(
@@ -195,6 +257,35 @@ def test_exact_optional_oligo_is_neutral() -> None:
     assert metrics["required_sequence_f1"] == pytest.approx(1.0)
     assert metrics["all_required_exact"] == 1.0
     assert details["neutralized_prediction_indices"] == [1]
+
+
+def test_exact_optional_is_neutral_before_soft_required_matching() -> None:
+    truth = t2_groundtruth()
+    optional = _additional_oligo(
+        oligo_id="optional",
+        sequence="ACGT[UMI:3]",
+    )
+    optional["support_status"] = "explicit"
+    truth["oligos"].append(optional)
+    prediction = {
+        "protocol_id": "example_protocol",
+        "oligos": [
+            _additional_oligo(
+                oligo_id="pred_optional",
+                sequence="ACGT[UMI:3]",
+            )
+        ],
+    }
+
+    metrics, details = score_t2(
+        prediction["oligos"],
+        truth["oligos"],
+        required_oligo_ids={"oligo_rt"},
+    )
+
+    assert metrics["required_sequence_recall"] == 0.0
+    assert metrics["required_sequence_precision"] == 0.0
+    assert details["neutralized_prediction_indices"] == [0]
 
 
 def test_extra_unknown_oligo_reduces_precision() -> None:
@@ -464,7 +555,7 @@ def test_one_missing_graph_branch_lowers_transition_and_edge_recall() -> None:
     assert metrics["t3_typed_edge_f1"] < 1.0
 
 
-def test_human_approved_transition_is_scored_regardless_of_support_status() -> None:
+def test_ambiguous_transition_and_its_edges_are_neutral() -> None:
     truth = t3_groundtruth()
     truth["workflows"][0]["transitions"][0]["support_status"] = "ambiguous"
     prediction = t3_prediction()
@@ -474,8 +565,46 @@ def test_human_approved_transition_is_scored_regardless_of_support_status() -> N
         t2_prediction(), prediction, t2_groundtruth(), truth
     )
 
-    assert metrics["t3_molecular_transition_recall"] == 0.0
-    assert metrics["t3_typed_edge_f1"] == 0.0
+    assert metrics["t3_molecular_transition_recall"] == 1.0
+    assert metrics["t3_typed_edge_f1"] == 1.0
+
+
+def test_externally_completed_t3_sequence_architecture_is_neutral() -> None:
+    truth = t3_groundtruth()
+    truth_strand = truth["workflows"][0]["states"][1]["strands"][0]
+    truth_strand["support_status"] = "externally_completed"
+    prediction = t3_prediction()
+    predicted_strand = prediction["workflows"][0]["states"][1]["strands"][0]
+    predicted_strand["sequence_architecture"] = "TTTT[CDNA]"
+    predicted_strand["segments"][0]["sequence"] = "TTTT[CDNA]"
+
+    metrics, _ = grade_libgen(
+        t2_prediction(), prediction, t2_groundtruth(), truth
+    )
+
+    assert metrics["t3_state_f1"] == pytest.approx(1.0)
+
+
+def test_externally_completed_t3_linked_oligo_sequence_is_neutral() -> None:
+    truth_t2 = t2_groundtruth()
+    truth_t2["oligos"][0]["support_status"] = "externally_completed"
+    prediction_t2 = t2_prediction()
+    prediction_t2["oligos"] = []
+    prediction_t3 = t3_prediction()
+    prediction_t3["workflows"][0]["transitions"][0]["oligo_ids"] = []
+    prediction_t3["workflows"][0]["states"][1]["strands"][0]["segments"][0][
+        "oligo_derivations"
+    ] = []
+
+    metrics, _ = grade_libgen(
+        prediction_t2,
+        prediction_t3,
+        truth_t2,
+        t3_groundtruth(),
+    )
+
+    assert metrics["t2_required_sequence_f1"] == pytest.approx(1.0)
+    assert metrics["t3_molecular_transition_f1"] == pytest.approx(1.0)
 
 
 def test_prediction_validator_rejects_dangling_refs_and_cycles() -> None:

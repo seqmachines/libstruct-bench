@@ -56,9 +56,10 @@ for a typed reply. The stop hook will return control with an instruction to call
 the tool if this contract is missed; on that continuation, call
 `AskUserQuestion` immediately without repeating the card.
 
-1. Read `CLAUDE.md` and `docs/audit/`. Reuse valid immutable proposals only
-   when their manifest, packet, baselines, schemas, prompt, and policy hashes
-   still match. Do not reuse a comparison proposal for application when a current baseline
+1. Read `CLAUDE.md` and `docs/audit/`. Reuse immutable proposals directly for
+   application only when their manifest, packet, baselines, schemas, prompt,
+   and policy hashes still match. An in-progress review may use the
+   representation-only schema-migration exception below. Do not reuse a comparison proposal for application when a current baseline
    is legacy-shaped and the proposal lacks its canonical root conversion.
    Preserve that proposal and decision as history and create a fresh
    conversion-first comparison run and review iteration.
@@ -69,6 +70,20 @@ the tool if this contract is missed; on that continuation, call
    `ground_truth_audit/<kind>/` directories. Do not create or reuse a `pilot/`
    namespace for active work; `archive/` is history only. Never modify
    `scg-v1-upload` or upload audit data.
+   When an unfinalized proposal predates the move of T3 `modality` from the
+   document root to each workflow, keep the proposal immutable and reshape
+   only its working root candidate during the same review. For a single T1
+   modality, remove the root field and copy the exact T1 modality to the sole
+   workflow. For multiple T1 modalities, keep exactly one workflow per
+   modality, retain same-modality alternatives as branches, and assign final
+   states by their already-reviewed T1 terminal structures. Freeze nucleotide
+   sequences, placeholders, orientations, oligo identities, molecular states,
+   operations, and branch order; shared upstream nodes may be duplicated
+   without changing their content. Record the current-schema root replacement
+   as the human-approved `modify` decision and revalidate T1–T3. If the split
+   is scientifically ambiguous, ask the human or start a fresh comparison;
+   never guess. A finalized stale-schema decision remains immutable and needs
+   a new iteration.
 3. Catalog sources without a human gate. Include every discovered file that is
    present and hashable. Mark every missing file `unavailable`, retain it in the
    catalog/manifest for provenance, and exclude it from phase packets. When an
@@ -143,14 +158,17 @@ the tool if this contract is missed; on that continuation, call
     Every T3 state must use a controlled `strand_architecture`, contain each
     physical strand explicitly in its own 5′→3′ direction, and identify its
     `reference_strand_id`. A terminal state's reference strand should carry
-    `sequence_architecture` exactly matching the single canonical T1
-    `library_sequence`. Keep biological insert placeholders in that T1 sequence;
+    `sequence_architecture` matching the single canonical T1 `library_sequence`
+    in the same orientation or as its token-aware reverse complement. Preserve
+    the physical T3 strand in its actual 5′→3′ direction; never rewrite it merely
+    to follow T1's display orientation. Keep biological insert placeholders in that T1 sequence;
     do not emit `annotated_library_sequence` or a benchmark scoring projection.
     T2 components are ordered inline descriptions and must not carry
     `component_id`. Optional T3 segment annotations may be simpler than T1
     and must not be expanded merely to duplicate T1. If the complete
-    architecture is omitted, exact ordered segment identity is the validation
-    fallback. Match terminal states and T1 libraries one-to-one; do not create
+    architecture is omitted, same- or reverse-complement ordered segment
+    identity is the validation fallback. Match terminal states and T1 libraries
+    one-to-one; do not create
     T1 library IDs or `final_library_links`.
     Before asking for any final T3 root decision or scientific approval, the
     controller must directly open the immutable packet's primary PDFs,
@@ -284,11 +302,14 @@ the tool if this contract is missed; on that continuation, call
   segment IDs are unique; `reference_strand_id` resolves; every strand is
   `5_to_3`; `single_stranded` has exactly one strand and no pairing;
   `double_stranded` has exactly two strands, pairing, and no unpaired segment;
-  `partially_duplex` has at least two strands, pairing, and an unpaired segment;
+  `partially_duplex` has at least one strand, pairing, and an unpaired segment;
+  one strand is valid when two disjoint arms pair intramolecularly as a hairpin;
   `rna_dna_hybrid` has exactly two logical strands, one RNA and one DNA, plus
   pairing; and `y_shaped_duplex` has exactly two logical strands, pairing, and
-  unpaired arms on both. Pairing sides must resolve to different strands and contain nonempty,
-  contiguous segment IDs in 5′→3′ order; every segment labeled
+  unpaired arms on both. Pairing sides contain nonempty, contiguous,
+  non-overlapping segment IDs in 5′→3′ order and normally resolve to different
+  strands; a `partially_duplex` intramolecular hairpin instead pairs two
+  disjoint arms on the same strand; every segment labeled
   `paired_region` must occur in a declared paired region, and absent segments
   must not carry that label. Preserve genuinely unpaired random-primer, SMART,
   overhang, linker, or adapter regions. Explicit `reverse_complementary`
@@ -296,6 +317,10 @@ the tool if this contract is missed; on that continuation, call
   unknown pairing rather than changing source content; every discontinuity
   references adjacent segments. Do not change scientifically supported
   sequence, strand identity, or pairing merely to validate.
+  Represent a supported hairpin with one physical strand and state property
+  `hairpin` or `covalently_closed_dumbbell`. Keep a carried closed dumbbell and
+  its enzymatically opened product as separate states/transitions because the
+  opening changes strand architecture.
 - Assign each audited field one status: `verified_no_change`,
   `proposed_correction`, `missing_source_evidence`, `ambiguous`, or
   `external_knowledge_required`.
