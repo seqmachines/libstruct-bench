@@ -155,7 +155,7 @@
       "required": ["workflow_id", "modality", "states", "transitions", "initial_state_ids", "final_state_ids"],
       "properties": {
         "workflow_id": {"$ref": "#/$defs/stable_id"},
-        "modality": {"type": "string", "minLength": 1},
+        "modality": {"type": "string", "enum": ["gene expression", "genomic DNA", "feature barcode", "sgRNA", "chromatin accessibility"], "description": "Canonical assay modality."},
         "protocol_scope": {"$ref": "#/$defs/protocol_scope"},
         "states": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/state"}},
         "transitions": {"type": "array", "items": {"$ref": "#/$defs/transition"}},

@@ -69,7 +69,7 @@ def _fixture(tmp_path: Path) -> tuple[Path, Path, Path, Path]:
                 "protocol_name": "Example",
                 "libraries": [
                     {
-                        "modality": "test",
+                        "modality": "gene expression",
                         "library_sequence": "A",
                         "strand": "single",
                         "orientation": "5_to_3",

@@ -48,6 +48,10 @@ Keep candidates minimal: do not create a T1 `library_id`. T1 has one canonical
 modality, keep same-modality alternatives as branches, use graph topology
 rather than `workflow_branch`, and do not duplicate audit evidence.
 Use `protocol_scope` only when a version or variant is known.
+Use exactly one canonical modality for every T1 library and T3 workflow:
+`gene expression`, `genomic DNA`, `feature barcode`, `sgRNA`, or
+`chromatin accessibility`. Do not use abbreviations, snake case,
+protocol-specific phrases, or the generic value `library`.
 
 Use biological, orientation-free placeholders such as `[I5_INDEX:8]`,
 `[TN5_INDEX:8]`, and `[I7_INDEX:8]`; never encode orientation with `_RC`,

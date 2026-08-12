@@ -36,7 +36,10 @@ for biological inserts such as `[CDNA]`; its `segments` provide the detailed
 annotation. Do not duplicate that sequence in an `annotated_library_sequence`
 field. T3 stores modality on each workflow and contains exactly one workflow
 per T1 modality. Alternative routes for the same modality remain branches
-inside that workflow. Every T3 state records an
+inside that workflow. Store modality using exactly `gene expression`,
+`genomic DNA`, `feature barcode`, `sgRNA`, or `chromatin accessibility`;
+common abbreviations and alternate spellings remain prediction aliases only.
+Every T3 state records an
 explicit strand architecture, physical strands in their own 5′→3′ orientations,
 and the strand that corresponds to T1.
 

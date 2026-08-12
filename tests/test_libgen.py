@@ -479,6 +479,37 @@ def test_multimodal_workflows_score_independently_by_modality() -> None:
     assert metrics["t3_typed_edge_f1"] == pytest.approx(1.0)
 
 
+@pytest.mark.parametrize(
+    ("canonical", "alias"),
+    [
+        ("chromatin accessibility", "ATAC"),
+        ("chromatin accessibility", "scATAC"),
+        ("chromatin accessibility", "chromatin_accessibility"),
+        ("gene expression", "RNA"),
+        ("gene expression", "scRNA-seq"),
+        ("gene expression", "single_cell_rna_seq"),
+        ("genomic DNA", "gDNA"),
+        ("genomic DNA", "gdna"),
+        ("feature barcode", "feature_barcode"),
+        ("sgRNA", "sgrna"),
+    ],
+)
+def test_prediction_alias_matches_canonical_modality(
+    canonical: str, alias: str
+) -> None:
+    truth = t3_groundtruth()
+    truth["workflows"][0]["modality"] = canonical
+    prediction = t3_prediction()
+    prediction["workflows"][0]["modality"] = alias
+
+    metrics, details = grade_libgen(
+        t2_prediction(), prediction, t2_groundtruth(), truth
+    )
+
+    assert metrics["t3_molecular_transition_f1"] == pytest.approx(1.0)
+    assert details["t3"]["modalities"][canonical]["predicted_modality"] == alias
+
+
 def test_modality_swapped_across_graphs_lowers_transition_score() -> None:
     truth = _multimodal_t3()
     prediction = copy.deepcopy(truth)

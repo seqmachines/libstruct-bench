@@ -41,7 +41,7 @@ def _t1(sequence: str = "AAA") -> dict:
         "protocol_scope": _scope(),
         "libraries": [
             {
-                "modality": "rna",
+                "modality": "gene expression",
                 "protocol_scope": _scope(),
                 "final_molecule": "DNA",
                 "library_sequence": sequence,
@@ -104,7 +104,7 @@ def _t3(sequence: str = "CCC") -> dict:
         "workflows": [
             {
                 "workflow_id": "workflow",
-                "modality": "rna",
+                "modality": "gene expression",
                 "protocol_scope": _scope(),
                 "states": [state("input", "input", "GGG"), state("final", "adapter", sequence)],
                 "transitions": [

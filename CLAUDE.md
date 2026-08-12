@@ -46,6 +46,10 @@ stores each physical strand separately in its own 5′→3′ direction, and nam
 the reference strand corresponding to T1. Primary-source deltas against a
 converted artifact remain patch-free until human decisions are compiled into
 its one final root patch.
+Use only `gene expression`, `genomic DNA`, `feature barcode`, `sgRNA`, or
+`chromatin accessibility` as approved T1/T3 modality values. Treat common
+abbreviations, capitalization variants, snake case, protocol-specific phrases,
+and `library` as input labels or prediction aliases only.
 The physical T3 terminal reference strand may match canonical T1 in the same
 orientation or as its token-aware reverse complement. Keep that T3 strand in
 its actual 5′→3′ direction; do not rewrite it solely to follow T1's display

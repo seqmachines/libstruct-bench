@@ -146,7 +146,7 @@ def _canonical_t1() -> dict:
         "protocol_name": "Example",
         "libraries": [
             {
-                "modality": "test",
+                "modality": "gene expression",
                 "library_sequence": "A",
                 "strand": "single",
                 "orientation": "5_to_3",
@@ -206,7 +206,7 @@ def _canonical_t3(sequence: str = "A") -> dict:
         "workflows": [
             {
                 "workflow_id": "workflow",
-                "modality": "test",
+                "modality": "gene expression",
                 "states": [
                     state("input", "input", "G"),
                     state("final", "adapter", sequence),
@@ -472,6 +472,25 @@ def test_strand_architecture_contract_reaches_comparison_worker() -> None:
         assert "reverse_complement" in text
         assert "paired" in text
         assert "5′→3′" in text
+
+
+def test_canonical_modality_vocabulary_reaches_audit_worker() -> None:
+    instruction_paths = [
+        REPO_ROOT / "docs" / "audit" / "benchmark-standardization-policy.md",
+        REPO_ROOT / "docs" / "audit" / "evidence-policy.md",
+        SKILL,
+        PROMPTS / "audit-comparison.md",
+    ]
+    for path in instruction_paths:
+        text = path.read_text(encoding="utf-8")
+        for modality in (
+            "gene expression",
+            "genomic DNA",
+            "feature barcode",
+            "sgRNA",
+            "chromatin accessibility",
+        ):
+            assert modality in text
 
 
 def test_comparison_worker_receives_deterministic_state_validator_contract() -> None:

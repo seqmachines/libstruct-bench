@@ -37,7 +37,7 @@ def t1_groundtruth() -> dict[str, Any]:
         "protocol_name": "Example protocol",
         "libraries": [
             {
-                "modality": "RNA",
+                "modality": "gene expression",
                 "library_sequence": "ACGT[UMI:4][CDNA]",
                 "strand": "single",
                 "orientation": "5_to_3",
@@ -98,6 +98,7 @@ def t3_prediction() -> dict[str, Any]:
 
 def t3_groundtruth() -> dict[str, Any]:
     result = copy.deepcopy(t3_prediction())
+    result["workflows"][0]["modality"] = "gene expression"
     result["protocol_name"] = "Example protocol"
     for workflow in result["workflows"]:
         for state in workflow["states"]:

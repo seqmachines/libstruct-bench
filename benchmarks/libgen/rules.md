@@ -18,6 +18,10 @@ chronological pass:
 T3 must contain exactly one workflow per modality. Put `modality` on each
 workflow, not at the document root. Keep alternative routes for the same
 modality as branches with multiple final states in that one workflow.
+Prefer one canonical modality: `gene expression`, `genomic DNA`,
+`feature barcode`, `sgRNA`, or `chromatin accessibility`. Common prediction
+aliases such as `RNA`, `scRNA-seq`, `gDNA`, `feature_barcode`, `ATAC`,
+`scATAC`, and `chromatin_accessibility` are normalized for matching.
 
 For PDFs, prefer native text, layout-sorted text blocks, and table cells. Use
 Docling with OCR disabled, PyMuPDF, and pypdf as complementary parsers. Render

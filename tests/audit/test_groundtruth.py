@@ -28,7 +28,7 @@ def _documents() -> dict[str, dict]:
         "protocol_scope": _scope(),
         "libraries": [
             {
-                "modality": "rna",
+                "modality": "gene expression",
                 "protocol_scope": _scope(),
                 "final_molecule": "DNA",
                 "library_sequence": "AAA",
@@ -83,7 +83,7 @@ def _documents() -> dict[str, dict]:
         "workflows": [
             {
                 "workflow_id": "workflow",
-                "modality": "rna",
+                "modality": "gene expression",
                 "protocol_scope": _scope(),
                 "states": [
                     {
@@ -398,6 +398,66 @@ def test_t3_modality_is_required_on_each_workflow() -> None:
             protocol_id="example_protocol",
             schema_dir=SCHEMAS,
         )
+
+
+@pytest.mark.parametrize(
+    "alias",
+    [
+        "ATAC",
+        "scATAC",
+        "chromatin_accessibility",
+        "RNA",
+        "scRNA-seq",
+        "single_cell_rna_seq",
+        "gDNA",
+        "gdna",
+        "feature_barcode",
+        "sgrna",
+        "library",
+    ],
+)
+@pytest.mark.parametrize("task", ["T1", "T3"])
+def test_groundtruth_requires_canonical_modality(
+    task: str, alias: str
+) -> None:
+    documents = _documents()
+    if task == "T1":
+        documents[task]["libraries"][0]["modality"] = alias
+    else:
+        documents[task]["workflows"][0]["modality"] = alias
+
+    with pytest.raises(GroundtruthValidationError, match="canonical modality"):
+        validate_task_document(
+            task,
+            documents[task],
+            protocol_id="example_protocol",
+            schema_dir=SCHEMAS,
+        )
+
+
+@pytest.mark.parametrize(
+    "modality",
+    [
+        "chromatin accessibility",
+        "feature barcode",
+        "gene expression",
+        "genomic DNA",
+        "sgRNA",
+    ],
+)
+def test_canonical_modalities_validate_and_link(modality: str) -> None:
+    documents = _documents()
+    documents["T1"]["libraries"][0]["modality"] = modality
+    documents["T3"]["workflows"][0]["modality"] = modality
+
+    for task in ("T1", "T3"):
+        validate_task_document(
+            task,
+            documents[task],
+            protocol_id="example_protocol",
+            schema_dir=SCHEMAS,
+        )
+    validate_cross_task_links(documents)
 
 
 def test_t3_rejects_multiple_workflows_for_one_modality() -> None:

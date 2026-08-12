@@ -69,7 +69,7 @@
       "additionalProperties": false,
       "required": ["modality", "library_sequence", "strand", "orientation", "support_status", "segments"],
       "properties": {
-        "modality": {"type": "string", "minLength": 1},
+        "modality": {"type": "string", "enum": ["gene expression", "genomic DNA", "feature barcode", "sgRNA", "chromatin accessibility"], "description": "Canonical assay modality."},
         "protocol_scope": {"$ref": "#/$defs/protocol_scope"},
         "final_molecule": {"type": ["string", "null"], "minLength": 1},
         "library_sequence": {

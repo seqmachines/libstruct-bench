@@ -4,6 +4,7 @@ import re
 from collections import Counter
 from typing import Any, Callable, Iterable, Mapping
 
+from libstruct_bench.modalities import modality_key
 from libstruct_bench.matching import best_one_to_one_matching, edit_similarity
 from libstruct_bench.normalization import normalize_sequence, sequence_tokens
 from libstruct_bench.libgen.validation import derive_required_t2_ids
@@ -588,7 +589,7 @@ def score_t3(
     }
     details = {
         "modalities": modality_details,
-        "workflow_matching_policy": "exact normalized modality; one workflow per modality",
+        "workflow_matching_policy": "canonicalized modality aliases; one workflow per modality",
         "oligo_use_policy": "resolve transition-local T2 IDs to nucleotide sequence signatures and compare multisets directly",
         "weights": {
             "state": STATE_WEIGHTS,
@@ -1136,7 +1137,7 @@ def _workflows_by_modality(
     document: Mapping[str, Any],
 ) -> dict[str, dict[str, Any]]:
     return {
-        _normalize_text(workflow["modality"]): workflow
+        modality_key(workflow["modality"]): workflow
         for workflow in document.get("workflows", [])
     }
 

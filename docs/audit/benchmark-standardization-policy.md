@@ -60,6 +60,17 @@ source-visible alternate name remains an alias. Sequence equality alone does
 not establish identity; role, orientation, modifications, and human review are
 also required.
 
+## Modalities
+
+Approved T1 libraries and T3 workflows use exactly one of these human-readable
+modality labels: `gene expression`, `genomic DNA`, `feature barcode`, `sgRNA`,
+or `chromatin accessibility`. Do not store abbreviations, capitalization
+variants, snake case, protocol names, or the generic value `library` as a
+modality. Benchmark predictions normalize common aliases—such as `RNA`,
+`scRNA-seq`, `gDNA`, `feature_barcode`, `ATAC`, `scATAC`, and
+`chromatin_accessibility`—to this vocabulary for workflow matching. This
+label normalization is not a scientific distinction.
+
 ## Evaluator assignment
 
 For T1, use a global optimal one-to-one sequence assignment; cleaned T1 does
@@ -81,7 +92,8 @@ duplicate prediction reduces precision. Never use order-dependent greedy
 matching.
 
 For T3, require exactly one workflow per modality and match workflows by
-normalized modality. Preserve alternative routes for one modality as branches
+canonicalized modality, including the reviewed aliases above. Preserve
+alternative routes for one modality as branches
 inside that workflow. The primary score is molecular-transition soft F1 using
 operation, semantically matched substrate and product states,
 carried/discarded classification, and transition-local T2 sequence multisets.

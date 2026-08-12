@@ -5,6 +5,12 @@ from pathlib import Path
 import re
 from typing import Any, Mapping
 
+from libstruct_bench.modalities import (
+    CANONICAL_MODALITIES,
+    canonical_modality_label,
+    modality_key,
+)
+
 from .artifacts import AuditArtifactError, validate_document
 
 
@@ -44,6 +50,7 @@ def validate_task_document(
         raise GroundtruthValidationError(
             f"{task} protocol_id does not match {protocol_id!r}"
         )
+    _validate_canonical_modality_labels(task, document)
     try:
         validate_document(
             document,
@@ -386,7 +393,35 @@ def _scope_key(scope: dict[str, Any]) -> tuple[str | None, tuple[str, ...]]:
 
 
 def _modality_key(value: str) -> str:
-    return " ".join(value.strip().casefold().split())
+    return modality_key(value)
+
+
+def _validate_canonical_modality_labels(
+    task: str, document: Mapping[str, Any]
+) -> None:
+    if task == "T1":
+        records = document.get("libraries", [])
+        label = "T1 library"
+    elif task == "T3":
+        records = document.get("workflows", [])
+        label = "T3 workflow"
+    else:
+        return
+    if not isinstance(records, list):
+        return
+    for index, record in enumerate(records):
+        value = record.get("modality")
+        if isinstance(value, str) and value not in CANONICAL_MODALITIES:
+            canonical = canonical_modality_label(value)
+            expectation = (
+                repr(canonical)
+                if canonical in CANONICAL_MODALITIES
+                else "one of " + ", ".join(repr(item) for item in sorted(CANONICAL_MODALITIES))
+            )
+            raise GroundtruthValidationError(
+                f"{label} at index {index} must use canonical modality "
+                f"{expectation}, not {value!r}"
+            )
 
 
 def _preflight_cross_task_shape(

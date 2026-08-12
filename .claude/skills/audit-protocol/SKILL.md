@@ -289,6 +289,11 @@ the tool if this contract is missed; on that continuation, call
   Classify the absent T3 JSON as a migration/schema omission, not an original
   human-curation error. An HTML reference to a missing asset does not establish
   the unseen asset's contents.
+- Store every T1 library and T3 workflow with exactly one canonical modality:
+  `gene expression`, `genomic DNA`, `feature barcode`, `sgRNA`, or
+  `chromatin accessibility`. Source-visible abbreviations, snake case,
+  protocol-specific phrases, and `library` are labels or aliases, not approved
+  modality values.
 - Reference only T2 oligos actually used during library generation. Sequencing
   primers may remain valid T2 records without being referenced from T3.
 - States are meaningful carried-forward products, not transient complexes. For

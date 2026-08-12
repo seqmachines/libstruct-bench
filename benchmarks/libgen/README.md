@@ -52,7 +52,9 @@ Overall reward is `0.30 * T2 + 0.70 * T3`.
   exact predictions of optional T2 records. Unknown and duplicate extras reduce
   precision. The primary metric is `t2_required_sequence_f1`.
 - T3 contains one workflow per modality and is scored within matched
-  modalities. Its primary metric, `t3_molecular_transition_f1`, globally
+  modalities. Common aliases map to the canonical `gene expression`, `genomic
+  DNA`, `feature barcode`, `sgRNA`, or `chromatin accessibility` vocabulary.
+  Its primary metric, `t3_molecular_transition_f1`, globally
   matches transitions using operation, matched substrate/product states,
   carried/discarded classification, and transition-local T2 sequence
   multisets. Major reagent names are diagnostic. `t3_typed_edge_f1` directly
