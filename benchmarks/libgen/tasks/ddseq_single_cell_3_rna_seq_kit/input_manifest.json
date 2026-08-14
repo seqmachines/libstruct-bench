@@ -1,0 +1,10 @@
+{
+  "protocol_id": "ddseq_single_cell_3_rna_seq_kit",
+  "sources": [
+    {
+      "local_path": "ddSEQ_3pRNA.pdf",
+      "path": "ddseq_single_cell_3_rna_seq_kit/ddSEQ_3pRNA.pdf",
+      "sha256": "35a78f75c3baf198214338b3ede9741e186ae45bcf792d756b976a0e88512c0a"
+    }
+  ]
+}

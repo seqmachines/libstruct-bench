@@ -1,0 +1,20 @@
+{
+  "protocol_id": "microwell_seq",
+  "sources": [
+    {
+      "local_path": "Microwell-seq.pdf",
+      "path": "microwell_seq/Microwell-seq.pdf",
+      "sha256": "64b440bc37f6cb00700a6ada5258d3fff0a64ea790e04478d895105a9714a38e"
+    },
+    {
+      "local_path": "Microwell-seq_supp1.xlsx",
+      "path": "microwell_seq/Microwell-seq_supp1.xlsx",
+      "sha256": "df348ae5348eb00b30211b7cafa3301db6604bbda8db5a2490360c81e5cc1d88"
+    },
+    {
+      "local_path": "Microwell-seq_supp2.xlsx",
+      "path": "microwell_seq/Microwell-seq_supp2.xlsx",
+      "sha256": "185aa52c602b216cb015ed1056bd52a7e877d00dacbbdce0ca8d904b5371b5b7"
+    }
+  ]
+}

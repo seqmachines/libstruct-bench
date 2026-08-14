@@ -1,0 +1,15 @@
+{
+  "protocol_id": "scrrbs",
+  "sources": [
+    {
+      "local_path": "paper.pdf",
+      "path": "scrrbs/paper.pdf",
+      "sha256": "4d31ab24e81f0f3f5f7547a6cf030bbb8ee19532b191da79604fa151be5a4651"
+    },
+    {
+      "local_path": "scRRBS.pdf",
+      "path": "scrrbs/scRRBS.pdf",
+      "sha256": "c3521a628635553e2de9169214b731a676bae6dcf9f11467d5014aad8fbcbc30"
+    }
+  ]
+}

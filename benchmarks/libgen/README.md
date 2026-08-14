@@ -131,6 +131,26 @@ PYTHONPATH=src python -m libstruct_bench.cli.generate_libgen_tasks \
   --out benchmarks/libgen/tasks
 ```
 
+The default `allowlist` network profile is intended for providers such as E2B
+that support phase-level network-policy switching. For a local Docker Desktop
+run, generate Docker-compatible tasks instead:
+
+```bash
+PYTHONPATH=src python -m libstruct_bench.cli.generate_libgen_tasks \
+  --source-root /tmp/libgen-hf-export/protocol_sources \
+  --groundtruth-root /tmp/libgen-hf-export/groundtruth \
+  --input-repo ORG/PROTOCOL_SOURCES \
+  --input-revision INPUT_COMMIT_SHA \
+  --groundtruth-repo ORG/PRIVATE_GROUNDTRUTH \
+  --groundtruth-revision GROUNDTRUTH_COMMIT_SHA \
+  --network-profile local-docker \
+  --out benchmarks/libgen/tasks
+```
+
+The local profile uses public network baselines because plain Docker cannot
+enforce dynamic allowlists. It still uses a separate verifier container, and
+the private `HF_TOKEN` remains confined to that verifier.
+
 The generated environment includes Docling, PyMuPDF, pypdf, OpenPyXL, Pillow,
 `antiword`, `file`, `unzip`, and `rg`. Source bytes are downloaded and
 hash-checked during image construction.

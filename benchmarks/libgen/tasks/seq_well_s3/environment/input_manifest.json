@@ -1,0 +1,20 @@
+{
+  "protocol_id": "seq_well_s3",
+  "sources": [
+    {
+      "local_path": "SeqWell_S3_paper.pdf",
+      "path": "seq_well_s3/SeqWell_S3_paper.pdf",
+      "sha256": "b634dc0f285332de12725f34dba11715720cacf31d84982d8f52a9a01d07f2a7"
+    },
+    {
+      "local_path": "SeqWell_S3_supp.pdf",
+      "path": "seq_well_s3/SeqWell_S3_supp.pdf",
+      "sha256": "0de4dfbdf46f494f68387b80bd122e3614006039257340a94dba75718a870635"
+    },
+    {
+      "local_path": "supplementary_mmc1.pdf",
+      "path": "seq_well_s3/supplementary_mmc1.pdf",
+      "sha256": "0d64ab07db193fdb84289d86a58a558d987a8d53e30a79d3180957b56c430d08"
+    }
+  ]
+}

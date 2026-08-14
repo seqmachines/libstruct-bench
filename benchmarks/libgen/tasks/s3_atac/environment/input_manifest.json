@@ -1,0 +1,20 @@
+{
+  "protocol_id": "s3_atac",
+  "sources": [
+    {
+      "local_path": "s3-ATAC.pdf",
+      "path": "s3_atac/s3-ATAC.pdf",
+      "sha256": "1234d1e43ed42f74d771a141c3731585b39251f3ffc4614413ab3d0672d164ab"
+    },
+    {
+      "local_path": "s3-ATAC.xlsx",
+      "path": "s3_atac/s3-ATAC.xlsx",
+      "sha256": "3b59fe6bd20c2bd1d123c830fcd8507112b2df34633519685a61c75a9ec0ae89"
+    },
+    {
+      "local_path": "supplementary_NIHMS1707134-supplement-Supplementary_Information.pdf",
+      "path": "s3_atac/supplementary_NIHMS1707134-supplement-Supplementary_Information.pdf",
+      "sha256": "dd2af9d0611f13f7710a171abbaaa977a880c80608c98c8d95514089ce454064"
+    }
+  ]
+}

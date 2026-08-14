@@ -1,0 +1,20 @@
+{
+  "protocol_id": "share_seq",
+  "sources": [
+    {
+      "local_path": "SHARE-seq.pdf",
+      "path": "share_seq/SHARE-seq.pdf",
+      "sha256": "be7253756f1f3567daa7270433b1ce00306b42da7560978682bc5ea4349b5083"
+    },
+    {
+      "local_path": "SHARE-seq.xlsx",
+      "path": "share_seq/SHARE-seq.xlsx",
+      "sha256": "f3b0ce8e4612f651c26292a4cf0ce1fbfbde5931eee25af05d2b8751b3a4ff71"
+    },
+    {
+      "local_path": "SHARE-seq_workflow_supplement.pdf",
+      "path": "share_seq/SHARE-seq_workflow_supplement.pdf",
+      "sha256": "15fac55d0920a31453bad8354d511581d5f12dff2c7992efbc93baa1b815afbe"
+    }
+  ]
+}

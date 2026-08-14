@@ -1,0 +1,25 @@
+{
+  "protocol_id": "10x_chromium_single_cell_atac_v2",
+  "sources": [
+    {
+      "local_path": "10xChromium_scATACv2.pdf",
+      "path": "10x_chromium_single_cell_atac_v2/10xChromium_scATACv2.pdf",
+      "sha256": "bd4f79e69dc1768e0eb1ba0dc202d87a0998b64a4e51eae5665ea8704b002579"
+    },
+    {
+      "local_path": "10x_scATAC_barcode_table.xlsx",
+      "path": "10x_chromium_single_cell_atac_v2/10x_scATAC_barcode_table.xlsx",
+      "sha256": "68b9e997ef35d9cd1a56d9b8f2390802a81ecdede3865125eaf687370d7a2289"
+    },
+    {
+      "local_path": "10x_scATAC_foundational_paper.pdf",
+      "path": "10x_chromium_single_cell_atac_v2/10x_scATAC_foundational_paper.pdf",
+      "sha256": "d8d1486de10fdecbc720a267bb4fb54e3818677380d1873491333f3311c5052f"
+    },
+    {
+      "local_path": "10x_scATAC_foundational_supplement.pdf",
+      "path": "10x_chromium_single_cell_atac_v2/10x_scATAC_foundational_supplement.pdf",
+      "sha256": "8ecc3a81de7feda3cf1917aa9bb802dd89de400b46daf1e98e651c40ed7e5823"
+    }
+  ]
+}

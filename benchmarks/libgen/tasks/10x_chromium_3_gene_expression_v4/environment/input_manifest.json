@@ -1,0 +1,20 @@
+{
+  "protocol_id": "10x_chromium_3_gene_expression_v4",
+  "sources": [
+    {
+      "local_path": "10xChromium3v4.pdf",
+      "path": "10x_chromium_3_gene_expression_v4/10xChromium3v4.pdf",
+      "sha256": "6661eb5da6e604436675db567467f859d22f3d901afdb45f13b03a65f42589fb"
+    },
+    {
+      "local_path": "Chromium_3p_foundational_paper.pdf",
+      "path": "10x_chromium_3_gene_expression_v4/Chromium_3p_foundational_paper.pdf",
+      "sha256": "3fd14d3c9fde8f8a16d938ebfe405920c16feeccc780561dc2d0a504f01baab4"
+    },
+    {
+      "local_path": "Chromium_3p_foundational_supplement.pdf",
+      "path": "10x_chromium_3_gene_expression_v4/Chromium_3p_foundational_supplement.pdf",
+      "sha256": "700d938ef92c836f2499b5b40135b7fa172328c7871f273e43120a409535b06b"
+    }
+  ]
+}

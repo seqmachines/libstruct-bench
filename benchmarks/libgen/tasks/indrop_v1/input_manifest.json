@@ -1,0 +1,15 @@
+{
+  "protocol_id": "indrop_v1",
+  "sources": [
+    {
+      "local_path": "inDrop_original_paper.pdf",
+      "path": "indrop_v1/inDrop_original_paper.pdf",
+      "sha256": "7d733db669f43d6787261ef494200d0d3099c0c12c428d75793e29b4db05c81b"
+    },
+    {
+      "local_path": "inDrop_v1_supp.pdf",
+      "path": "indrop_v1/inDrop_v1_supp.pdf",
+      "sha256": "8f9c9a3c42a2a608fa809bb2cdbf9ef04a4217fb891892345f3bc3ae1728dda8"
+    }
+  ]
+}

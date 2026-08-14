@@ -1,0 +1,213 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/analysis/libgen_error_analysis.schema.json",
+  "title": "Libgen benchmark error analysis",
+  "description": "Post-run output observations plus human trajectory review. A prediction disagreement is not attributed to the agent until benchmark validity and attribution are adjudicated.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trial_id",
+    "protocol_id",
+    "run_outcome",
+    "artifact_inventory",
+    "observations",
+    "process_review",
+    "review_status"
+  ],
+  "properties": {
+    "schema_version": {"const": "libstruct.libgen_error_analysis.v1"},
+    "trial_id": {"$ref": "#/$defs/nonempty_string"},
+    "protocol_id": {"$ref": "#/$defs/nonempty_string"},
+    "model": {"type": ["string", "null"], "minLength": 1},
+    "harness": {"type": ["string", "null"], "minLength": 1},
+    "attempt": {"type": ["integer", "null"], "minimum": 1},
+    "run_outcome": {
+      "type": "string",
+      "enum": [
+        "valid_prediction",
+        "invalid_prediction",
+        "infrastructure_failure",
+        "verifier_failure",
+        "unknown"
+      ]
+    },
+    "artifact_inventory": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/artifact"}
+    },
+    "observations": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/observation"}
+    },
+    "process_review": {"$ref": "#/$defs/process_review"},
+    "review_status": {
+      "type": "string",
+      "enum": ["not_required", "pending", "complete"]
+    },
+    "notes": {"type": ["string", "null"]}
+  },
+  "$defs": {
+    "nonempty_string": {"type": "string", "minLength": 1},
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["role", "path", "sha256", "size_bytes"],
+      "properties": {
+        "role": {
+          "type": "string",
+          "enum": [
+            "result",
+            "t2_prediction",
+            "t3_prediction",
+            "verifier_reward",
+            "verifier_details",
+            "verifier_error",
+            "verifier_diagnostic",
+            "agent_trajectory",
+            "agent_log",
+            "artifact_manifest",
+            "trial_artifact",
+            "trial_config",
+            "trial_lock",
+            "trial_log"
+          ]
+        },
+        "path": {"$ref": "#/$defs/nonempty_string"},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "size_bytes": {"type": "integer", "minimum": 0}
+      }
+    },
+    "observation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "error_id",
+        "task",
+        "category",
+        "location",
+        "summary",
+        "signals",
+        "claim_recoverability",
+        "benchmark_validity",
+        "attribution",
+        "detected_by",
+        "substantive",
+        "adjudication_status",
+        "adjudication_notes"
+      ],
+      "properties": {
+        "error_id": {"type": "string", "pattern": "^err_[0-9]{4}$"},
+        "task": {
+          "type": "string",
+          "enum": ["T2", "T3", "cross_task"]
+        },
+        "category": {
+          "type": "string",
+          "enum": [
+            "missing_recoverable_information",
+            "unsupported_completion",
+            "wrong_target_or_modality",
+            "strand_or_orientation_error",
+            "molecular_assembly_or_topology_error",
+            "representation_or_schema_error",
+            "infrastructure_failure"
+          ]
+        },
+        "location": {"$ref": "#/$defs/nonempty_string"},
+        "summary": {"$ref": "#/$defs/nonempty_string"},
+        "signals": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/nonempty_string"}
+        },
+        "claim_recoverability": {
+          "type": "string",
+          "enum": ["recoverable", "neutral", "not_applicable", "unresolved"]
+        },
+        "benchmark_validity": {
+          "type": "string",
+          "enum": [
+            "valid",
+            "source_scope_mismatch",
+            "ground_truth_defect",
+            "policy_ambiguity",
+            "source_conflict",
+            "evaluator_defect",
+            "unresolved"
+          ]
+        },
+        "attribution": {
+          "type": "string",
+          "enum": ["agent", "benchmark", "mixed", "infrastructure", "unresolved"]
+        },
+        "detected_by": {
+          "type": "string",
+          "enum": ["deterministic_comparison", "manual_review"]
+        },
+        "substantive": {"type": "boolean"},
+        "adjudication_status": {
+          "type": "string",
+          "enum": ["pending", "complete"]
+        },
+        "adjudication_notes": {"type": ["string", "null"]},
+        "adjudicated_by": {"type": ["string", "null"], "minLength": 1},
+        "adjudicated_at": {"type": ["string", "null"], "format": "date-time"}
+      }
+    },
+    "process_review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "review_status",
+        "categories",
+        "successful_self_correction",
+        "evidence",
+        "notes",
+        "reviewed_by",
+        "reviewed_at"
+      ],
+      "properties": {
+        "review_status": {
+          "type": "string",
+          "enum": ["not_reviewed", "reviewed"]
+        },
+        "categories": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "enum": [
+              "evidence_not_retrieved",
+              "extraction_failure",
+              "evidence_retrieved_but_misinterpreted",
+              "molecular_or_strand_reasoning_error",
+              "graph_abstraction_error",
+              "context_or_time_limitation",
+              "output_bookkeeping_error"
+            ]
+          }
+        },
+        "successful_self_correction": {
+          "type": "string",
+          "enum": ["not_reviewed", "observed", "not_observed", "unclear"]
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["artifact_path", "locator", "summary"],
+            "properties": {
+              "artifact_path": {"$ref": "#/$defs/nonempty_string"},
+              "locator": {"$ref": "#/$defs/nonempty_string"},
+              "summary": {"$ref": "#/$defs/nonempty_string"}
+            }
+          }
+        },
+        "notes": {"type": ["string", "null"]},
+        "reviewed_by": {"type": ["string", "null"], "minLength": 1},
+        "reviewed_at": {"type": ["string", "null"], "format": "date-time"}
+      }
+    }
+  }
+}

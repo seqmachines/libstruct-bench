@@ -1,0 +1,20 @@
+{
+  "protocol_id": "pip_seq_v4",
+  "sources": [
+    {
+      "local_path": "PIP-seq_oligo_table.xlsx",
+      "path": "pip_seq_v4/PIP-seq_oligo_table.xlsx",
+      "sha256": "7a338bc093b8ba415407c4bdad5cd159f5c1bdc384dc4982934a6fcec4456e0a"
+    },
+    {
+      "local_path": "PIP-seq_original_paper.pdf",
+      "path": "pip_seq_v4/PIP-seq_original_paper.pdf",
+      "sha256": "3de78ffa0bbeece92a70bd6555a8a921f22b8ea772e1d8bac3559952108e4a12"
+    },
+    {
+      "local_path": "PIP-seqv4.pdf",
+      "path": "pip_seq_v4/PIP-seqv4.pdf",
+      "sha256": "9299bdb6ea132d575413e55d0203a094ccfe7cb7942a2d85136bae1994874bb6"
+    }
+  ]
+}

@@ -1,0 +1,113 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/benchmark/oligo_prediction.schema.json",
+  "title": "Oligo prediction",
+  "description": "Agent-visible T2 prediction contract. Audit-only evidence, support, lineage, and review fields are deliberately excluded.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["protocol_id", "oligos"],
+  "properties": {
+    "protocol_id": {"$ref": "#/$defs/stable_id"},
+    "oligos": {"type": "array", "items": {"$ref": "#/$defs/oligo"}}
+  },
+  "$defs": {
+    "stable_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 240,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+    },
+    "placeholder": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^\\[(?![A-Z0-9_]*(?:_RC|_REVCOMP|_REVERSE_COMPLEMENT|_FWD|_FORWARD|_REV|_REVERSE)(?::[1-9][0-9]*)?\\]$)[A-Z][A-Z0-9]*(?:_[A-Z0-9]+)*(?::[1-9][0-9]*)?\\]$"
+    },
+    "component": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "role", "orientation", "modifications"],
+      "properties": {
+        "name": {"type": "string", "minLength": 1},
+        "role": {"type": "string", "minLength": 1},
+        "sequence": {"type": ["string", "null"], "minLength": 1},
+        "length": {"type": ["integer", "null"], "minimum": 0},
+        "placeholder": {
+          "oneOf": [
+            {"$ref": "#/$defs/placeholder"},
+            {"type": "null"}
+          ]
+        },
+        "orientation": {
+          "type": "string",
+          "enum": ["5_to_3", "3_to_5", "unknown"]
+        },
+        "modifications": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1}
+        }
+      },
+      "anyOf": [
+        {
+          "required": ["sequence"],
+          "properties": {"sequence": {"type": "string", "minLength": 1}}
+        },
+        {
+          "required": ["length"],
+          "properties": {"length": {"type": "integer", "minimum": 0}}
+        },
+        {
+          "required": ["placeholder"],
+          "properties": {"placeholder": {"type": "string", "minLength": 1}}
+        }
+      ]
+    },
+    "oligo": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "oligo_id",
+        "name",
+        "aliases",
+        "role",
+        "kind",
+        "orientation",
+        "components",
+        "modifications"
+      ],
+      "properties": {
+        "oligo_id": {"$ref": "#/$defs/stable_id"},
+        "name": {"type": "string", "minLength": 1},
+        "aliases": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "role": {"type": "string", "minLength": 1},
+        "kind": {
+          "type": "string",
+          "enum": ["single", "assembled", "double_stranded", "hairpin", "unknown"]
+        },
+        "sequence": {"type": ["string", "null"], "minLength": 1},
+        "orientation": {
+          "type": "string",
+          "enum": ["5_to_3", "3_to_5", "unknown"]
+        },
+        "components": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/component"}
+        },
+        "modifications": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1}
+        }
+      },
+      "anyOf": [
+        {
+          "required": ["sequence"],
+          "properties": {"sequence": {"type": "string", "minLength": 1}}
+        },
+        {"properties": {"components": {"minItems": 1}}}
+      ]
+    }
+  }
+}

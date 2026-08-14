@@ -1,0 +1,15 @@
+{
+  "protocol_id": "dr_seq",
+  "sources": [
+    {
+      "local_path": "DR-seq.pdf",
+      "path": "dr_seq/DR-seq.pdf",
+      "sha256": "c6cbc1210a713990c7b6d421ebd768a49ec7a9e7469a6bc9b99248d26bc817b8"
+    },
+    {
+      "local_path": "supplementary_NIHMS61543-supplement-1.pdf",
+      "path": "dr_seq/supplementary_NIHMS61543-supplement-1.pdf",
+      "sha256": "2407cf96e68c81d330dbae2a95e9b9acbfb3a0a8ba5a463f2633815a229afe01"
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+schema_version = "1.3"
+
+[task]
+name = "sequencing/libgen-indrop_v1"
+description = "Reconstruct linked oligos and molecular library generation for inDrop v1."
+authors = [{ name = "Seq Machines" }]
+keywords = ["genomics", "oligo", "molecular-workflow", "protocol-understanding"]
+
+[metadata]
+benchmark = "libgen"
+protocol_id = "indrop_v1"
+protocol_name = "inDrop v1"
+input_repo = "sequencing/scg-protocols-v1"
+input_revision = "19c29caabcb019a72d08fed59ed8030a2d3c449d"
+groundtruth_repo = "sequencing/scg-oligo-groundtruth-v1"
+groundtruth_revision = "ecd12f41611ed64e3bff53d715b111e0f0ee9a10"
+network_profile = "local-docker"
+source_manifest_sha256 = "37e49c026c9cebb8a77c6f46d7ec526de4a8ead11c9b3841db1a4bc56895ad32"
+groundtruth_bundle_sha256 = "9bbc53eca58af25772a6ea258b7c654cae7ef263fa3768e3173af8cf218d1d9b"
+
+[agent]
+timeout_sec = 1800.0
+
+[agent.env]
+LIBGEN_PROTOCOL_ID = "indrop_v1"
+
+[verifier]
+timeout_sec = 600.0
+environment_mode = "separate"
+
+[environment]
+network_mode = "public"
+build_timeout_sec = 1800.0
+cpus = 4
+memory_mb = 8192
+storage_mb = 16384
+
+[verifier.environment]
+network_mode = "public"
+cpus = 1
+memory_mb = 2048
+storage_mb = 4096
+
+[verifier.environment.env]
+HF_TOKEN = "${HF_TOKEN}"

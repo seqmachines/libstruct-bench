@@ -1,0 +1,25 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "$id": "https://seqmachines.org/schemas/libstruct/regression_results.schema.json",
+ "title": "Accepted correction regression results",
+ "type": "object",
+ "additionalProperties": false,
+ "required": ["created_at", "fixture_count", "passed_count", "failed_count", "new_regressions", "results"],
+ "properties": {
+ "created_at": {"type": "string", "format": "date-time"},
+ "fixture_count": {"type": "integer", "minimum": 0},
+ "passed_count": {"type": "integer", "minimum": 0},
+ "failed_count": {"type": "integer", "minimum": 0},
+ "new_regressions": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/stable_id"}},
+ "results": {"type": "array", "items": {"$ref": "#/$defs/result"}}
+ },
+ "$defs": {
+ "stable_id": {"type": "string", "minLength": 1, "maxLength": 240, "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"},
+ "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+ "result": {
+ "type": "object", "additionalProperties": false,
+ "required": ["issue_id", "artifact_source_id", "status", "expected_sha256", "actual_sha256"],
+ "properties": {"issue_id": {"$ref": "#/$defs/stable_id"}, "artifact_source_id": {"$ref": "#/$defs/stable_id"}, "status": {"type": "string", "enum": ["passed", "failed"]}, "expected_sha256": {"$ref": "#/$defs/sha256"}, "actual_sha256": {"oneOf": [{"$ref": "#/$defs/sha256"}, {"type": "null"}]}, "error": {"type": ["string", "null"]}}
+ }
+ }
+}

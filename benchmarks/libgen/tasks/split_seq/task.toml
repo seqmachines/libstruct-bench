@@ -1,0 +1,45 @@
+schema_version = "1.3"
+
+[task]
+name = "sequencing/libgen-split_seq"
+description = "Reconstruct linked oligos and molecular library generation for SPLiT-seq."
+authors = [{ name = "Seq Machines" }]
+keywords = ["genomics", "oligo", "molecular-workflow", "protocol-understanding"]
+
+[metadata]
+benchmark = "libgen"
+protocol_id = "split_seq"
+protocol_name = "SPLiT-seq"
+input_repo = "sequencing/scg-protocols-v1"
+input_revision = "19c29caabcb019a72d08fed59ed8030a2d3c449d"
+groundtruth_repo = "sequencing/scg-oligo-groundtruth-v1"
+groundtruth_revision = "ecd12f41611ed64e3bff53d715b111e0f0ee9a10"
+network_profile = "local-docker"
+source_manifest_sha256 = "481bc4d1499307e2680c3654ee1b3d9ee8104863817acb1b375db099bfaed488"
+groundtruth_bundle_sha256 = "eddcc65aade89844ce1eab9e2e38b67e8765e0ffa470944ba2f825cb4a66a7ff"
+
+[agent]
+timeout_sec = 1800.0
+
+[agent.env]
+LIBGEN_PROTOCOL_ID = "split_seq"
+
+[verifier]
+timeout_sec = 600.0
+environment_mode = "separate"
+
+[environment]
+network_mode = "public"
+build_timeout_sec = 1800.0
+cpus = 4
+memory_mb = 8192
+storage_mb = 16384
+
+[verifier.environment]
+network_mode = "public"
+cpus = 1
+memory_mb = 2048
+storage_mb = 4096
+
+[verifier.environment.env]
+HF_TOKEN = "${HF_TOKEN}"

@@ -1,0 +1,15 @@
+{
+  "protocol_id": "smart_seq",
+  "sources": [
+    {
+      "local_path": "SMART-seq.pdf",
+      "path": "smart_seq/SMART-seq.pdf",
+      "sha256": "48a390025bcb3786a8f0b975e352ed4aa881d5b9924c375d58b9ffa6c242ac34"
+    },
+    {
+      "local_path": "supplementary_NIHMS379463-supplement-1.pdf",
+      "path": "smart_seq/supplementary_NIHMS379463-supplement-1.pdf",
+      "sha256": "3e0e8ae7a9081025219d6e771687ffd106630301a4731edde95f6c9d9867cf4f"
+    }
+  ]
+}

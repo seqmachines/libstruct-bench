@@ -1,0 +1,20 @@
+{
+  "protocol_id": "drop_seq",
+  "sources": [
+    {
+      "local_path": "Drop-seq_author_protocol_v1.1.pdf",
+      "path": "drop_seq/Drop-seq_author_protocol_v1.1.pdf",
+      "sha256": "0e662a35307956437f2414ffbbe1681f6fcd9f0c6403e4a7f148215e417b1b93"
+    },
+    {
+      "local_path": "drop-seq_paper.pdf",
+      "path": "drop_seq/drop-seq_paper.pdf",
+      "sha256": "84179dc8bfce57a3195ebe5d53ed1257883d9e18111cef6a2dcd90dfadae92b7"
+    },
+    {
+      "local_path": "drop-seq_supp.pdf",
+      "path": "drop_seq/drop-seq_supp.pdf",
+      "sha256": "7b63216599c518dccd63c484cb6bc448fa181e8d9ddbdf0f2ac788b12296442d"
+    }
+  ]
+}

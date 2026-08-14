@@ -3,6 +3,7 @@ from __future__ import annotations
 import hashlib
 import json
 import tempfile
+import tomllib
 from pathlib import Path
 
 import pytest
@@ -89,19 +90,65 @@ def test_generator_builds_separate_allowlisted_task_without_truth_leakage() -> N
         dockerfile = (task / "environment/Dockerfile").read_text()
         instruction = (task / "instruction.md").read_text()
         manifest = (task / "input_manifest.json").read_text()
+        rules = (task / "rules.md").read_text()
         test_sh = (task / "tests/test.sh").read_text()
         assert 'network_mode = "allowlist"' in task_toml
+        assert 'network_profile = "allowlist"' in task_toml
         assert 'environment_mode = "separate"' in task_toml
         assert 'HF_TOKEN = "${HF_TOKEN}"' in task_toml
         assert "RUN python /workspace/fetch_input.py" in dockerfile
-        assert "t2_prediction.json" in task_toml
-        assert "t3_prediction.json" in task_toml
+        assert "artifacts =" not in task_toml
+        assert "/logs/artifacts/t2_prediction.json" in rules
+        assert "/logs/artifacts/t3_prediction.json" in rules
         assert "groundtruth" not in instruction.lower()
         assert "groundtruth" not in manifest.lower()
         assert "org/private-groundtruth" not in dockerfile
         assert "--groundtruth-repo \"org/private-groundtruth\"" in test_sh
         assert (task / "environment/schemas/benchmark/oligo_prediction.schema.json").is_file()
         assert (task / "tests/libstruct_bench/libgen/scoring.py").is_file()
+
+
+def test_generator_builds_local_docker_task_without_phase_network_overrides() -> None:
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        protocols, source_root, truth_root = _fixture_release(root)
+        out = root / "tasks"
+        assert (
+            main(
+                [
+                    "--protocols",
+                    str(protocols),
+                    "--out",
+                    str(out),
+                    "--source-root",
+                    str(source_root),
+                    "--groundtruth-root",
+                    str(truth_root),
+                    "--input-repo",
+                    "org/public-protocols",
+                    "--input-revision",
+                    "a" * 40,
+                    "--groundtruth-repo",
+                    "org/private-groundtruth",
+                    "--groundtruth-revision",
+                    "b" * 40,
+                    "--network-profile",
+                    "local-docker",
+                ]
+            )
+            == 0
+        )
+        task_config = tomllib.loads((out / "example_protocol/task.toml").read_text())
+        assert "artifacts" not in task_config
+        assert task_config["metadata"]["network_profile"] == "local-docker"
+        assert "network_mode" not in task_config["agent"]
+        assert "allowed_hosts" not in task_config["agent"]
+        assert task_config["verifier"]["environment_mode"] == "separate"
+        assert "network_mode" not in task_config["verifier"]
+        assert "allowed_hosts" not in task_config["verifier"]
+        assert task_config["environment"]["network_mode"] == "public"
+        assert task_config["verifier"]["environment"]["network_mode"] == "public"
+        assert task_config["verifier"]["environment"]["env"]["HF_TOKEN"] == "${HF_TOKEN}"
 
 
 def test_generator_refuses_mutable_revisions_and_mixed_source_tree() -> None:

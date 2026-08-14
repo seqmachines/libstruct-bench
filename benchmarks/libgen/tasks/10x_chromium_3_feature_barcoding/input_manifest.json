@@ -1,0 +1,30 @@
+{
+  "protocol_id": "10x_chromium_3_feature_barcoding",
+  "sources": [
+    {
+      "local_path": "10xChromium3fb.pdf",
+      "path": "10x_chromium_3_feature_barcoding/10xChromium3fb.pdf",
+      "sha256": "4b03b7d4448836f839e0cbedb8012e402a99b152b6a23a8046fabb0c5381a819"
+    },
+    {
+      "local_path": "CG000149_cell_surface_labeling_protocol.pdf",
+      "path": "10x_chromium_3_feature_barcoding/CG000149_cell_surface_labeling_protocol.pdf",
+      "sha256": "3b5cab389d029681913c0f84c85614b43cd5a45d63161f4356bf8a6d951f174f"
+    },
+    {
+      "local_path": "CITE-seq_author_protocol.pdf",
+      "path": "10x_chromium_3_feature_barcoding/CITE-seq_author_protocol.pdf",
+      "sha256": "6e647bd42ded5b516ecc7f8e33752aeb000038c015ba01724f325c046708ba42"
+    },
+    {
+      "local_path": "CITE-seq_foundational_paper.pdf",
+      "path": "10x_chromium_3_feature_barcoding/CITE-seq_foundational_paper.pdf",
+      "sha256": "a99c39250a40ad6990bebc0c36c9a259fe8f85d31a8729deeb3fac52cd3f469a"
+    },
+    {
+      "local_path": "CITE-seq_supplement.pdf",
+      "path": "10x_chromium_3_feature_barcoding/CITE-seq_supplement.pdf",
+      "sha256": "fe052825574f89bc187d9a78ac194a8c125d1cc3617f7b54e3c1377cc63d84c4"
+    }
+  ]
+}
