@@ -314,6 +314,7 @@ def _task_toml(
     agent_network = _phase_network_toml(network_profile, AGENT_ALLOWED_HOSTS)
     verifier_network = _phase_network_toml(network_profile, VERIFIER_ALLOWED_HOSTS)
     return f"""schema_version = "1.3"
+artifacts = [{{ source = "/logs/agent/trajectory.json", destination = "agent_trajectory.json" }}]
 
 [task]
 name = "sequencing/libgen-{protocol_id}"
@@ -464,6 +465,8 @@ python /tests/grade.py \\
   --schema-root /tests/schemas \\
   --reward-out /logs/verifier/reward.json \\
   --details-out /logs/verifier/details.json \\
+  --error-analysis-out /logs/verifier/error_analysis.json \\
+  --trajectory /logs/agent/trajectory.json \\
   --error-out /logs/verifier/error.json
 """
 

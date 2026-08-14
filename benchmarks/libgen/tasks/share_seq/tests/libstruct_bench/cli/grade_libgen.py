@@ -7,7 +7,7 @@ from pathlib import Path
 from typing import Any
 
 from libstruct_bench.hf_io import download_hf_dataset_file, env_token
-from libstruct_bench.libgen.scoring import grade_libgen
+from libstruct_bench.libgen.scoring import LIBGEN_PUBLIC_METRIC_KEYS, grade_libgen
 from libstruct_bench.libgen.validation import (
     LibgenValidationError,
     validate_groundtruth_bundle,
@@ -96,7 +96,6 @@ def main(argv: list[str] | None = None) -> int:
         groundtruth["T2"],
         groundtruth["T3"],
     )
-    metrics["prediction_valid"] = 1.0
     details = {
         "protocol_id": args.protocol_id,
         "prediction_valid": True,
@@ -169,16 +168,7 @@ def _write_json(path: Path, document: Any) -> None:
 
 
 def _zero_metrics() -> dict[str, float]:
-    return {
-        "reward": 0.0,
-        "t2_score": 0.0,
-        "t3_score": 0.0,
-        "t2_required_sequence_f1": 0.0,
-        "t2_all_required_exact": 0.0,
-        "t3_molecular_transition_f1": 0.0,
-        "t3_typed_edge_f1": 0.0,
-        "prediction_valid": 0.0,
-    }
+    return {key: 0.0 for key in LIBGEN_PUBLIC_METRIC_KEYS}
 
 
 if __name__ == "__main__":

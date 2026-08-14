@@ -14,6 +14,7 @@ SCORABLE_SUPPORT = frozenset({"explicit", "derivable"})
 NEUTRAL_SUPPORT = frozenset(
     {"externally_completed", "ambiguous", "unsupported"}
 )
+ORDERED_MOLECULE_KINDS = frozenset({"single", "assembled", "hairpin"})
 
 STATE_WEIGHTS = {
     "reference_strand": 0.40,
@@ -28,6 +29,14 @@ TRANSITION_WEIGHTS = {
     "disposition": 0.15,
     "oligos": 0.20,
 }
+LIBGEN_PUBLIC_METRIC_KEYS = (
+    "reward",
+    "t2_required_sequence_f1",
+    "t2_all_required_exact",
+    "t3_molecular_transition_f1",
+    "t3_state_f1",
+    "t3_typed_edge_f1",
+)
 
 
 def grade_libgen(
@@ -36,7 +45,7 @@ def grade_libgen(
     t2_groundtruth: dict[str, Any],
     t3_groundtruth: dict[str, Any],
 ) -> tuple[dict[str, float], dict[str, Any]]:
-    """Score linked T2/T3 predictions without relying on generated IDs."""
+    """Return headline Harbor metrics plus detailed internal diagnostics."""
 
     required_oligo_ids = derive_required_t2_ids(t3_groundtruth)
     t2_metrics, t2_details = score_t2(
@@ -56,12 +65,20 @@ def grade_libgen(
     )
     metrics = {
         "reward": reward,
-        "t2_score": t2_metrics["required_sequence_f1"],
-        "t3_score": t3_metrics["molecular_transition_f1"],
-        **{f"t2_{key}": value for key, value in t2_metrics.items()},
-        **{f"t3_{key}": value for key, value in t3_metrics.items()},
+        "t2_required_sequence_f1": t2_metrics["required_sequence_f1"],
+        "t2_all_required_exact": t2_metrics["all_required_exact"],
+        "t3_molecular_transition_f1": t3_metrics["molecular_transition_f1"],
+        "t3_state_f1": t3_metrics["state_f1"],
+        "t3_typed_edge_f1": t3_metrics["typed_edge_f1"],
     }
-    return metrics, {"t2": t2_details, "t3": t3_details}
+    return metrics, {
+        "t2": t2_details,
+        "t3": t3_details,
+        "diagnostic_metrics": {
+            "t2": t2_metrics,
+            "t3": t3_metrics,
+        },
+    }
 
 
 def score_t2(
@@ -268,7 +285,12 @@ def score_t2(
         "optional_oligo_ids": sorted(
             groundtruth[index]["oligo_id"] for index in optional_truth
         ),
-        "matching_policy": "global maximum-weight one-to-one normalized Levenshtein sequence matching; metadata never affects assignment or reward",
+        "matching_policy": (
+            "global maximum-weight one-to-one normalized Levenshtein "
+            "molecule-sequence matching; ordered single, assembled, and hairpin "
+            "components are concatenated while double-stranded components remain "
+            "separate; prediction metadata never affects assignment or reward"
+        ),
         "scope_policy": "O_used contains every T2 record referenced by T3; O_score is O_used restricted to explicit or derivable sequence claims",
         "recoverability_policy": "externally completed, ambiguous, and unsupported sequence claims remain canonical but are neutral in the source-only benchmark",
     }
@@ -687,6 +709,14 @@ def _oligo_similarity(
     *,
     scorable_only: bool,
 ) -> float:
+    ordered_similarity = _ordered_molecule_similarity(
+        prediction,
+        truth,
+        scorable_only=scorable_only,
+    )
+    if ordered_similarity is not None:
+        return ordered_similarity
+
     predicted_claims = _prediction_sequence_claims(prediction)
     truth_claims_with_status = _truth_sequence_claims(truth)
     truth_claims = [
@@ -705,6 +735,48 @@ def _oligo_similarity(
             neutral_claims,
         )
     return _sequence_collection_f1(predicted_claims, truth_claims)
+
+
+def _ordered_molecule_similarity(
+    prediction: dict[str, Any],
+    truth: dict[str, Any],
+    *,
+    scorable_only: bool,
+) -> float | None:
+    """Compare equivalent flat and ordered-component molecule representations."""
+
+    if truth.get("kind") not in ORDERED_MOLECULE_KINDS:
+        return None
+    if scorable_only and not all(
+        status in SCORABLE_SUPPORT for _, status in _truth_sequence_claims(truth)
+    ):
+        # Component-level claims preserve the support mask for mixed-evidence
+        # molecules. The fallback path below can remove exact neutral claims.
+        return None
+    predicted_sequence = _ordered_molecule_sequence(prediction)
+    truth_sequence = _ordered_molecule_sequence(truth)
+    if predicted_sequence is None or truth_sequence is None:
+        return None
+    return edit_similarity(
+        _sequence_value(predicted_sequence),
+        _sequence_value(truth_sequence),
+    )
+
+
+def _ordered_molecule_sequence(item: dict[str, Any]) -> str | None:
+    sequence = item.get("sequence")
+    if isinstance(sequence, str) and sequence:
+        return sequence
+    components = item.get("components", [])
+    if not components:
+        return None
+    values: list[str] = []
+    for component in components:
+        value = component.get("sequence") or component.get("placeholder")
+        if not isinstance(value, str) or not value:
+            return None
+        values.append(value)
+    return "".join(values)
 
 
 def _remove_exact_neutral_sequence_claims(

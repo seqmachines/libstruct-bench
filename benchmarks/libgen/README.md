@@ -41,7 +41,12 @@ T1/T2/T3 set, or a linked ground-truth validation failure.
 
 ## Scoring
 
-Overall reward is `0.30 * T2 + 0.70 * T3`.
+Overall reward remains:
+
+```text
+reward = 0.30 * t2_required_sequence_f1
+       + 0.70 * t3_molecular_transition_f1
+```
 
 - T2 uses sequence-only global optimal one-to-one soft F1. Names, roles,
   orientations, and modifications are diagnostics. `O_used` contains the T2
@@ -50,7 +55,10 @@ Overall reward is `0.30 * T2 + 0.70 * T3`.
   explicit or derivable from the agent-visible source bundle. Canonical but
   externally completed, ambiguous, or unsupported claims are neutral, as are
   exact predictions of optional T2 records. Unknown and duplicate extras reduce
-  precision. The primary metric is `t2_required_sequence_f1`.
+  precision. Equivalent flat sequences and ordered components are compared as
+  one molecule for `single`, `assembled`, and `hairpin` ground-truth oligos;
+  `double_stranded` components remain separate strand claims. The primary
+  metric is `t2_required_sequence_f1`.
 - T3 contains one workflow per modality and is scored within matched
   modalities. Common aliases map to the canonical `gene expression`, `genomic
   DNA`, `feature barcode`, `sgRNA`, or `chromatin accessibility` vocabulary.
@@ -65,9 +73,27 @@ Overall reward is `0.30 * T2 + 0.70 * T3`.
   Verifier infrastructure or private-ground-truth failures fail the trial
   instead of being mislabeled as model errors.
 
-The verifier writes `reward.json`, `details.json`, and, on failure,
-`error.json` under `/logs/verifier/`. See [error-analysis.md](error-analysis.md)
-for the separate discrepancy-adjudication and trajectory-review procedure.
+The standard Harbor metric surface is intentionally limited to:
+
+- `reward`;
+- `t2_required_sequence_f1`;
+- `t2_all_required_exact`;
+- `t3_molecular_transition_f1`;
+- `t3_state_f1`;
+- `t3_typed_edge_f1`.
+
+The verifier writes those six values to `reward.json`. Precision/recall,
+lexical metadata scores, boundary and reagent diagnostics, and entity counts
+remain available under `details.json` at
+`scoring.diagnostic_metrics.{t2,t3}`. Validation status and detailed matches
+also remain in `details.json`; on failure, `error.json` records the verifier
+error. Every trial additionally writes `error_analysis.json`, which turns the
+match details into structured discrepancy records with entity IDs, scores,
+affected metrics, unresolved validity/attribution fields, a run summary, and
+conservative trajectory evidence when available. It does not change any score.
+All files are written under `/logs/verifier/`. See
+[error-analysis.md](error-analysis.md) for the discrepancy-adjudication and
+trajectory-review procedure.
 
 ## Experiment design
 

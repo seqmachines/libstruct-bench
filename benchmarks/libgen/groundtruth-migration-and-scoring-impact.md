@@ -169,8 +169,8 @@ modality in each protocol.
 ### T3
 
 - Workflows are paired by exact modality instead of flattening every workflow.
-- Semantic state matching remains an internal alignment step, not a primary
-  reward component.
+- Semantic state matching remains an internal alignment step. `t3_state_f1` is
+  surfaced as a complementary architecture diagnostic, not a reward component.
 - `t3_molecular_transition_f1` becomes the primary T3 metric. Transition
   similarity uses operation, matched substrates/products, carried/discarded
   classification, and transition-local T2 sequence multisets.
@@ -185,6 +185,10 @@ modality in each protocol.
 
 The overall benchmark reward remains 30% T2 and 70% T3, now using
 `t2_required_sequence_f1` and `t3_molecular_transition_f1` respectively.
+Standard Harbor reporting contains only `reward`, those two primary metrics,
+`t2_all_required_exact`, `t3_state_f1`, and `t3_typed_edge_f1`. The remaining
+precision/recall, metadata, boundary, reagent, and count diagnostics are kept
+in the verifier details artifact rather than the headline reward metrics.
 
 ## Migration controls
 

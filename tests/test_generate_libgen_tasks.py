@@ -97,15 +97,24 @@ def test_generator_builds_separate_allowlisted_task_without_truth_leakage() -> N
         assert 'environment_mode = "separate"' in task_toml
         assert 'HF_TOKEN = "${HF_TOKEN}"' in task_toml
         assert "RUN python /workspace/fetch_input.py" in dockerfile
-        assert "artifacts =" not in task_toml
+        task_config = tomllib.loads(task_toml)
+        assert task_config["artifacts"] == [
+            {
+                "source": "/logs/agent/trajectory.json",
+                "destination": "agent_trajectory.json",
+            }
+        ]
         assert "/logs/artifacts/t2_prediction.json" in rules
         assert "/logs/artifacts/t3_prediction.json" in rules
         assert "groundtruth" not in instruction.lower()
         assert "groundtruth" not in manifest.lower()
         assert "org/private-groundtruth" not in dockerfile
         assert "--groundtruth-repo \"org/private-groundtruth\"" in test_sh
+        assert "--error-analysis-out /logs/verifier/error_analysis.json" in test_sh
+        assert "--trajectory /logs/agent/trajectory.json" in test_sh
         assert (task / "environment/schemas/benchmark/oligo_prediction.schema.json").is_file()
         assert (task / "tests/libstruct_bench/libgen/scoring.py").is_file()
+        assert (task / "tests/libstruct_bench/libgen/error_analysis.py").is_file()
 
 
 def test_generator_builds_local_docker_task_without_phase_network_overrides() -> None:
@@ -139,7 +148,12 @@ def test_generator_builds_local_docker_task_without_phase_network_overrides() ->
             == 0
         )
         task_config = tomllib.loads((out / "example_protocol/task.toml").read_text())
-        assert "artifacts" not in task_config
+        assert task_config["artifacts"] == [
+            {
+                "source": "/logs/agent/trajectory.json",
+                "destination": "agent_trajectory.json",
+            }
+        ]
         assert task_config["metadata"]["network_profile"] == "local-docker"
         assert "network_mode" not in task_config["agent"]
         assert "allowed_hosts" not in task_config["agent"]
@@ -383,7 +397,12 @@ def test_run_summarizer_keeps_core_and_native_estimands_separate(tmp_path: Path)
                     "trial_name": trial.name,
                     "config": {"task": {"path": "tasks/example_protocol"}},
                     "agent_result": {"n_input_tokens": 10, "n_output_tokens": 2},
-                    "verifier_result": {"rewards": {"reward": reward, "t2_score": reward}},
+                    "verifier_result": {
+                        "rewards": {
+                            "reward": reward,
+                            "t2_required_sequence_f1": reward,
+                        }
+                    },
                     "exception_info": None,
                     "started_at": "2026-01-01T00:00:00+00:00",
                     "finished_at": "2026-01-01T00:01:00+00:00",

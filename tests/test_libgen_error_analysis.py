@@ -1,11 +1,15 @@
 from __future__ import annotations
 
+import copy
 import json
 from pathlib import Path
 
 from jsonschema import Draft202012Validator
 
-from libstruct_bench.cli.prepare_libgen_error_review import main as prepare_review_main
+from libstruct_bench.cli.prepare_libgen_error_review import (
+    _artifact_role,
+    main as prepare_review_main,
+)
 from libstruct_bench.cli.validate_libgen_error_review import main as validate_review_main
 from tests.libgen_fixtures import (
     t2_groundtruth,
@@ -16,6 +20,7 @@ from tests.libgen_fixtures import (
 from libstruct_bench.libgen.error_analysis import (
     artifact_record,
     build_error_analysis,
+    summarize_error_analysis,
     substantive_review_complete,
 )
 from libstruct_bench.libgen.scoring import grade_libgen
@@ -49,7 +54,15 @@ def _valid_details(
     }
 
 
-def _analysis(details: dict) -> dict:
+def _analysis(
+    details: dict,
+    *,
+    prediction_t2: dict | None = None,
+    prediction_t3: dict | None = None,
+    truth_t2: dict | None = None,
+    truth_t3: dict | None = None,
+    trajectory: dict | None = None,
+) -> dict:
     document = build_error_analysis(
         trial_id="example_protocol__trial",
         protocol_id="example_protocol",
@@ -60,6 +73,12 @@ def _analysis(details: dict) -> dict:
         model="model-a",
         harness="harness-a",
         attempt=1,
+        t2_prediction=prediction_t2 or t2_prediction(),
+        t3_prediction=prediction_t3 or t3_prediction(),
+        t2_groundtruth=truth_t2 or t2_groundtruth(),
+        t3_groundtruth=truth_t3 or t3_groundtruth(),
+        trajectory=trajectory,
+        trajectory_path="agent/trajectory.json" if trajectory else None,
     )
     Draft202012Validator(ERROR_SCHEMA).validate(document)
     return document
@@ -84,12 +103,18 @@ def test_exact_prediction_needs_no_error_adjudication() -> None:
     assert document["review_status"] == "not_required"
     assert document["process_review"]["review_status"] == "not_reviewed"
     assert document["process_review"]["categories"] == []
+    assert document["summary"]["substantive_discrepancy_count"] == 0
+    assert document["summary"]["counts_by_attribution"] == {}
     assert substantive_review_complete(document)
 
 
 def test_recoverable_mismatch_is_observed_but_not_attributed_to_agent() -> None:
     t2, t3 = _prediction_without_t2_oligo()
-    document = _analysis(_valid_details(t2=t2, t3=t3))
+    document = _analysis(
+        _valid_details(t2=t2, t3=t3),
+        prediction_t2=t2,
+        prediction_t3=t3,
+    )
 
     observation = next(
         item
@@ -100,7 +125,17 @@ def test_recoverable_mismatch_is_observed_but_not_attributed_to_agent() -> None:
     assert observation["claim_recoverability"] == "recoverable"
     assert observation["benchmark_validity"] == "unresolved"
     assert observation["attribution"] == "unresolved"
+    assert observation["prediction_id"] is None
+    assert observation["groundtruth_id"] == "oligo_rt"
+    assert observation["matched_score"] == 0.0
+    assert observation["affected_metrics"] == [
+        "reward",
+        "t2_required_sequence_f1",
+        "t2_all_required_exact",
+    ]
+    assert observation["process_cause"] == "unresolved"
     assert document["process_review"]["categories"] == []
+    assert document["summary"]["unresolved_issue_count"] >= 1
     assert not substantive_review_complete(document)
 
 
@@ -108,10 +143,19 @@ def test_nonrecoverable_t2_claim_is_neutral_in_error_analysis() -> None:
     truth = t2_groundtruth()
     truth["oligos"][0]["support_status"] = "externally_completed"
     t2, t3 = _prediction_without_t2_oligo()
+    details = _valid_details(t2=t2, t3=t3, truth_t2=truth)
+    # Even stale details must not turn a source-scope/neutral record into an error.
+    details["scoring"]["t2"]["unmatched_required_oligo_ids"] = ["oligo_rt"]
 
-    document = _analysis(_valid_details(t2=t2, t3=t3, truth_t2=truth))
+    document = _analysis(
+        details,
+        prediction_t2=t2,
+        prediction_t3=t3,
+        truth_t2=truth,
+    )
 
     assert not any(item["task"] == "T2" for item in document["observations"])
+    assert document["summary"]["raw_agent_attributed_error_count"] == 0
 
 
 def test_invalid_prediction_is_a_representation_observation_not_agent_cause() -> None:
@@ -133,7 +177,10 @@ def test_t3_strand_orientation_disagreement_has_specific_output_category() -> No
     prediction["workflows"][0]["states"][1]["strands"][0][
         "orientation"
     ] = "3_to_5"
-    document = _analysis(_valid_details(t3=prediction))
+    document = _analysis(
+        _valid_details(t3=prediction),
+        prediction_t3=prediction,
+    )
 
     observation = next(
         item
@@ -143,9 +190,198 @@ def test_t3_strand_orientation_disagreement_has_specific_output_category() -> No
     assert observation["category"] == "strand_or_orientation_error"
 
 
+def test_representation_equivalent_t2_sequence_is_not_an_error() -> None:
+    prediction = t2_prediction()
+    truth = t2_groundtruth()
+    oligo = truth["oligos"][0]
+    oligo["kind"] = "assembled"
+    oligo.pop("sequence")
+    oligo["components"] = [
+        {"sequence": "ACGT", "support_status": "explicit"},
+        {"placeholder": "[UMI:4]", "support_status": "explicit"},
+    ]
+
+    details = _valid_details(t2=prediction, truth_t2=truth)
+    document = _analysis(
+        details,
+        prediction_t2=prediction,
+        truth_t2=truth,
+    )
+
+    assert details["scoring"]["diagnostic_metrics"]["t2"][
+        "required_sequence_f1"
+    ] == 1.0
+    assert not any(item["task"] == "T2" for item in document["observations"])
+
+
+def test_stale_noncanonical_score_is_an_evaluator_defect_candidate() -> None:
+    details = _valid_details()
+    match = details["scoring"]["t2"]["matches"][0]
+    match["sequence_score"] = 0.5
+    match["dimension_scores"]["sequence"] = 0.5
+
+    document = _analysis(details)
+    observation = next(item for item in document["observations"] if item["task"] == "T2")
+
+    assert observation["category"] == "representation_or_schema_error"
+    assert observation["substantive"] is False
+    assert observation["benchmark_validity"] == "unresolved"
+    assert observation["benchmark_validity_candidate"] == "evaluator_defect"
+    assert observation["attribution"] == "unresolved"
+    assert document["summary"]["substantive_discrepancy_count"] == 0
+    assert document["summary"]["candidate_benchmark_issue_count"] == 1
+
+
+def test_stale_t3_match_score_is_an_evaluator_defect_candidate() -> None:
+    details = _valid_details()
+    modality = next(iter(details["scoring"]["t3"]["modalities"].values()))
+    match = modality["transition_matches"][0]
+    match["score"] = 0.25
+
+    document = _analysis(details)
+    observation = next(
+        item
+        for item in document["observations"]
+        if item["entity_type"] == "transition_scoring"
+    )
+
+    assert observation["category"] == "representation_or_schema_error"
+    assert observation["substantive"] is False
+    assert observation["benchmark_validity"] == "unresolved"
+    assert observation["benchmark_validity_candidate"] == "evaluator_defect"
+    assert observation["attribution"] == "unresolved"
+    assert observation["matched_score"] == 0.25
+    assert document["summary"]["substantive_discrepancy_count"] == 0
+    assert document["summary"]["counts_by_output_error_category"] == {}
+    assert document["summary"]["candidate_benchmark_issue_count"] == 1
+
+
+def test_missing_t3_state_and_typed_edge_are_concrete_observations() -> None:
+    prediction = t3_prediction()
+    workflow = prediction["workflows"][0]
+    workflow["states"] = [
+        item for item in workflow["states"] if item["state_id"] != "state_input"
+    ]
+    workflow["initial_state_ids"] = []
+    workflow["transitions"][0]["substrate_state_ids"] = []
+
+    document = _analysis(
+        _valid_details(t3=prediction),
+        prediction_t3=prediction,
+    )
+
+    state = next(
+        item
+        for item in document["observations"]
+        if item["entity_type"] == "state"
+        and item["groundtruth_id"] == "state_input"
+    )
+    edge = next(
+        item
+        for item in document["observations"]
+        if item["entity_type"] == "typed_edge"
+    )
+    assert state["category"] == "missing_recoverable_information"
+    assert state["affected_metrics"] == ["t3_state_f1"]
+    assert edge["category"] == "workflow_or_topology_error"
+    assert edge["groundtruth_id"] == "substrate:state_input->transition_rt"
+    assert edge["affected_metrics"] == ["t3_typed_edge_f1"]
+
+
+def test_trajectory_supported_validation_correction_is_recorded() -> None:
+    trajectory = {
+        "steps": [
+            {
+                "step_id": 10,
+                "tool_calls": [
+                    {
+                        "function_name": "exec",
+                        "arguments": {
+                            "input": "python -m libstruct_bench.cli.validate_libgen_predictions"
+                        },
+                    }
+                ],
+                "observation": {"output": "invalid: protocol_id mismatch\n"},
+            },
+            {
+                "step_id": 12,
+                "tool_calls": [
+                    {
+                        "function_name": "exec",
+                        "arguments": {
+                            "input": "python -m libstruct_bench.cli.validate_libgen_predictions"
+                        },
+                    }
+                ],
+                "observation": {"output": "valid\n"},
+            },
+        ]
+    }
+
+    document = _analysis(_valid_details(), trajectory=trajectory)
+
+    assert document["process_review"]["review_status"] == "evidence_detected"
+    assert document["process_review"]["categories"] == [
+        "output_bookkeeping_error"
+    ]
+    assert document["process_review"]["successful_self_correction"] == "observed"
+    assert document["process_review"]["events"][0][
+        "self_correction_observed"
+    ] is True
+    assert len(document["process_review"]["events"][0]["evidence"]) == 2
+    assert document["summary"]["observed_self_correction_count"] == 1
+    assert document["summary"]["counts_by_process_cause"] == {
+        "output_bookkeeping_error": 1
+    }
+
+
+def test_no_trajectory_evidence_leaves_process_cause_unresolved() -> None:
+    t2, t3 = _prediction_without_t2_oligo()
+    document = _analysis(
+        _valid_details(t2=t2, t3=t3),
+        prediction_t2=t2,
+        prediction_t3=t3,
+    )
+
+    substantive = [item for item in document["observations"] if item["substantive"]]
+    assert substantive
+    assert {item["process_cause"] for item in substantive} == {"unresolved"}
+    assert document["process_review"]["trajectory_available"] is False
+    assert document["process_review"]["events"] == []
+    assert document["summary"]["counts_by_process_cause"]["unresolved"] == len(
+        substantive
+    )
+
+
+def test_error_analysis_does_not_mutate_scoring_outputs() -> None:
+    metrics, scoring = grade_libgen(
+        t2_prediction(),
+        t3_prediction(),
+        t2_groundtruth(),
+        t3_groundtruth(),
+    )
+    metrics_before = copy.deepcopy(metrics)
+    scoring_before = copy.deepcopy(scoring)
+
+    _analysis(
+        {
+            "protocol_id": "example_protocol",
+            "prediction_valid": True,
+            "scoring": scoring,
+        }
+    )
+
+    assert metrics == metrics_before
+    assert scoring == scoring_before
+
+
 def test_completed_adjudication_is_required_for_substantive_mismatches() -> None:
     t2, t3 = _prediction_without_t2_oligo()
-    document = _analysis(_valid_details(t2=t2, t3=t3))
+    document = _analysis(
+        _valid_details(t2=t2, t3=t3),
+        prediction_t2=t2,
+        prediction_t3=t3,
+    )
 
     for observation in document["observations"]:
         if observation["substantive"]:
@@ -153,7 +389,9 @@ def test_completed_adjudication_is_required_for_substantive_mismatches() -> None
             observation["attribution"] = "agent"
             observation["adjudication_status"] = "complete"
             observation["adjudication_notes"] = "Confirmed against the source bundle."
+    document["summary"] = summarize_error_analysis(document)
     assert substantive_review_complete(document)
+    assert document["summary"]["raw_agent_attributed_error_count"] >= 1
 
 
 def test_infrastructure_failure_is_separate_from_model_error() -> None:
@@ -168,8 +406,9 @@ def test_infrastructure_failure_is_separate_from_model_error() -> None:
     Draft202012Validator(ERROR_SCHEMA).validate(document)
 
     assert document["run_outcome"] == "infrastructure_failure"
-    assert document["observations"][0]["category"] == "infrastructure_failure"
+    assert document["observations"][0]["category"] == "other"
     assert document["observations"][0]["attribution"] == "infrastructure"
+    assert document["summary"]["infrastructure_issue_count"] == 1
 
 
 def test_artifact_record_hashes_preserved_trial_file(tmp_path: Path) -> None:
@@ -187,6 +426,10 @@ def test_artifact_record_hashes_preserved_trial_file(tmp_path: Path) -> None:
     assert record["path"] == "trajectory.json"
     assert record["size_bytes"] == artifact.stat().st_size
     assert len(record["sha256"]) == 64
+
+
+def test_collected_trajectory_artifact_keeps_trajectory_role() -> None:
+    assert _artifact_role(Path("artifacts/agent_trajectory.json")) == "agent_trajectory"
 
 
 def test_sixty_trial_review_pack_preserves_traces_and_gates_full_run(

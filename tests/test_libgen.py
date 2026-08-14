@@ -9,7 +9,11 @@ import pytest
 from jsonschema import Draft202012Validator
 
 from libstruct_bench.cli.grade_libgen import main as grade_main
-from libstruct_bench.libgen.scoring import grade_libgen, score_t2
+from libstruct_bench.libgen.scoring import (
+    LIBGEN_PUBLIC_METRIC_KEYS,
+    grade_libgen,
+    score_t2,
+)
 from libstruct_bench.libgen.validation import (
     LibgenValidationError,
     derive_required_t2_ids,
@@ -60,12 +64,18 @@ def test_prediction_schemas_are_unversioned_and_exclude_audit_fields() -> None:
 
 
 def test_exact_truth_projection_scores_one() -> None:
-    metrics, _ = grade_libgen(
+    metrics, details = grade_libgen(
         t2_prediction(), t3_prediction(), t2_groundtruth(), t3_groundtruth()
     )
+    assert tuple(metrics) == LIBGEN_PUBLIC_METRIC_KEYS
     assert metrics["reward"] == pytest.approx(1.0)
-    assert metrics["t2_score"] == pytest.approx(1.0)
-    assert metrics["t3_score"] == pytest.approx(1.0)
+    assert all(value == pytest.approx(1.0) for value in metrics.values())
+    assert details["diagnostic_metrics"]["t2"][
+        "required_sequence_precision"
+    ] == pytest.approx(1.0)
+    assert details["diagnostic_metrics"]["t3"][
+        "molecular_transition_recall"
+    ] == pytest.approx(1.0)
 
 
 def test_ids_and_collection_order_do_not_affect_score() -> None:
@@ -98,7 +108,7 @@ def test_missing_and_extra_entities_lower_scores() -> None:
         t2_prediction(), extra_t3, t2_groundtruth(), t3_groundtruth()
     )
     assert metrics["t3_state_f1"] < 1.0
-    assert metrics["t3_score"] == pytest.approx(1.0)
+    assert metrics["t3_molecular_transition_f1"] == pytest.approx(1.0)
 
 
 def test_external_oligo_is_neutral_whether_omitted_or_exactly_predicted() -> None:
@@ -213,6 +223,161 @@ def test_mixed_support_oligo_scores_only_recoverable_components() -> None:
         prediction["oligos"], truth["oligos"], required_oligo_ids={"oligo_rt"}
     )
     assert metrics["required_sequence_f1"] == pytest.approx(1.0)
+
+
+def _ordered_test_components(*, groundtruth: bool) -> list[dict]:
+    components = [
+        {
+            "name": "left adapter",
+            "role": "adapter",
+            "sequence": "ACGTAC",
+            "orientation": "5_to_3",
+            "modifications": [],
+        },
+        {
+            "name": "sample index",
+            "role": "sample index",
+            "placeholder": "[I7_INDEX:8]",
+            "orientation": "5_to_3",
+            "modifications": [],
+        },
+        {
+            "name": "modified right adapter",
+            "role": "adapter",
+            "sequence": "/ideoxyU/TTGGCC",
+            "orientation": "5_to_3",
+            "modifications": ["internal deoxyuridine"],
+        },
+    ]
+    if groundtruth:
+        for component in components:
+            component["support_status"] = "explicit"
+    return components
+
+
+@pytest.mark.parametrize(
+    ("truth_kind", "prediction_kind"),
+    [("single", "assembled"), ("assembled", "unknown")],
+)
+def test_ordered_components_match_an_equivalent_flat_sequence(
+    truth_kind: str,
+    prediction_kind: str,
+) -> None:
+    sequence = "ACGTAC[I7_INDEX:8]/ideoxyU/TTGGCC"
+    truth = t2_groundtruth()
+    truth["oligos"][0].update(
+        {
+            "kind": truth_kind,
+            "sequence": sequence,
+            "components": _ordered_test_components(groundtruth=True),
+        }
+    )
+    prediction = t2_prediction()
+    prediction["oligos"][0].update(
+        {
+            "kind": prediction_kind,
+            "sequence": None,
+            "components": _ordered_test_components(groundtruth=False),
+        }
+    )
+
+    metrics, _ = grade_libgen(
+        prediction, t3_prediction(), truth, t3_groundtruth()
+    )
+
+    assert metrics["t2_required_sequence_f1"] == pytest.approx(1.0)
+    assert metrics["t2_all_required_exact"] == 1.0
+    assert metrics["t3_molecular_transition_f1"] == pytest.approx(1.0)
+    assert metrics["reward"] == pytest.approx(1.0)
+
+    prediction["oligos"][0]["components"].reverse()
+    reversed_metrics, _ = score_t2(
+        prediction["oligos"], truth["oligos"], required_oligo_ids={"oligo_rt"}
+    )
+    assert reversed_metrics["required_sequence_f1"] < 1.0
+
+
+def test_flat_sequence_matches_equivalent_ordered_groundtruth_components() -> None:
+    sequence = "ACGTAC[I7_INDEX:8]/ideoxyU/TTGGCC"
+    truth = t2_groundtruth()
+    truth["oligos"][0].update(
+        {
+            "kind": "assembled",
+            "sequence": None,
+            "components": _ordered_test_components(groundtruth=True),
+        }
+    )
+    prediction = t2_prediction()
+    prediction["oligos"][0].update(
+        {
+            "kind": "assembled",
+            "sequence": sequence,
+            "components": [],
+        }
+    )
+
+    metrics, _ = score_t2(
+        prediction["oligos"], truth["oligos"], required_oligo_ids={"oligo_rt"}
+    )
+
+    assert metrics["required_sequence_f1"] == pytest.approx(1.0)
+    assert metrics["all_required_exact"] == 1.0
+
+
+def test_double_stranded_components_remain_separate_sequence_claims() -> None:
+    truth = t2_groundtruth()
+    truth["oligos"][0].update(
+        {
+            "kind": "double_stranded",
+            "sequence": None,
+            "components": [
+                {
+                    "name": "forward strand",
+                    "role": "forward strand",
+                    "sequence": "ACGTACGT",
+                    "orientation": "5_to_3",
+                    "modifications": [],
+                    "support_status": "explicit",
+                },
+                {
+                    "name": "reverse strand",
+                    "role": "reverse strand",
+                    "sequence": "TGCATGCA",
+                    "orientation": "3_to_5",
+                    "modifications": [],
+                    "support_status": "explicit",
+                },
+            ],
+        }
+    )
+    prediction = t2_prediction()
+    prediction["oligos"][0].update(
+        {
+            "kind": "double_stranded",
+            "sequence": None,
+            "components": [
+                {
+                    key: value
+                    for key, value in component.items()
+                    if key != "support_status"
+                }
+                for component in truth["oligos"][0]["components"]
+            ],
+        }
+    )
+
+    component_metrics, _ = score_t2(
+        prediction["oligos"], truth["oligos"], required_oligo_ids={"oligo_rt"}
+    )
+    assert component_metrics["required_sequence_f1"] == pytest.approx(1.0)
+
+    prediction["oligos"][0].update(
+        {"sequence": "ACGTACGTTGCATGCA", "components": []}
+    )
+    flattened_metrics, _ = score_t2(
+        prediction["oligos"], truth["oligos"], required_oligo_ids={"oligo_rt"}
+    )
+    assert flattened_metrics["required_sequence_f1"] < 1.0
 
 
 def _additional_oligo(
@@ -379,7 +544,7 @@ def test_external_t3_state_is_neutral_when_omitted() -> None:
     metrics, _ = grade_libgen(
         t2_prediction(), t3_prediction(), t2_groundtruth(), truth
     )
-    assert metrics["t3_score"] == pytest.approx(1.0)
+    assert metrics["t3_molecular_transition_f1"] == pytest.approx(1.0)
 
 
 def _rename_workflow_ids(workflow: dict, suffix: str) -> dict:
@@ -579,10 +744,12 @@ def _branched_t3() -> dict:
 def test_one_missing_graph_branch_lowers_transition_and_edge_recall() -> None:
     truth = _branched_t3()
     prediction = t3_prediction()
-    metrics, _ = grade_libgen(
+    metrics, details = grade_libgen(
         t2_prediction(), prediction, t2_groundtruth(), truth
     )
-    assert metrics["t3_molecular_transition_recall"] < 1.0
+    assert details["diagnostic_metrics"]["t3"][
+        "molecular_transition_recall"
+    ] < 1.0
     assert metrics["t3_typed_edge_f1"] < 1.0
 
 
@@ -592,11 +759,13 @@ def test_ambiguous_transition_and_its_edges_are_neutral() -> None:
     prediction = t3_prediction()
     prediction["workflows"][0]["transitions"] = []
 
-    metrics, _ = grade_libgen(
+    metrics, details = grade_libgen(
         t2_prediction(), prediction, t2_groundtruth(), truth
     )
 
-    assert metrics["t3_molecular_transition_recall"] == 1.0
+    assert details["diagnostic_metrics"]["t3"][
+        "molecular_transition_recall"
+    ] == 1.0
     assert metrics["t3_typed_edge_f1"] == 1.0
 
 
@@ -750,6 +919,7 @@ def test_verifier_cli_scores_valid_output_and_zeroes_invalid_prediction(tmp_path
     reward = tmp_path / "reward.json"
     details = tmp_path / "details.json"
     error = tmp_path / "error.json"
+    error_analysis = tmp_path / "error_analysis.json"
     common = [
         "--t2-prediction",
         str(t2_path),
@@ -776,21 +946,45 @@ def test_verifier_cli_scores_valid_output_and_zeroes_invalid_prediction(tmp_path
     ]
     assert grade_main(common) == 0
     reward_document = json.loads(reward.read_text())
+    assert set(reward_document) == set(LIBGEN_PUBLIC_METRIC_KEYS)
     assert reward_document["reward"] == pytest.approx(1.0)
     assert reward_document["t2_required_sequence_f1"] == pytest.approx(1.0)
     assert reward_document["t2_all_required_exact"] == pytest.approx(1.0)
     assert reward_document["t3_molecular_transition_f1"] == pytest.approx(1.0)
+    assert reward_document["t3_state_f1"] == pytest.approx(1.0)
     assert reward_document["t3_typed_edge_f1"] == pytest.approx(1.0)
+    details_document = json.loads(details.read_text())
+    assert details_document["prediction_valid"] is True
+    assert details_document["scoring"]["diagnostic_metrics"]["t2"][
+        "name_similarity"
+    ] == pytest.approx(1.0)
+    assert details_document["scoring"]["diagnostic_metrics"]["t3"][
+        "boundary_f1"
+    ] == pytest.approx(1.0)
     assert not error.exists()
+    analysis_document = json.loads(error_analysis.read_text())
+    assert analysis_document["schema_version"] == "libstruct.libgen_error_analysis.v2"
+    assert analysis_document["run_outcome"] == "valid_prediction"
+    assert analysis_document["summary"]["substantive_discrepancy_count"] == 0
+    assert analysis_document["observations"] == []
 
     t1_file = truth / "groundtruth_final_lib_struct.json"
     original_t1 = t1_file.read_bytes()
     t1_file.write_bytes(original_t1 + b"\n")
     assert grade_main(common) == 2
     assert json.loads(error.read_text())["kind"] == "verifier_configuration_error"
+    assert json.loads(error_analysis.read_text())["run_outcome"] == "verifier_failure"
     t1_file.write_bytes(original_t1)
 
     t3_path.write_text("not json")
     assert grade_main(common) == 0
-    assert json.loads(reward.read_text())["reward"] == 0.0
+    invalid_reward = json.loads(reward.read_text())
+    assert set(invalid_reward) == set(LIBGEN_PUBLIC_METRIC_KEYS)
+    assert all(value == 0.0 for value in invalid_reward.values())
+    assert json.loads(details.read_text())["prediction_valid"] is False
     assert json.loads(error.read_text())["kind"] == "invalid_prediction"
+    invalid_analysis = json.loads(error_analysis.read_text())
+    assert invalid_analysis["run_outcome"] == "invalid_prediction"
+    assert invalid_analysis["observations"][0][
+        "category"
+    ] == "representation_or_schema_error"
