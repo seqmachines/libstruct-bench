@@ -48,6 +48,7 @@ libstruct-check-libgen-staging = "libstruct_bench.cli.check_libgen_staging:main"
 libstruct-prepare-libgen-hf-export = "libstruct_bench.cli.prepare_libgen_hf_export:main"
 libstruct-plan-libgen-matrix = "libstruct_bench.cli.plan_libgen_matrix:main"
 libstruct-summarize-libgen-runs = "libstruct_bench.cli.summarize_libgen_runs:main"
+libstruct-resume-libgen-job = "libstruct_bench.cli.resume_libgen_job:main"
 libstruct-prepare-libgen-error-review = "libstruct_bench.cli.prepare_libgen_error_review:main"
 libstruct-validate-libgen-error-review = "libstruct_bench.cli.validate_libgen_error_review:main"
 

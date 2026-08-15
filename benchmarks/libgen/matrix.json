@@ -15,15 +15,22 @@
       "native_model_id_env": "LIBGEN_NATIVE_MODEL_CLAUDE_OPUS_5"
     },
     {
-      "model_key": "gemini_3_6_flash",
-      "display_name": "Gemini 3.6 Flash",
-      "core_model_id_env": "LIBGEN_CORE_MODEL_GEMINI_3_6_FLASH",
-      "native_model_id_env": "LIBGEN_NATIVE_MODEL_GEMINI_3_6_FLASH"
+      "model_key": "gemini_3_7_flash",
+      "display_name": "Gemini 3.7 Flash",
+      "core_model_id_env": "LIBGEN_CORE_MODEL_GEMINI_3_7_FLASH",
+      "native_model_id_env": "LIBGEN_NATIVE_MODEL_GEMINI_3_7_FLASH"
     },
     {
       "model_key": "kimi_k3",
       "display_name": "Kimi K3",
       "core_model_id_env": "LIBGEN_CORE_MODEL_KIMI_K3"
+    }
+  ],
+  "native_only_models": [
+    {
+      "model_key": "qwen_3_8_max",
+      "display_name": "Qwen 3.8 Max",
+      "native_model_id_env": "LIBGEN_NATIVE_MODEL_QWEN_3_8_MAX"
     }
   ],
   "core_harnesses": [
@@ -72,13 +79,29 @@
       "agent_kwargs": {"reasoning_effort": "max"}
     },
     {
-      "model_key": "gemini_3_6_flash",
+      "model_key": "gemini_3_7_flash",
       "harness_key": "gemini_cli",
       "display_name": "Gemini CLI",
       "harbor_agent": "gemini-cli",
       "version_env": "LIBGEN_GEMINI_CLI_VERSION",
       "reasoning_setting": "high",
       "agent_kwargs": {"reasoning_effort": "high"}
+    },
+    {
+      "model_key": "qwen_3_8_max",
+      "harness_key": "qwen_code",
+      "display_name": "Qwen Code",
+      "harbor_agent": "qwen-coder",
+      "version_env": "LIBGEN_QWEN_CODE_VERSION",
+      "required_version": "0.21.12",
+      "reasoning_setting": "provider_default",
+      "agent_kwargs": {}
+    }
+  ],
+  "native_core_pairings": [
+    {
+      "model_key": "kimi_k3",
+      "harness_key": "kimi_code"
     }
   ],
   "pilot_protocols": [
@@ -87,6 +110,8 @@
     "split_seq",
     "10x_chromium_3_feature_barcoding"
   ],
+  "smoke_protocol": "s3_atac",
+  "smoke_attempts": 1,
   "pilot_attempts": 1,
   "full_attempts": 2,
   "n_concurrent_trials": 4,

@@ -128,18 +128,21 @@ unchanged so record-level and family-level scores cannot be confused.
 
 The balanced core crosses all four models with three model-agnostic harnesses:
 
-- models: GPT 5.6 Sol, Claude Opus 5.0, Gemini 3.6 Flash, Kimi K3;
+- models: GPT 5.6 Sol, Claude Opus 5.0, Gemini 3.7 Flash, Kimi K3;
 - harnesses: Kimi Code, mini-SWE-agent v2, Pi.
 
 This gives 12 cells from which model, harness, and interaction effects can be
-estimated. Three native extensions are reported separately: GPT–Codex,
-Claude–Claude Code, and Gemini–Gemini CLI. They are useful practical baselines
-but are not included in the balanced main-effect estimate. The complete design
-therefore contains 15 cells and all six requested harnesses.
+estimated. Five native pairings are reported descriptively: GPT–Codex,
+Claude–Claude Code, Gemini–Gemini CLI, Kimi K3–Kimi Code, and Qwen 3.8
+Max–Qwen Code. The Kimi pairing is already one of the 12 balanced-core cells,
+so it is tagged for both analyses but executed only once. Qwen is native-only.
+The complete design therefore contains 16 unique execution cells and seven
+harnesses. Native pairings are not included in the balanced main-effect
+estimate except through the Kimi cell's ordinary membership in the 4 × 3 core.
 
 The pilot uses `s3_atac`, `drop_seq`, `split_seq`, and
-`10x_chromium_3_feature_barcoding`: 15 cells × 4 protocols × 1 attempt = 60
-trials. The full run is 15 × 20 × 2 = 600 trials.
+`10x_chromium_3_feature_barcoding`: 16 cells × 4 protocols × 1 attempt = 64
+trials. The full run is 16 × 20 × 2 = 640 trials.
 
 ## Prepare the two HF uploads
 
@@ -224,6 +227,14 @@ mini-SWE-agent, and Pi. Native IDs may use their native provider endpoint.
 The exact required variable names are in `matrix.json`; the planner refuses any
 unset pin.
 
+For the Qwen native-only cell, set
+`LIBGEN_NATIVE_MODEL_QWEN_3_8_MAX=qwen3.8-max` (or a provider-prefixed form if
+your Harbor credential routing requires one) and
+`LIBGEN_QWEN_CODE_VERSION=0.21.12`. The planner enforces that Qwen Code stable
+release so a later `latest` tag cannot change the experiment silently. Harbor's
+agent name is `qwen-coder`; it uses `OPENAI_API_KEY` and `OPENAI_BASE_URL` for
+Alibaba's OpenAI-compatible endpoint.
+
 Use the highest stable reasoning setting supported by each adapter. The matrix
 pins `high`, `xhigh`, or `max` where Harbor exposes that control. Kimi Code's
 current Harbor adapter has no cross-provider reasoning flag, so those cells are
@@ -233,6 +244,43 @@ silently claiming an equivalent effort setting.
 
 After upgrading Harbor, generate the pilot plan with its exact installed
 version:
+
+First run the single-protocol telemetry smoke test. It covers all 12 balanced
+model × harness cells and four additional native-only cells (16 unique trials
+total). The Kimi native pairing reuses its balanced-core execution:
+
+```bash
+PYTHONPATH=src python -m libstruct_bench.cli.plan_libgen_matrix \
+  --mode smoke \
+  --tasks benchmarks/libgen/tasks \
+  --harbor-version "$(harbor --version)" \
+  --out runs/libgen/plans/smoke
+
+bash runs/libgen/plans/smoke/run.sh
+
+PYTHONPATH=src python -m libstruct_bench.cli.summarize_libgen_runs \
+  --runs-root runs/libgen \
+  --experiment-lock runs/libgen/plans/smoke/experiment_lock.json \
+  --out analysis/libgen/smoke
+```
+
+Inspect `analysis/libgen/smoke/telemetry_audit.json` before starting the pilot.
+The planner explicitly disables Harbor's automatic retry because Harbor can
+replace the failed trial directory. Resume failures through the preserving
+wrapper instead:
+
+```bash
+PYTHONPATH=src python -m libstruct_bench.cli.resume_libgen_job \
+  -p runs/libgen/libgen-smoke-MODEL-HARNESS \
+  -f AgentTimeoutError
+```
+
+The wrapper snapshots the prior result, trajectory, verifier output, and agent
+logs under `.libgen_telemetry/resume_snapshots/` before invoking
+`harbor job resume`. Superseded executions remain rows in `trials.csv`; filter
+`is_current_execution == true` for primary performance analyses.
+
+Then generate the pilot plan:
 
 ```bash
 PYTHONPATH=src python -m libstruct_bench.cli.plan_libgen_matrix \
@@ -244,7 +292,7 @@ PYTHONPATH=src python -m libstruct_bench.cli.plan_libgen_matrix \
 bash runs/libgen/plans/pilot/run.sh
 ```
 
-After the pilot, preserve and adjudicate its 60 trial records:
+After the pilot, preserve and adjudicate its 64 trial records:
 
 ```bash
 PYTHONPATH=src python -m libstruct_bench.cli.prepare_libgen_error_review \
@@ -274,7 +322,13 @@ PYTHONPATH=src python -m libstruct_bench.cli.plan_libgen_matrix \
 
 The planner records model IDs, harness versions, reasoning settings, Harbor
 version, protocols, attempts, the frozen task digest, and expected trial count
-in `experiment_lock.json`.
+in `experiment_lock.json`. It also embeds the immutable pricing snapshot from
+`pricing-2026-08-15.json` and its SHA-256 digest.
+
+The snapshot includes the official Qwen model and pricing-source metadata, but
+leaves Qwen 3.8 Max API-equivalent cost unavailable until a first-party frozen
+per-token USD rate exists. It does not substitute an older Qwen price or infer
+a variable Token Plan credit-to-USD conversion.
 
 ## Summarize
 
@@ -285,6 +339,31 @@ PYTHONPATH=src python -m libstruct_bench.cli.summarize_libgen_runs \
   --out analysis/libgen/full
 ```
 
-This produces tidy trial rows plus balanced-core model means, harness means,
-and model×harness interaction residuals. Native extensions are summarized in a
-separate section.
+This produces:
+
+- `trials.csv`: one row per preserved execution, including the current one;
+- `summary.json`: balanced-core effects, valid completion rate, and plot
+  readiness;
+- `telemetry_audit.json`: missing fields by trial and model × harness cell;
+- `telemetry_missing.csv`: the incomplete rows in a compact review table.
+
+`trials.csv` separates `prediction_valid`, `verifier_completed`, and
+`exception_type`. An agent exception therefore does not turn an otherwise
+valid, verified prediction into an invalid prediction. It also keeps total,
+agent, and verifier duration; standard and provider-specific token fields;
+retry/resume lineage; and usage/cost from timed-out executions.
+
+Use `normalized_api_cost_usd` versus `t3_molecular_transition_f1` for the
+API-equivalent cost/performance plot. Use `agent_duration_seconds` versus
+`valid_completion` (aggregated to a rate by cell) for the runtime/completion
+plot. `reported_cost_usd` is the amount surfaced by the Harbor adapter, while
+`reported_cost_kind` says whether that amount came from the provider CLI or was
+estimated. `normalized_api_cost_usd` is always an estimate from the frozen
+first-party standard API rates. Its precision field distinguishes per-call
+normalization from aggregate-token fallbacks. Subscription fees, routing
+markups, tool-call charges, explicit-cache storage, taxes, and negotiated or
+nonstandard service tiers are outside that normalization.
+
+Balanced-core model means, harness means, and model×harness interaction
+residuals use scored current executions only. Native extensions are summarized
+in a separate descriptive section.
