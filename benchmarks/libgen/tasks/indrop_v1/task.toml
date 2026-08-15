@@ -9,16 +9,16 @@ keywords = ["genomics", "oligo", "molecular-workflow", "protocol-understanding"]
 
 [metadata]
 benchmark = "libgen"
-benchmark_version = "2.0.0"
+benchmark_version = "3.0.0"
 protocol_id = "indrop_v1"
 protocol_name = "inDrop v1"
 input_repo = "sequencing/scg-protocols-v1"
 input_revision = "19c29caabcb019a72d08fed59ed8030a2d3c449d"
 groundtruth_repo = "sequencing/scg-oligo-groundtruth-v1"
-groundtruth_revision = "ecd12f41611ed64e3bff53d715b111e0f0ee9a10"
+groundtruth_revision = "5a81714daaa87d568a0c5b62320679d34219ebf7"
 network_profile = "local-docker"
 source_manifest_sha256 = "37e49c026c9cebb8a77c6f46d7ec526de4a8ead11c9b3841db1a4bc56895ad32"
-groundtruth_bundle_sha256 = "9bbc53eca58af25772a6ea258b7c654cae7ef263fa3768e3173af8cf218d1d9b"
+groundtruth_bundle_sha256 = "757f33ef2a2845b9ba2f693d9d388998ea176a9d86bbf0e841e3efb8def52d40"
 
 [agent]
 timeout_sec = 3600.0

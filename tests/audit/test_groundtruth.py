@@ -83,7 +83,6 @@ def _documents() -> dict[str, dict]:
         "workflows": [
             {
                 "workflow_id": "workflow",
-                "modality": "gene expression",
                 "protocol_scope": _scope(),
                 "states": [
                     {
@@ -169,7 +168,7 @@ def _documents() -> dict[str, dict]:
                     }
                 ],
                 "initial_state_ids": ["input"],
-                "final_state_ids": ["final"],
+                "final_outputs": [{"state_id": "final", "modality": "gene expression"}],
             }
         ],
     }
@@ -361,6 +360,8 @@ def test_protocol_scope_is_optional_and_inherited() -> None:
         ("T3", ("workflows", 0), "notes", "audit-only"),
         ("T3", ("workflows", 0), "evidence", []),
         ("T3", ("workflows", 0), "workflow_branch", "main"),
+        ("T3", ("workflows", 0), "modality", "gene expression"),
+        ("T3", ("workflows", 0), "final_state_ids", ["final"]),
         ("T3", (), "modality", "rna"),
         ("T3", ("workflows", 0, "states", 0), "modality", "rna"),
     ],
@@ -387,9 +388,9 @@ def test_removed_groundtruth_fields_are_rejected(
         )
 
 
-def test_t3_modality_is_required_on_each_workflow() -> None:
+def test_t3_modality_is_required_on_each_final_output() -> None:
     document = _documents()["T3"]
-    del document["workflows"][0]["modality"]
+    del document["workflows"][0]["final_outputs"][0]["modality"]
 
     with pytest.raises(GroundtruthValidationError, match="modality"):
         validate_task_document(
@@ -417,14 +418,12 @@ def test_t3_modality_is_required_on_each_workflow() -> None:
     ],
 )
 @pytest.mark.parametrize("task", ["T1", "T3"])
-def test_groundtruth_requires_canonical_modality(
-    task: str, alias: str
-) -> None:
+def test_groundtruth_requires_canonical_modality(task: str, alias: str) -> None:
     documents = _documents()
     if task == "T1":
         documents[task]["libraries"][0]["modality"] = alias
     else:
-        documents[task]["workflows"][0]["modality"] = alias
+        documents[task]["workflows"][0]["final_outputs"][0]["modality"] = alias
 
     with pytest.raises(GroundtruthValidationError, match="canonical modality"):
         validate_task_document(
@@ -448,7 +447,7 @@ def test_groundtruth_requires_canonical_modality(
 def test_canonical_modalities_validate_and_link(modality: str) -> None:
     documents = _documents()
     documents["T1"]["libraries"][0]["modality"] = modality
-    documents["T3"]["workflows"][0]["modality"] = modality
+    documents["T3"]["workflows"][0]["final_outputs"][0]["modality"] = modality
 
     for task in ("T1", "T3"):
         validate_task_document(
@@ -460,25 +459,28 @@ def test_canonical_modalities_validate_and_link(modality: str) -> None:
     validate_cross_task_links(documents)
 
 
-def test_t3_rejects_multiple_workflows_for_one_modality() -> None:
+def test_t3_rejects_disconnected_states_in_one_workflow() -> None:
     documents = _documents()
-    duplicate = copy.deepcopy(documents["T3"]["workflows"][0])
-    duplicate["workflow_id"] = "workflow-duplicate"
-    documents["T3"]["workflows"].append(duplicate)
+    disconnected = copy.deepcopy(documents["T3"]["workflows"][0]["states"][0])
+    disconnected["state_id"] = "disconnected"
+    disconnected["reference_strand_id"] = "disconnected-strand"
+    disconnected["strands"][0]["strand_id"] = "disconnected-strand"
+    disconnected["strands"][0]["segments"][0]["segment_id"] = "disconnected-segment"
+    documents["T3"]["workflows"][0]["states"].append(disconnected)
 
     with pytest.raises(
-        GroundtruthValidationError, match="exactly one workflow per modality"
+        GroundtruthValidationError, match="one weakly connected molecular process"
     ):
         validate_cross_task_links(documents)
 
 
 def test_t1_and_t3_modality_sets_must_agree() -> None:
     documents = _documents()
-    documents["T3"]["workflows"][0]["modality"] = "dna"
+    documents["T3"]["workflows"][0]["final_outputs"][0]["modality"] = "genomic DNA"
 
     with pytest.raises(
         GroundtruthValidationError,
-        match="T1 libraries and T3 workflow modalities must agree",
+        match="does not match any T1 library",
     ):
         validate_cross_task_links(documents)
 
@@ -486,13 +488,13 @@ def test_t1_and_t3_modality_sets_must_agree() -> None:
 def test_state_and_transition_ids_are_local_to_modality_workflows() -> None:
     documents = _documents()
     second_library = copy.deepcopy(documents["T1"]["libraries"][0])
-    second_library["modality"] = "dna"
+    second_library["modality"] = "genomic DNA"
     second_library["segments"][0]["segment_id"] = "dna-library-adapter"
     documents["T1"]["libraries"].append(second_library)
 
     second_workflow = copy.deepcopy(documents["T3"]["workflows"][0])
     second_workflow["workflow_id"] = "dna-workflow"
-    second_workflow["modality"] = "dna"
+    second_workflow["final_outputs"][0]["modality"] = "genomic DNA"
     documents["T3"]["workflows"].append(second_workflow)
 
     validate_cross_task_links(documents)
@@ -580,9 +582,7 @@ def test_t3_requires_explicit_five_to_three_strands() -> None:
         )
 
     document = _documents()["T3"]
-    document["workflows"][0]["states"][0]["strands"][0][
-        "orientation"
-    ] = "3_to_5"
+    document["workflows"][0]["states"][0]["strands"][0]["orientation"] = "3_to_5"
 
     with pytest.raises(GroundtruthValidationError, match="5_to_3"):
         validate_task_document(
@@ -739,9 +739,9 @@ def test_nick_is_preserved_between_adjacent_strand_segments() -> None:
 
 def test_t3_oligo_derivation_orientation_is_controlled() -> None:
     document = _documents()["T3"]
-    derivation = document["workflows"][0]["states"][1]["strands"][0][
-        "segments"
-    ][0]["oligo_derivations"][0]
+    derivation = document["workflows"][0]["states"][1]["strands"][0]["segments"][0][
+        "oligo_derivations"
+    ][0]
     derivation["orientation_to_source"] = "forward"
 
     with pytest.raises(GroundtruthValidationError, match="orientation_to_source"):
@@ -762,23 +762,25 @@ def test_t3_oligo_reference_must_resolve() -> None:
 
 def test_t3_segment_oligo_derivation_must_resolve() -> None:
     documents = _documents()
-    derivation = documents["T3"]["workflows"][0]["states"][1]["strands"][0][
-        "segments"
-    ][0]["oligo_derivations"][0]
+    derivation = documents["T3"]["workflows"][0]["states"][1]["strands"][0]["segments"][
+        0
+    ]["oligo_derivations"][0]
     derivation["oligo_id"] = "missing"
 
-    with pytest.raises(GroundtruthValidationError, match="oligo derivations.*unknown IDs"):
+    with pytest.raises(
+        GroundtruthValidationError, match="oligo derivations.*unknown IDs"
+    ):
         validate_cross_task_links(documents)
 
 
 def test_t1_segment_oligo_derivation_must_resolve() -> None:
     documents = _documents()
-    derivation = documents["T1"]["libraries"][0]["segments"][0][
-        "oligo_derivations"
-    ][0]
+    derivation = documents["T1"]["libraries"][0]["segments"][0]["oligo_derivations"][0]
     derivation["oligo_id"] = "missing"
 
-    with pytest.raises(GroundtruthValidationError, match="oligo derivations.*unknown IDs"):
+    with pytest.raises(
+        GroundtruthValidationError, match="oligo derivations.*unknown IDs"
+    ):
         validate_cross_task_links(documents)
 
 
@@ -789,16 +791,12 @@ def test_t1_segment_orientation_to_source_matches_exact_sequences() -> None:
     segment["sequence"] = "CGCGGTTC"
     segment["length"] = 8
     segment["placeholder"] = "[TN5_INDEX:8]"
-    segment["oligo_derivations"][0][
-        "orientation_to_source"
-    ] = "reverse_complement"
+    segment["oligo_derivations"][0]["orientation_to_source"] = "reverse_complement"
     oligo["sequence"] = "GAACCGCG"
 
     validate_cross_task_links({"T1": documents["T1"], "T2": documents["T2"]})
 
-    segment["oligo_derivations"][0][
-        "orientation_to_source"
-    ] = "same_orientation"
+    segment["oligo_derivations"][0]["orientation_to_source"] = "same_orientation"
     with pytest.raises(
         GroundtruthValidationError,
         match="sequence disagrees with orientation_to_source",
@@ -841,9 +839,7 @@ def test_placeholder_roles_cannot_encode_orientation(task: str) -> None:
 def test_canonical_placeholder_roles_are_valid(task: str) -> None:
     documents = _documents()
     if task == "T1":
-        documents["T1"]["libraries"][0]["segments"][0]["placeholder"] = (
-            "[TN5_INDEX:8]"
-        )
+        documents["T1"]["libraries"][0]["segments"][0]["placeholder"] = "[TN5_INDEX:8]"
     elif task == "T2":
         component = {
             "name": "Tn5 index",
@@ -855,9 +851,9 @@ def test_canonical_placeholder_roles_are_valid(task: str) -> None:
         }
         documents["T2"]["oligos"][0]["components"] = [component]
     else:
-        documents["T3"]["workflows"][0]["states"][1]["strands"][0][
-            "segments"
-        ][0]["placeholder"] = "[TN5_INDEX:8]"
+        documents["T3"]["workflows"][0]["states"][1]["strands"][0]["segments"][0][
+            "placeholder"
+        ] = "[TN5_INDEX:8]"
 
     validate_task_document(
         task,
@@ -883,7 +879,9 @@ def test_nonfinal_carried_product_must_continue() -> None:
 def test_final_state_must_be_reachable() -> None:
     documents = _documents()
     documents["T3"]["workflows"][0]["transitions"] = []
-    with pytest.raises(GroundtruthValidationError, match="unreachable"):
+    with pytest.raises(
+        GroundtruthValidationError, match="one weakly connected molecular process"
+    ):
         validate_cross_task_links(documents)
 
 
@@ -911,9 +909,7 @@ def test_graph_cycles_are_rejected() -> None:
 
 def test_terminal_state_must_match_t1() -> None:
     documents = _documents()
-    segment = documents["T3"]["workflows"][0]["states"][1]["strands"][0][
-        "segments"
-    ][0]
+    segment = documents["T3"]["workflows"][0]["states"][1]["strands"][0]["segments"][0]
     segment["sequence"] = "CCC"
     segment["oligo_derivations"][0]["orientation_to_source"] = "unknown"
     with pytest.raises(GroundtruthValidationError, match="does not match any"):
@@ -941,7 +937,9 @@ def _add_second_library_and_terminal_state(documents: dict[str, dict]) -> None:
     workflow["states"].append(state)
     workflow["transitions"][0]["product_state_ids"].append("final-2")
     workflow["transitions"][0]["carried_forward_product_ids"].append("final-2")
-    workflow["final_state_ids"].append("final-2")
+    workflow["final_outputs"].append(
+        {"state_id": "final-2", "modality": "gene expression"}
+    )
     workflow["states"][1]["strands"][0]["sequence_architecture"] = "AAA"
 
 
@@ -984,9 +982,7 @@ def test_matching_terminal_architecture_allows_simplified_t3_segments() -> None:
 
 def test_terminal_architecture_accepts_token_aware_reverse_complement() -> None:
     documents = _documents()
-    documents["T1"]["libraries"][0]["library_sequence"] = (
-        "GA[UMI:2]C[CDNA]TT"
-    )
+    documents["T1"]["libraries"][0]["library_sequence"] = "GA[UMI:2]C[CDNA]TT"
     documents["T3"]["workflows"][0]["states"][1]["strands"][0][
         "sequence_architecture"
     ] = "AA[CDNA]G[UMI:2]TC"
@@ -996,13 +992,9 @@ def test_terminal_architecture_accepts_token_aware_reverse_complement() -> None:
 
 def test_terminal_segment_fallback_accepts_reverse_complement() -> None:
     documents = _documents()
-    segment = documents["T3"]["workflows"][0]["states"][1]["strands"][0][
-        "segments"
-    ][0]
+    segment = documents["T3"]["workflows"][0]["states"][1]["strands"][0]["segments"][0]
     segment["sequence"] = "TTT"
-    segment["oligo_derivations"][0]["orientation_to_source"] = (
-        "reverse_complement"
-    )
+    segment["oligo_derivations"][0]["orientation_to_source"] = "reverse_complement"
 
     validate_cross_task_links(documents)
 

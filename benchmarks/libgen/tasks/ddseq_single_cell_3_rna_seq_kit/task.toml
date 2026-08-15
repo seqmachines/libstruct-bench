@@ -9,16 +9,16 @@ keywords = ["genomics", "oligo", "molecular-workflow", "protocol-understanding"]
 
 [metadata]
 benchmark = "libgen"
-benchmark_version = "2.0.0"
+benchmark_version = "3.0.0"
 protocol_id = "ddseq_single_cell_3_rna_seq_kit"
 protocol_name = "ddSEQ Single-Cell 3' RNA-Seq Kit"
 input_repo = "sequencing/scg-protocols-v1"
 input_revision = "19c29caabcb019a72d08fed59ed8030a2d3c449d"
 groundtruth_repo = "sequencing/scg-oligo-groundtruth-v1"
-groundtruth_revision = "ecd12f41611ed64e3bff53d715b111e0f0ee9a10"
+groundtruth_revision = "5a81714daaa87d568a0c5b62320679d34219ebf7"
 network_profile = "local-docker"
 source_manifest_sha256 = "43f08373a69d0635b23ae10bd3d6310e632388122993b065ea0ff659986182f4"
-groundtruth_bundle_sha256 = "024ddf8ca00718116dd2b72d4c989dd4cb52ad73dae5dda81938200c38e0f442"
+groundtruth_bundle_sha256 = "01baa0b85a63d6d220adec93d8ef292b6eff810fa96e33cc69e7e2be933ecf1a"
 
 [agent]
 timeout_sec = 3600.0

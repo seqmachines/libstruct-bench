@@ -9,16 +9,16 @@ keywords = ["genomics", "oligo", "molecular-workflow", "protocol-understanding"]
 
 [metadata]
 benchmark = "libgen"
-benchmark_version = "2.0.0"
+benchmark_version = "3.0.0"
 protocol_id = "scrrbs"
 protocol_name = "scRRBS"
 input_repo = "sequencing/scg-protocols-v1"
 input_revision = "19c29caabcb019a72d08fed59ed8030a2d3c449d"
 groundtruth_repo = "sequencing/scg-oligo-groundtruth-v1"
-groundtruth_revision = "ecd12f41611ed64e3bff53d715b111e0f0ee9a10"
+groundtruth_revision = "5a81714daaa87d568a0c5b62320679d34219ebf7"
 network_profile = "local-docker"
 source_manifest_sha256 = "f338809a5e443899b2a4f42add14ba2cd83569a5518cb7c6afef0d3480836333"
-groundtruth_bundle_sha256 = "d58a24e72c12f36ef8813831b12ee9975762ca0eaa0e1a99c63119853a9efda2"
+groundtruth_bundle_sha256 = "67fe746492170048c0269250090ad78c054e440731351357d73cd0212262e4d1"
 
 [agent]
 timeout_sec = 3600.0

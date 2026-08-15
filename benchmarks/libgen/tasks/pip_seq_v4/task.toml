@@ -9,16 +9,16 @@ keywords = ["genomics", "oligo", "molecular-workflow", "protocol-understanding"]
 
 [metadata]
 benchmark = "libgen"
-benchmark_version = "2.0.0"
+benchmark_version = "3.0.0"
 protocol_id = "pip_seq_v4"
 protocol_name = "PIP-seq v4"
 input_repo = "sequencing/scg-protocols-v1"
 input_revision = "19c29caabcb019a72d08fed59ed8030a2d3c449d"
 groundtruth_repo = "sequencing/scg-oligo-groundtruth-v1"
-groundtruth_revision = "ecd12f41611ed64e3bff53d715b111e0f0ee9a10"
+groundtruth_revision = "5a81714daaa87d568a0c5b62320679d34219ebf7"
 network_profile = "local-docker"
 source_manifest_sha256 = "03894ee65c786cd68376337de7a577fa7a54d4a72cf0fe2d9861061573f97c56"
-groundtruth_bundle_sha256 = "8178302cb1691978f5daa381963a144c115dc1a1298d85fbeb704328f23d7d4e"
+groundtruth_bundle_sha256 = "2ebf1788d549b7d0744cd1911b4c78b528c3571fcbb7453029504e668f8ba6ea"
 
 [agent]
 timeout_sec = 3600.0

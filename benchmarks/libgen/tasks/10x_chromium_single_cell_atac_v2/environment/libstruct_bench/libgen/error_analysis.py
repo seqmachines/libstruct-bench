@@ -8,6 +8,7 @@ from pathlib import Path
 from typing import Any, Iterable, Mapping
 
 from libstruct_bench.libgen.scoring import grade_libgen, t2_sequence_similarity
+from libstruct_bench.modalities import modality_key
 
 
 ERROR_ANALYSIS_SCHEMA_VERSION = "libstruct.libgen_error_analysis.v2"
@@ -424,48 +425,48 @@ def _scoring_consistency_observations(
         affected_metrics=_T2_AFFECTED_METRICS,
     )
 
-    stored_modalities = (stored.get("t3") or {}).get("modalities", {})
-    current_modalities = (current.get("t3") or {}).get("modalities", {})
-    for modality in sorted(set(stored_modalities) | set(current_modalities)):
-        stored_modality = stored_modalities.get(modality, {})
-        current_modality = current_modalities.get(modality, {})
+    stored_workflows = (stored.get("t3") or {}).get("workflows", {})
+    current_workflows = (current.get("t3") or {}).get("workflows", {})
+    for workflow_id in sorted(set(stored_workflows) | set(current_workflows)):
+        stored_workflow = stored_workflows.get(workflow_id, {})
+        current_workflow = current_workflows.get(workflow_id, {})
         _match_score_consistency_observations(
             observations,
-            stored_matches=stored_modality.get("state_matches", []),
-            current_matches=current_modality.get("state_matches", []),
+            stored_matches=stored_workflow.get("state_matches", []),
+            current_matches=current_workflow.get("state_matches", []),
             task="T3",
             entity_type="state_scoring",
             prediction_key="prediction_state_id",
             groundtruth_key="groundtruth_state_id",
             score_key="score",
-            location_prefix=f"T3/modalities/{modality}/states",
+            location_prefix=f"T3/workflows/{workflow_id}/states",
             affected_metrics=["t3_state_f1"],
         )
         _match_score_consistency_observations(
             observations,
-            stored_matches=stored_modality.get("transition_matches", []),
-            current_matches=current_modality.get("transition_matches", []),
+            stored_matches=stored_workflow.get("transition_matches", []),
+            current_matches=current_workflow.get("transition_matches", []),
             task="T3",
             entity_type="transition_scoring",
             prediction_key="prediction_transition_id",
             groundtruth_key="groundtruth_transition_id",
             score_key="score",
-            location_prefix=f"T3/modalities/{modality}/transitions",
+            location_prefix=f"T3/workflows/{workflow_id}/transitions",
             affected_metrics=_T3_TRANSITION_AFFECTED_METRICS,
         )
-        stored_edges = stored_modality.get("typed_edges", {})
-        current_edges = current_modality.get("typed_edges", {})
+        stored_edges = stored_workflow.get("typed_edges", {})
+        current_edges = current_workflow.get("typed_edges", {})
         edge_counts = ("matched", "predicted", "groundtruth", "neutralized_predictions")
         if any(stored_edges.get(key) != current_edges.get(key) for key in edge_counts):
             _append_evaluator_candidate(
                 observations,
                 task="T3",
                 entity_type="typed_edge_scoring",
-                prediction_id=stored_modality.get("predicted_modality"),
-                groundtruth_id=current_modality.get("groundtruth_modality"),
+                prediction_id=stored_workflow.get("predicted_workflow_id"),
+                groundtruth_id=current_workflow.get("groundtruth_workflow_id"),
                 stored_score=None,
                 current_score=None,
-                location=f"T3/modalities/{modality}/typed_edges/scoring_consistency",
+                location=f"T3/workflows/{workflow_id}/typed_edges/scoring_consistency",
                 affected_metrics=["t3_typed_edge_f1"],
                 extra_signals=[
                     f"stored_{key}={stored_edges.get(key)!r};current_{key}={current_edges.get(key)!r}"
@@ -766,25 +767,29 @@ def _t3_observations(
 ) -> None:
     truth_states, truth_transitions = _t3_entities(groundtruth)
 
-    for modality_key, modality in sorted(details.get("modalities", {}).items()):
-        predicted_modality = modality.get("predicted_modality")
-        groundtruth_modality = modality.get("groundtruth_modality")
-        scorable = modality.get("groundtruth_scorable", True)
-        if predicted_modality is None and groundtruth_modality is not None and scorable:
+    for workflow_key, workflow in sorted(details.get("workflows", {}).items()):
+        predicted_workflow_id = workflow.get("predicted_workflow_id")
+        groundtruth_workflow_id = workflow.get("groundtruth_workflow_id")
+        scorable = workflow.get("groundtruth_scorable", True)
+        if (
+            predicted_workflow_id is None
+            and groundtruth_workflow_id is not None
+            and scorable
+        ):
             _append_observation(
                 observations,
                 task="T3",
                 category="missing_recoverable_information",
                 entity_type="workflow",
                 prediction_id=None,
-                groundtruth_id=groundtruth_modality,
+                groundtruth_id=groundtruth_workflow_id,
                 matched_score=0.0,
-                location=f"T3/modalities/{modality_key}",
-                summary=f"Recoverable modality {groundtruth_modality!r} is missing.",
+                location=f"T3/workflows/{workflow_key}",
+                summary=f"Recoverable workflow {groundtruth_workflow_id!r} is missing.",
                 signals=[
                     "missing predicted workflow",
-                    f"recoverable_states={len(modality.get('unmatched_groundtruth_state_ids', []))}",
-                    f"recoverable_transitions={len(modality.get('unmatched_groundtruth_transition_ids', []))}",
+                    f"recoverable_states={len(workflow.get('unmatched_groundtruth_state_ids', []))}",
+                    f"recoverable_transitions={len(workflow.get('unmatched_groundtruth_transition_ids', []))}",
                 ],
                 affected_metrics=[
                     "reward",
@@ -796,18 +801,18 @@ def _t3_observations(
                 substantive=True,
             )
             continue
-        if predicted_modality is not None and groundtruth_modality is None:
+        if predicted_workflow_id is not None and groundtruth_workflow_id is None:
             _append_observation(
                 observations,
                 task="T3",
                 category="unsupported_completion",
                 entity_type="workflow",
-                prediction_id=predicted_modality,
+                prediction_id=predicted_workflow_id,
                 groundtruth_id=None,
                 matched_score=0.0,
-                location=f"T3/modalities/{modality_key}",
+                location=f"T3/workflows/{workflow_key}",
                 summary=(
-                    f"Predicted modality {predicted_modality!r} has no canonical "
+                    f"Predicted workflow {predicted_workflow_id!r} has no canonical "
                     "workflow match."
                 ),
                 signals=["extra predicted workflow"],
@@ -824,24 +829,30 @@ def _t3_observations(
 
         _missing_entity_observations(
             observations,
-            modality=modality_key,
+            workflow=workflow_key,
             entity="state",
-            missing_truth=modality.get("unmatched_groundtruth_state_ids", []),
-            extra_predictions=modality.get("unmatched_prediction_state_ids", []),
+            missing_truth=workflow.get("unmatched_groundtruth_state_ids", []),
+            extra_predictions=workflow.get("unmatched_prediction_state_ids", []),
             truth_entities=truth_states,
             affected_metrics=["t3_state_f1"],
         )
         _missing_entity_observations(
             observations,
-            modality=modality_key,
+            workflow=workflow_key,
             entity="transition",
-            missing_truth=modality.get("unmatched_groundtruth_transition_ids", []),
-            extra_predictions=modality.get("unmatched_prediction_transition_ids", []),
+            missing_truth=workflow.get("unmatched_groundtruth_transition_ids", []),
+            extra_predictions=workflow.get("unmatched_prediction_transition_ids", []),
             truth_entities=truth_transitions,
             affected_metrics=_T3_TRANSITION_AFFECTED_METRICS,
         )
 
-        for match in modality.get("state_matches", []):
+        _terminal_output_observations(
+            observations,
+            workflow=workflow_key,
+            details=workflow,
+        )
+
+        for match in workflow.get("state_matches", []):
             if not match.get("scored") or not _below_one(match.get("score")):
                 continue
             groundtruth_id = match.get("groundtruth_state_id", "unknown")
@@ -865,7 +876,7 @@ def _t3_observations(
                 prediction_id=prediction_id,
                 groundtruth_id=groundtruth_id,
                 matched_score=float(match["score"]),
-                location=f"T3/modalities/{modality_key}/states/{groundtruth_id}",
+                location=f"T3/workflows/{workflow_key}/states/{groundtruth_id}",
                 summary=f"Molecular state {groundtruth_id!r} disagrees on recoverable content.",
                 signals=signals,
                 affected_metrics=["t3_state_f1"],
@@ -873,7 +884,7 @@ def _t3_observations(
                 source_support_status=match.get("groundtruth_support_status"),
                 substantive=True,
             )
-        for match in modality.get("transition_matches", []):
+        for match in workflow.get("transition_matches", []):
             if not match.get("scored") or not _below_one(match.get("score")):
                 continue
             groundtruth_id = match.get("groundtruth_transition_id", "unknown")
@@ -890,7 +901,7 @@ def _t3_observations(
                     groundtruth_id=groundtruth_id,
                     matched_score=float(match["score"]),
                     location=(
-                        f"T3/modalities/{modality_key}/transitions/"
+                        f"T3/workflows/{workflow_key}/transitions/"
                         f"{groundtruth_id}/operation"
                     ),
                     summary=f"Transition {groundtruth_id!r} uses a different operation.",
@@ -919,7 +930,7 @@ def _t3_observations(
                     prediction_id=prediction_id,
                     groundtruth_id=groundtruth_id,
                     matched_score=float(match["score"]),
-                    location=f"T3/modalities/{modality_key}/transitions/{groundtruth_id}",
+                    location=f"T3/workflows/{workflow_key}/transitions/{groundtruth_id}",
                     summary=(
                         f"Transition {groundtruth_id!r} disagrees in {mismatches}."
                     ),
@@ -932,15 +943,128 @@ def _t3_observations(
 
         _typed_edge_observations(
             observations,
-            modality=modality_key,
-            edges=modality.get("typed_edges", {}),
+            workflow=workflow_key,
+            edges=workflow.get("typed_edges", {}),
+        )
+
+
+def _terminal_output_observations(
+    observations: list[dict[str, Any]],
+    *,
+    workflow: str,
+    details: Mapping[str, Any],
+) -> None:
+    state_map = details.get("state_id_map", {})
+    predicted = [
+        {
+            "state_id": str(item.get("state_id", "")),
+            "mapped_state_id": state_map.get(str(item.get("state_id", ""))),
+            "modality": modality_key(str(item.get("modality", ""))),
+            "reported_modality": str(item.get("modality", "")),
+        }
+        for item in details.get("predicted_final_outputs", [])
+    ]
+    truth = [
+        {
+            "state_id": str(item.get("state_id", "")),
+            "modality": modality_key(str(item.get("modality", ""))),
+            "reported_modality": str(item.get("modality", "")),
+        }
+        for item in details.get("groundtruth_final_outputs", [])
+    ]
+    used_predictions: set[int] = set()
+    for expected in truth:
+        exact_index = next(
+            (
+                index
+                for index, candidate in enumerate(predicted)
+                if index not in used_predictions
+                and candidate["mapped_state_id"] == expected["state_id"]
+                and candidate["modality"] == expected["modality"]
+            ),
+            None,
+        )
+        if exact_index is not None:
+            used_predictions.add(exact_index)
+            continue
+        wrong_modality_index = next(
+            (
+                index
+                for index, candidate in enumerate(predicted)
+                if index not in used_predictions
+                and candidate["mapped_state_id"] == expected["state_id"]
+            ),
+            None,
+        )
+        groundtruth_id = f"{expected['state_id']}:{expected['reported_modality']}"
+        if wrong_modality_index is not None:
+            candidate = predicted[wrong_modality_index]
+            used_predictions.add(wrong_modality_index)
+            prediction_id = f"{candidate['state_id']}:{candidate['reported_modality']}"
+            _append_observation(
+                observations,
+                task="T3",
+                category="workflow_or_topology_error",
+                entity_type="terminal_output",
+                prediction_id=prediction_id,
+                groundtruth_id=groundtruth_id,
+                matched_score=0.0,
+                location=f"T3/workflows/{workflow}/final_outputs/{expected['state_id']}",
+                summary=(
+                    f"Terminal state {expected['state_id']!r} has modality "
+                    f"{candidate['reported_modality']!r}; expected "
+                    f"{expected['reported_modality']!r}."
+                ),
+                signals=["wrong terminal-output modality"],
+                affected_metrics=["diagnostic:t3_terminal_output_f1"],
+                recoverability="recoverable",
+                substantive=True,
+            )
+            continue
+        _append_observation(
+            observations,
+            task="T3",
+            category="missing_recoverable_information",
+            entity_type="terminal_output",
+            prediction_id=None,
+            groundtruth_id=groundtruth_id,
+            matched_score=0.0,
+            location=f"T3/workflows/{workflow}/final_outputs/{expected['state_id']}",
+            summary=(
+                f"Terminal output {groundtruth_id!r} is missing from the predicted "
+                "connected workflow."
+            ),
+            signals=["missing terminal output"],
+            affected_metrics=["diagnostic:t3_terminal_output_f1"],
+            recoverability="recoverable",
+            substantive=True,
+        )
+
+    for index, candidate in enumerate(predicted):
+        if index in used_predictions:
+            continue
+        prediction_id = f"{candidate['state_id']}:{candidate['reported_modality']}"
+        _append_observation(
+            observations,
+            task="T3",
+            category="unsupported_completion",
+            entity_type="terminal_output",
+            prediction_id=prediction_id,
+            groundtruth_id=None,
+            matched_score=0.0,
+            location=f"T3/workflows/{workflow}/final_outputs/{candidate['state_id']}",
+            summary=f"Predicted terminal output {prediction_id!r} has no canonical match.",
+            signals=["extra terminal output"],
+            affected_metrics=["diagnostic:t3_terminal_output_f1"],
+            recoverability="unresolved",
+            substantive=True,
         )
 
 
 def _missing_entity_observations(
     observations: list[dict[str, Any]],
     *,
-    modality: str,
+    workflow: str,
     entity: str,
     missing_truth: Iterable[str],
     extra_predictions: Iterable[str],
@@ -959,7 +1083,7 @@ def _missing_entity_observations(
             prediction_id=None,
             groundtruth_id=entity_id,
             matched_score=0.0,
-            location=f"T3/modalities/{modality}/{entity}s/{entity_id}",
+            location=f"T3/workflows/{workflow}/{entity}s/{entity_id}",
             summary=f"Recoverable {entity} {entity_id!r} is missing.",
             signals=[f"unmatched ground-truth {entity}"],
             affected_metrics=affected_metrics,
@@ -976,7 +1100,7 @@ def _missing_entity_observations(
             prediction_id=entity_id,
             groundtruth_id=None,
             matched_score=0.0,
-            location=f"T3/modalities/{modality}/{entity}s/{entity_id}",
+            location=f"T3/workflows/{workflow}/{entity}s/{entity_id}",
             summary=f"Predicted {entity} {entity_id!r} has no matched canonical entity.",
             signals=[f"unmatched predicted {entity}"],
             affected_metrics=affected_metrics,
@@ -988,7 +1112,7 @@ def _missing_entity_observations(
 def _typed_edge_observations(
     observations: list[dict[str, Any]],
     *,
-    modality: str,
+    workflow: str,
     edges: dict[str, Any],
 ) -> None:
     missing = list(edges.get("missing_groundtruth_edges", []))
@@ -1003,7 +1127,7 @@ def _typed_edge_observations(
             prediction_id=None,
             groundtruth_id=edge_id,
             matched_score=0.0,
-            location=f"T3/modalities/{modality}/typed_edges/{edge_id}",
+            location=f"T3/workflows/{workflow}/typed_edges/{edge_id}",
             summary=f"Canonical typed edge {edge_id!r} is missing.",
             signals=["missing typed edge"],
             affected_metrics=["t3_typed_edge_f1"],
@@ -1020,7 +1144,7 @@ def _typed_edge_observations(
             prediction_id=edge_id,
             groundtruth_id=None,
             matched_score=0.0,
-            location=f"T3/modalities/{modality}/typed_edges/{edge_id}",
+            location=f"T3/workflows/{workflow}/typed_edges/{edge_id}",
             summary=f"Predicted typed edge {edge_id!r} has no canonical match.",
             signals=["extra typed edge"],
             affected_metrics=["t3_typed_edge_f1"],
@@ -1040,10 +1164,10 @@ def _typed_edge_observations(
             task="T3",
             category="workflow_or_topology_error",
             entity_type="typed_edge_set",
-            prediction_id=modality,
-            groundtruth_id=modality,
+            prediction_id=workflow,
+            groundtruth_id=workflow,
             matched_score=None,
-            location=f"T3/modalities/{modality}/typed_edges",
+            location=f"T3/workflows/{workflow}/typed_edges",
             summary="The aligned typed graph edges disagree.",
             signals=[
                 f"matched={edges.get('matched', 0)}",

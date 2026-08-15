@@ -9,16 +9,16 @@ keywords = ["genomics", "oligo", "molecular-workflow", "protocol-understanding"]
 
 [metadata]
 benchmark = "libgen"
-benchmark_version = "2.0.0"
+benchmark_version = "3.0.0"
 protocol_id = "seq_well_s3"
 protocol_name = "Seq-Well S3"
 input_repo = "sequencing/scg-protocols-v1"
 input_revision = "19c29caabcb019a72d08fed59ed8030a2d3c449d"
 groundtruth_repo = "sequencing/scg-oligo-groundtruth-v1"
-groundtruth_revision = "ecd12f41611ed64e3bff53d715b111e0f0ee9a10"
+groundtruth_revision = "5a81714daaa87d568a0c5b62320679d34219ebf7"
 network_profile = "local-docker"
 source_manifest_sha256 = "9c10fa3d0ccb54f1515a9f1375278b0b43159f135d595b898795e0abcb547c0a"
-groundtruth_bundle_sha256 = "f7de2f011364e3132679d35993cbf2ca49f59841870fa517abd119e6b7765258"
+groundtruth_bundle_sha256 = "e8e6201cfb177212a3a0a7d3f4624e81e9762bea61f60d51f0524e94083a43eb"
 
 [agent]
 timeout_sec = 3600.0

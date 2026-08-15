@@ -47,9 +47,15 @@ def main(argv: list[str] | None = None) -> int:
     lock = _load_json(lock_path)
     if lock.get("mode") != "pilot":
         raise ValueError("error-review preparation currently requires a pilot lock")
-    if lock.get("expected_trial_count") != 60:
+    approved_expected = (
+        len(lock.get("cells") or [])
+        * len(lock.get("protocol_ids") or [])
+        * int(lock.get("attempts") or 1)
+    )
+    if lock.get("expected_trial_count") != approved_expected:
         raise ValueError(
-            "the approved pilot must contain exactly 60 trials; found "
+            "pilot expected_trial_count does not match its locked cells, protocols, "
+            f"and attempts: expected {approved_expected}, found "
             f"{lock.get('expected_trial_count')!r}"
         )
 
@@ -61,9 +67,7 @@ def main(argv: list[str] | None = None) -> int:
     pack_issues: list[str] = []
 
     for cell in lock["cells"]:
-        job_name = (
-            f"libgen-{lock['mode']}-{cell['model_key']}-{cell['harness_key']}"
-        )
+        job_name = f"libgen-{lock['mode']}-{cell['model_key']}-{cell['harness_key']}"
         job_dir = runs_root / job_name
         if not job_dir.is_dir():
             pack_issues.append(f"missing Harbor job directory: {job_dir}")
@@ -215,8 +219,10 @@ def _prepare_trial(
         verifier_error=verifier_error,
         inventory=inventory,
     )
-    if details is None and verifier_error is None and not (result or {}).get(
-        "exception_info"
+    if (
+        details is None
+        and verifier_error is None
+        and not (result or {}).get("exception_info")
     ):
         verifier_error = {
             "kind": "verifier_configuration_error",
@@ -225,8 +231,7 @@ def _prepare_trial(
 
     if (
         generated_analysis is not None
-        and generated_analysis.get("schema_version")
-        == ERROR_ANALYSIS_SCHEMA_VERSION
+        and generated_analysis.get("schema_version") == ERROR_ANALYSIS_SCHEMA_VERSION
     ):
         analysis = generated_analysis
         analysis.update(
@@ -373,8 +378,10 @@ def _preservation_issues(
         issues.append("missing or unreadable Harbor result")
     if not any(role in {"agent_trajectory", "agent_log"} for role in roles):
         issues.append("no observable agent trajectory or action log was preserved")
-    if details is None and verifier_error is None and not (result or {}).get(
-        "exception_info"
+    if (
+        details is None
+        and verifier_error is None
+        and not (result or {}).get("exception_info")
     ):
         issues.append("no readable verifier details or error artifact was preserved")
     if details and details.get("prediction_valid") is True:
@@ -395,7 +402,9 @@ def _protocol_id(
     if from_result in expected:
         return from_result
     for protocol_id in sorted(expected, key=len, reverse=True):
-        if trial_dir.name == protocol_id or trial_dir.name.startswith(protocol_id + "__"):
+        if trial_dir.name == protocol_id or trial_dir.name.startswith(
+            protocol_id + "__"
+        ):
             return protocol_id
     return from_result or trial_dir.name.split("__", 1)[0]
 

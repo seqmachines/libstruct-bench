@@ -55,10 +55,13 @@ attempt provenance. A repaired proposal remains subject to human review.
   alternate products.
 - Review T2 and T3 chronologically: register an oligo when first seen, then
   reference it from each molecular transition.
-- Build exactly one T3 workflow per modality represented in T1. Preserve
-  alternative routes for the same modality as branches and multiple final
-  states inside that workflow; do not split them into duplicate workflows.
-- Normalize every T1 library and T3 workflow to one approved modality:
+- Build exactly one T3 workflow per weakly connected molecular process. Keep
+  shared upstream states and transitions once, followed by modality-specific
+  branches; do not project or duplicate the shared ancestors into separate
+  modality workflows.
+- List each terminal state in `final_outputs` with the corresponding T1
+  modality. Normalize every T1 library and T3 terminal output to one approved
+  modality:
   `gene expression`, `genomic DNA`, `feature barcode`, `sgRNA`, or
   `chromatin accessibility`. Preserve source-visible labels in evidence, but
   do not store abbreviations, snake case, protocol-specific phrases, or the

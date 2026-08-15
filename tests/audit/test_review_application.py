@@ -97,6 +97,7 @@ def _t3(sequence: str = "CCC") -> dict:
             "protocol_scope": _scope(),
             "support_status": "explicit",
         }
+
     return {
         "protocol_id": "example_protocol",
         "protocol_name": "Example",
@@ -104,9 +105,11 @@ def _t3(sequence: str = "CCC") -> dict:
         "workflows": [
             {
                 "workflow_id": "workflow",
-                "modality": "gene expression",
                 "protocol_scope": _scope(),
-                "states": [state("input", "input", "GGG"), state("final", "adapter", sequence)],
+                "states": [
+                    state("input", "input", "GGG"),
+                    state("final", "adapter", sequence),
+                ],
                 "transitions": [
                     {
                         "transition_id": "extension",
@@ -123,7 +126,7 @@ def _t3(sequence: str = "CCC") -> dict:
                     }
                 ],
                 "initial_state_ids": ["input"],
-                "final_state_ids": ["final"],
+                "final_outputs": [{"state_id": "final", "modality": "gene expression"}],
             }
         ],
     }
@@ -131,28 +134,51 @@ def _t3(sequence: str = "CCC") -> dict:
 
 def _run() -> dict:
     return {
-        "run_id": "comparison-001", "agent": "claude-code", "provider": "anthropic",
-        "model": "claude-sonnet-4-20250514", "tool_version": "2.1.0",
-        "harness_version": "audit-harness", "review_mode": "primary",
-        "started_at": NOW, "completed_at": LATER, "prompt_sha256": "1" * 64,
-        "skill_sha256": "2" * 64, "policy_sha256": "3" * 64,
-        "schema_sha256": "4" * 64, "skills": ["audit-protocol"], "tools": ["Read"],
-        "permission_mode": "plan", "checkpoint_id": "checkpoint-0",
+        "run_id": "comparison-001",
+        "agent": "claude-code",
+        "provider": "anthropic",
+        "model": "claude-sonnet-4-20250514",
+        "tool_version": "2.1.0",
+        "harness_version": "audit-harness",
+        "review_mode": "primary",
+        "started_at": NOW,
+        "completed_at": LATER,
+        "prompt_sha256": "1" * 64,
+        "skill_sha256": "2" * 64,
+        "policy_sha256": "3" * 64,
+        "schema_sha256": "4" * 64,
+        "skills": ["audit-protocol"],
+        "tools": ["Read"],
+        "permission_mode": "plan",
+        "checkpoint_id": "checkpoint-0",
     }
 
 
 def _proposal(baseline_sha: str, *, new_t3: dict | None = None) -> dict:
     target = (
-        {"kind": "new_groundtruth_record", "artifact_source_id": "new:t3", "artifact_filename": "groundtruth_library_generation_workflow.json", "json_pointer": ""}
+        {
+            "kind": "new_groundtruth_record",
+            "artifact_source_id": "new:t3",
+            "artifact_filename": "groundtruth_library_generation_workflow.json",
+            "json_pointer": "",
+        }
         if new_t3 is not None
-        else {"kind": "groundtruth_record", "artifact_source_id": "current:t1", "json_pointer": "/libraries/0/library_sequence"}
+        else {
+            "kind": "groundtruth_record",
+            "artifact_source_id": "current:t1",
+            "json_pointer": "/libraries/0/library_sequence",
+        }
     )
     patch = (
         [{"op": "add", "path": "", "value": new_t3}]
         if new_t3 is not None
         else [
             {"op": "replace", "path": "/libraries/0/library_sequence", "value": "CCC"},
-            {"op": "replace", "path": "/libraries/0/segments/0/sequence", "value": "CCC"},
+            {
+                "op": "replace",
+                "path": "/libraries/0/segments/0/sequence",
+                "value": "CCC",
+            },
         ]
     )
     task = "T3" if new_t3 is not None else "T1"
@@ -174,19 +200,47 @@ def _proposal(baseline_sha: str, *, new_t3: dict | None = None) -> dict:
         "disposition": "issues_proposed",
         "summary": "One field needs human review.",
         "audited_fields": [
-            {"field_id": "field-1", "task": task, "object_id": "library", "field_path": "/workflows" if new_t3 is not None else "/libraries/0/library_sequence", "comparison_status": "proposed_correction", "issue_ids": ["issue-1"]}
+            {
+                "field_id": "field-1",
+                "task": task,
+                "object_id": "library",
+                "field_path": "/workflows"
+                if new_t3 is not None
+                else "/libraries/0/library_sequence",
+                "comparison_status": "proposed_correction",
+                "issue_ids": ["issue-1"],
+            }
         ],
         "issues": [
             {
-                "issue_id": "issue-1", "task": task, "field_id": "field-1",
-                "category": "human_curation_error", "defect_type": "incomplete_workflow" if new_t3 is not None else "incorrect_sequence",
-                "responsibility": "human_curation", "severity": "high", "title": "Correction",
-                "target": target, "current_value": None if new_t3 is not None else "AAA",
+                "issue_id": "issue-1",
+                "task": task,
+                "field_id": "field-1",
+                "category": "human_curation_error",
+                "defect_type": "incomplete_workflow"
+                if new_t3 is not None
+                else "incorrect_sequence",
+                "responsibility": "human_curation",
+                "severity": "high",
+                "title": "Correction",
+                "target": target,
+                "current_value": None if new_t3 is not None else "AAA",
                 "proposed_value": new_t3 if new_t3 is not None else "CCC",
-                "support_status": "explicit", "evidence": [{"source_id": "primary:paper", "locator": {"page": 1}, "supports": "proposed"}],
-                "transformations": [], "explanation": "The source explicitly supports the proposed value.",
-                "recommendation": "propose_change", "proposed_patch": patch, "confidence": "high",
-                "run_id": "comparison-001", "checkpoint_id": "checkpoint-0",
+                "support_status": "explicit",
+                "evidence": [
+                    {
+                        "source_id": "primary:paper",
+                        "locator": {"page": 1},
+                        "supports": "proposed",
+                    }
+                ],
+                "transformations": [],
+                "explanation": "The source explicitly supports the proposed value.",
+                "recommendation": "propose_change",
+                "proposed_patch": patch,
+                "confidence": "high",
+                "run_id": "comparison-001",
+                "checkpoint_id": "checkpoint-0",
             }
         ],
     }
@@ -195,24 +249,45 @@ def _proposal(baseline_sha: str, *, new_t3: dict | None = None) -> dict:
 def _decision(proposal_path: Path) -> dict:
     proposal = json.loads(proposal_path.read_text())
     return {
-        "decision_id": "example_protocol:decision:001", "protocol_id": "example_protocol",
-        "audit_id": proposal["audit_id"], "proposal_sha256": sha256_file(proposal_path),
-        "baseline_artifacts": proposal["baseline_artifacts"], "reviewer": {"reviewer_id": "reviewer"},
-        "iteration": 1, "review_state": "final", "review_started_at": NOW,
-        "review_completed_at": LATER, "review_duration_seconds": 300,
+        "decision_id": "example_protocol:decision:001",
+        "protocol_id": "example_protocol",
+        "audit_id": proposal["audit_id"],
+        "proposal_sha256": sha256_file(proposal_path),
+        "baseline_artifacts": proposal["baseline_artifacts"],
+        "reviewer": {"reviewer_id": "reviewer"},
+        "iteration": 1,
+        "review_state": "final",
+        "review_started_at": NOW,
+        "review_completed_at": LATER,
+        "review_duration_seconds": 300,
         "overall_disposition": "accepted",
-        "issue_decisions": [{"issue_id": "issue-1", "disposition": "accept", "rationale": "Checked against the source.", "category": "human_curation_error", "responsibility": "human_curation", "severity": "high", "confirmed_cause": "original_human_curation_error"}],
+        "issue_decisions": [
+            {
+                "issue_id": "issue-1",
+                "disposition": "accept",
+                "rationale": "Checked against the source.",
+                "category": "human_curation_error",
+                "responsibility": "human_curation",
+                "severity": "high",
+                "confirmed_cause": "original_human_curation_error",
+            }
+        ],
     }
 
 
 def _artifacts(tmp_path: Path, *, new_t3: bool = False) -> tuple[Path, Path, Path]:
     baseline = _write(tmp_path / "baselines/groundtruth_final_lib_struct.json", _t1())
-    proposal = _write(tmp_path / "audit.json", _proposal(sha256_file(baseline), new_t3=_t3("AAA") if new_t3 else None))
+    proposal = _write(
+        tmp_path / "audit.json",
+        _proposal(sha256_file(baseline), new_t3=_t3("AAA") if new_t3 else None),
+    )
     decision = _write(tmp_path / "decision.json", _decision(proposal))
     return baseline, proposal, decision
 
 
-def test_review_console_is_conflict_only_and_template_is_unversioned(tmp_path: Path) -> None:
+def test_review_console_is_conflict_only_and_template_is_unversioned(
+    tmp_path: Path,
+) -> None:
     _, proposal, _ = _artifacts(tmp_path)
     value = json.loads(proposal.read_text())
     console = render_console_summary(value)
@@ -281,12 +356,13 @@ def test_low_informational_finding_uses_grouped_human_decision(tmp_path: Path) -
     assert not issue_requires_individual_review(informational)
     low_source_conflict = dict(informational, category="source_conflict")
     assert not issue_requires_individual_review(low_source_conflict)
-    unresolved = dict(
-        informational, category="unresolved_scientific_ambiguity"
-    )
+    unresolved = dict(informational, category="unresolved_scientific_ambiguity")
     assert issue_requires_individual_review(unresolved)
     console = render_console_summary(value)
-    assert "1 issue(s) need individual review; 1 finding(s) need one grouped decision" in console
+    assert (
+        "1 issue(s) need individual review; 1 finding(s) need one grouped decision"
+        in console
+    )
     assert "Optional alias metadata is absent" not in console
     assert "nothing is accepted or updated automatically" in console
     with pytest.raises(ReviewError, match="every proposal issue exactly once"):
@@ -328,11 +404,15 @@ def test_accepted_patch_is_applied_and_regression_is_recorded(tmp_path: Path) ->
         proposal_schema_path=AUDIT / "protocol_audit.schema.json",
         decision_schema_path=AUDIT / "review_decision.schema.json",
         application_schema_path=AUDIT / "application_log.schema.json",
-        artifact_schema_paths={"current:t1": GROUNDTRUTH / "final_library_groundtruth.schema.json"},
+        artifact_schema_paths={
+            "current:t1": GROUNDTRUTH / "final_library_groundtruth.schema.json"
+        },
     )
     candidate = json.loads(result.candidate_paths["current:t1"].read_text())
     assert candidate["libraries"][0]["library_sequence"] == "CCC"
-    fixture = json.loads(next((result.output_dir / "regressions").glob("*.json")).read_text())
+    fixture = json.loads(
+        next((result.output_dir / "regressions").glob("*.json")).read_text()
+    )
     assert fixture["issue_id"] == "issue-1"
     assert "schema_version" not in fixture
 
@@ -342,8 +422,10 @@ def test_stale_baseline_is_rejected(tmp_path: Path) -> None:
     baseline.write_text("{}", encoding="utf-8")
     with pytest.raises(ApplicationError, match="stale baseline"):
         apply_review_decision(
-            proposal_path=proposal, decision_path=decision,
-            baseline_paths={"current:t1": baseline}, output_dir=tmp_path / "application",
+            proposal_path=proposal,
+            decision_path=decision,
+            baseline_paths={"current:t1": baseline},
+            output_dir=tmp_path / "application",
             proposal_schema_path=AUDIT / "protocol_audit.schema.json",
             decision_schema_path=AUDIT / "review_decision.schema.json",
             application_schema_path=AUDIT / "application_log.schema.json",
@@ -360,9 +442,7 @@ def test_root_conversion_replaces_legacy_baseline_before_validation(
         "source_html_file": "example.html",
         "libraries": [],
     }
-    baseline = _write(
-        tmp_path / "baselines/groundtruth_final_lib_struct.json", legacy
-    )
+    baseline = _write(tmp_path / "baselines/groundtruth_final_lib_struct.json", legacy)
     candidate = _t1()
     proposal_value = _proposal(sha256_file(baseline))
     proposal_value["issues"][0].update(
@@ -378,9 +458,7 @@ def test_root_conversion_replaces_legacy_baseline_before_validation(
             },
             "current_value": legacy,
             "proposed_value": candidate,
-            "proposed_patch": [
-                {"op": "replace", "path": "", "value": candidate}
-            ],
+            "proposed_patch": [{"op": "replace", "path": "", "value": candidate}],
         }
     )
     proposal = _write(tmp_path / "audit.json", proposal_value)
@@ -406,8 +484,10 @@ def test_root_conversion_replaces_legacy_baseline_before_validation(
 def test_new_t3_is_created_and_cross_task_validated(tmp_path: Path) -> None:
     baseline, proposal, decision = _artifacts(tmp_path, new_t3=True)
     result = apply_review_decision(
-        proposal_path=proposal, decision_path=decision,
-        baseline_paths={"current:t1": baseline}, output_dir=tmp_path / "application",
+        proposal_path=proposal,
+        decision_path=decision,
+        baseline_paths={"current:t1": baseline},
+        output_dir=tmp_path / "application",
         proposal_schema_path=AUDIT / "protocol_audit.schema.json",
         decision_schema_path=AUDIT / "review_decision.schema.json",
         application_schema_path=AUDIT / "application_log.schema.json",
@@ -416,7 +496,10 @@ def test_new_t3_is_created_and_cross_task_validated(tmp_path: Path) -> None:
             "new:t3": GROUNDTRUTH / "library_generation_workflow.schema.json",
         },
     )
-    assert result.candidate_paths["new:t3"].name == "groundtruth_library_generation_workflow.json"
+    assert (
+        result.candidate_paths["new:t3"].name
+        == "groundtruth_library_generation_workflow.json"
+    )
 
 
 def test_modified_new_t3_is_always_schema_validated(tmp_path: Path) -> None:
@@ -427,9 +510,7 @@ def test_modified_new_t3_is_always_schema_validated(tmp_path: Path) -> None:
         {
             "disposition": "modify",
             "replacement_value": invalid_t3,
-            "replacement_patch": [
-                {"op": "add", "path": "", "value": invalid_t3}
-            ],
+            "replacement_patch": [{"op": "add", "path": "", "value": invalid_t3}],
         }
     )
     _write(decision, decision_value)
@@ -449,21 +530,42 @@ def test_modified_new_t3_is_always_schema_validated(tmp_path: Path) -> None:
 def test_final_application_promotes_without_overwrite(tmp_path: Path) -> None:
     baseline, proposal, decision = _artifacts(tmp_path)
     application = apply_review_decision(
-        proposal_path=proposal, decision_path=decision,
-        baseline_paths={"current:t1": baseline}, output_dir=tmp_path / "application",
+        proposal_path=proposal,
+        decision_path=decision,
+        baseline_paths={"current:t1": baseline},
+        output_dir=tmp_path / "application",
         proposal_schema_path=AUDIT / "protocol_audit.schema.json",
         decision_schema_path=AUDIT / "review_decision.schema.json",
         application_schema_path=AUDIT / "application_log.schema.json",
-        artifact_schema_paths={"current:t1": GROUNDTRUTH / "final_library_groundtruth.schema.json"},
+        artifact_schema_paths={
+            "current:t1": GROUNDTRUTH / "final_library_groundtruth.schema.json"
+        },
     )
     regression = _write(
         tmp_path / "regression-results.json",
-        {"created_at": LATER, "fixture_count": 1, "passed_count": 1, "failed_count": 0, "new_regressions": [], "results": [{"issue_id": "issue-1", "artifact_source_id": "current:t1", "status": "passed", "expected_sha256": "8" * 64, "actual_sha256": "8" * 64}]},
+        {
+            "created_at": LATER,
+            "fixture_count": 1,
+            "passed_count": 1,
+            "failed_count": 0,
+            "new_regressions": [],
+            "results": [
+                {
+                    "issue_id": "issue-1",
+                    "artifact_source_id": "current:t1",
+                    "status": "passed",
+                    "expected_sha256": "8" * 64,
+                    "actual_sha256": "8" * 64,
+                }
+            ],
+        },
     )
     promoted = promote_reviewed_groundtruth(
-        proposal_path=proposal, decision_path=decision,
+        proposal_path=proposal,
+        decision_path=decision,
         application_log_path=application.log_path,
-        groundtruth_root=tmp_path / "approved", promotion_log_path=tmp_path / "promotion.json",
+        groundtruth_root=tmp_path / "approved",
+        promotion_log_path=tmp_path / "promotion.json",
         proposal_schema_path=AUDIT / "protocol_audit.schema.json",
         decision_schema_path=AUDIT / "review_decision.schema.json",
         application_schema_path=AUDIT / "application_log.schema.json",
@@ -474,9 +576,11 @@ def test_final_application_promotes_without_overwrite(tmp_path: Path) -> None:
     assert promoted.artifact_paths["T1"].name == "groundtruth_final_lib_struct.json"
     with pytest.raises(Exception, match="already exists"):
         promote_reviewed_groundtruth(
-            proposal_path=proposal, decision_path=decision,
+            proposal_path=proposal,
+            decision_path=decision,
             application_log_path=application.log_path,
-            groundtruth_root=tmp_path / "approved", promotion_log_path=tmp_path / "promotion-2.json",
+            groundtruth_root=tmp_path / "approved",
+            promotion_log_path=tmp_path / "promotion-2.json",
             proposal_schema_path=AUDIT / "protocol_audit.schema.json",
             decision_schema_path=AUDIT / "review_decision.schema.json",
             application_schema_path=AUDIT / "application_log.schema.json",

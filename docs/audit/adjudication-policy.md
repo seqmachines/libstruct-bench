@@ -73,13 +73,14 @@ schema migration without repeating its scientific review. Keep the proposal
 immutable and compile the current-schema document as a complete root
 replacement in the working decision. Freeze sequences, placeholders,
 orientations, oligo identities, molecular states, operations, and branch order.
-For the T3 modality migration, put the exact T1 modality on each workflow,
-retain one workflow per modality, and keep same-modality alternatives as
-branches. Shared upstream graph records may be duplicated into applicable
-modality workflows without changing their content. Any ambiguous assignment
-returns to the human or a fresh comparison. The final combined candidate and
-root `modify` decision remain subject to normal human approval and linked
-validation. This exception does not permit editing a finalized decision.
+For a T3 representation migration, use one workflow per connected molecular
+process, place exact T1 modalities on `final_outputs`, and
+retain shared upstream graph records once before modality-specific branches.
+Freeze the reviewed scientific payload; any ambiguous connection, terminal
+assignment, or branch structure returns to the human or a fresh comparison.
+The final combined candidate and root `modify` decision remain subject to
+normal human approval and linked validation. This exception does not permit
+editing a finalized decision.
 
 Final review must decide every proposal issue. After issue review and root
 candidate compilation, show one concise T1–T3 result and ask one final

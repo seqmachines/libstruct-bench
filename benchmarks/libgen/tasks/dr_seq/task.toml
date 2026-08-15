@@ -9,16 +9,16 @@ keywords = ["genomics", "oligo", "molecular-workflow", "protocol-understanding"]
 
 [metadata]
 benchmark = "libgen"
-benchmark_version = "2.0.0"
+benchmark_version = "3.0.0"
 protocol_id = "dr_seq"
 protocol_name = "DR-seq"
 input_repo = "sequencing/scg-protocols-v1"
 input_revision = "19c29caabcb019a72d08fed59ed8030a2d3c449d"
 groundtruth_repo = "sequencing/scg-oligo-groundtruth-v1"
-groundtruth_revision = "ecd12f41611ed64e3bff53d715b111e0f0ee9a10"
+groundtruth_revision = "5a81714daaa87d568a0c5b62320679d34219ebf7"
 network_profile = "local-docker"
 source_manifest_sha256 = "18c1af60111984f83d0bbb644e585f45fc472d94e2da78e2084dbe4acb9ce86a"
-groundtruth_bundle_sha256 = "76d3ed7ac0abf0c6d9e571da5b9803b5f1addd3527ef449cd326d8e482757645"
+groundtruth_bundle_sha256 = "8968fe7f0edb14b0ba8beef1367ee3869c0272bd19e4e90b8aa3e6ae8f722551"
 
 [agent]
 timeout_sec = 3600.0

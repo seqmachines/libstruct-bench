@@ -6,11 +6,11 @@ python /tests/grade.py \
   --t3-prediction /logs/artifacts/t3_prediction.json \
   --protocol-id "dr_seq" \
   --groundtruth-repo "sequencing/scg-oligo-groundtruth-v1" \
-  --groundtruth-revision "ecd12f41611ed64e3bff53d715b111e0f0ee9a10" \
+  --groundtruth-revision "5a81714daaa87d568a0c5b62320679d34219ebf7" \
   --groundtruth-prefix "dr_seq" \
-  --t1-sha256 "31efaf2bf2b627a0da1d0af3b88a4212ae9b6e0f3f27db11d943f237289cc666" \
+  --t1-sha256 "1c91ac81aa89b0bc580ca61f61a3225e45b75781380087bd70884a39374ddc7d" \
   --t2-sha256 "f9e28eb282429f83d7e4d56caa9130104974103d336bd532dcabbcf9f6c31db9" \
-  --t3-sha256 "e35a1de29ee55d4305fcd84e6abfd5f42292321982bdb4967d1388a90301c672" \
+  --t3-sha256 "9929560ba018f09d133ae26a05e4449ba1af40687615175846280d51fdf178b5" \
   --schema-root /tests/schemas \
   --reward-out /logs/verifier/reward.json \
   --details-out /logs/verifier/details.json \

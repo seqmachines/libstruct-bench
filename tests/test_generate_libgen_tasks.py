@@ -192,15 +192,19 @@ def test_checked_in_libgen_tasks_keep_verifier_snapshots_synchronized() -> None:
 
     source_package = ROOT / "src/libstruct_bench"
     synchronized_files = (
+        "audit/groundtruth.py",
         "cli/grade_libgen.py",
         "libgen/error_analysis.py",
         "libgen/scoring.py",
+        "libgen/validation.py",
         "libgen/version.py",
         "normalization.py",
     )
     synchronized_schemas = (
         "analysis/libgen_error_analysis.schema.json",
+        "benchmark/library_generation_workflow_prediction.schema.json",
         "benchmark/oligo_prediction.schema.json",
+        "groundtruth/library_generation_workflow.schema.json",
     )
 
     for protocol_id, task in sorted(task_dirs.items()):
@@ -237,6 +241,9 @@ def test_checked_in_libgen_tasks_keep_verifier_snapshots_synchronized() -> None:
         assert (task / "rules.md").read_bytes() == (
             ROOT / "benchmarks/libgen/rules.md"
         ).read_bytes(), f"{protocol_id}: stale rules.md"
+        assert (task / "environment/rules.md").read_bytes() == (
+            ROOT / "benchmarks/libgen/rules.md"
+        ).read_bytes(), f"{protocol_id}: stale environment/rules.md"
 
 
 def test_generator_refuses_mutable_revisions_and_mixed_source_tree() -> None:

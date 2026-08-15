@@ -9,16 +9,16 @@ keywords = ["genomics", "oligo", "molecular-workflow", "protocol-understanding"]
 
 [metadata]
 benchmark = "libgen"
-benchmark_version = "2.0.0"
+benchmark_version = "3.0.0"
 protocol_id = "petri_seq"
 protocol_name = "PETRI-seq"
 input_repo = "sequencing/scg-protocols-v1"
 input_revision = "19c29caabcb019a72d08fed59ed8030a2d3c449d"
 groundtruth_repo = "sequencing/scg-oligo-groundtruth-v1"
-groundtruth_revision = "ecd12f41611ed64e3bff53d715b111e0f0ee9a10"
+groundtruth_revision = "5a81714daaa87d568a0c5b62320679d34219ebf7"
 network_profile = "local-docker"
 source_manifest_sha256 = "6c72ee434d814a1ce14b84aa8dc321222b56ca2d9e9122d4121b86dc2aed92a6"
-groundtruth_bundle_sha256 = "ff7eb24fc75374fd714a89c5124105edcac67a247d74a417f1bdfcb61547a0ac"
+groundtruth_bundle_sha256 = "21694d6629bb8ba2c0af23f6d44063e002944df67d424e938c3b05b1bb7b619b"
 
 [agent]
 timeout_sec = 3600.0

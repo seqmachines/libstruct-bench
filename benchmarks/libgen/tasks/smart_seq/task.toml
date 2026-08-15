@@ -9,16 +9,16 @@ keywords = ["genomics", "oligo", "molecular-workflow", "protocol-understanding"]
 
 [metadata]
 benchmark = "libgen"
-benchmark_version = "2.0.0"
+benchmark_version = "3.0.0"
 protocol_id = "smart_seq"
 protocol_name = "SMART-seq"
 input_repo = "sequencing/scg-protocols-v1"
 input_revision = "19c29caabcb019a72d08fed59ed8030a2d3c449d"
 groundtruth_repo = "sequencing/scg-oligo-groundtruth-v1"
-groundtruth_revision = "ecd12f41611ed64e3bff53d715b111e0f0ee9a10"
+groundtruth_revision = "5a81714daaa87d568a0c5b62320679d34219ebf7"
 network_profile = "local-docker"
 source_manifest_sha256 = "dac4fe5d4c93afb036a25da22c78f27f48ba91b659c35b3e926e0ad79a6aeecb"
-groundtruth_bundle_sha256 = "cb2db933a4308cb4ccdfaa5031c27e16e08a7005093709c6609fc7f09687d860"
+groundtruth_bundle_sha256 = "ad0c1f4e611c6e9f758d92390e7d94eb066354d358a9ae531f4dd14a05065707"
 
 [agent]
 timeout_sec = 3600.0

@@ -70,20 +70,17 @@ the tool if this contract is missed; on that continuation, call
    `ground_truth_audit/<kind>/` directories. Do not create or reuse a `pilot/`
    namespace for active work; `archive/` is history only. Never modify
    `scg-v1-upload` or upload audit data.
-   When an unfinalized proposal predates the move of T3 `modality` from the
-   document root to each workflow, keep the proposal immutable and reshape
-   only its working root candidate during the same review. For a single T1
-   modality, remove the root field and copy the exact T1 modality to the sole
-   workflow. For multiple T1 modalities, keep exactly one workflow per
-   modality, retain same-modality alternatives as branches, and assign final
-   states by their already-reviewed T1 terminal structures. Freeze nucleotide
-   sequences, placeholders, orientations, oligo identities, molecular states,
-   operations, and branch order; shared upstream nodes may be duplicated
-   without changing their content. Record the current-schema root replacement
-   as the human-approved `modify` decision and revalidate T1–T3. If the split
-   is scientifically ambiguous, ask the human or start a fresh comparison;
-   never guess. A finalized stale-schema decision remains immutable and needs
-   a new iteration.
+   When an unfinalized proposal predates the connected-process T3 schema, keep
+   the proposal immutable and reshape only its working root candidate during
+   the same review. Use one workflow per connected molecular process,
+   retain shared ancestors once, and label every terminal in `final_outputs`
+   with the exact corresponding T1 modality. Freeze nucleotide sequences,
+   placeholders, orientations, oligo identities, molecular states, operations,
+   and branch order. Record the current-schema root replacement as the
+   human-approved `modify` decision and revalidate T1–T3. If connectivity,
+   deduplication, terminal assignment, or branching is scientifically
+   ambiguous, ask the human or start a fresh comparison; never guess. A
+   finalized stale-schema decision remains immutable and needs a new iteration.
 3. Catalog sources without a human gate. Include every discovered file that is
    present and hashable. Mark every missing file `unavailable`, retain it in the
    catalog/manifest for provenance, and exclude it from phase packets. When an
@@ -242,9 +239,9 @@ the tool if this contract is missed; on that continuation, call
   `ground_truth_status`, `library_id`, or `strands`. T2 has no `limitations`,
   `baseline_lineage`, `evidence`, `ground_truth_status`, or `notes`. T3 has no
   `limitations`, `ground_truth_status`, `notes`, `evidence`, or
-  `workflow_branch`; store `modality` on each workflow and require exactly one
-  workflow per modality. Keep same-modality alternatives as branches in that
-  workflow.
+  `workflow_branch`; use one workflow per connected molecular process, store
+  modality on each terminal in `final_outputs`, and retain
+  shared ancestors once before modality-specific or alternative-route branches.
 - During conversion, normalize placeholders to orientation-free
   `[ROLE:LENGTH]` values. Preserve the strand-specific bases in T1/T3 segment
   `sequence`, the source-visible oligo bases in T2, and their relationship in
@@ -289,7 +286,7 @@ the tool if this contract is missed; on that continuation, call
   Classify the absent T3 JSON as a migration/schema omission, not an original
   human-curation error. An HTML reference to a missing asset does not establish
   the unseen asset's contents.
-- Store every T1 library and T3 workflow with exactly one canonical modality:
+- Store every T1 library and T3 final output with exactly one canonical modality:
   `gene expression`, `genomic DNA`, `feature barcode`, `sgRNA`, or
   `chromatin accessibility`. Source-visible abbreviations, snake case,
   protocol-specific phrases, and `library` are labels or aliases, not approved

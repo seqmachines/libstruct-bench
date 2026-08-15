@@ -62,13 +62,14 @@ also required.
 
 ## Modalities
 
-Approved T1 libraries and T3 workflows use exactly one of these human-readable
-modality labels: `gene expression`, `genomic DNA`, `feature barcode`, `sgRNA`,
-or `chromatin accessibility`. Do not store abbreviations, capitalization
-variants, snake case, protocol names, or the generic value `library` as a
-modality. Benchmark predictions normalize common aliases—such as `RNA`,
+Approved T1 libraries and T3 `final_outputs` use exactly one of these
+human-readable modality labels: `gene expression`, `genomic DNA`,
+`feature barcode`, `sgRNA`, or `chromatin accessibility`. Do not store abbreviations,
+capitalization variants, snake case, protocol names, or the generic value
+`library` as a modality. Benchmark predictions normalize common aliases—such as `RNA`,
 `scRNA-seq`, `gDNA`, `feature_barcode`, `ATAC`, `scATAC`, and
-`chromatin_accessibility`—to this vocabulary for workflow matching. This
+`chromatin_accessibility`—to this vocabulary for terminal-output and workflow
+matching. This
 label normalization is not a scientific distinction.
 
 ## Evaluator assignment
@@ -91,11 +92,13 @@ of optional or neutral claims are neutral, while an unmatched unknown or
 duplicate prediction reduces precision. Never use order-dependent greedy
 matching.
 
-For T3, require exactly one workflow per modality and match workflows by
-canonicalized modality, including the reviewed aliases above. Preserve
-alternative routes for one modality as branches
-inside that workflow. The primary score is molecular-transition soft F1 using
-operation, semantically matched substrate and product states,
+For T3, require one weakly connected workflow per molecular process. Store
+modality only on `final_outputs`, preserve shared ancestors once, and retain
+modality-specific or alternative routes as branches in that connected DAG.
+Assign predicted and ground-truth workflows globally using terminal modalities,
+states, and transitions, then score each connected DAG once without
+modality-specific projections. The primary score is molecular-transition soft
+F1 using operation, semantically matched substrate and product states,
 carried/discarded classification, and transition-local T2 sequence multisets.
 Major reagent names are diagnostic. Also report typed-edge F1 for substrate,
 carried-product, and discarded-product edges after state and transition

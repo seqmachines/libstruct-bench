@@ -33,9 +33,10 @@ paths:
 - Keep approved ground-truth JSON minimal. Do not copy audit evidence,
   provenance lineage, review decisions, inclusion status, or audit notes into
   T1–T3. T1 has no `library_id` or duplicate `strands`; T2 has no
-  `baseline_lineage`; T3 stores `modality` on each workflow, requires one
-  workflow per modality, and uses graph topology instead of `workflow_branch`.
-  Alternative routes for the same modality remain branches in that workflow.
+  `baseline_lineage`; each T3 workflow is one weakly connected molecular
+  process, terminal modalities are stored in `final_outputs`, and graph
+  topology replaces `workflow_branch`. Shared ancestors occur once before
+  modality-specific or alternative-route branches.
   Use only `gene expression`, `genomic DNA`, `feature barcode`, `sgRNA`, or
   `chromatin accessibility` as approved T1/T3 modality values.
 - T1 has one canonical `library_sequence`, which retains biological insert
@@ -47,12 +48,12 @@ paths:
   legacy-shaped current T1/T2/T3 record. Preserve legacy values in audit
   lineage, not as legacy-only fields in cleaned ground truth. Keep source
   deltas patch-free until they are compiled into that root conversion.
-- For an unfinalized proposal affected only by the T3 modality schema move,
+- For an unfinalized proposal affected only by a T3 representation migration,
   keep the proposal immutable and reshape its working root candidate in the
-  same review. Freeze scientific payloads, put modality on each workflow, keep
-  one workflow per modality, and require the final human-approved root
-  `modify` decision. Never guess an ambiguous multimodal split. Finalized stale
-  decisions require a new iteration.
+  same review. Freeze scientific payloads, use one workflow per connected
+  molecular process, put modality on `final_outputs`, and require the final
+  human-approved root `modify` decision. Never guess an ambiguous connection
+  or branch. Finalized stale decisions require a new iteration.
 - Default human adjudication to one issue at a time in the Claude console,
   checkpointing each explicit decision in the working decision artifact.
 - Use one interactive review pass per protocol by default. Handle questions and

@@ -9,16 +9,16 @@ keywords = ["genomics", "oligo", "molecular-workflow", "protocol-understanding"]
 
 [metadata]
 benchmark = "libgen"
-benchmark_version = "2.0.0"
+benchmark_version = "3.0.0"
 protocol_id = "share_seq"
 protocol_name = "SHARE-seq"
 input_repo = "sequencing/scg-protocols-v1"
 input_revision = "19c29caabcb019a72d08fed59ed8030a2d3c449d"
 groundtruth_repo = "sequencing/scg-oligo-groundtruth-v1"
-groundtruth_revision = "ecd12f41611ed64e3bff53d715b111e0f0ee9a10"
+groundtruth_revision = "5a81714daaa87d568a0c5b62320679d34219ebf7"
 network_profile = "local-docker"
 source_manifest_sha256 = "7140be09d81cf9c21ab0b1356112fd98465bda02e4744e66948ea0fd56e6e250"
-groundtruth_bundle_sha256 = "e98a7a6c26dc30eee54232bf39011c0ed7744f52260f02242d579066f8402b9b"
+groundtruth_bundle_sha256 = "e8d45b9d3d6c247c3cb494c70453af5a6ee26400c90ecdb499bbc6d1a261376d"
 
 [agent]
 timeout_sec = 3600.0

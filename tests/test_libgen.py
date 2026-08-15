@@ -62,7 +62,9 @@ def test_prediction_schemas_are_unversioned_and_exclude_audit_fields() -> None:
         ).read_text()
     )
     assert "modality" not in t3_schema["properties"]
-    assert "modality" in t3_schema["$defs"]["workflow"]["required"]
+    assert "modality" not in t3_schema["$defs"]["workflow"]["properties"]
+    assert "final_outputs" in t3_schema["$defs"]["workflow"]["required"]
+    assert "modality" in t3_schema["$defs"]["final_output"]["required"]
 
 
 def test_exact_truth_projection_scores_one() -> None:
@@ -757,90 +759,33 @@ def test_external_t3_state_is_neutral_when_omitted() -> None:
     assert metrics["t3_molecular_transition_f1"] == pytest.approx(1.0)
 
 
-def _rename_workflow_ids(workflow: dict, suffix: str) -> dict:
-    result = copy.deepcopy(workflow)
-    state_ids = {
-        state["state_id"]: f"{state['state_id']}_{suffix}" for state in result["states"]
-    }
-    transition_ids = {
-        transition["transition_id"]: f"{transition['transition_id']}_{suffix}"
-        for transition in result["transitions"]
-    }
-    for state in result["states"]:
-        state["state_id"] = state_ids[state["state_id"]]
-        strand_ids = {
-            strand["strand_id"]: f"{strand['strand_id']}_{suffix}"
-            for strand in state["strands"]
-        }
-        segment_ids = {
-            segment["segment_id"]: f"{segment['segment_id']}_{suffix}"
-            for strand in state["strands"]
-            for segment in strand["segments"]
-        }
-        state["reference_strand_id"] = strand_ids[state["reference_strand_id"]]
-        for strand in state["strands"]:
-            strand["strand_id"] = strand_ids[strand["strand_id"]]
-            for segment in strand["segments"]:
-                segment["segment_id"] = segment_ids[segment["segment_id"]]
-        for region in state["paired_regions"]:
-            region["paired_region_id"] = f"{region['paired_region_id']}_{suffix}"
-            for side_name in ("side_1", "side_2"):
-                side = region[side_name]
-                side["strand_id"] = strand_ids[side["strand_id"]]
-                side["segment_ids"] = [
-                    segment_ids[item] for item in side["segment_ids"]
-                ]
-        for discontinuity in state["discontinuities"]:
-            discontinuity["discontinuity_id"] = (
-                f"{discontinuity['discontinuity_id']}_{suffix}"
-            )
-            discontinuity["strand_id"] = strand_ids[discontinuity["strand_id"]]
-            discontinuity["after_segment_id"] = segment_ids[
-                discontinuity["after_segment_id"]
-            ]
-            discontinuity["before_segment_id"] = segment_ids[
-                discontinuity["before_segment_id"]
-            ]
-    for transition in result["transitions"]:
-        transition["transition_id"] = transition_ids[transition["transition_id"]]
-        for field in (
-            "substrate_state_ids",
-            "product_state_ids",
-            "carried_forward_product_ids",
-            "discarded_product_ids",
-        ):
-            transition[field] = [state_ids[item] for item in transition[field]]
-    result["workflow_id"] = f"{result['workflow_id']}_{suffix}"
-    result["initial_state_ids"] = [
-        state_ids[item] for item in result["initial_state_ids"]
-    ]
-    result["final_state_ids"] = [state_ids[item] for item in result["final_state_ids"]]
-    return result
-
-
 def _multimodal_t3() -> dict:
     result = t3_groundtruth()
-    atac = _rename_workflow_ids(result["workflows"][0], "atac")
-    atac["modality"] = "ATAC"
-    atac["transitions"][0]["operation"] = "tagmentation"
-    input_state, final_state = atac["states"]
-    input_state["name"] = "chromatin input"
-    input_state["molecule_type"] = "DNA"
-    input_state["strands"][0]["molecule_type"] = "DNA"
-    input_state["strands"][0]["sequence_architecture"] = "[GDNA]"
-    input_segment = input_state["strands"][0]["segments"][0]
-    input_segment.pop("sequence", None)
-    input_segment["placeholder"] = "[GDNA]"
+    workflow = result["workflows"][0]
+    final_state = copy.deepcopy(workflow["states"][1])
+    final_state["state_id"] = "state_atac"
     final_state["name"] = "ATAC library"
+    final_state["reference_strand_id"] = "strand_atac"
+    final_state["strands"][0]["strand_id"] = "strand_atac"
     final_state["strands"][0]["sequence_architecture"] = "TTTT[GDNA]"
     final_segment = final_state["strands"][0]["segments"][0]
+    final_segment["segment_id"] = "segment_atac"
     final_segment["sequence"] = "TTTT[GDNA]"
     final_segment.pop("placeholder", None)
-    result["workflows"].append(atac)
+    workflow["states"].append(final_state)
+    atac_transition = copy.deepcopy(workflow["transitions"][0])
+    atac_transition["transition_id"] = "transition_atac"
+    atac_transition["operation"] = "tagmentation"
+    atac_transition["product_state_ids"] = ["state_atac"]
+    atac_transition["carried_forward_product_ids"] = ["state_atac"]
+    workflow["transitions"].append(atac_transition)
+    workflow["final_outputs"].append(
+        {"state_id": "state_atac", "modality": "chromatin accessibility"}
+    )
     return result
 
 
-def test_multimodal_workflows_score_independently_by_modality() -> None:
+def test_connected_multimodal_workflow_scores_shared_graph_once() -> None:
     truth = _multimodal_t3()
     prediction = copy.deepcopy(truth)
     for workflow in prediction["workflows"]:
@@ -850,9 +795,12 @@ def test_multimodal_workflows_score_independently_by_modality() -> None:
                 strand.pop("support_status", None)
         for transition in workflow["transitions"]:
             transition.pop("support_status", None)
-    metrics, _ = grade_libgen(t2_prediction(), prediction, t2_groundtruth(), truth)
+    metrics, details = grade_libgen(
+        t2_prediction(), prediction, t2_groundtruth(), truth
+    )
     assert metrics["t3_molecular_transition_f1"] == pytest.approx(1.0)
     assert metrics["t3_typed_edge_f1"] == pytest.approx(1.0)
+    assert details["diagnostic_metrics"]["t3"]["groundtruth_workflow_count"] == 1.0
 
 
 @pytest.mark.parametrize(
@@ -874,25 +822,39 @@ def test_prediction_alias_matches_canonical_modality(
     canonical: str, alias: str
 ) -> None:
     truth = t3_groundtruth()
-    truth["workflows"][0]["modality"] = canonical
+    truth["workflows"][0]["final_outputs"][0]["modality"] = canonical
     prediction = t3_prediction()
-    prediction["workflows"][0]["modality"] = alias
+    prediction["workflows"][0]["final_outputs"][0]["modality"] = alias
 
     metrics, details = grade_libgen(
         t2_prediction(), prediction, t2_groundtruth(), truth
     )
 
     assert metrics["t3_molecular_transition_f1"] == pytest.approx(1.0)
-    assert details["t3"]["modalities"][canonical]["predicted_modality"] == alias
+    assert (
+        details["t3"]["terminal_modalities"][canonical]["predicted_outputs"][0][
+            "reported_modality"
+        ]
+        == alias
+    )
 
 
-def test_modality_swapped_across_graphs_lowers_transition_score() -> None:
+def test_swapped_terminal_modalities_are_reported_without_rescoring_shared_graph() -> (
+    None
+):
     truth = _multimodal_t3()
     prediction = copy.deepcopy(truth)
-    prediction["workflows"][0]["modality"] = "ATAC"
-    prediction["workflows"][1]["modality"] = "RNA"
-    metrics, _ = grade_libgen(t2_prediction(), prediction, t2_groundtruth(), truth)
-    assert metrics["t3_molecular_transition_f1"] < 1.0
+    outputs = prediction["workflows"][0]["final_outputs"]
+    outputs[0]["modality"], outputs[1]["modality"] = (
+        outputs[1]["modality"],
+        outputs[0]["modality"],
+    )
+    metrics, details = grade_libgen(
+        t2_prediction(), prediction, t2_groundtruth(), truth
+    )
+    assert metrics["t3_molecular_transition_f1"] == pytest.approx(1.0)
+    workflow = next(iter(details["t3"]["workflows"].values()))
+    assert workflow["terminal_output_f1"] == pytest.approx(0.0)
 
 
 def test_wrong_operation_with_correct_topology_preserves_typed_edges() -> None:
@@ -944,7 +906,9 @@ def _branched_t3() -> dict:
     branch_transition["product_state_ids"] = ["state_branch"]
     branch_transition["carried_forward_product_ids"] = ["state_branch"]
     workflow["transitions"].append(branch_transition)
-    workflow["final_state_ids"].append("state_branch")
+    workflow["final_outputs"].append(
+        {"state_id": "state_branch", "modality": "gene expression"}
+    )
     return result
 
 
@@ -1024,7 +988,9 @@ def test_prediction_validator_rejects_dangling_refs_and_cycles() -> None:
     transition["product_state_ids"] = ["state_input"]
     transition["carried_forward_product_ids"] = ["state_input"]
     cyclic["workflows"][0]["initial_state_ids"] = ["state_cdna"]
-    cyclic["workflows"][0]["final_state_ids"] = ["state_input"]
+    cyclic["workflows"][0]["final_outputs"] = [
+        {"state_id": "state_input", "modality": "RNA"}
+    ]
     second = copy.deepcopy(transition)
     second["transition_id"] = "transition_cycle"
     second["substrate_state_ids"] = ["state_input"]

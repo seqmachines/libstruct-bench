@@ -44,11 +44,12 @@ Stage 1 conversion.
 Keep candidates minimal: do not create a T1 `library_id`. T1 has one canonical
 `library_sequence` and no duplicate `strands` or `annotated_library_sequence`. T2 uses
 `name` plus `aliases`; components are ordered inline descriptions without
-`component_id`; store T3 `modality` on each workflow, require one workflow per
-modality, keep same-modality alternatives as branches, use graph topology
-rather than `workflow_branch`, and do not duplicate audit evidence.
+`component_id`; represent each connected T3 molecular process as one workflow,
+store modality on each terminal in `final_outputs`, retain shared ancestors
+once before modality-specific branches, use graph topology rather than
+`workflow_branch`, and do not duplicate audit evidence.
 Use `protocol_scope` only when a version or variant is known.
-Use exactly one canonical modality for every T1 library and T3 workflow:
+Use exactly one canonical modality for every T1 library and T3 final output:
 `gene expression`, `genomic DNA`, `feature barcode`, `sgRNA`, or
 `chromatin accessibility`. Do not use abbreviations, snake case,
 protocol-specific phrases, or the generic value `library`.

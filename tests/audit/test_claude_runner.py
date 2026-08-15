@@ -36,7 +36,7 @@ def _fake_claude(path: Path, artifact: dict) -> Path:
     payload = json.dumps({"structured_output": artifact})
     path.write_text(
         "#!/bin/sh\n"
-        "if [ \"$1\" = \"--version\" ]; then echo 'Claude Code 2.1.0'; exit 0; fi\n"
+        'if [ "$1" = "--version" ]; then echo \'Claude Code 2.1.0\'; exit 0; fi\n'
         f"printf '%s\\n' '{payload}'\n",
         encoding="utf-8",
     )
@@ -94,7 +94,9 @@ def _run(tmp_path: Path, *, packet: Path, output: dict):
         policy_paths=POLICIES,
         model="claude-sonnet-4-20250514",
         run_id="comparison-001",
-        claude_executable=str(_fake_claude(tmp_path / "fake-comparison-claude", output)),
+        claude_executable=str(
+            _fake_claude(tmp_path / "fake-comparison-claude", output)
+        ),
     )
 
 
@@ -123,9 +125,7 @@ def _run_sequence(
     )
 
 
-def _replace_packet_file(
-    packet_dir: Path, source_id: str, document: dict
-) -> None:
+def _replace_packet_file(packet_dir: Path, source_id: str, document: dict) -> None:
     packet_path = packet_dir / "packet.json"
     packet = json.loads(packet_path.read_text(encoding="utf-8"))
     item = next(value for value in packet["files"] if value["source_id"] == source_id)
@@ -206,7 +206,6 @@ def _canonical_t3(sequence: str = "A") -> dict:
         "workflows": [
             {
                 "workflow_id": "workflow",
-                "modality": "gene expression",
                 "states": [
                     state("input", "input", "G"),
                     state("final", "adapter", sequence),
@@ -226,7 +225,7 @@ def _canonical_t3(sequence: str = "A") -> dict:
                     }
                 ],
                 "initial_state_ids": ["input"],
-                "final_state_ids": ["final"],
+                "final_outputs": [{"state_id": "final", "modality": "gene expression"}],
             }
         ],
     }
@@ -338,9 +337,7 @@ def _root_conversion_proposal(candidate: dict) -> dict:
             },
             "current_value": {"protocol_id": "example", "libraries": []},
             "proposed_value": candidate,
-            "proposed_patch": [
-                {"op": "replace", "path": "", "value": candidate}
-            ],
+            "proposed_patch": [{"op": "replace", "path": "", "value": candidate}],
         }
     )
     return value
@@ -383,9 +380,7 @@ def test_worker_contract_is_primary_only_and_exposes_link_invariants() -> None:
 
 
 def test_canonical_schema_keeps_disposition_issue_invariant() -> None:
-    schema = json.loads(
-        (AUDIT_SCHEMAS / "protocol_audit.schema.json").read_text()
-    )
+    schema = json.loads((AUDIT_SCHEMAS / "protocol_audit.schema.json").read_text())
     assert "allOf" in schema
     artifact = _proposal("a" * 64)
     validator = Draft202012Validator(schema)
@@ -433,8 +428,10 @@ def test_minimal_groundtruth_contract_reaches_comparison_worker() -> None:
 
     assert "do not create a T1 `library_id`" in prompt
     assert "Do not emit `final_library_links`" in prompt
-    assert "store T3 `modality` on each workflow" in prompt
-    assert "one workflow per" in prompt
+    assert "one workflow" in prompt
+    assert "connected T3 molecular process" in prompt
+    assert "final_outputs" in prompt
+    assert "shared ancestors" in prompt
     for field in (
         "baseline_lineage",
         "ground_truth_status",
@@ -444,17 +441,18 @@ def test_minimal_groundtruth_contract_reaches_comparison_worker() -> None:
         assert field in skill
 
 
-def test_in_progress_t3_modality_migration_reaches_controller() -> None:
+def test_in_progress_t3_connected_process_migration_reaches_controller() -> None:
     skill = SKILL.read_text(encoding="utf-8")
-    policy = (
-        REPO_ROOT / "docs" / "audit" / "adjudication-policy.md"
-    ).read_text(encoding="utf-8")
+    policy = (REPO_ROOT / "docs" / "audit" / "adjudication-policy.md").read_text(
+        encoding="utf-8"
+    )
 
     for raw_text in (skill, policy):
         text = " ".join(raw_text.split())
         assert "unfinalized proposal" in text
         assert "proposal immutable" in text
-        assert "one workflow per modality" in text
+        assert "one workflow per connected molecular process" in text
+        assert "final_outputs" in text
         assert "Freeze" in text or "freeze" in text
         assert "ambiguous" in text
 
@@ -608,9 +606,9 @@ def test_t3_final_approval_requires_direct_primary_source_fact_check() -> None:
             assert status in text
 
     skill = " ".join(SKILL.read_text(encoding="utf-8").split())
-    assert skill.index("directly open the immutable packet's primary PDFs") < skill.index(
-        "Only then may the controller open the final approval selector"
-    )
+    assert skill.index(
+        "directly open the immutable packet's primary PDFs"
+    ) < skill.index("Only then may the controller open the final approval selector")
 
 
 def test_active_audit_layout_has_no_pilot_namespace() -> None:
@@ -635,13 +633,11 @@ def test_controller_defaults_to_one_review_pass_per_protocol() -> None:
 
 def test_source_availability_is_not_a_human_gate() -> None:
     skill = " ".join(SKILL.read_text(encoding="utf-8").split())
-    guidance = " ".join(
-        (REPO_ROOT / "CLAUDE.md").read_text(encoding="utf-8").split()
-    )
+    guidance = " ".join((REPO_ROOT / "CLAUDE.md").read_text(encoding="utf-8").split())
     policy = " ".join(
-        (
-            REPO_ROOT / "docs" / "audit" / "evidence-policy.md"
-        ).read_text(encoding="utf-8").split()
+        (REPO_ROOT / "docs" / "audit" / "evidence-policy.md")
+        .read_text(encoding="utf-8")
+        .split()
     )
 
     assert "Include every discovered file that is present and hashable" in skill
@@ -673,7 +669,9 @@ def test_stream_progress_reports_tools_without_assistant_text(tmp_path: Path) ->
                     "type": "tool_use",
                     "id": "tool-1",
                     "name": "Read",
-                    "input": {"file_path": str(tmp_path / "primary_evidence" / "paper.pdf")},
+                    "input": {
+                        "file_path": str(tmp_path / "primary_evidence" / "paper.pdf")
+                    },
                 },
             ]
         },
@@ -733,7 +731,8 @@ def test_comparison_binds_primary_coverage_and_current_records(tmp_path: Path) -
     assert artifact["source_coverage"][0]["source_id"] == "primary:paper"
     assert "evidence_id" not in artifact
     assert {item["source_id"] for item in artifact["baseline_artifacts"]} == {
-        "current:t1", "current:t2"
+        "current:t1",
+        "current:t2",
     }
     assert "candidate_id" not in artifact
     assert "candidate_sha256" not in artifact
@@ -793,9 +792,7 @@ def test_comparison_repairs_complete_schema_invalid_artifact_once(
     assert (result.output_dir / attempt["input_artifact_path"]).is_file()
     assert (result.output_dir / attempt["candidate_artifact_path"]).is_file()
     preserved_input = json.loads(
-        (result.output_dir / attempt["input_artifact_path"]).read_text(
-            encoding="utf-8"
-        )
+        (result.output_dir / attempt["input_artifact_path"]).read_text(encoding="utf-8")
     )
     assert preserved_input["issues"][0]["proposed_value"] == invalid_t3
     validator_errors = json.loads(
@@ -803,9 +800,10 @@ def test_comparison_repairs_complete_schema_invalid_artifact_once(
             encoding="utf-8"
         )
     )
-    assert "new ground-truth candidate issue-1 schema error" in validator_errors[
-        "errors"
-    ][0]
+    assert (
+        "new ground-truth candidate issue-1 schema error"
+        in validator_errors["errors"][0]
+    )
 
 
 def test_comparison_repairs_linked_t1_t3_validation_failure(tmp_path: Path) -> None:
@@ -857,9 +855,7 @@ def test_comparison_repair_rejects_changed_issue_conclusion(tmp_path: Path) -> N
         )
 
     failure = json.loads(
-        (tmp_path / "comparison-run.rejected/failure.json").read_text(
-            encoding="utf-8"
-        )
+        (tmp_path / "comparison-run.rejected/failure.json").read_text(encoding="utf-8")
     )
     assert failure["validation_repair"]["status"] == "failed"
     assert failure["validation_repair"]["attempt_count"] == 1
@@ -887,9 +883,7 @@ def test_comparison_rejects_schema_invalid_new_groundtruth(tmp_path: Path) -> No
     rejected_artifact = json.loads(
         (rejected_dir / "rejected-artifact.json").read_text(encoding="utf-8")
     )
-    failure = json.loads(
-        (rejected_dir / "failure.json").read_text(encoding="utf-8")
-    )
+    failure = json.loads((rejected_dir / "failure.json").read_text(encoding="utf-8"))
     assert rejected_artifact["issues"][0]["issue_id"] == "issue-1"
     assert rejected_artifact["issues"][0]["proposed_value"] == invalid_t3
     assert failure["status"] == "rejected"

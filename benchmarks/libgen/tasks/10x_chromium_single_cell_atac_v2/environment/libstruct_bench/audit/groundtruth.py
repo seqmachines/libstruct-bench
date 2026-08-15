@@ -120,9 +120,7 @@ def validate_cross_task_links(documents: Mapping[str, dict[str, Any]]) -> None:
     )
 
     libraries = list(t1.get("libraries", []) if t1 else [])
-    oligos = {
-        item["oligo_id"]: item for item in (t2.get("oligos", []) if t2 else [])
-    }
+    oligos = {item["oligo_id"]: item for item in (t2.get("oligos", []) if t2 else [])}
     _require_unique_count(oligos, t2.get("oligos", []) if t2 else [], "T2 oligos")
 
     if t1 is not None:
@@ -192,24 +190,10 @@ def validate_cross_task_links(documents: Mapping[str, dict[str, Any]]) -> None:
     if t3 is None:
         return
     workflow_ids: set[str] = set()
-    workflow_modalities: dict[str, str] = {}
-    terminal_states: list[
-        tuple[dict[str, Any], dict[str, Any] | None, str]
-    ] = []
+    terminal_states: list[tuple[dict[str, Any], dict[str, Any] | None, str]] = []
     for workflow in t3["workflows"]:
         workflow_id = workflow["workflow_id"]
         _add_unique(workflow_ids, workflow_id, "T3 workflow")
-        workflow_modality = _required_field(
-            workflow, "modality", f"T3 workflow {workflow_id}"
-        )
-        modality_key = _modality_key(workflow_modality)
-        if modality_key in workflow_modalities:
-            raise GroundtruthValidationError(
-                "T3 must contain exactly one workflow per modality; "
-                f"workflows {workflow_modalities[modality_key]} and {workflow_id} "
-                f"both use {workflow_modality!r}"
-            )
-        workflow_modalities[modality_key] = workflow_id
         workflow_scope = _resolved_scope(workflow, document_scope)
         _validate_child_scope(
             workflow.get("protocol_scope"),
@@ -217,7 +201,9 @@ def validate_cross_task_links(documents: Mapping[str, dict[str, Any]]) -> None:
             f"T3 workflow {workflow_id}",
         )
         states = {state["state_id"]: state for state in workflow["states"]}
-        _require_unique_count(states, workflow["states"], f"T3 workflow {workflow_id} states")
+        _require_unique_count(
+            states, workflow["states"], f"T3 workflow {workflow_id} states"
+        )
         for state in workflow["states"]:
             state_scope = _resolved_scope(state, workflow_scope)
             _validate_child_scope(
@@ -266,13 +252,30 @@ def validate_cross_task_links(documents: Mapping[str, dict[str, Any]]) -> None:
 
         state_ids = set(states)
         initial_ids = set(workflow["initial_state_ids"])
-        final_ids = set(workflow["final_state_ids"])
-        _require_refs(workflow["initial_state_ids"], state_ids, f"T3 workflow {workflow_id} initial_state_ids", target_available=True)
-        _require_refs(workflow["final_state_ids"], state_ids, f"T3 workflow {workflow_id} final_state_ids", target_available=True)
+        final_output_state_ids = [
+            output["state_id"] for output in workflow["final_outputs"]
+        ]
+        if len(final_output_state_ids) != len(set(final_output_state_ids)):
+            raise GroundtruthValidationError(
+                f"T3 workflow {workflow_id} lists the same terminal state more than once"
+            )
+        final_ids = set(final_output_state_ids)
+        _require_refs(
+            workflow["initial_state_ids"],
+            state_ids,
+            f"T3 workflow {workflow_id} initial_state_ids",
+            target_available=True,
+        )
+        _require_refs(
+            final_output_state_ids,
+            state_ids,
+            f"T3 workflow {workflow_id} final_outputs",
+            target_available=True,
+        )
 
         terminal_states.extend(
-            (states[state_id], workflow_scope, workflow_modality)
-            for state_id in workflow["final_state_ids"]
+            (states[output["state_id"]], workflow_scope, output["modality"])
+            for output in workflow["final_outputs"]
         )
 
         adjacency: dict[str, set[str]] = defaultdict(set)
@@ -297,8 +300,18 @@ def validate_cross_task_links(documents: Mapping[str, dict[str, Any]]) -> None:
             products = set(transition["product_state_ids"])
             continuing = set(transition["carried_forward_product_ids"])
             discarded = set(transition["discarded_product_ids"])
-            _require_refs(list(substrates | products), state_ids, f"T3 transition {transition_id} state references", target_available=True)
-            _require_refs(transition["oligo_ids"], set(oligos), f"T3 transition {transition_id} oligo_ids", target_available=t2 is not None)
+            _require_refs(
+                list(substrates | products),
+                state_ids,
+                f"T3 transition {transition_id} state references",
+                target_available=True,
+            )
+            _require_refs(
+                transition["oligo_ids"],
+                set(oligos),
+                f"T3 transition {transition_id} oligo_ids",
+                target_available=t2 is not None,
+            )
             if not continuing.issubset(products) or not discarded.issubset(products):
                 raise GroundtruthValidationError(
                     f"T3 transition {transition_id} carried/discarded products must be product states"
@@ -335,6 +348,11 @@ def validate_cross_task_links(documents: Mapping[str, dict[str, Any]]) -> None:
                 f"T3 workflow {workflow_id} has nonfinal carried-forward products that are not downstream substrates: {', '.join(sorted(unused_carried))}"
             )
         _reject_cycles(state_ids, adjacency, workflow_id)
+        _require_weakly_connected_workflow(
+            state_ids=state_ids,
+            transitions=workflow["transitions"],
+            workflow_id=workflow_id,
+        )
         reachable = _reachable(initial_ids, continuing_adjacency)
         unreachable = final_ids - reachable
         if unreachable:
@@ -354,33 +372,6 @@ def validate_cross_task_links(documents: Mapping[str, dict[str, Any]]) -> None:
                     )
 
     if t1 is not None:
-        library_modalities = {
-            _modality_key(library["modality"]): library["modality"]
-            for library in libraries
-        }
-        missing_modalities = set(library_modalities) - set(workflow_modalities)
-        unexpected_modalities = set(workflow_modalities) - set(library_modalities)
-        if missing_modalities or unexpected_modalities:
-            details: list[str] = []
-            if missing_modalities:
-                details.append(
-                    "missing workflows for "
-                    + ", ".join(
-                        repr(library_modalities[item])
-                        for item in sorted(missing_modalities)
-                    )
-                )
-            if unexpected_modalities:
-                details.append(
-                    "workflows without T1 libraries for "
-                    + ", ".join(
-                        repr(item) for item in sorted(unexpected_modalities)
-                    )
-                )
-            raise GroundtruthValidationError(
-                "T1 libraries and T3 workflow modalities must agree: "
-                + "; ".join(details)
-            )
         _validate_terminal_libraries(
             terminal_states=terminal_states,
             libraries=libraries,
@@ -396,15 +387,22 @@ def _modality_key(value: str) -> str:
     return modality_key(value)
 
 
-def _validate_canonical_modality_labels(
-    task: str, document: Mapping[str, Any]
-) -> None:
+def _validate_canonical_modality_labels(task: str, document: Mapping[str, Any]) -> None:
     if task == "T1":
         records = document.get("libraries", [])
         label = "T1 library"
     elif task == "T3":
-        records = document.get("workflows", [])
-        label = "T3 workflow"
+        workflows = document.get("workflows", [])
+        if not isinstance(workflows, list):
+            return
+        records = [
+            output
+            for workflow in workflows
+            if isinstance(workflow, dict)
+            for output in workflow.get("final_outputs", [])
+            if isinstance(output, dict)
+        ]
+        label = "T3 final output"
     else:
         return
     if not isinstance(records, list):
@@ -416,7 +414,8 @@ def _validate_canonical_modality_labels(
             expectation = (
                 repr(canonical)
                 if canonical in CANONICAL_MODALITIES
-                else "one of " + ", ".join(repr(item) for item in sorted(CANONICAL_MODALITIES))
+                else "one of "
+                + ", ".join(repr(item) for item in sorted(CANONICAL_MODALITIES))
             )
             raise GroundtruthValidationError(
                 f"{label} at index {index} must use canonical modality "
@@ -450,9 +449,7 @@ def _preflight_cross_task_shape(
 
     t2 = documents.get("T2")
     if t2 is not None:
-        for index, oligo in enumerate(
-            _required_list(t2, "oligos", "T2 ground truth")
-        ):
+        for index, oligo in enumerate(_required_list(t2, "oligos", "T2 ground truth")):
             label = f"T2 oligo at index {index}"
             oligo_id = _required_field(oligo, "oligo_id", label)
             label = f"T2 oligo {oligo_id}"
@@ -466,7 +463,6 @@ def _preflight_cross_task_shape(
             label = f"T3 workflow at index {workflow_index}"
             workflow_id = _required_field(workflow, "workflow_id", label)
             label = f"T3 workflow {workflow_id}"
-            _required_field(workflow, "modality", label)
             for state_index, state in enumerate(
                 _required_list(workflow, "states", label)
             ):
@@ -500,9 +496,7 @@ def _preflight_cross_task_shape(
             for transition_index, transition in enumerate(
                 _required_list(workflow, "transitions", label)
             ):
-                transition_label = (
-                    f"{label} transition at index {transition_index}"
-                )
+                transition_label = f"{label} transition at index {transition_index}"
                 _required_field(transition, "transition_id", transition_label)
                 for field in (
                     "substrate_state_ids",
@@ -512,15 +506,18 @@ def _preflight_cross_task_shape(
                     "oligo_ids",
                 ):
                     _required_list(transition, field, transition_label)
-            for field in ("initial_state_ids", "final_state_ids"):
-                _required_list(workflow, field, label)
+            _required_list(workflow, "initial_state_ids", label)
+            for output_index, output in enumerate(
+                _required_list(workflow, "final_outputs", label)
+            ):
+                output_label = f"{label} final output at index {output_index}"
+                _required_field(output, "state_id", output_label)
+                _required_field(output, "modality", output_label)
 
 
 def _required_field(item: Any, field: str, label: str) -> Any:
     if not isinstance(item, dict) or field not in item:
-        raise GroundtruthValidationError(
-            f"{label} is missing required field {field!r}"
-        )
+        raise GroundtruthValidationError(f"{label} is missing required field {field!r}")
     return item[field]
 
 
@@ -545,9 +542,7 @@ def validate_molecular_state_architecture(
         )
         strands[strand_id] = strand
     _require_unique_count(strands, strands_list, f"{state_label} strands")
-    reference_strand_id = _required_field(
-        state, "reference_strand_id", state_label
-    )
+    reference_strand_id = _required_field(state, "reference_strand_id", state_label)
     if reference_strand_id not in strands:
         raise GroundtruthValidationError(
             f"{state_label} reference_strand_id {reference_strand_id!r} "
@@ -638,9 +633,7 @@ def validate_molecular_state_architecture(
         if architecture != "mixed_population" and (
             paired_segment_ids & region_segment_ids
         ):
-            repeated = ", ".join(
-                sorted(paired_segment_ids & region_segment_ids)
-            )
+            repeated = ", ".join(sorted(paired_segment_ids & region_segment_ids))
             raise GroundtruthValidationError(
                 f"{state_label} pairs segments more than once: {repeated}"
             )
@@ -695,9 +688,7 @@ def validate_molecular_state_architecture(
             f"{state_label} discontinuity",
         )
         discontinuity_label = f"{state_label} discontinuity {discontinuity_id}"
-        strand_id = _required_field(
-            discontinuity, "strand_id", discontinuity_label
-        )
+        strand_id = _required_field(discontinuity, "strand_id", discontinuity_label)
         if strand_id not in strands:
             raise GroundtruthValidationError(
                 f"{state_label} discontinuity {discontinuity_id} references "
@@ -747,7 +738,9 @@ def _pairing_side_segments(
         raise GroundtruthValidationError(f"{label} must be an object")
     strand_id = _required_field(side, "strand_id", label)
     if strand_id not in strands:
-        raise GroundtruthValidationError(f"{label} references unknown strand {strand_id}")
+        raise GroundtruthValidationError(
+            f"{label} references unknown strand {strand_id}"
+        )
     segment_ids = _required_list(side, "segment_ids", label)
     if not segment_ids:
         raise GroundtruthValidationError(f"{label} must reference at least one segment")
@@ -795,11 +788,15 @@ def _validate_strand_architecture_class(
                 f"{label} {architecture} architecture requires at least two strands "
                 "and at least one paired region"
             )
-    if architecture in {
-        "double_stranded",
-        "rna_dna_hybrid",
-        "y_shaped_duplex",
-    } and strand_count != 2:
+    if (
+        architecture
+        in {
+            "double_stranded",
+            "rna_dna_hybrid",
+            "y_shaped_duplex",
+        }
+        and strand_count != 2
+    ):
         raise GroundtruthValidationError(
             f"{label} {architecture} architecture requires exactly two logical strands"
         )
@@ -935,8 +932,7 @@ def _validate_oligo_derivation_orientation(
         for left, right in zip(segment_sequence, expected, strict=True)
     ):
         raise GroundtruthValidationError(
-            f"{label} sequence disagrees with orientation_to_source "
-            f"{orientation!r}"
+            f"{label} sequence disagrees with orientation_to_source {orientation!r}"
         )
 
 
@@ -948,7 +944,9 @@ def _validate_child_scope(
     if child is None or parent is None:
         return
     if child["protocol_version"] != parent["protocol_version"]:
-        raise GroundtruthValidationError(f"{label} protocol version disagrees with its parent")
+        raise GroundtruthValidationError(
+            f"{label} protocol version disagrees with its parent"
+        )
     parent_variants = set(parent["applicable_variants"])
     child_variants = set(child["applicable_variants"])
     if child_variants and not child_variants.issubset(parent_variants):
@@ -982,9 +980,7 @@ def _require_scope_compatibility(
 
 def _validate_terminal_libraries(
     *,
-    terminal_states: list[
-        tuple[dict[str, Any], dict[str, Any] | None, str]
-    ],
+    terminal_states: list[tuple[dict[str, Any], dict[str, Any] | None, str]],
     libraries: list[dict[str, Any]],
     document_scope: dict[str, Any] | None,
 ) -> None:
@@ -1006,8 +1002,7 @@ def _validate_terminal_libraries(
             library_index
             for library_index, library in enumerate(libraries)
             if mismatch_reasons[library_index] is None
-            and _modality_key(library["modality"])
-            == _modality_key(workflow_modality)
+            and _modality_key(library["modality"]) == _modality_key(workflow_modality)
             and _scopes_are_compatible(
                 state_scope,
                 _resolved_scope(library, document_scope),
@@ -1027,7 +1022,9 @@ def _validate_terminal_libraries(
 
     assignments: list[dict[int, int]] = []
 
-    def search(remaining: tuple[int, ...], used: set[int], result: dict[int, int]) -> None:
+    def search(
+        remaining: tuple[int, ...], used: set[int], result: dict[int, int]
+    ) -> None:
         if len(assignments) > 1:
             return
         if not remaining:
@@ -1121,7 +1118,9 @@ def _scopes_are_compatible(
         return False
     left_variants = _effective_variants(left, document_scope)
     right_variants = _effective_variants(right, document_scope)
-    return not left_variants or not right_variants or bool(left_variants & right_variants)
+    return (
+        not left_variants or not right_variants or bool(left_variants & right_variants)
+    )
 
 
 def _segment_signature(
@@ -1194,6 +1193,36 @@ def _reachable(initial_ids: set[str], adjacency: Mapping[str, set[str]]) -> set[
                 seen.add(product_id)
                 queue.append(product_id)
     return seen
+
+
+def _require_weakly_connected_workflow(
+    *,
+    state_ids: set[str],
+    transitions: list[dict[str, Any]],
+    workflow_id: str,
+) -> None:
+    """Require one weak component in the state-transition incidence graph."""
+
+    undirected: dict[str, set[str]] = defaultdict(set)
+    for transition in transitions:
+        incident = set(transition["substrate_state_ids"]) | set(
+            transition["product_state_ids"]
+        )
+        if not incident:
+            continue
+        anchor = next(iter(incident))
+        for state_id in incident - {anchor}:
+            undirected[anchor].add(state_id)
+            undirected[state_id].add(anchor)
+
+    start = next(iter(state_ids))
+    connected = _reachable({start}, undirected)
+    disconnected = state_ids - connected
+    if disconnected:
+        raise GroundtruthValidationError(
+            f"T3 workflow {workflow_id} must represent one weakly connected "
+            "molecular process; disconnected states: " + ", ".join(sorted(disconnected))
+        )
 
 
 def _reject_cycles(

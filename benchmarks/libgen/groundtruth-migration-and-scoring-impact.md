@@ -1,5 +1,10 @@
 # Libgen ground-truth migration and scoring impact
 
+> Historical note: this report documents the superseded 2.0.0
+> workflow-per-modality migration. Libgen 3.0.0 instead uses one workflow per
+> connected molecular process with modality-labelled `final_outputs`; its
+> baselines must be rerun.
+
 Inspection date: 2026-08-10
 
 Input snapshot: `/Users/seqmachines/playground/protocols-test/ground_truth`

@@ -39,9 +39,10 @@ omits legacy-only schema labels, source HTML, extraction, and normalization
 fields from cleaned ground truth. Cleaned T1–T3 is deliberately minimal:
 evidence, lineage, decisions, inclusion status, and review notes remain in audit
 artifacts rather than being copied into the approved JSON. T1 libraries have no
-stored ID or duplicate strand list. T2 uses `name` plus `aliases`. T3 requires
-exactly one workflow per modality; same-modality alternatives are branches in
-that workflow. Graph topology replaces `workflow_branch`. Protocol scope is optional and inherited. Every T3 state uses a controlled strand architecture,
+stored ID or duplicate strand list. T2 uses `name` plus `aliases`. Each T3
+workflow represents one weakly connected molecular process; shared ancestors
+occur once and `final_outputs` assigns a T1 modality to each terminal state.
+Graph topology replaces `workflow_branch`. Protocol scope is optional and inherited. Every T3 state uses a controlled strand architecture,
 stores each physical strand separately in its own 5′→3′ direction, and names
 the reference strand corresponding to T1. Primary-source deltas against a
 converted artifact remain patch-free until human decisions are compiled into
@@ -54,11 +55,12 @@ The physical T3 terminal reference strand may match canonical T1 in the same
 orientation or as its token-aware reverse complement. Keep that T3 strand in
 its actual 5′→3′ direction; do not rewrite it solely to follow T1's display
 orientation.
-An unfinalized candidate from the former root-level T3 modality schema may be
-reshaped in the same review as a representation-only root modification. Keep
-the proposal immutable, freeze its scientific payload, require one workflow
-per T1 modality, and obtain final human approval. Do not infer an ambiguous
-multimodal split; finalized stale-schema decisions require a new iteration.
+An unfinalized candidate from a retired T3 representation may be reshaped in
+the same review as a representation-only root modification. Keep the proposal
+immutable, freeze its scientific payload, require one workflow per connected
+molecular process with modality-labelled `final_outputs`, and obtain final
+human approval. Do not infer an ambiguous connection or branch; finalized
+stale-schema decisions require a new iteration.
 If an older finalized review lacks required root conversions, preserve it as
 history and start a fresh conversion-first comparison/review iteration; never
 try to apply or rewrite that decision.

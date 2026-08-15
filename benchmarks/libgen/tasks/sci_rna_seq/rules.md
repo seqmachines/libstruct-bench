@@ -15,10 +15,13 @@ chronological pass:
 5. Record the scientifically meaningful product and which product continues.
 6. Reference the same local T2 oligo IDs from T3.
 
-T3 must contain exactly one workflow per modality. Put `modality` on each
-workflow, not at the document root. Keep alternative routes for the same
-modality as branches with multiple final states in that one workflow.
-Prefer one canonical modality: `gene expression`, `genomic DNA`,
+T3 must contain one workflow per connected molecular process, not one workflow
+per modality. Represent shared upstream states and transitions once, then add
+modality-specific branches in the same weakly connected DAG. Put modality on
+each terminal entry in `final_outputs`, as `{"state_id": "...", "modality":
+"..."}`; do not put `modality` or `final_state_ids` on the workflow. Use a
+separate workflow only for a genuinely disconnected molecular process.
+Prefer one canonical terminal modality: `gene expression`, `genomic DNA`,
 `feature barcode`, `sgRNA`, or `chromatin accessibility`. Common prediction
 aliases such as `RNA`, `scRNA-seq`, `gDNA`, `feature_barcode`, `ATAC`,
 `scATAC`, and `chromatin_accessibility` are normalized for matching.
@@ -69,7 +72,10 @@ tables when applicable.
   transition, not a graph cycle.
 - Classify every product as carried forward or discarded. Every nonfinal
   carried product must later be a substrate. Final states must be reachable
-  from initial states, and the graph must be acyclic.
+  from initial states, and the graph must be acyclic and weakly connected.
+- List every terminal molecular state once in `final_outputs` with the modality
+  of the corresponding T1 library. Shared ancestors belong only once in the
+  connected workflow; do not duplicate them in modality-specific projections.
 - Record every physical strand independently in its own 5′→3′ orientation.
   Preserve overhangs, unpaired regions, nicks, gaps, RNA–DNA hybrids,
   Y-shaped adapters, and partial duplexes when the sources support them.

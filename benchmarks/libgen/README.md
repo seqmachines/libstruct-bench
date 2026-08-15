@@ -41,10 +41,11 @@ T1/T2/T3 set, or a linked ground-truth validation failure.
 
 ## Scoring
 
-Benchmark version: `2.0.0`. This is a major scoring revision because T2 now
-scores oligo families rather than raw prediction records. Results produced by
-the earlier record-level scorer are not directly comparable and must be
-rescored from their saved predictions.
+Benchmark version: `3.0.0`. This is a major T3 representation and scoring
+revision: one workflow now represents one connected molecular process, with
+modality-labelled terminal outputs. Shared ancestors are represented and
+scored once. Results from the workflow-per-modality 2.x benchmark are not
+directly comparable; rerun baselines under 3.0.0.
 
 Overall reward is:
 
@@ -71,18 +72,20 @@ reward = 0.30 * t2_required_family_f1
   claims that are explicit or derivable from the agent-visible source bundle.
   Canonical but externally completed, ambiguous, or unsupported claims are
   neutral, as are exact predictions of optional T2 families.
-- T3 contains one workflow per modality and is scored within matched
-  modalities. Common aliases map to the canonical `gene expression`, `genomic
-  DNA`, `feature barcode`, `sgRNA`, or `chromatin accessibility` vocabulary.
-  Its primary metric, `t3_molecular_transition_f1`, globally
-  matches transitions using operation, matched substrate/product states,
-  carried/discarded classification, and transition-local T2 sequence
-  family-level multisets. Concrete T2 members referenced by an older prediction
-  are collapsed consistently before this transition-local comparison. Major
-  reagent names are diagnostic. `t3_typed_edge_f1` directly
-  compares substrate, carried-product, and discarded-product edges after
-  semantic state and transition alignment. T3 sequence and architecture claims
-  use the same explicit-or-derivable recoverability mask.
+- T3 contains one weakly connected DAG per molecular process. Each terminal is
+  listed in `final_outputs` with its canonical modality; shared upstream states
+  and transitions occur once before modality-specific branches. Workflows are
+  globally assigned by terminal-modality, state, and transition similarity and
+  each connected DAG is scored once without modality projections. The primary
+  `t3_molecular_transition_f1` globally matches transitions using operation,
+  matched substrate/product states, carried/discarded classification, and
+  transition-local T2 sequence family-level multisets. Concrete T2 members
+  referenced by an older prediction are collapsed consistently before this
+  transition-local comparison. Major reagent names are diagnostic.
+  `t3_typed_edge_f1` directly compares substrate, carried-product, and
+  discarded-product edges after semantic state and transition alignment. T3
+  sequence and architecture claims use the same explicit-or-derivable
+  recoverability mask.
 - Schema-invalid or semantically invalid linked predictions receive zero.
   Verifier infrastructure or private-ground-truth failures fail the trial
   instead of being mislabeled as model errors.
@@ -120,9 +123,11 @@ PYTHONPATH=src python -m libstruct_bench.cli.rescore_libgen_runs \
 ```
 
 For each trial this writes
-`verifier/rescore/libgen-2.0.0/{reward,details,error_analysis}.json` and writes a
-run-level `rescore/libgen-2.0.0/summary.json`. Original Harbor results are kept
-unchanged so record-level and family-level scores cannot be confused.
+`verifier/rescore/libgen-3.0.0/{reward,details,error_analysis}.json` and writes a
+run-level `rescore/libgen-3.0.0/summary.json`. Original Harbor results are kept
+unchanged so incompatible benchmark versions cannot be confused. For the 3.0.0
+release, rerunning baselines is preferred because the agent-facing T3 contract
+also changed.
 
 ## Experiment design
 

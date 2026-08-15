@@ -51,6 +51,7 @@ libstruct-summarize-libgen-runs = "libstruct_bench.cli.summarize_libgen_runs:mai
 libstruct-resume-libgen-job = "libstruct_bench.cli.resume_libgen_job:main"
 libstruct-prepare-libgen-error-review = "libstruct_bench.cli.prepare_libgen_error_review:main"
 libstruct-validate-libgen-error-review = "libstruct_bench.cli.validate_libgen_error_review:main"
+libstruct-compile-connected-process-preview = "libstruct_bench.cli.compile_connected_process_preview:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

@@ -41,6 +41,12 @@ class AuditSchemaTests(unittest.TestCase):
                 "audit_input_manifest.schema.json",
                 "audit_packet.schema.json",
                 "checkpoint_report.schema.json",
+                "connected_process_final_approval.schema.json",
+                "connected_process_migration_plan.schema.json",
+                "connected_process_policy_decision.schema.json",
+                "connected_process_policy_proposal.schema.json",
+                "connected_process_preview.schema.json",
+                "connected_process_source_check.schema.json",
                 "groundtruth_release_manifest.schema.json",
                 "oligo_output_build.schema.json",
                 "promotion_log.schema.json",
@@ -90,16 +96,19 @@ class AuditSchemaTests(unittest.TestCase):
 
         t3 = json.loads(
             (
-                GROUNDTRUTH_SCHEMA_DIR
-                / "library_generation_workflow.schema.json"
+                GROUNDTRUTH_SCHEMA_DIR / "library_generation_workflow.schema.json"
             ).read_text(encoding="utf-8")
         )
         self.assertEqual(property_names(t3).count("modality"), 1)
         self.assertNotIn("modality", t3["required"])
-        self.assertIn("modality", t3["$defs"]["workflow"]["required"])
+        self.assertNotIn("modality", t3["$defs"]["workflow"]["required"])
+        self.assertNotIn("final_state_ids", t3["$defs"]["workflow"]["properties"])
+        self.assertIn("final_outputs", t3["$defs"]["workflow"]["required"])
 
     def test_groundtruth_schemas_are_valid_draft_2020_12(self):
-        names = sorted(path.name for path in GROUNDTRUTH_SCHEMA_DIR.glob("*.schema.json"))
+        names = sorted(
+            path.name for path in GROUNDTRUTH_SCHEMA_DIR.glob("*.schema.json")
+        )
         self.assertEqual(
             names,
             [

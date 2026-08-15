@@ -63,7 +63,6 @@ def t3_prediction() -> dict[str, Any]:
         "workflows": [
             {
                 "workflow_id": "workflow_main",
-                "modality": "RNA",
                 "states": [
                     _single_state("state_input", "RNA input", "RNA", "[RNA]"),
                     _single_state(
@@ -90,7 +89,7 @@ def t3_prediction() -> dict[str, Any]:
                     }
                 ],
                 "initial_state_ids": ["state_input"],
-                "final_state_ids": ["state_cdna"],
+                "final_outputs": [{"state_id": "state_cdna", "modality": "RNA"}],
             }
         ],
     }
@@ -98,7 +97,7 @@ def t3_prediction() -> dict[str, Any]:
 
 def t3_groundtruth() -> dict[str, Any]:
     result = copy.deepcopy(t3_prediction())
-    result["workflows"][0]["modality"] = "gene expression"
+    result["workflows"][0]["final_outputs"][0]["modality"] = "gene expression"
     result["protocol_name"] = "Example protocol"
     for workflow in result["workflows"]:
         for state in workflow["states"]:
@@ -137,14 +136,21 @@ def renamed_predictions() -> tuple[dict[str, Any], dict[str, Any]]:
                 derivation["oligo_id"] = "predicted_oligo"
     transition = workflow["transitions"][0]
     transition["transition_id"] = "predicted_transition"
-    transition["substrate_state_ids"] = [replacements[item] for item in transition["substrate_state_ids"]]
-    transition["product_state_ids"] = [replacements[item] for item in transition["product_state_ids"]]
+    transition["substrate_state_ids"] = [
+        replacements[item] for item in transition["substrate_state_ids"]
+    ]
+    transition["product_state_ids"] = [
+        replacements[item] for item in transition["product_state_ids"]
+    ]
     transition["carried_forward_product_ids"] = [
         replacements[item] for item in transition["carried_forward_product_ids"]
     ]
     transition["oligo_ids"] = ["predicted_oligo"]
-    workflow["initial_state_ids"] = [replacements[item] for item in workflow["initial_state_ids"]]
-    workflow["final_state_ids"] = [replacements[item] for item in workflow["final_state_ids"]]
+    workflow["initial_state_ids"] = [
+        replacements[item] for item in workflow["initial_state_ids"]
+    ]
+    for output in workflow["final_outputs"]:
+        output["state_id"] = replacements[output["state_id"]]
     return t2, t3
 
 
@@ -161,7 +167,9 @@ def _single_state(
         "segment_id": f"segment_{state_id}",
         "role": "molecular architecture",
         "structural_role": "unpaired",
-        "placeholder": architecture if architecture.startswith("[") and architecture.endswith("]") else "[CDNA]",
+        "placeholder": architecture
+        if architecture.startswith("[") and architecture.endswith("]")
+        else "[CDNA]",
     }
     if not (architecture.startswith("[") and architecture.endswith("]")):
         segment["sequence"] = architecture

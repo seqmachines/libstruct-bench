@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
 import shlex
@@ -14,14 +15,19 @@ from libstruct_bench.libgen.version import LIBGEN_BENCHMARK_VERSION
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
-        description="Resolve and lock the 15-cell libgen Harbor experiment matrix."
+        description="Resolve and lock the 16-cell libgen Harbor experiment matrix."
     )
     parser.add_argument("--matrix", default="benchmarks/libgen/matrix.json")
     parser.add_argument("--tasks", default="benchmarks/libgen/tasks")
-    parser.add_argument("--mode", choices=["pilot", "full"], required=True)
+    parser.add_argument("--mode", choices=["smoke", "pilot", "full"], required=True)
     parser.add_argument("--out", required=True)
     parser.add_argument("--jobs-dir", default="runs/libgen")
     parser.add_argument("--harbor-version", required=True)
+    parser.add_argument(
+        "--pricing-snapshot",
+        default="benchmarks/libgen/pricing-2026-08-15.json",
+        help="frozen direct-API pricing snapshot embedded in the experiment lock",
+    )
     parser.add_argument(
         "--pilot-clearance",
         help="validated pilot-review status; required before planning the full run",
@@ -34,6 +40,33 @@ def main(argv: list[str] | None = None) -> int:
             f"Harbor version mismatch: expected {args.harbor_version}, installed {installed_harbor}"
         )
     matrix = json.loads(Path(args.matrix).read_text(encoding="utf-8"))
+    core_models = matrix["models"]
+    native_only_models = matrix.get("native_only_models", [])
+    all_models = core_models + native_only_models
+    native_core_pairings = {
+        (item["model_key"], item["harness_key"])
+        for item in matrix.get("native_core_pairings", [])
+    }
+    core_cell_keys = {
+        (model["model_key"], harness["harness_key"])
+        for model in core_models
+        for harness in matrix["core_harnesses"]
+    }
+    if not native_core_pairings <= core_cell_keys:
+        raise ValueError(
+            "native_core_pairings contains a non-core model × harness cell"
+        )
+    expected_unique_cells = len(core_models) * len(matrix["core_harnesses"]) + len(
+        matrix["native_extensions"]
+    )
+    expected_pilot_trials = (
+        expected_unique_cells
+        * len(matrix["pilot_protocols"])
+        * int(matrix["pilot_attempts"])
+    )
+    pricing_path = Path(args.pricing_snapshot)
+    pricing_bytes = pricing_path.read_bytes()
+    pricing_snapshot = json.loads(pricing_bytes)
     if matrix.get("benchmark_version") != LIBGEN_BENCHMARK_VERSION:
         raise ValueError(
             "matrix benchmark version does not match the installed scorer: "
@@ -53,7 +86,12 @@ def main(argv: list[str] | None = None) -> int:
     task_ids = sorted(
         path.name for path in tasks_root.iterdir() if (path / "task.toml").is_file()
     )
-    selected = matrix["pilot_protocols"] if args.mode == "pilot" else task_ids
+    if args.mode == "smoke":
+        selected = [matrix["smoke_protocol"]]
+    elif args.mode == "pilot":
+        selected = matrix["pilot_protocols"]
+    else:
+        selected = task_ids
     missing = set(selected) - set(task_ids)
     if missing:
         raise ValueError("generated tasks are missing: " + ", ".join(sorted(missing)))
@@ -73,24 +111,48 @@ def main(argv: list[str] | None = None) -> int:
             raise ValueError(
                 "pilot error review has not cleared the full production run"
             )
-        if pilot_clearance.get("expected_trial_count") != 60:
-            raise ValueError("pilot clearance does not cover the approved 60 trials")
+        if pilot_clearance.get("expected_trial_count") != expected_pilot_trials:
+            raise ValueError(
+                "pilot clearance does not cover the approved "
+                f"{expected_pilot_trials} trials"
+            )
         if pilot_clearance.get("task_bundle_sha256") != task_digest:
             raise ValueError(
                 "generated tasks changed after the benchmark was refrozen and cleared"
             )
 
-    models = {item["model_key"]: item for item in matrix["models"]}
+    models = {item["model_key"]: item for item in all_models}
+    missing_pricing = set(models) - set(pricing_snapshot.get("models", {}))
+    if missing_pricing:
+        raise ValueError(
+            "pricing snapshot lacks matrix models: "
+            + ", ".join(sorted(missing_pricing))
+        )
+    required_pin_names = {
+        item[key]
+        for item in all_models
+        for key in ("core_model_id_env", "native_model_id_env")
+        if item.get(key)
+    }
+    required_pin_names.update(
+        item["version_env"]
+        for item in matrix["core_harnesses"] + matrix["native_extensions"]
+    )
+    unset_pins = sorted(name for name in required_pin_names if not os.environ.get(name))
+    if unset_pins:
+        raise ValueError("required experiment pins are unset: " + ", ".join(unset_pins))
     cells: list[dict[str, Any]] = []
-    for model in matrix["models"]:
+    for model in core_models:
         model_id = _required_env(model["core_model_id_env"])
         for harness in matrix["core_harnesses"]:
+            pair = (model["model_key"], harness["harness_key"])
             cells.append(
                 _cell(
                     model=model,
                     harness=harness,
                     model_id=model_id,
                     design="balanced_core",
+                    native_pairing=pair in native_core_pairings,
                 )
             )
     for harness in matrix["native_extensions"]:
@@ -102,13 +164,17 @@ def main(argv: list[str] | None = None) -> int:
                 harness=harness,
                 model_id=model_id,
                 design="native_extension",
+                native_pairing=True,
             )
         )
-    if len(cells) != 15:
+    if len(cells) != expected_unique_cells:
         raise ValueError(
-            f"expected the approved 15-cell design, found {len(cells)} cells"
+            f"expected the approved {expected_unique_cells}-cell design, "
+            f"found {len(cells)} cells"
         )
-
+    cell_keys = {(cell["model_key"], cell["harness_key"]) for cell in cells}
+    if len(cell_keys) != len(cells):
+        raise ValueError("the matrix contains duplicate model × harness executions")
     output_root = Path(args.out)
     if output_root.exists():
         raise FileExistsError(f"refusing to overwrite matrix plan: {output_root}")
@@ -123,6 +189,7 @@ def main(argv: list[str] | None = None) -> int:
             "jobs_dir": str(Path(args.jobs_dir).resolve()),
             "n_attempts": attempts,
             "n_concurrent_trials": matrix["n_concurrent_trials"],
+            "retry": {"max_retries": 0},
             "environment": {"type": matrix["environment"]},
             "agents": [
                 {
@@ -138,7 +205,7 @@ def main(argv: list[str] | None = None) -> int:
             "datasets": [
                 {
                     "path": str(tasks_root),
-                    "task_names": selected if args.mode == "pilot" else None,
+                    "task_names": selected if args.mode != "full" else None,
                 }
             ],
             "artifacts": [
@@ -165,13 +232,22 @@ def main(argv: list[str] | None = None) -> int:
         "attempts": attempts,
         "protocol_ids": selected,
         "task_bundle_sha256": task_digest,
+        "pricing_snapshot": pricing_snapshot,
+        "pricing_snapshot_sha256": hashlib.sha256(pricing_bytes).hexdigest(),
         "cells": cells,
         "expected_trial_count": len(cells) * len(selected) * attempts,
         "analysis_design": {
-            "balanced_core_cells": 12,
-            "native_extension_cells": 3,
+            "unique_execution_cells": len(cells),
+            "balanced_core_cells": len(core_models) * len(matrix["core_harnesses"]),
+            "native_extension_cells": len(matrix["native_extensions"]),
+            "native_only_cells": len(matrix["native_extensions"]),
+            "native_descriptive_pairings": sum(
+                cell["native_pairing"] for cell in cells
+            ),
+            "overlapping_core_native_pairings": len(native_core_pairings),
             "model_and_harness_effects_use": "balanced_core",
-            "native_extensions_are_reported_separately": True,
+            "native_pairings_are_reported_separately": True,
+            "overlapping_pairings_execute_once": True,
         },
         "error_analysis_policy": {
             "preserve_all_agent_logs": True,
@@ -179,6 +255,12 @@ def main(argv: list[str] | None = None) -> int:
             "automatic_process_attribution": False,
             "pilot_substantive_mismatches_require_adjudication": True,
             "full_run_requires_refrozen_benchmark": True,
+        },
+        "telemetry_policy": {
+            "automatic_retries": 0,
+            "resume_command": "libstruct-resume-libgen-job",
+            "preserve_superseded_executions": True,
+            "agent_exception_does_not_imply_invalid_prediction": True,
         },
         "pilot_clearance": pilot_clearance,
     }
@@ -195,7 +277,12 @@ def main(argv: list[str] | None = None) -> int:
 
 
 def _cell(
-    *, model: dict[str, Any], harness: dict[str, Any], model_id: str, design: str
+    *,
+    model: dict[str, Any],
+    harness: dict[str, Any],
+    model_id: str,
+    design: str,
+    native_pairing: bool,
 ) -> dict[str, Any]:
     if (
         harness["harbor_agent"]
@@ -211,10 +298,17 @@ def _cell(
             f"{harness['harbor_agent']} requires a provider/model model ID, found {model_id!r}"
         )
     version = _required_env(harness["version_env"])
+    required_version = harness.get("required_version")
+    if required_version and version != required_version:
+        raise ValueError(
+            f"{harness['display_name']} must be pinned to {required_version}; "
+            f"found {version!r} in {harness['version_env']}"
+        )
     kwargs = dict(harness.get("agent_kwargs", {}))
     kwargs["version"] = version
     return {
         "design": design,
+        "native_pairing": native_pairing,
         "model_key": model["model_key"],
         "model_display_name": model["display_name"],
         "model_id": model_id,

@@ -34,9 +34,11 @@ not in cleaned T2. T2 components are ordered inline descriptions and do not
 carry IDs. T1 stores one canonical `library_sequence`, including placeholders
 for biological inserts such as `[CDNA]`; its `segments` provide the detailed
 annotation. Do not duplicate that sequence in an `annotated_library_sequence`
-field. T3 stores modality on each workflow and contains exactly one workflow
-per T1 modality. Alternative routes for the same modality remain branches
-inside that workflow. Store modality using exactly `gene expression`,
+field. Each T3 workflow is one weakly connected molecular process, independent
+of modality count. Shared upstream states and transitions occur once, followed
+by any modality-specific branches. Every terminal is listed in
+`final_outputs` with its T1 modality; workflows do not store `modality` or
+`final_state_ids`. Store terminal modalities using exactly `gene expression`,
 `genomic DNA`, `feature barcode`, `sgRNA`, or `chromatin accessibility`;
 common abbreviations and alternate spellings remain prediction aliases only.
 Every T3 state records an

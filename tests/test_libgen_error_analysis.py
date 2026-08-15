@@ -234,8 +234,8 @@ def test_stale_noncanonical_score_is_an_evaluator_defect_candidate() -> None:
 
 def test_stale_t3_match_score_is_an_evaluator_defect_candidate() -> None:
     details = _valid_details()
-    modality = next(iter(details["scoring"]["t3"]["modalities"].values()))
-    match = modality["transition_matches"][0]
+    workflow = next(iter(details["scoring"]["t3"]["workflows"].values()))
+    match = workflow["transition_matches"][0]
     match["score"] = 0.25
 
     document = _analysis(details)

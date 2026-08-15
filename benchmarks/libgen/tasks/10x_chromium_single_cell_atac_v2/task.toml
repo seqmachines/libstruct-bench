@@ -9,16 +9,16 @@ keywords = ["genomics", "oligo", "molecular-workflow", "protocol-understanding"]
 
 [metadata]
 benchmark = "libgen"
-benchmark_version = "2.0.0"
+benchmark_version = "3.0.0"
 protocol_id = "10x_chromium_single_cell_atac_v2"
 protocol_name = "10x Chromium Single Cell ATAC v2"
 input_repo = "sequencing/scg-protocols-v1"
 input_revision = "19c29caabcb019a72d08fed59ed8030a2d3c449d"
 groundtruth_repo = "sequencing/scg-oligo-groundtruth-v1"
-groundtruth_revision = "ecd12f41611ed64e3bff53d715b111e0f0ee9a10"
+groundtruth_revision = "5a81714daaa87d568a0c5b62320679d34219ebf7"
 network_profile = "local-docker"
 source_manifest_sha256 = "2f7ef1f5c58230918053dbb560a5f0eaa2d2e7ba29656417dec954408fc9c382"
-groundtruth_bundle_sha256 = "e951c8d4502f44f322d1c86037cf0b4cc9ec14504bccf36b220c7230c61bd1c7"
+groundtruth_bundle_sha256 = "68e74f5a34074e66bf4520266b5ff66925234ce04f1e0acff8cb49ead16fcdfe"
 
 [agent]
 timeout_sec = 3600.0
