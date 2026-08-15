@@ -9,11 +9,13 @@ import pytest
 from jsonschema import Draft202012Validator
 
 from libstruct_bench.cli.grade_libgen import main as grade_main
+from libstruct_bench.cli.rescore_libgen_runs import main as rescore_main
 from libstruct_bench.libgen.scoring import (
     LIBGEN_PUBLIC_METRIC_KEYS,
     grade_libgen,
     score_t2,
 )
+from libstruct_bench.libgen.version import LIBGEN_BENCHMARK_VERSION
 from libstruct_bench.libgen.validation import (
     LibgenValidationError,
     derive_required_t2_ids,
@@ -71,11 +73,12 @@ def test_exact_truth_projection_scores_one() -> None:
     assert metrics["reward"] == pytest.approx(1.0)
     assert all(value == pytest.approx(1.0) for value in metrics.values())
     assert details["diagnostic_metrics"]["t2"][
-        "required_sequence_precision"
+        "required_family_precision"
     ] == pytest.approx(1.0)
     assert details["diagnostic_metrics"]["t3"][
         "molecular_transition_recall"
     ] == pytest.approx(1.0)
+    assert details["benchmark_version"] == LIBGEN_BENCHMARK_VERSION
 
 
 def test_ids_and_collection_order_do_not_affect_score() -> None:
@@ -95,7 +98,7 @@ def test_missing_and_extra_entities_lower_scores() -> None:
         t2_groundtruth()["oligos"],
         required_oligo_ids={"oligo_rt"},
     )
-    assert metrics["required_sequence_f1"] < 1.0
+    assert metrics["required_family_f1"] < 1.0
 
     extra_t3 = t3_prediction()
     extra_state = copy.deepcopy(extra_t3["workflows"][0]["states"][0])
@@ -146,26 +149,24 @@ def test_external_oligo_is_neutral_whether_omitted_or_exactly_predicted() -> Non
         truth["oligos"],
         required_oligo_ids={"oligo_rt"},
     )
-    assert omitted_metrics["required_sequence_f1"] == pytest.approx(1.0)
-    assert included_metrics["required_sequence_f1"] == pytest.approx(1.0)
+    assert omitted_metrics["required_family_f1"] == pytest.approx(1.0)
+    assert included_metrics["required_family_f1"] == pytest.approx(1.0)
 
 
 def test_t3_referenced_oligo_is_neutral_when_not_source_recoverable() -> None:
     truth = t2_groundtruth()
     truth["oligos"][0]["support_status"] = "externally_completed"
 
-    metrics, details = score_t2(
-        [], truth["oligos"], required_oligo_ids={"oligo_rt"}
-    )
+    metrics, details = score_t2([], truth["oligos"], required_oligo_ids={"oligo_rt"})
 
     assert metrics["used_groundtruth_count"] == 1.0
-    assert metrics["required_groundtruth_count"] == 0.0
+    assert metrics["required_family_count"] == 0.0
     assert metrics["neutral_used_groundtruth_count"] == 1.0
-    assert metrics["required_sequence_recall"] == 1.0
+    assert metrics["required_family_recall"] == 1.0
     assert details["used_oligo_ids"] == ["oligo_rt"]
-    assert details["scored_oligo_ids"] == []
+    assert details["scored_family_ids"] == []
     assert details["neutral_used_oligo_ids"] == ["oligo_rt"]
-    assert details["unmatched_required_oligo_ids"] == []
+    assert details["unmatched_required_family_ids"] == []
 
 
 def test_mixed_support_oligo_scores_only_recoverable_components() -> None:
@@ -208,7 +209,7 @@ def test_mixed_support_oligo_scores_only_recoverable_components() -> None:
     metrics, _ = score_t2(
         prediction["oligos"], truth["oligos"], required_oligo_ids={"oligo_rt"}
     )
-    assert metrics["required_sequence_f1"] == pytest.approx(1.0)
+    assert metrics["required_family_f1"] == pytest.approx(1.0)
 
     predicted["components"].append(
         {
@@ -222,7 +223,7 @@ def test_mixed_support_oligo_scores_only_recoverable_components() -> None:
     metrics, _ = score_t2(
         prediction["oligos"], truth["oligos"], required_oligo_ids={"oligo_rt"}
     )
-    assert metrics["required_sequence_f1"] == pytest.approx(1.0)
+    assert metrics["required_family_f1"] == pytest.approx(1.0)
 
 
 def _ordered_test_components(*, groundtruth: bool) -> list[dict]:
@@ -281,12 +282,10 @@ def test_ordered_components_match_an_equivalent_flat_sequence(
         }
     )
 
-    metrics, _ = grade_libgen(
-        prediction, t3_prediction(), truth, t3_groundtruth()
-    )
+    metrics, _ = grade_libgen(prediction, t3_prediction(), truth, t3_groundtruth())
 
-    assert metrics["t2_required_sequence_f1"] == pytest.approx(1.0)
-    assert metrics["t2_all_required_exact"] == 1.0
+    assert metrics["t2_required_family_f1"] == pytest.approx(1.0)
+    assert metrics["t2_exact_required_family_recall"] == 1.0
     assert metrics["t3_molecular_transition_f1"] == pytest.approx(1.0)
     assert metrics["reward"] == pytest.approx(1.0)
 
@@ -294,7 +293,7 @@ def test_ordered_components_match_an_equivalent_flat_sequence(
     reversed_metrics, _ = score_t2(
         prediction["oligos"], truth["oligos"], required_oligo_ids={"oligo_rt"}
     )
-    assert reversed_metrics["required_sequence_f1"] < 1.0
+    assert reversed_metrics["required_family_f1"] < 1.0
 
 
 def test_flat_sequence_matches_equivalent_ordered_groundtruth_components() -> None:
@@ -320,8 +319,8 @@ def test_flat_sequence_matches_equivalent_ordered_groundtruth_components() -> No
         prediction["oligos"], truth["oligos"], required_oligo_ids={"oligo_rt"}
     )
 
-    assert metrics["required_sequence_f1"] == pytest.approx(1.0)
-    assert metrics["all_required_exact"] == 1.0
+    assert metrics["required_family_f1"] == pytest.approx(1.0)
+    assert metrics["exact_required_family_recall"] == 1.0
 
 
 def test_double_stranded_components_remain_separate_sequence_claims() -> None:
@@ -369,15 +368,13 @@ def test_double_stranded_components_remain_separate_sequence_claims() -> None:
     component_metrics, _ = score_t2(
         prediction["oligos"], truth["oligos"], required_oligo_ids={"oligo_rt"}
     )
-    assert component_metrics["required_sequence_f1"] == pytest.approx(1.0)
+    assert component_metrics["required_family_f1"] == pytest.approx(1.0)
 
-    prediction["oligos"][0].update(
-        {"sequence": "ACGTACGTTGCATGCA", "components": []}
-    )
+    prediction["oligos"][0].update({"sequence": "ACGTACGTTGCATGCA", "components": []})
     flattened_metrics, _ = score_t2(
         prediction["oligos"], truth["oligos"], required_oligo_ids={"oligo_rt"}
     )
-    assert flattened_metrics["required_sequence_f1"] < 1.0
+    assert flattened_metrics["required_family_f1"] < 1.0
 
 
 def _additional_oligo(
@@ -395,13 +392,222 @@ def _additional_oligo(
     return item
 
 
-def test_missing_required_oligo_lowers_required_sequence_f1() -> None:
+def _panel_member(
+    *,
+    oligo_id: str,
+    barcode: str,
+    prefix: str = "AAA",
+    suffix: str = "TTT",
+    role: str = "barcoded reverse-transcription primer",
+    orientation: str = "5_to_3",
+    modifications: list[str] | None = None,
+) -> dict:
+    return {
+        "oligo_id": oligo_id,
+        "name": oligo_id,
+        "aliases": [],
+        "role": role,
+        "kind": "assembled",
+        "sequence": f"{prefix}{barcode}{suffix}",
+        "orientation": orientation,
+        "components": [
+            {
+                "name": "fixed 5-prime scaffold",
+                "role": "ligation handle",
+                "sequence": prefix,
+                "orientation": orientation,
+                "modifications": [],
+            },
+            {
+                "name": "round 1 cell barcode",
+                "role": "cell barcode",
+                "sequence": barcode,
+                "orientation": orientation,
+                "modifications": [],
+            },
+            {
+                "name": "fixed 3-prime scaffold",
+                "role": "primer binding site",
+                "sequence": suffix,
+                "orientation": orientation,
+                "modifications": [],
+            },
+        ],
+        "modifications": list(modifications or []),
+    }
+
+
+def _panel_family_truth() -> dict:
+    result = _panel_member(oligo_id="family_rt", barcode="ACGT")
+    result["sequence"] = "AAA[CELL_BARCODE:4]TTT"
+    result["components"][1].pop("sequence")
+    result["components"][1].update({"placeholder": "[CELL_BARCODE:4]", "length": 4})
+    result["support_status"] = "explicit"
+    for component in result["components"]:
+        component["support_status"] = "explicit"
+    return result
+
+
+def test_concrete_panel_members_collapse_to_one_required_family() -> None:
+    predictions = [
+        _panel_member(oligo_id="member_1", barcode="ACGT"),
+        _panel_member(oligo_id="member_2", barcode="TGCA"),
+        _panel_member(oligo_id="member_3", barcode="CAGT"),
+    ]
+
+    metrics, details = score_t2(
+        predictions,
+        [_panel_family_truth()],
+        required_oligo_ids={"family_rt"},
+    )
+
+    assert metrics["predicted_member_count"] == 3.0
+    assert metrics["predicted_family_count"] == 1.0
+    assert metrics["required_family_precision"] == pytest.approx(1.0)
+    assert metrics["required_family_recall"] == pytest.approx(1.0)
+    assert metrics["required_family_f1"] == pytest.approx(1.0)
+    assert metrics["exact_required_family_recall"] == pytest.approx(1.0)
+    assert details["matches"][0]["prediction_oligo_ids"] == [
+        "member_1",
+        "member_2",
+        "member_3",
+    ]
+
+
+def test_unrelated_concrete_panel_counts_as_one_extra_family() -> None:
+    predictions = [
+        _panel_member(oligo_id="required_1", barcode="ACGT"),
+        _panel_member(oligo_id="required_2", barcode="TGCA"),
+        _panel_member(
+            oligo_id="extra_1",
+            barcode="AAAA",
+            prefix="CCC",
+            suffix="GGG",
+        ),
+        _panel_member(
+            oligo_id="extra_2",
+            barcode="CCCC",
+            prefix="CCC",
+            suffix="GGG",
+        ),
+    ]
+
+    metrics, details = score_t2(
+        predictions,
+        [_panel_family_truth()],
+        required_oligo_ids={"family_rt"},
+    )
+
+    assert metrics["predicted_member_count"] == 4.0
+    assert metrics["predicted_family_count"] == 2.0
+    assert metrics["required_family_precision"] == pytest.approx(0.5)
+    assert metrics["required_family_recall"] == pytest.approx(1.0)
+    assert metrics["required_family_f1"] == pytest.approx(2 / 3)
+    assert metrics["exact_required_family_recall"] == pytest.approx(1.0)
+    assert len(details["unmatched_prediction_families"]) == 1
+    assert details["unmatched_prediction_families"][0]["member_oligo_ids"] == [
+        "extra_1",
+        "extra_2",
+    ]
+
+
+@pytest.mark.parametrize(
+    "change",
+    ("role", "orientation", "modification"),
+)
+def test_family_collapse_preserves_scientifically_distinct_records(
+    change: str,
+) -> None:
+    correct = _panel_member(oligo_id="correct", barcode="ACGT")
+    distinct = _panel_member(oligo_id="distinct", barcode="TGCA")
+    if change == "role":
+        distinct["role"] = "sample-index primer"
+    elif change == "orientation":
+        distinct["orientation"] = "3_to_5"
+        for component in distinct["components"]:
+            component["orientation"] = "3_to_5"
+    else:
+        distinct["modifications"] = ["5-prime phosphate"]
+
+    metrics, _ = score_t2(
+        [correct, distinct],
+        [_panel_family_truth()],
+        required_oligo_ids={"family_rt"},
+    )
+
+    assert metrics["predicted_family_count"] == 2.0
+    assert metrics["required_family_precision"] == pytest.approx(0.5)
+    assert metrics["exact_required_family_recall"] == pytest.approx(1.0)
+
+
+def test_concrete_groundtruth_members_remain_member_level_requirements() -> None:
+    truth = [
+        _panel_member(oligo_id="truth_1", barcode="ACGT"),
+        _panel_member(oligo_id="truth_2", barcode="TGCA"),
+    ]
+    for item in truth:
+        item["support_status"] = "explicit"
+        for component in item["components"]:
+            component["support_status"] = "explicit"
+    predictions = [
+        _panel_member(oligo_id="prediction_1", barcode="ACGT"),
+        _panel_member(oligo_id="prediction_2", barcode="TGCA"),
+    ]
+
+    complete, complete_details = score_t2(
+        predictions,
+        truth,
+        required_oligo_ids={"truth_1", "truth_2"},
+    )
+    missing, _ = score_t2(
+        predictions[:1],
+        truth,
+        required_oligo_ids={"truth_1", "truth_2"},
+    )
+
+    assert complete["predicted_family_count"] == 2.0
+    assert complete["required_family_f1"] == pytest.approx(1.0)
+    assert {
+        match["groundtruth_scoring_level"] for match in complete_details["matches"]
+    } == {"member"}
+    assert missing["required_family_recall"] == pytest.approx(0.5)
+    assert missing["exact_required_family_recall"] == pytest.approx(0.5)
+
+
+def test_t3_transition_oligo_members_collapse_to_family_reference() -> None:
+    truth_t2 = t2_groundtruth()
+    truth_t2["oligos"] = [_panel_family_truth()]
+    truth_t3 = t3_groundtruth()
+    truth_t3["workflows"][0]["transitions"][0]["oligo_ids"] = ["family_rt"]
+    prediction_t2 = t2_prediction()
+    prediction_t2["oligos"] = [
+        _panel_member(oligo_id="member_1", barcode="ACGT"),
+        _panel_member(oligo_id="member_2", barcode="TGCA"),
+    ]
+    prediction_t3 = t3_prediction()
+    prediction_t3["workflows"][0]["transitions"][0]["oligo_ids"] = [
+        "member_1",
+        "member_2",
+    ]
+
+    metrics, _ = grade_libgen(
+        prediction_t2,
+        prediction_t3,
+        truth_t2,
+        truth_t3,
+    )
+
+    assert metrics["t2_required_family_f1"] == pytest.approx(1.0)
+    assert metrics["t3_molecular_transition_f1"] == pytest.approx(1.0)
+
+
+def test_missing_required_oligo_family_lowers_required_family_f1() -> None:
     metrics, details = score_t2(
         [], t2_groundtruth()["oligos"], required_oligo_ids={"oligo_rt"}
     )
-    assert metrics["required_sequence_f1"] == 0.0
-    assert metrics["all_required_exact"] == 0.0
-    assert details["unmatched_required_oligo_ids"] == ["oligo_rt"]
+    assert metrics["required_family_f1"] == 0.0
+    assert metrics["exact_required_family_recall"] == 0.0
+    assert details["unmatched_required_family_ids"] == ["oligo_rt"]
 
 
 def test_exact_optional_oligo_is_neutral() -> None:
@@ -419,8 +625,8 @@ def test_exact_optional_oligo_is_neutral() -> None:
         truth["oligos"],
         required_oligo_ids={"oligo_rt"},
     )
-    assert metrics["required_sequence_f1"] == pytest.approx(1.0)
-    assert metrics["all_required_exact"] == 1.0
+    assert metrics["required_family_f1"] == pytest.approx(1.0)
+    assert metrics["exact_required_family_recall"] == 1.0
     assert details["neutralized_prediction_indices"] == [1]
 
 
@@ -448,8 +654,8 @@ def test_exact_optional_is_neutral_before_soft_required_matching() -> None:
         required_oligo_ids={"oligo_rt"},
     )
 
-    assert metrics["required_sequence_recall"] == 0.0
-    assert metrics["required_sequence_precision"] == 0.0
+    assert metrics["required_family_recall"] == 0.0
+    assert metrics["required_family_precision"] == 0.0
     assert details["neutralized_prediction_indices"] == [0]
 
 
@@ -463,24 +669,30 @@ def test_extra_unknown_oligo_reduces_precision() -> None:
         t2_groundtruth()["oligos"],
         required_oligo_ids={"oligo_rt"},
     )
-    assert metrics["required_sequence_precision"] < 1.0
-    assert metrics["required_sequence_recall"] == pytest.approx(1.0)
-    assert metrics["all_required_exact"] == 0.0
+    assert metrics["required_family_precision"] < 1.0
+    assert metrics["required_family_recall"] == pytest.approx(1.0)
+    assert metrics["exact_required_family_recall"] == 1.0
 
 
-def test_duplicate_identical_prediction_counts_as_an_extra() -> None:
+def test_duplicate_identical_prediction_collapses_to_one_family() -> None:
     prediction = t2_prediction()
     duplicate = copy.deepcopy(prediction["oligos"][0])
     duplicate["oligo_id"] = "duplicate_rt"
     prediction["oligos"].append(duplicate)
-    metrics, _ = score_t2(
+    metrics, details = score_t2(
         prediction["oligos"],
         t2_groundtruth()["oligos"],
         required_oligo_ids={"oligo_rt"},
     )
-    assert metrics["required_sequence_recall"] == pytest.approx(1.0)
-    assert metrics["required_sequence_precision"] == pytest.approx(0.5)
-    assert metrics["required_sequence_f1"] < 1.0
+    assert metrics["required_family_recall"] == pytest.approx(1.0)
+    assert metrics["required_family_precision"] == pytest.approx(1.0)
+    assert metrics["required_family_f1"] == pytest.approx(1.0)
+    assert metrics["predicted_member_count"] == 2.0
+    assert metrics["predicted_family_count"] == 1.0
+    assert details["prediction_families"][0]["member_oligo_ids"] == [
+        "oligo_rt",
+        "duplicate_rt",
+    ]
 
 
 def test_t2_metadata_does_not_affect_assignment_or_reward() -> None:
@@ -499,7 +711,7 @@ def test_t2_metadata_does_not_affect_assignment_or_reward() -> None:
         t2_groundtruth()["oligos"],
         required_oligo_ids={"oligo_rt"},
     )
-    assert metrics["required_sequence_f1"] == pytest.approx(1.0)
+    assert metrics["required_family_f1"] == pytest.approx(1.0)
 
 
 def test_t3_oligo_use_matches_local_t2_sequences_not_ids_or_names() -> None:
@@ -541,17 +753,14 @@ def test_external_t3_state_is_neutral_when_omitted() -> None:
     external["strands"][0]["support_status"] = "externally_completed"
     external["strands"][0]["segments"][0]["segment_id"] = "external_segment"
     truth["workflows"][0]["states"].append(external)
-    metrics, _ = grade_libgen(
-        t2_prediction(), t3_prediction(), t2_groundtruth(), truth
-    )
+    metrics, _ = grade_libgen(t2_prediction(), t3_prediction(), t2_groundtruth(), truth)
     assert metrics["t3_molecular_transition_f1"] == pytest.approx(1.0)
 
 
 def _rename_workflow_ids(workflow: dict, suffix: str) -> dict:
     result = copy.deepcopy(workflow)
     state_ids = {
-        state["state_id"]: f"{state['state_id']}_{suffix}"
-        for state in result["states"]
+        state["state_id"]: f"{state['state_id']}_{suffix}" for state in result["states"]
     }
     transition_ids = {
         transition["transition_id"]: f"{transition['transition_id']}_{suffix}"
@@ -578,7 +787,9 @@ def _rename_workflow_ids(workflow: dict, suffix: str) -> dict:
             for side_name in ("side_1", "side_2"):
                 side = region[side_name]
                 side["strand_id"] = strand_ids[side["strand_id"]]
-                side["segment_ids"] = [segment_ids[item] for item in side["segment_ids"]]
+                side["segment_ids"] = [
+                    segment_ids[item] for item in side["segment_ids"]
+                ]
         for discontinuity in state["discontinuities"]:
             discontinuity["discontinuity_id"] = (
                 f"{discontinuity['discontinuity_id']}_{suffix}"
@@ -600,7 +811,9 @@ def _rename_workflow_ids(workflow: dict, suffix: str) -> dict:
         ):
             transition[field] = [state_ids[item] for item in transition[field]]
     result["workflow_id"] = f"{result['workflow_id']}_{suffix}"
-    result["initial_state_ids"] = [state_ids[item] for item in result["initial_state_ids"]]
+    result["initial_state_ids"] = [
+        state_ids[item] for item in result["initial_state_ids"]
+    ]
     result["final_state_ids"] = [state_ids[item] for item in result["final_state_ids"]]
     return result
 
@@ -637,9 +850,7 @@ def test_multimodal_workflows_score_independently_by_modality() -> None:
                 strand.pop("support_status", None)
         for transition in workflow["transitions"]:
             transition.pop("support_status", None)
-    metrics, _ = grade_libgen(
-        t2_prediction(), prediction, t2_groundtruth(), truth
-    )
+    metrics, _ = grade_libgen(t2_prediction(), prediction, t2_groundtruth(), truth)
     assert metrics["t3_molecular_transition_f1"] == pytest.approx(1.0)
     assert metrics["t3_typed_edge_f1"] == pytest.approx(1.0)
 
@@ -680,9 +891,7 @@ def test_modality_swapped_across_graphs_lowers_transition_score() -> None:
     prediction = copy.deepcopy(truth)
     prediction["workflows"][0]["modality"] = "ATAC"
     prediction["workflows"][1]["modality"] = "RNA"
-    metrics, _ = grade_libgen(
-        t2_prediction(), prediction, t2_groundtruth(), truth
-    )
+    metrics, _ = grade_libgen(t2_prediction(), prediction, t2_groundtruth(), truth)
     assert metrics["t3_molecular_transition_f1"] < 1.0
 
 
@@ -698,9 +907,7 @@ def test_wrong_operation_with_correct_topology_preserves_typed_edges() -> None:
 
 def test_correct_operation_with_wrong_edge_lowers_typed_edge_f1() -> None:
     prediction = t3_prediction()
-    prediction["workflows"][0]["transitions"][0]["substrate_state_ids"] = [
-        "state_cdna"
-    ]
+    prediction["workflows"][0]["transitions"][0]["substrate_state_ids"] = ["state_cdna"]
     metrics, _ = grade_libgen(
         t2_prediction(), prediction, t2_groundtruth(), t3_groundtruth()
     )
@@ -747,9 +954,7 @@ def test_one_missing_graph_branch_lowers_transition_and_edge_recall() -> None:
     metrics, details = grade_libgen(
         t2_prediction(), prediction, t2_groundtruth(), truth
     )
-    assert details["diagnostic_metrics"]["t3"][
-        "molecular_transition_recall"
-    ] < 1.0
+    assert details["diagnostic_metrics"]["t3"]["molecular_transition_recall"] < 1.0
     assert metrics["t3_typed_edge_f1"] < 1.0
 
 
@@ -763,9 +968,7 @@ def test_ambiguous_transition_and_its_edges_are_neutral() -> None:
         t2_prediction(), prediction, t2_groundtruth(), truth
     )
 
-    assert details["diagnostic_metrics"]["t3"][
-        "molecular_transition_recall"
-    ] == 1.0
+    assert details["diagnostic_metrics"]["t3"]["molecular_transition_recall"] == 1.0
     assert metrics["t3_typed_edge_f1"] == 1.0
 
 
@@ -778,9 +981,7 @@ def test_externally_completed_t3_sequence_architecture_is_neutral() -> None:
     predicted_strand["sequence_architecture"] = "TTTT[CDNA]"
     predicted_strand["segments"][0]["sequence"] = "TTTT[CDNA]"
 
-    metrics, _ = grade_libgen(
-        t2_prediction(), prediction, t2_groundtruth(), truth
-    )
+    metrics, _ = grade_libgen(t2_prediction(), prediction, t2_groundtruth(), truth)
 
     assert metrics["t3_state_f1"] == pytest.approx(1.0)
 
@@ -803,7 +1004,7 @@ def test_externally_completed_t3_linked_oligo_sequence_is_neutral() -> None:
         t3_groundtruth(),
     )
 
-    assert metrics["t2_required_sequence_f1"] == pytest.approx(1.0)
+    assert metrics["t2_required_family_f1"] == pytest.approx(1.0)
     assert metrics["t3_molecular_transition_f1"] == pytest.approx(1.0)
 
 
@@ -895,7 +1096,9 @@ def test_partial_duplex_pairing_must_be_reverse_complementary() -> None:
         validate_prediction_links(t2_prediction(), t3)
 
 
-def test_verifier_cli_scores_valid_output_and_zeroes_invalid_prediction(tmp_path: Path) -> None:
+def test_verifier_cli_scores_valid_output_and_zeroes_invalid_prediction(
+    tmp_path: Path,
+) -> None:
     truth = tmp_path / "truth"
     truth.mkdir()
     for filename, document in (
@@ -948,8 +1151,8 @@ def test_verifier_cli_scores_valid_output_and_zeroes_invalid_prediction(tmp_path
     reward_document = json.loads(reward.read_text())
     assert set(reward_document) == set(LIBGEN_PUBLIC_METRIC_KEYS)
     assert reward_document["reward"] == pytest.approx(1.0)
-    assert reward_document["t2_required_sequence_f1"] == pytest.approx(1.0)
-    assert reward_document["t2_all_required_exact"] == pytest.approx(1.0)
+    assert reward_document["t2_required_family_f1"] == pytest.approx(1.0)
+    assert reward_document["t2_exact_required_family_recall"] == pytest.approx(1.0)
     assert reward_document["t3_molecular_transition_f1"] == pytest.approx(1.0)
     assert reward_document["t3_state_f1"] == pytest.approx(1.0)
     assert reward_document["t3_typed_edge_f1"] == pytest.approx(1.0)
@@ -985,6 +1188,85 @@ def test_verifier_cli_scores_valid_output_and_zeroes_invalid_prediction(tmp_path
     assert json.loads(error.read_text())["kind"] == "invalid_prediction"
     invalid_analysis = json.loads(error_analysis.read_text())
     assert invalid_analysis["run_outcome"] == "invalid_prediction"
-    assert invalid_analysis["observations"][0][
-        "category"
-    ] == "representation_or_schema_error"
+    assert (
+        invalid_analysis["observations"][0]["category"]
+        == "representation_or_schema_error"
+    )
+
+
+def test_versioned_rescore_preserves_original_harbor_outputs(tmp_path: Path) -> None:
+    groundtruth = tmp_path / "groundtruth" / "example_protocol"
+    groundtruth.mkdir(parents=True)
+    for filename, document in (
+        ("groundtruth_final_lib_struct.json", t1_groundtruth()),
+        ("groundtruth_oligos.json", t2_groundtruth()),
+        ("groundtruth_library_generation_workflow.json", t3_groundtruth()),
+    ):
+        (groundtruth / filename).write_text(json.dumps(document))
+
+    trial = tmp_path / "runs" / "job" / "example_protocol__abc"
+    artifacts = trial / "artifacts" / "logs" / "artifacts"
+    verifier = trial / "verifier"
+    artifacts.mkdir(parents=True)
+    verifier.mkdir()
+    (artifacts / "t2_prediction.json").write_text(json.dumps(t2_prediction()))
+    (artifacts / "t3_prediction.json").write_text(json.dumps(t3_prediction()))
+    original_reward = {
+        "reward": 0.25,
+        "t2_required_sequence_f1": 0.25,
+    }
+    original_bytes = json.dumps(original_reward).encode()
+    (verifier / "reward.json").write_bytes(original_bytes)
+    (trial / "result.json").write_text(
+        json.dumps(
+            {
+                "trial_name": trial.name,
+                "task_name": "sequencing/libgen-example_protocol",
+            }
+        )
+    )
+
+    assert (
+        rescore_main(
+            [
+                "--runs-root",
+                str(tmp_path / "runs"),
+                "--groundtruth-root",
+                str(tmp_path / "groundtruth"),
+                "--schema-root",
+                str(SCHEMA_ROOT),
+            ]
+        )
+        == 0
+    )
+
+    assert (verifier / "reward.json").read_bytes() == original_bytes
+    versioned = verifier / "rescore" / f"libgen-{LIBGEN_BENCHMARK_VERSION}"
+    rescored_reward = json.loads((versioned / "reward.json").read_text())
+    assert tuple(rescored_reward) == tuple(sorted(LIBGEN_PUBLIC_METRIC_KEYS))
+    assert rescored_reward["reward"] == pytest.approx(1.0)
+    summary = json.loads(
+        (
+            trial.parent
+            / "rescore"
+            / f"libgen-{LIBGEN_BENCHMARK_VERSION}"
+            / "summary.json"
+        ).read_text()
+    )
+    assert summary["benchmark_version"] == LIBGEN_BENCHMARK_VERSION
+    assert summary["trial_count"] == 1
+    assert summary["valid_prediction_count"] == 1
+    assert summary["trials"][0]["original_reward"] == 0.25
+    assert summary["trials"][0]["reward_delta"] == pytest.approx(0.75)
+
+    with pytest.raises(FileExistsError, match="refusing to overwrite"):
+        rescore_main(
+            [
+                "--runs-root",
+                str(tmp_path / "runs"),
+                "--groundtruth-root",
+                str(tmp_path / "groundtruth"),
+                "--schema-root",
+                str(SCHEMA_ROOT),
+            ]
+        )

@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://seqmachines.org/schemas/libstruct/benchmark/oligo_prediction.schema.json",
   "title": "Oligo prediction",
-  "description": "Agent-visible T2 prediction contract. Audit-only evidence, support, lineage, and review fields are deliberately excluded.",
+  "description": "Agent-visible T2 family prediction contract. One record represents one oligo family; concrete barcode or index panels must be expressed with fixed-length placeholders rather than enumerated. Audit-only evidence, support, lineage, and review fields are deliberately excluded.",
   "type": "object",
   "additionalProperties": false,
   "required": ["protocol_id", "oligos"],
@@ -29,7 +29,7 @@
       "properties": {
         "name": {"type": "string", "minLength": 1},
         "role": {"type": "string", "minLength": 1},
-        "sequence": {"type": ["string", "null"], "minLength": 1},
+        "sequence": {"type": ["string", "null"], "minLength": 1, "description": "Concrete sequence for this ordered component when source-visible."},
         "length": {"type": ["integer", "null"], "minimum": 0},
         "placeholder": {
           "oneOf": [
@@ -87,7 +87,7 @@
           "type": "string",
           "enum": ["single", "assembled", "double_stranded", "hairpin", "unknown"]
         },
-        "sequence": {"type": ["string", "null"], "minLength": 1},
+        "sequence": {"type": ["string", "null"], "minLength": 1, "description": "Molecule-level sequence or family template. Use canonical fixed-length placeholders such as [CELL_BARCODE:8] for variable panel regions."},
         "orientation": {
           "type": "string",
           "enum": ["5_to_3", "3_to_5", "unknown"]

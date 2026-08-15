@@ -12,6 +12,7 @@ from libstruct_bench.cli.generate_libgen_tasks import main
 from libstruct_bench.cli.plan_libgen_matrix import main as plan_main
 from libstruct_bench.cli.prepare_libgen_hf_export import main as export_main
 from libstruct_bench.cli.summarize_libgen_runs import main as summarize_main
+from libstruct_bench.libgen.version import LIBGEN_BENCHMARK_VERSION
 from tests.libgen_fixtures import t1_groundtruth, t2_groundtruth, t3_groundtruth
 
 
@@ -43,7 +44,9 @@ def _fixture_release(root: Path) -> tuple[Path, Path, Path]:
                         "sources": [
                             {
                                 "path": "example_protocol/source.pdf",
-                                "sha256": hashlib.sha256(source.read_bytes()).hexdigest(),
+                                "sha256": hashlib.sha256(
+                                    source.read_bytes()
+                                ).hexdigest(),
                             }
                         ],
                         "groundtruth_prefix": "example_protocol",
@@ -98,6 +101,8 @@ def test_generator_builds_separate_allowlisted_task_without_truth_leakage() -> N
         assert 'HF_TOKEN = "${HF_TOKEN}"' in task_toml
         assert "RUN python /workspace/fetch_input.py" in dockerfile
         task_config = tomllib.loads(task_toml)
+        assert task_config["agent"]["timeout_sec"] == 3600.0
+        assert task_config["metadata"]["benchmark_version"] == LIBGEN_BENCHMARK_VERSION
         assert task_config["artifacts"] == [
             {
                 "source": "/logs/agent/trajectory.json",
@@ -106,13 +111,17 @@ def test_generator_builds_separate_allowlisted_task_without_truth_leakage() -> N
         ]
         assert "/logs/artifacts/t2_prediction.json" in rules
         assert "/logs/artifacts/t3_prediction.json" in rules
+        assert "one record per oligo family" in rules
+        assert "one family template" in instruction
         assert "groundtruth" not in instruction.lower()
         assert "groundtruth" not in manifest.lower()
         assert "org/private-groundtruth" not in dockerfile
-        assert "--groundtruth-repo \"org/private-groundtruth\"" in test_sh
+        assert '--groundtruth-repo "org/private-groundtruth"' in test_sh
         assert "--error-analysis-out /logs/verifier/error_analysis.json" in test_sh
         assert "--trajectory /logs/agent/trajectory.json" in test_sh
-        assert (task / "environment/schemas/benchmark/oligo_prediction.schema.json").is_file()
+        assert (
+            task / "environment/schemas/benchmark/oligo_prediction.schema.json"
+        ).is_file()
         assert (task / "tests/libstruct_bench/libgen/scoring.py").is_file()
         assert (task / "tests/libstruct_bench/libgen/error_analysis.py").is_file()
 
@@ -148,6 +157,8 @@ def test_generator_builds_local_docker_task_without_phase_network_overrides() ->
             == 0
         )
         task_config = tomllib.loads((out / "example_protocol/task.toml").read_text())
+        assert task_config["agent"]["timeout_sec"] == 3600.0
+        assert task_config["metadata"]["benchmark_version"] == LIBGEN_BENCHMARK_VERSION
         assert task_config["artifacts"] == [
             {
                 "source": "/logs/agent/trajectory.json",
@@ -162,7 +173,67 @@ def test_generator_builds_local_docker_task_without_phase_network_overrides() ->
         assert "allowed_hosts" not in task_config["verifier"]
         assert task_config["environment"]["network_mode"] == "public"
         assert task_config["verifier"]["environment"]["network_mode"] == "public"
-        assert task_config["verifier"]["environment"]["env"]["HF_TOKEN"] == "${HF_TOKEN}"
+        assert (
+            task_config["verifier"]["environment"]["env"]["HF_TOKEN"] == "${HF_TOKEN}"
+        )
+
+
+def test_checked_in_libgen_tasks_keep_verifier_snapshots_synchronized() -> None:
+    protocol_config = json.loads(
+        (ROOT / "benchmarks/libgen/protocols.json").read_text()
+    )
+    protocol_ids = {item["protocol_id"] for item in protocol_config["protocols"]}
+    task_root = ROOT / "benchmarks/libgen/tasks"
+    task_dirs = {path.name: path for path in task_root.iterdir() if path.is_dir()}
+    assert set(task_dirs) == protocol_ids
+
+    source_package = ROOT / "src/libstruct_bench"
+    synchronized_files = (
+        "cli/grade_libgen.py",
+        "libgen/error_analysis.py",
+        "libgen/scoring.py",
+        "libgen/version.py",
+        "normalization.py",
+    )
+    synchronized_schemas = (
+        "analysis/libgen_error_analysis.schema.json",
+        "benchmark/oligo_prediction.schema.json",
+    )
+
+    for protocol_id, task in sorted(task_dirs.items()):
+        task_config = tomllib.loads((task / "task.toml").read_text())
+        assert task_config["agent"]["timeout_sec"] == 3600.0, protocol_id
+        assert (
+            task_config["metadata"]["benchmark_version"] == LIBGEN_BENCHMARK_VERSION
+        ), protocol_id
+        assert task_config["artifacts"] == [
+            {
+                "source": "/logs/agent/trajectory.json",
+                "destination": "agent_trajectory.json",
+            }
+        ], protocol_id
+
+        test_sh = (task / "tests/test.sh").read_text()
+        assert "--error-analysis-out /logs/verifier/error_analysis.json" in test_sh
+        assert "--trajectory /logs/agent/trajectory.json" in test_sh
+
+        for package_copy in (
+            task / "environment/libstruct_bench",
+            task / "tests/libstruct_bench",
+        ):
+            for relative in synchronized_files:
+                assert (package_copy / relative).read_bytes() == (
+                    source_package / relative
+                ).read_bytes(), f"{protocol_id}: stale {package_copy / relative}"
+
+        for schema_copy in (task / "environment/schemas", task / "tests/schemas"):
+            for schema_relative in synchronized_schemas:
+                assert (schema_copy / schema_relative).read_bytes() == (
+                    ROOT / "schemas" / schema_relative
+                ).read_bytes(), f"{protocol_id}: stale {schema_copy / schema_relative}"
+        assert (task / "rules.md").read_bytes() == (
+            ROOT / "benchmarks/libgen/rules.md"
+        ).read_bytes(), f"{protocol_id}: stale rules.md"
 
 
 def test_generator_refuses_mutable_revisions_and_mixed_source_tree() -> None:
@@ -242,11 +313,15 @@ def test_split_export_copies_only_manifest_sources_and_canonical_truth() -> None
         )
         assert (out / "protocol_sources/example_protocol/source.pdf").is_file()
         assert not (out / "protocol_sources/example_protocol/legacy.html").exists()
-        assert not (out / "protocol_sources/example_protocol/groundtruth_oligos.json").exists()
+        assert not (
+            out / "protocol_sources/example_protocol/groundtruth_oligos.json"
+        ).exists()
         assert (out / "groundtruth/example_protocol/groundtruth_oligos.json").is_file()
 
 
-def test_matrix_planner_creates_15_cells_and_60_trial_pilot(monkeypatch: pytest.MonkeyPatch) -> None:
+def test_matrix_planner_creates_15_cells_and_60_trial_pilot(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
     with tempfile.TemporaryDirectory() as tmp:
         root = Path(tmp)
         tasks = root / "tasks"
@@ -300,6 +375,7 @@ def test_matrix_planner_creates_15_cells_and_60_trial_pilot(monkeypatch: pytest.
         )
         lock = json.loads((out / "experiment_lock.json").read_text())
         assert len(lock["cells"]) == 15
+        assert lock["benchmark_version"] == LIBGEN_BENCHMARK_VERSION
         assert lock["expected_trial_count"] == 60
         assert sum(item["design"] == "balanced_core" for item in lock["cells"]) == 12
         assert len(list((out / "jobs").glob("*.json"))) == 15
@@ -309,6 +385,7 @@ def test_matrix_planner_creates_15_cells_and_60_trial_pilot(monkeypatch: pytest.
         assert first["agents"][0]["mcp_servers"] == []
         assert first["agents"][0]["include_logs"] == []
         assert first["agents"][0]["exclude_logs"] == []
+        assert "/logs/verifier/error_analysis.json" in first["artifacts"]
         assert len(lock["task_bundle_sha256"]) == 64
         assert lock["error_analysis_policy"]["automatic_process_attribution"] is False
 
@@ -364,7 +441,9 @@ def test_matrix_planner_creates_15_cells_and_60_trial_pilot(monkeypatch: pytest.
         assert full_lock["pilot_clearance"]["full_run_ready"] is True
 
 
-def test_run_summarizer_keeps_core_and_native_estimands_separate(tmp_path: Path) -> None:
+def test_run_summarizer_keeps_core_and_native_estimands_separate(
+    tmp_path: Path,
+) -> None:
     lock = {
         "mode": "pilot",
         "expected_trial_count": 2,
@@ -400,7 +479,7 @@ def test_run_summarizer_keeps_core_and_native_estimands_separate(tmp_path: Path)
                     "verifier_result": {
                         "rewards": {
                             "reward": reward,
-                            "t2_required_sequence_f1": reward,
+                            "t2_required_family_f1": reward,
                         }
                     },
                     "exception_info": None,

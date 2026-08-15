@@ -14,6 +14,7 @@ from libstruct_bench.libgen.error_analysis import (
     build_error_analysis_failure,
 )
 from libstruct_bench.libgen.scoring import LIBGEN_PUBLIC_METRIC_KEYS, grade_libgen
+from libstruct_bench.libgen.version import LIBGEN_BENCHMARK_VERSION
 from libstruct_bench.libgen.validation import (
     LibgenValidationError,
     validate_groundtruth_bundle,
@@ -126,7 +127,11 @@ def main(argv: list[str] | None = None) -> int:
         validate_prediction_links(t2_prediction, t3_prediction)
     except (OSError, json.JSONDecodeError, LibgenValidationError) as error:
         metrics = _zero_metrics()
-        details = {"protocol_id": args.protocol_id, "prediction_valid": False}
+        details = {
+            "benchmark_version": LIBGEN_BENCHMARK_VERSION,
+            "protocol_id": args.protocol_id,
+            "prediction_valid": False,
+        }
         verifier_error = {"kind": "invalid_prediction", "message": str(error)}
         _write_json(Path(args.reward_out), metrics)
         _write_json(Path(args.details_out), details)
@@ -155,6 +160,7 @@ def main(argv: list[str] | None = None) -> int:
         groundtruth["T3"],
     )
     details = {
+        "benchmark_version": LIBGEN_BENCHMARK_VERSION,
         "protocol_id": args.protocol_id,
         "prediction_valid": True,
         "scoring": details,
@@ -237,7 +243,9 @@ def _decode_groundtruth(
 
 
 def _write_json(path: Path, document: Any) -> None:
-    path.write_text(json.dumps(document, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    path.write_text(
+        json.dumps(document, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+    )
 
 
 def _load_trajectory(

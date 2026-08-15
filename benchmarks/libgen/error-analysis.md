@@ -17,9 +17,12 @@ analysis artifact records a non-scoring infrastructure issue.
 
 ## Source-only scoring scope
 
-Let `O_used` be the T2 oligos referenced by a T3 transition or state-segment
-derivation. Let `O_score` be the subset of `O_used` whose sequence claims are
-explicit or derivable from the agent-visible source bundle.
+Let `O_used` be the T2 oligo families referenced by a T3 transition or
+state-segment derivation. Let `O_score` be the subset of `O_used` whose
+family-template sequence claims are explicit or derivable from the
+agent-visible source bundle. Concrete members collapsed into a recovered
+family do not produce duplicate error observations; an unmatched unrelated
+family produces one observation listing its collapsed member IDs.
 
 Canonical claims marked `externally_completed`, `ambiguous`, or `unsupported`
 remain in ground truth but are neutral in the source-only benchmark. Exact

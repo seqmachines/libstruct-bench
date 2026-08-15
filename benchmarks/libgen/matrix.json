@@ -1,4 +1,5 @@
 {
+  "benchmark_version": "2.0.0",
   "research_question": "How much protocol-understanding performance comes from the underlying model, and how much comes from the harness controlling context, tools, and iteration?",
   "models": [
     {

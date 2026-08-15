@@ -8,6 +8,8 @@ bundle is already downloaded and hash-checked. Inspect every file:
 
 Produce a linked T2 oligo catalog and T3 molecular state-transition graph for
 protocol `sci_rna_seq`. Use local IDs consistently; IDs themselves are not
-scored. Write the two required files under `/logs/artifacts/` and run the local
-validator shown in the rules. Do not search for or reconstruct benchmark ground
-truth, legacy curation, audit records, or prior answers.
+scored. Represent barcode/index panels as one family template rather than
+enumerating concrete members, and reference that family-level T2 ID from T3.
+Write the two required files under `/logs/artifacts/` and run the local validator
+shown in the rules. Do not search for or reconstruct benchmark ground truth,
+legacy curation, audit records, or prior answers.

@@ -10,7 +10,9 @@ from libstruct_bench.cli.prepare_libgen_error_review import (
     _artifact_role,
     main as prepare_review_main,
 )
-from libstruct_bench.cli.validate_libgen_error_review import main as validate_review_main
+from libstruct_bench.cli.validate_libgen_error_review import (
+    main as validate_review_main,
+)
 from tests.libgen_fixtures import (
     t2_groundtruth,
     t2_prediction,
@@ -119,7 +121,7 @@ def test_recoverable_mismatch_is_observed_but_not_attributed_to_agent() -> None:
     observation = next(
         item
         for item in document["observations"]
-        if item["location"] == "T2/oligos/oligo_rt"
+        if item["location"] == "T2/oligo_families/oligo_rt"
     )
     assert observation["category"] == "missing_recoverable_information"
     assert observation["claim_recoverability"] == "recoverable"
@@ -130,8 +132,8 @@ def test_recoverable_mismatch_is_observed_but_not_attributed_to_agent() -> None:
     assert observation["matched_score"] == 0.0
     assert observation["affected_metrics"] == [
         "reward",
-        "t2_required_sequence_f1",
-        "t2_all_required_exact",
+        "t2_required_family_f1",
+        "t2_exact_required_family_recall",
     ]
     assert observation["process_cause"] == "unresolved"
     assert document["process_review"]["categories"] == []
@@ -145,7 +147,7 @@ def test_nonrecoverable_t2_claim_is_neutral_in_error_analysis() -> None:
     t2, t3 = _prediction_without_t2_oligo()
     details = _valid_details(t2=t2, t3=t3, truth_t2=truth)
     # Even stale details must not turn a source-scope/neutral record into an error.
-    details["scoring"]["t2"]["unmatched_required_oligo_ids"] = ["oligo_rt"]
+    details["scoring"]["t2"]["unmatched_required_family_ids"] = ["oligo_rt"]
 
     document = _analysis(
         details,
@@ -174,9 +176,7 @@ def test_invalid_prediction_is_a_representation_observation_not_agent_cause() ->
 
 def test_t3_strand_orientation_disagreement_has_specific_output_category() -> None:
     prediction = t3_prediction()
-    prediction["workflows"][0]["states"][1]["strands"][0][
-        "orientation"
-    ] = "3_to_5"
+    prediction["workflows"][0]["states"][1]["strands"][0]["orientation"] = "3_to_5"
     document = _analysis(
         _valid_details(t3=prediction),
         prediction_t3=prediction,
@@ -208,9 +208,7 @@ def test_representation_equivalent_t2_sequence_is_not_an_error() -> None:
         truth_t2=truth,
     )
 
-    assert details["scoring"]["diagnostic_metrics"]["t2"][
-        "required_sequence_f1"
-    ] == 1.0
+    assert details["scoring"]["diagnostic_metrics"]["t2"]["required_family_f1"] == 1.0
     assert not any(item["task"] == "T2" for item in document["observations"])
 
 
@@ -221,7 +219,9 @@ def test_stale_noncanonical_score_is_an_evaluator_defect_candidate() -> None:
     match["dimension_scores"]["sequence"] = 0.5
 
     document = _analysis(details)
-    observation = next(item for item in document["observations"] if item["task"] == "T2")
+    observation = next(
+        item for item in document["observations"] if item["task"] == "T2"
+    )
 
     assert observation["category"] == "representation_or_schema_error"
     assert observation["substantive"] is False
@@ -273,13 +273,10 @@ def test_missing_t3_state_and_typed_edge_are_concrete_observations() -> None:
     state = next(
         item
         for item in document["observations"]
-        if item["entity_type"] == "state"
-        and item["groundtruth_id"] == "state_input"
+        if item["entity_type"] == "state" and item["groundtruth_id"] == "state_input"
     )
     edge = next(
-        item
-        for item in document["observations"]
-        if item["entity_type"] == "typed_edge"
+        item for item in document["observations"] if item["entity_type"] == "typed_edge"
     )
     assert state["category"] == "missing_recoverable_information"
     assert state["affected_metrics"] == ["t3_state_f1"]
@@ -321,13 +318,9 @@ def test_trajectory_supported_validation_correction_is_recorded() -> None:
     document = _analysis(_valid_details(), trajectory=trajectory)
 
     assert document["process_review"]["review_status"] == "evidence_detected"
-    assert document["process_review"]["categories"] == [
-        "output_bookkeeping_error"
-    ]
+    assert document["process_review"]["categories"] == ["output_bookkeeping_error"]
     assert document["process_review"]["successful_self_correction"] == "observed"
-    assert document["process_review"]["events"][0][
-        "self_correction_observed"
-    ] is True
+    assert document["process_review"]["events"][0]["self_correction_observed"] is True
     assert len(document["process_review"]["events"][0]["evidence"]) == 2
     assert document["summary"]["observed_self_correction_count"] == 1
     assert document["summary"]["counts_by_process_cause"] == {
@@ -455,9 +448,7 @@ def test_sixty_trial_review_pack_preserves_traces_and_gates_full_run(
     details = _valid_details()
     runs = tmp_path / "runs"
     for cell in cells:
-        job = runs / (
-            f"libgen-pilot-{cell['model_key']}-{cell['harness_key']}"
-        )
+        job = runs / (f"libgen-pilot-{cell['model_key']}-{cell['harness_key']}")
         for protocol_id in protocol_ids:
             trial = job / f"{protocol_id}__trial"
             (trial / "agent").mkdir(parents=True)
@@ -518,9 +509,7 @@ def test_sixty_trial_review_pack_preserves_traces_and_gates_full_run(
     for index in range(20):
         task = tasks / f"task_{index}"
         task.mkdir(parents=True)
-        (task / "task.toml").write_text(
-            f'name = "task-{index}"\n', encoding="utf-8"
-        )
+        (task / "task.toml").write_text(f'name = "task-{index}"\n', encoding="utf-8")
     status_path = tmp_path / "pilot_review_status.json"
     assert (
         validate_review_main(

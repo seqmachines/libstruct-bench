@@ -14,4 +14,6 @@ python /tests/grade.py \
   --schema-root /tests/schemas \
   --reward-out /logs/verifier/reward.json \
   --details-out /logs/verifier/details.json \
+  --error-analysis-out /logs/verifier/error_analysis.json \
+  --trajectory /logs/agent/trajectory.json \
   --error-out /logs/verifier/error.json

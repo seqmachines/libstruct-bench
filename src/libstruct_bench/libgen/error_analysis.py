@@ -12,9 +12,7 @@ from libstruct_bench.libgen.scoring import grade_libgen, t2_sequence_similarity
 
 ERROR_ANALYSIS_SCHEMA_VERSION = "libstruct.libgen_error_analysis.v2"
 _EXACT_TOLERANCE = 1e-12
-_NEUTRAL_SUPPORT = frozenset(
-    {"externally_completed", "ambiguous", "unsupported"}
-)
+_NEUTRAL_SUPPORT = frozenset({"externally_completed", "ambiguous", "unsupported"})
 
 OUTPUT_ERROR_CATEGORIES = (
     "missing_recoverable_information",
@@ -54,8 +52,8 @@ PROCESS_CAUSES = (
 
 _T2_AFFECTED_METRICS = [
     "reward",
-    "t2_required_sequence_f1",
-    "t2_all_required_exact",
+    "t2_required_family_f1",
+    "t2_exact_required_family_recall",
 ]
 _T3_TRANSITION_AFFECTED_METRICS = [
     "reward",
@@ -164,11 +162,7 @@ def build_error_analysis(
             location="verifier",
             summary="The verifier or private benchmark configuration failed.",
             signals=[
-                str(
-                    (verifier_error or {}).get(
-                        "message", "unknown verifier error"
-                    )
-                )
+                str((verifier_error or {}).get("message", "unknown verifier error"))
             ],
             affected_metrics=["reward"],
             recoverability="not_applicable",
@@ -318,7 +312,9 @@ def summarize_error_analysis(document: Mapping[str, Any]) -> dict[str, Any]:
     observations = list(document.get("observations", []))
     substantive = [item for item in observations if item.get("substantive")]
     process_review = document.get("process_review", {})
-    output_categories = Counter(item.get("category", "unresolved") for item in substantive)
+    output_categories = Counter(
+        item.get("category", "unresolved") for item in substantive
+    )
     benchmark_validity = Counter(
         item.get("benchmark_validity", "unresolved") for item in substantive
     )
@@ -420,11 +416,11 @@ def _scoring_consistency_observations(
         stored_matches=(stored.get("t2") or {}).get("matches", []),
         current_matches=(current.get("t2") or {}).get("matches", []),
         task="T2",
-        entity_type="oligo_scoring",
+        entity_type="oligo_family_scoring",
         prediction_key="prediction_oligo_id",
         groundtruth_key="groundtruth_oligo_id",
         score_key="sequence_score",
-        location_prefix="T2/oligos",
+        location_prefix="T2/oligo_families",
         affected_metrics=_T2_AFFECTED_METRICS,
     )
 
@@ -607,7 +603,11 @@ def _t2_observations(
     predicted_by_id = {item.get("oligo_id"): item for item in predicted}
     truth_by_id = {item.get("oligo_id"): item for item in truth}
 
-    for oligo_id in details.get("unmatched_required_oligo_ids", []):
+    unmatched_required = details.get(
+        "unmatched_required_family_ids",
+        details.get("unmatched_required_oligo_ids", []),
+    )
+    for oligo_id in unmatched_required:
         truth_item = truth_by_id.get(oligo_id)
         support = _support_status(truth_item)
         if support in _NEUTRAL_SUPPORT:
@@ -616,33 +616,53 @@ def _t2_observations(
             observations,
             task="T2",
             category="missing_recoverable_information",
-            entity_type="oligo",
+            entity_type="oligo_family",
             prediction_id=None,
             groundtruth_id=oligo_id,
             matched_score=0.0,
-            location=f"T2/oligos/{oligo_id}",
-            summary=f"Recoverable T3-linked oligo {oligo_id!r} was not recovered.",
-            signals=["unmatched source-recoverable ground-truth oligo"],
+            location=f"T2/oligo_families/{oligo_id}",
+            summary=(
+                f"Recoverable T3-linked oligo family {oligo_id!r} was not recovered."
+            ),
+            signals=["unmatched source-recoverable ground-truth oligo family"],
             affected_metrics=_T2_AFFECTED_METRICS,
             recoverability="recoverable",
             source_support_status=support,
             substantive=True,
         )
-    for oligo_id in details.get("unmatched_prediction_oligo_ids", []):
+    unmatched_prediction_families = details.get("unmatched_prediction_families")
+    if unmatched_prediction_families is None:
+        unmatched_prediction_families = [
+            {
+                "representative_oligo_id": oligo_id,
+                "member_oligo_ids": [oligo_id],
+            }
+            for oligo_id in details.get("unmatched_prediction_oligo_ids", [])
+        ]
+    for family in unmatched_prediction_families:
+        oligo_id = family.get("representative_oligo_id")
+        if not isinstance(oligo_id, str):
+            continue
+        member_ids = [
+            item for item in family.get("member_oligo_ids", []) if isinstance(item, str)
+        ]
         _append_observation(
             observations,
             task="T2",
             category="unsupported_completion",
-            entity_type="oligo",
+            entity_type="oligo_family",
             prediction_id=oligo_id,
             groundtruth_id=None,
             matched_score=0.0,
-            location=f"T2/predictions/{oligo_id}",
+            location=f"T2/predicted_families/{oligo_id}",
             summary=(
-                f"Predicted oligo {oligo_id!r} matched neither scored nor neutral "
-                "ground truth."
+                f"Predicted oligo family represented by {oligo_id!r} matched "
+                "neither scored nor neutral ground truth."
             ),
-            signals=["unmatched non-neutral prediction"],
+            signals=[
+                "unmatched non-neutral predicted family",
+                f"collapsed_member_count={len(member_ids) or 1}",
+            ],
             affected_metrics=_T2_AFFECTED_METRICS,
             recoverability="unresolved",
             substantive=True,
@@ -683,16 +703,16 @@ def _t2_observations(
                     if evaluator_candidate
                     else "missing_recoverable_information"
                 ),
-                entity_type="oligo",
+                entity_type="oligo_family",
                 prediction_id=prediction_id,
                 groundtruth_id=groundtruth_id,
                 matched_score=float(sequence_score),
-                location=f"T2/oligos/{groundtruth_id}",
+                location=f"T2/oligo_families/{groundtruth_id}",
                 summary=(
                     f"Stored sequence score for oligo {groundtruth_id!r} disagrees "
                     "with current representation-equivalent canonicalization."
                     if evaluator_candidate
-                    else f"Recoverable oligo {groundtruth_id!r} was only partially matched."
+                    else f"Recoverable oligo family {groundtruth_id!r} was only partially matched."
                 ),
                 signals=[
                     f"sequence_similarity={sequence_score:.6f}",
@@ -722,12 +742,14 @@ def _t2_observations(
                 observations,
                 task="T2",
                 category="strand_or_orientation_error",
-                entity_type="oligo",
+                entity_type="oligo_family",
                 prediction_id=prediction_id,
                 groundtruth_id=groundtruth_id,
                 matched_score=0.0,
-                location=f"T2/oligos/{groundtruth_id}/orientation",
-                summary=f"Oligo {groundtruth_id!r} has the wrong stated orientation.",
+                location=f"T2/oligo_families/{groundtruth_id}/orientation",
+                summary=(
+                    f"Oligo family {groundtruth_id!r} has the wrong stated orientation."
+                ),
                 signals=["orientation_accuracy=0"],
                 affected_metrics=["diagnostic:t2_orientation_accuracy"],
                 recoverability="recoverable",
@@ -886,7 +908,9 @@ def _t3_observations(
             if topology_dimensions or (
                 not _below_one(operation_score) and not dimensions
             ):
-                mismatches = ", ".join(sorted(topology_dimensions)) or "aggregate content"
+                mismatches = (
+                    ", ".join(sorted(topology_dimensions)) or "aggregate content"
+                )
                 _append_observation(
                     observations,
                     task="T3",
@@ -1003,9 +1027,13 @@ def _typed_edge_observations(
             recoverability="unresolved",
             substantive=True,
         )
-    if not missing and not extra and (
-        edges.get("matched", 0) != edges.get("groundtruth", 0)
-        or edges.get("matched", 0) != edges.get("predicted", 0)
+    if (
+        not missing
+        and not extra
+        and (
+            edges.get("matched", 0) != edges.get("groundtruth", 0)
+            or edges.get("matched", 0) != edges.get("predicted", 0)
+        )
     ):
         _append_observation(
             observations,
@@ -1110,9 +1138,7 @@ def _trajectory_process_review(
             or "validation failed" in lowered
             or "schema validation error" in lowered
         )
-        succeeded = bool(
-            re.search(r"(?<![a-z])valid(?![a-z])", lowered)
-        ) and not failed
+        succeeded = bool(re.search(r"(?<![a-z])valid(?![a-z])", lowered)) and not failed
         if failed or succeeded:
             attempts.append(
                 {
@@ -1189,9 +1215,9 @@ def _trajectory_process_review(
         "review_status": "evidence_detected" if events else "not_reviewed",
         "trajectory_available": True,
         "categories": categories,
-        "successful_self_correction": "observed" if any(
-            item["self_correction_observed"] for item in events
-        ) else "unclear",
+        "successful_self_correction": "observed"
+        if any(item["self_correction_observed"] for item in events)
+        else "unclear",
         "events": events,
         "evidence": evidence,
         "notes": (

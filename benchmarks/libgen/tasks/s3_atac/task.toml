@@ -9,6 +9,7 @@ keywords = ["genomics", "oligo", "molecular-workflow", "protocol-understanding"]
 
 [metadata]
 benchmark = "libgen"
+benchmark_version = "2.0.0"
 protocol_id = "s3_atac"
 protocol_name = "s3-ATAC"
 input_repo = "sequencing/scg-protocols-v1"
@@ -20,7 +21,7 @@ source_manifest_sha256 = "05fbbee5f272028ef50d44a0dede4ee11a1fdf12fdc9852f0314d0
 groundtruth_bundle_sha256 = "f7ee15155fcded3a4b06cafdd3ced78d3ad3ac2bbb79cf939a64640b0dec95cf"
 
 [agent]
-timeout_sec = 1800.0
+timeout_sec = 3600.0
 
 [agent.env]
 LIBGEN_PROTOCOL_ID = "s3_atac"

@@ -1,4 +1,5 @@
 schema_version = "1.3"
+artifacts = [{ source = "/logs/agent/trajectory.json", destination = "agent_trajectory.json" }]
 
 [task]
 name = "sequencing/libgen-indrop_v1"
@@ -8,6 +9,7 @@ keywords = ["genomics", "oligo", "molecular-workflow", "protocol-understanding"]
 
 [metadata]
 benchmark = "libgen"
+benchmark_version = "2.0.0"
 protocol_id = "indrop_v1"
 protocol_name = "inDrop v1"
 input_repo = "sequencing/scg-protocols-v1"
@@ -19,7 +21,7 @@ source_manifest_sha256 = "37e49c026c9cebb8a77c6f46d7ec526de4a8ead11c9b3841db1a4b
 groundtruth_bundle_sha256 = "9bbc53eca58af25772a6ea258b7c654cae7ef263fa3768e3173af8cf218d1d9b"
 
 [agent]
-timeout_sec = 1800.0
+timeout_sec = 3600.0
 
 [agent.env]
 LIBGEN_PROTOCOL_ID = "indrop_v1"

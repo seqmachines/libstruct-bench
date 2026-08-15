@@ -11,8 +11,10 @@ from typing import Any
 from jsonschema import Draft202012Validator
 
 from libstruct_bench.libgen.error_analysis import (
+    ERROR_ANALYSIS_SCHEMA_VERSION,
     artifact_record,
     build_error_analysis,
+    summarize_error_analysis,
 )
 
 
@@ -191,8 +193,19 @@ def _prepare_trial(
         trial_dir / "verifier/error.json",
         trial_dir / "artifacts/logs/verifier/error.json",
     )
+    generated_analysis_path = _first_existing(
+        trial_dir / "verifier/error_analysis.json",
+        trial_dir / "artifacts/logs/verifier/error_analysis.json",
+    )
+    trajectory_path = _first_existing(
+        trial_dir / "agent/trajectory.json",
+        trial_dir / "artifacts/agent_trajectory.json",
+        trial_dir / "artifacts/logs/agent/trajectory.json",
+    )
     details = _load_json_or_none(details_path)
     verifier_error = _load_json_or_none(error_path)
+    generated_analysis = _load_json_or_none(generated_analysis_path)
+    trajectory = _load_json_or_none(trajectory_path)
     result = source.get("result")
     issues = _preservation_issues(
         trial_id=trial_id,
@@ -210,17 +223,41 @@ def _prepare_trial(
             "message": "No preserved verifier details or error artifact was found.",
         }
 
-    analysis = build_error_analysis(
-        trial_id=trial_id,
-        protocol_id=protocol_id,
-        result=result,
-        details=details,
-        verifier_error=verifier_error,
-        artifact_inventory=inventory,
-        model=model,
-        harness=harness,
-        attempt=attempt,
-    )
+    if (
+        generated_analysis is not None
+        and generated_analysis.get("schema_version")
+        == ERROR_ANALYSIS_SCHEMA_VERSION
+    ):
+        analysis = generated_analysis
+        analysis.update(
+            {
+                "trial_id": trial_id,
+                "protocol_id": protocol_id,
+                "model": model,
+                "harness": harness,
+                "attempt": attempt,
+                "artifact_inventory": inventory,
+            }
+        )
+        analysis["summary"] = summarize_error_analysis(analysis)
+    else:
+        analysis = build_error_analysis(
+            trial_id=trial_id,
+            protocol_id=protocol_id,
+            result=result,
+            details=details,
+            verifier_error=verifier_error,
+            artifact_inventory=inventory,
+            model=model,
+            harness=harness,
+            attempt=attempt,
+            trajectory=trajectory,
+            trajectory_path=(
+                trajectory_path.relative_to(trial_dir).as_posix()
+                if trajectory_path is not None
+                else None
+            ),
+        )
     validator.validate(analysis)
     analysis_path = destination / "error_analysis.json"
     _write_json(analysis_path, analysis)
@@ -291,6 +328,8 @@ def _copy_trial_evidence(
 
 def _artifact_role(path: Path) -> str:
     name = path.name
+    if name == "agent_trajectory.json":
+        return "agent_trajectory"
     if path.parts[0] == "agent":
         if name.startswith("trajectory") and name.endswith(".json"):
             return "agent_trajectory"

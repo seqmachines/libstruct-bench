@@ -9,6 +9,7 @@ from pathlib import Path, PurePosixPath
 from typing import Any
 
 from libstruct_bench.libgen.validation import validate_groundtruth_bundle
+from libstruct_bench.libgen.version import LIBGEN_BENCHMARK_VERSION
 
 
 DEFAULT_BENCHMARK_DIR = Path("benchmarks/libgen")
@@ -40,7 +41,9 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         description="Generate linked T2/T3 Harbor tasks from pinned HF repositories."
     )
-    parser.add_argument("--protocols", default=str(DEFAULT_BENCHMARK_DIR / "protocols.json"))
+    parser.add_argument(
+        "--protocols", default=str(DEFAULT_BENCHMARK_DIR / "protocols.json")
+    )
     parser.add_argument("--out", default=str(DEFAULT_BENCHMARK_DIR / "tasks"))
     parser.add_argument("--source-root", required=True)
     parser.add_argument("--groundtruth-root", required=True)
@@ -65,7 +68,9 @@ def main(argv: list[str] | None = None) -> int:
     _require_pinned_revision(args.input_revision, "input revision")
     _require_pinned_revision(args.groundtruth_revision, "ground-truth revision")
     if args.input_repo == args.groundtruth_repo:
-        raise ValueError("agent inputs and private ground truth must use different HF repositories")
+        raise ValueError(
+            "agent inputs and private ground truth must use different HF repositories"
+        )
 
     config_path = Path(args.protocols)
     config = json.loads(config_path.read_text(encoding="utf-8"))
@@ -95,13 +100,17 @@ def main(argv: list[str] | None = None) -> int:
             groundtruth_repo=args.groundtruth_repo,
             groundtruth_revision=args.groundtruth_revision,
             network_profile=args.network_profile,
-            groundtruth_hashes=groundtruth_hashes[_required_string(protocol, "protocol_id")],
+            groundtruth_hashes=groundtruth_hashes[
+                _required_string(protocol, "protocol_id")
+            ],
             force=args.force,
         )
     return 0
 
 
-def _selected_protocols(config: dict[str, Any], requested: list[str]) -> list[dict[str, Any]]:
+def _selected_protocols(
+    config: dict[str, Any], requested: list[str]
+) -> list[dict[str, Any]]:
     protocols = config.get("protocols")
     if not isinstance(protocols, list) or not protocols:
         raise ValueError("protocols.json must contain a non-empty protocols array")
@@ -151,7 +160,9 @@ def _validate_local_release(
             expected_hash = _required_sha256(source, "sha256")
             path = source_root / relative
             if not path.is_file():
-                raise FileNotFoundError(f"{protocol_id} is missing approved source {relative}")
+                raise FileNotFoundError(
+                    f"{protocol_id} is missing approved source {relative}"
+                )
             actual_hash = _sha256(path)
             if actual_hash != expected_hash:
                 raise ValueError(
@@ -166,7 +177,9 @@ def _validate_local_release(
         }
         documents = {
             task: json.loads((truth_dir / filename).read_text(encoding="utf-8"))
-            for task, filename in zip(("T1", "T2", "T3"), GROUNDTRUTH_FILENAMES, strict=True)
+            for task, filename in zip(
+                ("T1", "T2", "T3"), GROUNDTRUTH_FILENAMES, strict=True
+            )
         }
         validate_groundtruth_bundle(
             documents,
@@ -195,7 +208,9 @@ def _write_task(
     task_dir = output_root / protocol_id
     if task_dir.exists():
         if not force:
-            raise FileExistsError(f"{task_dir} exists; pass --force to replace generated files")
+            raise FileExistsError(
+                f"{task_dir} exists; pass --force to replace generated files"
+            )
         shutil.rmtree(task_dir)
     environment_dir = task_dir / "environment"
     tests_dir = task_dir / "tests"
@@ -232,7 +247,9 @@ def _write_task(
         ),
         encoding="utf-8",
     )
-    (task_dir / "rules.md").write_text(rules_path.read_text(encoding="utf-8"), encoding="utf-8")
+    (task_dir / "rules.md").write_text(
+        rules_path.read_text(encoding="utf-8"), encoding="utf-8"
+    )
     (task_dir / "input_manifest.json").write_text(
         json.dumps(source_manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8"
     )
@@ -240,10 +257,16 @@ def _write_task(
     (environment_dir / "fetch_input.py").write_text(
         _fetch_input_py(input_repo, input_revision, sources), encoding="utf-8"
     )
-    (environment_dir / "Dockerfile").write_text(_environment_dockerfile(), encoding="utf-8")
+    (environment_dir / "Dockerfile").write_text(
+        _environment_dockerfile(), encoding="utf-8"
+    )
     shutil.copy2(task_dir / "rules.md", environment_dir / "rules.md")
-    shutil.copy2(task_dir / "input_manifest.json", environment_dir / "input_manifest.json")
-    shutil.copytree(package_root, environment_dir / "libstruct_bench", ignore=_ignore_python_cache)
+    shutil.copy2(
+        task_dir / "input_manifest.json", environment_dir / "input_manifest.json"
+    )
+    shutil.copytree(
+        package_root, environment_dir / "libstruct_bench", ignore=_ignore_python_cache
+    )
     shutil.copytree(schema_root, environment_dir / "schemas")
 
     (tests_dir / "Dockerfile").write_text(_tests_dockerfile(), encoding="utf-8")
@@ -257,7 +280,9 @@ def _write_task(
         encoding="utf-8",
     )
     (tests_dir / "grade.py").write_text(_grade_py(), encoding="utf-8")
-    shutil.copytree(package_root, tests_dir / "libstruct_bench", ignore=_ignore_python_cache)
+    shutil.copytree(
+        package_root, tests_dir / "libstruct_bench", ignore=_ignore_python_cache
+    )
     shutil.copytree(schema_root, tests_dir / "schemas")
 
 
@@ -267,7 +292,9 @@ def _task_sources(protocol: dict[str, Any]) -> list[dict[str, str]]:
     for source in protocol["sources"]:
         path = _safe_relative_path(_required_string(source, "path"))
         if path.parts[0] != protocol_id:
-            raise ValueError(f"{protocol_id} source path must start with {protocol_id}/: {path}")
+            raise ValueError(
+                f"{protocol_id} source path must start with {protocol_id}/: {path}"
+            )
         local_path = PurePosixPath(*path.parts[1:]).as_posix()
         result.append(
             {
@@ -279,7 +306,9 @@ def _task_sources(protocol: dict[str, Any]) -> list[dict[str, str]]:
     return result
 
 
-def _instruction(protocol_id: str, display_name: str, sources: list[dict[str, str]]) -> str:
+def _instruction(
+    protocol_id: str, display_name: str, sources: list[dict[str, str]]
+) -> str:
     listing = "\n".join(
         f"- `/workspace/input/{item['local_path']}` (`sha256:{item['sha256']}`)"
         for item in sources
@@ -293,9 +322,11 @@ bundle is already downloaded and hash-checked. Inspect every file:
 
 Produce a linked T2 oligo catalog and T3 molecular state-transition graph for
 protocol `{protocol_id}`. Use local IDs consistently; IDs themselves are not
-scored. Write the two required files under `/logs/artifacts/` and run the local
-validator shown in the rules. Do not search for or reconstruct benchmark ground
-truth, legacy curation, audit records, or prior answers.
+scored. Represent barcode/index panels as one family template rather than
+enumerating concrete members, and reference that family-level T2 ID from T3.
+Write the two required files under `/logs/artifacts/` and run the local validator
+shown in the rules. Do not search for or reconstruct benchmark ground truth,
+legacy curation, audit records, or prior answers.
 """
 
 
@@ -324,6 +355,7 @@ keywords = ["genomics", "oligo", "molecular-workflow", "protocol-understanding"]
 
 [metadata]
 benchmark = "libgen"
+benchmark_version = {json.dumps(LIBGEN_BENCHMARK_VERSION)}
 protocol_id = {json.dumps(protocol_id)}
 protocol_name = {json.dumps(display_name)}
 input_repo = {json.dumps(input_repo)}
@@ -335,7 +367,7 @@ source_manifest_sha256 = {json.dumps(source_manifest_hash)}
 groundtruth_bundle_sha256 = {json.dumps(groundtruth_bundle_hash)}
 
 [agent]
-timeout_sec = 1800.0{agent_network}
+timeout_sec = 3600.0{agent_network}
 
 [agent.env]
 LIBGEN_PROTOCOL_ID = {json.dumps(protocol_id)}
@@ -374,7 +406,7 @@ def _phase_network_toml(network_profile: str, allowed_hosts: tuple[str, ...]) ->
 
 
 def _fetch_input_py(repo_id: str, revision: str, sources: list[dict[str, str]]) -> str:
-    return f'''from __future__ import annotations
+    return f"""from __future__ import annotations
 
 import hashlib
 import urllib.parse
@@ -413,7 +445,7 @@ def _url(path: str) -> str:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-'''
+"""
 
 
 def _environment_dockerfile() -> str:
@@ -459,9 +491,9 @@ python /tests/grade.py \\
   --groundtruth-repo {json.dumps(groundtruth_repo)} \\
   --groundtruth-revision {json.dumps(revision)} \\
   --groundtruth-prefix {json.dumps(protocol_id)} \\
-  --t1-sha256 {json.dumps(groundtruth_hashes['groundtruth_final_lib_struct.json'])} \\
-  --t2-sha256 {json.dumps(groundtruth_hashes['groundtruth_oligos.json'])} \\
-  --t3-sha256 {json.dumps(groundtruth_hashes['groundtruth_library_generation_workflow.json'])} \\
+  --t1-sha256 {json.dumps(groundtruth_hashes["groundtruth_final_lib_struct.json"])} \\
+  --t2-sha256 {json.dumps(groundtruth_hashes["groundtruth_oligos.json"])} \\
+  --t3-sha256 {json.dumps(groundtruth_hashes["groundtruth_library_generation_workflow.json"])} \\
   --schema-root /tests/schemas \\
   --reward-out /logs/verifier/reward.json \\
   --details-out /logs/verifier/details.json \\
@@ -509,7 +541,9 @@ def _safe_relative_path(value: str) -> PurePosixPath:
 
 def _require_pinned_revision(value: str, label: str) -> None:
     if not re.fullmatch(r"[0-9a-fA-F]{40,64}", value):
-        raise ValueError(f"{label} must be a full immutable commit hash, not a branch such as main")
+        raise ValueError(
+            f"{label} must be a full immutable commit hash, not a branch such as main"
+        )
 
 
 def _sha256(path: Path) -> str:
@@ -521,7 +555,11 @@ def _sha256(path: Path) -> str:
 
 
 def _ignore_python_cache(_path: str, names: list[str]) -> set[str]:
-    return {name for name in names if name == "__pycache__" or name.endswith((".pyc", ".pyo"))}
+    return {
+        name
+        for name in names
+        if name == "__pycache__" or name.endswith((".pyc", ".pyo"))
+    }
 
 
 def _repo_root() -> Path:

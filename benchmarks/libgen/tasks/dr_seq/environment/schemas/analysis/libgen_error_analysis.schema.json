@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://seqmachines.org/schemas/libstruct/analysis/libgen_error_analysis.schema.json",
   "title": "Libgen benchmark error analysis",
-  "description": "Post-run output observations plus human trajectory review. A prediction disagreement is not attributed to the agent until benchmark validity and attribution are adjudicated.",
+  "description": "Observable scoring discrepancies, conservative benchmark/attribution fields, and evidence-gated trajectory observations. A disagreement is not attributed to the agent without adjudication.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -13,10 +13,11 @@
     "artifact_inventory",
     "observations",
     "process_review",
+    "summary",
     "review_status"
   ],
   "properties": {
-    "schema_version": {"const": "libstruct.libgen_error_analysis.v1"},
+    "schema_version": {"const": "libstruct.libgen_error_analysis.v2"},
     "trial_id": {"$ref": "#/$defs/nonempty_string"},
     "protocol_id": {"$ref": "#/$defs/nonempty_string"},
     "model": {"type": ["string", "null"], "minLength": 1},
@@ -41,6 +42,7 @@
       "items": {"$ref": "#/$defs/observation"}
     },
     "process_review": {"$ref": "#/$defs/process_review"},
+    "summary": {"$ref": "#/$defs/summary"},
     "review_status": {
       "type": "string",
       "enum": ["not_required", "pending", "complete"]
@@ -85,34 +87,40 @@
         "error_id",
         "task",
         "category",
+        "entity_type",
+        "prediction_id",
+        "groundtruth_id",
+        "matched_score",
         "location",
         "summary",
         "signals",
+        "affected_metrics",
         "claim_recoverability",
+        "source_support_status",
         "benchmark_validity",
+        "benchmark_validity_candidate",
+        "candidate_reason",
         "attribution",
+        "process_cause",
+        "process_evidence",
         "detected_by",
         "substantive",
         "adjudication_status",
-        "adjudication_notes"
+        "adjudication_notes",
+        "adjudicated_by",
+        "adjudicated_at"
       ],
       "properties": {
         "error_id": {"type": "string", "pattern": "^err_[0-9]{4}$"},
-        "task": {
-          "type": "string",
-          "enum": ["T2", "T3", "cross_task"]
-        },
-        "category": {
-          "type": "string",
-          "enum": [
-            "missing_recoverable_information",
-            "unsupported_completion",
-            "wrong_target_or_modality",
-            "strand_or_orientation_error",
-            "molecular_assembly_or_topology_error",
-            "representation_or_schema_error",
-            "infrastructure_failure"
-          ]
+        "task": {"type": "string", "enum": ["T2", "T3", "cross_task"]},
+        "category": {"$ref": "#/$defs/output_error_category"},
+        "entity_type": {"$ref": "#/$defs/nonempty_string"},
+        "prediction_id": {"type": ["string", "null"], "minLength": 1},
+        "groundtruth_id": {"type": ["string", "null"], "minLength": 1},
+        "matched_score": {
+          "type": ["number", "null"],
+          "minimum": 0.0,
+          "maximum": 1.0
         },
         "location": {"$ref": "#/$defs/nonempty_string"},
         "summary": {"$ref": "#/$defs/nonempty_string"},
@@ -120,25 +128,29 @@
           "type": "array",
           "items": {"$ref": "#/$defs/nonempty_string"}
         },
+        "affected_metrics": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/nonempty_string"}
+        },
         "claim_recoverability": {
           "type": "string",
           "enum": ["recoverable", "neutral", "not_applicable", "unresolved"]
         },
-        "benchmark_validity": {
-          "type": "string",
-          "enum": [
-            "valid",
-            "source_scope_mismatch",
-            "ground_truth_defect",
-            "policy_ambiguity",
-            "source_conflict",
-            "evaluator_defect",
-            "unresolved"
+        "source_support_status": {"type": ["string", "null"], "minLength": 1},
+        "benchmark_validity": {"$ref": "#/$defs/benchmark_validity"},
+        "benchmark_validity_candidate": {
+          "oneOf": [
+            {"type": "null"},
+            {"$ref": "#/$defs/benchmark_validity"}
           ]
         },
-        "attribution": {
-          "type": "string",
-          "enum": ["agent", "benchmark", "mixed", "infrastructure", "unresolved"]
+        "candidate_reason": {"type": ["string", "null"], "minLength": 1},
+        "attribution": {"$ref": "#/$defs/attribution"},
+        "process_cause": {"$ref": "#/$defs/process_cause"},
+        "process_evidence": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/process_evidence"}
         },
         "detected_by": {
           "type": "string",
@@ -154,13 +166,88 @@
         "adjudicated_at": {"type": ["string", "null"], "format": "date-time"}
       }
     },
+    "output_error_category": {
+      "type": "string",
+      "enum": [
+        "missing_recoverable_information",
+        "unsupported_completion",
+        "strand_or_orientation_error",
+        "molecular_state_or_assembly_error",
+        "operation_error",
+        "workflow_or_topology_error",
+        "representation_or_schema_error",
+        "other",
+        "unresolved"
+      ]
+    },
+    "benchmark_validity": {
+      "type": "string",
+      "enum": [
+        "valid",
+        "source_scope_mismatch",
+        "ground_truth_defect",
+        "policy_ambiguity",
+        "evaluator_defect",
+        "unresolved"
+      ]
+    },
+    "attribution": {
+      "type": "string",
+      "enum": ["agent", "benchmark", "mixed", "infrastructure", "unresolved"]
+    },
+    "process_cause": {
+      "type": "string",
+      "enum": [
+        "evidence_not_retrieved",
+        "extraction_failure",
+        "evidence_retrieved_but_misinterpreted",
+        "molecular_or_strand_reasoning_error",
+        "graph_abstraction_error",
+        "output_bookkeeping_error",
+        "unresolved"
+      ]
+    },
+    "process_evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["artifact_path", "locator", "summary"],
+      "properties": {
+        "artifact_path": {"$ref": "#/$defs/nonempty_string"},
+        "locator": {"$ref": "#/$defs/nonempty_string"},
+        "summary": {"$ref": "#/$defs/nonempty_string"}
+      }
+    },
+    "process_event": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "event_id",
+        "process_cause",
+        "summary",
+        "self_correction_observed",
+        "evidence"
+      ],
+      "properties": {
+        "event_id": {"type": "string", "pattern": "^proc_[0-9]{4}$"},
+        "process_cause": {"$ref": "#/$defs/process_cause"},
+        "summary": {"$ref": "#/$defs/nonempty_string"},
+        "self_correction_observed": {"type": "boolean"},
+        "evidence": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/process_evidence"}
+        }
+      }
+    },
     "process_review": {
       "type": "object",
       "additionalProperties": false,
       "required": [
         "review_status",
+        "trajectory_available",
         "categories",
         "successful_self_correction",
+        "events",
         "evidence",
         "notes",
         "reviewed_by",
@@ -169,45 +256,66 @@
       "properties": {
         "review_status": {
           "type": "string",
-          "enum": ["not_reviewed", "reviewed"]
+          "enum": ["not_reviewed", "evidence_detected", "reviewed"]
         },
+        "trajectory_available": {"type": "boolean"},
         "categories": {
           "type": "array",
           "uniqueItems": true,
-          "items": {
-            "type": "string",
-            "enum": [
-              "evidence_not_retrieved",
-              "extraction_failure",
-              "evidence_retrieved_but_misinterpreted",
-              "molecular_or_strand_reasoning_error",
-              "graph_abstraction_error",
-              "context_or_time_limitation",
-              "output_bookkeeping_error"
-            ]
-          }
+          "items": {"$ref": "#/$defs/process_cause"}
         },
         "successful_self_correction": {
           "type": "string",
           "enum": ["not_reviewed", "observed", "not_observed", "unclear"]
         },
+        "events": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/process_event"}
+        },
         "evidence": {
           "type": "array",
-          "items": {
-            "type": "object",
-            "additionalProperties": false,
-            "required": ["artifact_path", "locator", "summary"],
-            "properties": {
-              "artifact_path": {"$ref": "#/$defs/nonempty_string"},
-              "locator": {"$ref": "#/$defs/nonempty_string"},
-              "summary": {"$ref": "#/$defs/nonempty_string"}
-            }
-          }
+          "items": {"$ref": "#/$defs/process_evidence"}
         },
         "notes": {"type": ["string", "null"]},
         "reviewed_by": {"type": ["string", "null"], "minLength": 1},
         "reviewed_at": {"type": ["string", "null"], "format": "date-time"}
       }
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "substantive_discrepancy_count",
+        "raw_agent_attributed_error_count",
+        "benchmark_or_evaluator_issue_count",
+        "candidate_benchmark_issue_count",
+        "infrastructure_issue_count",
+        "unresolved_issue_count",
+        "counts_by_output_error_category",
+        "counts_by_benchmark_validity",
+        "counts_by_attribution",
+        "counts_by_process_cause",
+        "trajectory_available",
+        "observed_self_correction_count"
+      ],
+      "properties": {
+        "substantive_discrepancy_count": {"type": "integer", "minimum": 0},
+        "raw_agent_attributed_error_count": {"type": "integer", "minimum": 0},
+        "benchmark_or_evaluator_issue_count": {"type": "integer", "minimum": 0},
+        "candidate_benchmark_issue_count": {"type": "integer", "minimum": 0},
+        "infrastructure_issue_count": {"type": "integer", "minimum": 0},
+        "unresolved_issue_count": {"type": "integer", "minimum": 0},
+        "counts_by_output_error_category": {"$ref": "#/$defs/counts"},
+        "counts_by_benchmark_validity": {"$ref": "#/$defs/counts"},
+        "counts_by_attribution": {"$ref": "#/$defs/counts"},
+        "counts_by_process_cause": {"$ref": "#/$defs/counts"},
+        "trajectory_available": {"type": "boolean"},
+        "observed_self_correction_count": {"type": "integer", "minimum": 0}
+      }
+    },
+    "counts": {
+      "type": "object",
+      "additionalProperties": {"type": "integer", "minimum": 0}
     }
   }
 }

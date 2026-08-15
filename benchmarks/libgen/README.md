@@ -41,31 +41,45 @@ T1/T2/T3 set, or a linked ground-truth validation failure.
 
 ## Scoring
 
-Overall reward remains:
+Benchmark version: `2.0.0`. This is a major scoring revision because T2 now
+scores oligo families rather than raw prediction records. Results produced by
+the earlier record-level scorer are not directly comparable and must be
+rescored from their saved predictions.
+
+Overall reward is:
 
 ```text
-reward = 0.30 * t2_required_sequence_f1
+reward = 0.30 * t2_required_family_f1
        + 0.70 * t3_molecular_transition_f1
 ```
 
-- T2 uses sequence-only global optimal one-to-one soft F1. Names, roles,
-  orientations, and modifications are diagnostics. `O_used` contains the T2
-  oligos referenced by T3 transition `oligo_ids` or state-segment
-  `oligo_derivations`; `O_score` restricts that set to sequence claims that are
-  explicit or derivable from the agent-visible source bundle. Canonical but
-  externally completed, ambiguous, or unsupported claims are neutral, as are
-  exact predictions of optional T2 records. Unknown and duplicate extras reduce
-  precision. Equivalent flat sequences and ordered components are compared as
-  one molecule for `single`, `assembled`, and `hairpin` ground-truth oligos;
-  `double_stranded` components remain separate strand claims. The primary
-  metric is `t2_required_sequence_f1`.
+- T2 first canonicalizes flat sequences and ordered components to the same
+  molecule-level representation. A ground-truth record containing a
+  fixed-length placeholder is one family-level requirement. Concrete
+  ground-truth records remain individual member-level requirements. Valid
+  concrete prediction members with the same scaffold, role, orientation, and
+  modification profile collapse to one predicted family before precision and
+  recall are computed. Extra members of a recovered family are therefore
+  neutral; missing required families and unrelated extra families still reduce
+  `t2_required_family_f1`. Wildcards match fixed-length concrete variable
+  regions but do not erase scaffold differences. The secondary
+  `t2_exact_required_family_recall` is the fraction of required families with
+  an exact molecule-template match and is intentionally unaffected by unrelated
+  extras.
+- `O_used` contains the T2 families referenced by T3 transition `oligo_ids` or
+  state-segment `oligo_derivations`; `O_score` restricts that set to sequence
+  claims that are explicit or derivable from the agent-visible source bundle.
+  Canonical but externally completed, ambiguous, or unsupported claims are
+  neutral, as are exact predictions of optional T2 families.
 - T3 contains one workflow per modality and is scored within matched
   modalities. Common aliases map to the canonical `gene expression`, `genomic
   DNA`, `feature barcode`, `sgRNA`, or `chromatin accessibility` vocabulary.
   Its primary metric, `t3_molecular_transition_f1`, globally
   matches transitions using operation, matched substrate/product states,
   carried/discarded classification, and transition-local T2 sequence
-  multisets. Major reagent names are diagnostic. `t3_typed_edge_f1` directly
+  family-level multisets. Concrete T2 members referenced by an older prediction
+  are collapsed consistently before this transition-local comparison. Major
+  reagent names are diagnostic. `t3_typed_edge_f1` directly
   compares substrate, carried-product, and discarded-product edges after
   semantic state and transition alignment. T3 sequence and architecture claims
   use the same explicit-or-derivable recoverability mask.
@@ -76,8 +90,8 @@ reward = 0.30 * t2_required_sequence_f1
 The standard Harbor metric surface is intentionally limited to:
 
 - `reward`;
-- `t2_required_sequence_f1`;
-- `t2_all_required_exact`;
+- `t2_required_family_f1`;
+- `t2_exact_required_family_recall`;
 - `t3_molecular_transition_f1`;
 - `t3_state_f1`;
 - `t3_typed_edge_f1`.
@@ -94,6 +108,21 @@ conservative trajectory evidence when available. It does not change any score.
 All files are written under `/logs/verifier/`. See
 [error-analysis.md](error-analysis.md) for the discrepancy-adjudication and
 trajectory-review procedure.
+
+To rescore preserved Harbor predictions after a benchmark-version change, use
+the versioned sidecar command:
+
+```bash
+PYTHONPATH=src python -m libstruct_bench.cli.rescore_libgen_runs \
+  --runs-root runs/libgen \
+  --groundtruth-root /path/to/private/groundtruth \
+  --schema-root schemas
+```
+
+For each trial this writes
+`verifier/rescore/libgen-2.0.0/{reward,details,error_analysis}.json` and writes a
+run-level `rescore/libgen-2.0.0/summary.json`. Original Harbor results are kept
+unchanged so record-level and family-level scores cannot be confused.
 
 ## Experiment design
 
@@ -179,7 +208,13 @@ the private `HF_TOKEN` remains confined to that verifier.
 
 The generated environment includes Docling, PyMuPDF, pypdf, OpenPyXL, Pillow,
 `antiword`, `file`, `unzip`, and `rg`. Source bytes are downloaded and
-hash-checked during image construction.
+hash-checked during image construction. Generated Libgen tasks give the agent
+one hour (`[agent].timeout_sec = 3600.0`) and the verifier ten minutes.
+
+Each generated task vendors snapshots of the scorer, verifier CLI, analysis
+schema, and supporting package. Regenerate all checked-in tasks after changing
+that shared implementation; the generator regression suite rejects stale task
+copies so verifier behavior cannot silently diverge between protocols.
 
 ## Lock and run the matrix
 

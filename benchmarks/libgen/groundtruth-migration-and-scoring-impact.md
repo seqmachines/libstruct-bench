@@ -152,19 +152,27 @@ modality in each protocol.
 
 ### T2
 
-- Primary metric becomes `t2_required_sequence_f1`.
-- `O_used` contains the T2 records referenced by T3; the source-only recall
+- In benchmark `2.0.0`, the primary metric is `t2_required_family_f1`.
+- `O_used` contains the T2 families referenced by T3; the source-only recall
   denominator `O_score` further restricts these to explicit or derivable
   sequence claims.
-- Names, aliases, roles, orientation, modifications, and kind are diagnostics
-  only and do not influence matching or reward. Externally completed,
-  ambiguous, and unsupported claims remain canonical but are neutral.
+- Flat sequences and ordered components are canonicalized to one molecule-level
+  representation. Fixed-length placeholders define family templates. Valid
+  concrete members collapse before scoring, while scaffold, role, orientation,
+  and modification differences keep predictions in separate families.
+- Names, aliases, and kind remain diagnostics. Role, orientation, and
+  modifications bound family collapse but do not otherwise change the
+  sequence-soft match score. Externally completed, ambiguous, and unsupported
+  claims remain canonical but are neutral.
 - The current `1e-9` name-based assignment tie-break is removed.
-- Exact predictions of optional T2 sequences are neutral. Unknown extra
-  sequences still reduce precision; duplicate predicted copies remain extras
-  after one-to-one matching.
-- `t2_all_required_exact` reports whether every required sequence was matched
-  exactly and no unknown extra prediction remains.
+- Exact predictions of optional T2 families are neutral. Additional valid
+  members of a recovered family are collapsed; unrelated extra families still
+  reduce precision.
+- `t2_exact_required_family_recall` reports the fraction of required families
+  matched exactly. Unlike the retired all-or-nothing diagnostic, unrelated
+  extras do not change this recall value.
+- Concrete ground-truth records without a family template remain individual
+  member-level requirements.
 
 ### T3
 
@@ -173,7 +181,7 @@ modality in each protocol.
   surfaced as a complementary architecture diagnostic, not a reward component.
 - `t3_molecular_transition_f1` becomes the primary T3 metric. Transition
   similarity uses operation, matched substrates/products, carried/discarded
-  classification, and transition-local T2 sequence multisets.
+  classification, and transition-local T2 family-sequence multisets.
 - T3 oligo use no longer consumes a predicted-ID-to-gold-ID map from T2
   assignment.
 - `t3_typed_edge_f1` measures substrate, carried-product, and
@@ -184,9 +192,9 @@ modality in each protocol.
   is introduced.
 
 The overall benchmark reward remains 30% T2 and 70% T3, now using
-`t2_required_sequence_f1` and `t3_molecular_transition_f1` respectively.
+`t2_required_family_f1` and `t3_molecular_transition_f1` respectively.
 Standard Harbor reporting contains only `reward`, those two primary metrics,
-`t2_all_required_exact`, `t3_state_f1`, and `t3_typed_edge_f1`. The remaining
+`t2_exact_required_family_recall`, `t3_state_f1`, and `t3_typed_edge_f1`. The remaining
 precision/recall, metadata, boundary, reagent, and count diagnostics are kept
 in the verifier details artifact rather than the headline reward metrics.
 

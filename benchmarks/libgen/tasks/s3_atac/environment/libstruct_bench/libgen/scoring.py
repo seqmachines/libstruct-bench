@@ -2,18 +2,18 @@ from __future__ import annotations
 
 import re
 from collections import Counter
+from dataclasses import dataclass
 from typing import Any, Callable, Iterable, Mapping
 
 from libstruct_bench.modalities import modality_key
 from libstruct_bench.matching import best_one_to_one_matching, edit_similarity
 from libstruct_bench.normalization import normalize_sequence, sequence_tokens
 from libstruct_bench.libgen.validation import derive_required_t2_ids
+from libstruct_bench.libgen.version import LIBGEN_BENCHMARK_VERSION
 
 
 SCORABLE_SUPPORT = frozenset({"explicit", "derivable"})
-NEUTRAL_SUPPORT = frozenset(
-    {"externally_completed", "ambiguous", "unsupported"}
-)
+NEUTRAL_SUPPORT = frozenset({"externally_completed", "ambiguous", "unsupported"})
 ORDERED_MOLECULE_KINDS = frozenset({"single", "assembled", "hairpin"})
 
 STATE_WEIGHTS = {
@@ -31,12 +31,36 @@ TRANSITION_WEIGHTS = {
 }
 LIBGEN_PUBLIC_METRIC_KEYS = (
     "reward",
-    "t2_required_sequence_f1",
-    "t2_all_required_exact",
+    "t2_required_family_f1",
+    "t2_exact_required_family_recall",
     "t3_molecular_transition_f1",
     "t3_state_f1",
     "t3_typed_edge_f1",
 )
+
+_FAMILY_PLACEHOLDER_RE = re.compile(r"\[([A-Z0-9_]+):([1-9][0-9]*)\]")
+_FAMILY_TOKEN_RE = re.compile(r"^<([A-Z0-9_]+)>$")
+_NUCLEOTIDE_TOKEN_RE = re.compile(r"^(?:[ACGTUNV]|[r+][ACGTUNV])$")
+_VARIABLE_COMPONENT_EXCLUSIONS = frozenset(
+    {
+        "adapter",
+        "arm",
+        "capture arm",
+        "handle",
+        "hybridization",
+        "hybridisation",
+        "linker",
+        "mosaic end",
+        "primer binding",
+    }
+)
+
+
+@dataclass(frozen=True)
+class _PredictionFamily:
+    representative_index: int
+    member_indices: tuple[int, ...]
+    signature: tuple[str, ...]
 
 
 def grade_libgen(
@@ -60,18 +84,19 @@ def grade_libgen(
         t2_groundtruth=t2_groundtruth,
     )
     reward = (
-        0.30 * t2_metrics["required_sequence_f1"]
+        0.30 * t2_metrics["required_family_f1"]
         + 0.70 * t3_metrics["molecular_transition_f1"]
     )
     metrics = {
         "reward": reward,
-        "t2_required_sequence_f1": t2_metrics["required_sequence_f1"],
-        "t2_all_required_exact": t2_metrics["all_required_exact"],
+        "t2_required_family_f1": t2_metrics["required_family_f1"],
+        "t2_exact_required_family_recall": t2_metrics["exact_required_family_recall"],
         "t3_molecular_transition_f1": t3_metrics["molecular_transition_f1"],
         "t3_state_f1": t3_metrics["state_f1"],
         "t3_typed_edge_f1": t3_metrics["typed_edge_f1"],
     }
     return metrics, {
+        "benchmark_version": LIBGEN_BENCHMARK_VERSION,
         "t2": t2_details,
         "t3": t3_details,
         "diagnostic_metrics": {
@@ -100,7 +125,7 @@ def score_t2(
     *,
     required_oligo_ids: set[str],
 ) -> tuple[dict[str, float], dict[str, Any]]:
-    """Score source-recoverable T3-linked T2 claims by nucleotide sequence."""
+    """Score source-recoverable T3-linked T2 oligo families."""
 
     used_truth = {
         index
@@ -118,12 +143,17 @@ def score_t2(
     }
     neutral_truth = neutral_used_truth | optional_truth
     required_indices = sorted(scorable_truth)
-    pre_neutralized_predictions = {
-        prediction_index
-        for prediction_index, prediction in enumerate(predictions)
+    prediction_families = _collapse_prediction_families(
+        predictions,
+        groundtruth,
+    )
+    pre_neutralized_families = {
+        family_index
+        for family_index, family in enumerate(prediction_families)
         if any(
-            _oligo_similarity(
-                prediction,
+            _prediction_family_similarity(
+                family,
+                predictions,
                 groundtruth[index],
                 scorable_only=False,
             )
@@ -131,8 +161,9 @@ def score_t2(
             for index in neutral_truth
         )
         and not any(
-            _oligo_similarity(
-                prediction,
+            _prediction_family_similarity(
+                family,
+                predictions,
                 groundtruth[index],
                 scorable_only=True,
             )
@@ -140,33 +171,34 @@ def score_t2(
             for index in scorable_truth
         )
     }
-    active_prediction_indices = [
+    active_family_indices = [
         index
-        for index in range(len(predictions))
-        if index not in pre_neutralized_predictions
+        for index in range(len(prediction_families))
+        if index not in pre_neutralized_families
     ]
     required_scores = [
         [
-            _oligo_similarity(
-                predictions[prediction_index],
+            _prediction_family_similarity(
+                prediction_families[family_index],
+                predictions,
                 groundtruth[index],
                 scorable_only=True,
             )
             for index in required_indices
         ]
-        for prediction_index in active_prediction_indices
+        for family_index in active_family_indices
     ]
     raw_matches = best_one_to_one_matching(required_scores)
     matches = [
         (
-            active_prediction_indices[prediction_position],
+            active_family_indices[prediction_position],
             required_indices[required_position],
             score,
         )
         for prediction_position, required_position, score in raw_matches
     ]
 
-    matched_predictions = {item[0] for item in matches}
+    matched_families = {item[0] for item in matches}
     score_sum = 0.0
     match_details: list[dict[str, Any]] = []
     name_scores: list[float] = []
@@ -176,7 +208,14 @@ def score_t2(
     modification_scores: list[float] = []
     kind_scores: list[float] = []
 
-    for prediction_index, truth_index, sequence_score in matches:
+    for family_index, truth_index, sequence_score in matches:
+        family = prediction_families[family_index]
+        prediction_index = _best_prediction_family_member(
+            family,
+            predictions,
+            groundtruth[truth_index],
+            scorable_only=True,
+        )
         prediction = predictions[prediction_index]
         truth = groundtruth[truth_index]
         score_sum += sequence_score
@@ -204,13 +243,23 @@ def score_t2(
         match_details.append(
             {
                 "prediction_index": prediction_index,
+                "prediction_family_index": family_index,
+                "prediction_oligo_ids": [
+                    predictions[index].get("oligo_id", f"prediction_{index}")
+                    for index in family.member_indices
+                ],
+                "prediction_family_signature": list(family.signature),
                 "groundtruth_index": truth_index,
                 "prediction_oligo_id": prediction.get("oligo_id"),
                 "sequence_score": sequence_score,
                 "groundtruth_oligo_id": truth["oligo_id"],
-                "groundtruth_support_status": truth.get(
-                    "support_status", "explicit"
+                "groundtruth_family_id": truth["oligo_id"],
+                "groundtruth_scoring_level": (
+                    "family"
+                    if _truth_is_family_template(truth, scorable_only=True)
+                    else "member"
                 ),
+                "groundtruth_support_status": truth.get("support_status", "explicit"),
                 "scored": True,
                 "dimension_scores": {
                     "sequence": sequence_score,
@@ -224,72 +273,113 @@ def score_t2(
             }
         )
 
-    unmatched_predictions = set(range(len(predictions))) - matched_predictions
-    neutralized_predictions: set[int] = set(pre_neutralized_predictions)
-    for prediction_index in unmatched_predictions:
+    unmatched_families = set(range(len(prediction_families))) - matched_families
+    neutralized_families: set[int] = set(pre_neutralized_families)
+    for family_index in unmatched_families:
+        family = prediction_families[family_index]
         if any(
-            _oligo_similarity(
-                predictions[prediction_index],
+            _prediction_family_similarity(
+                family,
+                predictions,
                 groundtruth[index],
                 scorable_only=False,
             )
             == 1.0
             for index in neutral_truth
         ):
-            neutralized_predictions.add(prediction_index)
+            neutralized_families.add(family_index)
 
-    effective_prediction_count = len(predictions) - len(neutralized_predictions)
+    effective_prediction_count = len(prediction_families) - len(neutralized_families)
     precision, recall, f1 = _soft_prf(
         score_sum,
         effective_prediction_count,
         len(scorable_truth),
     )
     exact_required_matches = sum(score == 1.0 for _, _, score in matches)
-    all_required_exact = float(
-        exact_required_matches == len(scorable_truth)
-        and effective_prediction_count == len(scorable_truth)
+    exact_required_family_recall = (
+        exact_required_matches / len(scorable_truth) if scorable_truth else 1.0
     )
     metrics = {
-        "required_sequence_precision": precision,
-        "required_sequence_recall": recall,
-        "required_sequence_f1": f1,
-        "all_required_exact": all_required_exact,
+        "required_family_precision": precision,
+        "required_family_recall": recall,
+        "required_family_f1": f1,
+        "exact_required_family_recall": exact_required_family_recall,
         "name_similarity": _mean(name_scores),
         "role_similarity": _mean(role_scores),
         "alias_f1": _mean(alias_scores),
         "modification_f1": _mean(modification_scores),
         "kind_accuracy": _mean(kind_scores),
         "orientation_accuracy": _mean(orientation_scores, empty=1.0),
-        "predicted_count": float(len(predictions)),
+        "predicted_member_count": float(len(predictions)),
+        "predicted_family_count": float(len(prediction_families)),
+        "effective_prediction_family_count": float(effective_prediction_count),
         "used_groundtruth_count": float(len(used_truth)),
-        "required_groundtruth_count": float(len(scorable_truth)),
-        "scored_groundtruth_count": float(len(scorable_truth)),
+        "required_family_count": float(len(scorable_truth)),
+        "scored_family_count": float(len(scorable_truth)),
         "neutral_used_groundtruth_count": float(len(neutral_used_truth)),
         "optional_groundtruth_count": float(len(optional_truth)),
-        "neutralized_prediction_count": float(len(neutralized_predictions)),
+        "neutralized_prediction_family_count": float(len(neutralized_families)),
     }
+    unmatched_scored_families = sorted(unmatched_families - neutralized_families)
+    neutralized_prediction_indices = sorted(
+        index
+        for family_index in neutralized_families
+        for index in prediction_families[family_index].member_indices
+    )
     details = {
         "matches": match_details,
-        "unmatched_prediction_indices": sorted(
-            unmatched_predictions - neutralized_predictions
+        "prediction_families": [
+            {
+                "family_index": family_index,
+                "representative_index": family.representative_index,
+                "representative_oligo_id": predictions[family.representative_index].get(
+                    "oligo_id", f"prediction_{family.representative_index}"
+                ),
+                "member_indices": list(family.member_indices),
+                "member_oligo_ids": [
+                    predictions[index].get("oligo_id", f"prediction_{index}")
+                    for index in family.member_indices
+                ],
+                "signature": list(family.signature),
+            }
+            for family_index, family in enumerate(prediction_families)
+        ],
+        "unmatched_prediction_family_indices": unmatched_scored_families,
+        "unmatched_prediction_family_ids": sorted(
+            predictions[prediction_families[index].representative_index].get(
+                "oligo_id",
+                f"prediction_{prediction_families[index].representative_index}",
+            )
+            for index in unmatched_scored_families
         ),
-        "unmatched_prediction_oligo_ids": sorted(
-            predictions[index].get("oligo_id", f"prediction_{index}")
-            for index in unmatched_predictions - neutralized_predictions
-        ),
-        "unmatched_required_oligo_ids": sorted(
+        "unmatched_prediction_families": [
+            {
+                "representative_oligo_id": predictions[
+                    prediction_families[index].representative_index
+                ].get(
+                    "oligo_id",
+                    f"prediction_{prediction_families[index].representative_index}",
+                ),
+                "member_oligo_ids": [
+                    predictions[member].get("oligo_id", f"prediction_{member}")
+                    for member in prediction_families[index].member_indices
+                ],
+            }
+            for index in unmatched_scored_families
+        ],
+        "unmatched_required_family_ids": sorted(
             groundtruth[index]["oligo_id"]
-            for index in scorable_truth
-            - {truth_index for _, truth_index, _ in matches}
+            for index in scorable_truth - {truth_index for _, truth_index, _ in matches}
         ),
-        "neutralized_prediction_indices": sorted(neutralized_predictions),
+        "neutralized_prediction_family_indices": sorted(neutralized_families),
+        "neutralized_prediction_indices": neutralized_prediction_indices,
         "used_oligo_ids": sorted(
             groundtruth[index]["oligo_id"] for index in used_truth
         ),
-        "required_oligo_ids": sorted(
+        "required_family_ids": sorted(
             groundtruth[index]["oligo_id"] for index in scorable_truth
         ),
-        "scored_oligo_ids": sorted(
+        "scored_family_ids": sorted(
             groundtruth[index]["oligo_id"] for index in scorable_truth
         ),
         "neutral_used_oligo_ids": sorted(
@@ -299,12 +389,20 @@ def score_t2(
             groundtruth[index]["oligo_id"] for index in optional_truth
         ),
         "matching_policy": (
-            "global maximum-weight one-to-one normalized Levenshtein "
-            "molecule-sequence matching; ordered single, assembled, and hairpin "
-            "components are concatenated while double-stranded components remain "
-            "separate; prediction metadata never affects assignment or reward"
+            "collapse concrete panel members into role/orientation/modification-"
+            "bounded oligo families, then apply global maximum-weight one-to-one "
+            "wildcard-aware molecule-sequence matching; ordered single, assembled, "
+            "and hairpin components are concatenated while double-stranded "
+            "components remain separate; prediction metadata bounds family collapse "
+            "but does not otherwise affect sequence assignment or reward"
         ),
-        "scope_policy": "O_used contains every T2 record referenced by T3; O_score is O_used restricted to explicit or derivable sequence claims",
+        "family_policy": (
+            "ground-truth records with fixed-length placeholders are family-level; "
+            "concrete ground-truth records are member-level requirements; exact "
+            "concrete members of one family count once and unrelated families remain "
+            "precision errors"
+        ),
+        "scope_policy": "O_used contains every T2 family referenced by T3; O_score is O_used restricted to explicit or derivable sequence claims",
         "recoverability_policy": "externally completed, ambiguous, and unsupported sequence claims remain canonical but are neutral in the source-only benchmark",
     }
     return metrics, details
@@ -322,9 +420,7 @@ def score_t3(
     predicted_oligos = {
         item["oligo_id"]: item for item in t2_prediction.get("oligos", [])
     }
-    truth_oligos = {
-        item["oligo_id"]: item for item in t2_groundtruth.get("oligos", [])
-    }
+    truth_oligos = {item["oligo_id"]: item for item in t2_groundtruth.get("oligos", [])}
 
     state_score_sum = 0.0
     predicted_state_count = 0
@@ -348,24 +444,31 @@ def score_t3(
         )
         truth_states = list(truth_workflow.get("states", [])) if truth_workflow else []
         state_scores = [
-            [_state_similarity(item, truth, scorable_only=False) for truth in truth_states]
+            [
+                _state_similarity(item, truth, scorable_only=False)
+                for truth in truth_states
+            ]
             for item in predicted_states
         ]
         state_matches = best_one_to_one_matching(state_scores)
         state_map = {
-            predicted_states[prediction_index]["state_id"]: truth_states[truth_index]["state_id"]
+            predicted_states[prediction_index]["state_id"]: truth_states[truth_index][
+                "state_id"
+            ]
             for prediction_index, truth_index, score in state_matches
             if score >= 0.25
         }
-        state_counts, state_details, neutralized_state_predictions = _matched_entity_counts(
-            predicted_states,
-            truth_states,
-            state_matches,
-            state_scores,
-            score=lambda item, truth: _state_similarity(
-                item, truth, scorable_only=True
-            ),
-            scorable=_state_is_scorable,
+        state_counts, state_details, neutralized_state_predictions = (
+            _matched_entity_counts(
+                predicted_states,
+                truth_states,
+                state_matches,
+                state_scores,
+                score=lambda item, truth: _state_similarity(
+                    item, truth, scorable_only=True
+                ),
+                scorable=_state_is_scorable,
+            )
         )
         for detail in state_details:
             prediction_index = detail["prediction_index"]
@@ -421,8 +524,9 @@ def score_t3(
         ]
         transition_matches = best_one_to_one_matching(transition_scores)
         transition_map = {
-            predicted_transitions[prediction_index]["transition_id"]:
-            truth_transitions[truth_index]["transition_id"]
+            predicted_transitions[prediction_index]["transition_id"]: truth_transitions[
+                truth_index
+            ]["transition_id"]
             for prediction_index, truth_index, score in transition_matches
             if score >= 0.25
         }
@@ -451,12 +555,8 @@ def score_t3(
             truth_transition = truth_transitions[truth_index]
             detail.update(
                 {
-                    "prediction_transition_id": predicted_transition[
-                        "transition_id"
-                    ],
-                    "groundtruth_transition_id": truth_transition[
-                        "transition_id"
-                    ],
+                    "prediction_transition_id": predicted_transition["transition_id"],
+                    "groundtruth_transition_id": truth_transition["transition_id"],
                     "groundtruth_support_status": truth_transition.get(
                         "support_status", "explicit"
                     ),
@@ -515,9 +615,7 @@ def score_t3(
         neutralized_typed_edges += edge_counts[3]
 
         if predicted_workflow and truth_workflow:
-            truth_state_by_id = {
-                item["state_id"]: item for item in truth_states
-            }
+            truth_state_by_id = {item["state_id"]: item for item in truth_states}
             initial_score = _mapped_masked_boundary_f1(
                 predicted_workflow["initial_state_ids"],
                 truth_workflow["initial_state_ids"],
@@ -584,9 +682,7 @@ def score_t3(
             "typed_edges": edge_details,
         }
 
-    state_prf = _soft_prf(
-        state_score_sum, predicted_state_count, truth_state_count
-    )
+    state_prf = _soft_prf(state_score_sum, predicted_state_count, truth_state_count)
     transition_prf = _soft_prf(
         transition_score_sum,
         predicted_transition_count,
@@ -596,8 +692,7 @@ def score_t3(
         1.0
         if predicted_typed_edges == truth_typed_edges == 0
         else (
-            2.0 * matched_typed_edges
-            / (predicted_typed_edges + truth_typed_edges)
+            2.0 * matched_typed_edges / (predicted_typed_edges + truth_typed_edges)
             if predicted_typed_edges + truth_typed_edges
             else 0.0
         )
@@ -652,7 +747,11 @@ def _matched_entity_counts(
     matched_predictions = {prediction_index for prediction_index, _, _ in matches}
     for prediction_index, truth_index, alignment_score in matches:
         is_scored = truth_index in scorable_truth
-        entity_score = score(predicted[prediction_index], truth[truth_index]) if is_scored else None
+        entity_score = (
+            score(predicted[prediction_index], truth[truth_index])
+            if is_scored
+            else None
+        )
         if entity_score is not None:
             score_sum += entity_score
         if not is_scored and alignment_score == 1.0:
@@ -679,9 +778,331 @@ def _matched_entity_counts(
 
 
 def _oligo_is_scorable(item: dict[str, Any]) -> bool:
+    return any(status in SCORABLE_SUPPORT for _, status in _truth_sequence_claims(item))
+
+
+def _collapse_prediction_families(
+    predictions: list[dict[str, Any]],
+    groundtruth: list[dict[str, Any]],
+) -> list[_PredictionFamily]:
+    signatures = [
+        _prediction_family_signature(prediction, groundtruth)
+        for prediction in predictions
+    ]
+    inferred_panels = _infer_flat_panel_signatures(predictions, signatures)
+    grouped: dict[
+        tuple[tuple[str, ...], tuple[Any, ...]],
+        list[int],
+    ] = {}
+    for index, prediction in enumerate(predictions):
+        signature = inferred_panels.get(index, signatures[index])
+        key = (signature, _family_metadata_key(prediction))
+        grouped.setdefault(key, []).append(index)
+
+    result: list[_PredictionFamily] = []
+    for (signature, _), indices in sorted(
+        grouped.items(), key=lambda item: min(item[1])
+    ):
+        representative = min(
+            indices,
+            key=lambda index: (
+                not _item_has_family_template(predictions[index]),
+                index,
+            ),
+        )
+        result.append(
+            _PredictionFamily(
+                representative_index=representative,
+                member_indices=tuple(sorted(indices)),
+                signature=signature,
+            )
+        )
+    return result
+
+
+def _prediction_family_signature(
+    prediction: dict[str, Any],
+    groundtruth: list[dict[str, Any]],
+) -> tuple[str, ...]:
+    raw_signature = _canonical_oligo_signature(
+        prediction,
+        family_template=False,
+    )
+    concrete_matches = [
+        truth
+        for truth in groundtruth
+        if not _truth_is_family_template(truth, scorable_only=False)
+        and _oligo_similarity(prediction, truth, scorable_only=False) == 1.0
+    ]
+    if concrete_matches:
+        # Concrete ground-truth records explicitly request member-level coverage.
+        return ("groundtruth-member", *raw_signature)
+
+    family_matches = [
+        truth
+        for truth in groundtruth
+        if _truth_is_family_template(truth, scorable_only=False)
+        and _oligo_similarity(prediction, truth, scorable_only=False) == 1.0
+    ]
+    if family_matches:
+        best_truth = max(
+            family_matches,
+            key=lambda truth: (
+                _family_metadata_similarity(prediction, truth),
+                truth.get("oligo_id", ""),
+            ),
+        )
+        return (
+            "groundtruth-family",
+            *_canonical_oligo_signature(best_truth, family_template=True),
+        )
+
+    family_signature = _canonical_oligo_signature(
+        prediction,
+        family_template=True,
+    )
+    if family_signature != raw_signature or _item_has_family_template(prediction):
+        return ("predicted-family", *family_signature)
+    return ("predicted-member", *raw_signature)
+
+
+def _canonical_oligo_signature(
+    item: Mapping[str, Any],
+    *,
+    family_template: bool,
+) -> tuple[str, ...]:
+    if item.get("kind") != "double_stranded":
+        molecule = _ordered_molecule_sequence(
+            dict(item),
+            family_template=family_template,
+        )
+        if molecule:
+            return (normalize_sequence(molecule),)
+    values = _prediction_sequence_claims(
+        dict(item),
+        family_template=family_template,
+    )
+    return tuple(normalize_sequence(value) for value in values)
+
+
+def _prediction_family_similarity(
+    family: _PredictionFamily,
+    predictions: list[dict[str, Any]],
+    truth: dict[str, Any],
+    *,
+    scorable_only: bool,
+) -> float:
+    return max(
+        (
+            _oligo_similarity(
+                predictions[index],
+                truth,
+                scorable_only=scorable_only,
+            )
+            for index in family.member_indices
+        ),
+        default=0.0,
+    )
+
+
+def _best_prediction_family_member(
+    family: _PredictionFamily,
+    predictions: list[dict[str, Any]],
+    truth: dict[str, Any],
+    *,
+    scorable_only: bool,
+) -> int:
+    return max(
+        family.member_indices,
+        key=lambda index: (
+            _oligo_similarity(
+                predictions[index],
+                truth,
+                scorable_only=scorable_only,
+            ),
+            -index,
+        ),
+    )
+
+
+def _truth_is_family_template(
+    item: Mapping[str, Any],
+    *,
+    scorable_only: bool,
+) -> bool:
     return any(
-        status in SCORABLE_SUPPORT
-        for _, status in _truth_sequence_claims(item)
+        _FAMILY_PLACEHOLDER_RE.search(normalize_sequence(value))
+        for value, status in _truth_sequence_claims(dict(item))
+        if not scorable_only or status in SCORABLE_SUPPORT
+    )
+
+
+def _item_has_family_template(item: Mapping[str, Any]) -> bool:
+    values = []
+    sequence = item.get("sequence")
+    if isinstance(sequence, str):
+        values.append(sequence)
+    values.extend(
+        value
+        for component in item.get("components", [])
+        for value in (component.get("placeholder"),)
+        if isinstance(value, str)
+    )
+    return any(
+        _FAMILY_PLACEHOLDER_RE.search(normalize_sequence(value)) for value in values
+    )
+
+
+def _family_metadata_key(item: Mapping[str, Any]) -> tuple[Any, ...]:
+    modifications = {
+        _normalize_text(str(value)) for value in item.get("modifications", [])
+    }
+    component_orientations: set[str] = set()
+    for component in item.get("components", []):
+        modifications.update(
+            _normalize_text(str(value)) for value in component.get("modifications", [])
+        )
+        orientation = component.get("orientation")
+        if isinstance(orientation, str) and orientation != item.get("orientation"):
+            component_orientations.add(orientation)
+    return (
+        _normalize_text(str(item.get("role", ""))),
+        item.get("orientation", "unknown"),
+        tuple(sorted(modifications)),
+        tuple(sorted(component_orientations)),
+    )
+
+
+def _family_metadata_similarity(
+    prediction: Mapping[str, Any],
+    truth: Mapping[str, Any],
+) -> float:
+    role = _name_similarity(
+        str(prediction.get("role", "")),
+        str(truth.get("role", "")),
+    )
+    orientation = float(
+        truth.get("orientation") == "unknown"
+        or prediction.get("orientation") == truth.get("orientation")
+    )
+    modifications = _text_collection_f1(
+        list(prediction.get("modifications", [])),
+        list(truth.get("modifications", [])),
+    )
+    return 0.5 * role + 0.25 * orientation + 0.25 * modifications
+
+
+def _infer_flat_panel_signatures(
+    predictions: list[dict[str, Any]],
+    signatures: list[tuple[str, ...]],
+) -> dict[int, tuple[str, ...]]:
+    """Conservatively cluster untemplated flat concrete panel members."""
+
+    buckets: dict[tuple[tuple[Any, ...], int], list[int]] = {}
+    tokens_by_index: dict[int, list[str]] = {}
+    for index, (prediction, signature) in enumerate(zip(predictions, signatures)):
+        if not signature or signature[0] != "predicted-member" or len(signature) != 2:
+            continue
+        tokens = _sequence_value(signature[1])
+        if not tokens or not all(
+            _NUCLEOTIDE_TOKEN_RE.fullmatch(token) or token.startswith("/")
+            for token in tokens
+        ):
+            continue
+        tokens_by_index[index] = tokens
+        buckets.setdefault((_family_metadata_key(prediction), len(tokens)), []).append(
+            index
+        )
+
+    result: dict[int, tuple[str, ...]] = {}
+    for (_, token_count), indices in buckets.items():
+        if len(indices) < 2:
+            continue
+        adjacency = {index: set() for index in indices}
+        for left_position, left_index in enumerate(indices):
+            for right_index in indices[left_position + 1 :]:
+                window = _variable_window(
+                    tokens_by_index[left_index],
+                    tokens_by_index[right_index],
+                )
+                if window is None:
+                    continue
+                start, end = window
+                if _valid_panel_window(
+                    [tokens_by_index[left_index], tokens_by_index[right_index]],
+                    start,
+                    end,
+                ):
+                    adjacency[left_index].add(right_index)
+                    adjacency[right_index].add(left_index)
+
+        remaining = set(indices)
+        while remaining:
+            seed = min(remaining)
+            stack = [seed]
+            component: set[int] = set()
+            while stack:
+                current = stack.pop()
+                if current in component:
+                    continue
+                component.add(current)
+                stack.extend(adjacency[current] - component)
+            remaining -= component
+            if len(component) < 2:
+                continue
+            ordered = sorted(component)
+            sequences = [tokens_by_index[index] for index in ordered]
+            differing = [
+                position
+                for position in range(token_count)
+                if len({tokens[position] for tokens in sequences}) > 1
+            ]
+            if not differing:
+                continue
+            start, end = min(differing), max(differing) + 1
+            if not _valid_panel_window(sequences, start, end):
+                continue
+            signature = (
+                "inferred-panel-family",
+                *sequences[0][:start],
+                f"[VARIABLE:{end - start}]",
+                *sequences[0][end:],
+            )
+            for index in ordered:
+                result[index] = signature
+    return result
+
+
+def _variable_window(
+    left: list[str],
+    right: list[str],
+) -> tuple[int, int] | None:
+    differing = [
+        index
+        for index, (left_token, right_token) in enumerate(zip(left, right))
+        if left_token != right_token
+    ]
+    if not differing:
+        return None
+    return min(differing), max(differing) + 1
+
+
+def _valid_panel_window(
+    sequences: list[list[str]],
+    start: int,
+    end: int,
+) -> bool:
+    variable_length = end - start
+    total_length = len(sequences[0])
+    fixed_length = total_length - variable_length
+    if not 1 <= variable_length <= 32:
+        return False
+    if fixed_length < max(8, variable_length) or fixed_length / total_length < 0.5:
+        return False
+    return all(
+        _NUCLEOTIDE_TOKEN_RE.fullmatch(token)
+        for sequence in sequences
+        for token in sequence[start:end]
     )
 
 
@@ -705,13 +1126,23 @@ def _truth_sequence_claims(item: dict[str, Any]) -> list[tuple[str, str]]:
     return claims
 
 
-def _prediction_sequence_claims(item: dict[str, Any]) -> list[str]:
+def _prediction_sequence_claims(
+    item: dict[str, Any],
+    *,
+    family_template: bool = False,
+) -> list[str]:
     sequence = item.get("sequence")
     if isinstance(sequence, str) and sequence:
-        return [sequence]
+        return [_family_template_sequence(item) if family_template else sequence]
     result: list[str] = []
     for component in item.get("components", []):
-        value = component.get("sequence") or component.get("placeholder")
+        value = (
+            _component_family_placeholder(component)
+            or component.get("sequence")
+            or component.get("placeholder")
+            if family_template
+            else component.get("sequence") or component.get("placeholder")
+        )
         if isinstance(value, str) and value:
             result.append(value)
     return result
@@ -723,15 +1154,23 @@ def _oligo_similarity(
     *,
     scorable_only: bool,
 ) -> float:
+    truth_is_family = _truth_is_family_template(
+        truth,
+        scorable_only=scorable_only,
+    )
     ordered_similarity = _ordered_molecule_similarity(
         prediction,
         truth,
         scorable_only=scorable_only,
+        truth_is_family=truth_is_family,
     )
     if ordered_similarity is not None:
         return ordered_similarity
 
-    predicted_claims = _prediction_sequence_claims(prediction)
+    predicted_claims = _prediction_sequence_claims(
+        prediction,
+        family_template=truth_is_family,
+    )
     truth_claims_with_status = _truth_sequence_claims(truth)
     truth_claims = [
         value
@@ -748,7 +1187,10 @@ def _oligo_similarity(
             predicted_claims,
             neutral_claims,
         )
-    return _sequence_collection_f1(predicted_claims, truth_claims)
+    return _sequence_collection_f1(
+        predicted_claims,
+        truth_claims,
+    )
 
 
 def _ordered_molecule_similarity(
@@ -756,6 +1198,7 @@ def _ordered_molecule_similarity(
     truth: dict[str, Any],
     *,
     scorable_only: bool,
+    truth_is_family: bool,
 ) -> float | None:
     """Compare equivalent flat and ordered-component molecule representations."""
 
@@ -767,30 +1210,146 @@ def _ordered_molecule_similarity(
         # Component-level claims preserve the support mask for mixed-evidence
         # molecules. The fallback path below can remove exact neutral claims.
         return None
-    predicted_sequence = _ordered_molecule_sequence(prediction)
-    truth_sequence = _ordered_molecule_sequence(truth)
+    predicted_sequence = _ordered_molecule_sequence(
+        prediction,
+        family_template=truth_is_family,
+    )
+    truth_sequence = _ordered_molecule_sequence(
+        truth,
+        family_template=truth_is_family,
+    )
     if predicted_sequence is None or truth_sequence is None:
         return None
-    return edit_similarity(
-        _sequence_value(predicted_sequence),
-        _sequence_value(truth_sequence),
+    return _sequence_similarity(
+        predicted_sequence,
+        truth_sequence,
+        family_truth=truth_is_family,
     )
 
 
-def _ordered_molecule_sequence(item: dict[str, Any]) -> str | None:
+def _ordered_molecule_sequence(
+    item: dict[str, Any],
+    *,
+    family_template: bool = False,
+) -> str | None:
     sequence = item.get("sequence")
     if isinstance(sequence, str) and sequence:
-        return sequence
+        return _family_template_sequence(item) if family_template else sequence
     components = item.get("components", [])
     if not components:
         return None
     values: list[str] = []
     for component in components:
-        value = component.get("sequence") or component.get("placeholder")
+        value = (
+            _component_family_placeholder(component)
+            or component.get("sequence")
+            or component.get("placeholder")
+            if family_template
+            else component.get("sequence") or component.get("placeholder")
+        )
         if not isinstance(value, str) or not value:
             return None
         values.append(value)
     return "".join(values)
+
+
+def _family_template_sequence(item: Mapping[str, Any]) -> str:
+    sequence = item.get("sequence")
+    if not isinstance(sequence, str) or not sequence:
+        return ""
+    result = normalize_sequence(sequence)
+    components = list(item.get("components", []))
+    concrete_values = [
+        normalize_sequence(component["sequence"])
+        for component in components
+        if isinstance(component.get("sequence"), str) and component.get("sequence")
+    ]
+    if len(concrete_values) == len(components) and components:
+        concrete_molecule = "".join(concrete_values)
+        family_molecule = "".join(
+            _component_family_placeholder(component)
+            or normalize_sequence(component["sequence"])
+            for component in components
+        )
+        position = result.find(concrete_molecule)
+        if position >= 0:
+            return (
+                result[:position]
+                + family_molecule
+                + result[position + len(concrete_molecule) :]
+            )
+
+    cursor = 0
+    for component in components:
+        replacement = _component_family_placeholder(component)
+        concrete = component.get("sequence")
+        if not isinstance(concrete, str) or not concrete:
+            continue
+        normalized_concrete = normalize_sequence(concrete)
+        position = result.find(normalized_concrete, cursor)
+        if position < 0:
+            continue
+        if replacement:
+            result = (
+                result[:position]
+                + replacement
+                + result[position + len(normalized_concrete) :]
+            )
+            cursor = position + len(replacement)
+        else:
+            cursor = position + len(normalized_concrete)
+    return result
+
+
+def _component_family_placeholder(
+    component: Mapping[str, Any],
+) -> str | None:
+    placeholder = component.get("placeholder")
+    if isinstance(placeholder, str) and placeholder:
+        return normalize_sequence(placeholder)
+    role = _variable_component_role(component)
+    if role is None:
+        return None
+    length = component.get("length")
+    if not isinstance(length, int) or length <= 0:
+        sequence = component.get("sequence")
+        if not isinstance(sequence, str) or not sequence:
+            return None
+        length = len(_sequence_value(sequence))
+    return f"[{role}:{length}]" if length > 0 else None
+
+
+def _variable_component_role(component: Mapping[str, Any]) -> str | None:
+    text = _normalize_text(
+        " ".join(str(component.get(field, "")) for field in ("name", "role"))
+    )
+    if not text:
+        return None
+    if "unique molecular identifier" in text or re.search(r"\bumi\b", text):
+        return "UMI"
+    if "random" in text or "hexamer" in text or "randomer" in text:
+        return "RANDOM"
+    if "i5" in text:
+        return "I5_INDEX"
+    if "i7" in text:
+        return "I7_INDEX"
+    if "tn5" in text and ("index" in text or "barcode" in text):
+        return "TN5_INDEX"
+    if ("feature" in text or "antibody" in text or "capture" in text) and (
+        "barcode" in text
+    ):
+        return "FEATURE_BARCODE"
+    if "sample index" in text or "library index" in text:
+        return "SAMPLE_INDEX"
+    if "variable" in text or "degenerate" in text:
+        return "VARIABLE"
+    if "barcode" in text:
+        if any(exclusion in text for exclusion in _VARIABLE_COMPONENT_EXCLUSIONS):
+            return None
+        return "CELL_BARCODE"
+    if re.search(r"\bindex\b", text):
+        return "SAMPLE_INDEX"
+    return None
 
 
 def _remove_exact_neutral_sequence_claims(
@@ -798,24 +1357,88 @@ def _remove_exact_neutral_sequence_claims(
 ) -> list[str]:
     remaining = list(predicted)
     for neutral_value in neutral:
-        normalized = _sequence_value(neutral_value)
         for index, predicted_value in enumerate(remaining):
-            if _sequence_value(predicted_value) == normalized:
+            if (
+                _sequence_similarity(
+                    predicted_value,
+                    neutral_value,
+                    family_truth=bool(
+                        _FAMILY_PLACEHOLDER_RE.search(normalize_sequence(neutral_value))
+                    ),
+                )
+                == 1.0
+            ):
                 remaining.pop(index)
                 break
     return remaining
 
 
-def _sequence_collection_f1(predicted: list[str], truth: list[str]) -> float:
+def _sequence_collection_f1(
+    predicted: list[str],
+    truth: list[str],
+) -> float:
     scores = [
         [
-            edit_similarity(_sequence_value(left), _sequence_value(right))
+            _sequence_similarity(
+                left,
+                right,
+                family_truth=bool(
+                    _FAMILY_PLACEHOLDER_RE.search(normalize_sequence(right))
+                ),
+            )
             for right in truth
         ]
         for left in predicted
     ]
     matches = best_one_to_one_matching(scores)
     return _soft_prf(sum(item[2] for item in matches), len(predicted), len(truth))[2]
+
+
+def _sequence_similarity(
+    prediction: str,
+    truth: str,
+    *,
+    family_truth: bool,
+) -> float:
+    predicted_tokens = _sequence_value(prediction)
+    truth_tokens = _sequence_value(truth)
+    if not family_truth:
+        return edit_similarity(predicted_tokens, truth_tokens)
+    return _family_edit_similarity(predicted_tokens, truth_tokens)
+
+
+def _family_edit_similarity(left: list[str], right: list[str]) -> float:
+    denominator = max(len(left), len(right))
+    if denominator == 0:
+        return 1.0
+    if len(left) < len(right):
+        left, right = right, left
+    previous = list(range(len(right) + 1))
+    for left_index, left_token in enumerate(left, start=1):
+        current = [left_index]
+        for right_index, right_token in enumerate(right, start=1):
+            substitution = previous[right_index - 1] + (
+                not _family_tokens_match(left_token, right_token)
+            )
+            insertion = current[right_index - 1] + 1
+            deletion = previous[right_index] + 1
+            current.append(min(substitution, insertion, deletion))
+        previous = current
+    return max(0.0, 1.0 - previous[-1] / denominator)
+
+
+def _family_tokens_match(left: str, right: str) -> bool:
+    if left == right:
+        return True
+    left_family = _FAMILY_TOKEN_RE.fullmatch(left)
+    right_family = _FAMILY_TOKEN_RE.fullmatch(right)
+    if left_family and right_family:
+        return left_family.group(1) == right_family.group(1)
+    if left_family:
+        return bool(_NUCLEOTIDE_TOKEN_RE.fullmatch(right))
+    if right_family:
+        return bool(_NUCLEOTIDE_TOKEN_RE.fullmatch(left))
+    return False
 
 
 def _sequence_value(value: str) -> list[str]:
@@ -867,7 +1490,9 @@ def _state_dimensions(
             not scorable_only or _supported(truth),
         ),
         "segments": (
-            _strand_collection_similarity(prediction, truth, scorable_only=scorable_only),
+            _strand_collection_similarity(
+                prediction, truth, scorable_only=scorable_only
+            ),
             not scorable_only
             or any(_supported(strand) for strand in truth.get("strands", [])),
         ),
@@ -890,13 +1515,19 @@ def _reference_similarity(prediction: dict[str, Any], truth: dict[str, Any]) -> 
         return 0.0
     predicted_value = _strand_architecture_value(predicted)
     expected_value = _strand_architecture_value(expected)
-    return edit_similarity(_sequence_value(predicted_value), _sequence_value(expected_value))
+    return edit_similarity(
+        _sequence_value(predicted_value), _sequence_value(expected_value)
+    )
 
 
 def _reference_strand(state: dict[str, Any]) -> dict[str, Any]:
     reference_id = state.get("reference_strand_id")
     return next(
-        (strand for strand in state.get("strands", []) if strand.get("strand_id") == reference_id),
+        (
+            strand
+            for strand in state.get("strands", [])
+            if strand.get("strand_id") == reference_id
+        ),
         {},
     )
 
@@ -918,16 +1549,26 @@ def _segment_value(segment: dict[str, Any]) -> str:
     return "[UNKNOWN]"
 
 
-def _architecture_similarity(prediction: dict[str, Any], truth: dict[str, Any]) -> float:
+def _architecture_similarity(
+    prediction: dict[str, Any], truth: dict[str, Any]
+) -> float:
     scores = [
-        float(prediction.get("strand_architecture") == truth.get("strand_architecture")),
-        _name_similarity(prediction.get("molecule_type", ""), truth.get("molecule_type", "")),
-        _count_similarity(len(prediction.get("strands", [])), len(truth.get("strands", []))),
+        float(
+            prediction.get("strand_architecture") == truth.get("strand_architecture")
+        ),
+        _name_similarity(
+            prediction.get("molecule_type", ""), truth.get("molecule_type", "")
+        ),
+        _count_similarity(
+            len(prediction.get("strands", [])), len(truth.get("strands", []))
+        ),
         _multiset_f1(
             [item.get("molecule_type", "") for item in prediction.get("strands", [])],
             [item.get("molecule_type", "") for item in truth.get("strands", [])],
         ),
-        _name_similarity(prediction.get("physical_state", ""), truth.get("physical_state", "")),
+        _name_similarity(
+            prediction.get("physical_state", ""), truth.get("physical_state", "")
+        ),
         _multiset_f1(prediction.get("properties", []), truth.get("properties", [])),
     ]
     return sum(scores) / len(scores)
@@ -946,9 +1587,15 @@ def _strand_collection_similarity(
         if not scorable_only or _supported(strand)
     ]
     if scorable_only:
-        neutral = [strand for strand in truth.get("strands", []) if not _supported(strand)]
-        predicted = _remove_exact_neutral_entities(predicted, neutral, _strand_similarity)
-    scores = [[_strand_similarity(left, right) for right in expected] for left in predicted]
+        neutral = [
+            strand for strand in truth.get("strands", []) if not _supported(strand)
+        ]
+        predicted = _remove_exact_neutral_entities(
+            predicted, neutral, _strand_similarity
+        )
+    scores = [
+        [_strand_similarity(left, right) for right in expected] for left in predicted
+    ]
     matches = best_one_to_one_matching(scores)
     return _soft_prf(sum(item[2] for item in matches), len(predicted), len(expected))[2]
 
@@ -959,13 +1606,16 @@ def _strand_similarity(prediction: dict[str, Any], truth: dict[str, Any]) -> flo
     position_scores: list[float] = []
     for left, right in zip(predicted_segments, truth_segments):
         sequence_score = edit_similarity(
-            _sequence_value(_segment_value(left)), _sequence_value(_segment_value(right))
+            _sequence_value(_segment_value(left)),
+            _sequence_value(_segment_value(right)),
         )
         role_score = _name_similarity(left.get("role", ""), right.get("role", ""))
         structural_score = float(
             left.get("structural_role") == right.get("structural_role")
         )
-        position_scores.append(0.50 * sequence_score + 0.25 * role_score + 0.25 * structural_score)
+        position_scores.append(
+            0.50 * sequence_score + 0.25 * role_score + 0.25 * structural_score
+        )
     segment_score = _soft_prf(
         sum(position_scores), len(predicted_segments), len(truth_segments)
     )[2]
@@ -1032,9 +1682,7 @@ def _pairing_and_discontinuity_similarity(
     ) / 2
 
 
-def _pairing_descriptors(
-    state: dict[str, Any], *, support: str | None
-) -> list[str]:
+def _pairing_descriptors(state: dict[str, Any], *, support: str | None) -> list[str]:
     strands = {item["strand_id"]: item for item in state.get("strands", [])}
     segment_values = {
         segment["segment_id"]: f"{segment.get('role', '')}:{_segment_value(segment)}"
@@ -1051,7 +1699,9 @@ def _pairing_descriptors(
         for key in ("side_1", "side_2"):
             side = region[key]
             molecule_type = strands.get(side["strand_id"], {}).get("molecule_type", "")
-            values = [segment_values.get(segment_id, "") for segment_id in side["segment_ids"]]
+            values = [
+                segment_values.get(segment_id, "") for segment_id in side["segment_ids"]
+            ]
             sides.append(f"{molecule_type}:{'|'.join(values)}")
         result.append(region.get("relationship", "") + ":" + "<>".join(sorted(sides)))
     return result
@@ -1147,17 +1797,19 @@ def _transition_oligo_sequence_f1(
 ) -> float:
     predicted = [predicted_oligos[item] for item in predicted_ids]
     truth = [truth_oligos[item] for item in truth_ids]
+    prediction_families = _collapse_prediction_families(predicted, truth)
     scorable_truth = {
         index for index, item in enumerate(truth) if _oligo_is_scorable(item)
     }
     neutral_truth = set(range(len(truth))) - scorable_truth
     scorable_indices = sorted(scorable_truth)
-    pre_neutralized_predictions = {
-        prediction_index
-        for prediction_index, prediction in enumerate(predicted)
+    pre_neutralized_families = {
+        family_index
+        for family_index, family in enumerate(prediction_families)
         if any(
-            _oligo_similarity(
-                prediction,
+            _prediction_family_similarity(
+                family,
+                predicted,
                 truth[index],
                 scorable_only=False,
             )
@@ -1165,8 +1817,9 @@ def _transition_oligo_sequence_f1(
             for index in neutral_truth
         )
         and not any(
-            _oligo_similarity(
-                prediction,
+            _prediction_family_similarity(
+                family,
+                predicted,
                 truth[index],
                 scorable_only=True,
             )
@@ -1174,47 +1827,49 @@ def _transition_oligo_sequence_f1(
             for index in scorable_truth
         )
     }
-    active_prediction_indices = [
+    active_family_indices = [
         index
-        for index in range(len(predicted))
-        if index not in pre_neutralized_predictions
+        for index in range(len(prediction_families))
+        if index not in pre_neutralized_families
     ]
     scores = [
         [
-            _oligo_similarity(
-                predicted[prediction_index],
+            _prediction_family_similarity(
+                prediction_families[family_index],
+                predicted,
                 truth[index],
                 scorable_only=True,
             )
             for index in scorable_indices
         ]
-        for prediction_index in active_prediction_indices
+        for family_index in active_family_indices
     ]
     raw_matches = best_one_to_one_matching(scores)
     matches = [
         (
-            active_prediction_indices[prediction_position],
+            active_family_indices[prediction_position],
             scorable_indices[truth_position],
             score,
         )
         for prediction_position, truth_position, score in raw_matches
     ]
-    matched_predictions = {item[0] for item in matches}
-    neutralized_predictions: set[int] = set(pre_neutralized_predictions)
-    for prediction_index in set(range(len(predicted))) - matched_predictions:
+    matched_families = {item[0] for item in matches}
+    neutralized_families: set[int] = set(pre_neutralized_families)
+    for family_index in set(range(len(prediction_families))) - matched_families:
         if any(
-            _oligo_similarity(
-                predicted[prediction_index],
+            _prediction_family_similarity(
+                prediction_families[family_index],
+                predicted,
                 truth[index],
                 scorable_only=False,
             )
             == 1.0
             for index in neutral_truth
         ):
-            neutralized_predictions.add(prediction_index)
+            neutralized_families.add(family_index)
     return _soft_prf(
         sum(item[2] for item in matches),
-        len(predicted) - len(neutralized_predictions),
+        len(prediction_families) - len(neutralized_families),
         len(scorable_truth),
     )[2]
 
@@ -1307,16 +1962,13 @@ def _typed_edge_analysis(
             "neutralized_predictions": 0,
             "matched_edges": [],
             "missing_groundtruth_edges": [
-                _typed_edge_document(edge)
-                for edge in sorted(scorable_truth_edges)
+                _typed_edge_document(edge) for edge in sorted(scorable_truth_edges)
             ],
             "extra_prediction_edges": [],
             "neutralized_prediction_edges": [],
         }
 
-    mapped_by_prediction: dict[
-        tuple[str, str, str], tuple[str, str, str] | None
-    ] = {}
+    mapped_by_prediction: dict[tuple[str, str, str], tuple[str, str, str] | None] = {}
     for edge_type, left, right in predicted_edges:
         if edge_type == "substrate":
             mapped_left = state_map.get(left)
@@ -1336,7 +1988,6 @@ def _typed_edge_analysis(
         edge for edge in mapped_by_prediction.values() if edge is not None
     }
     matched_edges = mapped_predicted & scorable_truth_edges
-    neutralized_edges = mapped_predicted & neutral_truth_edges
     extra_prediction_edges = [
         (edge, mapped)
         for edge, mapped in sorted(mapped_by_prediction.items())
@@ -1350,9 +2001,7 @@ def _typed_edge_analysis(
         "predicted": effective_prediction_count,
         "groundtruth": len(scorable_truth_edges),
         "neutralized_predictions": neutralized,
-        "matched_edges": [
-            _typed_edge_document(edge) for edge in sorted(matched_edges)
-        ],
+        "matched_edges": [_typed_edge_document(edge) for edge in sorted(matched_edges)],
         "missing_groundtruth_edges": [
             _typed_edge_document(edge)
             for edge in sorted(scorable_truth_edges - matched_edges)
@@ -1402,16 +2051,12 @@ def _mapped_masked_boundary_f1(
 ) -> float:
     predicted = list(predicted_ids)
     truth = set(truth_ids)
-    scorable_truth = {
-        item for item in truth if _state_is_scorable(truth_states[item])
-    }
+    scorable_truth = {item for item in truth if _state_is_scorable(truth_states[item])}
     neutral_truth = truth - scorable_truth
     mapped = [mapping.get(item) for item in predicted]
     effective_predictions = [item for item in mapped if item not in neutral_truth]
     overlap = len(set(effective_predictions) & scorable_truth)
-    return _soft_prf(
-        float(overlap), len(effective_predictions), len(scorable_truth)
-    )[2]
+    return _soft_prf(float(overlap), len(effective_predictions), len(scorable_truth))[2]
 
 
 def _text_collection_f1(predicted: list[str], truth: list[str]) -> float:
@@ -1449,7 +2094,9 @@ def _multiset_f1(predicted: Iterable[str], truth: Iterable[str]) -> float:
     predicted_counter = Counter(_normalize_text(item) for item in predicted)
     truth_counter = Counter(_normalize_text(item) for item in truth)
     overlap = sum((predicted_counter & truth_counter).values())
-    return _soft_prf(float(overlap), sum(predicted_counter.values()), sum(truth_counter.values()))[2]
+    return _soft_prf(
+        float(overlap), sum(predicted_counter.values()), sum(truth_counter.values())
+    )[2]
 
 
 def _supported(item: dict[str, Any]) -> bool:
@@ -1459,31 +2106,41 @@ def _supported(item: dict[str, Any]) -> bool:
 def _weighted_supported_score(
     dimensions: dict[str, tuple[float, bool]], weights: dict[str, float]
 ) -> float:
-    denominator = sum(weights[key] for key, (_, enabled) in dimensions.items() if enabled)
+    denominator = sum(
+        weights[key] for key, (_, enabled) in dimensions.items() if enabled
+    )
     if denominator == 0:
         return 0.0
-    return sum(
-        weights[key] * value
-        for key, (value, enabled) in dimensions.items()
-        if enabled
-    ) / denominator
+    return (
+        sum(
+            weights[key] * value
+            for key, (value, enabled) in dimensions.items()
+            if enabled
+        )
+        / denominator
+    )
 
 
 def _enabled_dimension_scores(
     dimensions: dict[str, tuple[float, bool]],
 ) -> dict[str, float | None]:
     return {
-        key: value if enabled else None
-        for key, (value, enabled) in dimensions.items()
+        key: value if enabled else None for key, (value, enabled) in dimensions.items()
     }
 
 
-def _soft_prf(score_sum: float, predicted_count: int, truth_count: int) -> tuple[float, float, float]:
-    precision = 1.0 if predicted_count == 0 and truth_count == 0 else (
-        score_sum / predicted_count if predicted_count else 0.0
+def _soft_prf(
+    score_sum: float, predicted_count: int, truth_count: int
+) -> tuple[float, float, float]:
+    precision = (
+        1.0
+        if predicted_count == 0 and truth_count == 0
+        else (score_sum / predicted_count if predicted_count else 0.0)
     )
-    recall = 1.0 if truth_count == 0 and predicted_count == 0 else (
-        score_sum / truth_count if truth_count else 0.0
+    recall = (
+        1.0
+        if truth_count == 0 and predicted_count == 0
+        else (score_sum / truth_count if truth_count else 0.0)
     )
     f1 = 2 * precision * recall / (precision + recall) if precision + recall else 0.0
     return precision, recall, f1

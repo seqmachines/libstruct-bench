@@ -9,6 +9,7 @@ from pathlib import Path
 from typing import Any
 
 from libstruct_bench.libgen.error_analysis import task_bundle_sha256
+from libstruct_bench.libgen.version import LIBGEN_BENCHMARK_VERSION
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -33,6 +34,11 @@ def main(argv: list[str] | None = None) -> int:
             f"Harbor version mismatch: expected {args.harbor_version}, installed {installed_harbor}"
         )
     matrix = json.loads(Path(args.matrix).read_text(encoding="utf-8"))
+    if matrix.get("benchmark_version") != LIBGEN_BENCHMARK_VERSION:
+        raise ValueError(
+            "matrix benchmark version does not match the installed scorer: "
+            f"{matrix.get('benchmark_version')!r} != {LIBGEN_BENCHMARK_VERSION!r}"
+        )
     required_agents = {
         item["harbor_agent"]
         for item in matrix["core_harnesses"] + matrix["native_extensions"]
@@ -44,13 +50,17 @@ def main(argv: list[str] | None = None) -> int:
             + ", ".join(sorted(unavailable_agents))
         )
     tasks_root = Path(args.tasks).resolve()
-    task_ids = sorted(path.name for path in tasks_root.iterdir() if (path / "task.toml").is_file())
+    task_ids = sorted(
+        path.name for path in tasks_root.iterdir() if (path / "task.toml").is_file()
+    )
     selected = matrix["pilot_protocols"] if args.mode == "pilot" else task_ids
     missing = set(selected) - set(task_ids)
     if missing:
         raise ValueError("generated tasks are missing: " + ", ".join(sorted(missing)))
     if args.mode == "full" and len(task_ids) != 20:
-        raise ValueError(f"full matrix requires exactly 20 generated tasks, found {len(task_ids)}")
+        raise ValueError(
+            f"full matrix requires exactly 20 generated tasks, found {len(task_ids)}"
+        )
     task_digest = task_bundle_sha256(tasks_root, task_ids)
     pilot_clearance = None
     if args.mode == "full":
@@ -60,7 +70,9 @@ def main(argv: list[str] | None = None) -> int:
             Path(args.pilot_clearance).read_text(encoding="utf-8")
         )
         if pilot_clearance.get("full_run_ready") is not True:
-            raise ValueError("pilot error review has not cleared the full production run")
+            raise ValueError(
+                "pilot error review has not cleared the full production run"
+            )
         if pilot_clearance.get("expected_trial_count") != 60:
             raise ValueError("pilot clearance does not cover the approved 60 trials")
         if pilot_clearance.get("task_bundle_sha256") != task_digest:
@@ -93,7 +105,9 @@ def main(argv: list[str] | None = None) -> int:
             )
         )
     if len(cells) != 15:
-        raise ValueError(f"expected the approved 15-cell design, found {len(cells)} cells")
+        raise ValueError(
+            f"expected the approved 15-cell design, found {len(cells)} cells"
+        )
 
     output_root = Path(args.out)
     if output_root.exists():
@@ -132,15 +146,19 @@ def main(argv: list[str] | None = None) -> int:
                 "/logs/artifacts/t3_prediction.json",
                 "/logs/verifier/reward.json",
                 "/logs/verifier/details.json",
+                "/logs/verifier/error_analysis.json",
                 "/logs/verifier/error.json",
             ],
         }
         config_path = config_root / f"{cell['model_key']}__{cell['harness_key']}.json"
-        config_path.write_text(json.dumps(config, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+        config_path.write_text(
+            json.dumps(config, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+        )
         commands.append("harbor run -c " + shlex.quote(str(config_path.resolve())))
 
     lock = {
         "mode": args.mode,
+        "benchmark_version": matrix["benchmark_version"],
         "research_question": matrix["research_question"],
         "harbor_version": installed_harbor,
         "environment": matrix["environment"],
@@ -179,12 +197,16 @@ def main(argv: list[str] | None = None) -> int:
 def _cell(
     *, model: dict[str, Any], harness: dict[str, Any], model_id: str, design: str
 ) -> dict[str, Any]:
-    if harness["harbor_agent"] in {
-        "gemini-cli",
-        "kimi-cli",
-        "mini-swe-agent",
-        "pi",
-    } and "/" not in model_id:
+    if (
+        harness["harbor_agent"]
+        in {
+            "gemini-cli",
+            "kimi-cli",
+            "mini-swe-agent",
+            "pi",
+        }
+        and "/" not in model_id
+    ):
         raise ValueError(
             f"{harness['harbor_agent']} requires a provider/model model ID, found {model_id!r}"
         )
@@ -226,7 +248,9 @@ def _available_harbor_agents() -> set[str]:
     try:
         from harbor.models.agent.name import AgentName
     except ImportError as error:
-        raise ValueError("Harbor is not importable in the planning environment") from error
+        raise ValueError(
+            "Harbor is not importable in the planning environment"
+        ) from error
     return {item.value for item in AgentName}
 
 

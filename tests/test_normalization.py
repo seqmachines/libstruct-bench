@@ -79,6 +79,8 @@ class SequenceNormalizationTests(unittest.TestCase):
     def test_random_placeholders_only_when_labeled(self):
         self.assertEqual(normalize_sequence("[random 9-mer]"), "[RANDOM:9]")
         self.assertEqual(normalize_sequence("[9-bp randomer]"), "[RANDOM:9]")
+        self.assertEqual(normalize_sequence("[RANDOMER:6]"), "[RANDOM:6]")
+        self.assertEqual(normalize_sequence("[RANDOM_HEXAMER:6]"), "[RANDOM:6]")
         self.assertEqual(normalize_sequence("ACGTNNNNNNNNN"), "ACGTNNNNNNNNN")
         self.assertEqual(normalize_sequence("[NNNNNNNNN randomer]"), "[RANDOM:9]")
 
@@ -87,7 +89,9 @@ class SequenceNormalizationTests(unittest.TestCase):
         self.assertEqual(normalize_sequence("UUUUUUUU"), "UUUUUUUU")
         self.assertEqual(normalize_sequence("UUU"), "UUU")
         self.assertEqual(normalize_sequence("IIIIII"), "IIIIII")
-        self.assertEqual(normalize_sequence("BAAAAAAAAAAAAAAAAAAA"), "BAAAAAAAAAAAAAAAAAAA")
+        self.assertEqual(
+            normalize_sequence("BAAAAAAAAAAAAAAAAAAA"), "BAAAAAAAAAAAAAAAAAAA"
+        )
         self.assertEqual(normalize_sequence("III"), "III")
 
     def test_preserves_modifications_and_rna_markers(self):

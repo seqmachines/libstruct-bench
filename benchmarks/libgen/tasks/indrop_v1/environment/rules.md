@@ -31,11 +31,22 @@ tables when applicable.
 
 ## T2
 
+- Return one record per oligo family. When several physical oligos share the
+  same fixed scaffold and differ only in a barcode, index, UMI, randomer, or
+  other fixed-length variable region, write one molecule-level template, for
+  example `FIXED_SCAFFOLD[BARCODE:8]FIXED_SCAFFOLD`. Do not enumerate the
+  concrete panel members.
+- Keep separate records when the fixed scaffold, molecular role, orientation,
+  or chemical modification differs. A source table containing many barcode
+  rows does not by itself require many T2 records.
+- Give each family one local `oligo_id`. Every T3 transition and segment
+  derivation that uses a member of that family must reference that family-level
+  T2 ID, not a list of concrete member IDs.
 - Preserve source-visible oligo sequences and their stated 5′→3′, 3′→5′, or
   unknown orientation. Do not silently reverse-complement or complete them.
 - Use a concise, specific biological role. Names, aliases, roles, orientation,
-  and modifications are diagnostic; nucleotide sequence is the primary T2
-  score.
+  and modifications delimit scientifically distinct families; the
+  molecule-level family sequence is the primary T2 score.
 - Use canonical, orientation-free placeholders such as `[CELL_BARCODE:16]`,
   `[UMI:12]`, `[I5_INDEX:8]`, `[TN5_INDEX:8]`, and `[I7_INDEX:8]`. Never encode
   orientation in a role (`_RC`, `_FWD`, and similar suffixes are forbidden).
