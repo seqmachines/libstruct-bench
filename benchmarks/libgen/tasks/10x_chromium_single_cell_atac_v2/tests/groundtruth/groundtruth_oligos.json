@@ -1,0 +1,265 @@
+{
+  "oligos": [
+    {
+      "aliases": [
+        "Gel Bead Oligo Primer",
+        "Gel Bead Oligo Primer (PN-2000210)",
+        "Gel Bead Oligo Primer (PN-2000132)"
+      ],
+      "components": [
+        {
+          "length": 29,
+          "modifications": [],
+          "name": "Illumina P5 adapter",
+          "orientation": "5_to_3",
+          "role": "adapter",
+          "sequence": "AATGATACGGCGACCACCGAGATCTACAC",
+          "support_status": "explicit"
+        },
+        {
+          "length": 16,
+          "modifications": [],
+          "name": "10x single-cell barcode",
+          "orientation": "5_to_3",
+          "placeholder": "[CELL_BARCODE:16]",
+          "role": "cell_barcode",
+          "support_status": "explicit"
+        },
+        {
+          "length": 14,
+          "modifications": [],
+          "name": "Nextera N/S5xx primer entry point (s5)",
+          "orientation": "5_to_3",
+          "role": "primer_entry_point",
+          "sequence": "TCGTCGGCAGCGTC",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [],
+      "name": "Beads-oligo",
+      "oligo_id": "oligo_beads_oligo",
+      "orientation": "5_to_3",
+      "role": "gel-bead barcoded priming oligo",
+      "sequence": "AATGATACGGCGACCACCGAGATCTACAC[CELL_BARCODE:16]TCGTCGGCAGCGTC",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "i7 Sample Index Plate N, Set A (PN-3000262)",
+        "Single Index Plate N Set A (PN-3000427)"
+      ],
+      "components": [
+        {
+          "length": 24,
+          "modifications": [],
+          "name": "Illumina P7 adapter",
+          "orientation": "5_to_3",
+          "role": "adapter",
+          "sequence": "CAAGCAGAAGACGGCATACGAGAT",
+          "support_status": "explicit"
+        },
+        {
+          "length": 8,
+          "modifications": [],
+          "name": "i7 sample index",
+          "orientation": "5_to_3",
+          "placeholder": "[SAMPLE_INDEX:8]",
+          "role": "sample_index",
+          "support_status": "explicit"
+        },
+        {
+          "length": 15,
+          "modifications": [],
+          "name": "Nextera N7xx primer entry point (s7)",
+          "orientation": "5_to_3",
+          "role": "primer_entry_point",
+          "sequence": "GTCTCGTGGGCTCGG",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [],
+      "name": "Nextera i7 sample index primer",
+      "oligo_id": "oligo_nextera_i7_sample_index_primer",
+      "orientation": "5_to_3",
+      "role": "indexing PCR reverse primer",
+      "sequence": "CAAGCAGAAGACGGCATACGAGAT[SAMPLE_INDEX:8]GTCTCGTGGGCTCGG",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "Read 1N"
+      ],
+      "components": [
+        {
+          "length": 14,
+          "modifications": [],
+          "name": "Nextera N/S5xx primer entry point (s5)",
+          "orientation": "5_to_3",
+          "role": "primer_entry_point",
+          "sequence": "TCGTCGGCAGCGTC",
+          "support_status": "explicit"
+        },
+        {
+          "length": 19,
+          "modifications": [],
+          "name": "Tn5 mosaic end (ME)",
+          "orientation": "5_to_3",
+          "role": "mosaic_end",
+          "sequence": "AGATGTGTATAAGAGACAG",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [],
+      "name": "Illumina Nextera Read 1 primer",
+      "oligo_id": "oligo_illumina_nextera_read_1_primer",
+      "orientation": "5_to_3",
+      "role": "read 1 sequencing primer / Tn5 transposome adapter (s5 + ME)",
+      "sequence": "TCGTCGGCAGCGTCAGATGTGTATAAGAGACAG",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "Read 2N"
+      ],
+      "components": [
+        {
+          "length": 15,
+          "modifications": [],
+          "name": "Nextera N7xx primer entry point (s7)",
+          "orientation": "5_to_3",
+          "role": "primer_entry_point",
+          "sequence": "GTCTCGTGGGCTCGG",
+          "support_status": "explicit"
+        },
+        {
+          "length": 19,
+          "modifications": [],
+          "name": "Tn5 mosaic end (ME)",
+          "orientation": "5_to_3",
+          "role": "mosaic_end",
+          "sequence": "AGATGTGTATAAGAGACAG",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [],
+      "name": "Illumina Nextera Read 2 primer",
+      "oligo_id": "oligo_illumina_nextera_read_2_primer",
+      "orientation": "5_to_3",
+      "role": "read 2 sequencing primer / Tn5 transposome adapter (s7 + ME)",
+      "sequence": "GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "P5"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Illumina P5 adapter",
+      "oligo_id": "oligo_illumina_p5_adapter",
+      "orientation": "5_to_3",
+      "role": "flow-cell adapter",
+      "sequence": "AATGATACGGCGACCACCGAGATCTACAC",
+      "support_status": "derivable"
+    },
+    {
+      "aliases": [
+        "P7"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Illumina P7 adapter",
+      "oligo_id": "oligo_illumina_p7_adapter",
+      "orientation": "5_to_3",
+      "role": "flow-cell adapter",
+      "sequence": "CAAGCAGAAGACGGCATACGAGAT",
+      "support_status": "derivable"
+    },
+    {
+      "aliases": [
+        "Sample index sequencing primer (index1)"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Nextera Index 1 sequencing primer (i7)",
+      "oligo_id": "oligo_nextera_index_1_sequencing_primer_i7",
+      "orientation": "5_to_3",
+      "role": "index 1 (i7) sequencing primer",
+      "sequence": "CTGTCTCTTATACACATCTCCGAGCCCACGAGAC",
+      "support_status": "derivable"
+    },
+    {
+      "aliases": [
+        "Cell barcode sequencing primer (index2)"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Nextera Index 2 sequencing primer (i5)",
+      "oligo_id": "oligo_nextera_index_2_sequencing_primer_i5",
+      "orientation": "5_to_3",
+      "role": "index 2 (i5) sequencing primer; reads the 10x cell barcode",
+      "sequence": "CTGTCTCTTATACACATCTGACGCTGCCGACGA",
+      "support_status": "derivable"
+    },
+    {
+      "aliases": [
+        "Nextera right primer entry point (s7)",
+        "Partial Read 2N"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Nextera N7xx primer entry point (s7)",
+      "oligo_id": "oligo_nextera_n7xx_primer_entry_point_s7",
+      "orientation": "5_to_3",
+      "role": "primer entry point carried by the Tn5 transposome",
+      "sequence": "GTCTCGTGGGCTCGG",
+      "support_status": "derivable"
+    },
+    {
+      "aliases": [
+        "Nextera left primer entry point (s5)",
+        "Partial Read 1N"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Nextera N/S5xx primer entry point (s5)",
+      "oligo_id": "oligo_nextera_n_s5xx_primer_entry_point_s5",
+      "orientation": "5_to_3",
+      "role": "primer entry point carried by the Tn5 transposome",
+      "sequence": "TCGTCGGCAGCGTC",
+      "support_status": "derivable"
+    },
+    {
+      "aliases": [
+        "Partial P5 forward primer"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "SI-PCR Primer B (PN-2000128)",
+      "oligo_id": "oligo_si_pcr_primer_b_pn_2000128",
+      "orientation": "5_to_3",
+      "role": "indexing PCR forward primer",
+      "sequence": "AATGATACGGCGACCACCGAGA",
+      "support_status": "explicit"
+    }
+  ],
+  "protocol_id": "10x_chromium_single_cell_atac_v2",
+  "protocol_name": "10x Chromium Single Cell ATAC v2",
+  "protocol_scope": {
+    "applicable_variants": [
+      "v2"
+    ],
+    "protocol_version": "v2"
+  }
+}

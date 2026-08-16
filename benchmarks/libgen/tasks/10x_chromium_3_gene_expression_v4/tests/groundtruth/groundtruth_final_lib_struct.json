@@ -1,0 +1,184 @@
+{
+  "libraries": [
+    {
+      "final_molecule": "Dual-indexed Illumina paired-end sequencing library (Sample Index PCR product)",
+      "library_sequence": "AATGATACGGCGACCACCGAGATCTACAC[I5_INDEX:10]ACACTCTTTCCCTACACGACGCTCTTCCGATCT[CELL_BARCODE:16][UMI:12]TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTVN[CDNA]AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC[I7_INDEX:10]ATCTCGTATGCCGTCTTCTGCTTG",
+      "modality": "gene expression",
+      "orientation": "5_to_3",
+      "segments": [
+        {
+          "kind": "constant",
+          "length": 29,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_illumina_p5_adapter",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "Illumina P5 adapter",
+          "segment_id": "seg_p5",
+          "sequence": "AATGATACGGCGACCACCGAGATCTACAC",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "variable",
+          "length": 10,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_pcr_p5_primer",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "placeholder": "[I5_INDEX:10]",
+          "role": "i5 sample index",
+          "segment_id": "seg_i5",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "length": 33,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_illumina_truseq_read_1_primer",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "TruSeq Read 1 sequencing primer site",
+          "segment_id": "seg_truseq_read1",
+          "sequence": "ACACTCTTTCCCTACACGACGCTCTTCCGATCT",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "variable",
+          "length": 16,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_beads_oligo_dt",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "placeholder": "[CELL_BARCODE:16]",
+          "role": "10x cell barcode",
+          "segment_id": "seg_cell_barcode",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "variable",
+          "length": 12,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_beads_oligo_dt",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "placeholder": "[UMI:12]",
+          "role": "unique molecular identifier",
+          "segment_id": "seg_umi",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "length": 30,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_beads_oligo_dt",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "poly(dT) capture sequence",
+          "segment_id": "seg_polydt",
+          "sequence": "TTTTTTTTTTTTTTTTTTTTTTTTTTTTTT",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "variable",
+          "length": 2,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_beads_oligo_dt",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "VN anchor at the poly(A) junction",
+          "segment_id": "seg_anchor_vn",
+          "sequence": "VN",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "biological_insert",
+          "orientation": "5_to_3",
+          "placeholder": "[CDNA]",
+          "role": "cDNA insert (3' end of the transcript)",
+          "segment_id": "seg_cdna",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "length": 34,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_illumina_truseq_read_2_primer",
+              "orientation_to_source": "reverse_complement"
+            },
+            {
+              "oligo_id": "oligo_truseq_adapter",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "A-tail plus TruSeq Read 2 sequencing primer site",
+          "segment_id": "seg_truseq_read2",
+          "sequence": "AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "variable",
+          "length": 10,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_library_pcr_primer_2_pn_220103",
+              "orientation_to_source": "reverse_complement"
+            }
+          ],
+          "orientation": "5_to_3",
+          "placeholder": "[I7_INDEX:10]",
+          "role": "i7 sample index",
+          "segment_id": "seg_i7",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "length": 24,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_illumina_p7_adapter",
+              "orientation_to_source": "reverse_complement"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "Illumina P7 adapter",
+          "segment_id": "seg_p7",
+          "sequence": "ATCTCGTATGCCGTCTTCTGCTTG",
+          "support_status": "explicit"
+        }
+      ],
+      "strand": "top",
+      "support_status": "explicit"
+    }
+  ],
+  "protocol_id": "10x_chromium_3_gene_expression_v4",
+  "protocol_name": "10x Chromium 3' Gene Expression v4",
+  "protocol_scope": {
+    "applicable_variants": [
+      "GEM-X Single Cell 3' Gene Expression v4"
+    ],
+    "protocol_version": "v4"
+  }
+}

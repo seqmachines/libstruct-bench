@@ -1,0 +1,292 @@
+{
+  "oligos": [
+    {
+      "aliases": [
+        "Barcoded RT primer",
+        "CEL-Seq primer"
+      ],
+      "components": [
+        {
+          "length": 13,
+          "modifications": [],
+          "name": "5' leader",
+          "orientation": "5_to_3",
+          "role": "5' spacer preceding the T7 promoter",
+          "sequence": "CGATTGAGGCCGG",
+          "support_status": "explicit"
+        },
+        {
+          "length": 20,
+          "modifications": [],
+          "name": "T7 promoter",
+          "orientation": "5_to_3",
+          "role": "promoter for in vitro transcription",
+          "sequence": "TAATACGACTCACTATAGGG",
+          "support_status": "explicit"
+        },
+        {
+          "length": 26,
+          "modifications": [],
+          "name": "Illumina TruSeq Small RNA RA5 / Read 1 primer sequence",
+          "orientation": "5_to_3",
+          "role": "sequencing adapter and Read 1 primer binding site",
+          "sequence": "GTTCAGAGTTCTACAGTCCGACGATC",
+          "support_status": "explicit"
+        },
+        {
+          "length": 8,
+          "modifications": [],
+          "name": "cell barcode",
+          "orientation": "5_to_3",
+          "placeholder": "[CELL_BARCODE:8]",
+          "role": "cell barcode",
+          "support_status": "explicit"
+        },
+        {
+          "length": 24,
+          "modifications": [],
+          "name": "poly-dT",
+          "orientation": "5_to_3",
+          "role": "poly(A) capture",
+          "sequence": "TTTTTTTTTTTTTTTTTTTTTTTT",
+          "support_status": "explicit"
+        },
+        {
+          "length": 1,
+          "modifications": [],
+          "name": "anchor base V",
+          "orientation": "5_to_3",
+          "role": "anchoring base (A/C/G)",
+          "sequence": "V",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [],
+      "name": "Barcoded RT primer variant 1",
+      "oligo_id": "oligo_barcoded_rt_primer_variant_1",
+      "orientation": "5_to_3",
+      "role": "barcoded reverse-transcription primer carrying the T7 promoter and Illumina 5' adapter",
+      "sequence": "CGATTGAGGCCGGTAATACGACTCACTATAGGGGTTCAGAGTTCTACAGTCCGACGATC[CELL_BARCODE:8]TTTTTTTTTTTTTTTTTTTTTTTTV",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Illumina P5 adapter",
+      "oligo_id": "oligo_illumina_p5_adapter",
+      "orientation": "5_to_3",
+      "role": "flow-cell adapter",
+      "sequence": "AATGATACGGCGACCACCGAGATCTACAC",
+      "support_status": "externally_completed"
+    },
+    {
+      "aliases": [],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Illumina P7 adapter",
+      "oligo_id": "oligo_illumina_p7_adapter",
+      "orientation": "5_to_3",
+      "role": "flow-cell adapter",
+      "sequence": "CAAGCAGAAGACGGCATACGAGAT",
+      "support_status": "externally_completed"
+    },
+    {
+      "aliases": [
+        "Illumina RA3 adapter (Truseq Small RNA kit)",
+        "3' adapter (RA3)"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Illumina RA3 adapter (TruSeq Small RNA kit)",
+      "oligo_id": "oligo_illumina_ra3_adapter_truseq_small_rna_kit",
+      "orientation": "5_to_3",
+      "role": "3' RNA adapter ligated to fragmented aRNA",
+      "sequence": "TGGAATTCTCGGGTGCCAAGG",
+      "support_status": "externally_completed"
+    },
+    {
+      "aliases": [
+        "Illumina RA5 adapter (Truseq Small RNA kit)"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Illumina RA5 adapter (TruSeq Small RNA kit)",
+      "oligo_id": "oligo_illumina_ra5_adapter_truseq_small_rna_kit",
+      "orientation": "5_to_3",
+      "role": "5' RNA adapter sequence (present in the barcoded RT primer as DNA)",
+      "sequence": "GUUCAGAGUUCUACAGUCCGACGAUC",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "Illumina RP1 primer (Truseq Small RNA kit)",
+        "RNA PCR Primer (RP1)"
+      ],
+      "components": [
+        {
+          "length": 29,
+          "modifications": [],
+          "name": "Illumina P5 adapter",
+          "orientation": "5_to_3",
+          "role": "flow-cell adapter",
+          "sequence": "AATGATACGGCGACCACCGAGATCTACAC",
+          "support_status": "explicit"
+        },
+        {
+          "length": 21,
+          "modifications": [],
+          "name": "RA5 partial sequence",
+          "orientation": "5_to_3",
+          "role": "annealing region complementary to the RA5 region of the cDNA",
+          "sequence": "GTTCAGAGTTCTACAGTCCGA",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [],
+      "name": "Illumina RP1 primer (TruSeq Small RNA kit)",
+      "oligo_id": "oligo_illumina_rp1_primer_truseq_small_rna_kit",
+      "orientation": "5_to_3",
+      "role": "library PCR primer adding P5",
+      "sequence": "AATGATACGGCGACCACCGAGATCTACACGTTCAGAGTTCTACAGTCCGA",
+      "support_status": "externally_completed"
+    },
+    {
+      "aliases": [
+        "Illumina RPI[1-48] primers (Truseq Small RNA kit)",
+        "RNA PCR Primer Index (RPIX)"
+      ],
+      "components": [
+        {
+          "length": 24,
+          "modifications": [],
+          "name": "Illumina P7 adapter",
+          "orientation": "5_to_3",
+          "role": "flow-cell adapter",
+          "sequence": "CAAGCAGAAGACGGCATACGAGAT",
+          "support_status": "explicit"
+        },
+        {
+          "length": 6,
+          "modifications": [],
+          "name": "sample index (RPI 1-48)",
+          "orientation": "5_to_3",
+          "placeholder": "[SAMPLE_INDEX:6]",
+          "role": "sample/library index",
+          "support_status": "explicit"
+        },
+        {
+          "length": 33,
+          "modifications": [],
+          "name": "Illumina TruSeq Small RNA Read 2 primer sequence",
+          "orientation": "5_to_3",
+          "role": "linker plus annealing region complementary to the RA3 adapter",
+          "sequence": "GTGACTGGAGTTCCTTGGCACCCGAGAATTCCA",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [],
+      "name": "Illumina RPI primers",
+      "oligo_id": "oligo_illumina_rpi_primers",
+      "orientation": "5_to_3",
+      "role": "indexed library PCR primer adding P7 and the sample index",
+      "sequence": "CAAGCAGAAGACGGCATACGAGAT[SAMPLE_INDEX:6]GTGACTGGAGTTCCTTGGCACCCGAGAATTCCA",
+      "support_status": "externally_completed"
+    },
+    {
+      "aliases": [
+        "Illumina RTP primer (Truseq Small RNA kit)",
+        "RNA RT Primer (RTP)"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Illumina RTP primer (TruSeq Small RNA kit)",
+      "oligo_id": "oligo_illumina_rtp_primer_truseq_small_rna_kit",
+      "orientation": "5_to_3",
+      "role": "reverse-transcription primer annealing to the ligated RA3 adapter",
+      "sequence": "GCCTTGGCACCCGAGAATTCCA",
+      "support_status": "externally_completed"
+    },
+    {
+      "aliases": [
+        "Read 1 sequencing primer"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Illumina TruSeq Small RNA Read 1 primer",
+      "oligo_id": "oligo_illumina_truseq_small_rna_read_1_primer",
+      "orientation": "5_to_3",
+      "role": "sequencing primer for read 1 (cell barcode and poly-dT)",
+      "sequence": "GTTCAGAGTTCTACAGTCCGACGATC",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "Read 2 sequencing primer"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Illumina TruSeq Small RNA Read 2 primer",
+      "oligo_id": "oligo_illumina_truseq_small_rna_read_2_primer",
+      "orientation": "5_to_3",
+      "role": "sequencing primer for read 2 (cDNA)",
+      "sequence": "GTGACTGGAGTTCCTTGGCACCCGAGAATTCCA",
+      "support_status": "externally_completed"
+    },
+    {
+      "aliases": [],
+      "components": [
+        {
+          "length": 21,
+          "modifications": [],
+          "name": "Illumina RA3 adapter (TruSeq Small RNA kit)",
+          "orientation": "5_to_3",
+          "role": "adapter-derived annealing region",
+          "sequence": "TGGAATTCTCGGGTGCCAAGG",
+          "support_status": "explicit"
+        },
+        {
+          "length": 12,
+          "modifications": [],
+          "name": "index-primer linker",
+          "orientation": "5_to_3",
+          "role": "linker preceding the sample index",
+          "sequence": "AACTCCAGTCAC",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [],
+      "name": "Index read primer",
+      "oligo_id": "oligo_index_read_primer",
+      "orientation": "5_to_3",
+      "role": "sequencing primer for the sample index read",
+      "sequence": "TGGAATTCTCGGGTGCCAAGGAACTCCAGTCAC",
+      "support_status": "externally_completed"
+    },
+    {
+      "aliases": [],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "T7 promoter",
+      "oligo_id": "oligo_t7_promoter",
+      "orientation": "5_to_3",
+      "role": "promoter sequence element",
+      "sequence": "TAATACGACTCACTATAGGG",
+      "support_status": "explicit"
+    }
+  ],
+  "protocol_id": "cel_seq",
+  "protocol_name": "CEL-seq"
+}

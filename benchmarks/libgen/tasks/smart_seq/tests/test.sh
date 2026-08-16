@@ -8,6 +8,7 @@ python /tests/grade.py \
   --groundtruth-repo "sequencing/scg-oligo-groundtruth-v1" \
   --groundtruth-revision "5a81714daaa87d568a0c5b62320679d34219ebf7" \
   --groundtruth-prefix "smart_seq" \
+  --groundtruth-dir /tests/groundtruth \
   --t1-sha256 "0ad148063002361dc5b70f6d040a6aeeaabb142cf1c82840bafab987e71c8ac2" \
   --t2-sha256 "8d683470d5d6a2fbb2de30e56047a3200efad2b44ba7729f28afde15586f0113" \
   --t3-sha256 "e2b1c9a99a44f101a2dd9041831d2e2ce90e6ab30ef959d9e71632df6429871a" \

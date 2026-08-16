@@ -1,0 +1,208 @@
+{
+  "libraries": [
+    {
+      "final_molecule": "double-stranded Illumina sequencing library (3'-end digital expression library)",
+      "library_sequence": "AATGATACGGCGACCACCGAGATCTACACGCCTGTCCGCGGAAGCAGTGGTATCAACGCAGAGTACGT[CELL_BARCODE:12][UMI:8]TTTTTTTTTTTTTTTTTTTTTTTTTTTTTT[CDNA]CTGTCTCTTATACACATCTCCGAGCCCACGAGAC[I7_INDEX:8]ATCTCGTATGCCGTCTTCTGCTTG",
+      "modality": "gene expression",
+      "orientation": "5_to_3",
+      "segments": [
+        {
+          "kind": "constant",
+          "length": 29,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_illumina_p5_adapter",
+              "orientation_to_source": "same_orientation"
+            },
+            {
+              "oligo_id": "oligo_p5_smart_pcr_hybrid_oligo",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "Illumina P5 adapter",
+          "segment_id": "seg_p5",
+          "sequence": "AATGATACGGCGACCACCGAGATCTACAC",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "length": 12,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_p5_smart_pcr_hybrid_oligo",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "P5-TSO hybrid spacer / custom Read 1 primer 5' region",
+          "segment_id": "seg_p5_tso_spacer",
+          "sequence": "GCCTGTCCGCGG",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "length": 23,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_ispcr_tso_pcr_primer",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "ISPCR/TSO PCR handle",
+          "segment_id": "seg_tso_handle",
+          "sequence": "AAGCAGTGGTATCAACGCAGAGT",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "length": 4,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_beads_oligo_dt_seqa",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "SeqA bead spacer (ACGT; SeqB beads carry AC)",
+          "segment_id": "seg_seqa_spacer",
+          "sequence": "ACGT",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "variable",
+          "length": 12,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_beads_oligo_dt_seqa",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "placeholder": "[CELL_BARCODE:12]",
+          "role": "cell barcode",
+          "segment_id": "seg_cell_barcode",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "variable",
+          "length": 8,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_beads_oligo_dt_seqa",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "placeholder": "[UMI:8]",
+          "role": "unique molecular identifier",
+          "segment_id": "seg_umi",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "length": 30,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_beads_oligo_dt_seqa",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "oligo-dT30 mRNA capture / RT priming sequence",
+          "segment_id": "seg_polyt",
+          "sequence": "TTTTTTTTTTTTTTTTTTTTTTTTTTTTTT",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "biological_insert",
+          "orientation": "5_to_3",
+          "placeholder": "[CDNA]",
+          "role": "cDNA of the captured transcript 3' end",
+          "segment_id": "seg_cdna",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "length": 19,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_nextera_tn5_binding_site_19_bp_mosaic_end_me",
+              "orientation_to_source": "reverse_complement"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "Nextera mosaic end (reverse complement on this strand)",
+          "segment_id": "seg_me_rc",
+          "sequence": "CTGTCTCTTATACACATCT",
+          "support_status": "externally_completed"
+        },
+        {
+          "kind": "constant",
+          "length": 15,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_nextera_n7xx_primer_entry_point_s7",
+              "orientation_to_source": "reverse_complement"
+            },
+            {
+              "oligo_id": "oligo_nextera_xt_n7xx_index_primer",
+              "orientation_to_source": "reverse_complement"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "Nextera N7xx primer entry point s7 (reverse complement on this strand)",
+          "segment_id": "seg_s7_rc",
+          "sequence": "CCGAGCCCACGAGAC",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "variable",
+          "length": 8,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_nextera_xt_n7xx_index_primer",
+              "orientation_to_source": "reverse_complement"
+            }
+          ],
+          "orientation": "5_to_3",
+          "placeholder": "[I7_INDEX:8]",
+          "role": "i7 sample index",
+          "segment_id": "seg_i7_index",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "length": 24,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_illumina_p7_adapter",
+              "orientation_to_source": "reverse_complement"
+            },
+            {
+              "oligo_id": "oligo_nextera_xt_n7xx_index_primer",
+              "orientation_to_source": "reverse_complement"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "Illumina P7 adapter (reverse complement on this strand)",
+          "segment_id": "seg_p7_rc",
+          "sequence": "ATCTCGTATGCCGTCTTCTGCTTG",
+          "support_status": "explicit"
+        }
+      ],
+      "strand": "top",
+      "support_status": "derivable"
+    }
+  ],
+  "protocol_id": "drop_seq",
+  "protocol_name": "Drop-seq",
+  "protocol_scope": {
+    "applicable_variants": [
+      "Barcoded Bead SeqA",
+      "Barcoded Bead SeqB"
+    ],
+    "protocol_version": "Drop-seq laboratory protocol v1.1 (2015-08-06) / Macosko et al. Cell 2015"
+  }
+}

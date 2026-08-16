@@ -12,8 +12,20 @@ from typing import Any
 from libstruct_bench.libgen.telemetry import trial_telemetry
 
 
+RAW_PUBLIC_METRICS = (
+    "reward",
+    "t2_required_family_f1",
+    "t2_exact_required_family_recall",
+    "t3_molecular_transition_f1",
+    "t3_state_f1",
+    "t3_typed_edge_f1",
+)
+PRIMARY_METRIC_FIELDS = tuple(f"primary_{metric}" for metric in RAW_PUBLIC_METRICS)
+VALID_OUTPUT_METRIC_FIELDS = tuple(
+    f"valid_output_{metric}" for metric in RAW_PUBLIC_METRICS
+)
 PLOT_COST_METRIC = "normalized_api_cost_usd"
-PLOT_PERFORMANCE_METRIC = "t3_molecular_transition_f1"
+PLOT_PERFORMANCE_METRIC = "primary_t3_molecular_transition_f1"
 PLOT_RUNTIME_METRIC = "agent_duration_seconds"
 
 
@@ -261,9 +273,9 @@ def _annotate_primary_attempts(
 
     for row in rows:
         row["is_primary_execution"] = False
-        row["primary_reward"] = None
         row["primary_score_reason"] = None
-        row["valid_output_reward"] = None
+        for field in PRIMARY_METRIC_FIELDS + VALID_OUTPUT_METRIC_FIELDS:
+            row[field] = None
 
     lineages: dict[tuple[str, str, str], list[dict[str, Any]]] = defaultdict(list)
     for row in rows:
@@ -290,12 +302,22 @@ def _annotate_primary_attempts(
         selected["primary_reward"], selected["primary_score_reason"] = _primary_reward(
             selected
         )
-        if (
+        primary_is_valid = selected["primary_score_reason"] == "valid_prediction"
+        valid_output = (
             selected.get("prediction_valid") is True
             and selected.get("verifier_completed") is True
-            and _has_number(selected, "reward")
-        ):
-            selected["valid_output_reward"] = float(selected["reward"])
+        )
+        for raw_metric in RAW_PUBLIC_METRICS:
+            primary_field = f"primary_{raw_metric}"
+            valid_output_field = f"valid_output_{raw_metric}"
+            if raw_metric != "reward":
+                selected[primary_field] = (
+                    float(selected[raw_metric])
+                    if primary_is_valid and _has_number(selected, raw_metric)
+                    else 0.0
+                )
+            if valid_output and _has_number(selected, raw_metric):
+                selected[valid_output_field] = float(selected[raw_metric])
         selected_by_protocol[
             (selected["model"], selected["harness"], selected["protocol_id"])
         ].append(selected)
@@ -341,13 +363,13 @@ def _annotate_primary_attempts(
                         "attempt": attempt,
                         "is_primary_execution": True,
                         "is_scheduled_missing": True,
-                        "primary_reward": 0.0,
                         "primary_score_reason": "scheduled_attempt_missing",
-                        "valid_output_reward": None,
                         "valid_completion": False,
                         "verifier_completed": False,
                         "prediction_valid": None,
                         "exception_type": None,
+                        **{field: 0.0 for field in PRIMARY_METRIC_FIELDS},
+                        **{field: None for field in VALID_OUTPUT_METRIC_FIELDS},
                     }
                 )
     return primary_attempts
@@ -389,6 +411,7 @@ def _summary(
     model_means = _group_means(core, "model", "primary_reward")
     harness_means = _group_means(core, "harness", "primary_reward")
     cell_means = _cell_means(core, "primary_reward")
+    primary_metric_means = _metric_means(core, PRIMARY_METRIC_FIELDS)
     interactions = {}
     if grand is not None:
         for key, value in cell_means.items():
@@ -434,7 +457,7 @@ def _summary(
                 "complete_row_count": sum(
                     _has_number(row, PLOT_COST_METRIC)
                     and _has_number(row, PLOT_PERFORMANCE_METRIC)
-                    for row in current
+                    for row in primary_attempts
                 ),
             },
             "runtime_vs_valid_completion": {
@@ -452,6 +475,7 @@ def _summary(
             "model_mean_reward": model_means,
             "harness_mean_reward": harness_means,
             "cell_mean_reward": cell_means,
+            "primary_metric_means": primary_metric_means,
             "additive_interaction_residual": interactions,
             "note": (
                 "Primary model and harness effects use every scheduled attempt in "
@@ -472,9 +496,15 @@ def _summary(
                 else None
             ),
             "cell_mean_reward": _cell_means(valid_output_rows, "valid_output_reward"),
+            "metric_means": _metric_means(
+                valid_output_rows, VALID_OUTPUT_METRIC_FIELDS
+            ),
         },
         "native_pairings": {
             "cell_mean_reward": _cell_means(native_pairings, "primary_reward"),
+            "primary_metric_means": _metric_means(
+                native_pairings, PRIMARY_METRIC_FIELDS
+            ),
             "note": (
                 "Native pairings are descriptive. The Kimi K3 + Kimi Code cell "
                 "also belongs to the balanced core and is executed only once."
@@ -482,6 +512,9 @@ def _summary(
         },
         "native_extensions": {
             "cell_mean_reward": _cell_means(native_extensions, "primary_reward"),
+            "primary_metric_means": _metric_means(
+                native_extensions, PRIMARY_METRIC_FIELDS
+            ),
             "note": (
                 "Compatibility view containing only native-only extension cells; "
                 "use native_pairings for the complete descriptive analysis."
@@ -594,6 +627,28 @@ def _cell_means(rows: list[dict[str, Any]], metric: str) -> dict[str, float]:
     for row in rows:
         groups[f"{row['model']}__{row['harness']}"].append(float(row[metric]))
     return {name: mean(values) for name, values in sorted(groups.items())}
+
+
+def _metric_means(
+    rows: list[dict[str, Any]], metrics: tuple[str, ...]
+) -> dict[str, Any]:
+    """Summarize each available metric without imputing diagnostic-only fields."""
+
+    result: dict[str, Any] = {
+        "grand": {},
+        "model": {},
+        "harness": {},
+        "cell": {},
+    }
+    for metric in metrics:
+        metric_rows = [row for row in rows if _has_number(row, metric)]
+        result["grand"][metric] = (
+            mean(float(row[metric]) for row in metric_rows) if metric_rows else None
+        )
+        result["model"][metric] = _group_means(metric_rows, "model", metric)
+        result["harness"][metric] = _group_means(metric_rows, "harness", metric)
+        result["cell"][metric] = _cell_means(metric_rows, metric)
+    return result
 
 
 def _write_csv(path: Path, rows: list[dict[str, Any]]) -> None:

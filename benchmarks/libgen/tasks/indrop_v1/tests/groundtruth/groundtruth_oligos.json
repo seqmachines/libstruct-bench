@@ -1,0 +1,506 @@
+{
+  "oligos": [
+    {
+      "aliases": [],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "2nd RT primer",
+      "oligo_id": "oligo_2nd_rt_primer",
+      "orientation": "5_to_3",
+      "role": "reverse transcription primer for the ligated aRNA",
+      "sequence": "GTCTCGGCATTCCTGCTGAAC",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [],
+      "components": [
+        {
+          "modifications": [
+            "/5Acryd/ 5' acrydite",
+            "/iSpPC/ photocleavable spacer"
+          ],
+          "name": "5' linker",
+          "orientation": "5_to_3",
+          "role": "linker",
+          "sequence": "CGATGACG",
+          "support_status": "explicit"
+        },
+        {
+          "modifications": [],
+          "name": "T7 promoter",
+          "orientation": "5_to_3",
+          "role": "promoter",
+          "sequence": "TAATACGACTCACTATAGGG",
+          "support_status": "explicit"
+        },
+        {
+          "modifications": [],
+          "name": "synthesis adaptor",
+          "orientation": "5_to_3",
+          "role": "spacer",
+          "sequence": "ATACCACCATGG",
+          "support_status": "explicit"
+        },
+        {
+          "modifications": [],
+          "name": "PE1 sequencing primer site",
+          "orientation": "5_to_3",
+          "role": "sequencing primer site",
+          "sequence": "CTCTTTCCCTACACGACGCTCTTC",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [
+        "/5Acryd/ 5' acrydite",
+        "/iSpPC/ internal photocleavable spacer"
+      ],
+      "name": "Acrydite-modified primer",
+      "oligo_id": "oligo_acrydite_modified_primer",
+      "orientation": "5_to_3",
+      "role": "hydrogel-incorporated common primer",
+      "sequence": "/5Acryd/iSpPC/CGATGACGTAATACGACTCACTATAGGGATACCACCATGGCTCTTTCCCTACACGACGCTCTTC",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "BA19 oligo",
+      "oligo_id": "oligo_ba19_oligo",
+      "orientation": "5_to_3",
+      "role": "poly(A) block of the barcode 2 primer",
+      "sequence": "BAAAAAAAAAAAAAAAAAAA",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [],
+      "components": [
+        {
+          "modifications": [],
+          "name": "W1 sequence",
+          "orientation": "5_to_3",
+          "role": "adaptor",
+          "sequence": "GAGTGATTGCTTGTGACGCCTT",
+          "support_status": "explicit"
+        },
+        {
+          "modifications": [],
+          "name": "barcode 1",
+          "orientation": "5_to_3",
+          "placeholder": "[CELL_BARCODE1:10]",
+          "role": "cell barcode",
+          "support_status": "ambiguous"
+        },
+        {
+          "modifications": [],
+          "name": "PE1 complement",
+          "orientation": "5_to_3",
+          "role": "primer-binding site",
+          "sequence": "AGATCGGAAGAGCGTCGTGTAGGGAAAGAG",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [],
+      "name": "Barcode 1 plates (384 of them in 384 individual wells)",
+      "oligo_id": "oligo_barcode_1_plates_384_of_them_in_384_individual_wells",
+      "orientation": "5_to_3",
+      "role": "split-pool round 1 barcoding template",
+      "sequence": "GAGTGATTGCTTGTGACGCCTT[CELL_BARCODE1:10]AGATCGGAAGAGCGTCGTGTAGGGAAAGAG",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [],
+      "components": [
+        {
+          "modifications": [],
+          "name": "BA19 oligo",
+          "orientation": "5_to_3",
+          "role": "poly(A) block",
+          "sequence": "BAAAAAAAAAAAAAAAAAAA",
+          "support_status": "explicit"
+        },
+        {
+          "length": 6,
+          "modifications": [],
+          "name": "UMI",
+          "orientation": "5_to_3",
+          "placeholder": "[UMI:6]",
+          "role": "unique molecular identifier",
+          "support_status": "explicit"
+        },
+        {
+          "length": 8,
+          "modifications": [],
+          "name": "barcode 2",
+          "orientation": "5_to_3",
+          "placeholder": "[CELL_BARCODE2:8]",
+          "role": "cell barcode",
+          "support_status": "explicit"
+        },
+        {
+          "modifications": [],
+          "name": "W1 sequence",
+          "orientation": "5_to_3",
+          "role": "adaptor",
+          "sequence": "GAGTGATTGCTTGTGACGCCTT",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [],
+      "name": "Barcode 2 plates (384 of them in 384 individual wells)",
+      "oligo_id": "oligo_barcode_2_plates_384_of_them_in_384_individual_wells",
+      "orientation": "5_to_3",
+      "role": "split-pool round 2 barcoding template",
+      "sequence": "BAAAAAAAAAAAAAAAAAAA[UMI:6][CELL_BARCODE2:8]GAGTGATTGCTTGTGACGCCTT",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [],
+      "components": [
+        {
+          "modifications": [
+            "/5Acryd/ 5' acrydite",
+            "/iSpPC/ photocleavable spacer"
+          ],
+          "name": "5' linker",
+          "orientation": "5_to_3",
+          "role": "linker",
+          "sequence": "CGATGACG",
+          "support_status": "explicit"
+        },
+        {
+          "modifications": [],
+          "name": "T7 promoter",
+          "orientation": "5_to_3",
+          "role": "promoter",
+          "sequence": "TAATACGACTCACTATAGGG",
+          "support_status": "explicit"
+        },
+        {
+          "modifications": [],
+          "name": "synthesis adaptor",
+          "orientation": "5_to_3",
+          "role": "spacer",
+          "sequence": "ATACCACCATGG",
+          "support_status": "explicit"
+        },
+        {
+          "modifications": [],
+          "name": "PE1 sequencing primer site",
+          "orientation": "5_to_3",
+          "role": "sequencing primer site",
+          "sequence": "CTCTTTCCCTACACGACGCTCTTC",
+          "support_status": "explicit"
+        },
+        {
+          "modifications": [],
+          "name": "CGATCT",
+          "orientation": "5_to_3",
+          "role": "linker",
+          "sequence": "CGATCT",
+          "support_status": "explicit"
+        },
+        {
+          "modifications": [],
+          "name": "barcode 1",
+          "orientation": "5_to_3",
+          "placeholder": "[CELL_BARCODE1:10]",
+          "role": "cell barcode",
+          "support_status": "ambiguous"
+        },
+        {
+          "modifications": [],
+          "name": "W1 site",
+          "orientation": "5_to_3",
+          "role": "adaptor",
+          "sequence": "AAGGCGTCACAAGCAATCACTC",
+          "support_status": "explicit"
+        },
+        {
+          "length": 8,
+          "modifications": [],
+          "name": "barcode 2",
+          "orientation": "5_to_3",
+          "placeholder": "[CELL_BARCODE2:8]",
+          "role": "cell barcode",
+          "support_status": "explicit"
+        },
+        {
+          "length": 6,
+          "modifications": [],
+          "name": "UMI",
+          "orientation": "5_to_3",
+          "placeholder": "[UMI:6]",
+          "role": "unique molecular identifier",
+          "support_status": "explicit"
+        },
+        {
+          "modifications": [],
+          "name": "poly-dT capture region with V anchor",
+          "orientation": "5_to_3",
+          "role": "mRNA capture",
+          "sequence": "TTTTTTTTTTTTTTTTTTTV",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [
+        "/5Acryd/ 5' acrydite",
+        "/iSpPC/ internal photocleavable spacer"
+      ],
+      "name": "Beads-oligo-dT19V",
+      "oligo_id": "oligo_beads_oligo_dt19v",
+      "orientation": "5_to_3",
+      "role": "bead-bound barcoded mRNA capture primer",
+      "sequence": "/5Acryd/iSpPC/CGATGACGTAATACGACTCACTATAGGGATACCACCATGGCTCTTTCCCTACACGACGCTCTTCCGATCT[CELL_BARCODE1:10]AAGGCGTCACAAGCAATCACTC[CELL_BARCODE2:8][UMI:6]TTTTTTTTTTTTTTTTTTTV",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "FAM-BA19 probe",
+        "dA20-FAM"
+      ],
+      "components": [],
+      "kind": "assembled",
+      "modifications": [
+        "/6-FAM/ 5' fluorescein"
+      ],
+      "name": "FAM-A20",
+      "oligo_id": "oligo_fam_ba19_probe",
+      "orientation": "5_to_3",
+      "role": "QC hybridization probe for the poly-dT region",
+      "sequence": "/56-FAM/AAAAAAAAAAAAAAAAAAAA",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [],
+      "components": [],
+      "kind": "single",
+      "modifications": [
+        "/6-FAM/ 5' fluorescein"
+      ],
+      "name": "FAM-PE1 probe",
+      "oligo_id": "oligo_fam_pe1_probe",
+      "orientation": "5_to_3",
+      "role": "QC hybridization probe for the PE1 stub",
+      "sequence": "/6-FAM/AGATCGGAAGAGCGTCGTGTAGGGAAAGAG",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [],
+      "components": [
+        {
+          "modifications": [],
+          "name": "W1 sequence",
+          "orientation": "5_to_3",
+          "role": "adaptor",
+          "sequence": "GAGTGATTGCTTGTGACGCCTT",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [
+        "/6-FAM/ 5' fluorescein"
+      ],
+      "name": "FAM-W1 probe",
+      "oligo_id": "oligo_fam_w1_probe",
+      "orientation": "5_to_3",
+      "role": "QC hybridization probe for the W1 site",
+      "sequence": "/6-FAM/GAGTGATTGCTTGTGACGCCTT",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Illumina P5 adapter",
+      "oligo_id": "oligo_illumina_p5_adapter",
+      "orientation": "5_to_3",
+      "role": "flow-cell adapter",
+      "sequence": "AATGATACGGCGACCACCGAGATCTACAC",
+      "support_status": "derivable"
+    },
+    {
+      "aliases": [],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Illumina P7 adapter",
+      "oligo_id": "oligo_illumina_p7_adapter",
+      "orientation": "5_to_3",
+      "role": "flow-cell adapter",
+      "sequence": "CAAGCAGAAGACGGCATACGAGAT",
+      "support_status": "derivable"
+    },
+    {
+      "aliases": [],
+      "components": [
+        {
+          "modifications": [],
+          "name": "Illumina P5 adapter",
+          "orientation": "5_to_3",
+          "role": "adapter",
+          "sequence": "AATGATACGGCGACCACCGAGATCTACAC",
+          "support_status": "explicit"
+        },
+        {
+          "modifications": [],
+          "name": "PE1 partial",
+          "orientation": "5_to_3",
+          "role": "primer-binding site",
+          "sequence": "TCTTTCCCTACACGA",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [],
+      "name": "PCR enrichment Primer 1",
+      "oligo_id": "oligo_pcr_enrichment_primer_1",
+      "orientation": "5_to_3",
+      "role": "library enrichment PCR primer (P5 side)",
+      "sequence": "AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGA",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [],
+      "components": [
+        {
+          "modifications": [],
+          "name": "Illumina P7 adapter",
+          "orientation": "5_to_3",
+          "role": "adapter",
+          "sequence": "CAAGCAGAAGACGGCATACGAGAT",
+          "support_status": "explicit"
+        },
+        {
+          "modifications": [],
+          "name": "CG linker",
+          "orientation": "5_to_3",
+          "role": "linker",
+          "sequence": "CG",
+          "support_status": "explicit"
+        },
+        {
+          "modifications": [],
+          "name": "2nd RT primer",
+          "orientation": "5_to_3",
+          "role": "primer",
+          "sequence": "GTCTCGGCATTCCTGCTGAAC",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [],
+      "name": "PCR enrichment primer 2",
+      "oligo_id": "oligo_pcr_enrichment_primer_2",
+      "orientation": "5_to_3",
+      "role": "library enrichment PCR primer (P7 side)",
+      "sequence": "CAAGCAGAAGACGGCATACGAGATCGGTCTCGGCATTCCTGCTGAAC",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [],
+      "components": [
+        {
+          "modifications": [],
+          "name": "CG linker",
+          "orientation": "5_to_3",
+          "role": "linker",
+          "sequence": "CG",
+          "support_status": "explicit"
+        },
+        {
+          "modifications": [],
+          "name": "2nd RT primer",
+          "orientation": "5_to_3",
+          "role": "primer",
+          "sequence": "GTCTCGGCATTCCTGCTGAAC",
+          "support_status": "explicit"
+        },
+        {
+          "modifications": [],
+          "name": "RLO complement",
+          "orientation": "5_to_3",
+          "role": "primer-binding site",
+          "sequence": "CGCTCTTCCGATCT",
+          "support_status": "derivable"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [],
+      "name": "Read 2 sequencing primer",
+      "oligo_id": "oligo_read_2_sequencing_primer",
+      "orientation": "5_to_3",
+      "role": "sequencing primer (cDNA read)",
+      "sequence": "CGGTCTCGGCATTCCTGCTGAACCGCTCTTCCGATCT",
+      "support_status": "ambiguous"
+    },
+    {
+      "aliases": [],
+      "components": [],
+      "kind": "single",
+      "modifications": [
+        "/5Phos/ 5' phosphate",
+        "/3SpC3/ 3' C3 spacer block"
+      ],
+      "name": "RNA Ligation Oligo (RLO)",
+      "oligo_id": "oligo_rna_ligation_oligo_rlo",
+      "orientation": "5_to_3",
+      "role": "3'-blocked adapter ligated to fragmented aRNA",
+      "sequence": "/5Phos/AGATCGGAAGAGCGGTTCAGCAGGAATGCC/3SpC3/",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "T7 promoter",
+      "oligo_id": "oligo_t7_promoter",
+      "orientation": "5_to_3",
+      "role": "promoter",
+      "sequence": "TAATACGACTCACTATAGGG",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "Read 1 sequencing primer"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "TruSeq Read 1 sequencing primer partial",
+      "oligo_id": "oligo_truseq_read_1_sequencing_primer_partial",
+      "orientation": "5_to_3",
+      "role": "sequencing primer (cell barcode and UMI read)",
+      "sequence": "TCTTTCCCTACACGACGCTCTTCCGATCT",
+      "support_status": "derivable"
+    },
+    {
+      "aliases": [],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "W1 sequence",
+      "oligo_id": "oligo_w1_sequence",
+      "orientation": "5_to_3",
+      "role": "split-pool synthesis adaptor",
+      "sequence": "GAGTGATTGCTTGTGACGCCTT",
+      "support_status": "explicit"
+    }
+  ],
+  "protocol_id": "indrop_v1",
+  "protocol_name": "inDrop v1",
+  "protocol_scope": {
+    "applicable_variants": [
+      "inDrop v1"
+    ],
+    "protocol_version": "v1"
+  }
+}

@@ -1,0 +1,222 @@
+{
+  "libraries": [
+    {
+      "final_molecule": "Double-stranded Illumina P5/P7 flow-cell-compatible sci-ATAC-seq library",
+      "library_sequence": "AATGATACGGCGACCACCGAGATCTACAC[I5_INDEX:10]TCGTCGGCAGCGTCTCCACGC[TN5_INDEX:8]GCGATCGAGGACGGCAGATGTGTATAAGAGACAG[GDNA]CTGTCTCTTATACACATCTGAGGCGGAGACGGTG[TN5_INDEX:8]GGACAGGGACAGCCGAGCCCACGAGAC[I7_INDEX:10]ATCTCGTATGCCGTCTTCTGCTTG",
+      "modality": "chromatin accessibility",
+      "orientation": "5_to_3",
+      "segments": [
+        {
+          "kind": "constant",
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_p5_index_primer",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "Illumina P5 flow-cell adapter",
+          "segment_id": "seg_p5",
+          "sequence": "AATGATACGGCGACCACCGAGATCTACAC",
+          "support_status": "externally_completed"
+        },
+        {
+          "kind": "variable",
+          "length": 10,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_p5_index_primer",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "placeholder": "[I5_INDEX:10]",
+          "role": "i5 library index",
+          "segment_id": "seg_i5_index",
+          "support_status": "ambiguous"
+        },
+        {
+          "kind": "constant",
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_p5_index_primer_entry_point_s5",
+              "orientation_to_source": "same_orientation"
+            },
+            {
+              "oligo_id": "oligo_barcoded_tn5_sequence_s5",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "s5 P5-index-primer entry point",
+          "segment_id": "seg_s5",
+          "sequence": "TCGTCGGCAGCGTCTCCACGC",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "variable",
+          "length": 8,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_barcoded_tn5_sequence_s5",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "placeholder": "[TN5_INDEX:8]",
+          "role": "Tn5 transposome barcode (s5 end)",
+          "segment_id": "seg_tn5_barcode_s5",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_barcoded_tn5_sequence_s5",
+              "orientation_to_source": "same_orientation"
+            },
+            {
+              "oligo_id": "oligo_atac_read_1_2_sequencing_primer",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "universal connector A (C15)",
+          "segment_id": "seg_connector_a",
+          "sequence": "GCGATCGAGGACGGC",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_barcoded_tn5_sequence_s5",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "Tn5 mosaic end (ME)",
+          "segment_id": "seg_me_left",
+          "sequence": "AGATGTGTATAAGAGACAG",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "biological_insert",
+          "orientation": "5_to_3",
+          "placeholder": "[GDNA]",
+          "role": "tagmented genomic DNA insert",
+          "segment_id": "seg_gdna",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_tn5_binding_site_19_bp_mosaic_end_me_bottom",
+              "orientation_to_source": "same_orientation"
+            },
+            {
+              "oligo_id": "oligo_barcoded_tn5_sequence_s7",
+              "orientation_to_source": "reverse_complement"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "Tn5 mosaic end (ME), s7 end",
+          "segment_id": "seg_me_right",
+          "sequence": "CTGTCTCTTATACACATCT",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_barcoded_tn5_sequence_s7",
+              "orientation_to_source": "reverse_complement"
+            },
+            {
+              "oligo_id": "oligo_index_1_sequencing_primer_i7",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "universal connector B (D15), reverse complement",
+          "segment_id": "seg_connector_b_rc",
+          "sequence": "GAGGCGGAGACGGTG",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "variable",
+          "length": 8,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_barcoded_tn5_sequence_s7",
+              "orientation_to_source": "reverse_complement"
+            }
+          ],
+          "orientation": "5_to_3",
+          "placeholder": "[TN5_INDEX:8]",
+          "role": "Tn5 transposome barcode (s7 end)",
+          "segment_id": "seg_tn5_barcode_s7",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_p7_index_primer_entry_point_s7",
+              "orientation_to_source": "reverse_complement"
+            },
+            {
+              "oligo_id": "oligo_barcoded_tn5_sequence_s7",
+              "orientation_to_source": "reverse_complement"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "s7 P7-index-primer entry point, reverse complement",
+          "segment_id": "seg_s7_rc",
+          "sequence": "GGACAGGGACAGCCGAGCCCACGAGAC",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "variable",
+          "length": 10,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_p7_index_primer",
+              "orientation_to_source": "reverse_complement"
+            }
+          ],
+          "orientation": "5_to_3",
+          "placeholder": "[I7_INDEX:10]",
+          "role": "i7 library index",
+          "segment_id": "seg_i7_index",
+          "support_status": "ambiguous"
+        },
+        {
+          "kind": "constant",
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_p7_index_primer",
+              "orientation_to_source": "reverse_complement"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "Illumina P7 flow-cell adapter, reverse complement",
+          "segment_id": "seg_p7_rc",
+          "sequence": "ATCTCGTATGCCGTCTTCTGCTTG",
+          "support_status": "externally_completed"
+        }
+      ],
+      "strand": "top",
+      "support_status": "derivable"
+    }
+  ],
+  "protocol_id": "sci_atac_seq",
+  "protocol_name": "sci-ATAC-seq",
+  "protocol_scope": {
+    "applicable_variants": [
+      "sci-ATAC-seq"
+    ],
+    "protocol_version": "sci-ATAC-seq (Cusanovich et al. 2015)"
+  }
+}

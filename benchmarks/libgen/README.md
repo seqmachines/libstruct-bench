@@ -27,17 +27,37 @@ Use two different Hugging Face dataset repositories:
    T2, and T3 JSON.
 
 Both repositories are pinned by immutable commit hashes. The source image is
-built before the trial, so no HF token enters the agent environment. The
-private `HF_TOKEN` exists only in Harbor's separate verifier container.
+built before the trial, so no HF token enters the agent environment. When
+supplied, the private `HF_TOKEN` exists only in Harbor's separate verifier
+container; without it, the verifier uses its generation-time hash-checked
+local fallback.
 Every downloaded ground-truth file is also checked against the local approved
 file hash embedded when the task is generated.
 During agent execution private Docker places `main` on an internal-only network.
 An exact-host CONNECT proxy permits the pinned harness's setup downloads before
 the model starts; the first model-provider connection irreversibly switches the
 proxy to provider-only mode. General web access and direct external connections
-then fail. The frozen provider list includes Alibaba Qwen Code's international
-Coding Plan endpoint, `coding-intl.dashscope.aliyuncs.com`. No skills or MCP
-servers are attached.
+then fail. Generated Debian images rewrite APT repositories to HTTPS so Harbor's
+agent-install phase also traverses this proxy. Setup hosts include both
+`astral.sh` and its exact UV-installer redirect target, `releases.astral.sh`,
+plus the Antigravity CLI bootstrap and release-manifest hosts. The Antigravity
+release payload remains restricted to the existing `storage.googleapis.com`
+setup host.
+The frozen provider list includes Antigravity's authenticated Code Assist
+endpoint, `daily-cloudcode-pa.googleapis.com`, its runtime eligibility and
+feature-configuration hosts, `play.googleapis.com` and
+`antigravity-unleash.goog`, and the exact Google profile image host required by
+its eligibility check, `lh3.googleusercontent.com`; it also includes Alibaba
+Qwen Code's international Coding Plan endpoint,
+`coding-intl.dashscope.aliyuncs.com`. No skills or MCP servers are attached.
+
+The proxy keeps request parsing and upstream connection setup bounded at 30
+seconds, but permits 900 seconds of inactivity inside an established CONNECT
+tunnel so a long model prefill cannot be mistaken for a dead connection. Each
+Docker-profile trial collects `provider_egress.jsonl` from the proxy sidecar.
+Its structured events record allowed or denied targets, tunnel close reasons,
+lifetimes, and byte counts; they never contain tunneled request or response
+payloads.
 
 `protocols.json` contains the 58 approved source paths and SHA-256 hashes for
 the 20-protocol set. The task generator refuses missing or changed sources,
@@ -116,6 +136,11 @@ conservative trajectory evidence when available. It does not change any score.
 All files are written under `/logs/verifier/`. See
 [error-analysis.md](error-analysis.md) for the discrepancy-adjudication and
 trajectory-review procedure.
+
+Harbor persists the separate verifier directory automatically. Do not add
+`/logs/verifier/*` as job-level `--artifact` sources: job artifacts are
+collected from the agent service, where those verifier-only paths do not exist,
+and only produce misleading best-effort copy errors.
 
 To rescore preserved Harbor predictions after a benchmark-version change, use
 the versioned sidecar command:
@@ -216,8 +241,13 @@ PYTHONPATH=src python -m libstruct_bench.cli.generate_libgen_tasks \
   --out benchmarks/libgen/tasks
 ```
 
-Do not use a public-network fallback for benchmark runs. The verifier remains a
-separate container, and the private `HF_TOKEN` remains confined to it.
+Do not give the agent general public-network access for benchmark runs. The
+verifier remains a separate container, and the private `HF_TOKEN` remains
+confined to it. At scoring time the verifier reads the pinned Hugging Face
+ground truth first. Generated verifier images also contain the same
+generation-time hash-checked bundle as a private fallback, so transient DNS or
+provider availability cannot discard a completed prediction. Both paths are
+verified against the frozen per-file hashes before scoring.
 
 The generated environment includes Docling, PyMuPDF, pypdf, OpenPyXL, Pillow,
 `antiword`, `file`, `unzip`, and `rg`. Source bytes are downloaded and
@@ -227,9 +257,9 @@ one hour (`[agent].timeout_sec = 3600.0`) and the verifier ten minutes.
 The agent image contains only the prediction schemas and generic local
 prediction-validation runtime. It does not contain audit modules, ground-truth
 schemas, scoring, error analysis, or protocol-specific migration code. The
-separate verifier image vendors the full scorer and verifier package. Regenerate
-all checked-in tasks after changing shared verifier code; regression tests reject
-stale copies and agent-image leakage.
+separate verifier image vendors the full scorer, verifier package, and private
+ground-truth fallback. Regenerate all checked-in tasks after changing shared
+verifier code; regression tests reject stale copies and agent-image leakage.
 
 ## Lock and run the matrix
 
@@ -238,6 +268,31 @@ should use the same provider/backend for a given model across Kimi Code,
 mini-SWE-agent, and Pi. Native IDs may use their native provider endpoint.
 The exact required variable names are in `matrix.json`; the planner refuses any
 unset pin.
+
+The Codex, Claude Code, and Gemini CLI native cells use the host's existing
+subscription login, not API-key authentication. Harbor copies only the required
+credential into the ephemeral agent container and removes its temporary copy
+after the run. The generated plan contains selectors and environment-variable
+templates, never credential contents:
+
+```bash
+# Codex: creates ~/.codex/auth.json
+codex login
+
+# Claude Code: create a subscription OAuth token, then export the value it prints
+claude setup-token
+export CLAUDE_CODE_OAUTH_TOKEN='...'
+
+# Gemini CLI: start it once and choose "Login with Google"; this creates
+# ~/.gemini/oauth_creds.json
+gemini
+```
+
+The planner forces `CODEX_FORCE_AUTH_JSON=1`, `CLAUDE_FORCE_OAUTH=1`, and
+`GEMINI_FORCE_OAUTH=1` for those three cells, so adding API keys later for the
+balanced core cannot silently change native-cell authentication. `run.sh`
+checks the three local subscription credentials before starting any trials.
+Qwen Code remains an OpenAI-compatible provider-key cell.
 
 For the Qwen native-only cell, set
 `LIBGEN_NATIVE_MODEL_QWEN_3_8_MAX=qwen3.8-max` (or a provider-prefixed form if
@@ -267,9 +322,13 @@ PYTHONPATH=src python -m libstruct_bench.cli.smoke_libgen_docker_network \
   --out analysis/libgen/docker-network-smoke.json
 ```
 
-The probe must show successful unauthenticated TLS/HTTP access to the OpenAI and
-Alibaba model APIs, failure for `example.com`, and failure for a direct external
-socket. Bind the successful report into the experiment lock with
+The probe must show setup-phase HTTPS access to Debian, the redirected UV
+installer, and the Antigravity CLI bootstrap and release manifest; successful
+unauthenticated TLS/HTTP access to the API and native subscription endpoints
+for Codex, Claude Code, Gemini CLI/Antigravity, and Qwen Code;
+denial of the Debian setup host after the provider phase begins, failure for
+`example.com`, and failure for a direct external socket. Bind the successful
+report into the experiment lock with
 `--network-smoke-report analysis/libgen/docker-network-smoke.json`.
 
 Then run the single-protocol telemetry smoke test. It covers all 12 balanced
@@ -388,7 +447,8 @@ This produces:
 
 - `trials.csv`: one row per preserved execution, with primary-selection fields;
 - `primary_attempts.csv`: one row per scheduled attempt, including explicit
-  zero rows for missing attempts;
+  zero rows for missing attempts and scheduled-population `primary_*` versions
+  of reward and all five public component metrics;
 - `summary.json`: balanced-core effects, valid completion rate, and plot
   readiness;
 - `telemetry_audit.json`: missing fields by trial and model × harness cell;
@@ -400,8 +460,10 @@ valid, verified prediction into an invalid prediction. It also keeps total,
 agent, and verifier duration; standard and provider-specific token fields;
 retry/resume lineage; and usage/cost from timed-out executions.
 
-Use `normalized_api_cost_usd` versus `t3_molecular_transition_f1` for the
-API-equivalent cost/performance plot. Use `agent_duration_seconds` versus
+Use `normalized_api_cost_usd` versus
+`primary_t3_molecular_transition_f1` for the API-equivalent cost/performance
+plot, so invalid, incomplete, missing, and agent-timeout attempts contribute
+zero performance. Use `agent_duration_seconds` versus
 `valid_completion` (aggregated to a rate by cell) for the runtime/completion
 plot. `reported_cost_usd` is the amount surfaced by the Harbor adapter, while
 `reported_cost_kind` says whether that amount came from the provider CLI or was
@@ -410,6 +472,12 @@ first-party standard API rates. Its precision field distinguishes per-call
 normalization from aggregate-token fallbacks. Subscription fees, routing
 markups, tool-call charges, explicit-cache storage, taxes, and negotiated or
 nonstandard service tiers are outside that normalization.
+
+The corresponding raw metric columns remain unchanged for error analysis.
+`valid_output_*` columns and their separate summary are diagnostic-only and
+exclude attempts without a valid, verifier-completed prediction. A confirmed
+infrastructure replacement supplies all `primary_*` metrics from the same
+approved replacement execution selected for `primary_reward`.
 
 Primary balanced-core model means, harness means, and model×harness interaction
 residuals use all scheduled attempts. Valid predictions receive their normal

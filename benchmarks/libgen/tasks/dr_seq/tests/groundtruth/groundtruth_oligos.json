@@ -1,0 +1,145 @@
+{
+  "oligos": [
+    {
+      "aliases": [],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "2nd strand primer",
+      "oligo_id": "oligo_2nd_strand_primer",
+      "orientation": "5_to_3",
+      "role": "second-strand synthesis primer",
+      "sequence": "CGATTGAGGCCGGTAATAC",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [],
+      "components": [
+        {
+          "length": 13,
+          "modifications": [],
+          "name": "5' handle",
+          "orientation": "5_to_3",
+          "role": "second-strand primer binding handle",
+          "sequence": "CGATTGAGGCCGG",
+          "support_status": "explicit"
+        },
+        {
+          "length": 20,
+          "modifications": [],
+          "name": "T7 promoter",
+          "orientation": "5_to_3",
+          "role": "promoter",
+          "sequence": "TAATACGACTCACTATAGGG",
+          "support_status": "explicit"
+        },
+        {
+          "length": 26,
+          "modifications": [],
+          "name": "RA5 / 5' Illumina adapter",
+          "orientation": "5_to_3",
+          "role": "read 1 sequencing primer region",
+          "sequence": "GTTCAGAGTTCTACAGTCCGACGATC",
+          "support_status": "explicit"
+        },
+        {
+          "length": 8,
+          "modifications": [],
+          "name": "cell barcode",
+          "orientation": "5_to_3",
+          "placeholder": "[CELL_BARCODE:8]",
+          "role": "cell_barcode",
+          "support_status": "explicit"
+        },
+        {
+          "length": 25,
+          "modifications": [],
+          "name": "anchored poly-T",
+          "orientation": "5_to_3",
+          "role": "mRNA poly(A) capture",
+          "sequence": "TTTTTTTTTTTTTTTTTTTTTTTTV",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [],
+      "name": "Barcoded RT primer",
+      "oligo_id": "oligo_barcoded_rt_primer",
+      "orientation": "5_to_3",
+      "role": "barcoded poly-T reverse-transcription primer carrying a 5' Illumina adapter and a T7 promoter",
+      "sequence": "CGATTGAGGCCGGTAATACGACTCACTATAGGGGTTCAGAGTTCTACAGTCCGACGATC[CELL_BARCODE:8]TTTTTTTTTTTTTTTTTTTTTTTTV",
+      "support_status": "externally_completed"
+    },
+    {
+      "aliases": [],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "MALBAC PCR primer",
+      "oligo_id": "oligo_malbac_pcr_primer",
+      "orientation": "5_to_3",
+      "role": "PCR amplification primer for MALBAC amplicons",
+      "sequence": "GTGAGTGATGGTTGAGGTAGTGTGGAG",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [],
+      "components": [
+        {
+          "length": 27,
+          "modifications": [],
+          "name": "MALBAC common sequence",
+          "orientation": "5_to_3",
+          "role": "constant 5' amplification handle",
+          "sequence": "GTGAGTGATGGTTGAGGTAGTGTGGAG",
+          "support_status": "explicit"
+        },
+        {
+          "length": 8,
+          "modifications": [],
+          "name": "random octamer",
+          "orientation": "5_to_3",
+          "placeholder": "[RANDOM_PRIMER:8]",
+          "role": "random priming region",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [],
+      "name": "MALBAC random primers",
+      "oligo_id": "oligo_malbac_random_primers",
+      "orientation": "5_to_3",
+      "role": "quasilinear amplification random primer",
+      "sequence": "GTGAGTGATGGTTGAGGTAGTGTGGAGNNNNNKKK",
+      "support_status": "ambiguous"
+    },
+    {
+      "aliases": [],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "T7 promoter",
+      "oligo_id": "oligo_t7_promoter",
+      "orientation": "5_to_3",
+      "role": "promoter sequence (sub-sequence of the barcoded RT primer)",
+      "sequence": "TAATACGACTCACTATAGGG",
+      "support_status": "externally_completed"
+    },
+    {
+      "aliases": [],
+      "components": [],
+      "kind": "single",
+      "modifications": [
+        "5-prime biotin"
+      ],
+      "name": "P3 adaptor-removal primer",
+      "oligo_id": "oligo_p3_adaptor_removal_primer",
+      "orientation": "5_to_3",
+      "role": "biotinylated PCR primer used to tag and remove Ad-2 before Illumina library preparation",
+      "sequence": "GTGAGCTGGAGTTGAGGTAGTGTGGAG",
+      "support_status": "explicit"
+    }
+  ],
+  "protocol_id": "dr_seq",
+  "protocol_name": "DR-seq"
+}

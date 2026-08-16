@@ -1,0 +1,164 @@
+{
+  "libraries": [
+    {
+      "final_molecule": "Double-stranded, adapter-flanked, bisulfite-converted MspI genomic fragment library",
+      "library_sequence": "AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCTTGG[GDNA]TG[GDNA]CG[GDNA]TTGAGATCGGAAGAGCACACGTCTGAACTCCAGTCAC[SAMPLE_INDEX:6]ATCTCGTATGCCGTCTTCTGCTTG",
+      "modality": "genomic DNA",
+      "orientation": "5_to_3",
+      "segments": [
+        {
+          "kind": "constant",
+          "length": 29,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_universal_p5_pcr_primer",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "Illumina P5 flow-cell binding sequence",
+          "segment_id": "seg_p5",
+          "sequence": "AATGATACGGCGACCACCGAGATCTACAC",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "length": 29,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_universal_p5_pcr_primer",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "TruSeq Read 1 primer binding sequence, ending in the adapter 3'-T overhang base",
+          "segment_id": "seg_truseq_read1",
+          "sequence": "TCTTTCCCTACACGACGCTCTTCCGATCT",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "length": 3,
+          "orientation": "5_to_3",
+          "role": "bisulfite-converted MspI site remnant at the fragment 5' end (CGG -> TGG)",
+          "segment_id": "seg_mspi_remnant_5p",
+          "sequence": "TGG",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "biological_insert",
+          "orientation": "5_to_3",
+          "placeholder": "[GDNA]",
+          "role": "bisulfite-converted genomic DNA insert",
+          "segment_id": "seg_gdna_1",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "biological_insert",
+          "length": 2,
+          "orientation": "5_to_3",
+          "role": "unmethylated CpG within the insert, converted (CG -> TG)",
+          "segment_id": "seg_cpg_converted_1",
+          "sequence": "TG",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "biological_insert",
+          "orientation": "5_to_3",
+          "placeholder": "[GDNA]",
+          "role": "bisulfite-converted genomic DNA insert",
+          "segment_id": "seg_gdna_2",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "biological_insert",
+          "length": 2,
+          "orientation": "5_to_3",
+          "role": "methylated CpG retained through bisulfite conversion",
+          "segment_id": "seg_cpg_methylated",
+          "sequence": "CG",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "biological_insert",
+          "orientation": "5_to_3",
+          "placeholder": "[GDNA]",
+          "role": "bisulfite-converted genomic DNA insert",
+          "segment_id": "seg_gdna_3",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "length": 3,
+          "orientation": "5_to_3",
+          "role": "bisulfite-converted MspI site remnant at the fragment 3' end (CCG -> TTG)",
+          "segment_id": "seg_mspi_remnant_3p",
+          "sequence": "TTG",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "length": 1,
+          "orientation": "5_to_3",
+          "role": "3'-dA tail added by Klenow exo-, ligated to the adapter T overhang",
+          "segment_id": "seg_da_tail",
+          "sequence": "A",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "length": 33,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_indexed_truseq_adaptor_cytosines_are_methylated",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "TruSeq Read 2 and sample-index primer binding sequence",
+          "segment_id": "seg_truseq_read2",
+          "sequence": "GATCGGAAGAGCACACGTCTGAACTCCAGTCAC",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "variable",
+          "length": 6,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_indexed_truseq_adaptor_cytosines_are_methylated",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "placeholder": "[SAMPLE_INDEX:6]",
+          "role": "6-bp TruSeq sample index",
+          "segment_id": "seg_sample_index",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "length": 24,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_indexed_truseq_adaptor_cytosines_are_methylated",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "Illumina P7 flow-cell binding sequence",
+          "segment_id": "seg_p7",
+          "sequence": "ATCTCGTATGCCGTCTTCTGCTTG",
+          "support_status": "explicit"
+        }
+      ],
+      "strand": "top",
+      "support_status": "explicit"
+    }
+  ],
+  "protocol_id": "scrrbs",
+  "protocol_name": "scRRBS",
+  "protocol_scope": {
+    "applicable_variants": [],
+    "protocol_version": "Nature Protocols 2015 (Guo et al., Nat Protoc 10:645-659)"
+  }
+}

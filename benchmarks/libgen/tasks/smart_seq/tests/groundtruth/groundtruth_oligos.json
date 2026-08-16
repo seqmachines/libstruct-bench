@@ -1,0 +1,365 @@
+{
+  "oligos": [
+    {
+      "aliases": [
+        "Read 1 sequencing primer"
+      ],
+      "components": [
+        {
+          "length": 14,
+          "modifications": [],
+          "name": "Nextera N/S5xx primer entry point (s5)",
+          "orientation": "5_to_3",
+          "role": "primer_entry_point",
+          "sequence": "TCGTCGGCAGCGTC",
+          "support_status": "explicit"
+        },
+        {
+          "length": 19,
+          "modifications": [],
+          "name": "Nextera Tn5 binding site (19-bp Mosaic End (ME))",
+          "orientation": "5_to_3",
+          "role": "tn5_binding_site",
+          "sequence": "AGATGTGTATAAGAGACAG",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [],
+      "name": "Illumina Nextera Read 1 primer",
+      "oligo_id": "oligo_illumina_nextera_read_1_primer",
+      "orientation": "5_to_3",
+      "role": "primer",
+      "sequence": "TCGTCGGCAGCGTCAGATGTGTATAAGAGACAG",
+      "support_status": "externally_completed"
+    },
+    {
+      "aliases": [
+        "Read 2 sequencing primer"
+      ],
+      "components": [
+        {
+          "length": 15,
+          "modifications": [],
+          "name": "Nextera N7xx primer entry point (s7)",
+          "orientation": "5_to_3",
+          "role": "primer_entry_point",
+          "sequence": "GTCTCGTGGGCTCGG",
+          "support_status": "explicit"
+        },
+        {
+          "length": 19,
+          "modifications": [],
+          "name": "Nextera Tn5 binding site (19-bp Mosaic End (ME))",
+          "orientation": "5_to_3",
+          "role": "tn5_binding_site",
+          "sequence": "AGATGTGTATAAGAGACAG",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [],
+      "name": "Illumina Nextera Read 2 primer",
+      "oligo_id": "oligo_illumina_nextera_read_2_primer",
+      "orientation": "5_to_3",
+      "role": "primer",
+      "sequence": "GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG",
+      "support_status": "externally_completed"
+    },
+    {
+      "aliases": [],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Illumina P5 adapter",
+      "oligo_id": "oligo_illumina_p5_adapter",
+      "orientation": "5_to_3",
+      "role": "adapter",
+      "sequence": "AATGATACGGCGACCACCGAGATCTACAC",
+      "support_status": "externally_completed"
+    },
+    {
+      "aliases": [],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Illumina P7 adapter",
+      "oligo_id": "oligo_illumina_p7_adapter",
+      "orientation": "5_to_3",
+      "role": "adapter",
+      "sequence": "CAAGCAGAAGACGGCATACGAGAT",
+      "support_status": "externally_completed"
+    },
+    {
+      "aliases": [
+        "ISPCR",
+        "PCR primer"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "ISPCR / TSO PCR primer",
+      "oligo_id": "oligo_ispcr_tso_pcr_primer",
+      "orientation": "5_to_3",
+      "role": "primer",
+      "sequence": "AAGCAGTGGTATCAACGCAGAGT",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "Index 1 sequencing primer (i7)"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Nextera Index 1 sequencing primer (i7)",
+      "oligo_id": "oligo_nextera_index_1_sequencing_primer_i7",
+      "orientation": "5_to_3",
+      "role": "primer",
+      "sequence": "CTGTCTCTTATACACATCTCCGAGCCCACGAGAC",
+      "support_status": "externally_completed"
+    },
+    {
+      "aliases": [
+        "Index 2 sequencing primer (i5)"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Nextera Index 2 sequencing primer (i5)",
+      "oligo_id": "oligo_nextera_index_2_sequencing_primer_i5",
+      "orientation": "5_to_3",
+      "role": "primer",
+      "sequence": "CTGTCTCTTATACACATCTGACGCTGCCGACGA",
+      "support_status": "externally_completed"
+    },
+    {
+      "aliases": [],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Nextera N7xx primer entry point (s7)",
+      "oligo_id": "oligo_nextera_n7xx_primer_entry_point_s7",
+      "orientation": "5_to_3",
+      "role": "primer",
+      "sequence": "GTCTCGTGGGCTCGG",
+      "support_status": "externally_completed"
+    },
+    {
+      "aliases": [],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Nextera N/S5xx primer entry point (s5)",
+      "oligo_id": "oligo_nextera_n_s5xx_primer_entry_point_s5",
+      "orientation": "5_to_3",
+      "role": "primer",
+      "sequence": "TCGTCGGCAGCGTC",
+      "support_status": "externally_completed"
+    },
+    {
+      "aliases": [
+        "Mosaic End",
+        "ME"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Nextera Tn5 binding site (19-bp Mosaic End (ME))",
+      "oligo_id": "oligo_nextera_tn5_binding_site_19_bp_mosaic_end_me",
+      "orientation": "5_to_3",
+      "role": "tn5_binding_site",
+      "sequence": "AGATGTGTATAAGAGACAG",
+      "support_status": "externally_completed"
+    },
+    {
+      "aliases": [],
+      "components": [
+        {
+          "length": 24,
+          "modifications": [],
+          "name": "Illumina P7 adapter",
+          "orientation": "5_to_3",
+          "role": "adapter",
+          "sequence": "CAAGCAGAAGACGGCATACGAGAT",
+          "support_status": "explicit"
+        },
+        {
+          "length": 8,
+          "modifications": [],
+          "name": "i7 sample index",
+          "orientation": "5_to_3",
+          "placeholder": "[I7_INDEX:8]",
+          "role": "sample_index",
+          "support_status": "explicit"
+        },
+        {
+          "length": 15,
+          "modifications": [],
+          "name": "Nextera N7xx primer entry point (s7)",
+          "orientation": "5_to_3",
+          "role": "primer_entry_point",
+          "sequence": "GTCTCGTGGGCTCGG",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [],
+      "name": "Nextera (XT) N7xx Index primer",
+      "oligo_id": "oligo_nextera_xt_n7xx_index_primer",
+      "orientation": "5_to_3",
+      "role": "primer",
+      "sequence": "CAAGCAGAAGACGGCATACGAGAT[I7_INDEX:8]GTCTCGTGGGCTCGG",
+      "support_status": "externally_completed"
+    },
+    {
+      "aliases": [],
+      "components": [
+        {
+          "length": 29,
+          "modifications": [],
+          "name": "Illumina P5 adapter",
+          "orientation": "5_to_3",
+          "role": "adapter",
+          "sequence": "AATGATACGGCGACCACCGAGATCTACAC",
+          "support_status": "explicit"
+        },
+        {
+          "length": 8,
+          "modifications": [],
+          "name": "i5 sample index",
+          "orientation": "5_to_3",
+          "placeholder": "[I5_INDEX:8]",
+          "role": "sample_index",
+          "support_status": "explicit"
+        },
+        {
+          "length": 14,
+          "modifications": [],
+          "name": "Nextera N/S5xx primer entry point (s5)",
+          "orientation": "5_to_3",
+          "role": "primer_entry_point",
+          "sequence": "TCGTCGGCAGCGTC",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [],
+      "name": "Nextera (XT) N/S5xx Index primer",
+      "oligo_id": "oligo_nextera_xt_n_s5xx_index_primer",
+      "orientation": "5_to_3",
+      "role": "primer",
+      "sequence": "AATGATACGGCGACCACCGAGATCTACAC[I5_INDEX:8]TCGTCGGCAGCGTC",
+      "support_status": "externally_completed"
+    },
+    {
+      "aliases": [
+        "oligo-dTVN",
+        "CDS primer"
+      ],
+      "components": [
+        {
+          "length": 23,
+          "modifications": [],
+          "name": "ISPCR / TSO handle",
+          "orientation": "5_to_3",
+          "role": "primer",
+          "sequence": "AAGCAGTGGTATCAACGCAGAGT",
+          "support_status": "explicit"
+        },
+        {
+          "length": 2,
+          "modifications": [],
+          "name": "AC spacer",
+          "orientation": "5_to_3",
+          "role": "spacer",
+          "sequence": "AC",
+          "support_status": "explicit"
+        },
+        {
+          "length": 30,
+          "modifications": [],
+          "name": "poly(dT)30",
+          "orientation": "5_to_3",
+          "role": "poly_dt",
+          "sequence": "TTTTTTTTTTTTTTTTTTTTTTTTTTTTTT",
+          "support_status": "explicit"
+        },
+        {
+          "length": 2,
+          "modifications": [
+            "degenerate bases: V = A/C/G, N = A/C/G/T"
+          ],
+          "name": "VN anchor",
+          "orientation": "5_to_3",
+          "role": "anchor",
+          "sequence": "VN",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [
+        "degenerate 3' VN anchor"
+      ],
+      "name": "Poly-dT RT primer",
+      "oligo_id": "oligo_poly_dt_rt_primer",
+      "orientation": "5_to_3",
+      "role": "primer",
+      "sequence": "AAGCAGTGGTATCAACGCAGAGTACTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTVN",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "SMARTer II A oligonucleotide"
+      ],
+      "components": [
+        {
+          "length": 23,
+          "modifications": [],
+          "name": "ISPCR / TSO handle",
+          "orientation": "5_to_3",
+          "role": "primer",
+          "sequence": "AAGCAGTGGTATCAACGCAGAGT",
+          "support_status": "explicit"
+        },
+        {
+          "length": 4,
+          "modifications": [],
+          "name": "ACAT spacer",
+          "orientation": "5_to_3",
+          "role": "spacer",
+          "sequence": "ACAT",
+          "support_status": "explicit"
+        },
+        {
+          "length": 3,
+          "modifications": [
+            "ribonucleotide bases rGrGrG"
+          ],
+          "name": "riboguanosine tract",
+          "orientation": "5_to_3",
+          "role": "template_switching_g_tract",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [
+        "3' terminal riboguanosines (rGrGrG)"
+      ],
+      "name": "Template Switching Oligo (TSO)",
+      "oligo_id": "oligo_template_switching_oligo_tso",
+      "orientation": "5_to_3",
+      "role": "template_switching_oligo",
+      "sequence": "AAGCAGTGGTATCAACGCAGAGTACATrGrGrG",
+      "support_status": "explicit"
+    }
+  ],
+  "protocol_id": "smart_seq",
+  "protocol_name": "SMART-seq",
+  "protocol_scope": {
+    "applicable_variants": [
+      "SMART-seq"
+    ],
+    "protocol_version": "SMART-seq"
+  }
+}

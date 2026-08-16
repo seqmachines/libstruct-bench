@@ -107,6 +107,8 @@ def main(argv: list[str] | None = None) -> int:
             groundtruth_repo=args.groundtruth_repo,
             groundtruth_revision=args.groundtruth_revision,
             network_profile=args.network_profile,
+            groundtruth_dir=groundtruth_root
+            / _required_string(protocol, "protocol_id"),
             groundtruth_hashes=groundtruth_hashes[
                 _required_string(protocol, "protocol_id")
             ],
@@ -210,6 +212,7 @@ def _write_task(
     groundtruth_repo: str,
     groundtruth_revision: str,
     network_profile: str,
+    groundtruth_dir: Path,
     groundtruth_hashes: dict[str, str],
     network_assets_root: Path,
     network_policy: dict[str, Any],
@@ -304,6 +307,10 @@ def _write_task(
         encoding="utf-8",
     )
     (tests_dir / "grade.py").write_text(_grade_py(), encoding="utf-8")
+    private_groundtruth_dir = tests_dir / "groundtruth"
+    private_groundtruth_dir.mkdir()
+    for filename in GROUNDTRUTH_FILENAMES:
+        shutil.copy2(groundtruth_dir / filename, private_groundtruth_dir / filename)
     shutil.copytree(
         package_root, tests_dir / "libstruct_bench", ignore=_ignore_python_cache
     )
@@ -371,8 +378,19 @@ def _task_toml(
         network_profile, tuple(network_policy["provider_hosts"])
     )
     verifier_network = _phase_network_toml(network_profile, VERIFIER_ALLOWED_HOSTS)
+    artifact_entries = [
+        '{ source = "/logs/agent/trajectory.json", destination = "agent_trajectory.json" }'
+    ]
+    if network_profile == "docker-provider-only":
+        artifact_entries.append(
+            '{ source = "/logs/network/provider-egress.jsonl", '
+            'destination = "provider_egress.jsonl", service = "provider-egress" }'
+        )
+    artifacts_toml = ",\n  ".join(artifact_entries)
     return f"""schema_version = "1.3"
-artifacts = [{{ source = "/logs/agent/trajectory.json", destination = "agent_trajectory.json" }}]
+artifacts = [
+  {artifacts_toml}
+]
 
 [task]
 name = "sequencing/libgen-{protocol_id}"
@@ -418,7 +436,7 @@ memory_mb = 2048
 storage_mb = 4096
 
 [verifier.environment.env]
-HF_TOKEN = "${{HF_TOKEN}}"
+HF_TOKEN = "${{HF_TOKEN:-}}"
 """
 
 
@@ -481,6 +499,10 @@ def _environment_dockerfile() -> str:
 WORKDIR /workspace
 RUN apt-get update \\
     && apt-get install -y --no-install-recommends antiword file ripgrep unzip \\
+    && find /etc/apt -type f \\( -name '*.list' -o -name '*.sources' \\) \\
+       -exec sed -i \\
+         -e 's|http://deb.debian.org|https://deb.debian.org|g' \\
+         -e 's|http://security.debian.org|https://security.debian.org|g' {} + \\
     && rm -rf /var/lib/apt/lists/*
 RUN python -m pip install --no-cache-dir --upgrade pip \\
     && python -m pip install --no-cache-dir jsonschema pymupdf pypdf docling openpyxl pillow
@@ -519,6 +541,7 @@ python /tests/grade.py \\
   --groundtruth-repo {json.dumps(groundtruth_repo)} \\
   --groundtruth-revision {json.dumps(revision)} \\
   --groundtruth-prefix {json.dumps(protocol_id)} \\
+  --groundtruth-dir /tests/groundtruth \\
   --t1-sha256 {json.dumps(groundtruth_hashes["groundtruth_final_lib_struct.json"])} \\
   --t2-sha256 {json.dumps(groundtruth_hashes["groundtruth_oligos.json"])} \\
   --t3-sha256 {json.dumps(groundtruth_hashes["groundtruth_library_generation_workflow.json"])} \\

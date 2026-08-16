@@ -1,0 +1,263 @@
+{
+  "oligos": [
+    {
+      "aliases": [
+        "anchored oligo-dT primer",
+        "oligo-dT(VN)"
+      ],
+      "components": [
+        {
+          "length": 18,
+          "modifications": [],
+          "name": "TruSeq Read 1 partial adapter (w1)",
+          "orientation": "5_to_3",
+          "role": "adapter",
+          "sequence": "ACGACGCTCTTCCGATCT",
+          "support_status": "explicit"
+        },
+        {
+          "length": 8,
+          "modifications": [],
+          "name": "UMI",
+          "orientation": "5_to_3",
+          "placeholder": "[UMI:8]",
+          "role": "unique molecular identifier",
+          "support_status": "explicit"
+        },
+        {
+          "length": 10,
+          "modifications": [],
+          "name": "RT barcode",
+          "orientation": "5_to_3",
+          "placeholder": "[RT_BARCODE:10]",
+          "role": "first-round cellular index",
+          "support_status": "explicit"
+        },
+        {
+          "length": 32,
+          "modifications": [],
+          "name": "anchored oligo(dT)30VN",
+          "orientation": "5_to_3",
+          "role": "poly(A) capture and anchoring tract",
+          "sequence": "TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTVN",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [],
+      "name": "Barcoded RT primer",
+      "oligo_id": "oligo_barcoded_rt_primer",
+      "orientation": "5_to_3",
+      "role": "barcoded reverse-transcription primer",
+      "sequence": "ACGACGCTCTTCCGATCT[UMI:8][RT_BARCODE:10]TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTVN",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "Illumina P5 Primer",
+        "indexed P5 primer"
+      ],
+      "components": [
+        {
+          "length": 29,
+          "modifications": [],
+          "name": "Illumina P5",
+          "orientation": "5_to_3",
+          "role": "flow-cell adaptor",
+          "sequence": "AATGATACGGCGACCACCGAGATCTACAC",
+          "support_status": "explicit"
+        },
+        {
+          "length": 10,
+          "modifications": [],
+          "name": "i5 index",
+          "orientation": "5_to_3",
+          "placeholder": "[I5_INDEX:10]",
+          "role": "second-round well index",
+          "support_status": "explicit"
+        },
+        {
+          "length": 33,
+          "modifications": [],
+          "name": "Illumina TruSeq Read 1 primer",
+          "orientation": "5_to_3",
+          "role": "read 1 primer binding site",
+          "sequence": "ACACTCTTTCCCTACACGACGCTCTTCCGATCT",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [],
+      "name": "PCR P5 primer",
+      "oligo_id": "oligo_pcr_p5_primer",
+      "orientation": "5_to_3",
+      "role": "indexed PCR primer (P5 side)",
+      "sequence": "AATGATACGGCGACCACCGAGATCTACAC[I5_INDEX:10]ACACTCTTTCCCTACACGACGCTCTTCCGATCT",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "Illumina P7 Primer",
+        "PCR P7 primer"
+      ],
+      "components": [
+        {
+          "length": 24,
+          "modifications": [],
+          "name": "Illumina P7",
+          "orientation": "5_to_3",
+          "role": "flow-cell adaptor",
+          "sequence": "CAAGCAGAAGACGGCATACGAGAT",
+          "support_status": "explicit"
+        },
+        {
+          "length": 10,
+          "modifications": [],
+          "name": "i7 index",
+          "orientation": "5_to_3",
+          "placeholder": "[I7_INDEX:10]",
+          "role": "second-round well index",
+          "support_status": "explicit"
+        },
+        {
+          "length": 15,
+          "modifications": [],
+          "name": "Nextera N7xx primer entry point (s7)",
+          "orientation": "5_to_3",
+          "role": "Nextera s7 adaptor",
+          "sequence": "GTCTCGTGGGCTCGG",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [],
+      "name": "Nextera N7 index primer",
+      "oligo_id": "oligo_nextera_n7_index_primer",
+      "orientation": "5_to_3",
+      "role": "indexed PCR primer (P7 side)",
+      "sequence": "CAAGCAGAAGACGGCATACGAGAT[I7_INDEX:10]GTCTCGTGGGCTCGG",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "Read 1 sequencing primer"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Illumina TruSeq Read 1 primer",
+      "oligo_id": "oligo_illumina_truseq_read_1_primer",
+      "orientation": "5_to_3",
+      "role": "sequencing primer (read 1)",
+      "sequence": "ACACTCTTTCCCTACACGACGCTCTTCCGATCT",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "Index 2 sequencing primer (i5)"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "TruSeq i5 index sequencing primer (index2)",
+      "oligo_id": "oligo_truseq_i5_index_sequencing_primer_index2",
+      "orientation": "5_to_3",
+      "role": "sequencing primer (index 2 / i5)",
+      "sequence": "AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT",
+      "support_status": "derivable"
+    },
+    {
+      "aliases": [
+        "Index 1 sequencing primer (i7)"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Nextera Index 1 sequencing primer (i7)",
+      "oligo_id": "oligo_nextera_index_1_sequencing_primer_i7",
+      "orientation": "5_to_3",
+      "role": "sequencing primer (index 1 / i7)",
+      "sequence": "CTGTCTCTTATACACATCTCCGAGCCCACGAGAC",
+      "support_status": "externally_completed"
+    },
+    {
+      "aliases": [],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Nextera N/S5xx primer entry point (s5)",
+      "oligo_id": "oligo_nextera_n_s5xx_primer_entry_point_s5",
+      "orientation": "5_to_3",
+      "role": "Nextera s5 transposome adaptor",
+      "sequence": "TCGTCGGCAGCGTC",
+      "support_status": "externally_completed"
+    },
+    {
+      "aliases": [],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Nextera N7xx primer entry point (s7)",
+      "oligo_id": "oligo_nextera_n7xx_primer_entry_point_s7",
+      "orientation": "5_to_3",
+      "role": "Nextera s7 transposome adaptor",
+      "sequence": "GTCTCGTGGGCTCGG",
+      "support_status": "derivable"
+    },
+    {
+      "aliases": [
+        "Mosaic End (ME)"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Nextera Tn5 binding site (19-bp Mosaic End (ME))",
+      "oligo_id": "oligo_nextera_tn5_binding_site_19_bp_mosaic_end_me",
+      "orientation": "5_to_3",
+      "role": "Tn5 transposase binding site",
+      "sequence": "AGATGTGTATAAGAGACAG",
+      "support_status": "externally_completed"
+    },
+    {
+      "aliases": [
+        "Read 2 sequencing primer"
+      ],
+      "components": [
+        {
+          "length": 15,
+          "modifications": [],
+          "name": "Nextera N7xx primer entry point (s7)",
+          "orientation": "5_to_3",
+          "role": "Nextera s7 adaptor",
+          "sequence": "GTCTCGTGGGCTCGG",
+          "support_status": "externally_completed"
+        },
+        {
+          "length": 19,
+          "modifications": [],
+          "name": "Nextera Tn5 binding site (19-bp Mosaic End (ME))",
+          "orientation": "5_to_3",
+          "role": "Tn5 transposase binding site",
+          "sequence": "AGATGTGTATAAGAGACAG",
+          "support_status": "externally_completed"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [],
+      "name": "Illumina Nextera Read 2 primer",
+      "oligo_id": "oligo_illumina_nextera_read_2_primer",
+      "orientation": "5_to_3",
+      "role": "sequencing primer (read 2)",
+      "sequence": "GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG",
+      "support_status": "externally_completed"
+    }
+  ],
+  "protocol_id": "sci_rna_seq",
+  "protocol_name": "sci-RNA-seq",
+  "protocol_scope": {
+    "applicable_variants": [
+      "sci-RNA-seq two-level indexing"
+    ],
+    "protocol_version": null
+  }
+}

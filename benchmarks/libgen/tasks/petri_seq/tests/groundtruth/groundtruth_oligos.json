@@ -1,0 +1,475 @@
+{
+  "oligos": [
+    {
+      "aliases": [
+        "*Round1 RT Primers (randN)",
+        "Round 1 RT oligonucleotide"
+      ],
+      "components": [
+        {
+          "length": 6,
+          "modifications": [
+            "5'-phosphate"
+          ],
+          "name": "Round 1 universal sequence",
+          "orientation": "5_to_3",
+          "role": "universal linker",
+          "sequence": "GCCAGA",
+          "support_status": "explicit"
+        },
+        {
+          "length": 7,
+          "modifications": [],
+          "name": "Round 1 cell barcode",
+          "orientation": "5_to_3",
+          "placeholder": "[CELL_BARCODE:7]",
+          "role": "cell barcode",
+          "support_status": "explicit"
+        },
+        {
+          "length": 6,
+          "modifications": [],
+          "name": "Random hexamer",
+          "orientation": "5_to_3",
+          "role": "RT priming site",
+          "sequence": "NNNNNN",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [
+        "5'-phosphate"
+      ],
+      "name": "Round1 RT Primers (randN)",
+      "oligo_id": "oligo_round1_rt_primers_randn",
+      "orientation": "5_to_3",
+      "role": "barcoded random-hexamer reverse-transcription primer (round 1 barcode)",
+      "sequence": "/5Phos/GCCAGA[CELL_BARCODE:7]NNNNNN",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "*Round2 Ligation Oligos",
+        "Round 2 barcode oligo"
+      ],
+      "components": [
+        {
+          "length": 7,
+          "modifications": [
+            "5'-phosphate"
+          ],
+          "name": "Round 2 universal 5' sequence",
+          "orientation": "5_to_3",
+          "role": "universal linker",
+          "sequence": "GCTTCGC",
+          "support_status": "explicit"
+        },
+        {
+          "length": 7,
+          "modifications": [],
+          "name": "Round 2 cell barcode",
+          "orientation": "5_to_3",
+          "placeholder": "[CELL_BARCODE:7]",
+          "role": "cell barcode",
+          "support_status": "explicit"
+        },
+        {
+          "length": 8,
+          "modifications": [],
+          "name": "Round 2 universal 3' sequence",
+          "orientation": "5_to_3",
+          "role": "universal linker / ligation junction",
+          "sequence": "CCTCCTAC",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [
+        "5'-phosphate"
+      ],
+      "name": "Round2 Ligation Oligos",
+      "oligo_id": "oligo_round2_ligation_oligos",
+      "orientation": "5_to_3",
+      "role": "round 2 barcode ligation oligo",
+      "sequence": "/5Phos/GCTTCGC[CELL_BARCODE:7]CCTCCTAC",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "*Round3 Ligation Oligos",
+        "Round 3 barcode oligo"
+      ],
+      "components": [
+        {
+          "length": 25,
+          "modifications": [],
+          "name": "Round 3 universal 5' overhang (Read 1 primer-binding region)",
+          "orientation": "5_to_3",
+          "role": "PCR/sequencing primer binding site",
+          "sequence": "AGAATACACGACGCTCTTCCGATCT",
+          "support_status": "explicit"
+        },
+        {
+          "length": 7,
+          "modifications": [],
+          "name": "UMI",
+          "orientation": "5_to_3",
+          "placeholder": "[UMI:7]",
+          "role": "unique molecular identifier",
+          "support_status": "explicit"
+        },
+        {
+          "length": 7,
+          "modifications": [],
+          "name": "Round 3 cell barcode",
+          "orientation": "5_to_3",
+          "placeholder": "[CELL_BARCODE:7]",
+          "role": "cell barcode",
+          "support_status": "explicit"
+        },
+        {
+          "length": 8,
+          "modifications": [],
+          "name": "Round 3 universal 3' sequence",
+          "orientation": "5_to_3",
+          "role": "universal linker / ligation junction",
+          "sequence": "GGTCCTTG",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [],
+      "name": "Round3 Ligation Oligos",
+      "oligo_id": "oligo_round3_ligation_oligos",
+      "orientation": "5_to_3",
+      "role": "round 3 barcode and UMI ligation oligo",
+      "sequence": "AGAATACACGACGCTCTTCCGATCT[UMI:7][CELL_BARCODE:7]GGTCCTTG",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "SB83",
+        "Round 2 Linker Oligo"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Round 2 barcode linker (SB83)",
+      "oligo_id": "oligo_round_2_barcode_linker_sb83",
+      "orientation": "5_to_3",
+      "role": "splint linker annealed to round 2 barcode oligo for ligation",
+      "sequence": "STCTGGCGTAGGAGGW",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "SB80",
+        "Round 3 Linker Oligo"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Round 3 barcode linker (SB80)",
+      "oligo_id": "oligo_round_3_barcode_linker_sb80",
+      "orientation": "5_to_3",
+      "role": "splint linker annealed to round 3 barcode oligo for ligation",
+      "sequence": "GCGAAGCCAAGGACCW",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "SB84",
+        "Round 2 Blocking 1"
+      ],
+      "components": [],
+      "kind": "hairpin",
+      "modifications": [],
+      "name": "Round 2 blocking strand 1 (SB84)",
+      "oligo_id": "oligo_round_2_blocking_strand_1_sb84",
+      "orientation": "5_to_3",
+      "role": "blocking oligo added after round 2 ligation",
+      "sequence": "GCCAGASACGTTAGGCAGGACCTAACGT",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "SB85",
+        "Round 2 Blocking 2"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Round 2 blocking strand 2 (SB85)",
+      "oligo_id": "oligo_round_2_blocking_strand_2_sb85",
+      "orientation": "5_to_3",
+      "role": "blocking oligo added after round 2 ligation",
+      "sequence": "WCCTCCTACGCCAGAS",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "SB81",
+        "Round 3 Blocking 1"
+      ],
+      "components": [],
+      "kind": "hairpin",
+      "modifications": [],
+      "name": "Round 3 blocking strand 1 (SB81)",
+      "oligo_id": "oligo_round_3_blocking_strand_1_sb81",
+      "orientation": "5_to_3",
+      "role": "blocking oligo added after round 3 ligation",
+      "sequence": "GCTTCGCTGCAATCGGACCTCGATTGCA",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "SB82",
+        "Round 3 Blocking 2"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Round 3 blocking strand 2 (SB82)",
+      "oligo_id": "oligo_round_3_blocking_strand_2_sb82",
+      "orientation": "5_to_3",
+      "role": "blocking oligo added after round 3 ligation",
+      "sequence": "WGGTCCTTGGCTTCGC",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "NEB i50x primer (NEB kit E7600)",
+        "i50x primer (E7600S, NEB)",
+        "NEBNext Multiplex Oligos i5 primer"
+      ],
+      "components": [
+        {
+          "length": 29,
+          "modifications": [],
+          "name": "Illumina P5 adapter",
+          "orientation": "5_to_3",
+          "role": "flow-cell adapter",
+          "sequence": "AATGATACGGCGACCACCGAGATCTACAC",
+          "support_status": "explicit"
+        },
+        {
+          "length": 8,
+          "modifications": [],
+          "name": "i5 sample index",
+          "orientation": "5_to_3",
+          "placeholder": "[I5_INDEX:8]",
+          "role": "sample index",
+          "support_status": "explicit"
+        },
+        {
+          "length": 33,
+          "modifications": [],
+          "name": "Illumina TruSeq Read 1 primer",
+          "orientation": "5_to_3",
+          "role": "sequencing primer binding site",
+          "sequence": "ACACTCTTTCCCTACACGACGCTCTTCCGATCT",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [],
+      "name": "TruSeq P5/i5 index PCR primer",
+      "oligo_id": "oligo_truseq_p5_i5_index_pcr_primer",
+      "orientation": "5_to_3",
+      "role": "library amplification primer adding P5 and the i5 index",
+      "sequence": "AATGATACGGCGACCACCGAGATCTACAC[I5_INDEX:8]ACACTCTTTCCCTACACGACGCTCTTCCGATCT",
+      "support_status": "externally_completed"
+    },
+    {
+      "aliases": [
+        "N70x primer (Nextera Index Kit v2 Set A)",
+        "N7xx"
+      ],
+      "components": [
+        {
+          "length": 24,
+          "modifications": [],
+          "name": "Illumina P7 adapter",
+          "orientation": "5_to_3",
+          "role": "flow-cell adapter",
+          "sequence": "CAAGCAGAAGACGGCATACGAGAT",
+          "support_status": "explicit"
+        },
+        {
+          "length": 8,
+          "modifications": [],
+          "name": "i7 sample index",
+          "orientation": "5_to_3",
+          "placeholder": "[I7_INDEX:8]",
+          "role": "sample index",
+          "support_status": "explicit"
+        },
+        {
+          "length": 15,
+          "modifications": [],
+          "name": "Nextera N7xx primer entry point (s7)",
+          "orientation": "5_to_3",
+          "role": "primer entry point",
+          "sequence": "GTCTCGTGGGCTCGG",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [],
+      "name": "Nextera (XT) N7xx Index primer",
+      "oligo_id": "oligo_nextera_xt_n7xx_index_primer",
+      "orientation": "5_to_3",
+      "role": "library amplification primer adding P7 and the i7 index",
+      "sequence": "CAAGCAGAAGACGGCATACGAGAT[I7_INDEX:8]GTCTCGTGGGCTCGG",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "ME",
+        "Mosaic End"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Nextera Tn5 binding site (19-bp Mosaic End (ME))",
+      "oligo_id": "oligo_nextera_tn5_binding_site_19_bp_mosaic_end_me",
+      "orientation": "5_to_3",
+      "role": "Tn5 transposase binding site",
+      "sequence": "AGATGTGTATAAGAGACAG",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "s7"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Nextera N7xx primer entry point (s7)",
+      "oligo_id": "oligo_nextera_n7xx_primer_entry_point_s7",
+      "orientation": "5_to_3",
+      "role": "Tn5 adapter primer entry point",
+      "sequence": "GTCTCGTGGGCTCGG",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "s5"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Nextera N/S5xx primer entry point (s5)",
+      "oligo_id": "oligo_nextera_n_s5xx_primer_entry_point_s5",
+      "orientation": "5_to_3",
+      "role": "Tn5 adapter primer entry point",
+      "sequence": "TCGTCGGCAGCGTC",
+      "support_status": "externally_completed"
+    },
+    {
+      "aliases": [
+        "P5"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Illumina P5 adapter",
+      "oligo_id": "oligo_illumina_p5_adapter",
+      "orientation": "5_to_3",
+      "role": "flow-cell adapter",
+      "sequence": "AATGATACGGCGACCACCGAGATCTACAC",
+      "support_status": "externally_completed"
+    },
+    {
+      "aliases": [
+        "P7"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Illumina P7 adapter",
+      "oligo_id": "oligo_illumina_p7_adapter",
+      "orientation": "5_to_3",
+      "role": "flow-cell adapter",
+      "sequence": "CAAGCAGAAGACGGCATACGAGAT",
+      "support_status": "externally_completed"
+    },
+    {
+      "aliases": [
+        "TruSeq Read 1"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Illumina TruSeq Read 1 primer",
+      "oligo_id": "oligo_illumina_truseq_read_1_primer",
+      "orientation": "5_to_3",
+      "role": "read 1 sequencing primer",
+      "sequence": "ACACTCTTTCCCTACACGACGCTCTTCCGATCT",
+      "support_status": "externally_completed"
+    },
+    {
+      "aliases": [
+        "Index 1 sequencing primer (i7)"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Nextera Index 1 sequencing primer (i7)",
+      "oligo_id": "oligo_nextera_index_1_sequencing_primer_i7",
+      "orientation": "5_to_3",
+      "role": "i7 index sequencing primer",
+      "sequence": "CTGTCTCTTATACACATCTCCGAGCCCACGAGAC",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "Index 2 sequencing primer (i5)"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "TruSeq i5 index sequencing primer (index2)",
+      "oligo_id": "oligo_truseq_i5_index_sequencing_primer_index2",
+      "orientation": "5_to_3",
+      "role": "i5 index sequencing primer",
+      "sequence": "AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT",
+      "support_status": "externally_completed"
+    },
+    {
+      "aliases": [
+        "Nextera Read 2"
+      ],
+      "components": [
+        {
+          "length": 15,
+          "modifications": [],
+          "name": "Nextera N7xx primer entry point (s7)",
+          "orientation": "5_to_3",
+          "role": "primer entry point",
+          "sequence": "GTCTCGTGGGCTCGG",
+          "support_status": "explicit"
+        },
+        {
+          "length": 19,
+          "modifications": [],
+          "name": "Nextera Tn5 binding site (19-bp Mosaic End (ME))",
+          "orientation": "5_to_3",
+          "role": "Tn5 binding site",
+          "sequence": "AGATGTGTATAAGAGACAG",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [],
+      "name": "Illumina Nextera Read 2 primer",
+      "oligo_id": "oligo_illumina_nextera_read_2_primer",
+      "orientation": "5_to_3",
+      "role": "read 2 sequencing primer",
+      "sequence": "GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG",
+      "support_status": "explicit"
+    }
+  ],
+  "protocol_id": "petri_seq",
+  "protocol_name": "PETRI-seq"
+}

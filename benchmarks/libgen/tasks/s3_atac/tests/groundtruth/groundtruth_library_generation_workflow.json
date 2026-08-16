@@ -1,0 +1,1125 @@
+{
+  "protocol_id": "s3_atac",
+  "protocol_name": "s3-ATAC",
+  "workflows": [
+    {
+      "final_outputs": [
+        {
+          "modality": "chromatin accessibility",
+          "state_id": "st_final_library"
+        }
+      ],
+      "initial_state_ids": [
+        "st_genomic_dna",
+        "st_tn5_transposome_adapter"
+      ],
+      "states": [
+        {
+          "discontinuities": [],
+          "molecule_type": "DNA",
+          "name": "Nuclear genomic DNA in isolated nuclei",
+          "paired_regions": [
+            {
+              "paired_region_id": "pr_gdna",
+              "relationship": "reverse_complementary",
+              "side_1": {
+                "segment_ids": [
+                  "gdna_top_seq"
+                ],
+                "strand_id": "gdna_top"
+              },
+              "side_2": {
+                "segment_ids": [
+                  "gdna_bottom_seq"
+                ],
+                "strand_id": "gdna_bottom"
+              },
+              "support_status": "derivable"
+            }
+          ],
+          "physical_state": "chromatin within isolated, intact nuclei",
+          "properties": [
+            "input material for in situ tagmentation"
+          ],
+          "reference_strand_id": "gdna_top",
+          "state_id": "st_genomic_dna",
+          "strand_architecture": "double_stranded",
+          "strands": [
+            {
+              "molecule_type": "DNA",
+              "name": "genomic DNA top strand",
+              "orientation": "5_to_3",
+              "segments": [
+                {
+                  "placeholder": "[GDNA]",
+                  "role": "genomic DNA",
+                  "segment_id": "gdna_top_seq",
+                  "structural_role": "paired_region"
+                }
+              ],
+              "strand_id": "gdna_top",
+              "support_status": "explicit"
+            },
+            {
+              "molecule_type": "DNA",
+              "name": "genomic DNA bottom strand",
+              "orientation": "5_to_3",
+              "segments": [
+                {
+                  "placeholder": "[GDNA]",
+                  "role": "genomic DNA",
+                  "segment_id": "gdna_bottom_seq",
+                  "structural_role": "paired_region"
+                }
+              ],
+              "strand_id": "gdna_bottom",
+              "support_status": "explicit"
+            }
+          ],
+          "support_status": "explicit"
+        },
+        {
+          "discontinuities": [],
+          "molecule_type": "DNA",
+          "name": "Indexed Tn5 transposome adapter duplex",
+          "paired_regions": [
+            {
+              "paired_region_id": "pr_tsp_me",
+              "relationship": "reverse_complementary",
+              "side_1": {
+                "segment_ids": [
+                  "tsp_t_me"
+                ],
+                "strand_id": "tsp_transferred"
+              },
+              "side_2": {
+                "segment_ids": [
+                  "tsp_b_me_prime"
+                ],
+                "strand_id": "tsp_me_bottom"
+              },
+              "support_status": "explicit"
+            }
+          ],
+          "physical_state": "adapter duplex loaded onto Tn5, assembled as a homodimer",
+          "properties": [
+            "96 uniquely indexed transposome complexes",
+            "single-adapter (homodimeric) transposome"
+          ],
+          "reference_strand_id": "tsp_transferred",
+          "state_id": "st_tn5_transposome_adapter",
+          "strand_architecture": "partially_duplex",
+          "strands": [
+            {
+              "molecule_type": "DNA",
+              "name": "SBS12_18_UME_sci transferred strand",
+              "orientation": "5_to_3",
+              "segments": [
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_sbs12_18_ume_sci_indexed_tn5_adapter",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "TruSeq Read 2 primer-binding site (partial)",
+                  "segment_id": "tsp_t_sbs12",
+                  "sequence": "CGTGTGCTCTTCCGATCT",
+                  "structural_role": "five_prime_overhang"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_sbs12_18_ume_sci_indexed_tn5_adapter",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "placeholder": "[TN5_INDEX:8]",
+                  "role": "Tn5 transposome index",
+                  "segment_id": "tsp_t_index",
+                  "structural_role": "five_prime_overhang"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_sbs12_18_ume_sci_indexed_tn5_adapter",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "blocking deoxyuridine (/ideoxyU/)",
+                  "segment_id": "tsp_t_uracil",
+                  "sequence": "U",
+                  "structural_role": "five_prime_overhang"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_sbs12_18_ume_sci_indexed_tn5_adapter",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "Tn5 mosaic end (ME)",
+                  "segment_id": "tsp_t_me",
+                  "sequence": "AGATGTGTATAAGAGACAG",
+                  "structural_role": "paired_region"
+                }
+              ],
+              "sequence_architecture": "CGTGTGCTCTTCCGATCT[TN5_INDEX:8]UAGATGTGTATAAGAGACAG",
+              "strand_id": "tsp_transferred",
+              "support_status": "explicit"
+            },
+            {
+              "molecule_type": "DNA",
+              "name": "Nextera mosaic-end bottom strand",
+              "orientation": "5_to_3",
+              "segments": [
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_tn5_binding_site_19_bp_mosaic_end_me_bottom",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "Tn5 mosaic end reverse complement (ME'), 5'-phosphorylated",
+                  "segment_id": "tsp_b_me_prime",
+                  "sequence": "CTGTCTCTTATACACATCT",
+                  "structural_role": "paired_region"
+                }
+              ],
+              "sequence_architecture": "CTGTCTCTTATACACATCT",
+              "strand_id": "tsp_me_bottom",
+              "support_status": "explicit"
+            }
+          ],
+          "support_status": "explicit"
+        },
+        {
+          "discontinuities": [
+            {
+              "after_segment_id": "tag_t_gdna",
+              "before_segment_id": "tag_t_me_prime",
+              "discontinuity_id": "disc_tag_top_gap",
+              "kind": "gap",
+              "strand_id": "tag_top",
+              "support_status": "explicit"
+            },
+            {
+              "after_segment_id": "tag_b_gdna",
+              "before_segment_id": "tag_b_me_prime",
+              "discontinuity_id": "disc_tag_bottom_gap",
+              "kind": "gap",
+              "strand_id": "tag_bottom",
+              "support_status": "explicit"
+            }
+          ],
+          "molecule_type": "DNA",
+          "name": "Tagmented genomic fragment with 9-base transposition gaps",
+          "paired_regions": [
+            {
+              "paired_region_id": "pr_tag_me_left",
+              "relationship": "reverse_complementary",
+              "side_1": {
+                "segment_ids": [
+                  "tag_t_me"
+                ],
+                "strand_id": "tag_top"
+              },
+              "side_2": {
+                "segment_ids": [
+                  "tag_b_me_prime"
+                ],
+                "strand_id": "tag_bottom"
+              },
+              "support_status": "explicit"
+            },
+            {
+              "paired_region_id": "pr_tag_gdna",
+              "relationship": "reverse_complementary",
+              "side_1": {
+                "segment_ids": [
+                  "tag_t_gdna"
+                ],
+                "strand_id": "tag_top"
+              },
+              "side_2": {
+                "segment_ids": [
+                  "tag_b_gdna"
+                ],
+                "strand_id": "tag_bottom"
+              },
+              "support_status": "derivable"
+            },
+            {
+              "paired_region_id": "pr_tag_me_right",
+              "relationship": "reverse_complementary",
+              "side_1": {
+                "segment_ids": [
+                  "tag_t_me_prime"
+                ],
+                "strand_id": "tag_top"
+              },
+              "side_2": {
+                "segment_ids": [
+                  "tag_b_me"
+                ],
+                "strand_id": "tag_bottom"
+              },
+              "support_status": "explicit"
+            }
+          ],
+          "physical_state": "tagmented chromatin fragment retained in the nucleus",
+          "properties": [
+            "same indexed adapter at both ends (single-adapter transposition)",
+            "9-base gap on each strand"
+          ],
+          "reference_strand_id": "tag_top",
+          "state_id": "st_tagmented",
+          "strand_architecture": "partially_duplex",
+          "strands": [
+            {
+              "molecule_type": "DNA",
+              "name": "tagmented top strand plus non-transferred mosaic-end oligo",
+              "orientation": "5_to_3",
+              "segments": [
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_sbs12_18_ume_sci_indexed_tn5_adapter",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "TruSeq Read 2 primer-binding site (partial)",
+                  "segment_id": "tag_t_sbs12",
+                  "sequence": "CGTGTGCTCTTCCGATCT",
+                  "structural_role": "five_prime_overhang"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_sbs12_18_ume_sci_indexed_tn5_adapter",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "placeholder": "[TN5_INDEX:8]",
+                  "role": "Tn5 transposome index",
+                  "segment_id": "tag_t_index",
+                  "structural_role": "five_prime_overhang"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_sbs12_18_ume_sci_indexed_tn5_adapter",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "blocking deoxyuridine (/ideoxyU/)",
+                  "segment_id": "tag_t_uracil",
+                  "sequence": "U",
+                  "structural_role": "five_prime_overhang"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_sbs12_18_ume_sci_indexed_tn5_adapter",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "Tn5 mosaic end (ME)",
+                  "segment_id": "tag_t_me",
+                  "sequence": "AGATGTGTATAAGAGACAG",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "length": 9,
+                  "role": "9-nt genomic DNA opposite the bottom-strand transposition gap",
+                  "segment_id": "tag_t_gdna_gap9",
+                  "structural_role": "internal_unpaired"
+                },
+                {
+                  "placeholder": "[GDNA]",
+                  "role": "genomic DNA",
+                  "segment_id": "tag_t_gdna",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_tn5_binding_site_19_bp_mosaic_end_me_bottom",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "non-transferred Tn5 mosaic end reverse complement (ME')",
+                  "segment_id": "tag_t_me_prime",
+                  "sequence": "CTGTCTCTTATACACATCT",
+                  "structural_role": "paired_region"
+                }
+              ],
+              "strand_id": "tag_top",
+              "support_status": "explicit"
+            },
+            {
+              "molecule_type": "DNA",
+              "name": "tagmented bottom strand plus non-transferred mosaic-end oligo",
+              "orientation": "5_to_3",
+              "segments": [
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_sbs12_18_ume_sci_indexed_tn5_adapter",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "TruSeq Read 2 primer-binding site (partial)",
+                  "segment_id": "tag_b_sbs12",
+                  "sequence": "CGTGTGCTCTTCCGATCT",
+                  "structural_role": "five_prime_overhang"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_sbs12_18_ume_sci_indexed_tn5_adapter",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "placeholder": "[TN5_INDEX:8]",
+                  "role": "Tn5 transposome index",
+                  "segment_id": "tag_b_index",
+                  "structural_role": "five_prime_overhang"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_sbs12_18_ume_sci_indexed_tn5_adapter",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "blocking deoxyuridine (/ideoxyU/)",
+                  "segment_id": "tag_b_uracil",
+                  "sequence": "U",
+                  "structural_role": "five_prime_overhang"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_sbs12_18_ume_sci_indexed_tn5_adapter",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "Tn5 mosaic end (ME)",
+                  "segment_id": "tag_b_me",
+                  "sequence": "AGATGTGTATAAGAGACAG",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "length": 9,
+                  "role": "9-nt genomic DNA opposite the top-strand transposition gap",
+                  "segment_id": "tag_b_gdna_gap9",
+                  "structural_role": "internal_unpaired"
+                },
+                {
+                  "placeholder": "[GDNA]",
+                  "role": "genomic DNA",
+                  "segment_id": "tag_b_gdna",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_tn5_binding_site_19_bp_mosaic_end_me_bottom",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "non-transferred Tn5 mosaic end reverse complement (ME')",
+                  "segment_id": "tag_b_me_prime",
+                  "sequence": "CTGTCTCTTATACACATCT",
+                  "structural_role": "paired_region"
+                }
+              ],
+              "strand_id": "tag_bottom",
+              "support_status": "explicit"
+            }
+          ],
+          "support_status": "explicit"
+        },
+        {
+          "discontinuities": [],
+          "molecule_type": "DNA",
+          "name": "Gap-filled tagmented molecule with uracil-blocked 5' arms",
+          "paired_regions": [
+            {
+              "paired_region_id": "pr_gf_duplex",
+              "relationship": "reverse_complementary",
+              "side_1": {
+                "segment_ids": [
+                  "gf_t_me",
+                  "gf_t_gdna",
+                  "gf_t_me_prime"
+                ],
+                "strand_id": "gf_top"
+              },
+              "side_2": {
+                "segment_ids": [
+                  "gf_b_me",
+                  "gf_b_gdna",
+                  "gf_b_me_prime"
+                ],
+                "strand_id": "gf_bottom"
+              },
+              "support_status": "derivable"
+            }
+          ],
+          "physical_state": "free DNA in sorted, SDS-denatured nuclei",
+          "properties": [
+            "extension halted at the adapter deoxyuridine so the Tn5 index and TruSeq adapter remain single-stranded"
+          ],
+          "reference_strand_id": "gf_top",
+          "state_id": "st_gap_filled",
+          "strand_architecture": "partially_duplex",
+          "strands": [
+            {
+              "molecule_type": "DNA",
+              "name": "gap-filled top strand",
+              "orientation": "5_to_3",
+              "segments": [
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_sbs12_18_ume_sci_indexed_tn5_adapter",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "TruSeq Read 2 primer-binding site (partial)",
+                  "segment_id": "gf_t_sbs12",
+                  "sequence": "CGTGTGCTCTTCCGATCT",
+                  "structural_role": "five_prime_overhang"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_sbs12_18_ume_sci_indexed_tn5_adapter",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "placeholder": "[TN5_INDEX:8]",
+                  "role": "Tn5 transposome index",
+                  "segment_id": "gf_t_index",
+                  "structural_role": "five_prime_overhang"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_sbs12_18_ume_sci_indexed_tn5_adapter",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "blocking deoxyuridine (/ideoxyU/)",
+                  "segment_id": "gf_t_uracil",
+                  "sequence": "U",
+                  "structural_role": "five_prime_overhang"
+                },
+                {
+                  "role": "Tn5 mosaic end (ME)",
+                  "segment_id": "gf_t_me",
+                  "sequence": "AGATGTGTATAAGAGACAG",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[GDNA]",
+                  "role": "genomic DNA",
+                  "segment_id": "gf_t_gdna",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "Tn5 mosaic end reverse complement (ME')",
+                  "segment_id": "gf_t_me_prime",
+                  "sequence": "CTGTCTCTTATACACATCT",
+                  "structural_role": "paired_region"
+                }
+              ],
+              "sequence_architecture": "CGTGTGCTCTTCCGATCT[TN5_INDEX:8]UAGATGTGTATAAGAGACAG[GDNA]CTGTCTCTTATACACATCT",
+              "strand_id": "gf_top",
+              "support_status": "explicit"
+            },
+            {
+              "molecule_type": "DNA",
+              "name": "gap-filled bottom strand",
+              "orientation": "5_to_3",
+              "segments": [
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_sbs12_18_ume_sci_indexed_tn5_adapter",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "TruSeq Read 2 primer-binding site (partial)",
+                  "segment_id": "gf_b_sbs12",
+                  "sequence": "CGTGTGCTCTTCCGATCT",
+                  "structural_role": "five_prime_overhang"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_sbs12_18_ume_sci_indexed_tn5_adapter",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "placeholder": "[TN5_INDEX:8]",
+                  "role": "Tn5 transposome index",
+                  "segment_id": "gf_b_index",
+                  "structural_role": "five_prime_overhang"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_sbs12_18_ume_sci_indexed_tn5_adapter",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "blocking deoxyuridine (/ideoxyU/)",
+                  "segment_id": "gf_b_uracil",
+                  "sequence": "U",
+                  "structural_role": "five_prime_overhang"
+                },
+                {
+                  "role": "Tn5 mosaic end (ME)",
+                  "segment_id": "gf_b_me",
+                  "sequence": "AGATGTGTATAAGAGACAG",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[GDNA]",
+                  "role": "genomic DNA",
+                  "segment_id": "gf_b_gdna",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "Tn5 mosaic end reverse complement (ME')",
+                  "segment_id": "gf_b_me_prime",
+                  "sequence": "CTGTCTCTTATACACATCT",
+                  "structural_role": "paired_region"
+                }
+              ],
+              "sequence_architecture": "CGTGTGCTCTTCCGATCT[TN5_INDEX:8]UAGATGTGTATAAGAGACAG[GDNA]CTGTCTCTTATACACATCT",
+              "strand_id": "gf_bottom",
+              "support_status": "explicit"
+            }
+          ],
+          "support_status": "explicit"
+        },
+        {
+          "discontinuities": [],
+          "molecule_type": "DNA",
+          "name": "Adapter-switched single-stranded pre-PCR molecule",
+          "paired_regions": [],
+          "physical_state": "free single-stranded DNA after ten cycles of LNA-templated extension",
+          "properties": [
+            "products of the top and bottom strands are identical",
+            "carries the forward Nextera A14 and reverse TruSeq adapter sequences on one strand"
+          ],
+          "reference_strand_id": "as_strand",
+          "state_id": "st_adapter_switched",
+          "strand_architecture": "single_stranded",
+          "strands": [
+            {
+              "molecule_type": "DNA",
+              "name": "amplifiable adapter-switched strand",
+              "orientation": "5_to_3",
+              "segments": [
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_sbs12_18_ume_sci_indexed_tn5_adapter",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "TruSeq Read 2 primer-binding site (partial)",
+                  "segment_id": "as_sbs12",
+                  "sequence": "CGTGTGCTCTTCCGATCT",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_sbs12_18_ume_sci_indexed_tn5_adapter",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "placeholder": "[TN5_INDEX:8]",
+                  "role": "Tn5 transposome index",
+                  "segment_id": "as_index",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_sbs12_18_ume_sci_indexed_tn5_adapter",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "blocking deoxyuridine (/ideoxyU/)",
+                  "segment_id": "as_uracil",
+                  "sequence": "U",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "role": "Tn5 mosaic end (ME)",
+                  "segment_id": "as_me",
+                  "sequence": "AGATGTGTATAAGAGACAG",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "placeholder": "[GDNA]",
+                  "role": "genomic DNA",
+                  "segment_id": "as_gdna",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "role": "Tn5 mosaic end reverse complement (ME')",
+                  "segment_id": "as_me_prime",
+                  "sequence": "CTGTCTCTTATACACATCT",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_a14_me_lna_nextera_r1_a14_plus_u_me",
+                      "orientation_to_source": "reverse_complement"
+                    }
+                  ],
+                  "role": "Nextera A14 sequence copied from the LNA template",
+                  "segment_id": "as_a14_copy",
+                  "sequence": "GACGCTGCCGACGA",
+                  "structural_role": "unpaired"
+                }
+              ],
+              "sequence_architecture": "CGTGTGCTCTTCCGATCT[TN5_INDEX:8]UAGATGTGTATAAGAGACAG[GDNA]CTGTCTCTTATACACATCTGACGCTGCCGACGA",
+              "strand_id": "as_strand",
+              "support_status": "explicit"
+            }
+          ],
+          "support_status": "explicit"
+        },
+        {
+          "discontinuities": [],
+          "molecule_type": "DNA",
+          "name": "Final dual-indexed s3-ATAC sequencing library",
+          "paired_regions": [
+            {
+              "paired_region_id": "pr_final_duplex",
+              "relationship": "reverse_complementary",
+              "side_1": {
+                "segment_ids": [
+                  "fl_t_p5",
+                  "fl_t_i5",
+                  "fl_t_s5",
+                  "fl_t_me",
+                  "fl_t_gdna",
+                  "fl_t_me_prime",
+                  "fl_t_uracil_base",
+                  "fl_t_tn5_index",
+                  "fl_t_read2",
+                  "fl_t_i7",
+                  "fl_t_p7"
+                ],
+                "strand_id": "fl_top"
+              },
+              "side_2": {
+                "segment_ids": [
+                  "fl_b_p7",
+                  "fl_b_i7",
+                  "fl_b_read2",
+                  "fl_b_tn5_index",
+                  "fl_b_uracil_base",
+                  "fl_b_me",
+                  "fl_b_gdna",
+                  "fl_b_me_prime",
+                  "fl_b_s5_rc",
+                  "fl_b_i5",
+                  "fl_b_p5_rc"
+                ],
+                "strand_id": "fl_bottom"
+              },
+              "support_status": "explicit"
+            }
+          ],
+          "physical_state": "purified, size-selected double-stranded library",
+          "properties": [
+            "cell barcode is the combination of the 8-bp Tn5, 8-bp i7 and 8-bp i5 indexes",
+            "compatible with standard Illumina sequencing primers and recipes"
+          ],
+          "reference_strand_id": "fl_top",
+          "state_id": "st_final_library",
+          "strand_architecture": "double_stranded",
+          "strands": [
+            {
+              "molecule_type": "DNA",
+              "name": "P5 (Nextera i5) strand",
+              "orientation": "5_to_3",
+              "segments": [
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_pcr_i5_primer",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "Illumina P5 flowcell adapter",
+                  "segment_id": "fl_t_p5",
+                  "sequence": "AATGATACGGCGACCACCGAGATCTACAC",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_pcr_i5_primer",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "placeholder": "[I5_INDEX:8]",
+                  "role": "i5 PCR sample index",
+                  "segment_id": "fl_t_i5",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_pcr_i5_primer",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "Nextera Read 1 / A14 primer-binding site (s5)",
+                  "segment_id": "fl_t_s5",
+                  "sequence": "TCGTCGGCAGCGTC",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "Tn5 mosaic end (ME)",
+                  "segment_id": "fl_t_me",
+                  "sequence": "AGATGTGTATAAGAGACAG",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[GDNA]",
+                  "role": "genomic DNA insert",
+                  "segment_id": "fl_t_gdna",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "Tn5 mosaic end reverse complement (ME')",
+                  "segment_id": "fl_t_me_prime",
+                  "sequence": "CTGTCTCTTATACACATCT",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "base copied opposite the adapter blocking deoxyuridine",
+                  "segment_id": "fl_t_uracil_base",
+                  "sequence": "A",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_sbs12_18_ume_sci_indexed_tn5_adapter",
+                      "orientation_to_source": "reverse_complement"
+                    }
+                  ],
+                  "placeholder": "[TN5_INDEX:8]",
+                  "role": "Tn5 transposome index",
+                  "segment_id": "fl_t_tn5_index",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_truseq_i7_pcr_primer",
+                      "orientation_to_source": "reverse_complement"
+                    }
+                  ],
+                  "role": "TruSeq Read 2 primer-binding site",
+                  "segment_id": "fl_t_read2",
+                  "sequence": "AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_truseq_i7_pcr_primer",
+                      "orientation_to_source": "reverse_complement"
+                    }
+                  ],
+                  "placeholder": "[I7_INDEX:8]",
+                  "role": "i7 PCR sample index",
+                  "segment_id": "fl_t_i7",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_truseq_i7_pcr_primer",
+                      "orientation_to_source": "reverse_complement"
+                    }
+                  ],
+                  "role": "Illumina P7 flowcell adapter",
+                  "segment_id": "fl_t_p7",
+                  "sequence": "ATCTCGTATGCCGTCTTCTGCTTG",
+                  "structural_role": "paired_region"
+                }
+              ],
+              "sequence_architecture": "AATGATACGGCGACCACCGAGATCTACAC[I5_INDEX:8]TCGTCGGCAGCGTCAGATGTGTATAAGAGACAG[GDNA]CTGTCTCTTATACACATCTA[TN5_INDEX:8]AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC[I7_INDEX:8]ATCTCGTATGCCGTCTTCTGCTTG",
+              "strand_id": "fl_top",
+              "support_status": "explicit"
+            },
+            {
+              "molecule_type": "DNA",
+              "name": "P7 (TruSeq i7) strand",
+              "orientation": "5_to_3",
+              "segments": [
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_truseq_i7_pcr_primer",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "Illumina P7 flowcell adapter",
+                  "segment_id": "fl_b_p7",
+                  "sequence": "CAAGCAGAAGACGGCATACGAGAT",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_truseq_i7_pcr_primer",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "placeholder": "[I7_INDEX:8]",
+                  "role": "i7 PCR sample index",
+                  "segment_id": "fl_b_i7",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_truseq_i7_pcr_primer",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "TruSeq Read 2 primer-binding site",
+                  "segment_id": "fl_b_read2",
+                  "sequence": "GTGACTGGAGTTCAGACGTGTGCTCTTCCGATCT",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_sbs12_18_ume_sci_indexed_tn5_adapter",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "placeholder": "[TN5_INDEX:8]",
+                  "role": "Tn5 transposome index",
+                  "segment_id": "fl_b_tn5_index",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "base replacing the adapter blocking deoxyuridine",
+                  "segment_id": "fl_b_uracil_base",
+                  "sequence": "T",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "Tn5 mosaic end (ME)",
+                  "segment_id": "fl_b_me",
+                  "sequence": "AGATGTGTATAAGAGACAG",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[GDNA]",
+                  "role": "genomic DNA insert",
+                  "segment_id": "fl_b_gdna",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "Tn5 mosaic end reverse complement (ME')",
+                  "segment_id": "fl_b_me_prime",
+                  "sequence": "CTGTCTCTTATACACATCT",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_pcr_i5_primer",
+                      "orientation_to_source": "reverse_complement"
+                    }
+                  ],
+                  "role": "Nextera A14 (s5) reverse complement",
+                  "segment_id": "fl_b_s5_rc",
+                  "sequence": "GACGCTGCCGACGA",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_pcr_i5_primer",
+                      "orientation_to_source": "reverse_complement"
+                    }
+                  ],
+                  "placeholder": "[I5_INDEX:8]",
+                  "role": "i5 PCR sample index",
+                  "segment_id": "fl_b_i5",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_pcr_i5_primer",
+                      "orientation_to_source": "reverse_complement"
+                    }
+                  ],
+                  "role": "Illumina P5 flowcell adapter reverse complement",
+                  "segment_id": "fl_b_p5_rc",
+                  "sequence": "GTGTAGATCTCGGTGGTCGCCGTATCATT",
+                  "structural_role": "paired_region"
+                }
+              ],
+              "sequence_architecture": "CAAGCAGAAGACGGCATACGAGAT[I7_INDEX:8]GTGACTGGAGTTCAGACGTGTGCTCTTCCGATCT[TN5_INDEX:8]TAGATGTGTATAAGAGACAG[GDNA]CTGTCTCTTATACACATCTGACGCTGCCGACGA[I5_INDEX:8]GTGTAGATCTCGGTGGTCGCCGTATCATT",
+              "strand_id": "fl_bottom",
+              "support_status": "explicit"
+            }
+          ],
+          "support_status": "explicit"
+        }
+      ],
+      "transitions": [
+        {
+          "carried_forward_product_ids": [
+            "st_tagmented"
+          ],
+          "discarded_product_ids": [],
+          "major_reagents": [
+            {
+              "name": "Uniquely indexed Tn5 transposome (SBS12_18_UME_sci)",
+              "role": "transposase"
+            },
+            {
+              "name": "2x TD buffer (Nextera XT)",
+              "role": "tagmentation buffer"
+            },
+            {
+              "name": "DAPI",
+              "role": "nuclear stain for flow sorting"
+            }
+          ],
+          "oligo_ids": [
+            "oligo_sbs12_18_ume_sci_indexed_tn5_adapter",
+            "oligo_tn5_binding_site_19_bp_mosaic_end_me_bottom"
+          ],
+          "operation": "tagmentation",
+          "operation_detail": "In situ tagmentation of sorted nuclei in a 96-well plate with uniquely indexed single-adapter Tn5 transposomes (55 C, 10 min); only the adapter-bearing transferred strand is joined to genomic DNA, leaving a 9-base gap at each end. Well pooling, DAPI staining and flow sorting of single nuclei into a new plate are folded into this transition.",
+          "product_state_ids": [
+            "st_tagmented"
+          ],
+          "substrate_state_ids": [
+            "st_genomic_dna",
+            "st_tn5_transposome_adapter"
+          ],
+          "support_status": "explicit",
+          "transition_id": "tr_tagmentation"
+        },
+        {
+          "carried_forward_product_ids": [
+            "st_gap_filled"
+          ],
+          "discarded_product_ids": [],
+          "major_reagents": [
+            {
+              "name": "NPM (Nextera XT uracil-intolerant polymerase)",
+              "role": "DNA polymerase"
+            },
+            {
+              "name": "0.1% SDS",
+              "role": "nucleosome and transposase denaturation"
+            }
+          ],
+          "oligo_ids": [],
+          "operation": "extension",
+          "operation_detail": "Gap fill-in at 72 C for 10 min with the uracil-intolerant polymerase NPM (Nextera XT), closing the 9-base gaps; extension halts at the adapter deoxyuridine so the Tn5 index and TruSeq adapter are not copied. SDS denaturation of nucleosomes and residual transposase is folded into this transition.",
+          "product_state_ids": [
+            "st_gap_filled"
+          ],
+          "substrate_state_ids": [
+            "st_tagmented"
+          ],
+          "support_status": "explicit",
+          "transition_id": "tr_gap_fill"
+        },
+        {
+          "carried_forward_product_ids": [
+            "st_adapter_switched"
+          ],
+          "discarded_product_ids": [],
+          "major_reagents": [
+            {
+              "name": "NPM (Nextera XT uracil-intolerant polymerase)",
+              "role": "DNA polymerase"
+            },
+            {
+              "name": "1% Triton X-100",
+              "role": "SDS quench"
+            }
+          ],
+          "oligo_ids": [
+            "oligo_a14_me_lna_nextera_r1_a14_plus_u_me"
+          ],
+          "operation": "strand_synthesis",
+          "operation_detail": "Ten cycles of LNA-templated adapter switching (98 C 10 s, 59 C 20 s, 72 C 10 s): the 3'-blocked A14_ME_LNA oligo anneals to the copied mosaic end and templates extension of each strand through the Nextera A14 sequence, giving every fragment a forward and a reverse adapter. Triton X-100 quench of residual SDS is folded into this transition.",
+          "product_state_ids": [
+            "st_adapter_switched"
+          ],
+          "substrate_state_ids": [
+            "st_gap_filled"
+          ],
+          "support_status": "explicit",
+          "transition_id": "tr_adapter_switching"
+        },
+        {
+          "carried_forward_product_ids": [
+            "st_final_library"
+          ],
+          "discarded_product_ids": [],
+          "major_reagents": [
+            {
+              "name": "NEBNext Q5U 2x Master Mix",
+              "role": "uracil-tolerant DNA polymerase"
+            },
+            {
+              "name": "SYBR Green I",
+              "role": "real-time amplification monitoring"
+            },
+            {
+              "name": "SPRI beads (Mag-Bind TotalPure NGS)",
+              "role": "size selection"
+            }
+          ],
+          "oligo_ids": [
+            "oligo_pcr_i5_primer",
+            "oligo_truseq_i7_pcr_primer"
+          ],
+          "operation": "pcr",
+          "operation_detail": "16-18 cycles of real-time PCR with indexed i5 and i7 primers and the uracil-tolerant NEBNext Q5U polymerase, which reads through the adapter deoxyuridine; the i5 primer extends first to complete the i5 side and the i7 primer then completes the i7 side. Pooling, Qiaquick column cleanup, 1x SPRI size selection, quantification and dilution are folded into this transition.",
+          "product_state_ids": [
+            "st_final_library"
+          ],
+          "substrate_state_ids": [
+            "st_adapter_switched"
+          ],
+          "support_status": "explicit",
+          "transition_id": "tr_indexed_pcr"
+        }
+      ],
+      "workflow_id": "wf_s3_atac"
+    }
+  ]
+}

@@ -8,6 +8,7 @@ python /tests/grade.py \
   --groundtruth-repo "sequencing/scg-oligo-groundtruth-v1" \
   --groundtruth-revision "5a81714daaa87d568a0c5b62320679d34219ebf7" \
   --groundtruth-prefix "s3_atac" \
+  --groundtruth-dir /tests/groundtruth \
   --t1-sha256 "2174de743cab769296495a96d02ccda69e66a6d639d6a3416e1aa9ed72dc92de" \
   --t2-sha256 "67a5deb41f9d47fb30f5a81ea04e4ec7707bcdbf4c9c0eb2753ce710998c0532" \
   --t3-sha256 "063b8928d5f8ad000c8ff976100218ddff5802c826817966516aa6dc42490951" \

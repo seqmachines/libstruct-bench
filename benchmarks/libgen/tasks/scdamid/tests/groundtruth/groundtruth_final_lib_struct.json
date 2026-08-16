@@ -1,0 +1,173 @@
+{
+  "libraries": [
+    {
+      "final_molecule": "double-stranded indexed Illumina sequencing library",
+      "library_sequence": "AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT[VARIABLE:4]GTGGTCGCGGCCGAGGATC[GDNA]GATCCTCGGCCGCGACCAC[VARIABLE:4]AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC[I7_INDEX:8]CTCGTATGCCGTCTTCTGCTTG",
+      "modality": "genomic DNA",
+      "orientation": "5_to_3",
+      "segments": [
+        {
+          "kind": "constant",
+          "length": 29,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_illumina_p5_adapter",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "Illumina P5 flow-cell adapter",
+          "segment_id": "seg_p5",
+          "sequence": "AATGATACGGCGACCACCGAGATCTACAC",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "length": 29,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_truseq_read_1_sequencing_primer_partial",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "TruSeq Read 1 primer binding site",
+          "segment_id": "seg_truseq_read1",
+          "sequence": "TCTTTCCCTACACGACGCTCTTCCGATCT",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "variable",
+          "length": 4,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_scdamid_preamp_pcr_primer",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "placeholder": "[VARIABLE:4]",
+          "role": "4-nt random tail carried in from the scDamID preAmp PCR primer",
+          "segment_id": "seg_random_tail_5p",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "length": 19,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_scdamid_preamp_pcr_primer",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "scDamID preAmp adaptor sequence ending in the GATC of the DpnI site",
+          "segment_id": "seg_preamp_fwd",
+          "sequence": "GTGGTCGCGGCCGAGGATC",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "biological_insert",
+          "orientation": "5_to_3",
+          "placeholder": "[GDNA]",
+          "role": "GATC-flanked genomic DNA fragment",
+          "segment_id": "seg_gdna",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "length": 19,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_scdamid_preamp_pcr_primer",
+              "orientation_to_source": "reverse_complement"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "scDamID preAmp adaptor sequence, reverse complement, at the distal GATC",
+          "segment_id": "seg_preamp_rev",
+          "sequence": "GATCCTCGGCCGCGACCAC",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "variable",
+          "length": 4,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_scdamid_preamp_pcr_primer",
+              "orientation_to_source": "reverse_complement"
+            }
+          ],
+          "orientation": "5_to_3",
+          "placeholder": "[VARIABLE:4]",
+          "role": "4-nt random tail, reverse complement of the preAmp primer tail",
+          "segment_id": "seg_random_tail_3p",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "length": 1,
+          "orientation": "5_to_3",
+          "role": "dA tail retained from the A-tailing / T-overhang adapter ligation junction",
+          "segment_id": "seg_a_tail",
+          "sequence": "A",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "length": 33,
+          "notes": "First 20 bases come from the ligated Illumina adaptor top strand; the remaining GAACTCCAGTCAC is completed by the indexing PCR primer.",
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_illumina_adaptor_top",
+              "orientation_to_source": "same_orientation"
+            },
+            {
+              "oligo_id": "oligo_illumina_multiplexing_pcr_primer",
+              "orientation_to_source": "reverse_complement"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "TruSeq Read 2 primer binding site (reverse complement of the Read 2 primer)",
+          "segment_id": "seg_truseq_read2",
+          "sequence": "GATCGGAAGAGCACACGTCTGAACTCCAGTCAC",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "variable",
+          "length": 8,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_illumina_multiplexing_pcr_primer",
+              "orientation_to_source": "reverse_complement"
+            }
+          ],
+          "orientation": "5_to_3",
+          "placeholder": "[I7_INDEX:8]",
+          "role": "i7 sample index (used as the single-cell sample barcode)",
+          "segment_id": "seg_i7_index",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "length": 22,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_illumina_p7_adapter",
+              "orientation_to_source": "reverse_complement"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "Illumina P7 flow-cell adapter, reverse complement",
+          "segment_id": "seg_p7",
+          "sequence": "CTCGTATGCCGTCTTCTGCTTG",
+          "support_status": "explicit"
+        }
+      ],
+      "strand": "top",
+      "support_status": "explicit"
+    }
+  ],
+  "protocol_id": "scdamid",
+  "protocol_name": "scDamID"
+}

@@ -1,0 +1,77 @@
+{
+  "created_at": "2026-08-16T16:44:32.982197+00:00",
+  "docker_compose_returncode": 0,
+  "network_policy_sha256": "d5f2c1097134fb1704e3c987277a6174d77f2226f3b8d85be6c44af8a978c525",
+  "probe": {
+    "antigravity_code_assist_access": {
+      "reachable": true,
+      "status": 404
+    },
+    "antigravity_installer_access": {
+      "reachable": true,
+      "status": 200
+    },
+    "antigravity_manifest_access": {
+      "reachable": true,
+      "status": 200
+    },
+    "antigravity_profile_access": {
+      "reachable": true,
+      "status": 400
+    },
+    "claude_subscription_access": {
+      "reachable": true,
+      "status": 401
+    },
+    "codex_oauth_access": {
+      "reachable": true,
+      "status": 403
+    },
+    "codex_subscription_access": {
+      "reachable": true,
+      "status": 401
+    },
+    "direct_external_access": {
+      "error": "OSError",
+      "reachable": false
+    },
+    "gemini_code_assist_access": {
+      "reachable": true,
+      "status": 404
+    },
+    "gemini_oauth_access": {
+      "reachable": true,
+      "status": 400
+    },
+    "gemini_userinfo_access": {
+      "reachable": true,
+      "status": 401
+    },
+    "provider_api_access": {
+      "reachable": true,
+      "status": 401
+    },
+    "qwen_api_access": {
+      "reachable": true,
+      "status": 200
+    },
+    "setup_repository_access": {
+      "reachable": true,
+      "status": 200
+    },
+    "setup_repository_access_after_provider": {
+      "error": "URLError",
+      "reachable": false
+    },
+    "unrelated_public_web_access": {
+      "error": "URLError",
+      "reachable": false
+    },
+    "uv_installer_access": {
+      "reachable": true,
+      "status": 200
+    }
+  },
+  "ready": true,
+  "schema_version": 2
+}

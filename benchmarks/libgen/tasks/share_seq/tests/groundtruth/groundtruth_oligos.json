@@ -1,0 +1,477 @@
+{
+  "oligos": [
+    {
+      "aliases": [
+        "blocked ME-complement",
+        "non-transferred mosaic-end strand"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [
+        "5' phosphate (/5Phos/)",
+        "phosphorothioate linkages throughout the backbone",
+        "3'-terminal dideoxycytidine (/3ddC/) blocking extension"
+      ],
+      "name": "Blocked_ME_Comp",
+      "oligo_id": "oligo_blocked_me_complement",
+      "orientation": "5_to_3",
+      "role": "non-transferred mosaic-end strand used to assemble both Tn5 transposomes",
+      "sequence": "CTGTCTCTTATACAC",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "Read 1 sequencing primer"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Illumina Nextera Read 1 primer",
+      "oligo_id": "oligo_illumina_nextera_read_1_primer",
+      "orientation": "5_to_3",
+      "role": "primer",
+      "sequence": "TCGTCGGCAGCGTCAGATGTGTATAAGAGACAG",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "Illumina Nextera Read 2 primer",
+        "Read 2 sequencing primer",
+        "Read2"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [
+        "5' phosphate (/5Phos/)"
+      ],
+      "name": "Phosphorylated_Read2",
+      "oligo_id": "oligo_illumina_nextera_read_2_primer",
+      "orientation": "5_to_3",
+      "role": "Tn5 transferred strand (s7/ME); the 5' phosphate enables round-1 barcode ligation",
+      "sequence": "GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Illumina P5 adapter",
+      "oligo_id": "oligo_illumina_p5_adapter",
+      "orientation": "5_to_3",
+      "role": "adapter",
+      "sequence": "AATGATACGGCGACCACCGAGATCTACAC",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Illumina P7 adapter",
+      "oligo_id": "oligo_illumina_p7_adapter",
+      "orientation": "5_to_3",
+      "role": "adapter",
+      "sequence": "CAAGCAGAAGACGGCATACGAGAT",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "RNA_PCR_primer"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "ISPCR / TSO PCR primer",
+      "oligo_id": "oligo_ispcr_tso_pcr_primer",
+      "orientation": "5_to_3",
+      "role": "primer",
+      "sequence": "AAGCAGTGGTATCAACGCAGAGT",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "Index 1 sequencing primer (i7)"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Nextera Index 1 sequencing primer (i7)",
+      "oligo_id": "oligo_nextera_index_1_sequencing_primer_i7",
+      "orientation": "5_to_3",
+      "role": "primer",
+      "sequence": "CTGTCTCTTATACACATCTCCGAGCCCACGAGAC",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "Index 2 sequencing primer (i5)"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Nextera Index 2 sequencing primer (i5)",
+      "oligo_id": "oligo_nextera_index_2_sequencing_primer_i5",
+      "orientation": "5_to_3",
+      "role": "primer",
+      "sequence": "CTGTCTCTTATACACATCTGACGCTGCCGACGA",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [],
+      "components": [
+        {
+          "modifications": [
+            "5' phosphate (/5Phos/)"
+          ],
+          "name": "Round1 5' ligation overhang",
+          "orientation": "5_to_3",
+          "role": "ligation_overhang",
+          "sequence": "CGCGCTGCATACTTG",
+          "support_status": "explicit"
+        },
+        {
+          "length": 8,
+          "modifications": [],
+          "name": "Round1 cell barcode",
+          "orientation": "5_to_3",
+          "placeholder": "[CELL_BARCODE:8]",
+          "role": "cell_barcode",
+          "support_status": "explicit"
+        },
+        {
+          "modifications": [],
+          "name": "Round1 linker-hybridising 3' region",
+          "orientation": "5_to_3",
+          "role": "linker_hybridization",
+          "sequence": "CCCATGATCGTCCGA",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [
+        "5' phosphate (/5Phos/)"
+      ],
+      "name": "Round1 barcodes",
+      "oligo_id": "oligo_round1_barcodes",
+      "orientation": "5_to_3",
+      "role": "oligo",
+      "sequence": "/5Phos/CGCGCTGCATACTTG[CELL_BARCODE:8]CCCATGATCGTCCGA",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "Round1 blocking (reverse complementary to Round1 linker)"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Round 1 blocking",
+      "oligo_id": "oligo_round1_blocking_reverse_complementary_to_round1_linker",
+      "orientation": "5_to_3",
+      "role": "oligo",
+      "sequence": "CCCATGATCGTCCGAGTCTCGTGGGCTCGG",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Round1 linker",
+      "oligo_id": "oligo_round1_linker",
+      "orientation": "5_to_3",
+      "role": "oligo",
+      "sequence": "CCGAGCCCACGAGACTCGGACGATCATGGG",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [],
+      "components": [
+        {
+          "modifications": [
+            "5' phosphate (/5Phos/)"
+          ],
+          "name": "Round2 5' ligation overhang",
+          "orientation": "5_to_3",
+          "role": "ligation_overhang",
+          "sequence": "CATCGGCGTACGACT",
+          "support_status": "explicit"
+        },
+        {
+          "length": 8,
+          "modifications": [],
+          "name": "Round2 cell barcode",
+          "orientation": "5_to_3",
+          "placeholder": "[CELL_BARCODE:8]",
+          "role": "cell_barcode",
+          "support_status": "explicit"
+        },
+        {
+          "modifications": [],
+          "name": "Round2 linker-hybridising 3' region",
+          "orientation": "5_to_3",
+          "role": "linker_hybridization",
+          "sequence": "ATCCACGTGCTTGAG",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [
+        "5' phosphate (/5Phos/)"
+      ],
+      "name": "Round2 barcodes",
+      "oligo_id": "oligo_round2_barcodes",
+      "orientation": "5_to_3",
+      "role": "oligo",
+      "sequence": "/5Phos/CATCGGCGTACGACT[CELL_BARCODE:8]ATCCACGTGCTTGAG",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "Round2 blocking strand",
+        "Round2 blocking (reverse complementary to Round2 linker)"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Round 2 blocking",
+      "oligo_id": "oligo_round2_blocking_strand",
+      "orientation": "5_to_3",
+      "role": "oligo",
+      "sequence": "ATCCACGTGCTTGAGCGCGCTGCATACTTG",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Round2 linker",
+      "oligo_id": "oligo_round2_linker",
+      "orientation": "5_to_3",
+      "role": "oligo",
+      "sequence": "CAAGTATGCAGCGCGCTCAAGCACGTGGAT",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [],
+      "components": [
+        {
+          "modifications": [],
+          "name": "Illumina P7 adapter",
+          "orientation": "5_to_3",
+          "role": "adapter",
+          "sequence": "CAAGCAGAAGACGGCATACGAGAT",
+          "support_status": "explicit"
+        },
+        {
+          "length": 8,
+          "modifications": [],
+          "name": "Round3 cell barcode",
+          "orientation": "5_to_3",
+          "placeholder": "[CELL_BARCODE:8]",
+          "role": "cell_barcode",
+          "support_status": "explicit"
+        },
+        {
+          "modifications": [],
+          "name": "Round3 linker-hybridising 3' region",
+          "orientation": "5_to_3",
+          "role": "linker_hybridization",
+          "sequence": "GTGGCCGATGTTTCG",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [],
+      "name": "Round3 barcodes",
+      "oligo_id": "oligo_round3_barcodes",
+      "orientation": "5_to_3",
+      "role": "oligo",
+      "sequence": "CAAGCAGAAGACGGCATACGAGAT[CELL_BARCODE:8]GTGGCCGATGTTTCG",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "Round3 blocking strand",
+        "Round3 blocking (reverse complementary to Round3 linker)"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Round 3 blocking",
+      "oligo_id": "oligo_round3_blocking_strand_bc_0066",
+      "orientation": "5_to_3",
+      "role": "oligo",
+      "sequence": "GTGGCCGATGTTTCGCATCGGCGTACGACT",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Round3 linker",
+      "oligo_id": "oligo_round3_linker",
+      "orientation": "5_to_3",
+      "role": "oligo",
+      "sequence": "AGTCGTACGCCGATGCGAAACATCGGCCAC",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [],
+      "components": [
+        {
+          "modifications": [
+            "5' phosphate (/5Phos/)"
+          ],
+          "name": "Nextera s7 (Read 2) adapter",
+          "orientation": "5_to_3",
+          "role": "adapter",
+          "sequence": "GTCTCGTGGGCTCGG",
+          "support_status": "explicit"
+        },
+        {
+          "modifications": [],
+          "name": "Tn5 mosaic end (ME)",
+          "orientation": "5_to_3",
+          "role": "mosaic_end",
+          "sequence": "AGATGTGTATAAGAGACAG",
+          "support_status": "explicit"
+        },
+        {
+          "length": 10,
+          "modifications": [],
+          "name": "unique molecular identifier",
+          "orientation": "5_to_3",
+          "placeholder": "[UMI:10]",
+          "role": "umi",
+          "support_status": "explicit"
+        },
+        {
+          "modifications": [
+            "internal biotin-dT (/iBiodT/) immediately 5' of the poly(dT) tract"
+          ],
+          "name": "poly(dT) tract",
+          "orientation": "5_to_3",
+          "role": "poly_dt",
+          "sequence": "TTTTTTTTTTTTTT",
+          "support_status": "explicit"
+        },
+        {
+          "modifications": [],
+          "name": "anchoring VN dinucleotide",
+          "orientation": "5_to_3",
+          "role": "anchor",
+          "sequence": "VN",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [
+        "5' phosphate (/5Phos/)",
+        "internal biotin-dT (/iBiodT/)"
+      ],
+      "name": "RT_primer",
+      "oligo_id": "oligo_rt_primer",
+      "orientation": "5_to_3",
+      "role": "primer",
+      "sequence": "/5Phos/GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG[UMI:10]/iBiodT/TTTTTTTTTTTTTTVN",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "Template Switching Oligos (TSO)"
+      ],
+      "components": [
+        {
+          "modifications": [],
+          "name": "ISPCR / TSO PCR primer handle",
+          "orientation": "5_to_3",
+          "role": "primer_handle",
+          "sequence": "AAGCAGTGGTATCAACGCAGAGT",
+          "support_status": "explicit"
+        },
+        {
+          "modifications": [],
+          "name": "spacer",
+          "orientation": "5_to_3",
+          "role": "spacer",
+          "sequence": "GAAT",
+          "support_status": "explicit"
+        },
+        {
+          "modifications": [
+            "two riboguanosines (rGrG)",
+            "3'-terminal locked nucleic acid guanosine (+G)"
+          ],
+          "name": "3' riboG/LNA-G template-switching triplet",
+          "orientation": "5_to_3",
+          "role": "template_switching_ggg",
+          "sequence": "GGG",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [
+        "two riboguanosines (rGrG)",
+        "3'-terminal locked nucleic acid guanosine (+G)"
+      ],
+      "name": "Template Switching Oligo (TSO) with LNA",
+      "oligo_id": "oligo_template_switching_oligo_tso_with_lna",
+      "orientation": "5_to_3",
+      "role": "oligo",
+      "sequence": "AAGCAGTGGTATCAACGCAGAGTGAATrGrG+G",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [],
+      "components": [
+        {
+          "modifications": [],
+          "name": "Illumina P5 adapter",
+          "orientation": "5_to_3",
+          "role": "adapter",
+          "sequence": "AATGATACGGCGACCACCGAGATCTACAC",
+          "support_status": "explicit"
+        },
+        {
+          "length": 8,
+          "modifications": [],
+          "name": "i5 sample index",
+          "orientation": "5_to_3",
+          "placeholder": "[I5_INDEX:8]",
+          "role": "sample_index",
+          "support_status": "explicit"
+        },
+        {
+          "modifications": [],
+          "name": "Nextera s5 (Read 1) adapter",
+          "orientation": "5_to_3",
+          "role": "adapter",
+          "sequence": "TCGTCGGCAGCGTC",
+          "support_status": "explicit"
+        },
+        {
+          "modifications": [],
+          "name": "partial Tn5 mosaic end (ME)",
+          "orientation": "5_to_3",
+          "role": "mosaic_end",
+          "sequence": "AGATGTGTAT",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [],
+      "name": "v2_Ad1.01",
+      "oligo_id": "oligo_v2_ad1_01",
+      "orientation": "5_to_3",
+      "role": "oligo",
+      "sequence": "AATGATACGGCGACCACCGAGATCTACAC[I5_INDEX:8]TCGTCGGCAGCGTCAGATGTGTAT",
+      "support_status": "explicit"
+    }
+  ],
+  "protocol_id": "share_seq",
+  "protocol_name": "SHARE-seq"
+}

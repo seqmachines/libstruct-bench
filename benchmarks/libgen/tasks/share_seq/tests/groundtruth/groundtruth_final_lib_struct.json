@@ -1,0 +1,479 @@
+{
+  "libraries": [
+    {
+      "final_molecule": "double-stranded Illumina sequencing library (SHARE-RNA-seq)",
+      "library_sequence": "AATGATACGGCGACCACCGAGATCTACAC[I5_INDEX:8]TCGTCGGCAGCGTCAGATGTGTATAAGAGACAG[CDNA]BAAAAAAAAAAAAAAA[UMI:10]CTGTCTCTTATACACATCTCCGAGCCCACGAGACTCGGACGATCATGGG[CELL_BARCODE:8]CAAGTATGCAGCGCGCTCAAGCACGTGGAT[CELL_BARCODE:8]AGTCGTACGCCGATGCGAAACATCGGCCAC[CELL_BARCODE:8]ATCTCGTATGCCGTCTTCTGCTTG",
+      "modality": "gene expression",
+      "orientation": "5_to_3",
+      "segments": [
+        {
+          "kind": "constant",
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_v2_ad1_01",
+              "orientation_to_source": "same_orientation"
+            },
+            {
+              "oligo_id": "oligo_illumina_p5_adapter",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "Illumina P5 adapter",
+          "segment_id": "rna_p5",
+          "sequence": "AATGATACGGCGACCACCGAGATCTACAC",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "variable",
+          "length": 8,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_v2_ad1_01",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "placeholder": "[I5_INDEX:8]",
+          "role": "i5 sample index",
+          "segment_id": "rna_i5",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_v2_ad1_01",
+              "orientation_to_source": "same_orientation"
+            },
+            {
+              "oligo_id": "oligo_illumina_nextera_read_1_primer",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "Nextera s5 (Read 1) adapter",
+          "segment_id": "rna_s5",
+          "sequence": "TCGTCGGCAGCGTC",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_illumina_nextera_read_1_primer",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "Tn5 mosaic end (ME)",
+          "segment_id": "rna_me_left",
+          "sequence": "AGATGTGTATAAGAGACAG",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "biological_insert",
+          "orientation": "5_to_3",
+          "placeholder": "[CDNA]",
+          "role": "cDNA insert derived from mRNA",
+          "segment_id": "rna_cdna",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "variable",
+          "length": 1,
+          "orientation": "5_to_3",
+          "role": "anchor base at the poly(A)/transcript-body junction (complement of the RT primer's V)",
+          "segment_id": "rna_polya_anchor",
+          "sequence": "B",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "length": 15,
+          "orientation": "5_to_3",
+          "role": "poly(A) tract templated by the 15-nt oligo-dT stretch of the RT primer",
+          "segment_id": "rna_polya",
+          "sequence": "AAAAAAAAAAAAAAA",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "variable",
+          "length": 10,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_rt_primer",
+              "orientation_to_source": "reverse_complement"
+            }
+          ],
+          "orientation": "5_to_3",
+          "placeholder": "[UMI:10]",
+          "role": "unique molecular identifier (UMI)",
+          "segment_id": "rna_umi",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_rt_primer",
+              "orientation_to_source": "reverse_complement"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "Tn5 mosaic end (ME), complementary orientation",
+          "segment_id": "rna_me_right",
+          "sequence": "CTGTCTCTTATACACATCT",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_round1_linker",
+              "orientation_to_source": "same_orientation"
+            },
+            {
+              "oligo_id": "oligo_rt_primer",
+              "orientation_to_source": "reverse_complement"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "Nextera s7 (Read 2) adapter, complementary orientation",
+          "segment_id": "rna_s7_rc",
+          "sequence": "CCGAGCCCACGAGAC",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_round1_linker",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "Round1 linker distal half (linker1)",
+          "segment_id": "rna_linker1",
+          "sequence": "TCGGACGATCATGGG",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "variable",
+          "length": 8,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_round1_barcodes",
+              "orientation_to_source": "reverse_complement"
+            }
+          ],
+          "orientation": "5_to_3",
+          "placeholder": "[CELL_BARCODE:8]",
+          "role": "Round1 ligation cell barcode (B1)",
+          "segment_id": "rna_bc1",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_round2_linker",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "Round2 linker (linker2)",
+          "segment_id": "rna_linker2",
+          "sequence": "CAAGTATGCAGCGCGCTCAAGCACGTGGAT",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "variable",
+          "length": 8,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_round2_barcodes",
+              "orientation_to_source": "reverse_complement"
+            }
+          ],
+          "orientation": "5_to_3",
+          "placeholder": "[CELL_BARCODE:8]",
+          "role": "Round2 ligation cell barcode (B2)",
+          "segment_id": "rna_bc2",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_round3_linker",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "Round3 linker (linker3)",
+          "segment_id": "rna_linker3",
+          "sequence": "AGTCGTACGCCGATGCGAAACATCGGCCAC",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "variable",
+          "length": 8,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_round3_barcodes",
+              "orientation_to_source": "reverse_complement"
+            }
+          ],
+          "orientation": "5_to_3",
+          "placeholder": "[CELL_BARCODE:8]",
+          "role": "Round3 ligation cell barcode (B3)",
+          "segment_id": "rna_bc3",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_round3_barcodes",
+              "orientation_to_source": "reverse_complement"
+            },
+            {
+              "oligo_id": "oligo_illumina_p7_adapter",
+              "orientation_to_source": "reverse_complement"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "Illumina P7 adapter, complementary orientation",
+          "segment_id": "rna_p7_rc",
+          "sequence": "ATCTCGTATGCCGTCTTCTGCTTG",
+          "support_status": "explicit"
+        }
+      ],
+      "strand": "top",
+      "support_status": "explicit"
+    },
+    {
+      "final_molecule": "double-stranded Illumina sequencing library (SHARE-ATAC-seq)",
+      "library_sequence": "AATGATACGGCGACCACCGAGATCTACAC[I5_INDEX:8]TCGTCGGCAGCGTCAGATGTGTATAAGAGACAG[GDNA]CTGTCTCTTATACACATCTCCGAGCCCACGAGACTCGGACGATCATGGG[CELL_BARCODE:8]CAAGTATGCAGCGCGCTCAAGCACGTGGAT[CELL_BARCODE:8]AGTCGTACGCCGATGCGAAACATCGGCCAC[CELL_BARCODE:8]ATCTCGTATGCCGTCTTCTGCTTG",
+      "modality": "chromatin accessibility",
+      "orientation": "5_to_3",
+      "segments": [
+        {
+          "kind": "constant",
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_v2_ad1_01",
+              "orientation_to_source": "same_orientation"
+            },
+            {
+              "oligo_id": "oligo_illumina_p5_adapter",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "Illumina P5 adapter",
+          "segment_id": "atac_p5",
+          "sequence": "AATGATACGGCGACCACCGAGATCTACAC",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "variable",
+          "length": 8,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_v2_ad1_01",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "placeholder": "[I5_INDEX:8]",
+          "role": "i5 sample index",
+          "segment_id": "atac_i5",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_v2_ad1_01",
+              "orientation_to_source": "same_orientation"
+            },
+            {
+              "oligo_id": "oligo_illumina_nextera_read_1_primer",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "Nextera s5 (Read 1) adapter",
+          "segment_id": "atac_s5",
+          "sequence": "TCGTCGGCAGCGTC",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_illumina_nextera_read_1_primer",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "Tn5 mosaic end (ME)",
+          "segment_id": "atac_me_left",
+          "sequence": "AGATGTGTATAAGAGACAG",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "biological_insert",
+          "orientation": "5_to_3",
+          "placeholder": "[GDNA]",
+          "role": "tagmented genomic DNA insert (open chromatin)",
+          "segment_id": "atac_gdna",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_illumina_nextera_read_2_primer",
+              "orientation_to_source": "reverse_complement"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "Tn5 mosaic end (ME), complementary orientation",
+          "segment_id": "atac_me_right",
+          "sequence": "CTGTCTCTTATACACATCT",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_round1_linker",
+              "orientation_to_source": "same_orientation"
+            },
+            {
+              "oligo_id": "oligo_illumina_nextera_read_2_primer",
+              "orientation_to_source": "reverse_complement"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "Nextera s7 (Read 2) adapter, complementary orientation",
+          "segment_id": "atac_s7_rc",
+          "sequence": "CCGAGCCCACGAGAC",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_round1_linker",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "Round1 linker distal half (linker1)",
+          "segment_id": "atac_linker1",
+          "sequence": "TCGGACGATCATGGG",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "variable",
+          "length": 8,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_round1_barcodes",
+              "orientation_to_source": "reverse_complement"
+            }
+          ],
+          "orientation": "5_to_3",
+          "placeholder": "[CELL_BARCODE:8]",
+          "role": "Round1 ligation cell barcode (B1)",
+          "segment_id": "atac_bc1",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_round2_linker",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "Round2 linker (linker2)",
+          "segment_id": "atac_linker2",
+          "sequence": "CAAGTATGCAGCGCGCTCAAGCACGTGGAT",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "variable",
+          "length": 8,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_round2_barcodes",
+              "orientation_to_source": "reverse_complement"
+            }
+          ],
+          "orientation": "5_to_3",
+          "placeholder": "[CELL_BARCODE:8]",
+          "role": "Round2 ligation cell barcode (B2)",
+          "segment_id": "atac_bc2",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_round3_linker",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "Round3 linker (linker3)",
+          "segment_id": "atac_linker3",
+          "sequence": "AGTCGTACGCCGATGCGAAACATCGGCCAC",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "variable",
+          "length": 8,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_round3_barcodes",
+              "orientation_to_source": "reverse_complement"
+            }
+          ],
+          "orientation": "5_to_3",
+          "placeholder": "[CELL_BARCODE:8]",
+          "role": "Round3 ligation cell barcode (B3)",
+          "segment_id": "atac_bc3",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_round3_barcodes",
+              "orientation_to_source": "reverse_complement"
+            },
+            {
+              "oligo_id": "oligo_illumina_p7_adapter",
+              "orientation_to_source": "reverse_complement"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "Illumina P7 adapter, complementary orientation",
+          "segment_id": "atac_p7_rc",
+          "sequence": "ATCTCGTATGCCGTCTTCTGCTTG",
+          "support_status": "explicit"
+        }
+      ],
+      "strand": "top",
+      "support_status": "explicit"
+    }
+  ],
+  "protocol_id": "share_seq",
+  "protocol_name": "SHARE-seq"
+}

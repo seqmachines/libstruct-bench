@@ -1,0 +1,591 @@
+{
+  "oligos": [
+    {
+      "aliases": [
+        "Deconvolution Oligo A",
+        "DO-A"
+      ],
+      "components": [
+        {
+          "modifications": [],
+          "name": "TruSeq Read 1 partial handle",
+          "orientation": "5_to_3",
+          "role": "primer binding site",
+          "sequence": "CCCTACACGACGCTCTTCCGATCT",
+          "support_status": "externally_completed"
+        },
+        {
+          "length": 8,
+          "modifications": [],
+          "name": "UMI",
+          "orientation": "5_to_3",
+          "placeholder": "[UMI:8]",
+          "role": "umi",
+          "support_status": "externally_completed"
+        },
+        {
+          "length": 7,
+          "modifications": [],
+          "name": "bead barcode 1",
+          "orientation": "5_to_3",
+          "placeholder": "[CELL_BARCODE:7]",
+          "role": "barcode",
+          "support_status": "externally_completed"
+        },
+        {
+          "modifications": [],
+          "name": "phase block",
+          "orientation": "5_to_3",
+          "placeholder": "[PHASE_BLOCK]",
+          "role": "phase_block",
+          "support_status": "ambiguous"
+        },
+        {
+          "modifications": [],
+          "name": "linker 1",
+          "orientation": "5_to_3",
+          "role": "linker",
+          "sequence": "TATGCATGAC",
+          "support_status": "externally_completed"
+        },
+        {
+          "length": 7,
+          "modifications": [],
+          "name": "bead barcode 2",
+          "orientation": "5_to_3",
+          "placeholder": "[CELL_BARCODE:7]",
+          "role": "barcode",
+          "support_status": "externally_completed"
+        },
+        {
+          "modifications": [],
+          "name": "linker 2",
+          "orientation": "5_to_3",
+          "role": "linker",
+          "sequence": "CAGTCAGTCA",
+          "support_status": "externally_completed"
+        },
+        {
+          "length": 7,
+          "modifications": [],
+          "name": "bead barcode 3",
+          "orientation": "5_to_3",
+          "placeholder": "[CELL_BARCODE:7]",
+          "role": "barcode",
+          "support_status": "externally_completed"
+        },
+        {
+          "modifications": [],
+          "name": "linker 3",
+          "orientation": "5_to_3",
+          "role": "linker",
+          "sequence": "AACGCAGTCAGA",
+          "support_status": "externally_completed"
+        },
+        {
+          "modifications": [],
+          "name": "deconvolution oligo A 3' hybridization arm",
+          "orientation": "5_to_3",
+          "role": "dimerization arm",
+          "sequence": "GAACGATACCATAATCTTGGC",
+          "support_status": "externally_completed"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [
+        "bead-tethered at the 5' end"
+      ],
+      "name": "Bead-TruSeq Read 1-UMI-CBC-DO-A",
+      "oligo_id": "oligo_bead_truseq_read_1_umi_cbc_do_a",
+      "orientation": "5_to_3",
+      "role": "bead-bound deconvolution oligo A",
+      "sequence": "CCCTACACGACGCTCTTCCGATCT[UMI:8][CELL_BARCODE:7][PHASE_BLOCK]TATGCATGAC[CELL_BARCODE:7]CAGTCAGTCA[CELL_BARCODE:7]AACGCAGTCAGAGAACGATACCATAATCTTGGC",
+      "support_status": "externally_completed"
+    },
+    {
+      "aliases": [
+        "Deconvolution Oligo B",
+        "DO-B"
+      ],
+      "components": [
+        {
+          "modifications": [],
+          "name": "TruSeq Read 1 partial handle",
+          "orientation": "5_to_3",
+          "role": "primer binding site",
+          "sequence": "CCCTACACGACGCTCTTCCGATCT",
+          "support_status": "externally_completed"
+        },
+        {
+          "length": 8,
+          "modifications": [],
+          "name": "UMI",
+          "orientation": "5_to_3",
+          "placeholder": "[UMI:8]",
+          "role": "umi",
+          "support_status": "externally_completed"
+        },
+        {
+          "length": 7,
+          "modifications": [],
+          "name": "bead barcode 1",
+          "orientation": "5_to_3",
+          "placeholder": "[CELL_BARCODE:7]",
+          "role": "barcode",
+          "support_status": "externally_completed"
+        },
+        {
+          "modifications": [],
+          "name": "phase block",
+          "orientation": "5_to_3",
+          "placeholder": "[PHASE_BLOCK]",
+          "role": "phase_block",
+          "support_status": "ambiguous"
+        },
+        {
+          "modifications": [],
+          "name": "linker 1",
+          "orientation": "5_to_3",
+          "role": "linker",
+          "sequence": "TATGCATGAC",
+          "support_status": "externally_completed"
+        },
+        {
+          "length": 7,
+          "modifications": [],
+          "name": "bead barcode 2",
+          "orientation": "5_to_3",
+          "placeholder": "[CELL_BARCODE:7]",
+          "role": "barcode",
+          "support_status": "externally_completed"
+        },
+        {
+          "modifications": [],
+          "name": "linker 2",
+          "orientation": "5_to_3",
+          "role": "linker",
+          "sequence": "CAGTCAGTCA",
+          "support_status": "externally_completed"
+        },
+        {
+          "length": 7,
+          "modifications": [],
+          "name": "bead barcode 3",
+          "orientation": "5_to_3",
+          "placeholder": "[CELL_BARCODE:7]",
+          "role": "barcode",
+          "support_status": "externally_completed"
+        },
+        {
+          "modifications": [],
+          "name": "linker 3",
+          "orientation": "5_to_3",
+          "role": "linker",
+          "sequence": "AACGCAGTCAGA",
+          "support_status": "externally_completed"
+        },
+        {
+          "modifications": [],
+          "name": "deconvolution oligo B 3' hybridization arm",
+          "orientation": "5_to_3",
+          "role": "dimerization arm",
+          "sequence": "GAGCCAAGATTATGGTATCGT",
+          "support_status": "externally_completed"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [
+        "bead-tethered at the 5' end"
+      ],
+      "name": "Bead-TruSeq Read 1-UMI-CBC-DO-B",
+      "oligo_id": "oligo_bead_truseq_read_1_umi_cbc_do_b",
+      "orientation": "5_to_3",
+      "role": "bead-bound deconvolution oligo B",
+      "sequence": "CCCTACACGACGCTCTTCCGATCT[UMI:8][CELL_BARCODE:7][PHASE_BLOCK]TATGCATGAC[CELL_BARCODE:7]CAGTCAGTCA[CELL_BARCODE:7]AACGCAGTCAGAGAGCCAAGATTATGGTATCGT",
+      "support_status": "externally_completed"
+    },
+    {
+      "aliases": [
+        "poly(T) capture oligo"
+      ],
+      "components": [
+        {
+          "modifications": [],
+          "name": "TruSeq Read 1 partial handle",
+          "orientation": "5_to_3",
+          "role": "primer binding site",
+          "sequence": "CCCTACACGACGCTCTTCCGATCT",
+          "support_status": "externally_completed"
+        },
+        {
+          "length": 8,
+          "modifications": [],
+          "name": "UMI",
+          "orientation": "5_to_3",
+          "placeholder": "[UMI:8]",
+          "role": "umi",
+          "support_status": "externally_completed"
+        },
+        {
+          "length": 7,
+          "modifications": [],
+          "name": "bead barcode 1",
+          "orientation": "5_to_3",
+          "placeholder": "[CELL_BARCODE:7]",
+          "role": "barcode",
+          "support_status": "externally_completed"
+        },
+        {
+          "modifications": [],
+          "name": "phase block",
+          "orientation": "5_to_3",
+          "placeholder": "[PHASE_BLOCK]",
+          "role": "phase_block",
+          "support_status": "ambiguous"
+        },
+        {
+          "modifications": [],
+          "name": "linker 1",
+          "orientation": "5_to_3",
+          "role": "linker",
+          "sequence": "TATGCATGAC",
+          "support_status": "externally_completed"
+        },
+        {
+          "length": 7,
+          "modifications": [],
+          "name": "bead barcode 2",
+          "orientation": "5_to_3",
+          "placeholder": "[CELL_BARCODE:7]",
+          "role": "barcode",
+          "support_status": "externally_completed"
+        },
+        {
+          "modifications": [],
+          "name": "linker 2",
+          "orientation": "5_to_3",
+          "role": "linker",
+          "sequence": "CAGTCAGTCA",
+          "support_status": "externally_completed"
+        },
+        {
+          "length": 7,
+          "modifications": [],
+          "name": "bead barcode 3",
+          "orientation": "5_to_3",
+          "placeholder": "[CELL_BARCODE:7]",
+          "role": "barcode",
+          "support_status": "externally_completed"
+        },
+        {
+          "modifications": [],
+          "name": "linker 3",
+          "orientation": "5_to_3",
+          "role": "linker",
+          "sequence": "AACGCAGTCAGA",
+          "support_status": "externally_completed"
+        },
+        {
+          "length": 27,
+          "modifications": [],
+          "name": "poly(T) capture tail",
+          "orientation": "5_to_3",
+          "role": "poly(T)",
+          "sequence": "TTTTTTTTTTTTTTTTTTTTTTTTTTT",
+          "support_status": "externally_completed"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [
+        "bead-tethered at the 5' end"
+      ],
+      "name": "Bead-TruSeq Read 1-UMI-CBC-poly(T)",
+      "oligo_id": "oligo_bead_truseq_read_1_umi_cbc_poly_t",
+      "orientation": "5_to_3",
+      "role": "bead-bound mRNA capture and reverse-transcription primer",
+      "sequence": "CCCTACACGACGCTCTTCCGATCT[UMI:8][CELL_BARCODE:7][PHASE_BLOCK]TATGCATGAC[CELL_BARCODE:7]CAGTCAGTCA[CELL_BARCODE:7]AACGCAGTCAGATTTTTTTTTTTTTTTTTTTTTTTTTTT",
+      "support_status": "externally_completed"
+    },
+    {
+      "aliases": [
+        "Forward primer (P5 + TruSeq Read 1)"
+      ],
+      "components": [
+        {
+          "modifications": [],
+          "name": "Illumina P5 adapter",
+          "orientation": "5_to_3",
+          "role": "adapter",
+          "sequence": "AATGATACGGCGACCACCGAGATCTACAC",
+          "support_status": "externally_completed"
+        },
+        {
+          "length": 8,
+          "modifications": [],
+          "name": "i5 sample index",
+          "orientation": "5_to_3",
+          "placeholder": "[I5_INDEX:8]",
+          "role": "sample index",
+          "support_status": "explicit"
+        },
+        {
+          "modifications": [],
+          "name": "Illumina TruSeq Read 1 primer",
+          "orientation": "5_to_3",
+          "role": "primer",
+          "sequence": "ACACTCTTTCCCTACACGACGCTCTTCCGATCT",
+          "support_status": "externally_completed"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [],
+      "name": "ddSEQ cDNA/DO Index Plate forward primer",
+      "oligo_id": "oligo_ddseq_cdna_do_index_plate_forward_primer",
+      "orientation": "5_to_3",
+      "role": "indexing PCR forward primer",
+      "sequence": "AATGATACGGCGACCACCGAGATCTACAC[I5_INDEX:8]ACACTCTTTCCCTACACGACGCTCTTCCGATCT",
+      "support_status": "externally_completed"
+    },
+    {
+      "aliases": [
+        "Reverse primer (P7 + Nextera Read 2)"
+      ],
+      "components": [
+        {
+          "modifications": [],
+          "name": "Illumina P7 adapter",
+          "orientation": "5_to_3",
+          "role": "adapter",
+          "sequence": "CAAGCAGAAGACGGCATACGAGAT",
+          "support_status": "externally_completed"
+        },
+        {
+          "length": 8,
+          "modifications": [],
+          "name": "i7 sample index",
+          "orientation": "5_to_3",
+          "placeholder": "[I7_INDEX:8]",
+          "role": "sample index",
+          "support_status": "explicit"
+        },
+        {
+          "modifications": [],
+          "name": "Nextera N7xx primer entry point (s7)",
+          "orientation": "5_to_3",
+          "role": "primer",
+          "sequence": "GTCTCGTGGGCTCGG",
+          "support_status": "externally_completed"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [],
+      "name": "ddSEQ Single-Cell 3' RNA-Seq cDNA Index Plate reverse",
+      "oligo_id": "oligo_ddseq_single_cell_3_rna_seq_cdna_index_plate_reverse",
+      "orientation": "5_to_3",
+      "role": "cDNA indexing PCR reverse primer",
+      "sequence": "CAAGCAGAAGACGGCATACGAGAT[I7_INDEX:8]GTCTCGTGGGCTCGG",
+      "support_status": "externally_completed"
+    },
+    {
+      "aliases": [
+        "Reverse primer (P7 + TruSeq Read 2)"
+      ],
+      "components": [
+        {
+          "modifications": [],
+          "name": "Illumina P7 adapter",
+          "orientation": "5_to_3",
+          "role": "adapter",
+          "sequence": "CAAGCAGAAGACGGCATACGAGAT",
+          "support_status": "externally_completed"
+        },
+        {
+          "length": 8,
+          "modifications": [],
+          "name": "i7 sample index",
+          "orientation": "5_to_3",
+          "placeholder": "[I7_INDEX:8]",
+          "role": "sample index",
+          "support_status": "explicit"
+        },
+        {
+          "modifications": [],
+          "name": "Illumina TruSeq Read 2 primer",
+          "orientation": "5_to_3",
+          "role": "primer",
+          "sequence": "GTGACTGGAGTTCAGACGTGTGCTCTTCCGATCT",
+          "support_status": "externally_completed"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [],
+      "name": "ddSEQ Single-Cell 3' RNA-Seq DO Index Plate reverse",
+      "oligo_id": "oligo_ddseq_single_cell_3_rna_seq_do_index_plate_reverse",
+      "orientation": "5_to_3",
+      "role": "DO indexing PCR reverse primer",
+      "sequence": "CAAGCAGAAGACGGCATACGAGAT[I7_INDEX:8]GTGACTGGAGTTCAGACGTGTGCTCTTCCGATCT",
+      "support_status": "externally_completed"
+    },
+    {
+      "aliases": [
+        "Nextera Read 2 sequencing primer (for mRNA)",
+        "s7-ME transposon oligo (Tn5 homodimer strand)",
+        "s7-ME transposon oligo (legacy Tn5 homodimer strand)"
+      ],
+      "components": [
+        {
+          "modifications": [],
+          "name": "Nextera N7xx primer entry point (s7)",
+          "orientation": "5_to_3",
+          "role": "primer",
+          "sequence": "GTCTCGTGGGCTCGG",
+          "support_status": "externally_completed"
+        },
+        {
+          "modifications": [],
+          "name": "Nextera Tn5 binding site (19-bp Mosaic End)",
+          "orientation": "5_to_3",
+          "role": "tn5 binding site",
+          "sequence": "AGATGTGTATAAGAGACAG",
+          "support_status": "externally_completed"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [],
+      "name": "Illumina Nextera Read 2 primer",
+      "oligo_id": "oligo_illumina_nextera_read_2_primer",
+      "orientation": "5_to_3",
+      "role": "Nextera Read 2 sequencing primer; also the s7-ME oligo loaded on the Tn5 homodimer for tagmentation",
+      "sequence": "GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG",
+      "support_status": "externally_completed"
+    },
+    {
+      "aliases": [],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Illumina P5 adapter",
+      "oligo_id": "oligo_illumina_p5_adapter",
+      "orientation": "5_to_3",
+      "role": "flow-cell adapter",
+      "sequence": "AATGATACGGCGACCACCGAGATCTACAC",
+      "support_status": "externally_completed"
+    },
+    {
+      "aliases": [],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Illumina P7 adapter",
+      "oligo_id": "oligo_illumina_p7_adapter",
+      "orientation": "5_to_3",
+      "role": "flow-cell adapter",
+      "sequence": "CAAGCAGAAGACGGCATACGAGAT",
+      "support_status": "externally_completed"
+    },
+    {
+      "aliases": [
+        "TruSeq Read 1 sequencing primer (for both mRNA and DO)"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Illumina TruSeq Read 1 primer",
+      "oligo_id": "oligo_illumina_truseq_read_1_primer",
+      "orientation": "5_to_3",
+      "role": "sequencing primer",
+      "sequence": "ACACTCTTTCCCTACACGACGCTCTTCCGATCT",
+      "support_status": "externally_completed"
+    },
+    {
+      "aliases": [
+        "TruSeq Read 2 sequencing primer (for DO)"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Illumina TruSeq Read 2 primer",
+      "oligo_id": "oligo_illumina_truseq_read_2_primer",
+      "orientation": "5_to_3",
+      "role": "sequencing primer",
+      "sequence": "GTGACTGGAGTTCAGACGTGTGCTCTTCCGATCT",
+      "support_status": "externally_completed"
+    },
+    {
+      "aliases": [
+        "Index 1 sequencing primer (Nextera for mRNA)"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Nextera Index 1 sequencing primer (i7)",
+      "oligo_id": "oligo_nextera_index_1_sequencing_primer_i7",
+      "orientation": "5_to_3",
+      "role": "index sequencing primer",
+      "sequence": "CTGTCTCTTATACACATCTCCGAGCCCACGAGAC",
+      "support_status": "externally_completed"
+    },
+    {
+      "aliases": [
+        "s7"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Nextera N7xx primer entry point (s7)",
+      "oligo_id": "oligo_nextera_n7xx_primer_entry_point_s7",
+      "orientation": "5_to_3",
+      "role": "primer entry point",
+      "sequence": "GTCTCGTGGGCTCGG",
+      "support_status": "externally_completed"
+    },
+    {
+      "aliases": [
+        "ME"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Nextera Tn5 binding site (19-bp Mosaic End (ME))",
+      "oligo_id": "oligo_nextera_tn5_binding_site_19_bp_mosaic_end_me",
+      "orientation": "5_to_3",
+      "role": "transposase binding site",
+      "sequence": "AGATGTGTATAAGAGACAG",
+      "support_status": "externally_completed"
+    },
+    {
+      "aliases": [
+        "Index 2 sequencing primer (both mRNA and DO, TruSeq)"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "TruSeq i5 index sequencing primer (index2)",
+      "oligo_id": "oligo_truseq_i5_index_sequencing_primer_index2",
+      "orientation": "5_to_3",
+      "role": "index sequencing primer",
+      "sequence": "AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT",
+      "support_status": "externally_completed"
+    },
+    {
+      "aliases": [
+        "Index 1 sequencing primer (TruSeq for DO)"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "TruSeq sample index sequencing primer forward",
+      "oligo_id": "oligo_truseq_sample_index_sequencing_primer_forward",
+      "orientation": "5_to_3",
+      "role": "index sequencing primer",
+      "sequence": "GATCGGAAGAGCACACGTCTGAACTCCAGTCAC",
+      "support_status": "externally_completed"
+    }
+  ],
+  "protocol_id": "ddseq_single_cell_3_rna_seq_kit",
+  "protocol_name": "ddSEQ Single-Cell 3' RNA-Seq Kit",
+  "protocol_scope": {
+    "applicable_variants": [],
+    "protocol_version": "User Guide Version 1.0 (DIR No. 10000167449, Ver B)"
+  }
+}

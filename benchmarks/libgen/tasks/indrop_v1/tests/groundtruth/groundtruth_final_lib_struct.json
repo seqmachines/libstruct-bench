@@ -1,0 +1,208 @@
+{
+  "libraries": [
+    {
+      "final_molecule": "double-stranded Illumina paired-end sequencing library",
+      "library_sequence": "AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT[CELL_BARCODE1:10]AAGGCGTCACAAGCAATCACTC[CELL_BARCODE2:8][UMI:6]TTTTTTTTTTTTTTTTTTTV[CDNA]AGATCGGAAGAGCGGTTCAGCAGGAATGCCGAGACCGATCTCGTATGCCGTCTTCTGCTTG",
+      "modality": "gene expression",
+      "orientation": "5_to_3",
+      "segments": [
+        {
+          "kind": "constant",
+          "length": 29,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_illumina_p5_adapter",
+              "orientation_to_source": "same_orientation"
+            },
+            {
+              "oligo_id": "oligo_pcr_enrichment_primer_1",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "Illumina P5 flow-cell adapter",
+          "segment_id": "seg_p5",
+          "sequence": "AATGATACGGCGACCACCGAGATCTACAC",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "length": 29,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_truseq_read_1_sequencing_primer_partial",
+              "orientation_to_source": "same_orientation"
+            },
+            {
+              "oligo_id": "oligo_beads_oligo_dt19v",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "PE1 / TruSeq Read 1 primer site with CGATCT",
+          "segment_id": "seg_pe1_read1",
+          "sequence": "TCTTTCCCTACACGACGCTCTTCCGATCT",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "variable",
+          "notes": "Legacy curation states barcode1 has variable length; no fixed length is asserted here.",
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_beads_oligo_dt19v",
+              "orientation_to_source": "same_orientation"
+            },
+            {
+              "oligo_id": "oligo_barcode_1_plates_384_of_them_in_384_individual_wells",
+              "orientation_to_source": "reverse_complement"
+            }
+          ],
+          "orientation": "5_to_3",
+          "placeholder": "[CELL_BARCODE1:10]",
+          "role": "cell barcode 1 (split-pool round 1)",
+          "segment_id": "seg_cell_barcode_1",
+          "support_status": "ambiguous"
+        },
+        {
+          "kind": "constant",
+          "length": 22,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_w1_sequence",
+              "orientation_to_source": "reverse_complement"
+            },
+            {
+              "oligo_id": "oligo_beads_oligo_dt19v",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "W1 adaptor site",
+          "segment_id": "seg_w1",
+          "sequence": "AAGGCGTCACAAGCAATCACTC",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "variable",
+          "length": 8,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_beads_oligo_dt19v",
+              "orientation_to_source": "same_orientation"
+            },
+            {
+              "oligo_id": "oligo_barcode_2_plates_384_of_them_in_384_individual_wells",
+              "orientation_to_source": "reverse_complement"
+            }
+          ],
+          "orientation": "5_to_3",
+          "placeholder": "[CELL_BARCODE2:8]",
+          "role": "cell barcode 2 (split-pool round 2)",
+          "segment_id": "seg_cell_barcode_2",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "variable",
+          "length": 6,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_beads_oligo_dt19v",
+              "orientation_to_source": "same_orientation"
+            },
+            {
+              "oligo_id": "oligo_barcode_2_plates_384_of_them_in_384_individual_wells",
+              "orientation_to_source": "reverse_complement"
+            }
+          ],
+          "orientation": "5_to_3",
+          "placeholder": "[UMI:6]",
+          "role": "unique molecular identifier",
+          "segment_id": "seg_umi",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "length": 19,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_beads_oligo_dt19v",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "poly-dT mRNA capture region with V anchor base",
+          "segment_id": "seg_polyt_v",
+          "sequence": "TTTTTTTTTTTTTTTTTTTV",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "biological_insert",
+          "orientation": "5_to_3",
+          "placeholder": "[CDNA]",
+          "role": "cDNA insert (3'-biased transcript sequence)",
+          "segment_id": "seg_cdna",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "length": 30,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_rna_ligation_oligo_rlo",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "PE2 adapter contributed by the RNA ligation oligo",
+          "segment_id": "seg_pe2_rlo",
+          "sequence": "AGATCGGAAGAGCGGTTCAGCAGGAATGCC",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "length": 7,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_pcr_enrichment_primer_2",
+              "orientation_to_source": "reverse_complement"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "PE2 extension contributed by the PCR enrichment primer 2 5' tail",
+          "segment_id": "seg_pe2_tail",
+          "sequence": "GAGACCG",
+          "support_status": "derivable"
+        },
+        {
+          "kind": "constant",
+          "length": 24,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_illumina_p7_adapter",
+              "orientation_to_source": "reverse_complement"
+            },
+            {
+              "oligo_id": "oligo_pcr_enrichment_primer_2",
+              "orientation_to_source": "reverse_complement"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "Illumina P7 flow-cell adapter",
+          "segment_id": "seg_p7",
+          "sequence": "ATCTCGTATGCCGTCTTCTGCTTG",
+          "support_status": "explicit"
+        }
+      ],
+      "strand": "top",
+      "support_status": "derivable"
+    }
+  ],
+  "protocol_id": "indrop_v1",
+  "protocol_name": "inDrop v1",
+  "protocol_scope": {
+    "applicable_variants": [
+      "inDrop v1"
+    ],
+    "protocol_version": "v1"
+  }
+}

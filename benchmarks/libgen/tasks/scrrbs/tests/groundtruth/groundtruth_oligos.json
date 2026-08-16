@@ -1,0 +1,201 @@
+{
+  "oligos": [
+    {
+      "aliases": [
+        "QP1"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "QP1 PCR primer (forward)",
+      "oligo_id": "oligo_illumina_p5_adapter",
+      "orientation": "5_to_3",
+      "role": "PCR amplification primer (forward)",
+      "sequence": "AATGATACGGCGACCACCGA",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "QP2"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "QP2 PCR primer (reverse)",
+      "oligo_id": "oligo_illumina_p7_adapter",
+      "orientation": "5_to_3",
+      "role": "PCR amplification primer (reverse)",
+      "sequence": "CAAGCAGAAGACGGCATACGA",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Illumina TruSeq Read 1 primer",
+      "oligo_id": "oligo_illumina_truseq_read_1_primer",
+      "orientation": "5_to_3",
+      "role": "sequencing_primer",
+      "sequence": "ACACTCTTTCCCTACACGACGCTCTTCCGATCT",
+      "support_status": "derivable"
+    },
+    {
+      "aliases": [],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Illumina TruSeq Read 2 primer",
+      "oligo_id": "oligo_illumina_truseq_read_2_primer",
+      "orientation": "5_to_3",
+      "role": "sequencing_primer",
+      "sequence": "GTGACTGGAGTTCAGACGTGTGCTCTTCCGATCT",
+      "support_status": "externally_completed"
+    },
+    {
+      "aliases": [
+        "Indexed Truseq adaptor (cytosines are mehtylated)",
+        "Y-shaped adapter reverse"
+      ],
+      "components": [
+        {
+          "length": 33,
+          "modifications": [
+            "5' phosphate"
+          ],
+          "name": "TruSeq Read 2 and sample-index primer binding region",
+          "orientation": "5_to_3",
+          "role": "primer_binding_site",
+          "sequence": "GATCGGAAGAGCACACGTCTGAACTCCAGTCAC",
+          "support_status": "explicit"
+        },
+        {
+          "length": 6,
+          "modifications": [],
+          "name": "6-bp sample index",
+          "orientation": "5_to_3",
+          "placeholder": "[SAMPLE_INDEX:6]",
+          "role": "sample_index",
+          "support_status": "explicit"
+        },
+        {
+          "length": 24,
+          "modifications": [],
+          "name": "Illumina P7 region",
+          "orientation": "5_to_3",
+          "role": "adapter",
+          "sequence": "ATCTCGTATGCCGTCTTCTGCTTG",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [
+        "5' phosphate",
+        "all cytosines are 5-methylcytosine"
+      ],
+      "name": "Indexed TruSeq adaptor (cytosines are methylated)",
+      "oligo_id": "oligo_indexed_truseq_adaptor_cytosines_are_methylated",
+      "orientation": "5_to_3",
+      "role": "adapter",
+      "sequence": "/5Phos/GATCGGAAGAGCACACGTCTGAACTCCAGTCAC[SAMPLE_INDEX:6]ATCTCGTATGCCGTCTTCTGCTTG",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "Sample index sequencing primer"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "TruSeq sample index sequencing primer forward",
+      "oligo_id": "oligo_truseq_sample_index_sequencing_primer_forward",
+      "orientation": "5_to_3",
+      "role": "sequencing_primer",
+      "sequence": "GATCGGAAGAGCACACGTCTGAACTCCAGTCAC",
+      "support_status": "derivable"
+    },
+    {
+      "aliases": [
+        "Universal Truseq adaptor (cytosines are methylated)",
+        "TruSeq universal adapter"
+      ],
+      "components": [
+        {
+          "length": 29,
+          "modifications": [],
+          "name": "Illumina P5",
+          "orientation": "5_to_3",
+          "role": "adapter",
+          "sequence": "AATGATACGGCGACCACCGAGATCTACAC",
+          "support_status": "explicit"
+        },
+        {
+          "length": 29,
+          "modifications": [],
+          "name": "TruSeq Read 1 primer binding region ending in the 3'-T overhang base",
+          "orientation": "5_to_3",
+          "role": "primer_binding_site",
+          "sequence": "TCTTTCCCTACACGACGCTCTTCCGATCT",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [
+        "all cytosines are 5-methylcytosine",
+        "phosphorothioate linkage between the two 3'-terminal bases (...CCGATC*T) to prevent nuclease cleavage of the T overhang"
+      ],
+      "name": "Universal P5 PCR primer",
+      "oligo_id": "oligo_universal_p5_pcr_primer",
+      "orientation": "5_to_3",
+      "role": "adapter",
+      "sequence": "AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "Y-shaped Illumina adaptor"
+      ],
+      "components": [
+        {
+          "length": 58,
+          "modifications": [
+            "all cytosines are 5-methylcytosine"
+          ],
+          "name": "Universal P5 PCR primer (top strand with 3'-T overhang)",
+          "orientation": "5_to_3",
+          "role": "forward_strand",
+          "sequence": "AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT",
+          "support_status": "explicit"
+        },
+        {
+          "modifications": [
+            "5' phosphate",
+            "all cytosines are 5-methylcytosine"
+          ],
+          "name": "Y-shaped adapter reverse (indexed strand, as drawn 3'->5' in the source diagram)",
+          "orientation": "3_to_5",
+          "role": "reverse_strand",
+          "sequence": "GTTCGTCTTCTGCCGTATGCTCTA[SAMPLE_INDEX:6]CACTGACCTCAAGTCTGCACACGAGAAGGCTAG",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "double_stranded",
+      "modifications": [
+        "all cytosines are 5-methylcytosine",
+        "5' phosphate on the indexed strand"
+      ],
+      "name": "Y-shaped adapter",
+      "oligo_id": "oligo_y_shaped_adapter",
+      "orientation": "5_to_3",
+      "role": "adapter",
+      "sequence": null,
+      "support_status": "explicit"
+    }
+  ],
+  "protocol_id": "scrrbs",
+  "protocol_name": "scRRBS",
+  "protocol_scope": {
+    "applicable_variants": [],
+    "protocol_version": "Nature Protocols 2015 (Guo et al., Nat Protoc 10:645-659)"
+  }
+}

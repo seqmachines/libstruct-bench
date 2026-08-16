@@ -38,9 +38,8 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--t2-prediction", required=True)
     parser.add_argument("--t3-prediction", required=True)
     parser.add_argument("--protocol-id", required=True)
-    source = parser.add_mutually_exclusive_group(required=True)
-    source.add_argument("--groundtruth-dir")
-    source.add_argument("--groundtruth-repo")
+    parser.add_argument("--groundtruth-dir")
+    parser.add_argument("--groundtruth-repo")
     parser.add_argument("--groundtruth-revision")
     parser.add_argument("--groundtruth-prefix")
     parser.add_argument("--t1-sha256", required=True)
@@ -54,6 +53,10 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--trajectory")
     parser.add_argument("--trial-id")
     args = parser.parse_args(argv)
+    if not args.groundtruth_repo and not args.groundtruth_dir:
+        parser.error(
+            "at least one of --groundtruth-repo or --groundtruth-dir is required"
+        )
 
     error_analysis_path = (
         Path(args.error_analysis_out)
@@ -77,7 +80,7 @@ def main(argv: list[str] | None = None) -> int:
     trajectory, trajectory_path = _load_trajectory(args.trajectory)
 
     try:
-        groundtruth = _load_groundtruth(args)
+        groundtruth, groundtruth_source = _load_groundtruth(args)
         validate_groundtruth_bundle(
             groundtruth,
             protocol_id=args.protocol_id,
@@ -131,6 +134,7 @@ def main(argv: list[str] | None = None) -> int:
             "benchmark_version": LIBGEN_BENCHMARK_VERSION,
             "protocol_id": args.protocol_id,
             "prediction_valid": False,
+            "groundtruth_source": groundtruth_source,
         }
         verifier_error = {"kind": "invalid_prediction", "message": str(error)}
         _write_json(Path(args.reward_out), metrics)
@@ -163,6 +167,7 @@ def main(argv: list[str] | None = None) -> int:
         "benchmark_version": LIBGEN_BENCHMARK_VERSION,
         "protocol_id": args.protocol_id,
         "prediction_valid": True,
+        "groundtruth_source": groundtruth_source,
         "scoring": details,
     }
     _write_json(Path(args.reward_out), metrics)
@@ -187,22 +192,53 @@ def main(argv: list[str] | None = None) -> int:
     return 0
 
 
-def _load_groundtruth(args: argparse.Namespace) -> dict[str, dict[str, Any]]:
+def _load_groundtruth(
+    args: argparse.Namespace,
+) -> tuple[dict[str, dict[str, Any]], dict[str, Any]]:
     expected_hashes = {
         "T1": args.t1_sha256,
         "T2": args.t2_sha256,
         "T3": args.t3_sha256,
     }
+    errors: list[str] = []
+    if args.groundtruth_repo:
+        try:
+            groundtruth = _load_hf_groundtruth(args, expected_hashes)
+        except Exception as error:
+            errors.append(f"huggingface: {type(error).__name__}: {error}")
+        else:
+            return groundtruth, {
+                "source": "huggingface",
+                "fallback_used": False,
+            }
+
     if args.groundtruth_dir:
-        directory = Path(args.groundtruth_dir)
-        return {
-            task: _decode_groundtruth(
-                (directory / filename).read_bytes(),
-                expected_sha256=expected_hashes[task],
-                label=f"{task} ground truth",
-            )
-            for task, filename in GROUNDTRUTH_FILENAMES.items()
-        }
+        try:
+            directory = Path(args.groundtruth_dir)
+            groundtruth = {
+                task: _decode_groundtruth(
+                    (directory / filename).read_bytes(),
+                    expected_sha256=expected_hashes[task],
+                    label=f"{task} ground truth",
+                )
+                for task, filename in GROUNDTRUTH_FILENAMES.items()
+            }
+        except Exception as error:
+            errors.append(f"local: {type(error).__name__}: {error}")
+        else:
+            return groundtruth, {
+                "source": "local_fallback" if args.groundtruth_repo else "local",
+                "fallback_used": bool(args.groundtruth_repo),
+                "primary_error": errors[0] if errors else None,
+            }
+
+    raise RuntimeError("unable to load frozen ground truth; " + "; ".join(errors))
+
+
+def _load_hf_groundtruth(
+    args: argparse.Namespace,
+    expected_hashes: dict[str, str],
+) -> dict[str, dict[str, Any]]:
     if not args.groundtruth_revision:
         raise ValueError("--groundtruth-revision is required with --groundtruth-repo")
     prefix = (args.groundtruth_prefix or args.protocol_id).strip("/")
@@ -216,6 +252,8 @@ def _load_groundtruth(args: argparse.Namespace) -> dict[str, dict[str, Any]]:
                 path=f"{prefix}/{filename}",
                 revision=args.groundtruth_revision,
                 token=token,
+                timeout_sec=10.0,
+                max_attempts=3,
             ),
             expected_sha256=expected_hashes[task],
             label=f"{task} ground truth",

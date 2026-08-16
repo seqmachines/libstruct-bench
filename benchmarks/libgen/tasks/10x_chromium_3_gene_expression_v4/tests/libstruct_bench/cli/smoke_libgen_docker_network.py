@@ -63,7 +63,7 @@ def main(argv: list[str] | None = None) -> int:
     policy = json.loads(policy_path.read_text(encoding="utf-8"))
     policy_bytes = json.dumps(policy, sort_keys=True, separators=(",", ":")).encode()
     report: dict[str, Any] = {
-        "schema_version": 1,
+        "schema_version": 2,
         "created_at": datetime.now(timezone.utc).isoformat(),
         "ready": completed.returncode == 0 and probe is not None,
         "docker_compose_returncode": completed.returncode,

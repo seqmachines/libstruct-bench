@@ -1,0 +1,356 @@
+{
+  "oligos": [
+    {
+      "aliases": [
+        "Gel Bead Primer",
+        "GEM-X Single Cell 3' Gel Bead v4 poly(dT) primer"
+      ],
+      "components": [
+        {
+          "length": 22,
+          "modifications": [],
+          "name": "TruSeq Read 1",
+          "orientation": "5_to_3",
+          "role": "sequencing primer site",
+          "sequence": "CTACACGACGCTCTTCCGATCT",
+          "support_status": "explicit"
+        },
+        {
+          "length": 16,
+          "modifications": [],
+          "name": "10x Barcode",
+          "orientation": "5_to_3",
+          "placeholder": "[CELL_BARCODE:16]",
+          "role": "cell_barcode",
+          "support_status": "explicit"
+        },
+        {
+          "length": 12,
+          "modifications": [],
+          "name": "UMI",
+          "orientation": "5_to_3",
+          "placeholder": "[UMI:12]",
+          "role": "unique_molecular_identifier",
+          "support_status": "explicit"
+        },
+        {
+          "length": 30,
+          "modifications": [],
+          "name": "Poly(dT)",
+          "orientation": "5_to_3",
+          "role": "poly_dt_capture",
+          "sequence": "TTTTTTTTTTTTTTTTTTTTTTTTTTTTTT",
+          "support_status": "explicit"
+        },
+        {
+          "length": 2,
+          "modifications": [],
+          "name": "VN anchor",
+          "orientation": "5_to_3",
+          "role": "anchor",
+          "sequence": "VN",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [
+        "5' end attached to the Gel Bead"
+      ],
+      "name": "Beads-oligo-dT",
+      "oligo_id": "oligo_beads_oligo_dt",
+      "orientation": "5_to_3",
+      "role": "barcoded capture and reverse-transcription primer",
+      "sequence": "CTACACGACGCTCTTCCGATCT[CELL_BARCODE:16][UMI:12]TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTVN",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "cDNA Primers (PN-2000089) forward component"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "cDNA forward primer",
+      "oligo_id": "oligo_cdna_forward_primer",
+      "orientation": "5_to_3",
+      "role": "cDNA amplification primer",
+      "sequence": "CTACACGACGCTCTTCCGATCT",
+      "support_status": "externally_completed"
+    },
+    {
+      "aliases": [
+        "cDNA Primers (PN-2000089) reverse component"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "cDNA reverse primer",
+      "oligo_id": "oligo_cdna_reverse_primer",
+      "orientation": "5_to_3",
+      "role": "cDNA amplification primer",
+      "sequence": "AAGCAGTGGTATCAACGCAGAG",
+      "support_status": "externally_completed"
+    },
+    {
+      "aliases": [
+        "P5"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Illumina P5 adapter",
+      "oligo_id": "oligo_illumina_p5_adapter",
+      "orientation": "5_to_3",
+      "role": "flow-cell adapter",
+      "sequence": "AATGATACGGCGACCACCGAGATCTACAC",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "P7"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Illumina P7 adapter",
+      "oligo_id": "oligo_illumina_p7_adapter",
+      "orientation": "5_to_3",
+      "role": "flow-cell adapter",
+      "sequence": "CAAGCAGAAGACGGCATACGAGAT",
+      "support_status": "derivable"
+    },
+    {
+      "aliases": [
+        "TruSeq Read 1",
+        "Read 1T"
+      ],
+      "components": [
+        {
+          "length": 11,
+          "modifications": [],
+          "name": "TruSeq Read 1 5' extension",
+          "orientation": "5_to_3",
+          "role": "primer_extension",
+          "sequence": "ACACTCTTTCC",
+          "support_status": "derivable"
+        },
+        {
+          "length": 22,
+          "modifications": [],
+          "name": "Gel Bead primer Read 1 segment",
+          "orientation": "5_to_3",
+          "role": "primer",
+          "sequence": "CTACACGACGCTCTTCCGATCT",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [],
+      "name": "Illumina TruSeq Read 1 primer",
+      "oligo_id": "oligo_illumina_truseq_read_1_primer",
+      "orientation": "5_to_3",
+      "role": "sequencing primer",
+      "sequence": "ACACTCTTTCCCTACACGACGCTCTTCCGATCT",
+      "support_status": "derivable"
+    },
+    {
+      "aliases": [
+        "TruSeq Read 2"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Illumina TruSeq Read 2 primer",
+      "oligo_id": "oligo_illumina_truseq_read_2_primer",
+      "orientation": "5_to_3",
+      "role": "sequencing primer",
+      "sequence": "GTGACTGGAGTTCAGACGTGTGCTCTTCCGATCT",
+      "support_status": "derivable"
+    },
+    {
+      "aliases": [
+        "Dual Index TT Set A i5 primer",
+        "Library PCR primer 1 (PN-220111)",
+        "Sample Index PCR Product P5-i5-TruSeq Read 1 segment"
+      ],
+      "components": [
+        {
+          "length": 29,
+          "modifications": [],
+          "name": "Illumina P5 adapter",
+          "orientation": "5_to_3",
+          "role": "adapter",
+          "sequence": "AATGATACGGCGACCACCGAGATCTACAC",
+          "support_status": "explicit"
+        },
+        {
+          "length": 10,
+          "modifications": [],
+          "name": "i5 sample index",
+          "orientation": "5_to_3",
+          "placeholder": "[I5_INDEX:10]",
+          "role": "sample_index",
+          "support_status": "explicit"
+        },
+        {
+          "length": 33,
+          "modifications": [],
+          "name": "Illumina TruSeq Read 1 primer",
+          "orientation": "5_to_3",
+          "role": "primer",
+          "sequence": "ACACTCTTTCCCTACACGACGCTCTTCCGATCT",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [],
+      "name": "PCR P5 primer",
+      "oligo_id": "oligo_pcr_p5_primer",
+      "orientation": "5_to_3",
+      "role": "sample index PCR primer",
+      "sequence": "AATGATACGGCGACCACCGAGATCTACAC[I5_INDEX:10]ACACTCTTTCCCTACACGACGCTCTTCCGATCT",
+      "support_status": "derivable"
+    },
+    {
+      "aliases": [
+        "Dual Index TT Set A i7 primer",
+        "Library PCR primer 2 (PN-220103)",
+        "Sample Index PCR Product P7-i7-TruSeq Read 2 segment"
+      ],
+      "components": [
+        {
+          "length": 24,
+          "modifications": [],
+          "name": "Illumina P7 adapter",
+          "orientation": "5_to_3",
+          "role": "adapter",
+          "sequence": "CAAGCAGAAGACGGCATACGAGAT",
+          "support_status": "derivable"
+        },
+        {
+          "length": 10,
+          "modifications": [],
+          "name": "i7 sample index",
+          "orientation": "5_to_3",
+          "placeholder": "[I7_INDEX:10]",
+          "role": "sample_index",
+          "support_status": "explicit"
+        },
+        {
+          "length": 34,
+          "modifications": [],
+          "name": "Illumina TruSeq Read 2 primer",
+          "orientation": "5_to_3",
+          "role": "primer",
+          "sequence": "GTGACTGGAGTTCAGACGTGTGCTCTTCCGATCT",
+          "support_status": "derivable"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [],
+      "name": "P7 + i7 sample index PCR primer",
+      "oligo_id": "oligo_library_pcr_primer_2_pn_220103",
+      "orientation": "5_to_3",
+      "role": "sample index PCR primer",
+      "sequence": "CAAGCAGAAGACGGCATACGAGAT[I7_INDEX:10]GTGACTGGAGTTCAGACGTGTGCTCTTCCGATCT",
+      "support_status": "derivable"
+    },
+    {
+      "aliases": [
+        "TSO",
+        "Template Switch (PN-2001027) oligo"
+      ],
+      "components": [
+        {
+          "length": 27,
+          "modifications": [],
+          "name": "TSO handle",
+          "orientation": "5_to_3",
+          "role": "primer_handle",
+          "sequence": "AAGCAGTGGTATCAACGCAGAGTACAT",
+          "support_status": "ambiguous"
+        },
+        {
+          "length": 3,
+          "modifications": [
+            "ribonucleotides"
+          ],
+          "name": "3' riboguanosines",
+          "orientation": "5_to_3",
+          "role": "template_switch_rGrGrG",
+          "sequence": "rGrGrG",
+          "support_status": "ambiguous"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [
+        "3' rGrGrG ribonucleotides"
+      ],
+      "name": "Template Switching Oligo (TSO)",
+      "oligo_id": "oligo_template_switching_oligo_tso",
+      "orientation": "5_to_3",
+      "role": "template switching oligo",
+      "sequence": "AAGCAGTGGTATCAACGCAGAGTACATrGrGrG",
+      "support_status": "externally_completed"
+    },
+    {
+      "aliases": [
+        "TruSeq adapter forward",
+        "TruSeq adapter reverse",
+        "Truseq adapter (double stranded DNA with a T overhang)"
+      ],
+      "components": [
+        {
+          "length": 32,
+          "modifications": [],
+          "name": "TruSeq adapter forward",
+          "orientation": "5_to_3",
+          "role": "forward_strand",
+          "sequence": "GATCGGAAGAGCACACGTCTGAACTCCAGTCA",
+          "support_status": "ambiguous"
+        },
+        {
+          "length": 13,
+          "modifications": [],
+          "name": "TruSeq adapter reverse",
+          "orientation": "3_to_5",
+          "role": "reverse_strand_with_3prime_T_overhang",
+          "sequence": "TCTAGCCTTCTCG",
+          "support_status": "ambiguous"
+        }
+      ],
+      "kind": "double_stranded",
+      "modifications": [
+        "3' T overhang on the reverse strand"
+      ],
+      "name": "TruSeq adapter",
+      "oligo_id": "oligo_truseq_adapter",
+      "orientation": "5_to_3",
+      "role": "ligation adapter",
+      "sequence": null,
+      "support_status": "externally_completed"
+    },
+    {
+      "aliases": [
+        "Sample index sequencing primer"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "TruSeq sample index sequencing primer forward",
+      "oligo_id": "oligo_truseq_sample_index_sequencing_primer_forward",
+      "orientation": "5_to_3",
+      "role": "sequencing primer",
+      "sequence": "GATCGGAAGAGCACACGTCTGAACTCCAGTCAC",
+      "support_status": "externally_completed"
+    }
+  ],
+  "protocol_id": "10x_chromium_3_gene_expression_v4",
+  "protocol_name": "10x Chromium 3' Gene Expression v4",
+  "protocol_scope": {
+    "applicable_variants": [
+      "GEM-X Single Cell 3' Gene Expression v4"
+    ],
+    "protocol_version": "v4"
+  }
+}

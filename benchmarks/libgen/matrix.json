@@ -66,6 +66,7 @@
       "display_name": "Codex",
       "harbor_agent": "codex",
       "version_env": "LIBGEN_CODEX_VERSION",
+      "auth_mode": "host_cli_subscription",
       "reasoning_setting": "max",
       "agent_kwargs": {"reasoning_effort": "max"}
     },
@@ -75,6 +76,7 @@
       "display_name": "Claude Code",
       "harbor_agent": "claude-code",
       "version_env": "LIBGEN_CLAUDE_CODE_VERSION",
+      "auth_mode": "host_cli_subscription",
       "reasoning_setting": "max",
       "agent_kwargs": {"reasoning_effort": "max"}
     },
@@ -84,6 +86,7 @@
       "display_name": "Gemini CLI",
       "harbor_agent": "gemini-cli",
       "version_env": "LIBGEN_GEMINI_CLI_VERSION",
+      "auth_mode": "host_cli_subscription",
       "reasoning_setting": "high",
       "agent_kwargs": {"reasoning_effort": "high"}
     },
@@ -96,6 +99,7 @@
       "base_url_env": "LIBGEN_QWEN_OPENAI_BASE_URL",
       "required_base_url": "https://coding-intl.dashscope.aliyuncs.com/v1",
       "required_version": "0.21.12",
+      "auth_mode": "provider_api_key",
       "reasoning_setting": "provider_default",
       "agent_kwargs": {}
     }

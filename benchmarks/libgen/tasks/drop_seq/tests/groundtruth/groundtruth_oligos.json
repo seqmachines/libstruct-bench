@@ -1,0 +1,498 @@
+{
+  "oligos": [
+    {
+      "aliases": [
+        "Barcoded Bead SeqA"
+      ],
+      "components": [
+        {
+          "length": 7,
+          "modifications": [],
+          "name": "bead linker T-stretch",
+          "orientation": "5_to_3",
+          "role": "linker",
+          "sequence": "TTTTTTT",
+          "support_status": "explicit"
+        },
+        {
+          "length": 23,
+          "modifications": [],
+          "name": "ISPCR / TSO PCR handle",
+          "orientation": "5_to_3",
+          "role": "pcr_handle",
+          "sequence": "AAGCAGTGGTATCAACGCAGAGT",
+          "support_status": "explicit"
+        },
+        {
+          "length": 4,
+          "modifications": [],
+          "name": "SeqA spacer",
+          "orientation": "5_to_3",
+          "role": "spacer",
+          "sequence": "ACGT",
+          "support_status": "explicit"
+        },
+        {
+          "length": 12,
+          "modifications": [],
+          "name": "cell barcode",
+          "orientation": "5_to_3",
+          "placeholder": "[CELL_BARCODE:12]",
+          "role": "cell_barcode",
+          "support_status": "explicit"
+        },
+        {
+          "length": 8,
+          "modifications": [],
+          "name": "UMI",
+          "orientation": "5_to_3",
+          "placeholder": "[UMI:8]",
+          "role": "umi",
+          "support_status": "explicit"
+        },
+        {
+          "length": 30,
+          "modifications": [],
+          "name": "oligo-dT30",
+          "orientation": "5_to_3",
+          "role": "capture_primer",
+          "sequence": "TTTTTTTTTTTTTTTTTTTTTTTTTTTTTT",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [
+        "bead-immobilized via 18-carbon PEG flexible-chain linker at the 5' end"
+      ],
+      "name": "Beads-oligo-dT-seqA",
+      "oligo_id": "oligo_beads_oligo_dt_seqa",
+      "orientation": "5_to_3",
+      "role": "barcoded bead capture primer",
+      "sequence": "TTTTTTTAAGCAGTGGTATCAACGCAGAGTACGT[CELL_BARCODE:12][UMI:8]TTTTTTTTTTTTTTTTTTTTTTTTTTTTTT",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "Barcoded Bead SeqB"
+      ],
+      "components": [
+        {
+          "length": 7,
+          "modifications": [],
+          "name": "bead linker T-stretch",
+          "orientation": "5_to_3",
+          "role": "linker",
+          "sequence": "TTTTTTT",
+          "support_status": "explicit"
+        },
+        {
+          "length": 23,
+          "modifications": [],
+          "name": "ISPCR / TSO PCR handle",
+          "orientation": "5_to_3",
+          "role": "pcr_handle",
+          "sequence": "AAGCAGTGGTATCAACGCAGAGT",
+          "support_status": "explicit"
+        },
+        {
+          "length": 2,
+          "modifications": [],
+          "name": "SeqB spacer",
+          "orientation": "5_to_3",
+          "role": "spacer",
+          "sequence": "AC",
+          "support_status": "explicit"
+        },
+        {
+          "length": 12,
+          "modifications": [],
+          "name": "cell barcode",
+          "orientation": "5_to_3",
+          "placeholder": "[CELL_BARCODE:12]",
+          "role": "cell_barcode",
+          "support_status": "explicit"
+        },
+        {
+          "length": 8,
+          "modifications": [],
+          "name": "UMI",
+          "orientation": "5_to_3",
+          "placeholder": "[UMI:8]",
+          "role": "umi",
+          "support_status": "explicit"
+        },
+        {
+          "length": 30,
+          "modifications": [],
+          "name": "oligo-dT30",
+          "orientation": "5_to_3",
+          "role": "capture_primer",
+          "sequence": "TTTTTTTTTTTTTTTTTTTTTTTTTTTTTT",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [
+        "bead-immobilized via 18-carbon PEG flexible-chain linker at the 5' end"
+      ],
+      "name": "Beads-oligo-dT-seqB",
+      "oligo_id": "oligo_beads_oligo_dt_seqb",
+      "orientation": "5_to_3",
+      "role": "barcoded bead capture primer",
+      "sequence": "TTTTTTTAAGCAGTGGTATCAACGCAGAGTAC[CELL_BARCODE:12][UMI:8]TTTTTTTTTTTTTTTTTTTTTTTTTTTTTT",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "Read 2 sequencing primer"
+      ],
+      "components": [
+        {
+          "length": 15,
+          "modifications": [],
+          "name": "Nextera N7xx primer entry point (s7)",
+          "orientation": "5_to_3",
+          "role": "primer",
+          "sequence": "GTCTCGTGGGCTCGG",
+          "support_status": "explicit"
+        },
+        {
+          "length": 19,
+          "modifications": [],
+          "name": "Nextera Tn5 binding site (19-bp Mosaic End)",
+          "orientation": "5_to_3",
+          "role": "tn5_binding_site",
+          "sequence": "AGATGTGTATAAGAGACAG",
+          "support_status": "externally_completed"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [],
+      "name": "Illumina Nextera Read 2 primer",
+      "oligo_id": "oligo_illumina_nextera_read_2_primer",
+      "orientation": "5_to_3",
+      "role": "sequencing primer",
+      "sequence": "GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG",
+      "support_status": "externally_completed"
+    },
+    {
+      "aliases": [],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Illumina P5 adapter",
+      "oligo_id": "oligo_illumina_p5_adapter",
+      "orientation": "5_to_3",
+      "role": "flow-cell adapter",
+      "sequence": "AATGATACGGCGACCACCGAGATCTACAC",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Illumina P7 adapter",
+      "oligo_id": "oligo_illumina_p7_adapter",
+      "orientation": "5_to_3",
+      "role": "flow-cell adapter",
+      "sequence": "CAAGCAGAAGACGGCATACGAGAT",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "ISPCR",
+        "TSO_PCR",
+        "Template_Switch_PCR primer",
+        "SMART PCR PRIMER"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "ISPCR / TSO PCR primer",
+      "oligo_id": "oligo_ispcr_tso_pcr_primer",
+      "orientation": "5_to_3",
+      "role": "whole-transcriptome amplification primer",
+      "sequence": "AAGCAGTGGTATCAACGCAGAGT",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "i7 index sequencing primer"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Nextera Index 1 sequencing primer (i7)",
+      "oligo_id": "oligo_nextera_index_1_sequencing_primer_i7",
+      "orientation": "5_to_3",
+      "role": "sequencing primer",
+      "sequence": "CTGTCTCTTATACACATCTCCGAGCCCACGAGAC",
+      "support_status": "externally_completed"
+    },
+    {
+      "aliases": [
+        "s7"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Nextera N7xx primer entry point (s7)",
+      "oligo_id": "oligo_nextera_n7xx_primer_entry_point_s7",
+      "orientation": "5_to_3",
+      "role": "primer entry point",
+      "sequence": "GTCTCGTGGGCTCGG",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "s5"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Nextera N/S5xx primer entry point (s5)",
+      "oligo_id": "oligo_nextera_n_s5xx_primer_entry_point_s5",
+      "orientation": "5_to_3",
+      "role": "primer entry point",
+      "sequence": "TCGTCGGCAGCGTC",
+      "support_status": "externally_completed"
+    },
+    {
+      "aliases": [
+        "ME",
+        "mosaic end"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Nextera Tn5 binding site (19-bp Mosaic End (ME))",
+      "oligo_id": "oligo_nextera_tn5_binding_site_19_bp_mosaic_end_me",
+      "orientation": "5_to_3",
+      "role": "transposase binding site",
+      "sequence": "AGATGTGTATAAGAGACAG",
+      "support_status": "externally_completed"
+    },
+    {
+      "aliases": [
+        "Library PCR primer 2 (this is basically Nextera N7xx)",
+        "Nextera_N701",
+        "Nextera N70X oligo"
+      ],
+      "components": [
+        {
+          "length": 24,
+          "modifications": [],
+          "name": "Illumina P7 adapter",
+          "orientation": "5_to_3",
+          "role": "adapter",
+          "sequence": "CAAGCAGAAGACGGCATACGAGAT",
+          "support_status": "explicit"
+        },
+        {
+          "length": 8,
+          "modifications": [],
+          "name": "i7 sample index",
+          "orientation": "5_to_3",
+          "placeholder": "[I7_INDEX:8]",
+          "role": "sample_index",
+          "support_status": "explicit"
+        },
+        {
+          "length": 15,
+          "modifications": [],
+          "name": "Nextera N7xx primer entry point (s7)",
+          "orientation": "5_to_3",
+          "role": "primer",
+          "sequence": "GTCTCGTGGGCTCGG",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [],
+      "name": "Nextera (XT) N7xx Index primer",
+      "oligo_id": "oligo_nextera_xt_n7xx_index_primer",
+      "orientation": "5_to_3",
+      "role": "indexing PCR primer",
+      "sequence": "CAAGCAGAAGACGGCATACGAGAT[I7_INDEX:8]GTCTCGTGGGCTCGG",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "P5-TSO_Hybrid",
+        "P5_TSO_Hybrid",
+        "New-P5-SMART PCR hybrid oligo",
+        "Library PCR primer 1"
+      ],
+      "components": [
+        {
+          "length": 29,
+          "modifications": [],
+          "name": "Illumina P5 adapter",
+          "orientation": "5_to_3",
+          "role": "adapter",
+          "sequence": "AATGATACGGCGACCACCGAGATCTACAC",
+          "support_status": "explicit"
+        },
+        {
+          "length": 37,
+          "modifications": [],
+          "name": "Read 1 custom SeqB priming region",
+          "orientation": "5_to_3",
+          "role": "primer",
+          "sequence": "GCCTGTCCGCGGAAGCAGTGGTATCAACGCAGAGTAC",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [],
+      "name": "P5-SMART PCR hybrid oligo",
+      "oligo_id": "oligo_p5_smart_pcr_hybrid_oligo",
+      "orientation": "5_to_3",
+      "role": "library amplification primer",
+      "sequence": "AATGATACGGCGACCACCGAGATCTACACGCCTGTCCGCGGAAGCAGTGGTATCAACGCAGAGT*A*C",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "Read1CustomSeqB",
+        "Read1CustSeqB",
+        "Read 1 sequencing primer (seqB)"
+      ],
+      "components": [
+        {
+          "length": 12,
+          "modifications": [],
+          "name": "P5-TSO hybrid spacer",
+          "orientation": "5_to_3",
+          "role": "spacer",
+          "sequence": "GCCTGTCCGCGG",
+          "support_status": "explicit"
+        },
+        {
+          "length": 23,
+          "modifications": [],
+          "name": "ISPCR / TSO PCR handle",
+          "orientation": "5_to_3",
+          "role": "primer",
+          "sequence": "AAGCAGTGGTATCAACGCAGAGT",
+          "support_status": "explicit"
+        },
+        {
+          "length": 2,
+          "modifications": [],
+          "name": "SeqB spacer",
+          "orientation": "5_to_3",
+          "role": "spacer",
+          "sequence": "AC",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [],
+      "name": "Read 1 custom SeqB primer",
+      "oligo_id": "oligo_read_1_custom_seqb_primer",
+      "orientation": "5_to_3",
+      "role": "sequencing primer",
+      "sequence": "GCCTGTCCGCGGAAGCAGTGGTATCAACGCAGAGTAC",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "Read1CustomSeqA",
+        "Read1CustSeqA"
+      ],
+      "components": [
+        {
+          "length": 12,
+          "modifications": [],
+          "name": "P5-TSO hybrid spacer",
+          "orientation": "5_to_3",
+          "role": "spacer",
+          "sequence": "GCCTGTCCGCGG",
+          "support_status": "explicit"
+        },
+        {
+          "length": 23,
+          "modifications": [],
+          "name": "ISPCR / TSO PCR handle",
+          "orientation": "5_to_3",
+          "role": "primer",
+          "sequence": "AAGCAGTGGTATCAACGCAGAGT",
+          "support_status": "explicit"
+        },
+        {
+          "length": 4,
+          "modifications": [],
+          "name": "SeqA spacer",
+          "orientation": "5_to_3",
+          "role": "spacer",
+          "sequence": "ACGT",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [],
+      "name": "Read 1 sequencing primer (seqA)",
+      "oligo_id": "oligo_read_1_sequencing_primer_seqa",
+      "orientation": "5_to_3",
+      "role": "sequencing primer",
+      "sequence": "GCCTGTCCGCGGAAGCAGTGGTATCAACGCAGAGTACGT",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "Template_Switch_Oligo"
+      ],
+      "components": [
+        {
+          "length": 23,
+          "modifications": [],
+          "name": "ISPCR / TSO PCR handle",
+          "orientation": "5_to_3",
+          "role": "pcr_handle",
+          "sequence": "AAGCAGTGGTATCAACGCAGAGT",
+          "support_status": "explicit"
+        },
+        {
+          "length": 4,
+          "modifications": [],
+          "name": "GAAT spacer",
+          "orientation": "5_to_3",
+          "role": "spacer",
+          "sequence": "GAAT",
+          "support_status": "explicit"
+        },
+        {
+          "length": 3,
+          "modifications": [
+            "ribonucleotides (rGrGrG)"
+          ],
+          "name": "riboguanosine triplet",
+          "orientation": "5_to_3",
+          "role": "template_switch_rGrGrG",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [
+        "3'-terminal riboguanosines (rGrGrG)"
+      ],
+      "name": "Template Switching Oligo (TSO)",
+      "oligo_id": "oligo_template_switching_oligo_tso",
+      "orientation": "5_to_3",
+      "role": "template-switching oligo",
+      "sequence": "AAGCAGTGGTATCAACGCAGAGTGAATrGrGrG",
+      "support_status": "explicit"
+    }
+  ],
+  "protocol_id": "drop_seq",
+  "protocol_name": "Drop-seq",
+  "protocol_scope": {
+    "applicable_variants": [
+      "Barcoded Bead SeqA",
+      "Barcoded Bead SeqB"
+    ],
+    "protocol_version": "Drop-seq laboratory protocol v1.1 (2015-08-06) / Macosko et al. Cell 2015"
+  }
+}

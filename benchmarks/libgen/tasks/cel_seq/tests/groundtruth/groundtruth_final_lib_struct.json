@@ -1,0 +1,163 @@
+{
+  "libraries": [
+    {
+      "final_molecule": "double-stranded Illumina paired-end sequencing library",
+      "library_sequence": "AATGATACGGCGACCACCGAGATCTACACGTTCAGAGTTCTACAGTCCGACGATC[CELL_BARCODE:8]TTTTTTTTTTTTTTTTTTTTTTTTV[CDNA]TGGAATTCTCGGGTGCCAAGGAACTCCAGTCAC[SAMPLE_INDEX:6]ATCTCGTATGCCGTCTTCTGCTTG",
+      "modality": "gene expression",
+      "orientation": "5_to_3",
+      "segments": [
+        {
+          "kind": "constant",
+          "length": 29,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_illumina_p5_adapter",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "Illumina P5 flow-cell adapter",
+          "segment_id": "seg_p5",
+          "sequence": "AATGATACGGCGACCACCGAGATCTACAC",
+          "support_status": "externally_completed"
+        },
+        {
+          "kind": "constant",
+          "length": 26,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_illumina_truseq_small_rna_read_1_primer",
+              "orientation_to_source": "same_orientation"
+            },
+            {
+              "oligo_id": "oligo_barcoded_rt_primer_variant_1",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "Illumina TruSeq Small RNA RA5 adapter / Read 1 primer binding site",
+          "segment_id": "seg_ra5",
+          "sequence": "GTTCAGAGTTCTACAGTCCGACGATC",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "variable",
+          "length": 8,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_barcoded_rt_primer_variant_1",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "placeholder": "[CELL_BARCODE:8]",
+          "role": "cell barcode",
+          "segment_id": "seg_cell_barcode",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "length": 24,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_barcoded_rt_primer_variant_1",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "poly-dT contributed by the barcoded RT primer",
+          "segment_id": "seg_polyt",
+          "sequence": "TTTTTTTTTTTTTTTTTTTTTTTT",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "variable",
+          "length": 1,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_barcoded_rt_primer_variant_1",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "anchoring base V (A/C/G) of the RT primer",
+          "segment_id": "seg_anchor_v",
+          "sequence": "V",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "biological_insert",
+          "orientation": "5_to_3",
+          "placeholder": "[CDNA]",
+          "role": "cDNA of the 3'-most fragment of the amplified transcript",
+          "segment_id": "seg_cdna",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "length": 21,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_illumina_ra3_adapter_truseq_small_rna_kit",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "Illumina TruSeq Small RNA RA3 3' adapter",
+          "segment_id": "seg_ra3",
+          "sequence": "TGGAATTCTCGGGTGCCAAGG",
+          "support_status": "externally_completed"
+        },
+        {
+          "kind": "constant",
+          "length": 12,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_illumina_rpi_primers",
+              "orientation_to_source": "reverse_complement"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "TruSeq Small RNA index-primer linker / index read primer 3' region",
+          "segment_id": "seg_index_linker",
+          "sequence": "AACTCCAGTCAC",
+          "support_status": "externally_completed"
+        },
+        {
+          "kind": "variable",
+          "length": 6,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_illumina_rpi_primers",
+              "orientation_to_source": "reverse_complement"
+            }
+          ],
+          "orientation": "5_to_3",
+          "placeholder": "[SAMPLE_INDEX:6]",
+          "role": "sample/library index (Illumina RPI[1-48] barcode)",
+          "segment_id": "seg_sample_index",
+          "support_status": "externally_completed"
+        },
+        {
+          "kind": "constant",
+          "length": 24,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_illumina_p7_adapter",
+              "orientation_to_source": "reverse_complement"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "Illumina P7 flow-cell adapter (reverse complement on this strand)",
+          "segment_id": "seg_p7",
+          "sequence": "ATCTCGTATGCCGTCTTCTGCTTG",
+          "support_status": "externally_completed"
+        }
+      ],
+      "strand": "top",
+      "support_status": "explicit"
+    }
+  ],
+  "protocol_id": "cel_seq",
+  "protocol_name": "CEL-seq"
+}

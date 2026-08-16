@@ -1,0 +1,169 @@
+{
+  "libraries": [
+    {
+      "final_molecule": "Double-stranded Illumina P5/P7 library, 3'-end tagged, single i7 index",
+      "library_sequence": "AATGATACGGCGACCACCGAGATCTACACGCCTGTCCGCGGAAGCAGTGGTATCAACGCAGAGTAC[CELL_BARCODE:12][UMI:8]TTTTTTTTTTTTTTTTTTTTTTTTTTTTTT[CDNA]CTGTCTCTTATACACATCTCCGAGCCCACGAGAC[I7_INDEX:8]ATCTCGTATGCCGTCTTCTGCTTG",
+      "modality": "gene expression",
+      "orientation": "5_to_3",
+      "segments": [
+        {
+          "kind": "constant",
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_p5_smart_pcr_hybrid_oligo",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "Illumina P5 adapter",
+          "segment_id": "seg_p5",
+          "sequence": "AATGATACGGCGACCACCGAGATCTACAC",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_read_1_custom_seqb_primer",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "SeqB spacer / custom Read 1 site",
+          "segment_id": "seg_spacer",
+          "sequence": "GCCTGTCCGCGG",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_beads_oligo_dt_seqb",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "SMART / ISPCR handle",
+          "segment_id": "seg_smart",
+          "sequence": "AAGCAGTGGTATCAACGCAGAGT",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "orientation": "5_to_3",
+          "role": "SeqB linker",
+          "segment_id": "seg_ac",
+          "sequence": "AC",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "variable",
+          "length": 12,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_beads_oligo_dt_seqb",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "placeholder": "[CELL_BARCODE:12]",
+          "role": "cell barcode",
+          "segment_id": "seg_cbc",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "variable",
+          "length": 8,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_beads_oligo_dt_seqb",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "placeholder": "[UMI:8]",
+          "role": "UMI",
+          "segment_id": "seg_umi",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_beads_oligo_dt_seqb",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "oligo-dT capture region",
+          "segment_id": "seg_dt",
+          "sequence": "TTTTTTTTTTTTTTTTTTTTTTTTTTTTTT",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "biological_insert",
+          "orientation": "5_to_3",
+          "placeholder": "[CDNA]",
+          "role": "cDNA insert",
+          "segment_id": "seg_cdna",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "orientation": "5_to_3",
+          "role": "Nextera mosaic end / Read 2 site",
+          "segment_id": "seg_me",
+          "sequence": "CTGTCTCTTATACACATCT",
+          "support_status": "externally_completed"
+        },
+        {
+          "kind": "constant",
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_nextera_xt_n7xx_index_primer",
+              "orientation_to_source": "reverse_complement"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "Nextera s7 adapter (reverse complement)",
+          "segment_id": "seg_s7",
+          "sequence": "CCGAGCCCACGAGAC",
+          "support_status": "externally_completed"
+        },
+        {
+          "kind": "variable",
+          "length": 8,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_nextera_xt_n7xx_index_primer",
+              "orientation_to_source": "reverse_complement"
+            }
+          ],
+          "orientation": "5_to_3",
+          "placeholder": "[I7_INDEX:8]",
+          "role": "i7 sample index",
+          "segment_id": "seg_i7",
+          "support_status": "externally_completed"
+        },
+        {
+          "kind": "constant",
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_nextera_xt_n7xx_index_primer",
+              "orientation_to_source": "reverse_complement"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "Illumina P7 adapter (reverse complement)",
+          "segment_id": "seg_p7",
+          "sequence": "ATCTCGTATGCCGTCTTCTGCTTG",
+          "support_status": "externally_completed"
+        }
+      ],
+      "strand": "duplex",
+      "support_status": "explicit"
+    }
+  ],
+  "protocol_id": "seq_well_s3",
+  "protocol_name": "Seq-Well S3"
+}

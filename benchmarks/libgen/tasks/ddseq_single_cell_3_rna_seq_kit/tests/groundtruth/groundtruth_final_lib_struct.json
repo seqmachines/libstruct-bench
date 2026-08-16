@@ -1,0 +1,443 @@
+{
+  "libraries": [
+    {
+      "final_molecule": "double-stranded, dual-indexed Illumina paired-end library",
+      "library_sequence": "AATGATACGGCGACCACCGAGATCTACAC[I5_INDEX:8]ACACTCTTTCCCTACACGACGCTCTTCCGATCT[UMI:8][CELL_BARCODE:7][PHASE_BLOCK]TATGCATGAC[CELL_BARCODE:7]CAGTCAGTCA[CELL_BARCODE:7]AACGCAGTCAGATTTTTTTTTTTTTTTTTTTTTTTTTTT[CDNA]CTGTCTCTTATACACATCTCCGAGCCCACGAGAC[I7_INDEX:8]ATCTCGTATGCCGTCTTCTGCTTG",
+      "modality": "gene expression",
+      "orientation": "5_to_3",
+      "segments": [
+        {
+          "kind": "constant",
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_ddseq_cdna_do_index_plate_forward_primer",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "Illumina P5 adapter",
+          "segment_id": "cdna_p5",
+          "sequence": "AATGATACGGCGACCACCGAGATCTACAC",
+          "support_status": "externally_completed"
+        },
+        {
+          "kind": "variable",
+          "length": 8,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_ddseq_cdna_do_index_plate_forward_primer",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "placeholder": "[I5_INDEX:8]",
+          "role": "i5 sample index",
+          "segment_id": "cdna_i5",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_illumina_truseq_read_1_primer",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "TruSeq Read 1 priming site",
+          "segment_id": "cdna_read1",
+          "sequence": "ACACTCTTTCCCTACACGACGCTCTTCCGATCT",
+          "support_status": "externally_completed"
+        },
+        {
+          "kind": "variable",
+          "length": 8,
+          "orientation": "5_to_3",
+          "placeholder": "[UMI:8]",
+          "role": "unique molecular identifier",
+          "segment_id": "cdna_umi",
+          "support_status": "externally_completed"
+        },
+        {
+          "kind": "variable",
+          "length": 7,
+          "orientation": "5_to_3",
+          "placeholder": "[CELL_BARCODE:7]",
+          "role": "bead barcode 1",
+          "segment_id": "cdna_bc1",
+          "support_status": "externally_completed"
+        },
+        {
+          "kind": "variable",
+          "notes": "Legacy HTML describes a 0-4 bp phase block (None/A/CG/GCC/GCGC); see audit issue I5-phase-block-placeholder.",
+          "orientation": "5_to_3",
+          "placeholder": "[PHASE_BLOCK]",
+          "role": "phase block (0-4 nt: None/A/CG/GCC/GCGC)",
+          "segment_id": "cdna_pb",
+          "support_status": "ambiguous"
+        },
+        {
+          "kind": "constant",
+          "orientation": "5_to_3",
+          "role": "linker 1",
+          "segment_id": "cdna_linker1",
+          "sequence": "TATGCATGAC",
+          "support_status": "externally_completed"
+        },
+        {
+          "kind": "variable",
+          "length": 7,
+          "orientation": "5_to_3",
+          "placeholder": "[CELL_BARCODE:7]",
+          "role": "bead barcode 2",
+          "segment_id": "cdna_bc2",
+          "support_status": "externally_completed"
+        },
+        {
+          "kind": "constant",
+          "orientation": "5_to_3",
+          "role": "linker 2",
+          "segment_id": "cdna_linker2",
+          "sequence": "CAGTCAGTCA",
+          "support_status": "externally_completed"
+        },
+        {
+          "kind": "variable",
+          "length": 7,
+          "orientation": "5_to_3",
+          "placeholder": "[CELL_BARCODE:7]",
+          "role": "bead barcode 3",
+          "segment_id": "cdna_bc3",
+          "support_status": "externally_completed"
+        },
+        {
+          "kind": "constant",
+          "orientation": "5_to_3",
+          "role": "linker 3",
+          "segment_id": "cdna_linker3",
+          "sequence": "AACGCAGTCAGA",
+          "support_status": "externally_completed"
+        },
+        {
+          "kind": "constant",
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_bead_truseq_read_1_umi_cbc_poly_t",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "poly(T) mRNA capture sequence",
+          "segment_id": "cdna_polyt",
+          "sequence": "TTTTTTTTTTTTTTTTTTTTTTTTTTT",
+          "support_status": "externally_completed"
+        },
+        {
+          "kind": "biological_insert",
+          "orientation": "5_to_3",
+          "placeholder": "[CDNA]",
+          "role": "3'-biased cDNA insert",
+          "segment_id": "cdna_insert",
+          "support_status": "externally_completed"
+        },
+        {
+          "kind": "constant",
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_nextera_tn5_binding_site_19_bp_mosaic_end_me",
+              "orientation_to_source": "reverse_complement"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "Nextera Mosaic End, reverse complement of the transferred strand",
+          "segment_id": "cdna_me_rc",
+          "sequence": "CTGTCTCTTATACACATCT",
+          "support_status": "externally_completed"
+        },
+        {
+          "kind": "constant",
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_nextera_n7xx_primer_entry_point_s7",
+              "orientation_to_source": "reverse_complement"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "Nextera s7 primer entry point, reverse complement",
+          "segment_id": "cdna_s7_rc",
+          "sequence": "CCGAGCCCACGAGAC",
+          "support_status": "externally_completed"
+        },
+        {
+          "kind": "variable",
+          "length": 8,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_ddseq_single_cell_3_rna_seq_cdna_index_plate_reverse",
+              "orientation_to_source": "reverse_complement"
+            }
+          ],
+          "orientation": "5_to_3",
+          "placeholder": "[I7_INDEX:8]",
+          "role": "i7 sample index",
+          "segment_id": "cdna_i7",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_illumina_p7_adapter",
+              "orientation_to_source": "reverse_complement"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "Illumina P7 adapter, reverse complement",
+          "segment_id": "cdna_p7_rc",
+          "sequence": "ATCTCGTATGCCGTCTTCTGCTTG",
+          "support_status": "externally_completed"
+        }
+      ],
+      "strand": "top",
+      "support_status": "externally_completed"
+    },
+    {
+      "final_molecule": "double-stranded, dual-indexed Illumina paired-end library",
+      "library_sequence": "AATGATACGGCGACCACCGAGATCTACAC[I5_INDEX:8]ACACTCTTTCCCTACACGACGCTCTTCCGATCT[UMI:8][CELL_BARCODE:7][PHASE_BLOCK]TATGCATGAC[CELL_BARCODE:7]CAGTCAGTCA[CELL_BARCODE:7]AACGCAGTCAGAGAACGATACCATAATCTTGGCTCTCTGACTGCGTT[CELL_BARCODE:7]TGACTGACTG[CELL_BARCODE:7]GTCATGCATA[PHASE_BLOCK][CELL_BARCODE:7][UMI:8]AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC[I7_INDEX:8]ATCTCGTATGCCGTCTTCTGCTTG",
+      "modality": "gene expression",
+      "orientation": "5_to_3",
+      "segments": [
+        {
+          "kind": "constant",
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_ddseq_cdna_do_index_plate_forward_primer",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "Illumina P5 adapter",
+          "segment_id": "do_p5",
+          "sequence": "AATGATACGGCGACCACCGAGATCTACAC",
+          "support_status": "externally_completed"
+        },
+        {
+          "kind": "variable",
+          "length": 8,
+          "orientation": "5_to_3",
+          "placeholder": "[I5_INDEX:8]",
+          "role": "i5 sample index",
+          "segment_id": "do_i5",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "orientation": "5_to_3",
+          "role": "TruSeq Read 1 priming site",
+          "segment_id": "do_read1",
+          "sequence": "ACACTCTTTCCCTACACGACGCTCTTCCGATCT",
+          "support_status": "externally_completed"
+        },
+        {
+          "kind": "variable",
+          "length": 8,
+          "orientation": "5_to_3",
+          "placeholder": "[UMI:8]",
+          "role": "unique molecular identifier (bead A oligo)",
+          "segment_id": "do_umi_a",
+          "support_status": "externally_completed"
+        },
+        {
+          "kind": "variable",
+          "length": 7,
+          "orientation": "5_to_3",
+          "placeholder": "[CELL_BARCODE:7]",
+          "role": "bead barcode 1 (bead A)",
+          "segment_id": "do_bc1_a",
+          "support_status": "externally_completed"
+        },
+        {
+          "kind": "variable",
+          "orientation": "5_to_3",
+          "placeholder": "[PHASE_BLOCK]",
+          "role": "phase block (0-4 nt: None/A/CG/GCC/GCGC)",
+          "segment_id": "do_pb_a",
+          "support_status": "ambiguous"
+        },
+        {
+          "kind": "constant",
+          "orientation": "5_to_3",
+          "role": "linker 1",
+          "segment_id": "do_linker1_a",
+          "sequence": "TATGCATGAC",
+          "support_status": "externally_completed"
+        },
+        {
+          "kind": "variable",
+          "length": 7,
+          "orientation": "5_to_3",
+          "placeholder": "[CELL_BARCODE:7]",
+          "role": "bead barcode 2 (bead A)",
+          "segment_id": "do_bc2_a",
+          "support_status": "externally_completed"
+        },
+        {
+          "kind": "constant",
+          "orientation": "5_to_3",
+          "role": "linker 2",
+          "segment_id": "do_linker2_a",
+          "sequence": "CAGTCAGTCA",
+          "support_status": "externally_completed"
+        },
+        {
+          "kind": "variable",
+          "length": 7,
+          "orientation": "5_to_3",
+          "placeholder": "[CELL_BARCODE:7]",
+          "role": "bead barcode 3 (bead A)",
+          "segment_id": "do_bc3_a",
+          "support_status": "externally_completed"
+        },
+        {
+          "kind": "constant",
+          "orientation": "5_to_3",
+          "role": "linker 3",
+          "segment_id": "do_linker3_a",
+          "sequence": "AACGCAGTCAGA",
+          "support_status": "externally_completed"
+        },
+        {
+          "kind": "constant",
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_bead_truseq_read_1_umi_cbc_do_a",
+              "orientation_to_source": "same_orientation"
+            },
+            {
+              "oligo_id": "oligo_bead_truseq_read_1_umi_cbc_do_b",
+              "orientation_to_source": "reverse_complement"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "deconvolution oligo A/B dimer junction (filled in)",
+          "segment_id": "do_dimer_junction",
+          "sequence": "GAACGATACCATAATCTTGGCTC",
+          "support_status": "externally_completed"
+        },
+        {
+          "kind": "constant",
+          "orientation": "5_to_3",
+          "role": "linker 3, reverse complement (bead B)",
+          "segment_id": "do_linker3_b_rc",
+          "sequence": "TCTGACTGCGTT",
+          "support_status": "externally_completed"
+        },
+        {
+          "kind": "variable",
+          "length": 7,
+          "orientation": "5_to_3",
+          "placeholder": "[CELL_BARCODE:7]",
+          "role": "bead barcode 3 (bead B)",
+          "segment_id": "do_bc3_b",
+          "support_status": "externally_completed"
+        },
+        {
+          "kind": "constant",
+          "orientation": "5_to_3",
+          "role": "linker 2, reverse complement (bead B)",
+          "segment_id": "do_linker2_b_rc",
+          "sequence": "TGACTGACTG",
+          "support_status": "externally_completed"
+        },
+        {
+          "kind": "variable",
+          "length": 7,
+          "orientation": "5_to_3",
+          "placeholder": "[CELL_BARCODE:7]",
+          "role": "bead barcode 2 (bead B)",
+          "segment_id": "do_bc2_b",
+          "support_status": "externally_completed"
+        },
+        {
+          "kind": "constant",
+          "orientation": "5_to_3",
+          "role": "linker 1, reverse complement (bead B)",
+          "segment_id": "do_linker1_b_rc",
+          "sequence": "GTCATGCATA",
+          "support_status": "externally_completed"
+        },
+        {
+          "kind": "variable",
+          "orientation": "5_to_3",
+          "placeholder": "[PHASE_BLOCK]",
+          "role": "phase block (0-4 nt: None/A/CG/GCC/GCGC)",
+          "segment_id": "do_pb_b",
+          "support_status": "ambiguous"
+        },
+        {
+          "kind": "variable",
+          "length": 7,
+          "orientation": "5_to_3",
+          "placeholder": "[CELL_BARCODE:7]",
+          "role": "bead barcode 1 (bead B)",
+          "segment_id": "do_bc1_b",
+          "support_status": "externally_completed"
+        },
+        {
+          "kind": "variable",
+          "length": 8,
+          "orientation": "5_to_3",
+          "placeholder": "[UMI:8]",
+          "role": "unique molecular identifier (bead B oligo)",
+          "segment_id": "do_umi_b",
+          "support_status": "externally_completed"
+        },
+        {
+          "kind": "constant",
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_illumina_truseq_read_2_primer",
+              "orientation_to_source": "reverse_complement"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "TruSeq Read 2 priming site, reverse complement",
+          "segment_id": "do_read2_rc",
+          "sequence": "AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC",
+          "support_status": "externally_completed"
+        },
+        {
+          "kind": "variable",
+          "length": 8,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_ddseq_single_cell_3_rna_seq_do_index_plate_reverse",
+              "orientation_to_source": "reverse_complement"
+            }
+          ],
+          "orientation": "5_to_3",
+          "placeholder": "[I7_INDEX:8]",
+          "role": "i7 sample index",
+          "segment_id": "do_i7",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "orientation": "5_to_3",
+          "role": "Illumina P7 adapter, reverse complement",
+          "segment_id": "do_p7_rc",
+          "sequence": "ATCTCGTATGCCGTCTTCTGCTTG",
+          "support_status": "externally_completed"
+        }
+      ],
+      "strand": "top",
+      "support_status": "externally_completed"
+    }
+  ],
+  "protocol_id": "ddseq_single_cell_3_rna_seq_kit",
+  "protocol_name": "ddSEQ Single-Cell 3' RNA-Seq Kit",
+  "protocol_scope": {
+    "applicable_variants": [],
+    "protocol_version": "User Guide Version 1.0 (DIR No. 10000167449, Ver B)"
+  }
+}

@@ -13,11 +13,18 @@ from pathlib import Path
 
 import pytest
 
-from libstruct_bench.cli.generate_libgen_tasks import main
-from libstruct_bench.cli.plan_libgen_matrix import main as plan_main
+from libstruct_bench.cli.generate_libgen_tasks import _environment_dockerfile, main
+from libstruct_bench.cli.plan_libgen_matrix import (
+    _validate_network_smoke_report,
+    main as plan_main,
+)
 from libstruct_bench.cli.prepare_libgen_hf_export import main as export_main
 from libstruct_bench.cli.resume_libgen_job import main as resume_main
-from libstruct_bench.cli.summarize_libgen_runs import main as summarize_main
+from libstruct_bench.cli.summarize_libgen_runs import (
+    RAW_PUBLIC_METRICS,
+    main as summarize_main,
+)
+from libstruct_bench.libgen.scoring import LIBGEN_PUBLIC_METRIC_KEYS
 from libstruct_bench.libgen.telemetry import normalized_api_cost
 from libstruct_bench.libgen.version import LIBGEN_BENCHMARK_VERSION
 from tests.libgen_fixtures import (
@@ -30,6 +37,24 @@ from tests.libgen_fixtures import (
 
 
 ROOT = Path(__file__).resolve().parents[1]
+PUBLIC_METRIC_KEYS = LIBGEN_PUBLIC_METRIC_KEYS
+
+
+def _public_metrics(factor: float = 1.0) -> dict[str, float]:
+    t2_family = 0.2 * factor
+    t3_transition = 0.4 * factor
+    return {
+        "reward": 0.30 * t2_family + 0.70 * t3_transition,
+        "t2_required_family_f1": t2_family,
+        "t2_exact_required_family_recall": 0.3 * factor,
+        "t3_molecular_transition_f1": t3_transition,
+        "t3_state_f1": 0.5 * factor,
+        "t3_typed_edge_f1": 0.6 * factor,
+    }
+
+
+def test_summarizer_primary_metric_surface_matches_scorer() -> None:
+    assert RAW_PUBLIC_METRICS == LIBGEN_PUBLIC_METRIC_KEYS
 
 
 def _fixture_release(root: Path) -> tuple[Path, Path, Path]:
@@ -110,16 +135,30 @@ def test_generator_builds_separate_docker_task_without_truth_leakage() -> None:
         test_sh = (task / "tests/test.sh").read_text()
         assert 'network_profile = "docker-provider-only"' in task_toml
         assert 'environment_mode = "separate"' in task_toml
-        assert 'HF_TOKEN = "${HF_TOKEN}"' in task_toml
+        assert 'HF_TOKEN = "${HF_TOKEN:-}"' in task_toml
         assert "RUN python /workspace/fetch_input.py" in dockerfile
+        assert "s|http://deb.debian.org|https://deb.debian.org|g" in dockerfile
+        assert (
+            "s|http://security.debian.org|https://security.debian.org|g" in dockerfile
+        )
         task_config = tomllib.loads(task_toml)
         assert task_config["agent"]["timeout_sec"] == 3600.0
+        assert task_config["verifier"]["environment"]["network_mode"] == "public"
+        assert (
+            task_config["verifier"]["environment"]["env"]["HF_TOKEN"]
+            == "${HF_TOKEN:-}"
+        )
         assert task_config["metadata"]["benchmark_version"] == LIBGEN_BENCHMARK_VERSION
         assert task_config["artifacts"] == [
             {
                 "source": "/logs/agent/trajectory.json",
                 "destination": "agent_trajectory.json",
-            }
+            },
+            {
+                "source": "/logs/network/provider-egress.jsonl",
+                "destination": "provider_egress.jsonl",
+                "service": "provider-egress",
+            },
         ]
         assert "/logs/artifacts/t2_prediction.json" in rules
         assert "/logs/artifacts/t3_prediction.json" in rules
@@ -128,7 +167,9 @@ def test_generator_builds_separate_docker_task_without_truth_leakage() -> None:
         assert "groundtruth" not in instruction.lower()
         assert "groundtruth" not in manifest.lower()
         assert "org/private-groundtruth" not in dockerfile
+        assert "--groundtruth-dir /tests/groundtruth" in test_sh
         assert '--groundtruth-repo "org/private-groundtruth"' in test_sh
+        assert f'--groundtruth-revision "{"b" * 40}"' in test_sh
         assert "--error-analysis-out /logs/verifier/error_analysis.json" in test_sh
         assert "--trajectory /logs/agent/trajectory.json" in test_sh
         assert (
@@ -152,6 +193,20 @@ def test_generator_builds_separate_docker_task_without_truth_leakage() -> None:
         assert not (agent_package / "libgen/scoring.py").exists()
         assert not (agent_package / "libgen/error_analysis.py").exists()
         assert not list(agent_package.rglob("*connected_process*"))
+        private_groundtruth = task / "tests/groundtruth"
+        assert {
+            path.name for path in private_groundtruth.iterdir() if path.is_file()
+        } == {
+            "groundtruth_final_lib_struct.json",
+            "groundtruth_oligos.json",
+            "groundtruth_library_generation_workflow.json",
+        }
+        for path in private_groundtruth.iterdir():
+            assert (
+                path.read_bytes()
+                == (truth_root / "example_protocol" / path.name).read_bytes()
+            )
+            assert not (task / "environment" / path.name).exists()
         agent_runtime_text = "\n".join(
             path.read_text(encoding="utf-8") for path in agent_package.rglob("*.py")
         )
@@ -171,6 +226,12 @@ def test_generator_builds_separate_docker_task_without_truth_leakage() -> None:
         assert "internal: true" in compose
         assert "provider-egress:3128" in compose
         assert "coding-intl.dashscope.aliyuncs.com" in policy["provider_hosts"]
+        assert "releases.astral.sh" in policy["setup_hosts"]
+        assert "antigravity.google" in policy["setup_hosts"]
+        assert (
+            "antigravity-cli-auto-updater-974169037036.us-central1.run.app"
+            in policy["setup_hosts"]
+        )
         assert (task / "tests/libstruct_bench/libgen/scoring.py").is_file()
         assert (task / "tests/libstruct_bench/libgen/error_analysis.py").is_file()
 
@@ -250,7 +311,8 @@ def test_generator_can_build_native_harbor_allowlist_task() -> None:
         assert task_config["environment"]["network_mode"] == "public"
         assert task_config["verifier"]["environment"]["network_mode"] == "public"
         assert (
-            task_config["verifier"]["environment"]["env"]["HF_TOKEN"] == "${HF_TOKEN}"
+            task_config["verifier"]["environment"]["env"]["HF_TOKEN"]
+            == "${HF_TOKEN:-}"
         )
 
 
@@ -261,13 +323,259 @@ def test_docker_proxy_switches_from_setup_to_provider_only() -> None:
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     policy = module.Policy(ROOT / "benchmarks/libgen/network-policy.json")
-    assert policy.authorize("registry.npmjs.org", 443)[0] is True
+    for host in (
+        "registry.npmjs.org",
+        "antigravity.google",
+        "antigravity-cli-auto-updater-974169037036.us-central1.run.app",
+    ):
+        assert policy.authorize(host, 443)[0] is True
     assert policy.phase == "setup"
+    for host in (
+        "chatgpt.com",
+        "auth.openai.com",
+        "api.anthropic.com",
+        "oauth2.googleapis.com",
+        "www.googleapis.com",
+        "cloudcode-pa.googleapis.com",
+        "daily-cloudcode-pa.googleapis.com",
+        "play.googleapis.com",
+        "antigravity-unleash.goog",
+        "lh3.googleusercontent.com",
+    ):
+        assert policy.authorize(host, 443)[0] is True
     assert policy.authorize("coding-intl.dashscope.aliyuncs.com", 443)[0] is True
     assert policy.phase == "agent"
     assert policy.authorize("registry.npmjs.org", 443)[0] is False
     assert policy.authorize("example.com", 443)[0] is False
     assert policy.authorize("api.openai.com", 80)[0] is False
+
+
+def test_docker_proxy_uses_independent_long_lived_tunnel_timeout(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    proxy_path = ROOT / "benchmarks/libgen/docker_network/provider_egress_proxy.py"
+    spec = importlib.util.spec_from_file_location(
+        "libgen_provider_proxy_timeout", proxy_path
+    )
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+
+    assert module.ProxyHandler.timeout == 30.0
+    assert module.ProxyHandler.connect_timeout == 30.0
+    assert module.ProxyHandler.tunnel_idle_timeout == 900.0
+
+    class FakeSocket:
+        def __init__(self, chunks: list[bytes]) -> None:
+            self.chunks = chunks
+            self.sent: list[bytes] = []
+
+        def recv(self, _size: int) -> bytes:
+            return self.chunks.pop(0)
+
+        def sendall(self, data: bytes) -> None:
+            self.sent.append(data)
+
+    client = FakeSocket([b"request", b""])
+    upstream = FakeSocket([])
+    observed_timeouts: list[float] = []
+
+    def fake_select(readers, _writers, _exceptional, timeout):
+        observed_timeouts.append(timeout)
+        return [readers[0]], [], []
+
+    monotonic_values = iter((10.0, 12.5))
+    monkeypatch.setattr(module.select, "select", fake_select)
+    monkeypatch.setattr(module.time, "monotonic", lambda: next(monotonic_values))
+
+    result = module._tunnel(client, upstream, idle_timeout=900.0)
+
+    assert observed_timeouts == [900.0, 900.0]
+    assert upstream.sent == [b"request"]
+    assert result.reason == "client_eof"
+    assert result.duration_sec == 2.5
+    assert result.bytes_client_to_upstream == 7
+    assert result.bytes_upstream_to_client == 0
+    assert result.error_type is None
+
+
+def test_docker_proxy_reports_idle_tunnel_closure(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    proxy_path = ROOT / "benchmarks/libgen/docker_network/provider_egress_proxy.py"
+    spec = importlib.util.spec_from_file_location(
+        "libgen_provider_proxy_idle", proxy_path
+    )
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+
+    monkeypatch.setattr(
+        module.select,
+        "select",
+        lambda readers, writers, exceptional, timeout: ([], [], []),
+    )
+    monotonic_values = iter((20.0, 920.0))
+    monkeypatch.setattr(module.time, "monotonic", lambda: next(monotonic_values))
+
+    result = module._tunnel(object(), object(), idle_timeout=900.0)
+
+    assert result.reason == "idle_timeout"
+    assert result.duration_sec == 900.0
+    assert result.bytes_client_to_upstream == 0
+    assert result.bytes_upstream_to_client == 0
+
+
+def test_docker_proxy_clears_socket_timeouts_after_connect(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    proxy_path = ROOT / "benchmarks/libgen/docker_network/provider_egress_proxy.py"
+    spec = importlib.util.spec_from_file_location(
+        "libgen_provider_proxy_connect", proxy_path
+    )
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+
+    class FakePolicy:
+        phase = "agent"
+
+        def authorize(self, _host: str, _port: int) -> tuple[bool, str]:
+            return True, "provider"
+
+    class FakeSocket:
+        def __init__(self) -> None:
+            self.timeouts: list[float | None] = []
+            self.closed = False
+
+        def settimeout(self, timeout: float | None) -> None:
+            self.timeouts.append(timeout)
+
+        def close(self) -> None:
+            self.closed = True
+
+    client = FakeSocket()
+    upstream = FakeSocket()
+    connect_calls: list[tuple[tuple[str, int], float]] = []
+    tunnel_calls: list[tuple[object, object, float]] = []
+    events: list[tuple[str, dict[str, object]]] = []
+
+    def fake_create_connection(target, timeout):
+        connect_calls.append((target, timeout))
+        return upstream
+
+    def fake_tunnel(left, right, *, idle_timeout):
+        tunnel_calls.append((left, right, idle_timeout))
+        return module.TunnelResult("upstream_eof", 1.0, 12, 34)
+
+    handler = object.__new__(module.ProxyHandler)
+    handler.path = "api.anthropic.com:443"
+    handler.policy = FakePolicy()
+    handler.connection = client
+    handler.send_response = lambda *_args, **_kwargs: None
+    handler.end_headers = lambda: None
+    handler.log_message = lambda *_args, **_kwargs: None
+    monkeypatch.setattr(module.socket, "create_connection", fake_create_connection)
+    monkeypatch.setattr(module, "_tunnel", fake_tunnel)
+    monkeypatch.setattr(
+        module,
+        "_write_event",
+        lambda event, **fields: events.append((event, fields)),
+    )
+
+    handler.do_CONNECT()
+
+    assert connect_calls == [(('api.anthropic.com', 443), 30.0)]
+    assert client.timeouts == [None]
+    assert upstream.timeouts == [None]
+    assert upstream.closed is True
+    assert tunnel_calls == [(client, upstream, 900.0)]
+    assert [event for event, _fields in events] == [
+        "tunnel_opened",
+        "tunnel_closed",
+    ]
+    assert events[-1][1]["reason"] == "upstream_eof"
+
+
+def test_docker_proxy_writes_structured_diagnostic_log(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+) -> None:
+    proxy_path = ROOT / "benchmarks/libgen/docker_network/provider_egress_proxy.py"
+    spec = importlib.util.spec_from_file_location(
+        "libgen_provider_proxy_diagnostics", proxy_path
+    )
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    event_log = tmp_path / "network/provider-egress.jsonl"
+    monkeypatch.setattr(module, "EVENT_LOG_PATH", event_log)
+
+    module._write_event(
+        "tunnel_closed",
+        target="api.anthropic.com:443",
+        reason="upstream_eof",
+        duration_sec=42.0,
+        bytes_client_to_upstream=100,
+        bytes_upstream_to_client=200,
+    )
+
+    event = json.loads(event_log.read_text(encoding="utf-8"))
+    assert event["event"] == "tunnel_closed"
+    assert event["target"] == "api.anthropic.com:443"
+    assert event["reason"] == "upstream_eof"
+    assert event["bytes_client_to_upstream"] == 100
+    assert event["bytes_upstream_to_client"] == 200
+    assert "timestamp" in event
+
+
+def test_matrix_planner_rejects_network_smoke_without_setup_phase() -> None:
+    policy = json.loads((ROOT / "benchmarks/libgen/network-policy.json").read_text())
+    policy_digest = hashlib.sha256(
+        json.dumps(policy, sort_keys=True, separators=(",", ":")).encode()
+    ).hexdigest()
+    stale_report = {
+        "schema_version": 1,
+        "ready": True,
+        "network_policy_sha256": policy_digest,
+        "probe": {
+            "provider_api_access": {"reachable": True},
+            "qwen_api_access": {"reachable": True},
+            "unrelated_public_web_access": {"reachable": False},
+            "direct_external_access": {"reachable": False},
+        },
+    }
+    with pytest.raises(ValueError, match="schema must be version 2"):
+        _validate_network_smoke_report(stale_report, policy_digest)
+
+    failed_uv_report = {
+        "schema_version": 2,
+        "ready": True,
+        "network_policy_sha256": policy_digest,
+        "probe": {
+            "setup_repository_access": {"reachable": True, "status": 200},
+            "uv_installer_access": {"reachable": True, "status": 403},
+            "antigravity_installer_access": {"reachable": True, "status": 200},
+            "antigravity_manifest_access": {"reachable": True, "status": 200},
+            "provider_api_access": {"reachable": True, "status": 401},
+            "codex_subscription_access": {"reachable": True, "status": 401},
+            "codex_oauth_access": {"reachable": True, "status": 401},
+            "claude_subscription_access": {"reachable": True, "status": 401},
+            "gemini_oauth_access": {"reachable": True, "status": 400},
+            "gemini_userinfo_access": {"reachable": True, "status": 401},
+            "gemini_code_assist_access": {"reachable": True, "status": 404},
+            "antigravity_code_assist_access": {
+                "reachable": True,
+                "status": 404,
+            },
+            "antigravity_profile_access": {"reachable": True, "status": 404},
+            "qwen_api_access": {"reachable": True, "status": 200},
+            "setup_repository_access_after_provider": {"reachable": False},
+            "unrelated_public_web_access": {"reachable": False},
+            "direct_external_access": {"reachable": False},
+        },
+    }
+    with pytest.raises(ValueError, match="failed uv_installer_access"):
+        _validate_network_smoke_report(failed_uv_report, policy_digest)
 
 
 def test_checked_in_libgen_tasks_keep_verifier_snapshots_synchronized() -> None:
@@ -306,12 +614,36 @@ def test_checked_in_libgen_tasks_keep_verifier_snapshots_synchronized() -> None:
             {
                 "source": "/logs/agent/trajectory.json",
                 "destination": "agent_trajectory.json",
-            }
+            },
+            {
+                "source": "/logs/network/provider-egress.jsonl",
+                "destination": "provider_egress.jsonl",
+                "service": "provider-egress",
+            },
         ], protocol_id
 
         test_sh = (task / "tests/test.sh").read_text()
+        assert "--groundtruth-repo" in test_sh
+        assert "--groundtruth-dir /tests/groundtruth" in test_sh
         assert "--error-analysis-out /logs/verifier/error_analysis.json" in test_sh
         assert "--trajectory /logs/agent/trajectory.json" in test_sh
+
+        private_groundtruth = task / "tests/groundtruth"
+        assert {
+            path.name for path in private_groundtruth.iterdir() if path.is_file()
+        } == {
+            "groundtruth_final_lib_struct.json",
+            "groundtruth_oligos.json",
+            "groundtruth_library_generation_workflow.json",
+        }, f"{protocol_id}: incomplete private verifier fallback"
+        for filename in (
+            "groundtruth_final_lib_struct.json",
+            "groundtruth_oligos.json",
+            "groundtruth_library_generation_workflow.json",
+        ):
+            assert not list((task / "environment").rglob(filename)), (
+                f"{protocol_id}: ground truth leaked into agent build context"
+            )
 
         agent_package = task / "environment/libstruct_bench"
         agent_files = {
@@ -356,6 +688,18 @@ def test_checked_in_libgen_tasks_keep_verifier_snapshots_synchronized() -> None:
         assert (task / "environment/rules.md").read_bytes() == (
             ROOT / "benchmarks/libgen/rules.md"
         ).read_bytes(), f"{protocol_id}: stale environment/rules.md"
+        assert (task / "environment/Dockerfile").read_text() == (
+            _environment_dockerfile()
+        ), f"{protocol_id}: stale agent Dockerfile"
+        for network_asset in (
+            "ProviderProxy.Dockerfile",
+            "docker-compose.yaml",
+            "network_smoke.py",
+            "provider_egress_proxy.py",
+        ):
+            assert (task / "environment" / network_asset).read_bytes() == (
+                ROOT / "benchmarks/libgen/docker_network" / network_asset
+            ).read_bytes(), f"{protocol_id}: stale {network_asset}"
 
 
 def test_generator_refuses_mutable_revisions_and_mixed_source_tree() -> None:
@@ -494,11 +838,52 @@ def test_matrix_planner_creates_16_unique_cells_and_64_trial_pilot(
         network_smoke.write_text(
             json.dumps(
                 {
+                    "schema_version": 2,
                     "ready": True,
                     "network_policy_sha256": policy_digest,
                     "probe": {
+                        "setup_repository_access": {
+                            "reachable": True,
+                            "status": 200,
+                        },
+                        "uv_installer_access": {"reachable": True, "status": 200},
+                        "antigravity_installer_access": {
+                            "reachable": True,
+                            "status": 200,
+                        },
+                        "antigravity_manifest_access": {
+                            "reachable": True,
+                            "status": 200,
+                        },
                         "provider_api_access": {"reachable": True, "status": 401},
+                        "codex_subscription_access": {
+                            "reachable": True,
+                            "status": 401,
+                        },
+                        "codex_oauth_access": {"reachable": True, "status": 401},
+                        "claude_subscription_access": {
+                            "reachable": True,
+                            "status": 401,
+                        },
+                        "gemini_oauth_access": {"reachable": True, "status": 400},
+                        "gemini_userinfo_access": {
+                            "reachable": True,
+                            "status": 401,
+                        },
+                        "gemini_code_assist_access": {
+                            "reachable": True,
+                            "status": 404,
+                        },
+                        "antigravity_code_assist_access": {
+                            "reachable": True,
+                            "status": 404,
+                        },
+                        "antigravity_profile_access": {
+                            "reachable": True,
+                            "status": 404,
+                        },
                         "qwen_api_access": {"reachable": True, "status": 200},
+                        "setup_repository_access_after_provider": {"reachable": False},
                         "unrelated_public_web_access": {"reachable": False},
                         "direct_external_access": {"reachable": False},
                     },
@@ -550,6 +935,15 @@ def test_matrix_planner_creates_16_unique_cells_and_64_trial_pilot(
         assert qwen_native[0]["design"] == "native_extension"
         assert qwen_native[0]["harbor_agent"] == "qwen-coder"
         assert qwen_native[0]["harness_version"] == "0.21.12"
+        assert qwen_native[0]["auth_mode"] == "provider_api_key"
+        native_by_agent = {
+            item["harbor_agent"]: item
+            for item in lock["cells"]
+            if item["design"] == "native_extension"
+        }
+        assert native_by_agent["codex"]["auth_mode"] == "host_cli_subscription"
+        assert native_by_agent["claude-code"]["auth_mode"] == ("host_cli_subscription")
+        assert native_by_agent["gemini-cli"]["auth_mode"] == ("host_cli_subscription")
         assert lock["analysis_design"] == {
             "balanced_core_cells": 12,
             "model_and_harness_effects_use": "balanced_core",
@@ -568,7 +962,7 @@ def test_matrix_planner_creates_16_unique_cells_and_64_trial_pilot(
         assert first["agents"][0]["include_logs"] == []
         assert first["agents"][0]["exclude_logs"] == []
         assert first["retry"]["max_retries"] == 0
-        assert "/logs/verifier/error_analysis.json" in first["artifacts"]
+        assert "artifacts" not in first
         assert len(lock["task_bundle_sha256"]) == 64
         assert len(lock["pricing_snapshot_sha256"]) == 64
         assert lock["pricing_snapshot"]["snapshot_id"].startswith("libgen-api-pricing-")
@@ -584,9 +978,40 @@ def test_matrix_planner_creates_16_unique_cells_and_64_trial_pilot(
             ]
             is False
         )
+        assert lock["native_auth_policy"] == {
+            "codex_claude_gemini": "host_cli_subscription",
+            "api_key_fallback_allowed": False,
+            "credential_contents_persisted_in_plan_or_lock": False,
+        }
+        codex_job = json.loads((out / "jobs/gpt_5_6_sol__codex.json").read_text())
+        assert codex_job["agents"][0]["env"] == {"CODEX_FORCE_AUTH_JSON": "1"}
+        claude_job = json.loads(
+            (out / "jobs/claude_opus_5__claude_code.json").read_text()
+        )
+        assert claude_job["agents"][0]["env"] == {
+            "CLAUDE_FORCE_OAUTH": "1",
+            "CLAUDE_CODE_OAUTH_TOKEN": "${CLAUDE_CODE_OAUTH_TOKEN}",
+        }
+        gemini_job = json.loads(
+            (out / "jobs/gemini_3_7_flash__gemini_cli.json").read_text()
+        )
+        assert gemini_job["agents"][0]["env"] == {"GEMINI_FORCE_OAUTH": "1"}
+        for job in (codex_job, claude_job, gemini_job):
+            assert "OPENAI_API_KEY" not in job["agents"][0]["env"]
+            assert "ANTHROPIC_API_KEY" not in job["agents"][0]["env"]
+            assert "GEMINI_API_KEY" not in job["agents"][0]["env"]
+        run_script = (out / "run.sh").read_text()
+        assert "codex login" in run_script
+        assert "claude setup-token" in run_script
+        assert "Login with Google" in run_script
+        assert "CLAUDE_CODE_OAUTH_TOKEN=${" not in run_script
         assert lock["primary_aggregation_policy"]["agent_timeout"] == "zero"
         assert (
             lock["primary_aggregation_policy"]["agent_timeout_rerun_eligible"] is False
+        )
+        assert lock["primary_aggregation_policy"]["metrics"] == list(PUBLIC_METRIC_KEYS)
+        assert lock["primary_aggregation_policy"]["cost_performance_metric"] == (
+            "primary_t3_molecular_transition_f1"
         )
 
         with pytest.raises(ValueError, match="pilot-clearance"):
@@ -809,12 +1234,7 @@ def test_telemetry_keeps_timeout_usage_and_does_not_invalidate_prediction(
                     "n_output_tokens": 10,
                     "cost_usd": 0.0123,
                 },
-                "verifier_result": {
-                    "rewards": {
-                        "reward": 0.7,
-                        "t3_molecular_transition_f1": 0.8,
-                    }
-                },
+                "verifier_result": {"rewards": _public_metrics()},
                 "exception_info": {"exception_type": "AgentTimeoutError"},
                 "started_at": "2026-01-01T00:00:00Z",
                 "finished_at": "2026-01-01T00:01:10Z",
@@ -893,12 +1313,36 @@ def test_telemetry_keeps_timeout_usage_and_does_not_invalidate_prediction(
     assert summary["scored_current_trial_count"] == 1
     assert summary["balanced_core"]["grand_mean_reward"] == 0.0
     assert summary["primary_outcome_counts"] == {"agent_timeout": 1}
-    assert summary["valid_output_only"]["grand_mean_reward_balanced_core"] == 0.7
+    assert summary["valid_output_only"][
+        "grand_mean_reward_balanced_core"
+    ] == pytest.approx(_public_metrics()["reward"])
+    assert (
+        summary["plot_readiness"]["api_equivalent_cost_vs_t3_transition_f1"]["y"]
+        == "primary_t3_molecular_transition_f1"
+    )
+    assert (
+        summary["plot_readiness"]["api_equivalent_cost_vs_t3_transition_f1"][
+            "complete_row_count"
+        ]
+        == 1
+    )
     with (out / "primary_attempts.csv").open(newline="") as handle:
         primary = next(csv.DictReader(handle))
     assert primary["primary_reward"] == "0.0"
     assert primary["primary_score_reason"] == "agent_timeout"
-    assert primary["valid_output_reward"] == "0.7"
+    for metric, raw_value in _public_metrics().items():
+        assert float(primary[metric]) == pytest.approx(raw_value)
+        assert float(primary[f"primary_{metric}"]) == 0.0
+        assert float(primary[f"valid_output_{metric}"]) == pytest.approx(raw_value)
+        assert (
+            summary["balanced_core"]["primary_metric_means"]["grand"][
+                f"primary_{metric}"
+            ]
+            == 0.0
+        )
+        assert summary["valid_output_only"]["metric_means"]["grand"][
+            f"valid_output_{metric}"
+        ] == pytest.approx(raw_value)
 
 
 def test_resume_wrapper_preserves_superseded_timeout_execution(tmp_path: Path) -> None:
@@ -1000,6 +1444,86 @@ def test_resume_wrapper_preserves_superseded_timeout_execution(tmp_path: Path) -
     assert primary["primary_reward"] == "0.0"
 
 
+def test_invalid_and_incomplete_attempts_zero_every_primary_metric(
+    tmp_path: Path,
+) -> None:
+    lock = {
+        "mode": "smoke",
+        "attempts": 1,
+        "protocol_ids": ["invalid_protocol", "incomplete_protocol"],
+        "expected_trial_count": 2,
+        "cells": [
+            {
+                "design": "balanced_core",
+                "model_key": "model_a",
+                "model_id": "provider/model-a",
+                "harness_key": "codex",
+                "harbor_agent": "codex",
+                "harness_version": "1.0",
+            }
+        ],
+    }
+    lock_path = tmp_path / "lock.json"
+    lock_path.write_text(json.dumps(lock))
+    job = tmp_path / "runs/libgen-smoke-model_a-codex"
+    fixtures = (
+        ("invalid_protocol", False, _public_metrics(1.25)),
+        ("incomplete_protocol", True, None),
+    )
+    for index, (protocol_id, prediction_valid, metrics) in enumerate(fixtures):
+        trial = job / f"{protocol_id}__fixture"
+        (trial / "verifier").mkdir(parents=True)
+        result = {
+            "trial_name": trial.name,
+            "config": {"task": {"path": f"tasks/{protocol_id}"}},
+            "exception_info": None,
+            "started_at": f"2026-01-01T00:0{index}:00Z",
+            "finished_at": f"2026-01-01T00:0{index}:30Z",
+        }
+        if metrics is not None:
+            result["verifier_result"] = {"rewards": metrics}
+        (trial / "result.json").write_text(json.dumps(result))
+        (trial / "verifier/details.json").write_text(
+            json.dumps({"prediction_valid": prediction_valid})
+        )
+
+    out = tmp_path / "out"
+    assert (
+        summarize_main(
+            [
+                "--runs-root",
+                str(tmp_path / "runs"),
+                "--experiment-lock",
+                str(lock_path),
+                "--out",
+                str(out),
+            ]
+        )
+        == 0
+    )
+    with (out / "primary_attempts.csv").open(newline="") as handle:
+        primary = {row["protocol_id"]: row for row in csv.DictReader(handle)}
+    assert primary["invalid_protocol"]["primary_score_reason"] == "invalid_prediction"
+    assert primary["incomplete_protocol"]["primary_score_reason"] == (
+        "incomplete_output"
+    )
+    for row in primary.values():
+        for metric in PUBLIC_METRIC_KEYS:
+            assert float(row[f"primary_{metric}"]) == 0.0
+    for metric, raw_value in _public_metrics(1.25).items():
+        assert float(primary["invalid_protocol"][metric]) == pytest.approx(raw_value)
+        assert primary["invalid_protocol"][f"valid_output_{metric}"] == ""
+    summary = json.loads((out / "summary.json").read_text())
+    for metric in PUBLIC_METRIC_KEYS:
+        assert (
+            summary["balanced_core"]["primary_metric_means"]["grand"][
+                f"primary_{metric}"
+            ]
+            == 0.0
+        )
+    assert summary["valid_output_only"]["attempt_count"] == 0
+
+
 def test_confirmed_infrastructure_rerun_can_replace_primary_execution(
     tmp_path: Path,
 ) -> None:
@@ -1041,7 +1565,7 @@ def test_confirmed_infrastructure_rerun_can_replace_primary_execution(
             {
                 "trial_name": trial.name,
                 "config": {"task": {"path": "tasks/example_protocol"}},
-                "verifier_result": {"rewards": {"reward": 0.8}},
+                "verifier_result": {"rewards": _public_metrics(1.5)},
                 "exception_info": None,
                 "started_at": "2026-01-01T01:00:00Z",
                 "finished_at": "2026-01-01T01:01:00Z",
@@ -1082,8 +1606,17 @@ def test_confirmed_infrastructure_rerun_can_replace_primary_execution(
         == 0
     )
     summary = json.loads((out / "summary.json").read_text())
-    assert summary["balanced_core"]["grand_mean_reward"] == 0.8
+    assert summary["balanced_core"]["grand_mean_reward"] == pytest.approx(
+        _public_metrics(1.5)["reward"]
+    )
     assert summary["primary_outcome_counts"] == {"valid_prediction": 1}
+    with (out / "primary_attempts.csv").open(newline="") as handle:
+        replacement = next(csv.DictReader(handle))
+    for metric, raw_value in _public_metrics(1.5).items():
+        assert float(replacement[f"primary_{metric}"]) == pytest.approx(raw_value)
+        assert summary["balanced_core"]["primary_metric_means"]["cell"][
+            f"primary_{metric}"
+        ]["model_a__codex"] == pytest.approx(raw_value)
 
 
 def test_agent_timeout_cannot_be_confirmed_as_infrastructure(tmp_path: Path) -> None:
@@ -1142,7 +1675,7 @@ def test_missing_scheduled_attempt_contributes_zero(tmp_path: Path) -> None:
             {
                 "trial_name": trial.name,
                 "config": {"task": {"path": "tasks/example_protocol"}},
-                "verifier_result": {"rewards": {"reward": 1.0}},
+                "verifier_result": {"rewards": _public_metrics()},
                 "exception_info": None,
                 "started_at": "2026-01-01T00:00:00Z",
                 "finished_at": "2026-01-01T00:01:00Z",
@@ -1165,7 +1698,9 @@ def test_missing_scheduled_attempt_contributes_zero(tmp_path: Path) -> None:
         == 1
     )
     summary = json.loads((out / "summary.json").read_text())
-    assert summary["balanced_core"]["grand_mean_reward"] == 0.5
+    assert summary["balanced_core"]["grand_mean_reward"] == pytest.approx(
+        _public_metrics()["reward"] / 2
+    )
     assert summary["primary_outcome_counts"] == {
         "scheduled_attempt_missing": 1,
         "valid_prediction": 1,
@@ -1173,6 +1708,30 @@ def test_missing_scheduled_attempt_contributes_zero(tmp_path: Path) -> None:
     with (out / "primary_attempts.csv").open(newline="") as handle:
         attempts = list(csv.DictReader(handle))
     assert len(attempts) == 2
+    valid = next(
+        row for row in attempts if row["primary_score_reason"] == "valid_prediction"
+    )
+    missing = next(
+        row
+        for row in attempts
+        if row["primary_score_reason"] == "scheduled_attempt_missing"
+    )
+    for metric, raw_value in _public_metrics().items():
+        assert float(valid[f"primary_{metric}"]) == pytest.approx(raw_value)
+        assert float(missing[f"primary_{metric}"]) == 0.0
+        assert summary["balanced_core"]["primary_metric_means"]["grand"][
+            f"primary_{metric}"
+        ] == pytest.approx(raw_value / 2)
+        metric_summary = summary["balanced_core"]["primary_metric_means"]
+        assert metric_summary["model"][f"primary_{metric}"]["model_a"] == pytest.approx(
+            raw_value / 2
+        )
+        assert metric_summary["harness"][f"primary_{metric}"]["codex"] == pytest.approx(
+            raw_value / 2
+        )
+        assert metric_summary["cell"][f"primary_{metric}"][
+            "model_a__codex"
+        ] == pytest.approx(raw_value / 2)
 
 
 def test_api_cost_normalization_applies_per_call_long_context_and_cache_ttl() -> None:

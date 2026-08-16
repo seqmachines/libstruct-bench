@@ -1,0 +1,255 @@
+{
+  "oligos": [
+    {
+      "aliases": [],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "AdRb",
+      "oligo_id": "oligo_adrb",
+      "orientation": "5_to_3",
+      "role": "scDamID DamID adaptor bottom strand",
+      "sequence": "TCCTCGGCCG",
+      "support_status": "externally_completed"
+    },
+    {
+      "aliases": [],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "AdRt",
+      "oligo_id": "oligo_adrt",
+      "orientation": "5_to_3",
+      "role": "scDamID DamID adaptor top strand",
+      "sequence": "CTAATACGACTCACTATAGGGCAGCGTGGTCGCGGCCGAGGA",
+      "support_status": "externally_completed"
+    },
+    {
+      "aliases": [],
+      "components": [],
+      "kind": "single",
+      "modifications": [
+        "5'-phosphate"
+      ],
+      "name": "Illumina adaptor top",
+      "oligo_id": "oligo_illumina_adaptor_top",
+      "orientation": "5_to_3",
+      "role": "Y-shaped Illumina adapter top strand",
+      "sequence": "GATCGGAAGAGCACACGTCT",
+      "support_status": "externally_completed"
+    },
+    {
+      "aliases": [
+        "Illumina indexing primer"
+      ],
+      "components": [
+        {
+          "length": 24,
+          "modifications": [],
+          "name": "Illumina P7 adapter",
+          "orientation": "5_to_3",
+          "role": "flow-cell adapter",
+          "sequence": "CAAGCAGAAGACGGCATACGAGAT",
+          "support_status": "explicit"
+        },
+        {
+          "length": 8,
+          "modifications": [],
+          "name": "i7 sample index",
+          "orientation": "5_to_3",
+          "placeholder": "[I7_INDEX:8]",
+          "role": "sample index",
+          "support_status": "explicit"
+        },
+        {
+          "length": 34,
+          "modifications": [
+            "phosphorothioate linkage between the two 3'-terminal nucleotides"
+          ],
+          "name": "Illumina TruSeq Read 2 primer",
+          "orientation": "5_to_3",
+          "role": "read 2 primer binding site",
+          "sequence": "GTGACTGGAGTTCAGACGTGTGCTCTTCCGATCT",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [
+        "phosphorothioate linkage between the two 3'-terminal nucleotides"
+      ],
+      "name": "Illumina Multiplexing PCR Primer",
+      "oligo_id": "oligo_illumina_multiplexing_pcr_primer",
+      "orientation": "5_to_3",
+      "role": "indexing PCR primer (P7 side)",
+      "sequence": "CAAGCAGAAGACGGCATACGAG[I7_INDEX:8]GTGACTGGAGTTCAGACGTGTGCTCTTCCGATCT",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Illumina P5 adapter",
+      "oligo_id": "oligo_illumina_p5_adapter",
+      "orientation": "5_to_3",
+      "role": "flow-cell adapter",
+      "sequence": "AATGATACGGCGACCACCGAGATCTACAC",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Illumina P7 adapter",
+      "oligo_id": "oligo_illumina_p7_adapter",
+      "orientation": "5_to_3",
+      "role": "flow-cell adapter",
+      "sequence": "CAAGCAGAAGACGGCATACGAGAT",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "Illumina P5 primer"
+      ],
+      "components": [
+        {
+          "length": 29,
+          "modifications": [],
+          "name": "Illumina P5 adapter",
+          "orientation": "5_to_3",
+          "role": "flow-cell adapter",
+          "sequence": "AATGATACGGCGACCACCGAGATCTACAC",
+          "support_status": "explicit"
+        },
+        {
+          "length": 29,
+          "modifications": [
+            "phosphorothioate linkage between the two 3'-terminal nucleotides"
+          ],
+          "name": "TruSeq Read 1 primer sequence",
+          "orientation": "5_to_3",
+          "role": "read 1 primer binding site",
+          "sequence": "TCTTTCCCTACACGACGCTCTTCCGATCT",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [
+        "phosphorothioate linkage between the two 3'-terminal nucleotides"
+      ],
+      "name": "Illumina PCR Primer 1.0",
+      "oligo_id": "oligo_illumina_pcr_primer_1_0",
+      "orientation": "5_to_3",
+      "role": "library amplification primer (P5 side)",
+      "sequence": "AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "Illumina adaptor bottom"
+      ],
+      "components": [
+        {
+          "length": 4,
+          "modifications": [],
+          "name": "P5 stem remnant",
+          "orientation": "5_to_3",
+          "role": "adapter 5' extension",
+          "sequence": "ACAC",
+          "support_status": "explicit"
+        },
+        {
+          "length": 29,
+          "modifications": [],
+          "name": "TruSeq Read 1 primer sequence",
+          "orientation": "5_to_3",
+          "role": "read 1 primer binding site",
+          "sequence": "TCTTTCCCTACACGACGCTCTTCCGATCT",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [],
+      "name": "Illumina TruSeq Read 1 primer",
+      "oligo_id": "oligo_illumina_truseq_read_1_primer",
+      "orientation": "5_to_3",
+      "role": "Y-shaped Illumina adapter bottom strand / Read 1 primer",
+      "sequence": "ACACTCTTTCCCTACACGACGCTCTTCCGATCT",
+      "support_status": "externally_completed"
+    },
+    {
+      "aliases": [],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Illumina TruSeq Read 2 primer",
+      "oligo_id": "oligo_illumina_truseq_read_2_primer",
+      "orientation": "5_to_3",
+      "role": "sequencing primer",
+      "sequence": "GTGACTGGAGTTCAGACGTGTGCTCTTCCGATCT",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [],
+      "components": [
+        {
+          "length": 4,
+          "modifications": [],
+          "name": "random 5' tail",
+          "orientation": "5_to_3",
+          "placeholder": "[VARIABLE:4]",
+          "role": "sequence-diversity tail",
+          "support_status": "explicit"
+        },
+        {
+          "length": 19,
+          "modifications": [],
+          "name": "scDamID adaptor priming sequence",
+          "orientation": "5_to_3",
+          "role": "adaptor-complementary primer body",
+          "sequence": "GTGGTCGCGGCCGAGGATC",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "single",
+      "modifications": [],
+      "name": "scDamID preAmp PCR primer",
+      "oligo_id": "oligo_scdamid_preamp_pcr_primer",
+      "orientation": "5_to_3",
+      "role": "single-primer pre-amplification primer",
+      "sequence": "NNNNGTGGTCGCGGCCGAGGATC",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "Illumina TruSeq Read 1 primer"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "TruSeq Read 1 sequencing primer partial",
+      "oligo_id": "oligo_truseq_read_1_sequencing_primer_partial",
+      "orientation": "5_to_3",
+      "role": "sequencing primer",
+      "sequence": "TCTTTCCCTACACGACGCTCTTCCGATCT",
+      "support_status": "externally_completed"
+    },
+    {
+      "aliases": [
+        "Sample index sequencing primer"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "TruSeq sample index sequencing primer forward",
+      "oligo_id": "oligo_truseq_sample_index_sequencing_primer_forward",
+      "orientation": "5_to_3",
+      "role": "sequencing primer",
+      "sequence": "GATCGGAAGAGCACACGTCTGAACTCCAGTCAC",
+      "support_status": "explicit"
+    }
+  ],
+  "protocol_id": "scdamid",
+  "protocol_name": "scDamID"
+}

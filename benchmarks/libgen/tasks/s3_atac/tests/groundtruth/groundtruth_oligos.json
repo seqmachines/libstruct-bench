@@ -1,0 +1,227 @@
+{
+  "oligos": [
+    {
+      "aliases": [
+        "Truseq_R2_SBS12_partial"
+      ],
+      "components": [
+        {
+          "length": 18,
+          "modifications": [],
+          "name": "Truseq_R2_SBS12_partial",
+          "orientation": "5_to_3",
+          "role": "TruSeq Read 2 primer-binding site (partial)",
+          "sequence": "CGTGTGCTCTTCCGATCT",
+          "support_status": "explicit"
+        },
+        {
+          "length": 8,
+          "modifications": [],
+          "name": "Tn5 transposome index",
+          "orientation": "5_to_3",
+          "placeholder": "[TN5_INDEX:8]",
+          "role": "sample_index",
+          "support_status": "explicit"
+        },
+        {
+          "modifications": [
+            "internal deoxyuridine (/ideoxyU/)"
+          ],
+          "name": "U-ME",
+          "orientation": "5_to_3",
+          "role": "blocking deoxyuridine plus Tn5 mosaic end",
+          "sequence": "/ideoxyU/AGATGTGTATAAGAGACAG",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [
+        "internal deoxyuridine (/ideoxyU/) between the Tn5 index and the mosaic end"
+      ],
+      "name": "SBS12_18_UME_sci indexed Tn5 adapter",
+      "oligo_id": "oligo_sbs12_18_ume_sci_indexed_tn5_adapter",
+      "orientation": "5_to_3",
+      "role": "adapter",
+      "sequence": "CGTGTGCTCTTCCGATCT[TN5_INDEX:8]/ideoxyU/AGATGTGTATAAGAGACAG",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "A14_ME LNA",
+        "A14-LNA-ME"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [
+        "locked nucleic acid bases denoted +N",
+        "3' inverted dT (/3InvdT/) blocking extension"
+      ],
+      "name": "A14_ME_LNA (Nextera_R1_A14 + U-ME)",
+      "oligo_id": "oligo_a14_me_lna_nextera_r1_a14_plus_u_me",
+      "orientation": "5_to_3",
+      "role": "tn5_binding_site",
+      "sequence": "TCGTCGGCAGCGTCAGATGTGTA+TA+AG+AG+AC+AG/3InvdT/",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "Nextera_Mosaic_End_REVCOMP",
+        "ME'"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [
+        "5' phosphate (/5Phos/)"
+      ],
+      "name": "Tn5 binding site 19-bp Mosaic End (ME) bottom",
+      "oligo_id": "oligo_tn5_binding_site_19_bp_mosaic_end_me_bottom",
+      "orientation": "5_to_3",
+      "role": "tn5_binding_site",
+      "sequence": "/5Phos/CTGTCTCTTATACACATCT",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "PCR_A_i5"
+      ],
+      "components": [
+        {
+          "length": 29,
+          "modifications": [],
+          "name": "i5_Flowcell_Primer",
+          "orientation": "5_to_3",
+          "role": "Illumina P5 flowcell adapter",
+          "sequence": "AATGATACGGCGACCACCGAGATCTACAC",
+          "support_status": "explicit"
+        },
+        {
+          "length": 8,
+          "modifications": [],
+          "name": "i5_pcr_idx",
+          "orientation": "5_to_3",
+          "placeholder": "[I5_INDEX:8]",
+          "role": "sample_index",
+          "support_status": "explicit"
+        },
+        {
+          "length": 14,
+          "modifications": [],
+          "name": "i5_Nextera_A14_partial",
+          "orientation": "5_to_3",
+          "role": "Nextera Read 1 / A14 primer-binding site (s5)",
+          "sequence": "TCGTCGGCAGCGTC",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [],
+      "name": "PCR_i5_primer",
+      "oligo_id": "oligo_pcr_i5_primer",
+      "orientation": "5_to_3",
+      "role": "primer",
+      "sequence": "AATGATACGGCGACCACCGAGATCTACAC[I5_INDEX:8]TCGTCGGCAGCGTC",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "PCR_i7_primer"
+      ],
+      "components": [
+        {
+          "length": 24,
+          "modifications": [],
+          "name": "i7_Flowcell_Primer",
+          "orientation": "5_to_3",
+          "role": "Illumina P7 flowcell adapter",
+          "sequence": "CAAGCAGAAGACGGCATACGAGAT",
+          "support_status": "explicit"
+        },
+        {
+          "length": 8,
+          "modifications": [],
+          "name": "i7_pcr_idx",
+          "orientation": "5_to_3",
+          "placeholder": "[I7_INDEX:8]",
+          "role": "sample_index",
+          "support_status": "explicit"
+        },
+        {
+          "length": 34,
+          "modifications": [],
+          "name": "Truseq_R2_SBS12_full",
+          "orientation": "5_to_3",
+          "role": "TruSeq Read 2 primer-binding site (full)",
+          "sequence": "GTGACTGGAGTTCAGACGTGTGCTCTTCCGATCT",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [],
+      "name": "TruSeq i7 PCR primer",
+      "oligo_id": "oligo_truseq_i7_pcr_primer",
+      "orientation": "5_to_3",
+      "role": "primer",
+      "sequence": "CAAGCAGAAGACGGCATACGAGAT[I7_INDEX:8]GTGACTGGAGTTCAGACGTGTGCTCTTCCGATCT",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "Read 1 sequencing primer"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Illumina Nextera Read 1 primer",
+      "oligo_id": "oligo_illumina_nextera_read_1_primer",
+      "orientation": "5_to_3",
+      "role": "primer",
+      "sequence": "TCGTCGGCAGCGTCAGATGTGTATAAGAGACAG",
+      "support_status": "derivable"
+    },
+    {
+      "aliases": [
+        "Read 2 seuquencing primer",
+        "Truseq_R2_SBS12_full"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Illumina TruSeq Read 2 primer",
+      "oligo_id": "oligo_illumina_truseq_read_2_primer",
+      "orientation": "5_to_3",
+      "role": "primer",
+      "sequence": "GTGACTGGAGTTCAGACGTGTGCTCTTCCGATCT",
+      "support_status": "derivable"
+    },
+    {
+      "aliases": [
+        "Index 1 sequencing primer (i7)"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "TruSeq sample index sequencing primer forward",
+      "oligo_id": "oligo_truseq_sample_index_sequencing_primer_forward",
+      "orientation": "5_to_3",
+      "role": "primer",
+      "sequence": "GATCGGAAGAGCACACGTCTGAACTCCAGTCAC",
+      "support_status": "derivable"
+    },
+    {
+      "aliases": [
+        "Index 2 sequencing primer (i5)"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Nextera Index 2 sequencing primer (i5)",
+      "oligo_id": "oligo_nextera_index_2_sequencing_primer_i5",
+      "orientation": "5_to_3",
+      "role": "primer",
+      "sequence": "CTGTCTCTTATACACATCTGACGCTGCCGACGA",
+      "support_status": "derivable"
+    }
+  ],
+  "protocol_id": "s3_atac",
+  "protocol_name": "s3-ATAC"
+}

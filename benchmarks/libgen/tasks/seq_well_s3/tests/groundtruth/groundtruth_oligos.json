@@ -1,0 +1,139 @@
+{
+  "oligos": [
+    {
+      "aliases": [
+        "Barcoded Bead SeqB"
+      ],
+      "components": [],
+      "kind": "assembled",
+      "modifications": [
+        "5' tethered to the mRNA capture bead through a linker"
+      ],
+      "name": "Beads-oligo-dT-seqB",
+      "oligo_id": "oligo_beads_oligo_dt_seqb",
+      "orientation": "5_to_3",
+      "role": "bead-tethered barcoded mRNA capture primer",
+      "sequence": "TTTTTTTAAGCAGTGGTATCAACGCAGAGTAC[CELL_BARCODE:12][UMI:8]TTTTTTTTTTTTTTTTTTTTTTTTTTTTTT",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "Template-Switching Oligo"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Template Switching Oligo (TSO)",
+      "oligo_id": "oligo_template_switching_oligo_tso",
+      "orientation": "5_to_3",
+      "role": "template-switching oligo",
+      "sequence": "AAGCAGTGGTATCAACGCAGAGTGAATrGrGrG",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "S3 Randomer",
+        "dN-SMART Oligo"
+      ],
+      "components": [],
+      "kind": "assembled",
+      "modifications": [],
+      "name": "dN-Smart Randomer (dN-SMRT)",
+      "oligo_id": "oligo_dn_smart_randomer_dn_smrt",
+      "orientation": "5_to_3",
+      "role": "second-strand synthesis random primer",
+      "sequence": "AAGCAGTGGTATCAACGCAGAGTGANNNGGNNNB",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "Smart PCR Primer (TSO_PCR)",
+        "SMART PCR Primer"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "ISPCR / TSO PCR primer",
+      "oligo_id": "oligo_ispcr_tso_pcr_primer",
+      "orientation": "5_to_3",
+      "role": "whole-transcriptome amplification primer",
+      "sequence": "AAGCAGTGGTATCAACGCAGAGT",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "New-P5-SMART PCR Hybrid Oligo (P5-TSO_Hybrid)",
+        "Custom P5 hybrid Oligo"
+      ],
+      "components": [],
+      "kind": "assembled",
+      "modifications": [],
+      "name": "P5-SMART PCR hybrid oligo",
+      "oligo_id": "oligo_p5_smart_pcr_hybrid_oligo",
+      "orientation": "5_to_3",
+      "role": "library PCR primer (P5 side)",
+      "sequence": "AATGATACGGCGACCACCGAGATCTACACGCCTGTCCGCGGAAGCAGTGGTATCAACGCAGAGT*A*C",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "Illumina Nextera N7xx primer",
+        "Nextera N70X Oligo",
+        "N700 Index oligo"
+      ],
+      "components": [],
+      "kind": "assembled",
+      "modifications": [],
+      "name": "Nextera (XT) N7xx Index primer",
+      "oligo_id": "oligo_nextera_xt_n7xx_index_primer",
+      "orientation": "5_to_3",
+      "role": "library PCR primer (P7 / i7 index side)",
+      "sequence": "CAAGCAGAAGACGGCATACGAGAT[I7_INDEX:8]GTCTCGTGGGCTCGG",
+      "support_status": "externally_completed"
+    },
+    {
+      "aliases": [
+        "Custom Read 1 Primer (Read_1_Custom_SeqB)"
+      ],
+      "components": [],
+      "kind": "assembled",
+      "modifications": [],
+      "name": "Read 1 custom SeqB primer",
+      "oligo_id": "oligo_read_1_custom_seqb_primer",
+      "orientation": "5_to_3",
+      "role": "custom Read 1 sequencing primer",
+      "sequence": "GCCTGTCCGCGGAAGCAGTGGTATCAACGCAGAGTAC",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "Read 2 sequencing primer"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Illumina Nextera Read 2 primer",
+      "oligo_id": "oligo_illumina_nextera_read_2_primer",
+      "orientation": "5_to_3",
+      "role": "Read 2 sequencing primer",
+      "sequence": "GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG",
+      "support_status": "externally_completed"
+    },
+    {
+      "aliases": [
+        "i7 index sequencing primer"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Nextera Index 1 sequencing primer (i7)",
+      "oligo_id": "oligo_nextera_index_1_sequencing_primer_i7",
+      "orientation": "5_to_3",
+      "role": "i7 index read sequencing primer",
+      "sequence": "CTGTCTCTTATACACATCTCCGAGCCCACGAGAC",
+      "support_status": "externally_completed"
+    }
+  ],
+  "protocol_id": "seq_well_s3",
+  "protocol_name": "Seq-Well S3"
+}

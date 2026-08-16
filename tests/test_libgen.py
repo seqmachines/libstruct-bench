@@ -1124,6 +1124,11 @@ def test_verifier_cli_scores_valid_output_and_zeroes_invalid_prediction(
     assert reward_document["t3_typed_edge_f1"] == pytest.approx(1.0)
     details_document = json.loads(details.read_text())
     assert details_document["prediction_valid"] is True
+    assert details_document["groundtruth_source"] == {
+        "source": "local",
+        "fallback_used": False,
+        "primary_error": None,
+    }
     assert details_document["scoring"]["diagnostic_metrics"]["t2"][
         "name_similarity"
     ] == pytest.approx(1.0)
@@ -1158,6 +1163,87 @@ def test_verifier_cli_scores_valid_output_and_zeroes_invalid_prediction(
         invalid_analysis["observations"][0]["category"]
         == "representation_or_schema_error"
     )
+
+
+def test_verifier_uses_huggingface_first_and_local_truth_as_fallback(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    truth = tmp_path / "truth"
+    truth.mkdir()
+    for filename, document in (
+        ("groundtruth_final_lib_struct.json", t1_groundtruth()),
+        ("groundtruth_oligos.json", t2_groundtruth()),
+        ("groundtruth_library_generation_workflow.json", t3_groundtruth()),
+    ):
+        (truth / filename).write_text(json.dumps(document))
+    hashes = {
+        filename: hashlib.sha256((truth / filename).read_bytes()).hexdigest()
+        for filename in (
+            "groundtruth_final_lib_struct.json",
+            "groundtruth_oligos.json",
+            "groundtruth_library_generation_workflow.json",
+        )
+    }
+    t2_path = tmp_path / "t2.json"
+    t3_path = tmp_path / "t3.json"
+    t2_path.write_text(json.dumps(t2_prediction()))
+    t3_path.write_text(json.dumps(t3_prediction()))
+
+    hf_attempts: list[str] = []
+
+    def fail_hf_download(**kwargs: object) -> bytes:
+        hf_attempts.append(str(kwargs["path"]))
+        raise OSError("simulated verifier DNS failure")
+
+    monkeypatch.setenv("HF_TOKEN", "fixture-token")
+    monkeypatch.setattr(
+        "libstruct_bench.cli.grade_libgen.download_hf_dataset_file",
+        fail_hf_download,
+    )
+    reward = tmp_path / "reward.json"
+    details = tmp_path / "details.json"
+    assert (
+        grade_main(
+            [
+                "--t2-prediction",
+                str(t2_path),
+                "--t3-prediction",
+                str(t3_path),
+                "--protocol-id",
+                "example_protocol",
+                "--groundtruth-repo",
+                "org/private-groundtruth",
+                "--groundtruth-revision",
+                "a" * 40,
+                "--groundtruth-dir",
+                str(truth),
+                "--schema-root",
+                str(SCHEMA_ROOT),
+                "--t1-sha256",
+                hashes["groundtruth_final_lib_struct.json"],
+                "--t2-sha256",
+                hashes["groundtruth_oligos.json"],
+                "--t3-sha256",
+                hashes["groundtruth_library_generation_workflow.json"],
+                "--reward-out",
+                str(reward),
+                "--details-out",
+                str(details),
+                "--error-analysis-out",
+                str(tmp_path / "error_analysis.json"),
+                "--error-out",
+                str(tmp_path / "error.json"),
+            ]
+        )
+        == 0
+    )
+    assert hf_attempts == ["example_protocol/groundtruth_final_lib_struct.json"]
+    source = json.loads(details.read_text())["groundtruth_source"]
+    assert source["source"] == "local_fallback"
+    assert source["fallback_used"] is True
+    assert "simulated verifier DNS failure" in source["primary_error"]
+    assert json.loads(reward.read_text())["reward"] == pytest.approx(1.0)
 
 
 def test_versioned_rescore_preserves_original_harbor_outputs(tmp_path: Path) -> None:

@@ -1,0 +1,194 @@
+{
+  "libraries": [
+    {
+      "final_molecule": "NEBNext Ultra DNA library prepared from MALBAC-amplified single-cell genomic DNA",
+      "library_sequence": "AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT[GDNA]AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC[SAMPLE_INDEX:8]ATCTCGTATGCCGTCTTCTGCTTG",
+      "modality": "genomic DNA",
+      "notes": null,
+      "orientation": "5_to_3",
+      "segments": [
+        {
+          "kind": "constant",
+          "length": 29,
+          "orientation": "5_to_3",
+          "role": "Illumina P5",
+          "segment_id": "t1_ts_p5",
+          "sequence": "AATGATACGGCGACCACCGAGATCTACAC",
+          "support_status": "externally_completed"
+        },
+        {
+          "kind": "constant",
+          "length": 29,
+          "orientation": "5_to_3",
+          "role": "TruSeq Read 1 sequencing primer",
+          "segment_id": "t1_ts_r1",
+          "sequence": "TCTTTCCCTACACGACGCTCTTCCGATCT",
+          "support_status": "externally_completed"
+        },
+        {
+          "kind": "biological_insert",
+          "orientation": "5_to_3",
+          "placeholder": "[GDNA]",
+          "role": "genomic DNA insert",
+          "segment_id": "t1_ts_insert",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "length": 34,
+          "orientation": "5_to_3",
+          "role": "TruSeq Read 2 sequencing primer",
+          "segment_id": "t1_ts_r2",
+          "sequence": "AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC",
+          "support_status": "externally_completed"
+        },
+        {
+          "kind": "variable",
+          "length": 8,
+          "orientation": "5_to_3",
+          "placeholder": "[SAMPLE_INDEX:8]",
+          "role": "sample index",
+          "segment_id": "t1_ts_idx",
+          "support_status": "externally_completed"
+        },
+        {
+          "kind": "constant",
+          "length": 24,
+          "orientation": "5_to_3",
+          "role": "Illumina P7",
+          "segment_id": "t1_ts_p7",
+          "sequence": "ATCTCGTATGCCGTCTTCTGCTTG",
+          "support_status": "externally_completed"
+        }
+      ],
+      "strand": "top",
+      "support_status": "explicit"
+    },
+    {
+      "final_molecule": "CEL-Seq-type single-indexed Illumina library prepared from IVT-amplified aRNA",
+      "library_sequence": "AATGATACGGCGACCACCGAGATCTACACGTTCAGAGTTCTACAGTCCGACGATC[CELL_BARCODE:8]TTTTTTTTTTTTTTTTTTTTTTTTV[CDNA]CTCCACACTACCTCAACCATCACTCACTGGAATTCTCGGGTGCCAAGGAACTCCAGTCAC[SAMPLE_INDEX:6]ATCTCGTATGCCGTCTTCTGCTTG",
+      "modality": "gene expression",
+      "notes": null,
+      "orientation": "5_to_3",
+      "segments": [
+        {
+          "kind": "constant",
+          "length": 29,
+          "orientation": "5_to_3",
+          "role": "Illumina P5",
+          "segment_id": "t1_rna_p5",
+          "sequence": "AATGATACGGCGACCACCGAGATCTACAC",
+          "support_status": "externally_completed"
+        },
+        {
+          "kind": "constant",
+          "length": 26,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_barcoded_rt_primer",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "RA5 / Read 1 sequencing primer region (from RT primer)",
+          "segment_id": "t1_rna_ra5",
+          "sequence": "GTTCAGAGTTCTACAGTCCGACGATC",
+          "support_status": "externally_completed"
+        },
+        {
+          "kind": "variable",
+          "length": 8,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_barcoded_rt_primer",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "placeholder": "[CELL_BARCODE:8]",
+          "role": "cell barcode",
+          "segment_id": "t1_rna_cbc",
+          "support_status": "externally_completed"
+        },
+        {
+          "kind": "constant",
+          "length": 25,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_barcoded_rt_primer",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "poly-T with anchoring V from the RT primer 3' end",
+          "segment_id": "t1_rna_polyt",
+          "sequence": "TTTTTTTTTTTTTTTTTTTTTTTTV",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "biological_insert",
+          "orientation": "5_to_3",
+          "placeholder": "[CDNA]",
+          "role": "cDNA insert",
+          "segment_id": "t1_rna_cdna",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "length": 27,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_malbac_random_primers",
+              "orientation_to_source": "reverse_complement"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "Ad-2 complement retained at the aRNA runoff 3' end (aRNA is not fragmented)",
+          "segment_id": "seg_ad2_complement",
+          "sequence": "CTCCACACTACCTCAACCATCACTCAC",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "length": 21,
+          "orientation": "5_to_3",
+          "role": "RA3 3' adapter",
+          "segment_id": "t1_rna_ra3",
+          "sequence": "TGGAATTCTCGGGTGCCAAGG",
+          "support_status": "externally_completed"
+        },
+        {
+          "kind": "constant",
+          "length": 12,
+          "orientation": "5_to_3",
+          "role": "constant region 3' of RA3",
+          "segment_id": "t1_rna_ra3ext",
+          "sequence": "AACTCCAGTCAC",
+          "support_status": "externally_completed"
+        },
+        {
+          "kind": "variable",
+          "length": 6,
+          "orientation": "5_to_3",
+          "placeholder": "[SAMPLE_INDEX:6]",
+          "role": "sample index",
+          "segment_id": "t1_rna_idx",
+          "support_status": "externally_completed"
+        },
+        {
+          "kind": "constant",
+          "length": 24,
+          "orientation": "5_to_3",
+          "role": "Illumina P7",
+          "segment_id": "t1_rna_p7",
+          "sequence": "ATCTCGTATGCCGTCTTCTGCTTG",
+          "support_status": "externally_completed"
+        }
+      ],
+      "strand": "top",
+      "support_status": "explicit"
+    }
+  ],
+  "protocol_id": "dr_seq",
+  "protocol_name": "DR-seq"
+}

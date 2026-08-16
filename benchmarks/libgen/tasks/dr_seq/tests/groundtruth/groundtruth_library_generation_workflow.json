@@ -1,0 +1,2009 @@
+{
+  "protocol_id": "dr_seq",
+  "protocol_name": "DR-seq",
+  "workflows": [
+    {
+      "final_outputs": [
+        {
+          "modality": "genomic DNA",
+          "state_id": "st_lib_gdna_truseq"
+        },
+        {
+          "modality": "gene expression",
+          "state_id": "st_lib_rna"
+        }
+      ],
+      "initial_state_ids": [
+        "st_gdna",
+        "st_mrna"
+      ],
+      "states": [
+        {
+          "discontinuities": [],
+          "molecule_type": "DNA",
+          "name": "Single-cell genomic DNA",
+          "paired_regions": [
+            {
+              "paired_region_id": "pr_gdna",
+              "relationship": "reverse_complementary",
+              "side_1": {
+                "segment_ids": [
+                  "gdna_top_body"
+                ],
+                "strand_id": "gdna_top"
+              },
+              "side_2": {
+                "segment_ids": [
+                  "gdna_bottom_body"
+                ],
+                "strand_id": "gdna_bottom"
+              },
+              "support_status": "explicit"
+            }
+          ],
+          "physical_state": "in single-cell lysate",
+          "properties": [
+            "released by single-cell lysis",
+            "not physically separated from mRNA"
+          ],
+          "reference_strand_id": "gdna_top",
+          "state_id": "st_gdna",
+          "strand_architecture": "double_stranded",
+          "strands": [
+            {
+              "molecule_type": "DNA",
+              "name": "gDNA top strand",
+              "orientation": "5_to_3",
+              "segments": [
+                {
+                  "placeholder": "[GDNA]",
+                  "role": "genomic DNA",
+                  "segment_id": "gdna_top_body",
+                  "structural_role": "paired_region"
+                }
+              ],
+              "strand_id": "gdna_top",
+              "support_status": "explicit"
+            },
+            {
+              "molecule_type": "DNA",
+              "name": "gDNA bottom strand",
+              "orientation": "5_to_3",
+              "segments": [
+                {
+                  "placeholder": "[GDNA]",
+                  "role": "genomic DNA",
+                  "segment_id": "gdna_bottom_body",
+                  "structural_role": "paired_region"
+                }
+              ],
+              "strand_id": "gdna_bottom",
+              "support_status": "explicit"
+            }
+          ],
+          "support_status": "explicit"
+        },
+        {
+          "discontinuities": [],
+          "molecule_type": "RNA",
+          "name": "Single-cell polyadenylated mRNA",
+          "paired_regions": [],
+          "physical_state": "in single-cell lysate",
+          "properties": [
+            "polyadenylated"
+          ],
+          "reference_strand_id": "mrna_1",
+          "state_id": "st_mrna",
+          "strand_architecture": "single_stranded",
+          "strands": [
+            {
+              "molecule_type": "RNA",
+              "name": "mRNA",
+              "orientation": "5_to_3",
+              "segments": [
+                {
+                  "placeholder": "[MRNA]",
+                  "role": "mRNA transcript body",
+                  "segment_id": "mrna_body",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "placeholder": "[POLYA]",
+                  "role": "poly(A) tail",
+                  "segment_id": "mrna_polya",
+                  "structural_role": "unpaired"
+                }
+              ],
+              "strand_id": "mrna_1",
+              "support_status": "explicit"
+            }
+          ],
+          "support_status": "explicit"
+        },
+        {
+          "discontinuities": [],
+          "molecule_type": "RNA/DNA",
+          "name": "mRNA:first-strand cDNA hybrid with Ad-1x 5' overhang",
+          "paired_regions": [
+            {
+              "paired_region_id": "pr_hybrid",
+              "relationship": "reverse_complementary",
+              "side_1": {
+                "segment_ids": [
+                  "hyb_mrna_body",
+                  "hyb_mrna_polya"
+                ],
+                "strand_id": "hyb_mrna"
+              },
+              "side_2": {
+                "segment_ids": [
+                  "hyb_cdna_polyt",
+                  "hyb_cdna_body"
+                ],
+                "strand_id": "hyb_cdna"
+              },
+              "support_status": "explicit"
+            }
+          ],
+          "physical_state": "in the unsplit reaction",
+          "properties": [
+            "Ad-1x 5' region (handle, T7 promoter, RA5, cell barcode) remains single-stranded"
+          ],
+          "reference_strand_id": "hyb_cdna",
+          "state_id": "st_rt_hybrid",
+          "strand_architecture": "rna_dna_hybrid",
+          "strands": [
+            {
+              "molecule_type": "RNA",
+              "name": "template mRNA",
+              "orientation": "5_to_3",
+              "segments": [
+                {
+                  "placeholder": "[MRNA]",
+                  "role": "mRNA transcript body",
+                  "segment_id": "hyb_mrna_body",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[POLYA]",
+                  "role": "poly(A) tail",
+                  "segment_id": "hyb_mrna_polya",
+                  "structural_role": "paired_region"
+                }
+              ],
+              "strand_id": "hyb_mrna",
+              "support_status": "explicit"
+            },
+            {
+              "molecule_type": "DNA",
+              "name": "first-strand cDNA carrying the barcoded RT primer",
+              "orientation": "5_to_3",
+              "segments": [
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_barcoded_rt_primer",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "5' handle (second-strand primer binding site)",
+                  "segment_id": "hyb_cdna_h5",
+                  "sequence": "CGATTGAGGCCGG",
+                  "structural_role": "five_prime_overhang"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_barcoded_rt_primer",
+                      "orientation_to_source": "same_orientation"
+                    },
+                    {
+                      "oligo_id": "oligo_t7_promoter",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "T7 promoter",
+                  "segment_id": "hyb_cdna_t7",
+                  "sequence": "TAATACGACTCACTATAGGG",
+                  "structural_role": "five_prime_overhang"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_barcoded_rt_primer",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "RA5 / 5' Illumina adapter",
+                  "segment_id": "hyb_cdna_ra5",
+                  "sequence": "GTTCAGAGTTCTACAGTCCGACGATC",
+                  "structural_role": "five_prime_overhang"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_barcoded_rt_primer",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "placeholder": "[CELL_BARCODE:8]",
+                  "role": "cell barcode",
+                  "segment_id": "hyb_cdna_cbc",
+                  "structural_role": "five_prime_overhang"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_barcoded_rt_primer",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "anchored poly-T annealed to poly(A)",
+                  "segment_id": "hyb_cdna_polyt",
+                  "sequence": "TTTTTTTTTTTTTTTTTTTTTTTTV",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[CDNA]",
+                  "role": "reverse-transcribed cDNA",
+                  "segment_id": "hyb_cdna_body",
+                  "structural_role": "paired_region"
+                }
+              ],
+              "strand_id": "hyb_cdna",
+              "support_status": "explicit"
+            }
+          ],
+          "support_status": "explicit"
+        },
+        {
+          "discontinuities": [],
+          "molecule_type": "DNA",
+          "name": "MALBAC amplicon with Ad-2 at one end only",
+          "paired_regions": [],
+          "physical_state": "in the unsplit reaction",
+          "properties": [
+            "not amplifiable by PCR",
+            "not amplifiable by IVT",
+            "dead-end product retained in the reaction"
+          ],
+          "reference_strand_id": "ad2s_1",
+          "state_id": "st_ad2_single_end",
+          "strand_architecture": "single_stranded",
+          "strands": [
+            {
+              "molecule_type": "DNA",
+              "name": "single-handle amplicon",
+              "orientation": "5_to_3",
+              "segments": [
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_malbac_random_primers",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "MALBAC Ad-2 common sequence",
+                  "segment_id": "ad2s_handle",
+                  "sequence": "GTGAGTGATGGTTGAGGTAGTGTGGAG",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "placeholder": "[GDNA_OR_CDNA]",
+                  "role": "gDNA- or cDNA-derived copy",
+                  "segment_id": "ad2s_body",
+                  "structural_role": "unpaired"
+                }
+              ],
+              "strand_id": "ad2s_1",
+              "support_status": "explicit"
+            }
+          ],
+          "support_status": "explicit"
+        },
+        {
+          "discontinuities": [],
+          "molecule_type": "DNA",
+          "name": "MALBAC amplicon with Ad-2 at both ends (gDNA- and cDNA-derived)",
+          "paired_regions": [],
+          "physical_state": "in the unsplit reaction",
+          "properties": [
+            "amplifiable by the MALBAC PCR primer",
+            "not amplifiable by IVT",
+            "cDNA-derived members are read as gDNA"
+          ],
+          "reference_strand_id": "ad2b_1",
+          "state_id": "st_ad2_both_ends",
+          "strand_architecture": "single_stranded",
+          "strands": [
+            {
+              "molecule_type": "DNA",
+              "name": "double-handle amplicon",
+              "orientation": "5_to_3",
+              "segments": [
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_malbac_random_primers",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "MALBAC Ad-2 common sequence",
+                  "segment_id": "ad2b_handle5",
+                  "sequence": "GTGAGTGATGGTTGAGGTAGTGTGGAG",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "placeholder": "[GDNA_OR_CDNA]",
+                  "role": "gDNA- or cDNA-derived copy",
+                  "segment_id": "ad2b_body",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_malbac_random_primers",
+                      "orientation_to_source": "reverse_complement"
+                    }
+                  ],
+                  "role": "MALBAC Ad-2 common sequence, opposite end",
+                  "segment_id": "ad2b_handle3",
+                  "sequence": "CTCCACACTACCTCAACCATCACTCAC",
+                  "structural_role": "unpaired"
+                }
+              ],
+              "strand_id": "ad2b_1",
+              "support_status": "explicit"
+            }
+          ],
+          "support_status": "explicit"
+        },
+        {
+          "discontinuities": [],
+          "molecule_type": "DNA",
+          "name": "Double-stranded PCR-amplified MALBAC product (gDNA half)",
+          "paired_regions": [
+            {
+              "paired_region_id": "pr_pcr",
+              "relationship": "reverse_complementary",
+              "side_1": {
+                "segment_ids": [
+                  "pcr_top_h5",
+                  "pcr_top_body",
+                  "pcr_top_h3"
+                ],
+                "strand_id": "pcr_top"
+              },
+              "side_2": {
+                "segment_ids": [
+                  "pcr_bot_h5",
+                  "pcr_bot_body",
+                  "pcr_bot_h3"
+                ],
+                "strand_id": "pcr_bottom"
+              },
+              "support_status": "explicit"
+            }
+          ],
+          "physical_state": "purified PCR product",
+          "properties": [
+            "gDNA half of the split reaction",
+            "contains cDNA-derived amplicons that are counted as gDNA"
+          ],
+          "reference_strand_id": "pcr_top",
+          "state_id": "st_gdna_ds_amplicon",
+          "strand_architecture": "double_stranded",
+          "strands": [
+            {
+              "molecule_type": "DNA",
+              "name": "top strand",
+              "orientation": "5_to_3",
+              "segments": [
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_malbac_pcr_primer",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "MALBAC Ad-2 common sequence",
+                  "segment_id": "pcr_top_h5",
+                  "sequence": "GTGAGTGATGGTTGAGGTAGTGTGGAG",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[GDNA_OR_CDNA]",
+                  "role": "gDNA- or cDNA-derived copy",
+                  "segment_id": "pcr_top_body",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_malbac_pcr_primer",
+                      "orientation_to_source": "reverse_complement"
+                    }
+                  ],
+                  "role": "MALBAC Ad-2 common sequence, opposite end",
+                  "segment_id": "pcr_top_h3",
+                  "sequence": "CTCCACACTACCTCAACCATCACTCAC",
+                  "structural_role": "paired_region"
+                }
+              ],
+              "strand_id": "pcr_top",
+              "support_status": "explicit"
+            },
+            {
+              "molecule_type": "DNA",
+              "name": "bottom strand",
+              "orientation": "5_to_3",
+              "segments": [
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_malbac_pcr_primer",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "MALBAC Ad-2 common sequence",
+                  "segment_id": "pcr_bot_h5",
+                  "sequence": "GTGAGTGATGGTTGAGGTAGTGTGGAG",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[GDNA_OR_CDNA]",
+                  "role": "gDNA- or cDNA-derived copy",
+                  "segment_id": "pcr_bot_body",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_malbac_pcr_primer",
+                      "orientation_to_source": "reverse_complement"
+                    }
+                  ],
+                  "role": "MALBAC Ad-2 common sequence, opposite end",
+                  "segment_id": "pcr_bot_h3",
+                  "sequence": "CTCCACACTACCTCAACCATCACTCAC",
+                  "structural_role": "paired_region"
+                }
+              ],
+              "strand_id": "pcr_bottom",
+              "support_status": "explicit"
+            }
+          ],
+          "support_status": "explicit"
+        },
+        {
+          "discontinuities": [],
+          "molecule_type": "DNA",
+          "name": "Sonicated P3-biotin-tagged MALBAC product mixture (~300 bp) before streptavidin depletion",
+          "paired_regions": [
+            {
+              "paired_region_id": "pr_shr",
+              "relationship": "reverse_complementary",
+              "side_1": {
+                "segment_ids": [
+                  "shr_t"
+                ],
+                "strand_id": "shr_top"
+              },
+              "side_2": {
+                "segment_ids": [
+                  "shr_b"
+                ],
+                "strand_id": "shr_bot"
+              },
+              "support_status": "derivable"
+            }
+          ],
+          "physical_state": "in solution after sonication and PCR-column cleanup",
+          "properties": [
+            "average product size approximately 300 bp",
+            "contains non-biotinylated internal fragments and biotinylated terminal fragments"
+          ],
+          "reference_strand_id": "shr_top",
+          "state_id": "st_gdna_sheared",
+          "strand_architecture": "double_stranded",
+          "strands": [
+            {
+              "molecule_type": "DNA",
+              "name": "Sheared fragment, top strand",
+              "orientation": "5_to_3",
+              "segments": [
+                {
+                  "placeholder": "[GDNA]",
+                  "role": "sheared MALBAC amplicon fragment",
+                  "segment_id": "shr_t",
+                  "structural_role": "paired_region"
+                }
+              ],
+              "strand_id": "shr_top",
+              "support_status": "explicit"
+            },
+            {
+              "molecule_type": "DNA",
+              "name": "Sheared fragment, bottom strand",
+              "orientation": "5_to_3",
+              "segments": [
+                {
+                  "placeholder": "[GDNA]",
+                  "role": "sheared MALBAC amplicon fragment complement",
+                  "segment_id": "shr_b",
+                  "structural_role": "paired_region"
+                }
+              ],
+              "strand_id": "shr_bot",
+              "support_status": "explicit"
+            }
+          ],
+          "support_status": "explicit"
+        },
+        {
+          "discontinuities": [],
+          "molecule_type": "DNA",
+          "name": "Ad-2-free sheared genomic dsDNA (non-biotinylated supernatant)",
+          "paired_regions": [
+            {
+              "paired_region_id": "pr_rem",
+              "relationship": "reverse_complementary",
+              "side_1": {
+                "segment_ids": [
+                  "rem_t"
+                ],
+                "strand_id": "rem_top"
+              },
+              "side_2": {
+                "segment_ids": [
+                  "rem_b"
+                ],
+                "strand_id": "rem_bot"
+              },
+              "support_status": "derivable"
+            }
+          ],
+          "physical_state": "in solution after streptavidin depletion",
+          "properties": [
+            "Ad-2 handles removed by biotin/streptavidin depletion"
+          ],
+          "reference_strand_id": "rem_top",
+          "state_id": "st_gdna_ad2_removed",
+          "strand_architecture": "double_stranded",
+          "strands": [
+            {
+              "molecule_type": "DNA",
+              "name": "Ad-2-free fragment, top strand",
+              "orientation": "5_to_3",
+              "segments": [
+                {
+                  "placeholder": "[GDNA]",
+                  "role": "genomic DNA fragment without MALBAC handle",
+                  "segment_id": "rem_t",
+                  "structural_role": "paired_region"
+                }
+              ],
+              "strand_id": "rem_top",
+              "support_status": "explicit"
+            },
+            {
+              "molecule_type": "DNA",
+              "name": "Ad-2-free fragment, bottom strand",
+              "orientation": "5_to_3",
+              "segments": [
+                {
+                  "placeholder": "[GDNA]",
+                  "role": "genomic DNA fragment complement",
+                  "segment_id": "rem_b",
+                  "structural_role": "paired_region"
+                }
+              ],
+              "strand_id": "rem_bot",
+              "support_status": "explicit"
+            }
+          ],
+          "support_status": "explicit"
+        },
+        {
+          "discontinuities": [],
+          "molecule_type": "DNA",
+          "name": "Final gDNA library prepared with NEBNext Ultra DNA Library Prep Kit for Illumina",
+          "paired_regions": [
+            {
+              "paired_region_id": "pr_ts",
+              "relationship": "reverse_complementary",
+              "side_1": {
+                "segment_ids": [
+                  "ts_top_p5",
+                  "ts_top_r1",
+                  "ts_top_insert",
+                  "ts_top_r2",
+                  "ts_top_idx",
+                  "ts_top_p7"
+                ],
+                "strand_id": "ts_top"
+              },
+              "side_2": {
+                "segment_ids": [
+                  "ts_bot_p7",
+                  "ts_bot_idx",
+                  "ts_bot_r2",
+                  "ts_bot_insert",
+                  "ts_bot_r1",
+                  "ts_bot_p5"
+                ],
+                "strand_id": "ts_bottom"
+              },
+              "support_status": "explicit"
+            }
+          ],
+          "physical_state": "sequencing-ready library",
+          "properties": [
+            "single-indexed",
+            "sequencing-ready"
+          ],
+          "reference_strand_id": "ts_top",
+          "state_id": "st_lib_gdna_truseq",
+          "strand_architecture": "double_stranded",
+          "strands": [
+            {
+              "molecule_type": "DNA",
+              "name": "top strand",
+              "orientation": "5_to_3",
+              "segments": [
+                {
+                  "role": "Illumina P5",
+                  "segment_id": "ts_top_p5",
+                  "sequence": "AATGATACGGCGACCACCGAGATCTACAC",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "TruSeq Read 1 primer",
+                  "segment_id": "ts_top_r1",
+                  "sequence": "TCTTTCCCTACACGACGCTCTTCCGATCT",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[GDNA]",
+                  "role": "genomic DNA insert",
+                  "segment_id": "ts_top_insert",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "TruSeq Read 2 primer",
+                  "segment_id": "ts_top_r2",
+                  "sequence": "AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[SAMPLE_INDEX:8]",
+                  "role": "sample index",
+                  "segment_id": "ts_top_idx",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "Illumina P7",
+                  "segment_id": "ts_top_p7",
+                  "sequence": "ATCTCGTATGCCGTCTTCTGCTTG",
+                  "structural_role": "paired_region"
+                }
+              ],
+              "sequence_architecture": "AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT[GDNA]AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC[SAMPLE_INDEX:8]ATCTCGTATGCCGTCTTCTGCTTG",
+              "strand_id": "ts_top",
+              "support_status": "explicit"
+            },
+            {
+              "molecule_type": "DNA",
+              "name": "bottom strand",
+              "orientation": "5_to_3",
+              "segments": [
+                {
+                  "role": "Illumina P7",
+                  "segment_id": "ts_bot_p7",
+                  "sequence": "CAAGCAGAAGACGGCATACGAGAT",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[SAMPLE_INDEX:8]",
+                  "role": "sample index",
+                  "segment_id": "ts_bot_idx",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "TruSeq Read 2 primer",
+                  "segment_id": "ts_bot_r2",
+                  "sequence": "GTGACTGGAGTTCAGACGTGTGCTCTTCCGATCT",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[GDNA]",
+                  "role": "genomic DNA insert",
+                  "segment_id": "ts_bot_insert",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "TruSeq Read 1 primer",
+                  "segment_id": "ts_bot_r1",
+                  "sequence": "AGATCGGAAGAGCGTCGTGTAGGGAAAGA",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "Illumina P5",
+                  "segment_id": "ts_bot_p5",
+                  "sequence": "GTGTAGATCTCGGTGGTCGCCGTATCATT",
+                  "structural_role": "paired_region"
+                }
+              ],
+              "strand_id": "ts_bottom",
+              "support_status": "explicit"
+            }
+          ],
+          "support_status": "externally_completed"
+        },
+        {
+          "discontinuities": [],
+          "molecule_type": "DNA",
+          "name": "cDNA-derived amplicon with Ad-2 at one end and Ad-1x at the other",
+          "paired_regions": [],
+          "physical_state": "in the unsplit reaction",
+          "properties": [
+            "not amplifiable by the MALBAC PCR primer",
+            "IVT-competent once made double-stranded"
+          ],
+          "reference_strand_id": "ad1x_1",
+          "state_id": "st_ad2_ad1x",
+          "strand_architecture": "single_stranded",
+          "strands": [
+            {
+              "molecule_type": "DNA",
+              "name": "Ad-2/Ad-1x amplicon",
+              "orientation": "5_to_3",
+              "segments": [
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_malbac_random_primers",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "MALBAC Ad-2 common sequence",
+                  "segment_id": "ad1x_handle5",
+                  "sequence": "GTGAGTGATGGTTGAGGTAGTGTGGAG",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "placeholder": "[CDNA]",
+                  "role": "copy of the cDNA body",
+                  "segment_id": "ad1x_cdna",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "role": "poly(A) copy of the RT primer poly-T",
+                  "segment_id": "ad1x_pa",
+                  "sequence": "BAAAAAAAAAAAAAAAAAAAAAAAA",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_barcoded_rt_primer",
+                      "orientation_to_source": "reverse_complement"
+                    }
+                  ],
+                  "placeholder": "[CELL_BARCODE:8]",
+                  "role": "cell barcode",
+                  "segment_id": "ad1x_cbc",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_barcoded_rt_primer",
+                      "orientation_to_source": "reverse_complement"
+                    }
+                  ],
+                  "role": "RA5 / 5' Illumina adapter",
+                  "segment_id": "ad1x_ra5",
+                  "sequence": "GATCGTCGGACTGTAGAACTCTGAAC",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_t7_promoter",
+                      "orientation_to_source": "reverse_complement"
+                    }
+                  ],
+                  "role": "T7 promoter",
+                  "segment_id": "ad1x_t7",
+                  "sequence": "CCCTATAGTGAGTCGTATTA",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_2nd_strand_primer",
+                      "orientation_to_source": "reverse_complement"
+                    }
+                  ],
+                  "role": "5' handle (second-strand primer binding site)",
+                  "segment_id": "ad1x_h5",
+                  "sequence": "CCGGCCTCAATCG",
+                  "structural_role": "unpaired"
+                }
+              ],
+              "strand_id": "ad1x_1",
+              "support_status": "explicit"
+            }
+          ],
+          "support_status": "explicit"
+        },
+        {
+          "discontinuities": [],
+          "molecule_type": "DNA",
+          "name": "Double-stranded cDNA with a functional T7 promoter",
+          "paired_regions": [
+            {
+              "paired_region_id": "pr_dscdna",
+              "relationship": "reverse_complementary",
+              "side_1": {
+                "segment_ids": [
+                  "ds_top_ad2",
+                  "ds_top_cdna",
+                  "ds_top_pa",
+                  "ds_top_cbc",
+                  "ds_top_ra5",
+                  "ds_top_t7",
+                  "ds_top_h5"
+                ],
+                "strand_id": "dscdna_top"
+              },
+              "side_2": {
+                "segment_ids": [
+                  "ds_bot_h5",
+                  "ds_bot_t7",
+                  "ds_bot_ra5",
+                  "ds_bot_cbc",
+                  "ds_bot_polyt",
+                  "ds_bot_cdna",
+                  "ds_bot_ad2"
+                ],
+                "strand_id": "dscdna_bottom"
+              },
+              "support_status": "explicit"
+            }
+          ],
+          "physical_state": "purified second-strand synthesis product",
+          "properties": [
+            "mRNA half of the split reaction",
+            "T7 promoter now double-stranded and IVT-competent"
+          ],
+          "reference_strand_id": "dscdna_bottom",
+          "state_id": "st_ds_cdna",
+          "strand_architecture": "double_stranded",
+          "strands": [
+            {
+              "molecule_type": "DNA",
+              "name": "Ad-2/Ad-1x strand",
+              "orientation": "5_to_3",
+              "segments": [
+                {
+                  "role": "MALBAC Ad-2 common sequence",
+                  "segment_id": "ds_top_ad2",
+                  "sequence": "GTGAGTGATGGTTGAGGTAGTGTGGAG",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[CDNA]",
+                  "role": "copy of the cDNA body",
+                  "segment_id": "ds_top_cdna",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "poly(A) copy of the RT primer poly-T",
+                  "segment_id": "ds_top_pa",
+                  "sequence": "BAAAAAAAAAAAAAAAAAAAAAAAA",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_barcoded_rt_primer",
+                      "orientation_to_source": "reverse_complement"
+                    }
+                  ],
+                  "placeholder": "[CELL_BARCODE:8]",
+                  "role": "cell barcode",
+                  "segment_id": "ds_top_cbc",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_barcoded_rt_primer",
+                      "orientation_to_source": "reverse_complement"
+                    }
+                  ],
+                  "role": "RA5 / 5' Illumina adapter",
+                  "segment_id": "ds_top_ra5",
+                  "sequence": "GATCGTCGGACTGTAGAACTCTGAAC",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_t7_promoter",
+                      "orientation_to_source": "reverse_complement"
+                    }
+                  ],
+                  "role": "T7 promoter",
+                  "segment_id": "ds_top_t7",
+                  "sequence": "CCCTATAGTGAGTCGTATTA",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_2nd_strand_primer",
+                      "orientation_to_source": "reverse_complement"
+                    }
+                  ],
+                  "role": "5' handle",
+                  "segment_id": "ds_top_h5",
+                  "sequence": "CCGGCCTCAATCG",
+                  "structural_role": "paired_region"
+                }
+              ],
+              "strand_id": "dscdna_top",
+              "support_status": "explicit"
+            },
+            {
+              "molecule_type": "DNA",
+              "name": "second strand (sense strand for IVT)",
+              "orientation": "5_to_3",
+              "segments": [
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_2nd_strand_primer",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "5' handle from the second strand primer",
+                  "segment_id": "ds_bot_h5",
+                  "sequence": "CGATTGAGGCCGG",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_t7_promoter",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "T7 promoter",
+                  "segment_id": "ds_bot_t7",
+                  "sequence": "TAATACGACTCACTATAGGG",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_barcoded_rt_primer",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "RA5 / 5' Illumina adapter",
+                  "segment_id": "ds_bot_ra5",
+                  "sequence": "GTTCAGAGTTCTACAGTCCGACGATC",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_barcoded_rt_primer",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "placeholder": "[CELL_BARCODE:8]",
+                  "role": "cell barcode",
+                  "segment_id": "ds_bot_cbc",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_barcoded_rt_primer",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "anchored poly-T",
+                  "segment_id": "ds_bot_polyt",
+                  "sequence": "TTTTTTTTTTTTTTTTTTTTTTTTV",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[CDNA]",
+                  "role": "first-strand cDNA body",
+                  "segment_id": "ds_bot_cdna",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "MALBAC Ad-2 common sequence, opposite end",
+                  "segment_id": "ds_bot_ad2",
+                  "sequence": "CTCCACACTACCTCAACCATCACTCAC",
+                  "structural_role": "paired_region"
+                }
+              ],
+              "strand_id": "dscdna_bottom",
+              "support_status": "explicit"
+            }
+          ],
+          "support_status": "explicit"
+        },
+        {
+          "discontinuities": [],
+          "molecule_type": "RNA",
+          "name": "IVT-amplified RNA (aRNA)",
+          "paired_regions": [],
+          "physical_state": "purified aRNA",
+          "properties": [
+            "linear amplification product of the T7 promoter",
+            "3' end defined by runoff at the template end"
+          ],
+          "reference_strand_id": "arna_1",
+          "state_id": "st_arna",
+          "strand_architecture": "single_stranded",
+          "strands": [
+            {
+              "molecule_type": "RNA",
+              "name": "aRNA",
+              "orientation": "5_to_3",
+              "segments": [
+                {
+                  "role": "T7 transcription start",
+                  "segment_id": "arna_start",
+                  "sequence": "GGG",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_barcoded_rt_primer",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "RA5 / 5' Illumina adapter",
+                  "segment_id": "arna_ra5",
+                  "sequence": "GTTCAGAGTTCTACAGTCCGACGATC",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_barcoded_rt_primer",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "placeholder": "[CELL_BARCODE:8]",
+                  "role": "cell barcode",
+                  "segment_id": "arna_cbc",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "role": "poly-U/anchor transcribed from the RT primer poly-T",
+                  "segment_id": "arna_polyt",
+                  "sequence": "TTTTTTTTTTTTTTTTTTTTTTTTV",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "placeholder": "[CDNA]",
+                  "role": "transcript copy of the cDNA body",
+                  "segment_id": "arna_cdna",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "role": "MALBAC Ad-2 derived 3' end of the runoff transcript",
+                  "segment_id": "arna_ad2",
+                  "sequence": "CTCCACACTACCTCAACCATCACTCAC",
+                  "structural_role": "unpaired"
+                }
+              ],
+              "strand_id": "arna_1",
+              "support_status": "derivable"
+            }
+          ],
+          "support_status": "derivable"
+        },
+        {
+          "discontinuities": [],
+          "molecule_type": "DNA",
+          "name": "Final mRNA (CEL-Seq-type) library",
+          "paired_regions": [
+            {
+              "paired_region_id": "pr_rna",
+              "relationship": "reverse_complementary",
+              "side_1": {
+                "segment_ids": [
+                  "rna_top_p5",
+                  "rna_top_ra5",
+                  "rna_top_cbc",
+                  "rna_top_polyt",
+                  "rna_top_cdna",
+                  "rna_top_ad2c",
+                  "rna_top_ra3",
+                  "rna_top_const",
+                  "rna_top_idx",
+                  "rna_top_p7"
+                ],
+                "strand_id": "rna_top"
+              },
+              "side_2": {
+                "segment_ids": [
+                  "rna_bot_p7",
+                  "rna_bot_idx",
+                  "rna_bot_const",
+                  "rna_bot_ra3",
+                  "rna_bottom_ad2c",
+                  "rna_bot_cdna",
+                  "rna_bot_pa",
+                  "rna_bot_cbc",
+                  "rna_bot_ra5",
+                  "rna_bot_p5"
+                ],
+                "strand_id": "rna_bottom"
+              },
+              "support_status": "explicit"
+            }
+          ],
+          "physical_state": "sequencing-ready library",
+          "properties": [
+            "single-indexed",
+            "cell barcode read on the P5 side",
+            "sequencing-ready"
+          ],
+          "reference_strand_id": "rna_top",
+          "state_id": "st_lib_rna",
+          "strand_architecture": "double_stranded",
+          "strands": [
+            {
+              "molecule_type": "DNA",
+              "name": "top strand",
+              "orientation": "5_to_3",
+              "segments": [
+                {
+                  "role": "Illumina P5",
+                  "segment_id": "rna_top_p5",
+                  "sequence": "AATGATACGGCGACCACCGAGATCTACAC",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_barcoded_rt_primer",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "RA5",
+                  "segment_id": "rna_top_ra5",
+                  "sequence": "GTTCAGAGTTCTACAGTCCGACGATC",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_barcoded_rt_primer",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "placeholder": "[CELL_BARCODE:8]",
+                  "role": "cell barcode",
+                  "segment_id": "rna_top_cbc",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_barcoded_rt_primer",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "anchored poly-T",
+                  "segment_id": "rna_top_polyt",
+                  "sequence": "TTTTTTTTTTTTTTTTTTTTTTTTV",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[CDNA]",
+                  "role": "cDNA insert",
+                  "segment_id": "rna_top_cdna",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "Ad-2 complement at the aRNA runoff 3' end",
+                  "segment_id": "rna_top_ad2c",
+                  "sequence": "CTCCACACTACCTCAACCATCACTCAC",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "RA3 adapter",
+                  "segment_id": "rna_top_ra3",
+                  "sequence": "TGGAATTCTCGGGTGCCAAGG",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "constant region 3' of RA3",
+                  "segment_id": "rna_top_const",
+                  "sequence": "AACTCCAGTCAC",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[SAMPLE_INDEX:6]",
+                  "role": "sample index",
+                  "segment_id": "rna_top_idx",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "Illumina P7",
+                  "segment_id": "rna_top_p7",
+                  "sequence": "ATCTCGTATGCCGTCTTCTGCTTG",
+                  "structural_role": "paired_region"
+                }
+              ],
+              "sequence_architecture": "AATGATACGGCGACCACCGAGATCTACACGTTCAGAGTTCTACAGTCCGACGATC[CELL_BARCODE:8]TTTTTTTTTTTTTTTTTTTTTTTTV[CDNA]CTCCACACTACCTCAACCATCACTCACTGGAATTCTCGGGTGCCAAGGAACTCCAGTCAC[SAMPLE_INDEX:6]ATCTCGTATGCCGTCTTCTGCTTG",
+              "strand_id": "rna_top",
+              "support_status": "explicit"
+            },
+            {
+              "molecule_type": "DNA",
+              "name": "bottom strand",
+              "orientation": "5_to_3",
+              "segments": [
+                {
+                  "role": "Illumina P7",
+                  "segment_id": "rna_bot_p7",
+                  "sequence": "CAAGCAGAAGACGGCATACGAGAT",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[SAMPLE_INDEX:6]",
+                  "role": "sample index",
+                  "segment_id": "rna_bot_idx",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "constant region",
+                  "segment_id": "rna_bot_const",
+                  "sequence": "GTGACTGGAGTT",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "RA3 adapter",
+                  "segment_id": "rna_bot_ra3",
+                  "sequence": "CCTTGGCACCCGAGAATTCCA",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "Ad-2 complement at the aRNA runoff 3' end",
+                  "segment_id": "rna_bottom_ad2c",
+                  "sequence": "GTGAGTGATGGTTGAGGTAGTGTGGAG",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[CDNA]",
+                  "role": "cDNA insert",
+                  "segment_id": "rna_bot_cdna",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "poly(A) complement of the anchored poly-T",
+                  "segment_id": "rna_bot_pa",
+                  "sequence": "BAAAAAAAAAAAAAAAAAAAAAAAA",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_barcoded_rt_primer",
+                      "orientation_to_source": "reverse_complement"
+                    }
+                  ],
+                  "placeholder": "[CELL_BARCODE:8]",
+                  "role": "cell barcode",
+                  "segment_id": "rna_bot_cbc",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_barcoded_rt_primer",
+                      "orientation_to_source": "reverse_complement"
+                    }
+                  ],
+                  "role": "RA5",
+                  "segment_id": "rna_bot_ra5",
+                  "sequence": "GATCGTCGGACTGTAGAACTCTGAAC",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "Illumina P5",
+                  "segment_id": "rna_bot_p5",
+                  "sequence": "GTGTAGATCTCGGTGGTCGCCGTATCATT",
+                  "structural_role": "paired_region"
+                }
+              ],
+              "strand_id": "rna_bottom",
+              "support_status": "explicit"
+            }
+          ],
+          "support_status": "externally_completed"
+        },
+        {
+          "discontinuities": [],
+          "molecule_type": "DNA",
+          "name": "P3-biotin-tagged double-stranded MALBAC amplicon before sonication",
+          "paired_regions": [
+            {
+              "paired_region_id": "pr_p3",
+              "relationship": "reverse_complementary",
+              "side_1": {
+                "segment_ids": [
+                  "p3_top_h5",
+                  "p3_top_body",
+                  "p3_top_h3"
+                ],
+                "strand_id": "p3_top"
+              },
+              "side_2": {
+                "segment_ids": [
+                  "p3_bot_h5",
+                  "p3_bot_body",
+                  "p3_bot_h3"
+                ],
+                "strand_id": "p3_bottom"
+              },
+              "support_status": "explicit"
+            }
+          ],
+          "physical_state": "purified P3 PCR product before sonication",
+          "properties": [
+            "gDNA-processing aliquot",
+            "Ad-2 termini replaced by 5-prime-biotinylated P3 termini"
+          ],
+          "reference_strand_id": "p3_top",
+          "state_id": "st_gdna_p3_biotin_amplicon",
+          "strand_architecture": "double_stranded",
+          "strands": [
+            {
+              "molecule_type": "DNA",
+              "name": "top strand",
+              "orientation": "5_to_3",
+              "segments": [
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_p3_adaptor_removal_primer",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "MALBAC Ad-2 common sequence",
+                  "segment_id": "p3_top_h5",
+                  "sequence": "GTGAGCTGGAGTTGAGGTAGTGTGGAG",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[GDNA_OR_CDNA]",
+                  "role": "gDNA- or cDNA-derived copy",
+                  "segment_id": "p3_top_body",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_p3_adaptor_removal_primer",
+                      "orientation_to_source": "reverse_complement"
+                    }
+                  ],
+                  "role": "MALBAC Ad-2 common sequence, opposite end",
+                  "segment_id": "p3_top_h3",
+                  "sequence": "CTCCACACTACCTCAACTCCAGCTCAC",
+                  "structural_role": "paired_region"
+                }
+              ],
+              "strand_id": "p3_top",
+              "support_status": "explicit"
+            },
+            {
+              "molecule_type": "DNA",
+              "name": "bottom strand",
+              "orientation": "5_to_3",
+              "segments": [
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_p3_adaptor_removal_primer",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "MALBAC Ad-2 common sequence",
+                  "segment_id": "p3_bot_h5",
+                  "sequence": "GTGAGCTGGAGTTGAGGTAGTGTGGAG",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[GDNA_OR_CDNA]",
+                  "role": "gDNA- or cDNA-derived copy",
+                  "segment_id": "p3_bot_body",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_p3_adaptor_removal_primer",
+                      "orientation_to_source": "reverse_complement"
+                    }
+                  ],
+                  "role": "MALBAC Ad-2 common sequence, opposite end",
+                  "segment_id": "p3_bot_h3",
+                  "sequence": "CTCCACACTACCTCAACTCCAGCTCAC",
+                  "structural_role": "paired_region"
+                }
+              ],
+              "strand_id": "p3_bottom",
+              "support_status": "explicit"
+            }
+          ],
+          "support_status": "explicit"
+        },
+        {
+          "discontinuities": [],
+          "molecule_type": "DNA mixed population",
+          "name": "Post-amplification mixed molecular population, gDNA-processing aliquot",
+          "paired_regions": [],
+          "physical_state": "one half of the split reaction reserved for gDNA processing",
+          "properties": [
+            "contains the carried Ad-2/Ad-2 and Ad-2/Ad-1x molecular classes",
+            "gDNA-processing half of the split reaction"
+          ],
+          "reference_strand_id": "ad2b_1",
+          "state_id": "st_postamp_gdna_aliquot",
+          "strand_architecture": "mixed_population",
+          "strands": [
+            {
+              "molecule_type": "DNA",
+              "name": "double-handle amplicon",
+              "orientation": "5_to_3",
+              "segments": [
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_malbac_random_primers",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "MALBAC Ad-2 common sequence",
+                  "segment_id": "ad2b_handle5",
+                  "sequence": "GTGAGTGATGGTTGAGGTAGTGTGGAG",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "placeholder": "[GDNA_OR_CDNA]",
+                  "role": "gDNA- or cDNA-derived copy",
+                  "segment_id": "ad2b_body",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_malbac_random_primers",
+                      "orientation_to_source": "reverse_complement"
+                    }
+                  ],
+                  "role": "MALBAC Ad-2 common sequence, opposite end",
+                  "segment_id": "ad2b_handle3",
+                  "sequence": "CTCCACACTACCTCAACCATCACTCAC",
+                  "structural_role": "unpaired"
+                }
+              ],
+              "strand_id": "ad2b_1",
+              "support_status": "explicit"
+            },
+            {
+              "molecule_type": "DNA",
+              "name": "Ad-2/Ad-1x amplicon",
+              "orientation": "5_to_3",
+              "segments": [
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_malbac_random_primers",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "MALBAC Ad-2 common sequence",
+                  "segment_id": "ad1x_handle5",
+                  "sequence": "GTGAGTGATGGTTGAGGTAGTGTGGAG",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "placeholder": "[CDNA]",
+                  "role": "copy of the cDNA body",
+                  "segment_id": "ad1x_cdna",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "role": "poly(A) copy of the RT primer poly-T",
+                  "segment_id": "ad1x_pa",
+                  "sequence": "BAAAAAAAAAAAAAAAAAAAAAAAA",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_barcoded_rt_primer",
+                      "orientation_to_source": "reverse_complement"
+                    }
+                  ],
+                  "placeholder": "[CELL_BARCODE:8]",
+                  "role": "cell barcode",
+                  "segment_id": "ad1x_cbc",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_barcoded_rt_primer",
+                      "orientation_to_source": "reverse_complement"
+                    }
+                  ],
+                  "role": "RA5 / 5' Illumina adapter",
+                  "segment_id": "ad1x_ra5",
+                  "sequence": "GATCGTCGGACTGTAGAACTCTGAAC",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_t7_promoter",
+                      "orientation_to_source": "reverse_complement"
+                    }
+                  ],
+                  "role": "T7 promoter",
+                  "segment_id": "ad1x_t7",
+                  "sequence": "CCCTATAGTGAGTCGTATTA",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_2nd_strand_primer",
+                      "orientation_to_source": "reverse_complement"
+                    }
+                  ],
+                  "role": "5' handle (second-strand primer binding site)",
+                  "segment_id": "ad1x_h5",
+                  "sequence": "CCGGCCTCAATCG",
+                  "structural_role": "unpaired"
+                }
+              ],
+              "strand_id": "ad1x_1",
+              "support_status": "explicit"
+            }
+          ],
+          "support_status": "derivable"
+        },
+        {
+          "discontinuities": [],
+          "molecule_type": "DNA mixed population",
+          "name": "Post-amplification mixed molecular population, RNA-processing aliquot",
+          "paired_regions": [],
+          "physical_state": "one half of the split reaction reserved for RNA processing",
+          "properties": [
+            "contains the carried Ad-2/Ad-2 and Ad-2/Ad-1x molecular classes",
+            "RNA-processing half of the split reaction"
+          ],
+          "reference_strand_id": "ad2b_1",
+          "state_id": "st_postamp_rna_aliquot",
+          "strand_architecture": "mixed_population",
+          "strands": [
+            {
+              "molecule_type": "DNA",
+              "name": "double-handle amplicon",
+              "orientation": "5_to_3",
+              "segments": [
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_malbac_random_primers",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "MALBAC Ad-2 common sequence",
+                  "segment_id": "ad2b_handle5",
+                  "sequence": "GTGAGTGATGGTTGAGGTAGTGTGGAG",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "placeholder": "[GDNA_OR_CDNA]",
+                  "role": "gDNA- or cDNA-derived copy",
+                  "segment_id": "ad2b_body",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_malbac_random_primers",
+                      "orientation_to_source": "reverse_complement"
+                    }
+                  ],
+                  "role": "MALBAC Ad-2 common sequence, opposite end",
+                  "segment_id": "ad2b_handle3",
+                  "sequence": "CTCCACACTACCTCAACCATCACTCAC",
+                  "structural_role": "unpaired"
+                }
+              ],
+              "strand_id": "ad2b_1",
+              "support_status": "explicit"
+            },
+            {
+              "molecule_type": "DNA",
+              "name": "Ad-2/Ad-1x amplicon",
+              "orientation": "5_to_3",
+              "segments": [
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_malbac_random_primers",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "MALBAC Ad-2 common sequence",
+                  "segment_id": "ad1x_handle5",
+                  "sequence": "GTGAGTGATGGTTGAGGTAGTGTGGAG",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "placeholder": "[CDNA]",
+                  "role": "copy of the cDNA body",
+                  "segment_id": "ad1x_cdna",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "role": "poly(A) copy of the RT primer poly-T",
+                  "segment_id": "ad1x_pa",
+                  "sequence": "BAAAAAAAAAAAAAAAAAAAAAAAA",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_barcoded_rt_primer",
+                      "orientation_to_source": "reverse_complement"
+                    }
+                  ],
+                  "placeholder": "[CELL_BARCODE:8]",
+                  "role": "cell barcode",
+                  "segment_id": "ad1x_cbc",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_barcoded_rt_primer",
+                      "orientation_to_source": "reverse_complement"
+                    }
+                  ],
+                  "role": "RA5 / 5' Illumina adapter",
+                  "segment_id": "ad1x_ra5",
+                  "sequence": "GATCGTCGGACTGTAGAACTCTGAAC",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_t7_promoter",
+                      "orientation_to_source": "reverse_complement"
+                    }
+                  ],
+                  "role": "T7 promoter",
+                  "segment_id": "ad1x_t7",
+                  "sequence": "CCCTATAGTGAGTCGTATTA",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_2nd_strand_primer",
+                      "orientation_to_source": "reverse_complement"
+                    }
+                  ],
+                  "role": "5' handle (second-strand primer binding site)",
+                  "segment_id": "ad1x_h5",
+                  "sequence": "CCGGCCTCAATCG",
+                  "structural_role": "unpaired"
+                }
+              ],
+              "strand_id": "ad1x_1",
+              "support_status": "explicit"
+            }
+          ],
+          "support_status": "derivable"
+        }
+      ],
+      "transitions": [
+        {
+          "carried_forward_product_ids": [
+            "st_rt_hybrid"
+          ],
+          "discarded_product_ids": [],
+          "major_reagents": [
+            {
+              "name": "reverse transcriptase",
+              "role": "first-strand cDNA synthesis"
+            }
+          ],
+          "oligo_ids": [
+            "oligo_barcoded_rt_primer"
+          ],
+          "operation": "reverse_transcription",
+          "operation_detail": "Single cells are lysed and mRNA is reverse transcribed with the barcoded RT primer (Ad-1x) carrying a 5' handle, T7 promoter, RA5 adapter, cell barcode and anchored poly-T; gDNA is not separated and passes through unchanged.",
+          "product_state_ids": [
+            "st_rt_hybrid"
+          ],
+          "substrate_state_ids": [
+            "st_mrna"
+          ],
+          "support_status": "explicit",
+          "transition_id": "tr_reverse_transcription"
+        },
+        {
+          "carried_forward_product_ids": [
+            "st_ad2_both_ends",
+            "st_ad2_ad1x"
+          ],
+          "discarded_product_ids": [
+            "st_ad2_single_end"
+          ],
+          "major_reagents": [
+            {
+              "name": "strand-displacing DNA polymerase",
+              "role": "quasilinear amplification"
+            }
+          ],
+          "oligo_ids": [
+            "oligo_malbac_random_primers"
+          ],
+          "operation": "amplification",
+          "operation_detail": "MALBAC-type quasilinear amplification of gDNA and first-strand cDNA together using the MALBAC random primers, producing amplicons with Ad-2 at one end (dead end), Ad-2 at both ends (PCR-competent) and, for cDNA, Ad-2 at one end with Ad-1x at the other (IVT-competent).",
+          "product_state_ids": [
+            "st_ad2_single_end",
+            "st_ad2_both_ends",
+            "st_ad2_ad1x"
+          ],
+          "substrate_state_ids": [
+            "st_gdna",
+            "st_rt_hybrid"
+          ],
+          "support_status": "explicit",
+          "transition_id": "tr_quasilinear_amplification"
+        },
+        {
+          "carried_forward_product_ids": [
+            "st_postamp_gdna_aliquot",
+            "st_postamp_rna_aliquot"
+          ],
+          "discarded_product_ids": [],
+          "major_reagents": [],
+          "oligo_ids": [],
+          "operation": "sample_split",
+          "operation_detail": "After seven quasilinear amplification cycles, the unsplit mixture is divided into equal gDNA-processing and RNA-processing aliquots; each aliquot retains the carried Ad-2/Ad-2 and Ad-2/Ad-1x molecular classes.",
+          "product_state_ids": [
+            "st_postamp_gdna_aliquot",
+            "st_postamp_rna_aliquot"
+          ],
+          "substrate_state_ids": [
+            "st_ad2_both_ends",
+            "st_ad2_ad1x"
+          ],
+          "support_status": "explicit",
+          "transition_id": "tr_sample_split"
+        },
+        {
+          "carried_forward_product_ids": [
+            "st_gdna_ds_amplicon"
+          ],
+          "discarded_product_ids": [],
+          "major_reagents": [
+            {
+              "name": "thermostable DNA polymerase",
+              "role": "PCR amplification"
+            }
+          ],
+          "oligo_ids": [
+            "oligo_malbac_pcr_primer"
+          ],
+          "operation": "pcr",
+          "operation_detail": "One half of the split reaction is amplified with the MALBAC PCR primer; cDNA-derived amplicons carrying Ad-2 at both ends are co-amplified and later read as gDNA.",
+          "product_state_ids": [
+            "st_gdna_ds_amplicon"
+          ],
+          "substrate_state_ids": [
+            "st_postamp_gdna_aliquot"
+          ],
+          "support_status": "explicit",
+          "transition_id": "tr_gdna_pcr"
+        },
+        {
+          "carried_forward_product_ids": [
+            "st_gdna_p3_biotin_amplicon"
+          ],
+          "discarded_product_ids": [],
+          "major_reagents": [
+            {
+              "name": "Deep VentR (exo-) polymerase",
+              "role": "P3 primer-substitution PCR"
+            }
+          ],
+          "oligo_ids": [
+            "oligo_p3_adaptor_removal_primer"
+          ],
+          "operation": "pcr",
+          "operation_detail": "A second PCR with 5-prime-biotinylated primer P3 tags the Ad-2-containing termini before sonication.",
+          "product_state_ids": [
+            "st_gdna_p3_biotin_amplicon"
+          ],
+          "substrate_state_ids": [
+            "st_gdna_ds_amplicon"
+          ],
+          "support_status": "explicit",
+          "transition_id": "tr_gdna_p3_pcr"
+        },
+        {
+          "carried_forward_product_ids": [
+            "st_gdna_sheared"
+          ],
+          "discarded_product_ids": [],
+          "major_reagents": [
+            {
+              "name": "sonicator",
+              "role": "fragmentation"
+            }
+          ],
+          "oligo_ids": [],
+          "operation": "fragmentation",
+          "operation_detail": "The P3-biotin-tagged PCR product was sheared by sonication, purified, and verified at an average product size of approximately 300 bp.",
+          "product_state_ids": [
+            "st_gdna_sheared"
+          ],
+          "substrate_state_ids": [
+            "st_gdna_p3_biotin_amplicon"
+          ],
+          "support_status": "explicit",
+          "transition_id": "tr_gdna_sonication"
+        },
+        {
+          "carried_forward_product_ids": [
+            "st_gdna_ad2_removed"
+          ],
+          "discarded_product_ids": [],
+          "major_reagents": [
+            {
+              "name": "Dynabeads MyOne Streptavidin C1",
+              "role": "affinity capture"
+            }
+          ],
+          "oligo_ids": [],
+          "operation": "affinity_selection",
+          "operation_detail": "The sheared products were incubated with Dynabeads MyOne Streptavidin C1; biotinylated terminal fragments were immobilized, and the combined non-biotinylated supernatant and washes were carried forward.",
+          "product_state_ids": [
+            "st_gdna_ad2_removed"
+          ],
+          "substrate_state_ids": [
+            "st_gdna_sheared"
+          ],
+          "support_status": "explicit",
+          "transition_id": "tr_gdna_adaptor_removal"
+        },
+        {
+          "carried_forward_product_ids": [
+            "st_lib_gdna_truseq"
+          ],
+          "discarded_product_ids": [],
+          "major_reagents": [
+            {
+              "name": "NEBNext Ultra DNA Library Prep Kit for Illumina",
+              "role": "indexed Illumina library preparation"
+            }
+          ],
+          "oligo_ids": [],
+          "operation": "other",
+          "operation_detail": "The Ad-2-depleted genomic DNA was converted to an indexed Illumina library with the NEBNext Ultra DNA Library Prep Kit for Illumina; the packet does not print the kit adapter architecture or index-primer sequences.",
+          "product_state_ids": [
+            "st_lib_gdna_truseq"
+          ],
+          "substrate_state_ids": [
+            "st_gdna_ad2_removed"
+          ],
+          "support_status": "explicit",
+          "transition_id": "tr_truseq_library_prep"
+        },
+        {
+          "carried_forward_product_ids": [
+            "st_ds_cdna"
+          ],
+          "discarded_product_ids": [],
+          "major_reagents": [
+            {
+              "name": "DNA polymerase",
+              "role": "second-strand synthesis"
+            }
+          ],
+          "oligo_ids": [
+            "oligo_2nd_strand_primer"
+          ],
+          "operation": "strand_synthesis",
+          "operation_detail": "The other half of the split reaction undergoes second-strand synthesis with the 2nd strand primer, which anneals to the Ad-1x-derived 3' end and regenerates a double-stranded, IVT-competent T7 promoter.",
+          "product_state_ids": [
+            "st_ds_cdna"
+          ],
+          "substrate_state_ids": [
+            "st_postamp_rna_aliquot"
+          ],
+          "support_status": "explicit",
+          "transition_id": "tr_second_strand_synthesis"
+        },
+        {
+          "carried_forward_product_ids": [
+            "st_arna"
+          ],
+          "discarded_product_ids": [],
+          "major_reagents": [
+            {
+              "name": "T7 RNA polymerase",
+              "role": "in vitro transcription"
+            }
+          ],
+          "oligo_ids": [],
+          "operation": "amplification",
+          "operation_detail": "In vitro transcription from the double-stranded T7 promoter linearly amplifies the cDNA as aRNA; cleanup is folded into this transition.",
+          "product_state_ids": [
+            "st_arna"
+          ],
+          "substrate_state_ids": [
+            "st_ds_cdna"
+          ],
+          "support_status": "explicit",
+          "transition_id": "tr_ivt"
+        },
+        {
+          "carried_forward_product_ids": [
+            "st_lib_rna"
+          ],
+          "discarded_product_ids": [],
+          "major_reagents": [
+            {
+              "name": "RA3 3' adapter",
+              "role": "3' adapter ligation"
+            },
+            {
+              "name": "indexed PCR primers",
+              "role": "library indexing"
+            }
+          ],
+          "oligo_ids": [],
+          "operation": "other",
+          "operation_detail": "aRNA is cleaned up WITHOUT fragmentation, then 3' Illumina adaptors (RA3) are ligated to the intact runoff transcript, followed by reverse transcription and indexed PCR. Library construction is delegated to CEL-Seq (Hashimshony et al. 2012) and is modelled as one collapsed transition; the CEL-Seq source is not in this packet.",
+          "product_state_ids": [
+            "st_lib_rna"
+          ],
+          "substrate_state_ids": [
+            "st_arna"
+          ],
+          "support_status": "externally_completed",
+          "transition_id": "tr_celseq_library_prep"
+        }
+      ],
+      "workflow_id": "wf_dr_seq"
+    }
+  ]
+}

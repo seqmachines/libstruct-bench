@@ -1,0 +1,188 @@
+{
+  "libraries": [
+    {
+      "final_molecule": "Dual-indexed Illumina sequencing library produced by Nextera Tn5 tagmentation of full-length pre-amplified cDNA",
+      "library_sequence": "AATGATACGGCGACCACCGAGATCTACAC[I5_INDEX:8]TCGTCGGCAGCGTCAGATGTGTATAAGAGACAG[CDNA]CTGTCTCTTATACACATCTCCGAGCCCACGAGAC[I7_INDEX:8]ATCTCGTATGCCGTCTTCTGCTTG",
+      "modality": "gene expression",
+      "orientation": "5_to_3",
+      "segments": [
+        {
+          "kind": "constant",
+          "length": 29,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_illumina_p5_adapter",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "Illumina P5 adapter",
+          "segment_id": "seg_p5",
+          "sequence": "AATGATACGGCGACCACCGAGATCTACAC",
+          "support_status": "externally_completed"
+        },
+        {
+          "kind": "variable",
+          "length": 8,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_nextera_xt_n_s5xx_index_primer",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "placeholder": "[I5_INDEX:8]",
+          "role": "i5 sample index",
+          "segment_id": "seg_i5",
+          "support_status": "externally_completed"
+        },
+        {
+          "kind": "constant",
+          "length": 14,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_nextera_n_s5xx_primer_entry_point_s5",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "Nextera N/S5xx primer entry point (s5)",
+          "segment_id": "seg_s5",
+          "sequence": "TCGTCGGCAGCGTC",
+          "support_status": "externally_completed"
+        },
+        {
+          "kind": "constant",
+          "length": 19,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_nextera_tn5_binding_site_19_bp_mosaic_end_me",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "Nextera 19-bp Mosaic End (ME)",
+          "segment_id": "seg_me_left",
+          "sequence": "AGATGTGTATAAGAGACAG",
+          "support_status": "externally_completed"
+        },
+        {
+          "kind": "biological_insert",
+          "orientation": "5_to_3",
+          "placeholder": "[CDNA]",
+          "role": "cDNA fragment of full-length pre-amplified cDNA",
+          "segment_id": "seg_cdna",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "length": 19,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_nextera_tn5_binding_site_19_bp_mosaic_end_me",
+              "orientation_to_source": "reverse_complement"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "Nextera 19-bp Mosaic End (ME), reverse complement",
+          "segment_id": "seg_me_right",
+          "sequence": "CTGTCTCTTATACACATCT",
+          "support_status": "externally_completed"
+        },
+        {
+          "kind": "constant",
+          "length": 15,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_nextera_n7xx_primer_entry_point_s7",
+              "orientation_to_source": "reverse_complement"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "Nextera N7xx primer entry point (s7), reverse complement",
+          "segment_id": "seg_s7",
+          "sequence": "CCGAGCCCACGAGAC",
+          "support_status": "externally_completed"
+        },
+        {
+          "kind": "variable",
+          "length": 8,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_nextera_xt_n7xx_index_primer",
+              "orientation_to_source": "reverse_complement"
+            }
+          ],
+          "orientation": "5_to_3",
+          "placeholder": "[I7_INDEX:8]",
+          "role": "i7 sample index",
+          "segment_id": "seg_i7",
+          "support_status": "externally_completed"
+        },
+        {
+          "kind": "constant",
+          "length": 24,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_illumina_p7_adapter",
+              "orientation_to_source": "reverse_complement"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "Illumina P7 adapter, reverse complement",
+          "segment_id": "seg_p7",
+          "sequence": "ATCTCGTATGCCGTCTTCTGCTTG",
+          "support_status": "externally_completed"
+        }
+      ],
+      "strand": "top",
+      "support_status": "explicit"
+    },
+    {
+      "final_molecule": "double-stranded Illumina paired-end sequencing library (PE shearing/ligation route)",
+      "library_sequence": "[ILLUMINA_PE_ADAPTER_P5][CDNA][ILLUMINA_PE_ADAPTER_P7]",
+      "modality": "gene expression",
+      "notes": null,
+      "orientation": "5_to_3",
+      "segments": [
+        {
+          "kind": "constant",
+          "oligo_derivations": [],
+          "orientation": "5_to_3",
+          "placeholder": "[ILLUMINA_PE_ADAPTER_P5]",
+          "role": "Illumina PE adaptor, P5 side",
+          "segment_id": "pe_seg_adapter_p5",
+          "support_status": "externally_completed"
+        },
+        {
+          "kind": "biological_insert",
+          "oligo_derivations": [],
+          "orientation": "5_to_3",
+          "placeholder": "[CDNA]",
+          "role": "sheared cDNA fragment of full-length pre-amplified cDNA",
+          "segment_id": "pe_seg_cdna",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "oligo_derivations": [],
+          "orientation": "5_to_3",
+          "placeholder": "[ILLUMINA_PE_ADAPTER_P7]",
+          "role": "Illumina PE adaptor, P7 side",
+          "segment_id": "pe_seg_adapter_p7",
+          "support_status": "externally_completed"
+        }
+      ],
+      "strand": "top",
+      "support_status": "externally_completed"
+    }
+  ],
+  "protocol_id": "smart_seq",
+  "protocol_name": "SMART-seq",
+  "protocol_scope": {
+    "applicable_variants": [
+      "SMART-seq"
+    ],
+    "protocol_version": "SMART-seq"
+  }
+}

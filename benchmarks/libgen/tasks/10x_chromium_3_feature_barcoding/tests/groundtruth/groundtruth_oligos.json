@@ -1,0 +1,496 @@
+{
+  "oligos": [
+    {
+      "aliases": [
+        "Gel Bead poly(dT) primer",
+        "TruSeq Partial Read1 dT (for mRNA)"
+      ],
+      "components": [
+        {
+          "length": 22,
+          "modifications": [],
+          "name": "TruSeq partial Read 1",
+          "orientation": "5_to_3",
+          "role": "sequencing_primer_site",
+          "sequence": "CTACACGACGCTCTTCCGATCT",
+          "support_status": "explicit"
+        },
+        {
+          "length": 16,
+          "modifications": [],
+          "name": "10x cell barcode",
+          "orientation": "5_to_3",
+          "placeholder": "[CELL_BARCODE:16]",
+          "role": "cell_barcode",
+          "support_status": "explicit"
+        },
+        {
+          "length": 12,
+          "modifications": [],
+          "name": "UMI",
+          "orientation": "5_to_3",
+          "placeholder": "[UMI:12]",
+          "role": "umi",
+          "support_status": "explicit"
+        },
+        {
+          "length": 30,
+          "modifications": [],
+          "name": "poly(dT)",
+          "orientation": "5_to_3",
+          "role": "capture_primer",
+          "sequence": "TTTTTTTTTTTTTTTTTTTTTTTTTTTTTT",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [],
+      "name": "Beads oligos TruSeq Partial Read 1 dT (for mRNA)",
+      "oligo_id": "oligo_beads_oligos_truseq_partial_read_1_dt_for_mrna",
+      "orientation": "5_to_3",
+      "role": "gel_bead_capture_primer",
+      "sequence": "CTACACGACGCTCTTCCGATCT[CELL_BARCODE:16][UMI:12]TTTTTTTTTTTTTTTTTTTTTTTTTTTTTT",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "Gel Bead Capture Sequence 1 primer",
+        "Nextera Partial Read1 Capture Sequence 1"
+      ],
+      "components": [
+        {
+          "length": 22,
+          "modifications": [],
+          "name": "Nextera partial Read 1 (Read 1N)",
+          "orientation": "5_to_3",
+          "role": "sequencing_primer_site",
+          "sequence": "GTCAGATGTGTATAAGAGACAG",
+          "support_status": "explicit"
+        },
+        {
+          "length": 16,
+          "modifications": [],
+          "name": "10x cell barcode",
+          "orientation": "5_to_3",
+          "placeholder": "[CELL_BARCODE:16]",
+          "role": "cell_barcode",
+          "support_status": "explicit"
+        },
+        {
+          "length": 12,
+          "modifications": [],
+          "name": "UMI",
+          "orientation": "5_to_3",
+          "placeholder": "[UMI:12]",
+          "role": "umi",
+          "support_status": "explicit"
+        },
+        {
+          "length": 22,
+          "modifications": [],
+          "name": "Capture Sequence 1",
+          "orientation": "5_to_3",
+          "role": "capture_sequence",
+          "sequence": "TTGCTAGGACCGGCCTTAAAGC",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [],
+      "name": "Beads oligos Nextera Partial Read 1 Capture Sequence 1 (for surface protein)",
+      "oligo_id": "oligo_beads_oligos_nextera_partial_read_1_capture_sequence_1_for_surface_protein",
+      "orientation": "5_to_3",
+      "role": "gel_bead_capture_primer",
+      "sequence": "GTCAGATGTGTATAAGAGACAG[CELL_BARCODE:16][UMI:12]TTGCTAGGACCGGCCTTAAAGC",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "Feature Barcode oligonucleotide (antibody-derived tag)",
+        "TotalSeq-B antibody-oligonucleotide conjugate oligo"
+      ],
+      "components": [
+        {
+          "length": 34,
+          "modifications": [],
+          "name": "TruSeq Read 2",
+          "orientation": "5_to_3",
+          "role": "sequencing_primer_site",
+          "sequence": "GTGACTGGAGTTCAGACGTGTGCTCTTCCGATCT",
+          "support_status": "explicit"
+        },
+        {
+          "length": 10,
+          "modifications": [],
+          "name": "random spacer",
+          "orientation": "5_to_3",
+          "placeholder": "[RANDOM:10]",
+          "role": "spacer",
+          "support_status": "explicit"
+        },
+        {
+          "length": 15,
+          "modifications": [],
+          "name": "Feature Barcode",
+          "orientation": "5_to_3",
+          "placeholder": "[FEATURE_BARCODE:15]",
+          "role": "feature_barcode",
+          "support_status": "explicit"
+        },
+        {
+          "length": 9,
+          "modifications": [],
+          "name": "random spacer",
+          "orientation": "5_to_3",
+          "placeholder": "[RANDOM:9]",
+          "role": "spacer",
+          "support_status": "explicit"
+        },
+        {
+          "length": 22,
+          "modifications": [],
+          "name": "Capture Sequence 1 reverse complement",
+          "orientation": "5_to_3",
+          "role": "capture_handle",
+          "sequence": "GCTTTAAGGCCGGTCCTAGCAA",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [
+        "5' amine (/5AmMC12/)"
+      ],
+      "name": "DNA oligos from the antibody",
+      "oligo_id": "oligo_dna_oligos_from_the_antibody",
+      "orientation": "5_to_3",
+      "role": "feature_barcode_oligo",
+      "sequence": "GTGACTGGAGTTCAGACGTGTGCTCTTCCGATCT[RANDOM:10][FEATURE_BARCODE:15][RANDOM:9]GCTTTAAGGCCGGTCCTAGCAA",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "TSO"
+      ],
+      "components": [
+        {
+          "length": 22,
+          "modifications": [],
+          "name": "SMART/TSO PCR handle",
+          "orientation": "5_to_3",
+          "role": "pcr_handle",
+          "sequence": "AAGCAGTGGTATCAACGCAGAG",
+          "support_status": "explicit"
+        },
+        {
+          "length": 5,
+          "modifications": [],
+          "name": "TSO spacer",
+          "orientation": "5_to_3",
+          "role": "spacer",
+          "sequence": "TACAT",
+          "support_status": "explicit"
+        },
+        {
+          "length": 3,
+          "modifications": [
+            "ribonucleotide (rG) x3 at the 3' end"
+          ],
+          "name": "riboguanosine triplet",
+          "orientation": "5_to_3",
+          "role": "template_switch_rgggg",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [
+        "3'-rGrGrG (three riboguanosines)"
+      ],
+      "name": "Template Switching Oligo (TSO)",
+      "oligo_id": "oligo_template_switching_oligo_tso",
+      "orientation": "5_to_3",
+      "role": "template_switch_oligo",
+      "sequence": "AAGCAGTGGTATCAACGCAGAGTACATrGrGrG",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "Feature cDNA Primers 2 (PN-2000097) forward primer for mRNA cDNA",
+        "Partial Read 1"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "cDNA forward primer",
+      "oligo_id": "oligo_cdna_forward_primer",
+      "orientation": "5_to_3",
+      "role": "primer",
+      "sequence": "CTACACGACGCTCTTCCGATCT",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "Feature cDNA Primers 2 (PN-2000097) reverse primer for mRNA cDNA",
+        "Partial TSO"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "cDNA reverse primer",
+      "oligo_id": "oligo_cdna_reverse_primer",
+      "orientation": "5_to_3",
+      "role": "primer",
+      "sequence": "AAGCAGTGGTATCAACGCAGAG",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "Feature cDNA Primers 2 (PN-2000097) forward primer for Feature Barcode",
+        "Partial Read 1N"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Feature cDNA forward primer",
+      "oligo_id": "oligo_feature_cdna_forward_primer",
+      "orientation": "5_to_3",
+      "role": "primer",
+      "sequence": "GCAGCGTCAGATGTGTATAAGAGACAG",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "Feature cDNA reverse primer for Feature Barcode",
+        "Partial Read 2"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Feature cDNA Primers 2 (PN-2000097, for surface protein), this is a mixture of the following 4 primers (Reverse primer)",
+      "oligo_id": "oligo_feature_cdna_primers_2_pn_2000097_for_surface_protein",
+      "orientation": "5_to_3",
+      "role": "primer",
+      "sequence": "GTGACTGGAGTTCAGACGT",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "Feature SI Primers 2 (PN-2000099)"
+      ],
+      "components": [
+        {
+          "length": 29,
+          "modifications": [],
+          "name": "Illumina P5 adapter",
+          "orientation": "5_to_3",
+          "role": "adapter",
+          "sequence": "AATGATACGGCGACCACCGAGATCTACAC",
+          "support_status": "explicit"
+        },
+        {
+          "length": 33,
+          "modifications": [],
+          "name": "Nextera Read 1 (Read 1N)",
+          "orientation": "5_to_3",
+          "role": "sequencing_primer_site",
+          "sequence": "TCGTCGGCAGCGTCAGATGTGTATAAGAGACAG",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [],
+      "name": "Feature SI primer forward",
+      "oligo_id": "oligo_feature_si_primer_forward",
+      "orientation": "5_to_3",
+      "role": "primer",
+      "sequence": "AATGATACGGCGACCACCGAGATCTACACTCGTCGGCAGCGTCAGATGTGTATAAGAGACAG",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "Chromium i7 Sample Index (PN-220103) primer"
+      ],
+      "components": [
+        {
+          "length": 24,
+          "modifications": [],
+          "name": "Illumina P7 adapter",
+          "orientation": "5_to_3",
+          "role": "adapter",
+          "sequence": "CAAGCAGAAGACGGCATACGAGAT",
+          "support_status": "explicit"
+        },
+        {
+          "length": 8,
+          "modifications": [],
+          "name": "i7 sample index",
+          "orientation": "5_to_3",
+          "placeholder": "[SAMPLE_INDEX:8]",
+          "role": "sample_index",
+          "support_status": "explicit"
+        },
+        {
+          "length": 21,
+          "modifications": [],
+          "name": "Partial TruSeq Read 2",
+          "orientation": "5_to_3",
+          "role": "primer_binding_site",
+          "sequence": "GTGACTGGAGTTCAGACGTGT",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [],
+      "name": "Library PCR primer 2 (PN-220103)",
+      "oligo_id": "oligo_library_pcr_primer_2_pn_220103",
+      "orientation": "5_to_3",
+      "role": "primer",
+      "sequence": "CAAGCAGAAGACGGCATACGAGAT[SAMPLE_INDEX:8]GTGACTGGAGTTCAGACGTGT",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "Read 1N sequencing primer"
+      ],
+      "components": [
+        {
+          "length": 6,
+          "modifications": [],
+          "name": "Nextera adapter 5' portion",
+          "orientation": "5_to_3",
+          "role": "adapter",
+          "sequence": "TCGTCG",
+          "support_status": "explicit"
+        },
+        {
+          "length": 27,
+          "modifications": [],
+          "name": "Feature cDNA forward primer",
+          "orientation": "5_to_3",
+          "role": "primer",
+          "sequence": "GCAGCGTCAGATGTGTATAAGAGACAG",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [],
+      "name": "Illumina Nextera Read 1 primer",
+      "oligo_id": "oligo_illumina_nextera_read_1_primer",
+      "orientation": "5_to_3",
+      "role": "sequencing_primer",
+      "sequence": "TCGTCGGCAGCGTCAGATGTGTATAAGAGACAG",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "Illumina Truseq Read 1 primer"
+      ],
+      "components": [
+        {
+          "length": 11,
+          "modifications": [],
+          "name": "P5-proximal TruSeq segment",
+          "orientation": "5_to_3",
+          "role": "adapter",
+          "sequence": "ACACTCTTTCC",
+          "support_status": "explicit"
+        },
+        {
+          "length": 22,
+          "modifications": [],
+          "name": "cDNA forward primer",
+          "orientation": "5_to_3",
+          "role": "primer",
+          "sequence": "CTACACGACGCTCTTCCGATCT",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [],
+      "name": "Illumina TruSeq Read 1 primer",
+      "oligo_id": "oligo_illumina_truseq_read_1_primer",
+      "orientation": "5_to_3",
+      "role": "sequencing_primer",
+      "sequence": "ACACTCTTTCCCTACACGACGCTCTTCCGATCT",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "Illumina Truseq Read 2 primer"
+      ],
+      "components": [
+        {
+          "length": 19,
+          "modifications": [],
+          "name": "Feature cDNA reverse primer (partial Read 2)",
+          "orientation": "5_to_3",
+          "role": "primer",
+          "sequence": "GTGACTGGAGTTCAGACGT",
+          "support_status": "explicit"
+        },
+        {
+          "length": 15,
+          "modifications": [],
+          "name": "Read 2 3' extension",
+          "orientation": "5_to_3",
+          "role": "sequencing_primer_site",
+          "sequence": "GTGCTCTTCCGATCT",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [],
+      "name": "Illumina TruSeq Read 2 primer",
+      "oligo_id": "oligo_illumina_truseq_read_2_primer",
+      "orientation": "5_to_3",
+      "role": "sequencing_primer",
+      "sequence": "GTGACTGGAGTTCAGACGTGTGCTCTTCCGATCT",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "Sample index sequencing primer"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "TruSeq sample index sequencing primer forward",
+      "oligo_id": "oligo_truseq_sample_index_sequencing_primer_forward",
+      "orientation": "5_to_3",
+      "role": "sequencing_primer",
+      "sequence": "GATCGGAAGAGCACACGTCTGAACTCCAGTCAC",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Illumina P5 adapter",
+      "oligo_id": "oligo_illumina_p5_adapter",
+      "orientation": "5_to_3",
+      "role": "adapter",
+      "sequence": "AATGATACGGCGACCACCGAGATCTACAC",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Illumina P7 adapter",
+      "oligo_id": "oligo_illumina_p7_adapter",
+      "orientation": "5_to_3",
+      "role": "adapter",
+      "sequence": "CAAGCAGAAGACGGCATACGAGAT",
+      "support_status": "explicit"
+    }
+  ],
+  "protocol_id": "10x_chromium_3_feature_barcoding",
+  "protocol_name": "10x Chromium 3' Feature Barcoding",
+  "protocol_scope": {
+    "applicable_variants": [
+      "Cell Surface Protein"
+    ],
+    "protocol_version": "Single Cell 3' v3 & v3.1 with Feature Barcode technology for Cell Surface Protein (CG000185)"
+  }
+}

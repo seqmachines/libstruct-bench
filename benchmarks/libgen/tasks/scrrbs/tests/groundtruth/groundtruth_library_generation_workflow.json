@@ -1,0 +1,1544 @@
+{
+  "protocol_id": "scrrbs",
+  "protocol_name": "scRRBS",
+  "protocol_scope": {
+    "applicable_variants": [],
+    "protocol_version": "Nature Protocols 2015 (Guo et al., Nat Protoc 10:645-659)"
+  },
+  "workflows": [
+    {
+      "final_outputs": [
+        {
+          "modality": "genomic DNA",
+          "state_id": "st_final_library"
+        }
+      ],
+      "initial_state_ids": [
+        "st_genomic_dna"
+      ],
+      "states": [
+        {
+          "discontinuities": [],
+          "molecule_type": "genomic DNA",
+          "name": "Naked double-stranded genomic DNA released by single-cell lysis",
+          "paired_regions": [
+            {
+              "paired_region_id": "pr_st1_genome",
+              "relationship": "unknown",
+              "side_1": {
+                "segment_ids": [
+                  "st1_top_gdna"
+                ],
+                "strand_id": "st1_top"
+              },
+              "side_2": {
+                "segment_ids": [
+                  "st1_bot_gdna"
+                ],
+                "strand_id": "st1_bot"
+              },
+              "support_status": "explicit"
+            }
+          ],
+          "physical_state": "in single-tube lysate",
+          "properties": [
+            "double-stranded genomic DNA",
+            "symmetrically methylated CpG sites"
+          ],
+          "reference_strand_id": "st1_top",
+          "state_id": "st_genomic_dna",
+          "strand_architecture": "double_stranded",
+          "strands": [
+            {
+              "molecule_type": "DNA",
+              "name": "Genomic DNA top strand",
+              "orientation": "5_to_3",
+              "segments": [
+                {
+                  "placeholder": "[GDNA]",
+                  "role": "genomic DNA carrying methylated CpGs and CCGG (MspI) sites",
+                  "segment_id": "st1_top_gdna",
+                  "structural_role": "paired_region"
+                }
+              ],
+              "strand_id": "st1_top",
+              "support_status": "explicit"
+            },
+            {
+              "molecule_type": "DNA",
+              "name": "Genomic DNA bottom strand",
+              "orientation": "5_to_3",
+              "segments": [
+                {
+                  "placeholder": "[GDNA]",
+                  "role": "genomic DNA carrying methylated CpGs and CCGG (MspI) sites",
+                  "segment_id": "st1_bot_gdna",
+                  "structural_role": "paired_region"
+                }
+              ],
+              "strand_id": "st1_bot",
+              "support_status": "explicit"
+            }
+          ],
+          "support_status": "explicit"
+        },
+        {
+          "discontinuities": [],
+          "molecule_type": "genomic DNA fragment",
+          "name": "MspI-digested genomic fragment with 5'-CG overhangs",
+          "paired_regions": [
+            {
+              "paired_region_id": "pr_st2_body",
+              "relationship": "unknown",
+              "side_1": {
+                "segment_ids": [
+                  "st2_top_body"
+                ],
+                "strand_id": "st2_top"
+              },
+              "side_2": {
+                "segment_ids": [
+                  "st2_bot_body"
+                ],
+                "strand_id": "st2_bot"
+              },
+              "support_status": "explicit"
+            }
+          ],
+          "physical_state": "in one-tube reaction",
+          "properties": [
+            "5'-CG dinucleotide overhang at both ends",
+            "CpG-dense MspI fragments enriched"
+          ],
+          "reference_strand_id": "st2_top",
+          "state_id": "st_mspi_fragment",
+          "strand_architecture": "partially_duplex",
+          "strands": [
+            {
+              "molecule_type": "DNA",
+              "name": "MspI fragment top strand",
+              "orientation": "5_to_3",
+              "segments": [
+                {
+                  "role": "5'-CG overhang left by MspI cleavage of C^CGG",
+                  "segment_id": "st2_top_ovh",
+                  "sequence": "CG",
+                  "structural_role": "five_prime_overhang"
+                },
+                {
+                  "placeholder": "[GDNA]",
+                  "role": "genomic fragment body with methylated CpGs",
+                  "segment_id": "st2_top_body",
+                  "structural_role": "paired_region"
+                }
+              ],
+              "strand_id": "st2_top",
+              "support_status": "explicit"
+            },
+            {
+              "molecule_type": "DNA",
+              "name": "MspI fragment bottom strand",
+              "orientation": "5_to_3",
+              "segments": [
+                {
+                  "role": "5'-CG overhang left by MspI cleavage of C^CGG",
+                  "segment_id": "st2_bot_ovh",
+                  "sequence": "CG",
+                  "structural_role": "five_prime_overhang"
+                },
+                {
+                  "placeholder": "[GDNA]",
+                  "role": "genomic fragment body with methylated CpGs",
+                  "segment_id": "st2_bot_body",
+                  "structural_role": "paired_region"
+                }
+              ],
+              "strand_id": "st2_bot",
+              "support_status": "explicit"
+            }
+          ],
+          "support_status": "explicit"
+        },
+        {
+          "discontinuities": [],
+          "molecule_type": "genomic DNA fragment",
+          "name": "End-repaired and dA-tailed MspI fragment",
+          "paired_regions": [
+            {
+              "paired_region_id": "pr_st3_left",
+              "relationship": "reverse_complementary",
+              "side_1": {
+                "segment_ids": [
+                  "st3_top_msp5"
+                ],
+                "strand_id": "st3_top"
+              },
+              "side_2": {
+                "segment_ids": [
+                  "st3_bot_msp3"
+                ],
+                "strand_id": "st3_bot"
+              },
+              "support_status": "explicit"
+            },
+            {
+              "paired_region_id": "pr_st3_body",
+              "relationship": "unknown",
+              "side_1": {
+                "segment_ids": [
+                  "st3_top_body"
+                ],
+                "strand_id": "st3_top"
+              },
+              "side_2": {
+                "segment_ids": [
+                  "st3_bot_body"
+                ],
+                "strand_id": "st3_bot"
+              },
+              "support_status": "explicit"
+            },
+            {
+              "paired_region_id": "pr_st3_right",
+              "relationship": "reverse_complementary",
+              "side_1": {
+                "segment_ids": [
+                  "st3_top_msp3"
+                ],
+                "strand_id": "st3_top"
+              },
+              "side_2": {
+                "segment_ids": [
+                  "st3_bot_msp5"
+                ],
+                "strand_id": "st3_bot"
+              },
+              "support_status": "explicit"
+            }
+          ],
+          "physical_state": "in one-tube reaction",
+          "properties": [
+            "single 3'-dA overhang at both ends",
+            "5'-CG overhangs filled in"
+          ],
+          "reference_strand_id": "st3_top",
+          "state_id": "st_end_repaired_datailed",
+          "strand_architecture": "partially_duplex",
+          "strands": [
+            {
+              "molecule_type": "DNA",
+              "name": "End-repaired top strand",
+              "orientation": "5_to_3",
+              "segments": [
+                {
+                  "role": "filled-in MspI site remnant at the 5' end",
+                  "segment_id": "st3_top_msp5",
+                  "sequence": "CGG",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[GDNA]",
+                  "role": "genomic fragment body with methylated CpGs",
+                  "segment_id": "st3_top_body",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "filled-in MspI site remnant at the 3' end",
+                  "segment_id": "st3_top_msp3",
+                  "sequence": "CCG",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "3'-dA tail",
+                  "segment_id": "st3_top_a",
+                  "sequence": "A",
+                  "structural_role": "three_prime_overhang"
+                }
+              ],
+              "strand_id": "st3_top",
+              "support_status": "explicit"
+            },
+            {
+              "molecule_type": "DNA",
+              "name": "End-repaired bottom strand",
+              "orientation": "5_to_3",
+              "segments": [
+                {
+                  "role": "filled-in MspI site remnant at the 5' end",
+                  "segment_id": "st3_bot_msp5",
+                  "sequence": "CGG",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[GDNA]",
+                  "role": "genomic fragment body with methylated CpGs",
+                  "segment_id": "st3_bot_body",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "filled-in MspI site remnant at the 3' end",
+                  "segment_id": "st3_bot_msp3",
+                  "sequence": "CCG",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "3'-dA tail",
+                  "segment_id": "st3_bot_a",
+                  "sequence": "A",
+                  "structural_role": "three_prime_overhang"
+                }
+              ],
+              "strand_id": "st3_bot",
+              "support_status": "explicit"
+            }
+          ],
+          "support_status": "explicit"
+        },
+        {
+          "discontinuities": [],
+          "molecule_type": "adapter-ligated DNA",
+          "name": "Y-adapter-ligated genomic fragment with a forked adapter at both ends",
+          "paired_regions": [
+            {
+              "paired_region_id": "pr_st4_stem_left",
+              "relationship": "reverse_complementary",
+              "side_1": {
+                "segment_ids": [
+                  "st4_top_stem_p5side"
+                ],
+                "strand_id": "st4_top"
+              },
+              "side_2": {
+                "segment_ids": [
+                  "st4_bot_stem_p7side"
+                ],
+                "strand_id": "st4_bot"
+              },
+              "support_status": "explicit"
+            },
+            {
+              "paired_region_id": "pr_st4_ta_left",
+              "relationship": "reverse_complementary",
+              "side_1": {
+                "segment_ids": [
+                  "st4_top_t"
+                ],
+                "strand_id": "st4_top"
+              },
+              "side_2": {
+                "segment_ids": [
+                  "st4_bot_a"
+                ],
+                "strand_id": "st4_bot"
+              },
+              "support_status": "explicit"
+            },
+            {
+              "paired_region_id": "pr_st4_msp_left",
+              "relationship": "reverse_complementary",
+              "side_1": {
+                "segment_ids": [
+                  "st4_top_msp5"
+                ],
+                "strand_id": "st4_top"
+              },
+              "side_2": {
+                "segment_ids": [
+                  "st4_bot_msp3"
+                ],
+                "strand_id": "st4_bot"
+              },
+              "support_status": "explicit"
+            },
+            {
+              "paired_region_id": "pr_st4_body",
+              "relationship": "unknown",
+              "side_1": {
+                "segment_ids": [
+                  "st4_top_body"
+                ],
+                "strand_id": "st4_top"
+              },
+              "side_2": {
+                "segment_ids": [
+                  "st4_bot_body"
+                ],
+                "strand_id": "st4_bot"
+              },
+              "support_status": "explicit"
+            },
+            {
+              "paired_region_id": "pr_st4_msp_right",
+              "relationship": "reverse_complementary",
+              "side_1": {
+                "segment_ids": [
+                  "st4_top_msp3"
+                ],
+                "strand_id": "st4_top"
+              },
+              "side_2": {
+                "segment_ids": [
+                  "st4_bot_msp5"
+                ],
+                "strand_id": "st4_bot"
+              },
+              "support_status": "explicit"
+            },
+            {
+              "paired_region_id": "pr_st4_ta_right",
+              "relationship": "reverse_complementary",
+              "side_1": {
+                "segment_ids": [
+                  "st4_top_a"
+                ],
+                "strand_id": "st4_top"
+              },
+              "side_2": {
+                "segment_ids": [
+                  "st4_bot_t"
+                ],
+                "strand_id": "st4_bot"
+              },
+              "support_status": "explicit"
+            },
+            {
+              "paired_region_id": "pr_st4_stem_right",
+              "relationship": "reverse_complementary",
+              "side_1": {
+                "segment_ids": [
+                  "st4_top_stem_p7side"
+                ],
+                "strand_id": "st4_top"
+              },
+              "side_2": {
+                "segment_ids": [
+                  "st4_bot_stem_p5side"
+                ],
+                "strand_id": "st4_bot"
+              },
+              "support_status": "explicit"
+            }
+          ],
+          "physical_state": "in one-tube reaction",
+          "properties": [
+            "forked (Y-shaped) adapter at both ends",
+            "adapter cytosines premethylated",
+            "12-bp adapter stem with a ligated T/A junction"
+          ],
+          "reference_strand_id": "st4_top",
+          "state_id": "st_adapter_ligated",
+          "strand_architecture": "y_shaped_duplex",
+          "strands": [
+            {
+              "molecule_type": "DNA",
+              "name": "Adapter-ligated top strand",
+              "orientation": "5_to_3",
+              "segments": [
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_universal_p5_pcr_primer",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "Illumina P5 arm (unpaired)",
+                  "segment_id": "st4_top_p5",
+                  "sequence": "AATGATACGGCGACCACCGAGATCTACAC",
+                  "structural_role": "five_prime_overhang"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_universal_p5_pcr_primer",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "TruSeq Read 1 unpaired arm",
+                  "segment_id": "st4_top_r1_arm",
+                  "sequence": "TCTTTCCCTACACGAC",
+                  "structural_role": "five_prime_overhang"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_universal_p5_pcr_primer",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "12-bp annealed adapter stem",
+                  "segment_id": "st4_top_stem_p5side",
+                  "sequence": "GCTCTTCCGATC",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_universal_p5_pcr_primer",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "adapter 3'-T overhang base, ligated and paired with the fragment dA tail",
+                  "segment_id": "st4_top_t",
+                  "sequence": "T",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "MspI site remnant",
+                  "segment_id": "st4_top_msp5",
+                  "sequence": "CGG",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[GDNA]",
+                  "role": "genomic fragment body with methylated CpGs",
+                  "segment_id": "st4_top_body",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "MspI site remnant",
+                  "segment_id": "st4_top_msp3",
+                  "sequence": "CCG",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "3'-dA tail, ligated and paired with the adapter T overhang",
+                  "segment_id": "st4_top_a",
+                  "sequence": "A",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_indexed_truseq_adaptor_cytosines_are_methylated",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "12-bp annealed adapter stem",
+                  "segment_id": "st4_top_stem_p7side",
+                  "sequence": "GATCGGAAGAGC",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_indexed_truseq_adaptor_cytosines_are_methylated",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "TruSeq Read 2 unpaired arm",
+                  "segment_id": "st4_top_r2_arm",
+                  "sequence": "ACACGTCTGAACTCCAGTCAC",
+                  "structural_role": "three_prime_overhang"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_indexed_truseq_adaptor_cytosines_are_methylated",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "placeholder": "[SAMPLE_INDEX:6]",
+                  "role": "6-bp sample index in the unpaired arm",
+                  "segment_id": "st4_top_index",
+                  "structural_role": "three_prime_overhang"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_indexed_truseq_adaptor_cytosines_are_methylated",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "Illumina P7 arm (unpaired)",
+                  "segment_id": "st4_top_p7",
+                  "sequence": "ATCTCGTATGCCGTCTTCTGCTTG",
+                  "structural_role": "three_prime_overhang"
+                }
+              ],
+              "strand_id": "st4_top",
+              "support_status": "explicit"
+            },
+            {
+              "molecule_type": "DNA",
+              "name": "Adapter-ligated bottom strand",
+              "orientation": "5_to_3",
+              "segments": [
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_universal_p5_pcr_primer",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "Illumina P5 arm (unpaired)",
+                  "segment_id": "st4_bot_p5",
+                  "sequence": "AATGATACGGCGACCACCGAGATCTACAC",
+                  "structural_role": "five_prime_overhang"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_universal_p5_pcr_primer",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "TruSeq Read 1 unpaired arm",
+                  "segment_id": "st4_bot_r1_arm",
+                  "sequence": "TCTTTCCCTACACGAC",
+                  "structural_role": "five_prime_overhang"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_universal_p5_pcr_primer",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "12-bp annealed adapter stem",
+                  "segment_id": "st4_bot_stem_p5side",
+                  "sequence": "GCTCTTCCGATC",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_universal_p5_pcr_primer",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "adapter 3'-T overhang base, ligated and paired with the fragment dA tail",
+                  "segment_id": "st4_bot_t",
+                  "sequence": "T",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "MspI site remnant",
+                  "segment_id": "st4_bot_msp5",
+                  "sequence": "CGG",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[GDNA]",
+                  "role": "genomic fragment body with methylated CpGs",
+                  "segment_id": "st4_bot_body",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "MspI site remnant",
+                  "segment_id": "st4_bot_msp3",
+                  "sequence": "CCG",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "3'-dA tail, ligated and paired with the adapter T overhang",
+                  "segment_id": "st4_bot_a",
+                  "sequence": "A",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_indexed_truseq_adaptor_cytosines_are_methylated",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "12-bp annealed adapter stem",
+                  "segment_id": "st4_bot_stem_p7side",
+                  "sequence": "GATCGGAAGAGC",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_indexed_truseq_adaptor_cytosines_are_methylated",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "TruSeq Read 2 unpaired arm",
+                  "segment_id": "st4_bot_r2_arm",
+                  "sequence": "ACACGTCTGAACTCCAGTCAC",
+                  "structural_role": "three_prime_overhang"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_indexed_truseq_adaptor_cytosines_are_methylated",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "placeholder": "[SAMPLE_INDEX:6]",
+                  "role": "6-bp sample index in the unpaired arm",
+                  "segment_id": "st4_bot_index",
+                  "structural_role": "three_prime_overhang"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_indexed_truseq_adaptor_cytosines_are_methylated",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "Illumina P7 arm (unpaired)",
+                  "segment_id": "st4_bot_p7",
+                  "sequence": "ATCTCGTATGCCGTCTTCTGCTTG",
+                  "structural_role": "three_prime_overhang"
+                }
+              ],
+              "strand_id": "st4_bot",
+              "support_status": "explicit"
+            }
+          ],
+          "support_status": "explicit"
+        },
+        {
+          "discontinuities": [],
+          "molecule_type": "double-stranded DNA library",
+          "name": "Final sequencing-ready scRRBS library",
+          "paired_regions": [
+            {
+              "paired_region_id": "pr_sf_p5",
+              "relationship": "reverse_complementary",
+              "side_1": {
+                "segment_ids": [
+                  "sf_top_p5"
+                ],
+                "strand_id": "sf_top"
+              },
+              "side_2": {
+                "segment_ids": [
+                  "sf_bot_p5c"
+                ],
+                "strand_id": "sf_bot"
+              },
+              "support_status": "explicit"
+            },
+            {
+              "paired_region_id": "pr_sf_r1",
+              "relationship": "reverse_complementary",
+              "side_1": {
+                "segment_ids": [
+                  "sf_top_r1"
+                ],
+                "strand_id": "sf_top"
+              },
+              "side_2": {
+                "segment_ids": [
+                  "sf_bot_r1c"
+                ],
+                "strand_id": "sf_bot"
+              },
+              "support_status": "explicit"
+            },
+            {
+              "paired_region_id": "pr_sf_msp5",
+              "relationship": "reverse_complementary",
+              "side_1": {
+                "segment_ids": [
+                  "sf_top_msp5"
+                ],
+                "strand_id": "sf_top"
+              },
+              "side_2": {
+                "segment_ids": [
+                  "sf_bot_msp5c"
+                ],
+                "strand_id": "sf_bot"
+              },
+              "support_status": "explicit"
+            },
+            {
+              "paired_region_id": "pr_sf_gdna1",
+              "relationship": "unknown",
+              "side_1": {
+                "segment_ids": [
+                  "sf_top_gdna1"
+                ],
+                "strand_id": "sf_top"
+              },
+              "side_2": {
+                "segment_ids": [
+                  "sf_bot_gdna1"
+                ],
+                "strand_id": "sf_bot"
+              },
+              "support_status": "explicit"
+            },
+            {
+              "paired_region_id": "pr_sf_cpg_conv",
+              "relationship": "reverse_complementary",
+              "side_1": {
+                "segment_ids": [
+                  "sf_top_cpg_conv"
+                ],
+                "strand_id": "sf_top"
+              },
+              "side_2": {
+                "segment_ids": [
+                  "sf_bot_cpg_conv"
+                ],
+                "strand_id": "sf_bot"
+              },
+              "support_status": "explicit"
+            },
+            {
+              "paired_region_id": "pr_sf_gdna2",
+              "relationship": "unknown",
+              "side_1": {
+                "segment_ids": [
+                  "sf_top_gdna2"
+                ],
+                "strand_id": "sf_top"
+              },
+              "side_2": {
+                "segment_ids": [
+                  "sf_bot_gdna2"
+                ],
+                "strand_id": "sf_bot"
+              },
+              "support_status": "explicit"
+            },
+            {
+              "paired_region_id": "pr_sf_cpg_me",
+              "relationship": "reverse_complementary",
+              "side_1": {
+                "segment_ids": [
+                  "sf_top_cpg_me"
+                ],
+                "strand_id": "sf_top"
+              },
+              "side_2": {
+                "segment_ids": [
+                  "sf_bot_cpg_me"
+                ],
+                "strand_id": "sf_bot"
+              },
+              "support_status": "explicit"
+            },
+            {
+              "paired_region_id": "pr_sf_gdna3",
+              "relationship": "unknown",
+              "side_1": {
+                "segment_ids": [
+                  "sf_top_gdna3"
+                ],
+                "strand_id": "sf_top"
+              },
+              "side_2": {
+                "segment_ids": [
+                  "sf_bot_gdna3"
+                ],
+                "strand_id": "sf_bot"
+              },
+              "support_status": "explicit"
+            },
+            {
+              "paired_region_id": "pr_sf_msp3",
+              "relationship": "reverse_complementary",
+              "side_1": {
+                "segment_ids": [
+                  "sf_top_msp3"
+                ],
+                "strand_id": "sf_top"
+              },
+              "side_2": {
+                "segment_ids": [
+                  "sf_bot_msp3c"
+                ],
+                "strand_id": "sf_bot"
+              },
+              "support_status": "explicit"
+            },
+            {
+              "paired_region_id": "pr_sf_a",
+              "relationship": "reverse_complementary",
+              "side_1": {
+                "segment_ids": [
+                  "sf_top_a"
+                ],
+                "strand_id": "sf_top"
+              },
+              "side_2": {
+                "segment_ids": [
+                  "sf_bot_t"
+                ],
+                "strand_id": "sf_bot"
+              },
+              "support_status": "explicit"
+            },
+            {
+              "paired_region_id": "pr_sf_r2",
+              "relationship": "reverse_complementary",
+              "side_1": {
+                "segment_ids": [
+                  "sf_top_r2"
+                ],
+                "strand_id": "sf_top"
+              },
+              "side_2": {
+                "segment_ids": [
+                  "sf_bot_r2"
+                ],
+                "strand_id": "sf_bot"
+              },
+              "support_status": "explicit"
+            },
+            {
+              "paired_region_id": "pr_sf_index",
+              "relationship": "unknown",
+              "side_1": {
+                "segment_ids": [
+                  "sf_top_index"
+                ],
+                "strand_id": "sf_top"
+              },
+              "side_2": {
+                "segment_ids": [
+                  "sf_bot_index"
+                ],
+                "strand_id": "sf_bot"
+              },
+              "support_status": "explicit"
+            },
+            {
+              "paired_region_id": "pr_sf_p7",
+              "relationship": "reverse_complementary",
+              "side_1": {
+                "segment_ids": [
+                  "sf_top_p7"
+                ],
+                "strand_id": "sf_top"
+              },
+              "side_2": {
+                "segment_ids": [
+                  "sf_bot_p7"
+                ],
+                "strand_id": "sf_bot"
+              },
+              "support_status": "explicit"
+            }
+          ],
+          "physical_state": "gel size-selected, purified library in solution",
+          "properties": [
+            "fully complementary duplex after amplification with uracil read as thymine",
+            "sequencing-ready P5/P7 library with a 6-bp sample index",
+            "size-selected insert population"
+          ],
+          "reference_strand_id": "sf_top",
+          "state_id": "st_final_library",
+          "strand_architecture": "double_stranded",
+          "strands": [
+            {
+              "molecule_type": "DNA",
+              "name": "Final library top strand",
+              "orientation": "5_to_3",
+              "segments": [
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_universal_p5_pcr_primer",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "Illumina P5",
+                  "segment_id": "sf_top_p5",
+                  "sequence": "AATGATACGGCGACCACCGAGATCTACAC",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_universal_p5_pcr_primer",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "TruSeq Read 1 primer binding sequence including the adapter T base",
+                  "segment_id": "sf_top_r1",
+                  "sequence": "TCTTTCCCTACACGACGCTCTTCCGATCT",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "converted MspI remnant (CGG -> TGG)",
+                  "segment_id": "sf_top_msp5",
+                  "sequence": "TGG",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[GDNA]",
+                  "role": "bisulfite-converted genomic insert",
+                  "segment_id": "sf_top_gdna1",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "converted unmethylated CpG (CG -> TG)",
+                  "segment_id": "sf_top_cpg_conv",
+                  "sequence": "TG",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[GDNA]",
+                  "role": "bisulfite-converted genomic insert",
+                  "segment_id": "sf_top_gdna2",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "methylated CpG retained",
+                  "segment_id": "sf_top_cpg_me",
+                  "sequence": "CG",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[GDNA]",
+                  "role": "bisulfite-converted genomic insert",
+                  "segment_id": "sf_top_gdna3",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "converted MspI remnant (CCG -> TTG)",
+                  "segment_id": "sf_top_msp3",
+                  "sequence": "TTG",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "dA tail",
+                  "segment_id": "sf_top_a",
+                  "sequence": "A",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_indexed_truseq_adaptor_cytosines_are_methylated",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "TruSeq Read 2 and index primer binding sequence",
+                  "segment_id": "sf_top_r2",
+                  "sequence": "GATCGGAAGAGCACACGTCTGAACTCCAGTCAC",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_indexed_truseq_adaptor_cytosines_are_methylated",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "placeholder": "[SAMPLE_INDEX:6]",
+                  "role": "6-bp sample index",
+                  "segment_id": "sf_top_index",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_indexed_truseq_adaptor_cytosines_are_methylated",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "Illumina P7",
+                  "segment_id": "sf_top_p7",
+                  "sequence": "ATCTCGTATGCCGTCTTCTGCTTG",
+                  "structural_role": "paired_region"
+                }
+              ],
+              "sequence_architecture": "AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCTTGG[GDNA]TG[GDNA]CG[GDNA]TTGAGATCGGAAGAGCACACGTCTGAACTCCAGTCAC[SAMPLE_INDEX:6]ATCTCGTATGCCGTCTTCTGCTTG",
+              "strand_id": "sf_top",
+              "support_status": "explicit"
+            },
+            {
+              "molecule_type": "DNA",
+              "name": "Final library bottom strand",
+              "orientation": "5_to_3",
+              "segments": [
+                {
+                  "role": "Illumina P7, reverse complement of the top-strand P7 element",
+                  "segment_id": "sf_bot_p7",
+                  "sequence": "CAAGCAGAAGACGGCATACGAGAT",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[SAMPLE_INDEX:6]",
+                  "role": "6-bp sample index complement",
+                  "segment_id": "sf_bot_index",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "TruSeq Read 2 primer sequence, complement of the top-strand Read 2 region",
+                  "segment_id": "sf_bot_r2",
+                  "sequence": "GTGACTGGAGTTCAGACGTGTGCTCTTCCGATC",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "complement of the top-strand dA tail",
+                  "segment_id": "sf_bot_t",
+                  "sequence": "T",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "complement of the converted MspI remnant TTG",
+                  "segment_id": "sf_bot_msp3c",
+                  "sequence": "CAA",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[GDNA]",
+                  "role": "bisulfite-converted genomic insert, complementary strand",
+                  "segment_id": "sf_bot_gdna3",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "methylated CpG retained",
+                  "segment_id": "sf_bot_cpg_me",
+                  "sequence": "CG",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[GDNA]",
+                  "role": "bisulfite-converted genomic insert, complementary strand",
+                  "segment_id": "sf_bot_gdna2",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "complement of the converted CpG TG",
+                  "segment_id": "sf_bot_cpg_conv",
+                  "sequence": "CA",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[GDNA]",
+                  "role": "bisulfite-converted genomic insert, complementary strand",
+                  "segment_id": "sf_bot_gdna1",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "complement of the converted MspI remnant TGG",
+                  "segment_id": "sf_bot_msp5c",
+                  "sequence": "CCA",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "complement of the TruSeq Read 1 region",
+                  "segment_id": "sf_bot_r1c",
+                  "sequence": "AGATCGGAAGAGCGTCGTGTAGGGAAAGA",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "complement of the Illumina P5 region",
+                  "segment_id": "sf_bot_p5c",
+                  "sequence": "GTGTAGATCTCGGTGGTCGCCGTATCATT",
+                  "structural_role": "paired_region"
+                }
+              ],
+              "sequence_architecture": "CAAGCAGAAGACGGCATACGAGAT[SAMPLE_INDEX:6]GTGACTGGAGTTCAGACGTGTGCTCTTCCGATCTCAA[GDNA]CG[GDNA]CA[GDNA]CCAAGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT",
+              "strand_id": "sf_bot",
+              "support_status": "explicit"
+            }
+          ],
+          "support_status": "explicit"
+        },
+        {
+          "discontinuities": [],
+          "molecule_type": "DNA",
+          "name": "Bisulfite-converted top-strand-derived single-stranded molecule",
+          "paired_regions": [],
+          "physical_state": "in solution, denatured at 98 C during bisulfite conversion",
+          "properties": [
+            "unmethylated cytosines deaminated to uracil",
+            "not complementary to the other converted strand"
+          ],
+          "reference_strand_id": "st5_top",
+          "state_id": "st_bisulfite_converted_top",
+          "strand_architecture": "single_stranded",
+          "strands": [
+            {
+              "molecule_type": "DNA",
+              "name": "Converted top strand",
+              "orientation": "5_to_3",
+              "segments": [
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_universal_p5_pcr_primer",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "Illumina P5 arm (unpaired, premethylated)",
+                  "segment_id": "st5_top_p5",
+                  "sequence": "AATGATACGGCGACCACCGAGATCTACAC",
+                  "structural_role": "five_prime_overhang"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_universal_p5_pcr_primer",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "TruSeq Read 1 unpaired arm (premethylated)",
+                  "segment_id": "st5_top_r1_arm",
+                  "sequence": "TCTTTCCCTACACGAC",
+                  "structural_role": "five_prime_overhang"
+                },
+                {
+                  "role": "adapter stem (premethylated, unconverted)",
+                  "segment_id": "st5_top_stem_p5side",
+                  "sequence": "GCTCTTCCGATC",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "role": "adapter T base paired with the dA tail",
+                  "segment_id": "st5_top_t",
+                  "sequence": "T",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "role": "converted MspI site remnant (CGG -> UGG)",
+                  "segment_id": "st5_top_msp5",
+                  "sequence": "UGG",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "placeholder": "[GDNA]",
+                  "role": "converted genomic body: unmethylated C to U, methylated CpG retained",
+                  "segment_id": "st5_top_body",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "role": "converted MspI site remnant (CCG -> UUG)",
+                  "segment_id": "st5_top_msp3",
+                  "sequence": "UUG",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "role": "dA tail paired with the adapter T base",
+                  "segment_id": "st5_top_a",
+                  "sequence": "A",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "role": "adapter stem (premethylated, unconverted)",
+                  "segment_id": "st5_top_stem_p7side",
+                  "sequence": "GATCGGAAGAGC",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_indexed_truseq_adaptor_cytosines_are_methylated",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "TruSeq Read 2 unpaired arm (premethylated)",
+                  "segment_id": "st5_top_r2_arm",
+                  "sequence": "ACACGTCTGAACTCCAGTCAC",
+                  "structural_role": "three_prime_overhang"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_indexed_truseq_adaptor_cytosines_are_methylated",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "placeholder": "[SAMPLE_INDEX:6]",
+                  "role": "6-bp sample index in the unpaired arm",
+                  "segment_id": "st5_top_index",
+                  "structural_role": "three_prime_overhang"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_indexed_truseq_adaptor_cytosines_are_methylated",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "Illumina P7 arm (unpaired)",
+                  "segment_id": "st5_top_p7",
+                  "sequence": "ATCTCGTATGCCGTCTTCTGCTTG",
+                  "structural_role": "three_prime_overhang"
+                }
+              ],
+              "strand_id": "st5_top",
+              "support_status": "explicit"
+            }
+          ],
+          "support_status": "explicit"
+        },
+        {
+          "discontinuities": [],
+          "molecule_type": "DNA",
+          "name": "Bisulfite-converted bottom-strand-derived single-stranded molecule",
+          "paired_regions": [],
+          "physical_state": "in solution, denatured at 98 C during bisulfite conversion",
+          "properties": [
+            "unmethylated cytosines deaminated to uracil",
+            "not complementary to the other converted strand"
+          ],
+          "reference_strand_id": "st5_bot",
+          "state_id": "st_bisulfite_converted_bottom",
+          "strand_architecture": "single_stranded",
+          "strands": [
+            {
+              "molecule_type": "DNA",
+              "name": "Converted bottom strand",
+              "orientation": "5_to_3",
+              "segments": [
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_universal_p5_pcr_primer",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "Illumina P5 arm (unpaired, premethylated)",
+                  "segment_id": "st5_bot_p5",
+                  "sequence": "AATGATACGGCGACCACCGAGATCTACAC",
+                  "structural_role": "five_prime_overhang"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_universal_p5_pcr_primer",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "TruSeq Read 1 unpaired arm (premethylated)",
+                  "segment_id": "st5_bot_r1_arm",
+                  "sequence": "TCTTTCCCTACACGAC",
+                  "structural_role": "five_prime_overhang"
+                },
+                {
+                  "role": "adapter stem (premethylated, unconverted)",
+                  "segment_id": "st5_bot_stem_p5side",
+                  "sequence": "GCTCTTCCGATC",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "role": "adapter T base paired with the dA tail",
+                  "segment_id": "st5_bot_t",
+                  "sequence": "T",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "role": "converted MspI site remnant (CGG -> UGG)",
+                  "segment_id": "st5_bot_msp5",
+                  "sequence": "UGG",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "placeholder": "[GDNA]",
+                  "role": "converted genomic body: unmethylated C to U, methylated CpG retained",
+                  "segment_id": "st5_bot_body",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "role": "converted MspI site remnant (CCG -> UUG)",
+                  "segment_id": "st5_bot_msp3",
+                  "sequence": "UUG",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "role": "dA tail paired with the adapter T base",
+                  "segment_id": "st5_bot_a",
+                  "sequence": "A",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "role": "adapter stem (premethylated, unconverted)",
+                  "segment_id": "st5_bot_stem_p7side",
+                  "sequence": "GATCGGAAGAGC",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_indexed_truseq_adaptor_cytosines_are_methylated",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "TruSeq Read 2 unpaired arm (premethylated)",
+                  "segment_id": "st5_bot_r2_arm",
+                  "sequence": "ACACGTCTGAACTCCAGTCAC",
+                  "structural_role": "three_prime_overhang"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_indexed_truseq_adaptor_cytosines_are_methylated",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "placeholder": "[SAMPLE_INDEX:6]",
+                  "role": "6-bp sample index in the unpaired arm",
+                  "segment_id": "st5_bot_index",
+                  "structural_role": "three_prime_overhang"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_indexed_truseq_adaptor_cytosines_are_methylated",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "Illumina P7 arm (unpaired)",
+                  "segment_id": "st5_bot_p7",
+                  "sequence": "ATCTCGTATGCCGTCTTCTGCTTG",
+                  "structural_role": "three_prime_overhang"
+                }
+              ],
+              "strand_id": "st5_bot",
+              "support_status": "explicit"
+            }
+          ],
+          "support_status": "explicit"
+        }
+      ],
+      "transitions": [
+        {
+          "carried_forward_product_ids": [
+            "st_mspi_fragment"
+          ],
+          "discarded_product_ids": [],
+          "major_reagents": [
+            {
+              "name": "MspI",
+              "role": "methylation-insensitive restriction endonuclease"
+            },
+            {
+              "name": "lysis buffer with protease",
+              "role": "single-cell lysis"
+            }
+          ],
+          "oligo_ids": [],
+          "operation": "fragmentation",
+          "operation_detail": "Single-cell lysis releases naked double-stranded genomic DNA, which is digested in the same tube with MspI at C^CGG leaving 5'-CG overhangs; the enzyme is then heat-inactivated",
+          "product_state_ids": [
+            "st_mspi_fragment"
+          ],
+          "substrate_state_ids": [
+            "st_genomic_dna"
+          ],
+          "support_status": "explicit",
+          "transition_id": "tr_lysis_mspi_digestion"
+        },
+        {
+          "carried_forward_product_ids": [
+            "st_end_repaired_datailed"
+          ],
+          "discarded_product_ids": [],
+          "major_reagents": [
+            {
+              "name": "Klenow fragment (exo-)",
+              "role": "fill-in and dA tailing"
+            },
+            {
+              "name": "dATP/dGTP/dCTP mix",
+              "role": "nucleotide substrate"
+            }
+          ],
+          "oligo_ids": [],
+          "operation": "extension",
+          "operation_detail": "The 5'-CG overhangs are filled in and a single 3'-dA is added to the blunted ends with Klenow fragment (exo-) and a dATP-rich dNTP mix; the enzyme is heat-inactivated in the same tube",
+          "product_state_ids": [
+            "st_end_repaired_datailed"
+          ],
+          "substrate_state_ids": [
+            "st_mspi_fragment"
+          ],
+          "support_status": "explicit",
+          "transition_id": "tr_end_repair_da_tailing"
+        },
+        {
+          "carried_forward_product_ids": [
+            "st_adapter_ligated"
+          ],
+          "discarded_product_ids": [],
+          "major_reagents": [
+            {
+              "name": "T4 DNA ligase (highly concentrated)",
+              "role": "adapter ligation"
+            },
+            {
+              "name": "ATP",
+              "role": "ligation cofactor"
+            }
+          ],
+          "oligo_ids": [
+            "oligo_y_shaped_adapter"
+          ],
+          "operation": "ligation",
+          "operation_detail": "Premethylated indexed Y-shaped Illumina TruSeq adapters are ligated to both dA-tailed ends through the adapter 3'-T overhang with highly concentrated T4 DNA ligase; the ligase is then heat-inactivated",
+          "product_state_ids": [
+            "st_adapter_ligated"
+          ],
+          "substrate_state_ids": [
+            "st_end_repaired_datailed"
+          ],
+          "support_status": "explicit",
+          "transition_id": "tr_adapter_ligation"
+        },
+        {
+          "carried_forward_product_ids": [
+            "st_bisulfite_converted_top",
+            "st_bisulfite_converted_bottom"
+          ],
+          "discarded_product_ids": [],
+          "major_reagents": [
+            {
+              "name": "sodium bisulfite (CT conversion reagent)",
+              "role": "cytosine deamination"
+            },
+            {
+              "name": "carrier tRNA",
+              "role": "purification carrier"
+            }
+          ],
+          "oligo_ids": [],
+          "operation": "other",
+          "operation_detail": "Bisulfite conversion (MethylCode): 98 C for 10 min then 64 C for 2.5 h. The 98 C step denatures the duplex - all earlier incubations are capped at 80 C specifically to avoid denaturation - and unmethylated cytosines are deaminated to uracil independently on each strand, so the two converted molecules are no longer complementary and are carried forward as two separate single-stranded species.",
+          "product_state_ids": [
+            "st_bisulfite_converted_top",
+            "st_bisulfite_converted_bottom"
+          ],
+          "substrate_state_ids": [
+            "st_adapter_ligated"
+          ],
+          "support_status": "explicit",
+          "transition_id": "tr_bisulfite_conversion"
+        },
+        {
+          "carried_forward_product_ids": [
+            "st_final_library"
+          ],
+          "discarded_product_ids": [],
+          "major_reagents": [
+            {
+              "name": "uracil-tolerant hot-start DNA polymerase",
+              "role": "amplification of uracil-containing template"
+            },
+            {
+              "name": "dNTP mix",
+              "role": "nucleotide substrate"
+            }
+          ],
+          "oligo_ids": [
+            "oligo_illumina_p5_adapter",
+            "oligo_illumina_p7_adapter"
+          ],
+          "operation": "pcr",
+          "operation_detail": "PCR enrichment with the Illumina P5 (QP1) and P7 (QP2) primers: in the first cycle only the P7-side primer can anneal, and from the second cycle onward both strands are amplified with uracil copied as thymine, completing the double-stranded indexed library Amplification is performed as two sequential rounds with the same QP1/QP2 primers: round 1 uses uracil-tolerant PfuTurbo Cx hot-start polymerase (25 cycles, 300 nM primers) so methylated and unmethylated fragments amplify comparably; round 2 uses Phusion HF master mix (22 cycles, 500 nM primers). Gel-based size selection of 200-500 bp fragments, cleanups and QC are folded into this transition.",
+          "product_state_ids": [
+            "st_final_library"
+          ],
+          "substrate_state_ids": [
+            "st_bisulfite_converted_top",
+            "st_bisulfite_converted_bottom"
+          ],
+          "support_status": "explicit",
+          "transition_id": "tr_pcr_enrichment"
+        }
+      ],
+      "workflow_id": "wf_scrrbs_library_generation"
+    }
+  ]
+}

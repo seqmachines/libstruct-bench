@@ -1,0 +1,166 @@
+{
+  "libraries": [
+    {
+      "final_molecule": "double-stranded, sample-indexed Illumina sequencing library",
+      "library_sequence": "AATGATACGGCGACCACCGAGATCTACAC[CELL_BARCODE:16]TCGTCGGCAGCGTCAGATGTGTATAAGAGACAG[GDNA]CTGTCTCTTATACACATCTCCGAGCCCACGAGAC[SAMPLE_INDEX:8]ATCTCGTATGCCGTCTTCTGCTTG",
+      "modality": "chromatin accessibility",
+      "orientation": "5_to_3",
+      "segments": [
+        {
+          "kind": "constant",
+          "length": 29,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_beads_oligo",
+              "orientation_to_source": "same_orientation"
+            },
+            {
+              "oligo_id": "oligo_illumina_p5_adapter",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "Illumina P5 adapter",
+          "segment_id": "seg_p5",
+          "sequence": "AATGATACGGCGACCACCGAGATCTACAC",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "variable",
+          "length": 16,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_beads_oligo",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "placeholder": "[CELL_BARCODE:16]",
+          "role": "10x single-cell barcode (read as i5)",
+          "segment_id": "seg_cell_barcode",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "length": 14,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_beads_oligo",
+              "orientation_to_source": "same_orientation"
+            },
+            {
+              "oligo_id": "oligo_nextera_n_s5xx_primer_entry_point_s5",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "Nextera s5 / partial Read 1N primer entry point",
+          "segment_id": "seg_s5",
+          "sequence": "TCGTCGGCAGCGTC",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "length": 19,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_illumina_nextera_read_1_primer",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "Tn5 mosaic end (ME)",
+          "segment_id": "seg_me_left",
+          "sequence": "AGATGTGTATAAGAGACAG",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "biological_insert",
+          "orientation": "5_to_3",
+          "placeholder": "[GDNA]",
+          "role": "transposed genomic DNA insert from accessible chromatin",
+          "segment_id": "seg_gdna_insert",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "length": 19,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_illumina_nextera_read_2_primer",
+              "orientation_to_source": "reverse_complement"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "Tn5 mosaic end (ME), reverse complement",
+          "segment_id": "seg_me_right",
+          "sequence": "CTGTCTCTTATACACATCT",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "length": 15,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_nextera_n7xx_primer_entry_point_s7",
+              "orientation_to_source": "reverse_complement"
+            },
+            {
+              "oligo_id": "oligo_nextera_i7_sample_index_primer",
+              "orientation_to_source": "reverse_complement"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "Nextera s7 / partial Read 2N primer entry point, reverse complement",
+          "segment_id": "seg_s7",
+          "sequence": "CCGAGCCCACGAGAC",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "variable",
+          "length": 8,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_nextera_i7_sample_index_primer",
+              "orientation_to_source": "reverse_complement"
+            }
+          ],
+          "orientation": "5_to_3",
+          "placeholder": "[SAMPLE_INDEX:8]",
+          "role": "i7 sample index",
+          "segment_id": "seg_sample_index",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "length": 24,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_illumina_p7_adapter",
+              "orientation_to_source": "reverse_complement"
+            },
+            {
+              "oligo_id": "oligo_nextera_i7_sample_index_primer",
+              "orientation_to_source": "reverse_complement"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "Illumina P7 adapter, reverse complement",
+          "segment_id": "seg_p7",
+          "sequence": "ATCTCGTATGCCGTCTTCTGCTTG",
+          "support_status": "explicit"
+        }
+      ],
+      "strand": "top",
+      "support_status": "explicit"
+    }
+  ],
+  "protocol_id": "10x_chromium_single_cell_atac_v2",
+  "protocol_name": "10x Chromium Single Cell ATAC v2",
+  "protocol_scope": {
+    "applicable_variants": [
+      "v2"
+    ],
+    "protocol_version": "v2"
+  }
+}

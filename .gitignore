@@ -41,3 +41,9 @@ groundtruth/
 ground_truth/
 **/groundtruth_oligos.json
 **/ground_truth_oligos.json
+
+# Frozen Libgen copies are intentionally tracked only in Harbor's private
+# verifier build context. The agent image is built from the sibling
+# `environment/` directory and cannot access these files.
+!benchmarks/libgen/tasks/*/tests/groundtruth/
+!benchmarks/libgen/tasks/*/tests/groundtruth/*.json

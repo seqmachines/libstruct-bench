@@ -1,0 +1,1220 @@
+{
+  "protocol_id": "sci_rna_seq",
+  "protocol_name": "sci-RNA-seq",
+  "protocol_scope": {
+    "applicable_variants": [
+      "sci-RNA-seq two-level indexing"
+    ],
+    "protocol_version": null
+  },
+  "workflows": [
+    {
+      "final_outputs": [
+        {
+          "modality": "gene expression",
+          "state_id": "st_final_library"
+        }
+      ],
+      "initial_state_ids": [
+        "st_polya_mrna"
+      ],
+      "states": [
+        {
+          "discontinuities": [],
+          "molecule_type": "RNA",
+          "name": "Poly(A) mRNA in methanol-fixed cells or extracted nuclei",
+          "paired_regions": [],
+          "physical_state": "in situ inside fixed permeabilized cells or nuclei distributed across wells",
+          "properties": [
+            "one well corresponds to one first-round RT barcode"
+          ],
+          "reference_strand_id": "s1_mrna",
+          "state_id": "st_polya_mrna",
+          "strand_architecture": "single_stranded",
+          "strands": [
+            {
+              "molecule_type": "RNA",
+              "name": "cellular mRNA",
+              "orientation": "5_to_3",
+              "segments": [
+                {
+                  "placeholder": "[MRNA]",
+                  "role": "mRNA transcript body",
+                  "segment_id": "s1_body",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "placeholder": "[POLYA]",
+                  "role": "poly(A) tail",
+                  "segment_id": "s1_polya",
+                  "structural_role": "unpaired"
+                }
+              ],
+              "strand_id": "s1_mrna",
+              "support_status": "explicit"
+            }
+          ],
+          "support_status": "explicit"
+        },
+        {
+          "discontinuities": [],
+          "molecule_type": "RNA/DNA",
+          "name": "mRNA:first-strand cDNA hybrid carrying the RT barcode and UMI",
+          "paired_regions": [
+            {
+              "paired_region_id": "pr2_hybrid",
+              "relationship": "reverse_complementary",
+              "side_1": {
+                "segment_ids": [
+                  "s2_polyt",
+                  "s2_cdna_body"
+                ],
+                "strand_id": "s2_cdna"
+              },
+              "side_2": {
+                "segment_ids": [
+                  "s2_mrna_body",
+                  "s2_mrna_polya"
+                ],
+                "strand_id": "s2_mrna"
+              },
+              "support_status": "derivable"
+            }
+          ],
+          "physical_state": "in situ inside fixed cells or nuclei",
+          "properties": [
+            "the 5' w1/UMI/RT-barcode block of the primer remains a single-stranded 5' overhang"
+          ],
+          "reference_strand_id": "s2_cdna",
+          "state_id": "st_mrna_cdna_hybrid",
+          "strand_architecture": "rna_dna_hybrid",
+          "strands": [
+            {
+              "molecule_type": "DNA",
+              "name": "first-strand cDNA",
+              "orientation": "5_to_3",
+              "segments": [
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_barcoded_rt_primer",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "TruSeq Read 1 partial adapter (w1)",
+                  "segment_id": "s2_w1",
+                  "sequence": "ACGACGCTCTTCCGATCT",
+                  "structural_role": "five_prime_overhang"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_barcoded_rt_primer",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "placeholder": "[UMI:8]",
+                  "role": "UMI",
+                  "segment_id": "s2_umi",
+                  "structural_role": "five_prime_overhang"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_barcoded_rt_primer",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "placeholder": "[RT_BARCODE:10]",
+                  "role": "RT barcode",
+                  "segment_id": "s2_rtbc",
+                  "structural_role": "five_prime_overhang"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_barcoded_rt_primer",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "anchored oligo(dT)30VN",
+                  "segment_id": "s2_polyt",
+                  "sequence": "TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTVN",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[CDNA]",
+                  "role": "cDNA copy of the transcript 3' end",
+                  "segment_id": "s2_cdna_body",
+                  "structural_role": "paired_region"
+                }
+              ],
+              "strand_id": "s2_cdna",
+              "support_status": "explicit"
+            },
+            {
+              "molecule_type": "RNA",
+              "name": "template mRNA",
+              "orientation": "5_to_3",
+              "segments": [
+                {
+                  "placeholder": "[MRNA]",
+                  "role": "mRNA transcript body",
+                  "segment_id": "s2_mrna_body",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[POLYA]",
+                  "role": "poly(A) tail",
+                  "segment_id": "s2_mrna_polya",
+                  "structural_role": "paired_region"
+                }
+              ],
+              "strand_id": "s2_mrna",
+              "support_status": "explicit"
+            }
+          ],
+          "support_status": "explicit"
+        },
+        {
+          "discontinuities": [],
+          "molecule_type": "DNA",
+          "name": "Double-stranded barcoded cDNA",
+          "paired_regions": [
+            {
+              "paired_region_id": "pr3_w1",
+              "relationship": "reverse_complementary",
+              "side_1": {
+                "segment_ids": [
+                  "s3_w1"
+                ],
+                "strand_id": "s3_top"
+              },
+              "side_2": {
+                "segment_ids": [
+                  "s3_w1_c"
+                ],
+                "strand_id": "s3_bottom"
+              },
+              "support_status": "explicit"
+            },
+            {
+              "paired_region_id": "pr3_index",
+              "relationship": "reverse_complementary",
+              "side_1": {
+                "segment_ids": [
+                  "s3_umi",
+                  "s3_rtbc"
+                ],
+                "strand_id": "s3_top"
+              },
+              "side_2": {
+                "segment_ids": [
+                  "s3_rtbc_c",
+                  "s3_umi_c"
+                ],
+                "strand_id": "s3_bottom"
+              },
+              "support_status": "derivable"
+            },
+            {
+              "paired_region_id": "pr3_insert",
+              "relationship": "reverse_complementary",
+              "side_1": {
+                "segment_ids": [
+                  "s3_polyt",
+                  "s3_cdna"
+                ],
+                "strand_id": "s3_top"
+              },
+              "side_2": {
+                "segment_ids": [
+                  "s3_cdna_c",
+                  "s3_polya"
+                ],
+                "strand_id": "s3_bottom"
+              },
+              "support_status": "derivable"
+            }
+          ],
+          "physical_state": "in situ inside pooled and redistributed cells or nuclei",
+          "properties": [
+            "blunt double-stranded cDNA, substrate for Nextera tagmentation"
+          ],
+          "reference_strand_id": "s3_top",
+          "state_id": "st_ds_cdna",
+          "strand_architecture": "double_stranded",
+          "strands": [
+            {
+              "molecule_type": "DNA",
+              "name": "first-strand cDNA (top)",
+              "orientation": "5_to_3",
+              "segments": [
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_barcoded_rt_primer",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "TruSeq Read 1 partial adapter (w1)",
+                  "segment_id": "s3_w1",
+                  "sequence": "ACGACGCTCTTCCGATCT",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[UMI:8]",
+                  "role": "UMI",
+                  "segment_id": "s3_umi",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[RT_BARCODE:10]",
+                  "role": "RT barcode",
+                  "segment_id": "s3_rtbc",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "anchored oligo(dT)30VN",
+                  "segment_id": "s3_polyt",
+                  "sequence": "TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTVN",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[CDNA]",
+                  "role": "cDNA insert",
+                  "segment_id": "s3_cdna",
+                  "structural_role": "paired_region"
+                }
+              ],
+              "strand_id": "s3_top",
+              "support_status": "explicit"
+            },
+            {
+              "molecule_type": "DNA",
+              "name": "second-strand cDNA (bottom)",
+              "orientation": "5_to_3",
+              "segments": [
+                {
+                  "placeholder": "[CDNA]",
+                  "role": "complement of the cDNA insert",
+                  "segment_id": "s3_cdna_c",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[POLYA]",
+                  "role": "complement of the oligo(dT)30VN tract",
+                  "segment_id": "s3_polya",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[RT_BARCODE:10]",
+                  "role": "complement of the RT barcode",
+                  "segment_id": "s3_rtbc_c",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[UMI:8]",
+                  "role": "complement of the UMI",
+                  "segment_id": "s3_umi_c",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "complement of the w1 adapter",
+                  "segment_id": "s3_w1_c",
+                  "sequence": "AGATCGGAAGAGCGTCGT",
+                  "structural_role": "paired_region"
+                }
+              ],
+              "strand_id": "s3_bottom",
+              "support_status": "explicit"
+            }
+          ],
+          "support_status": "explicit"
+        },
+        {
+          "discontinuities": [
+            {
+              "after_segment_id": "s4_cdna",
+              "before_segment_id": "s4_me_nontransferred",
+              "discontinuity_id": "dc4_tn5_gap",
+              "kind": "gap",
+              "strand_id": "s4_top",
+              "support_status": "externally_completed"
+            }
+          ],
+          "molecule_type": "DNA",
+          "name": "Tagmented cDNA carrying s7-ME at the 3' cDNA end (the only amplifiable product)",
+          "paired_regions": [
+            {
+              "paired_region_id": "pr4_me",
+              "relationship": "reverse_complementary",
+              "side_1": {
+                "segment_ids": [
+                  "s4_me_nontransferred"
+                ],
+                "strand_id": "s4_top"
+              },
+              "side_2": {
+                "segment_ids": [
+                  "s4_me_transferred"
+                ],
+                "strand_id": "s4_bottom"
+              },
+              "support_status": "explicit"
+            },
+            {
+              "paired_region_id": "pr4_insert",
+              "relationship": "reverse_complementary",
+              "side_1": {
+                "segment_ids": [
+                  "s4_polyt",
+                  "s4_cdna"
+                ],
+                "strand_id": "s4_top"
+              },
+              "side_2": {
+                "segment_ids": [
+                  "s4_cdna_c",
+                  "s4_polya"
+                ],
+                "strand_id": "s4_bottom"
+              },
+              "support_status": "derivable"
+            },
+            {
+              "paired_region_id": "pr4_index",
+              "relationship": "reverse_complementary",
+              "side_1": {
+                "segment_ids": [
+                  "s4_umi",
+                  "s4_rtbc"
+                ],
+                "strand_id": "s4_top"
+              },
+              "side_2": {
+                "segment_ids": [
+                  "s4_rtbc_c",
+                  "s4_umi_c"
+                ],
+                "strand_id": "s4_bottom"
+              },
+              "support_status": "derivable"
+            },
+            {
+              "paired_region_id": "pr4_w1",
+              "relationship": "reverse_complementary",
+              "side_1": {
+                "segment_ids": [
+                  "s4_w1"
+                ],
+                "strand_id": "s4_top"
+              },
+              "side_2": {
+                "segment_ids": [
+                  "s4_w1_c"
+                ],
+                "strand_id": "s4_bottom"
+              },
+              "support_status": "explicit"
+            }
+          ],
+          "physical_state": "transposome-released fragment with a 9-bp gap",
+          "properties": [
+            "9-bp gap left by Tn5 transposition",
+            "s5/s5, s7/s7, s5/s7 fragments and the s5-tagged cDNA fragment are not amplifiable with the P5/P7 primer pair",
+            "carrier genomic DNA is tagmented but not amplified"
+          ],
+          "reference_strand_id": "s4_top",
+          "state_id": "st_tagmented_amplifiable",
+          "strand_architecture": "partially_duplex",
+          "strands": [
+            {
+              "molecule_type": "DNA",
+              "name": "RT-primer strand plus non-transferred ME strand",
+              "orientation": "5_to_3",
+              "segments": [
+                {
+                  "role": "TruSeq Read 1 partial adapter (w1)",
+                  "segment_id": "s4_w1",
+                  "sequence": "ACGACGCTCTTCCGATCT",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[UMI:8]",
+                  "role": "UMI",
+                  "segment_id": "s4_umi",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[RT_BARCODE:10]",
+                  "role": "RT barcode",
+                  "segment_id": "s4_rtbc",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "anchored oligo(dT)30VN",
+                  "segment_id": "s4_polyt",
+                  "sequence": "TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTVN",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[CDNA]",
+                  "role": "cDNA insert",
+                  "segment_id": "s4_cdna",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_nextera_tn5_binding_site_19_bp_mosaic_end_me",
+                      "orientation_to_source": "reverse_complement"
+                    }
+                  ],
+                  "role": "non-transferred Mosaic End strand",
+                  "segment_id": "s4_me_nontransferred",
+                  "sequence": "CTGTCTCTTATACACATCT",
+                  "structural_role": "paired_region"
+                }
+              ],
+              "strand_id": "s4_top",
+              "support_status": "derivable"
+            },
+            {
+              "molecule_type": "DNA",
+              "name": "second-strand cDNA joined to the transferred s7-ME strand",
+              "orientation": "5_to_3",
+              "segments": [
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_nextera_n7xx_primer_entry_point_s7",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "Nextera s7 primer entry point",
+                  "segment_id": "s4_s7",
+                  "sequence": "GTCTCGTGGGCTCGG",
+                  "structural_role": "five_prime_overhang"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_nextera_tn5_binding_site_19_bp_mosaic_end_me",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "transferred Mosaic End strand",
+                  "segment_id": "s4_me_transferred",
+                  "sequence": "AGATGTGTATAAGAGACAG",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[CDNA]",
+                  "role": "complement of the cDNA insert",
+                  "segment_id": "s4_cdna_c",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[POLYA]",
+                  "role": "complement of the oligo(dT)30VN tract",
+                  "segment_id": "s4_polya",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[RT_BARCODE:10]",
+                  "role": "complement of the RT barcode",
+                  "segment_id": "s4_rtbc_c",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[UMI:8]",
+                  "role": "complement of the UMI",
+                  "segment_id": "s4_umi_c",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "complement of the w1 adapter",
+                  "segment_id": "s4_w1_c",
+                  "sequence": "AGATCGGAAGAGCGTCGT",
+                  "structural_role": "paired_region"
+                }
+              ],
+              "strand_id": "s4_bottom",
+              "support_status": "derivable"
+            }
+          ],
+          "support_status": "derivable"
+        },
+        {
+          "discontinuities": [],
+          "molecule_type": "DNA",
+          "name": "Gap-filled tagmented cDNA with a complete s7-ME end",
+          "paired_regions": [
+            {
+              "paired_region_id": "pr5_me_s7",
+              "relationship": "reverse_complementary",
+              "side_1": {
+                "segment_ids": [
+                  "s5_me",
+                  "s5_s7"
+                ],
+                "strand_id": "s5_top"
+              },
+              "side_2": {
+                "segment_ids": [
+                  "s5_s7_c",
+                  "s5_me_c"
+                ],
+                "strand_id": "s5_bottom"
+              },
+              "support_status": "explicit"
+            },
+            {
+              "paired_region_id": "pr5_insert",
+              "relationship": "reverse_complementary",
+              "side_1": {
+                "segment_ids": [
+                  "s5_polyt",
+                  "s5_cdna"
+                ],
+                "strand_id": "s5_top"
+              },
+              "side_2": {
+                "segment_ids": [
+                  "s5_cdna_c",
+                  "s5_polya"
+                ],
+                "strand_id": "s5_bottom"
+              },
+              "support_status": "derivable"
+            },
+            {
+              "paired_region_id": "pr5_index",
+              "relationship": "reverse_complementary",
+              "side_1": {
+                "segment_ids": [
+                  "s5_umi",
+                  "s5_rtbc"
+                ],
+                "strand_id": "s5_top"
+              },
+              "side_2": {
+                "segment_ids": [
+                  "s5_rtbc_c",
+                  "s5_umi_c"
+                ],
+                "strand_id": "s5_bottom"
+              },
+              "support_status": "derivable"
+            },
+            {
+              "paired_region_id": "pr5_w1",
+              "relationship": "reverse_complementary",
+              "side_1": {
+                "segment_ids": [
+                  "s5_w1"
+                ],
+                "strand_id": "s5_top"
+              },
+              "side_2": {
+                "segment_ids": [
+                  "s5_w1_c"
+                ],
+                "strand_id": "s5_bottom"
+              },
+              "support_status": "explicit"
+            }
+          ],
+          "physical_state": "purified DNA in the PCR reaction after the 72 C extension",
+          "properties": [
+            "9-bp gap filled and the s7 adaptor copied, so both P5 and P7 primer landing sites are templated"
+          ],
+          "reference_strand_id": "s5_top",
+          "state_id": "st_gap_filled",
+          "strand_architecture": "double_stranded",
+          "strands": [
+            {
+              "molecule_type": "DNA",
+              "name": "top strand",
+              "orientation": "5_to_3",
+              "segments": [
+                {
+                  "role": "TruSeq Read 1 partial adapter (w1)",
+                  "segment_id": "s5_w1",
+                  "sequence": "ACGACGCTCTTCCGATCT",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[UMI:8]",
+                  "role": "UMI",
+                  "segment_id": "s5_umi",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[RT_BARCODE:10]",
+                  "role": "RT barcode",
+                  "segment_id": "s5_rtbc",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "anchored oligo(dT)30VN",
+                  "segment_id": "s5_polyt",
+                  "sequence": "TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTVN",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[CDNA]",
+                  "role": "cDNA insert",
+                  "segment_id": "s5_cdna",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_nextera_tn5_binding_site_19_bp_mosaic_end_me",
+                      "orientation_to_source": "reverse_complement"
+                    }
+                  ],
+                  "role": "Mosaic End",
+                  "segment_id": "s5_me",
+                  "sequence": "CTGTCTCTTATACACATCT",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_nextera_n7xx_primer_entry_point_s7",
+                      "orientation_to_source": "reverse_complement"
+                    }
+                  ],
+                  "role": "Nextera s7 primer entry point",
+                  "segment_id": "s5_s7",
+                  "sequence": "CCGAGCCCACGAGAC",
+                  "structural_role": "paired_region"
+                }
+              ],
+              "strand_id": "s5_top",
+              "support_status": "derivable"
+            },
+            {
+              "molecule_type": "DNA",
+              "name": "bottom strand",
+              "orientation": "5_to_3",
+              "segments": [
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_nextera_n7xx_primer_entry_point_s7",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "Nextera s7 primer entry point",
+                  "segment_id": "s5_s7_c",
+                  "sequence": "GTCTCGTGGGCTCGG",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_nextera_tn5_binding_site_19_bp_mosaic_end_me",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "Mosaic End",
+                  "segment_id": "s5_me_c",
+                  "sequence": "AGATGTGTATAAGAGACAG",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[CDNA]",
+                  "role": "complement of the cDNA insert",
+                  "segment_id": "s5_cdna_c",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[POLYA]",
+                  "role": "complement of the oligo(dT)30VN tract",
+                  "segment_id": "s5_polya",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[RT_BARCODE:10]",
+                  "role": "complement of the RT barcode",
+                  "segment_id": "s5_rtbc_c",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[UMI:8]",
+                  "role": "complement of the UMI",
+                  "segment_id": "s5_umi_c",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "complement of the w1 adapter",
+                  "segment_id": "s5_w1_c",
+                  "sequence": "AGATCGGAAGAGCGTCGT",
+                  "structural_role": "paired_region"
+                }
+              ],
+              "strand_id": "s5_bottom",
+              "support_status": "derivable"
+            }
+          ],
+          "support_status": "derivable"
+        },
+        {
+          "discontinuities": [],
+          "molecule_type": "DNA",
+          "name": "Final dual-indexed sci-RNA-seq sequencing library",
+          "paired_regions": [
+            {
+              "paired_region_id": "pr6_p5_end",
+              "relationship": "reverse_complementary",
+              "side_1": {
+                "segment_ids": [
+                  "s6_p5",
+                  "s6_i5",
+                  "s6_r1"
+                ],
+                "strand_id": "s6_top"
+              },
+              "side_2": {
+                "segment_ids": [
+                  "s6_r1_c",
+                  "s6_i5_c",
+                  "s6_p5_c"
+                ],
+                "strand_id": "s6_bottom"
+              },
+              "support_status": "derivable"
+            },
+            {
+              "paired_region_id": "pr6_insert",
+              "relationship": "reverse_complementary",
+              "side_1": {
+                "segment_ids": [
+                  "s6_umi",
+                  "s6_rtbc",
+                  "s6_polyt",
+                  "s6_cdna"
+                ],
+                "strand_id": "s6_top"
+              },
+              "side_2": {
+                "segment_ids": [
+                  "s6_cdna_c",
+                  "s6_polya",
+                  "s6_rtbc_c",
+                  "s6_umi_c"
+                ],
+                "strand_id": "s6_bottom"
+              },
+              "support_status": "derivable"
+            },
+            {
+              "paired_region_id": "pr6_p7_end",
+              "relationship": "reverse_complementary",
+              "side_1": {
+                "segment_ids": [
+                  "s6_me",
+                  "s6_s7",
+                  "s6_i7",
+                  "s6_p7"
+                ],
+                "strand_id": "s6_top"
+              },
+              "side_2": {
+                "segment_ids": [
+                  "s6_p7_c",
+                  "s6_i7_c",
+                  "s6_s7_c",
+                  "s6_me_c"
+                ],
+                "strand_id": "s6_bottom"
+              },
+              "support_status": "derivable"
+            }
+          ],
+          "physical_state": "purified, pooled PCR amplicon library",
+          "properties": [
+            "read 1 reads the UMI and RT barcode (18 cycles)",
+            "index 1 reads i7 (10 cycles)",
+            "index 2 reads i5 (10 cycles)",
+            "read 2 reads the cDNA (52 cycles)"
+          ],
+          "reference_strand_id": "s6_top",
+          "state_id": "st_final_library",
+          "strand_architecture": "double_stranded",
+          "strands": [
+            {
+              "molecule_type": "DNA",
+              "name": "top strand (canonical library strand)",
+              "orientation": "5_to_3",
+              "segments": [
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_pcr_p5_primer",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "Illumina P5",
+                  "segment_id": "s6_p5",
+                  "sequence": "AATGATACGGCGACCACCGAGATCTACAC",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_pcr_p5_primer",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "placeholder": "[I5_INDEX:10]",
+                  "role": "i5 index",
+                  "segment_id": "s6_i5",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_pcr_p5_primer",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "TruSeq Read 1 primer site",
+                  "segment_id": "s6_r1",
+                  "sequence": "ACACTCTTTCCCTACACGACGCTCTTCCGATCT",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[UMI:8]",
+                  "role": "UMI",
+                  "segment_id": "s6_umi",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[RT_BARCODE:10]",
+                  "role": "RT barcode",
+                  "segment_id": "s6_rtbc",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "anchored oligo(dT)30VN",
+                  "segment_id": "s6_polyt",
+                  "sequence": "TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTVN",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[CDNA]",
+                  "role": "cDNA insert",
+                  "segment_id": "s6_cdna",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_nextera_tn5_binding_site_19_bp_mosaic_end_me",
+                      "orientation_to_source": "reverse_complement"
+                    }
+                  ],
+                  "role": "Mosaic End",
+                  "segment_id": "s6_me",
+                  "sequence": "CTGTCTCTTATACACATCT",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_nextera_n7xx_primer_entry_point_s7",
+                      "orientation_to_source": "reverse_complement"
+                    }
+                  ],
+                  "role": "Nextera s7 primer entry point",
+                  "segment_id": "s6_s7",
+                  "sequence": "CCGAGCCCACGAGAC",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_nextera_n7_index_primer",
+                      "orientation_to_source": "reverse_complement"
+                    }
+                  ],
+                  "placeholder": "[I7_INDEX:10]",
+                  "role": "i7 index",
+                  "segment_id": "s6_i7",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_nextera_n7_index_primer",
+                      "orientation_to_source": "reverse_complement"
+                    }
+                  ],
+                  "role": "Illumina P7",
+                  "segment_id": "s6_p7",
+                  "sequence": "ATCTCGTATGCCGTCTTCTGCTTG",
+                  "structural_role": "paired_region"
+                }
+              ],
+              "sequence_architecture": "AATGATACGGCGACCACCGAGATCTACAC[I5_INDEX:10]ACACTCTTTCCCTACACGACGCTCTTCCGATCT[UMI:8][RT_BARCODE:10]TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTVN[CDNA]CTGTCTCTTATACACATCTCCGAGCCCACGAGAC[I7_INDEX:10]ATCTCGTATGCCGTCTTCTGCTTG",
+              "strand_id": "s6_top",
+              "support_status": "derivable"
+            },
+            {
+              "molecule_type": "DNA",
+              "name": "bottom strand",
+              "orientation": "5_to_3",
+              "segments": [
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_nextera_n7_index_primer",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "Illumina P7",
+                  "segment_id": "s6_p7_c",
+                  "sequence": "CAAGCAGAAGACGGCATACGAGAT",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_nextera_n7_index_primer",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "placeholder": "[I7_INDEX:10]",
+                  "role": "i7 index",
+                  "segment_id": "s6_i7_c",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_nextera_n7_index_primer",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "Nextera s7 primer entry point",
+                  "segment_id": "s6_s7_c",
+                  "sequence": "GTCTCGTGGGCTCGG",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_nextera_tn5_binding_site_19_bp_mosaic_end_me",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "Mosaic End",
+                  "segment_id": "s6_me_c",
+                  "sequence": "AGATGTGTATAAGAGACAG",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[CDNA]",
+                  "role": "complement of the cDNA insert",
+                  "segment_id": "s6_cdna_c",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[POLYA]",
+                  "role": "complement of the oligo(dT)30VN tract",
+                  "segment_id": "s6_polya",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[RT_BARCODE:10]",
+                  "role": "complement of the RT barcode",
+                  "segment_id": "s6_rtbc_c",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[UMI:8]",
+                  "role": "complement of the UMI",
+                  "segment_id": "s6_umi_c",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "TruSeq Read 1 site complement (i5 index sequencing primer site)",
+                  "segment_id": "s6_r1_c",
+                  "sequence": "AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[I5_INDEX:10]",
+                  "role": "i5 index",
+                  "segment_id": "s6_i5_c",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "Illumina P5",
+                  "segment_id": "s6_p5_c",
+                  "sequence": "GTGTAGATCTCGGTGGTCGCCGTATCATT",
+                  "structural_role": "paired_region"
+                }
+              ],
+              "strand_id": "s6_bottom",
+              "support_status": "derivable"
+            }
+          ],
+          "support_status": "derivable"
+        }
+      ],
+      "transitions": [
+        {
+          "carried_forward_product_ids": [
+            "st_mrna_cdna_hybrid"
+          ],
+          "discarded_product_ids": [],
+          "major_reagents": [
+            {
+              "name": "SuperScript IV reverse transcriptase",
+              "role": "reverse transcriptase"
+            },
+            {
+              "name": "dNTP mix",
+              "role": "nucleotides"
+            },
+            {
+              "name": "RNase inhibitor",
+              "role": "RNase inhibition"
+            }
+          ],
+          "oligo_ids": [
+            "oligo_barcoded_rt_primer"
+          ],
+          "operation": "reverse_transcription",
+          "operation_detail": "In situ reverse transcription inside methanol-fixed permeabilized cells or nuclei distributed across 96- or 384-well plates; the well-specific barcoded RT primer anneals to poly(A) mRNA and introduces the first-round RT barcode and the UMI.",
+          "product_state_ids": [
+            "st_mrna_cdna_hybrid"
+          ],
+          "substrate_state_ids": [
+            "st_polya_mrna"
+          ],
+          "support_status": "explicit",
+          "transition_id": "tr_reverse_transcription"
+        },
+        {
+          "carried_forward_product_ids": [
+            "st_ds_cdna"
+          ],
+          "discarded_product_ids": [],
+          "major_reagents": [
+            {
+              "name": "NEB mRNA Second Strand Synthesis enzyme",
+              "role": "second-strand synthesis from the mRNA:cDNA hybrid"
+            },
+            {
+              "name": "NEB mRNA Second Strand Synthesis buffer",
+              "role": "reaction buffer"
+            }
+          ],
+          "oligo_ids": [],
+          "operation": "strand_synthesis",
+          "operation_detail": "Cells are pooled and redistributed into a new plate (by DAPI-gated FACS in the source protocol), then RNase H / DNA polymerase I based second-strand synthesis converts the hybrid into blunt double-stranded cDNA. Pooling, staining, sorting and reaction termination are folded in because they do not change sequence architecture. Second-strand synthesis runs at 16 C for 150 min and is terminated at 75 C for 20 min.",
+          "product_state_ids": [
+            "st_ds_cdna"
+          ],
+          "substrate_state_ids": [
+            "st_mrna_cdna_hybrid"
+          ],
+          "support_status": "explicit",
+          "transition_id": "tr_second_strand_synthesis"
+        },
+        {
+          "carried_forward_product_ids": [
+            "st_tagmented_amplifiable"
+          ],
+          "discarded_product_ids": [],
+          "major_reagents": [
+            {
+              "name": "Nextera TDE1 transposome (s5-ME / s7-ME loaded Tn5)",
+              "role": "transposase"
+            },
+            {
+              "name": "Nextera TD buffer",
+              "role": "reaction buffer"
+            },
+            {
+              "name": "human genomic DNA (5 ng)",
+              "role": "carrier to avoid over-tagmentation"
+            }
+          ],
+          "oligo_ids": [
+            "oligo_nextera_n_s5xx_primer_entry_point_s5",
+            "oligo_nextera_n7xx_primer_entry_point_s7",
+            "oligo_nextera_tn5_binding_site_19_bp_mosaic_end_me"
+          ],
+          "operation": "tagmentation",
+          "operation_detail": "Standard Illumina Nextera tagmentation of double-stranded cDNA together with 5 ng carrier genomic DNA, leaving a 9-bp gap. Only the fragment carrying s7-ME at the tagmentation end and the intact RT-primer end is amplifiable with the P5/P7 pair; s5/s5, s7/s7, s5/s7 and s5-plus-cDNA-end fragments and tagmented carrier genomic DNA are not amplified and are not modelled as separate states.",
+          "product_state_ids": [
+            "st_tagmented_amplifiable"
+          ],
+          "substrate_state_ids": [
+            "st_ds_cdna"
+          ],
+          "support_status": "explicit",
+          "transition_id": "tr_tagmentation"
+        },
+        {
+          "carried_forward_product_ids": [
+            "st_gap_filled"
+          ],
+          "discarded_product_ids": [],
+          "major_reagents": [
+            {
+              "name": "High-fidelity PCR master mix",
+              "role": "polymerase and nucleotides"
+            }
+          ],
+          "oligo_ids": [],
+          "operation": "extension",
+          "operation_detail": "72 C gap fill-in and extension (the first step of the Nextera PCR programme) fills the 9-bp transposition gap and copies the s7 adaptor onto the top strand. Bead purification before PCR is folded into this transition.",
+          "product_state_ids": [
+            "st_gap_filled"
+          ],
+          "substrate_state_ids": [
+            "st_tagmented_amplifiable"
+          ],
+          "support_status": "explicit",
+          "transition_id": "tr_gap_fill"
+        },
+        {
+          "carried_forward_product_ids": [
+            "st_final_library"
+          ],
+          "discarded_product_ids": [],
+          "major_reagents": [
+            {
+              "name": "High-fidelity PCR master mix",
+              "role": "polymerase and nucleotides"
+            }
+          ],
+          "oligo_ids": [
+            "oligo_pcr_p5_primer",
+            "oligo_nextera_n7_index_primer"
+          ],
+          "operation": "pcr",
+          "operation_detail": "Single PCR cycling step with the indexed P5 and P7 primers, adding the second-round i5 and i7 well indexes and the complete P5/P7 flow-cell adaptors. Post-PCR pooling, bead purification and quantification are folded into this transition.",
+          "product_state_ids": [
+            "st_final_library"
+          ],
+          "substrate_state_ids": [
+            "st_gap_filled"
+          ],
+          "support_status": "explicit",
+          "transition_id": "tr_indexing_pcr"
+        }
+      ],
+      "workflow_id": "wf_sci_rna_seq_two_level"
+    }
+  ]
+}

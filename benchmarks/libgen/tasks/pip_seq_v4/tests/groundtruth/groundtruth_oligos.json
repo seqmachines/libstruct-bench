@@ -1,0 +1,420 @@
+{
+  "oligos": [
+    {
+      "aliases": [
+        "T20 PIPs (FB0003914)",
+        "barcoded hydrogel template oligo"
+      ],
+      "components": [
+        {
+          "modifications": [
+            "5' acrydite"
+          ],
+          "name": "acrydite poly(T) bead linker",
+          "orientation": "5_to_3",
+          "role": "bead attachment spacer",
+          "sequence": "TTTTTTT",
+          "support_status": "explicit"
+        },
+        {
+          "modifications": [],
+          "name": "TSO/ISPCR handle",
+          "orientation": "5_to_3",
+          "role": "PCR handle",
+          "sequence": "AAGCAGTGGTATCAACGCAGAGT",
+          "support_status": "explicit"
+        },
+        {
+          "modifications": [],
+          "name": "internal spacer",
+          "orientation": "5_to_3",
+          "role": "spacer",
+          "sequence": "ACGACTCC",
+          "support_status": "explicit"
+        },
+        {
+          "modifications": [],
+          "name": "TruSeq Read 1 primer site (partial)",
+          "orientation": "5_to_3",
+          "role": "read 1 primer binding site",
+          "sequence": "TCTTTCCCTACACGACGCTCTTCCGATCT",
+          "support_status": "derivable"
+        },
+        {
+          "modifications": [],
+          "name": "read-1 desynchronisation spacer",
+          "orientation": "5_to_3",
+          "placeholder": "[VARIABLE:3]",
+          "role": "variable spacer",
+          "support_status": "ambiguous"
+        },
+        {
+          "length": 8,
+          "modifications": [],
+          "name": "cell barcode 1",
+          "orientation": "5_to_3",
+          "placeholder": "[CELL_BARCODE:8]",
+          "role": "cell barcode",
+          "support_status": "derivable"
+        },
+        {
+          "modifications": [],
+          "name": "barcode linker 1",
+          "orientation": "5_to_3",
+          "role": "linker",
+          "sequence": "ATG",
+          "support_status": "externally_completed"
+        },
+        {
+          "length": 6,
+          "modifications": [],
+          "name": "cell barcode 2",
+          "orientation": "5_to_3",
+          "placeholder": "[CELL_BARCODE:6]",
+          "role": "cell barcode",
+          "support_status": "derivable"
+        },
+        {
+          "modifications": [],
+          "name": "barcode linker 2",
+          "orientation": "5_to_3",
+          "role": "linker",
+          "sequence": "GAG",
+          "support_status": "externally_completed"
+        },
+        {
+          "length": 6,
+          "modifications": [],
+          "name": "cell barcode 3",
+          "orientation": "5_to_3",
+          "placeholder": "[CELL_BARCODE:6]",
+          "role": "cell barcode",
+          "support_status": "derivable"
+        },
+        {
+          "modifications": [],
+          "name": "barcode linker 3",
+          "orientation": "5_to_3",
+          "role": "linker",
+          "sequence": "TCGAG",
+          "support_status": "externally_completed"
+        },
+        {
+          "length": 8,
+          "modifications": [],
+          "name": "cell barcode 4",
+          "orientation": "5_to_3",
+          "placeholder": "[CELL_BARCODE:8]",
+          "role": "cell barcode",
+          "support_status": "derivable"
+        },
+        {
+          "length": 12,
+          "modifications": [],
+          "name": "unique molecular identifier",
+          "orientation": "5_to_3",
+          "placeholder": "[UMI:12]",
+          "role": "umi",
+          "support_status": "explicit"
+        },
+        {
+          "modifications": [],
+          "name": "poly(dT)30V capture sequence",
+          "orientation": "5_to_3",
+          "role": "mRNA capture",
+          "sequence": "TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTV",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [
+        "5' acrydite (/5Acryd/) for polyacrylamide bead attachment"
+      ],
+      "name": "Barcoded beads-oligo (T2/20/100 PIPs, FB0003913/FB0003914/FB0003915)",
+      "oligo_id": "oligo_barcoded_beads_oligo_t2_20_100_pips_fb0003913_fb0003914_fb0003915",
+      "orientation": "5_to_3",
+      "role": "barcoded mRNA capture oligonucleotide",
+      "sequence": "/5Acryd/TTTTTTTAAGCAGTGGTATCAACGCAGAGTACGACTCCTCTTTCCCTACACGACGCTCTTCCGATCT[VARIABLE:3][CELL_BARCODE:8]ATG[CELL_BARCODE:6]GAG[CELL_BARCODE:6]TCGAG[CELL_BARCODE:8][UMI:12]TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTV",
+      "support_status": "derivable"
+    },
+    {
+      "aliases": [
+        "TSO (FB0001042/FB0003140/FB0003078)",
+        "TSO (FB0003140)",
+        "PIPS_TSO"
+      ],
+      "components": [
+        {
+          "modifications": [],
+          "name": "TSO/ISPCR handle",
+          "orientation": "5_to_3",
+          "role": "PCR handle",
+          "sequence": "AAGCAGTGGTATCAACGCAGAGT",
+          "support_status": "explicit"
+        },
+        {
+          "modifications": [],
+          "name": "GAAT spacer",
+          "orientation": "5_to_3",
+          "role": "spacer",
+          "sequence": "GAAT",
+          "support_status": "explicit"
+        },
+        {
+          "modifications": [
+            "ribonucleotides"
+          ],
+          "name": "riboguanosine template-switch tail",
+          "orientation": "5_to_3",
+          "role": "template switch tail",
+          "sequence": "rGrGrG",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [
+        "3' terminal riboguanosines (rGrGrG)"
+      ],
+      "name": "Template Switching Oligo (TSO)",
+      "oligo_id": "oligo_template_switching_oligo_tso",
+      "orientation": "5_to_3",
+      "role": "template switch oligonucleotide",
+      "sequence": "AAGCAGTGGTATCAACGCAGAGTGAATrGrGrG",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "WTA Primer forward (FB0002006)"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "WTA Primer (FB0002006/FB0003084) (Forward)",
+      "oligo_id": "oligo_wta_primer_fb0002006_fb0003084_forward",
+      "orientation": "5_to_3",
+      "role": "cDNA amplification primer",
+      "sequence": "CTCTTTCCCTACACGACGCTC",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "WTA Primer (FB0002006/FB0003084) (Reverse)",
+        "PIPS_WTA_primer"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "ISPCR / TSO PCR primer",
+      "oligo_id": "oligo_ispcr_tso_pcr_primer",
+      "orientation": "5_to_3",
+      "role": "cDNA amplification primer",
+      "sequence": "AAGCAGTGGTATCAACGCAGAGT",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "Library Adapter Mix forward (FB0001605)",
+        "Library Adapter Mix reverse (FB0001605)",
+        "Ligation primer",
+        "Ligation adapter"
+      ],
+      "components": [
+        {
+          "modifications": [
+            "5' phosphate"
+          ],
+          "name": "Library Adapter Mix forward (FB0001605)",
+          "orientation": "5_to_3",
+          "role": "ligation primer strand",
+          "sequence": "/5Phos/CTGTCTCTTATACACATCTCCGAGCC",
+          "support_status": "explicit"
+        },
+        {
+          "modifications": [],
+          "name": "Ligation adapter",
+          "orientation": "5_to_3",
+          "role": "ligation adapter strand",
+          "sequence": "TATAAGAGACAGT",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "double_stranded",
+      "modifications": [
+        "5' phosphate on the ligation primer strand"
+      ],
+      "name": "Library Adapter Mix (FB0001605)",
+      "oligo_id": "oligo_library_adapter_mix_fb0001605",
+      "orientation": "5_to_3",
+      "role": "ligation adapter duplex",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "Library P5 Indices"
+      ],
+      "components": [
+        {
+          "modifications": [],
+          "name": "Illumina P5 adapter",
+          "orientation": "5_to_3",
+          "role": "flow-cell adapter",
+          "sequence": "AATGATACGGCGACCACCGAGATCTACAC",
+          "support_status": "explicit"
+        },
+        {
+          "length": 8,
+          "modifications": [],
+          "name": "i5 sample index",
+          "orientation": "5_to_3",
+          "placeholder": "[I5_INDEX:8]",
+          "role": "sample index",
+          "support_status": "explicit"
+        },
+        {
+          "modifications": [],
+          "name": "TruSeq Read 1 priming region",
+          "orientation": "5_to_3",
+          "role": "primer binding region",
+          "sequence": "ACACTCTTTCCCTACACGACGC",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [],
+      "name": "Library P5 Index (FB0001915-1918, FB0001666-1669)",
+      "oligo_id": "oligo_library_p5_index_fb0001915_1918_fb0001666_1669",
+      "orientation": "5_to_3",
+      "role": "indexing PCR primer",
+      "sequence": "AATGATACGGCGACCACCGAGATCTACAC[I5_INDEX:8]ACACTCTTTCCCTACACGACGC",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "Library P7 Indices"
+      ],
+      "components": [
+        {
+          "modifications": [],
+          "name": "Illumina P7 adapter",
+          "orientation": "5_to_3",
+          "role": "flow-cell adapter",
+          "sequence": "CAAGCAGAAGACGGCATACGAGAT",
+          "support_status": "explicit"
+        },
+        {
+          "length": 8,
+          "modifications": [],
+          "name": "i7 sample index",
+          "orientation": "5_to_3",
+          "placeholder": "[I7_INDEX:8]",
+          "role": "sample index",
+          "support_status": "explicit"
+        },
+        {
+          "modifications": [],
+          "name": "Nextera s7 and mosaic end priming region",
+          "orientation": "5_to_3",
+          "role": "primer binding region",
+          "sequence": "GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [],
+      "name": "Library P7 Index (FB0001626-1627, FB0001629-1633, FB0002092)",
+      "oligo_id": "oligo_library_p7_index_fb0001626_1627_fb0001629_1633_fb0002092",
+      "orientation": "5_to_3",
+      "role": "indexing PCR primer",
+      "sequence": "CAAGCAGAAGACGGCATACGAGAT[I7_INDEX:8]GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Illumina P5 adapter",
+      "oligo_id": "oligo_illumina_p5_adapter",
+      "orientation": "5_to_3",
+      "role": "flow-cell adapter",
+      "sequence": "AATGATACGGCGACCACCGAGATCTACAC",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Illumina P7 adapter",
+      "oligo_id": "oligo_illumina_p7_adapter",
+      "orientation": "5_to_3",
+      "role": "flow-cell adapter",
+      "sequence": "CAAGCAGAAGACGGCATACGAGAT",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "TruSeq Read 1"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Illumina TruSeq Read 1 primer",
+      "oligo_id": "oligo_illumina_truseq_read_1_primer",
+      "orientation": "5_to_3",
+      "role": "sequencing primer",
+      "sequence": "ACACTCTTTCCCTACACGACGCTCTTCCGATCT",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "Index 1 sequencing primer (i7)"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Nextera Index 1 sequencing primer (i7)",
+      "oligo_id": "oligo_nextera_index_1_sequencing_primer_i7",
+      "orientation": "5_to_3",
+      "role": "sequencing primer",
+      "sequence": "CTGTCTCTTATACACATCTCCGAGCCCACGAGAC",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "Nextera Read 2 sequencing primer"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Illumina Nextera Read 2 primer",
+      "oligo_id": "oligo_illumina_nextera_read_2_primer",
+      "orientation": "5_to_3",
+      "role": "sequencing primer",
+      "sequence": "GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "Index 2 sequencing primer (i5)"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "TruSeq i5 index sequencing primer (index2)",
+      "oligo_id": "oligo_truseq_i5_index_sequencing_primer_index2",
+      "orientation": "5_to_3",
+      "role": "sequencing primer",
+      "sequence": "AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT",
+      "support_status": "explicit"
+    }
+  ],
+  "protocol_id": "pip_seq_v4",
+  "protocol_name": "PIP-seq v4",
+  "protocol_scope": {
+    "applicable_variants": [
+      "FluentBio PIPseq V4.0"
+    ],
+    "protocol_version": "FluentBio PIPseq V4.0"
+  }
+}

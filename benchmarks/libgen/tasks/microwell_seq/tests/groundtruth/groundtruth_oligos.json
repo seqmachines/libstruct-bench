@@ -1,0 +1,564 @@
+{
+  "oligos": [
+    {
+      "aliases": [
+        "A1-A96"
+      ],
+      "components": [
+        {
+          "modifications": [],
+          "name": "universal handle",
+          "orientation": "5_to_3",
+          "role": "bead-proximal universal sequence",
+          "sequence": "TTTAGGGATAACAGGGTAAT",
+          "support_status": "explicit"
+        },
+        {
+          "modifications": [],
+          "name": "SMART/TSO (ISPCR) handle",
+          "orientation": "5_to_3",
+          "role": "template-switch handle",
+          "sequence": "AAGCAGTGGTATCAACGCAGAGTAC",
+          "support_status": "explicit"
+        },
+        {
+          "modifications": [],
+          "name": "GT dinucleotide",
+          "orientation": "5_to_3",
+          "role": "seqA-specific spacer",
+          "sequence": "GT",
+          "support_status": "explicit"
+        },
+        {
+          "modifications": [],
+          "name": "barcode 1",
+          "orientation": "5_to_3",
+          "placeholder": "[CELL_BARCODE:6]",
+          "role": "cell barcode",
+          "support_status": "explicit"
+        },
+        {
+          "modifications": [],
+          "name": "linker 1",
+          "orientation": "5_to_3",
+          "role": "linker",
+          "sequence": "CGACTCACTACAGGG",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [
+        "5' amino modification for EDC conjugation to carboxyl magnetic beads"
+      ],
+      "name": "A1-A96 (96 of them in 96 individual wells)",
+      "oligo_id": "oligo_a1_a96_96_of_them_in_96_individual_wells",
+      "orientation": "5_to_3",
+      "role": "bead-synthesis oligo, split-pool round 1",
+      "sequence": "TTTAGGGATAACAGGGTAATAAGCAGTGGTATCAACGCAGAGTACGT[CELL_BARCODE:6]CGACTCACTACAGGG",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "B1-B96"
+      ],
+      "components": [
+        {
+          "modifications": [],
+          "name": "linker 2 (bottom-strand orientation)",
+          "orientation": "5_to_3",
+          "role": "linker",
+          "sequence": "CGATCGTGTCACCGA",
+          "support_status": "explicit"
+        },
+        {
+          "modifications": [],
+          "name": "barcode 2",
+          "orientation": "5_to_3",
+          "placeholder": "[CELL_BARCODE:6]",
+          "role": "cell barcode",
+          "support_status": "explicit"
+        },
+        {
+          "modifications": [],
+          "name": "linker 1 complement",
+          "orientation": "5_to_3",
+          "role": "annealing arm to linker 1",
+          "sequence": "CCCTGTAGTGAGTCG",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [],
+      "name": "B1-B96 (96 of them in 96 individual wells)",
+      "oligo_id": "oligo_b1_b96_96_of_them_in_96_individual_wells",
+      "orientation": "5_to_3",
+      "role": "bead-synthesis oligo, split-pool round 2",
+      "sequence": "CGATCGTGTCACCGA[CELL_BARCODE:6]CCCTGTAGTGAGTCG",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "C1-C96"
+      ],
+      "components": [
+        {
+          "modifications": [],
+          "name": "poly-A (30 nt)",
+          "orientation": "5_to_3",
+          "role": "template for the bead poly-dT tail",
+          "sequence": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "support_status": "explicit"
+        },
+        {
+          "modifications": [],
+          "name": "UMI",
+          "orientation": "5_to_3",
+          "placeholder": "[UMI:6]",
+          "role": "unique molecular identifier",
+          "support_status": "explicit"
+        },
+        {
+          "modifications": [],
+          "name": "barcode 3",
+          "orientation": "5_to_3",
+          "placeholder": "[CELL_BARCODE:6]",
+          "role": "cell barcode",
+          "support_status": "explicit"
+        },
+        {
+          "modifications": [],
+          "name": "linker 2 (bottom-strand orientation)",
+          "orientation": "5_to_3",
+          "role": "annealing arm to linker 2",
+          "sequence": "CGATCGTGTCACCGA",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [],
+      "name": "C1-C96 (96 of them in 96 individual wells)",
+      "oligo_id": "oligo_c1_c96_96_of_them_in_96_individual_wells",
+      "orientation": "5_to_3",
+      "role": "bead-synthesis oligo, split-pool round 3",
+      "sequence": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA[UMI:6][CELL_BARCODE:6]CGATCGTGTCACCGA",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "Illunima Nextera Read 2 sequencing primer"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Illumina Nextera Read 2 primer",
+      "oligo_id": "oligo_illumina_nextera_read_2_primer",
+      "orientation": "5_to_3",
+      "role": "sequencing primer (read 2, cDNA)",
+      "sequence": "GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG",
+      "support_status": "externally_completed"
+    },
+    {
+      "aliases": [],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Illumina P5 adapter",
+      "oligo_id": "oligo_illumina_p5_adapter",
+      "orientation": "5_to_3",
+      "role": "flow-cell adapter",
+      "sequence": "AATGATACGGCGACCACCGAGATCTACAC",
+      "support_status": "derivable"
+    },
+    {
+      "aliases": [],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Illumina P7 adapter",
+      "oligo_id": "oligo_illumina_p7_adapter",
+      "orientation": "5_to_3",
+      "role": "flow-cell adapter",
+      "sequence": "CAAGCAGAAGACGGCATACGAGAT",
+      "support_status": "derivable"
+    },
+    {
+      "aliases": [],
+      "components": [
+        {
+          "modifications": [],
+          "name": "universal handle",
+          "orientation": "5_to_3",
+          "role": "bead-proximal universal sequence",
+          "sequence": "TTTAGGGATAACAGGGTAAT",
+          "support_status": "explicit"
+        },
+        {
+          "modifications": [],
+          "name": "SMART/TSO (ISPCR) handle",
+          "orientation": "5_to_3",
+          "role": "template-switch handle",
+          "sequence": "AAGCAGTGGTATCAACGCAGAGTAC",
+          "support_status": "explicit"
+        },
+        {
+          "modifications": [],
+          "name": "GT dinucleotide",
+          "orientation": "5_to_3",
+          "role": "seqA-specific spacer",
+          "sequence": "GT",
+          "support_status": "explicit"
+        },
+        {
+          "modifications": [],
+          "name": "barcode 1",
+          "orientation": "5_to_3",
+          "placeholder": "[CELL_BARCODE:6]",
+          "role": "cell barcode",
+          "support_status": "explicit"
+        },
+        {
+          "modifications": [],
+          "name": "linker 1",
+          "orientation": "5_to_3",
+          "role": "linker",
+          "sequence": "CGACTCACTACAGGG",
+          "support_status": "explicit"
+        },
+        {
+          "modifications": [],
+          "name": "barcode 2",
+          "orientation": "5_to_3",
+          "placeholder": "[CELL_BARCODE:6]",
+          "role": "cell barcode",
+          "support_status": "explicit"
+        },
+        {
+          "modifications": [],
+          "name": "linker 2",
+          "orientation": "5_to_3",
+          "role": "linker",
+          "sequence": "TCGGTGACACGATCG",
+          "support_status": "explicit"
+        },
+        {
+          "modifications": [],
+          "name": "barcode 3",
+          "orientation": "5_to_3",
+          "placeholder": "[CELL_BARCODE:6]",
+          "role": "cell barcode",
+          "support_status": "explicit"
+        },
+        {
+          "modifications": [],
+          "name": "UMI",
+          "orientation": "5_to_3",
+          "placeholder": "[UMI:6]",
+          "role": "unique molecular identifier",
+          "support_status": "explicit"
+        },
+        {
+          "modifications": [],
+          "name": "poly-dT (30 nt)",
+          "orientation": "5_to_3",
+          "role": "mRNA capture",
+          "sequence": "TTTTTTTTTTTTTTTTTTTTTTTTTTTTTT",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [
+        "5' conjugated to a carboxyl magnetic bead through an amide bead-linker",
+        "5' end conjugated to a magnetic bead"
+      ],
+      "name": "Indexed-Beads-seqA",
+      "oligo_id": "oligo_indexed_beads_seqa",
+      "orientation": "5_to_3",
+      "role": "barcoded capture oligo on magnetic bead",
+      "sequence": "TTTAGGGATAACAGGGTAATAAGCAGTGGTATCAACGCAGAGTACGT[CELL_BARCODE:6]CGACTCACTACAGGG[CELL_BARCODE:6]TCGGTGACACGATCG[CELL_BARCODE:6][UMI:6]TTTTTTTTTTTTTTTTTTTTTTTTTTTTTT",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [],
+      "components": [
+        {
+          "modifications": [],
+          "name": "universal handle",
+          "orientation": "5_to_3",
+          "role": "bead-proximal universal sequence",
+          "sequence": "TTTAGGGATAACAGGGTAAT",
+          "support_status": "explicit"
+        },
+        {
+          "modifications": [],
+          "name": "SMART/TSO (ISPCR) handle",
+          "orientation": "5_to_3",
+          "role": "template-switch handle",
+          "sequence": "AAGCAGTGGTATCAACGCAGAGTAC",
+          "support_status": "explicit"
+        },
+        {
+          "modifications": [],
+          "name": "barcode 1",
+          "orientation": "5_to_3",
+          "placeholder": "[CELL_BARCODE:6]",
+          "role": "cell barcode",
+          "support_status": "explicit"
+        },
+        {
+          "modifications": [],
+          "name": "linker 1",
+          "orientation": "5_to_3",
+          "role": "linker",
+          "sequence": "CGACTCACTACAGGG",
+          "support_status": "explicit"
+        },
+        {
+          "modifications": [],
+          "name": "barcode 2",
+          "orientation": "5_to_3",
+          "placeholder": "[CELL_BARCODE:6]",
+          "role": "cell barcode",
+          "support_status": "explicit"
+        },
+        {
+          "modifications": [],
+          "name": "linker 2",
+          "orientation": "5_to_3",
+          "role": "linker",
+          "sequence": "TCGGTGACACGATCG",
+          "support_status": "explicit"
+        },
+        {
+          "modifications": [],
+          "name": "barcode 3",
+          "orientation": "5_to_3",
+          "placeholder": "[CELL_BARCODE:6]",
+          "role": "cell barcode",
+          "support_status": "explicit"
+        },
+        {
+          "modifications": [],
+          "name": "UMI",
+          "orientation": "5_to_3",
+          "placeholder": "[UMI:6]",
+          "role": "unique molecular identifier",
+          "support_status": "explicit"
+        },
+        {
+          "modifications": [],
+          "name": "poly-dT (30 nt)",
+          "orientation": "5_to_3",
+          "role": "mRNA capture",
+          "sequence": "TTTTTTTTTTTTTTTTTTTTTTTTTTTTTT",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [
+        "5' conjugated to a carboxyl magnetic bead through an amide bead-linker",
+        "5' end conjugated to a magnetic bead"
+      ],
+      "name": "Indexed-Beads-seqB",
+      "oligo_id": "oligo_indexed_beads_seqb",
+      "orientation": "5_to_3",
+      "role": "barcoded capture oligo on magnetic bead (alternative bead batch)",
+      "sequence": "TTTAGGGATAACAGGGTAATAAGCAGTGGTATCAACGCAGAGTAC[CELL_BARCODE:6]CGACTCACTACAGGG[CELL_BARCODE:6]TCGGTGACACGATCG[CELL_BARCODE:6][UMI:6]TTTTTTTTTTTTTTTTTTTTTTTTTTTTTT",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "TSO_PCR"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "ISPCR / TSO PCR primer",
+      "oligo_id": "oligo_ispcr_tso_pcr_primer",
+      "orientation": "5_to_3",
+      "role": "cDNA amplification primer",
+      "sequence": "AAGCAGTGGTATCAACGCAGAGT",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "Illumina Nextera Index 1 sequencing primer"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Nextera Index 1 sequencing primer (i7)",
+      "oligo_id": "oligo_nextera_index_1_sequencing_primer_i7",
+      "orientation": "5_to_3",
+      "role": "sequencing primer (index 1)",
+      "sequence": "CTGTCTCTTATACACATCTCCGAGCCCACGAGAC",
+      "support_status": "externally_completed"
+    },
+    {
+      "aliases": [],
+      "components": [
+        {
+          "modifications": [],
+          "name": "Illumina P7 adapter",
+          "orientation": "5_to_3",
+          "role": "flow-cell adapter",
+          "sequence": "CAAGCAGAAGACGGCATACGAGAT",
+          "support_status": "explicit"
+        },
+        {
+          "modifications": [],
+          "name": "i7 sample index",
+          "orientation": "5_to_3",
+          "placeholder": "[I7_INDEX:8]",
+          "role": "sample index",
+          "support_status": "explicit"
+        },
+        {
+          "modifications": [],
+          "name": "Nextera S7",
+          "orientation": "5_to_3",
+          "role": "primer binding site",
+          "sequence": "GTCTCGTGGGCTCGG",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [],
+      "name": "Nextera (XT) N7xx Index primer",
+      "oligo_id": "oligo_nextera_xt_n7xx_index_primer",
+      "orientation": "5_to_3",
+      "role": "library amplification / indexing primer",
+      "sequence": "CAAGCAGAAGACGGCATACGAGAT[I7_INDEX:8]GTCTCGTGGGCTCGG",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "Microwell_P5"
+      ],
+      "components": [
+        {
+          "modifications": [],
+          "name": "Illumina P5 adapter",
+          "orientation": "5_to_3",
+          "role": "flow-cell adapter",
+          "sequence": "AATGATACGGCGACCACCGAGATCTACAC",
+          "support_status": "explicit"
+        },
+        {
+          "modifications": [],
+          "name": "Microwell spacer",
+          "orientation": "5_to_3",
+          "role": "Read 1 primer binding site",
+          "sequence": "GCCTGTCCGCGG",
+          "support_status": "explicit"
+        },
+        {
+          "modifications": [],
+          "name": "SMART/TSO (ISPCR) handle",
+          "orientation": "5_to_3",
+          "role": "annealing arm",
+          "sequence": "AAGCAGTGGTATCAACGCAGAGTAC",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [
+        "phosphorothioate linkages between the three 3'-terminal residues (...GAGT-s-A-s-C)"
+      ],
+      "name": "P5-SMART PCR hybrid oligo",
+      "oligo_id": "oligo_p5_smart_pcr_hybrid_oligo",
+      "orientation": "5_to_3",
+      "role": "library amplification primer (P5 side)",
+      "sequence": "AATGATACGGCGACCACCGAGATCTACACGCCTGTCCGCGGAAGCAGTGGTATCAACGCAGAGTAC",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "Read1 SeqB-TAC primer (used with Indexed-Beads-seqB)"
+      ],
+      "components": [
+        {
+          "modifications": [],
+          "name": "Microwell spacer",
+          "orientation": "5_to_3",
+          "role": "5' extension",
+          "sequence": "GCCTGTCCGCGG",
+          "support_status": "explicit"
+        },
+        {
+          "modifications": [],
+          "name": "SMART/TSO (ISPCR) handle",
+          "orientation": "5_to_3",
+          "role": "annealing arm",
+          "sequence": "AAGCAGTGGTATCAACGCAGAGTAC",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [],
+      "name": "Read 1 custom SeqB primer",
+      "oligo_id": "oligo_read_1_custom_seqb_primer",
+      "orientation": "5_to_3",
+      "role": "sequencing primer (read 1, cell barcodes)",
+      "sequence": "GCCTGTCCGCGGAAGCAGTGGTATCAACGCAGAGTAC",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "Read1 SeqA-GT primer (used with Indexed-Beads-seqA)"
+      ],
+      "components": [
+        {
+          "modifications": [],
+          "name": "Microwell spacer",
+          "orientation": "5_to_3",
+          "role": "5' extension",
+          "sequence": "GCCTGTCCGCGG",
+          "support_status": "explicit"
+        },
+        {
+          "modifications": [],
+          "name": "SMART/TSO (ISPCR) handle",
+          "orientation": "5_to_3",
+          "role": "annealing arm",
+          "sequence": "AAGCAGTGGTATCAACGCAGAGTAC",
+          "support_status": "explicit"
+        },
+        {
+          "modifications": [],
+          "name": "GT dinucleotide",
+          "orientation": "5_to_3",
+          "role": "seqA-specific 3' extension",
+          "sequence": "GT",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [],
+      "name": "Read 1 sequencing primer (seqA)",
+      "oligo_id": "oligo_read_1_sequencing_primer_seqa",
+      "orientation": "5_to_3",
+      "role": "sequencing primer (read 1, cell barcodes)",
+      "sequence": "GCCTGTCCGCGGAAGCAGTGGTATCAACGCAGAGTACGT",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "TSO_LNA"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [
+        "riboguanosine (rG) at the two penultimate 3' positions",
+        "LNA-modified guanosine (+G) at the 3' terminus"
+      ],
+      "name": "Template Switching Oligo (TSO) with LNA",
+      "oligo_id": "oligo_template_switching_oligo_tso_with_lna",
+      "orientation": "5_to_3",
+      "role": "template-switching oligo",
+      "sequence": "AAGCAGTGGTATCAACGCAGAGTGAATrGrG+G",
+      "support_status": "explicit"
+    }
+  ],
+  "protocol_id": "microwell_seq",
+  "protocol_name": "Microwell-seq"
+}

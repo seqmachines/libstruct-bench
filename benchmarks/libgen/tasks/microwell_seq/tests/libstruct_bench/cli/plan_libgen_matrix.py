@@ -13,6 +13,25 @@ from libstruct_bench.libgen.error_analysis import task_bundle_sha256
 from libstruct_bench.libgen.version import LIBGEN_BENCHMARK_VERSION
 
 
+_HOST_SUBSCRIPTION_AUTH: dict[str, dict[str, Any]] = {
+    "codex": {
+        "credential_source": "${CODEX_AUTH_JSON_PATH:-~/.codex/auth.json}",
+        "agent_env": {"CODEX_FORCE_AUTH_JSON": "1"},
+    },
+    "claude-code": {
+        "credential_source": "CLAUDE_CODE_OAUTH_TOKEN from `claude setup-token`",
+        "agent_env": {
+            "CLAUDE_FORCE_OAUTH": "1",
+            "CLAUDE_CODE_OAUTH_TOKEN": "${CLAUDE_CODE_OAUTH_TOKEN}",
+        },
+    },
+    "gemini-cli": {
+        "credential_source": "${GEMINI_OAUTH_CREDS_PATH:-~/.gemini/oauth_creds.json}",
+        "agent_env": {"GEMINI_FORCE_OAUTH": "1"},
+    },
+}
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         description="Resolve and lock the 16-cell libgen Harbor experiment matrix."
@@ -212,8 +231,11 @@ def main(argv: list[str] | None = None) -> int:
             "include_logs": [],
             "exclude_logs": [],
         }
+        agent_env = dict(cell.get("agent_env", {}))
         if cell.get("provider_base_url"):
-            agent_config["env"] = {"OPENAI_BASE_URL": cell["provider_base_url"]}
+            agent_env["OPENAI_BASE_URL"] = cell["provider_base_url"]
+        if agent_env:
+            agent_config["env"] = agent_env
         config = {
             "job_name": job_name,
             "jobs_dir": str(Path(args.jobs_dir).resolve()),
@@ -227,14 +249,6 @@ def main(argv: list[str] | None = None) -> int:
                     "path": str(tasks_root),
                     "task_names": selected if args.mode != "full" else None,
                 }
-            ],
-            "artifacts": [
-                "/logs/artifacts/t2_prediction.json",
-                "/logs/artifacts/t3_prediction.json",
-                "/logs/verifier/reward.json",
-                "/logs/verifier/details.json",
-                "/logs/verifier/error_analysis.json",
-                "/logs/verifier/error.json",
             ],
         }
         config_path = config_root / f"{cell['model_key']}__{cell['harness_key']}.json"
@@ -286,8 +300,22 @@ def main(argv: list[str] | None = None) -> int:
             "preserve_superseded_executions": True,
             "agent_exception_does_not_imply_invalid_prediction": True,
         },
+        "native_auth_policy": {
+            "codex_claude_gemini": "host_cli_subscription",
+            "api_key_fallback_allowed": False,
+            "credential_contents_persisted_in_plan_or_lock": False,
+        },
         "primary_aggregation_policy": {
             "population": "all_scheduled_attempts",
+            "metrics": [
+                "reward",
+                "t2_required_family_f1",
+                "t2_exact_required_family_recall",
+                "t3_molecular_transition_f1",
+                "t3_state_f1",
+                "t3_typed_edge_f1",
+            ],
+            "output_prefix": "primary_",
             "valid_prediction": "normal_score",
             "invalid_prediction": "zero",
             "incomplete_output": "zero",
@@ -297,16 +325,17 @@ def main(argv: list[str] | None = None) -> int:
                 "eligible_only_with_documented_confirmation"
             ),
             "valid_output_only_performance_is_diagnostic": True,
+            "cost_performance_metric": "primary_t3_molecular_transition_f1",
         },
         "pilot_clearance": pilot_clearance,
     }
     (output_root / "experiment_lock.json").write_text(
         json.dumps(lock, indent=2, sort_keys=True) + "\n", encoding="utf-8"
     )
-    (output_root / "run.sh").write_text(
-        "#!/usr/bin/env bash\nset -euo pipefail\n" + "\n".join(commands) + "\n",
-        encoding="utf-8",
-    )
+    run_lines = ["#!/usr/bin/env bash", "set -euo pipefail"]
+    run_lines.extend(_native_auth_preflight_lines(cells))
+    run_lines.extend(commands)
+    (output_root / "run.sh").write_text("\n".join(run_lines) + "\n", encoding="utf-8")
     print(f"planned {len(cells)} cells and {lock['expected_trial_count']} trials")
     print(output_root / "run.sh")
     return 0
@@ -355,6 +384,21 @@ def _cell(
         "reasoning_setting": harness["reasoning_setting"],
         "agent_kwargs": kwargs,
     }
+    auth_mode = harness.get("auth_mode")
+    if (
+        design == "native_extension"
+        and harness["harbor_agent"] in _HOST_SUBSCRIPTION_AUTH
+    ):
+        if auth_mode != "host_cli_subscription":
+            raise ValueError(
+                f"{harness['display_name']} must use host_cli_subscription auth"
+            )
+        auth = _HOST_SUBSCRIPTION_AUTH[harness["harbor_agent"]]
+        result["auth_mode"] = auth_mode
+        result["credential_source"] = auth["credential_source"]
+        result["agent_env"] = dict(auth["agent_env"])
+    elif auth_mode:
+        result["auth_mode"] = auth_mode
     if base_url_env := harness.get("base_url_env"):
         base_url = _required_env(base_url_env)
         required_base_url = harness.get("required_base_url")
@@ -367,6 +411,45 @@ def _cell(
     return result
 
 
+def _native_auth_preflight_lines(cells: list[dict[str, Any]]) -> list[str]:
+    agents = {cell["harbor_agent"] for cell in cells}
+    lines = [
+        "",
+        "# Native harness cells reuse host CLI subscription sessions; secrets are not stored in this plan.",
+    ]
+    if "codex" in agents:
+        lines.extend(
+            [
+                'codex_auth_path="${CODEX_AUTH_JSON_PATH:-$HOME/.codex/auth.json}"',
+                'if [ ! -s "$codex_auth_path" ]; then',
+                '  echo "Missing Codex local login cache: $codex_auth_path (run: codex login)" >&2',
+                "  exit 2",
+                "fi",
+            ]
+        )
+    if "claude-code" in agents:
+        lines.extend(
+            [
+                'if [ -z "${CLAUDE_CODE_OAUTH_TOKEN:-}" ]; then',
+                '  echo "Missing Claude subscription token (run: claude setup-token; then export CLAUDE_CODE_OAUTH_TOKEN)" >&2',
+                "  exit 2",
+                "fi",
+            ]
+        )
+    if "gemini-cli" in agents:
+        lines.extend(
+            [
+                'gemini_oauth_path="${GEMINI_OAUTH_CREDS_PATH:-$HOME/.gemini/oauth_creds.json}"',
+                'if [ ! -s "$gemini_oauth_path" ]; then',
+                '  echo "Missing Gemini local OAuth cache: $gemini_oauth_path (run Gemini CLI and choose Login with Google)" >&2',
+                "  exit 2",
+                "fi",
+            ]
+        )
+    lines.append("")
+    return lines
+
+
 def _required_env(name: str) -> str:
     value = os.environ.get(name)
     if not value:
@@ -377,6 +460,8 @@ def _required_env(name: str) -> str:
 def _validate_network_smoke_report(
     report: dict[str, Any], network_policy_sha256: str
 ) -> None:
+    if report.get("schema_version") != 2:
+        raise ValueError("Docker network smoke report schema must be version 2")
     if report.get("ready") is not True:
         raise ValueError("Docker network smoke report is not ready")
     if report.get("network_policy_sha256") != network_policy_sha256:
@@ -385,14 +470,38 @@ def _validate_network_smoke_report(
     if not isinstance(probe, dict):
         raise ValueError("Docker network smoke report lacks probe results")
     expected_reachability = {
+        "setup_repository_access": True,
+        "uv_installer_access": True,
+        "antigravity_installer_access": True,
+        "antigravity_manifest_access": True,
         "provider_api_access": True,
+        "codex_subscription_access": True,
+        "codex_oauth_access": True,
+        "claude_subscription_access": True,
+        "gemini_oauth_access": True,
+        "gemini_userinfo_access": True,
+        "gemini_code_assist_access": True,
+        "antigravity_code_assist_access": True,
+        "antigravity_profile_access": True,
         "qwen_api_access": True,
+        "setup_repository_access_after_provider": False,
         "unrelated_public_web_access": False,
         "direct_external_access": False,
     }
     for probe_name, expected in expected_reachability.items():
         result = probe.get(probe_name)
         if not isinstance(result, dict) or result.get("reachable") is not expected:
+            raise ValueError(
+                f"Docker network smoke report failed {probe_name}: {result!r}"
+            )
+    for probe_name in (
+        "setup_repository_access",
+        "uv_installer_access",
+        "antigravity_installer_access",
+        "antigravity_manifest_access",
+    ):
+        result = probe[probe_name]
+        if result.get("status") != 200:
             raise ValueError(
                 f"Docker network smoke report failed {probe_name}: {result!r}"
             )

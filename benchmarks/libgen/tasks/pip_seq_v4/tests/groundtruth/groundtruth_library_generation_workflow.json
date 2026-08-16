@@ -1,0 +1,2016 @@
+{
+  "protocol_id": "pip_seq_v4",
+  "protocol_name": "PIP-seq v4",
+  "protocol_scope": {
+    "applicable_variants": [
+      "FluentBio PIPseq V4.0"
+    ],
+    "protocol_version": "FluentBio PIPseq V4.0"
+  },
+  "workflows": [
+    {
+      "final_outputs": [
+        {
+          "modality": "gene expression",
+          "state_id": "st_final_library"
+        }
+      ],
+      "initial_state_ids": [
+        "st_bead_oligo",
+        "st_mrna"
+      ],
+      "states": [
+        {
+          "discontinuities": [],
+          "molecule_type": "DNA",
+          "name": "Barcoded bead capture oligonucleotide",
+          "paired_regions": [],
+          "physical_state": "tethered to a polyacrylamide hydrogel template (PIP bead)",
+          "properties": [
+            "5'-acrydite linked to the hydrogel bead",
+            "cell barcode assembled by four rounds of split-pool ligation"
+          ],
+          "reference_strand_id": "s1_bead",
+          "state_id": "st_bead_oligo",
+          "strand_architecture": "single_stranded",
+          "strands": [
+            {
+              "molecule_type": "DNA",
+              "name": "Barcoded bead oligo",
+              "orientation": "5_to_3",
+              "segments": [
+                {
+                  "role": "acrydite poly(T) bead linker",
+                  "segment_id": "s1g01",
+                  "sequence": "TTTTTTT",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_ispcr_tso_pcr_primer",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "TSO/ISPCR handle",
+                  "segment_id": "s1g02",
+                  "sequence": "AAGCAGTGGTATCAACGCAGAGT",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "role": "internal spacer",
+                  "segment_id": "s1g03",
+                  "sequence": "ACGACTCC",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "role": "TruSeq Read 1 primer site (partial)",
+                  "segment_id": "s1g04",
+                  "sequence": "TCTTTCCCTACACGACGCTCTTCCGATCT",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "placeholder": "[VARIABLE:3]",
+                  "role": "read-1 desynchronisation spacer (0-3 nt)",
+                  "segment_id": "s1g05",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "placeholder": "[CELL_BARCODE:8]",
+                  "role": "cell barcode 1",
+                  "segment_id": "s1g06",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "role": "barcode linker 1",
+                  "segment_id": "s1g07",
+                  "sequence": "ATG",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "placeholder": "[CELL_BARCODE:6]",
+                  "role": "cell barcode 2",
+                  "segment_id": "s1g08",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "role": "barcode linker 2",
+                  "segment_id": "s1g09",
+                  "sequence": "GAG",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "placeholder": "[CELL_BARCODE:6]",
+                  "role": "cell barcode 3",
+                  "segment_id": "s1g10",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "role": "barcode linker 3",
+                  "segment_id": "s1g11",
+                  "sequence": "TCGAG",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "placeholder": "[CELL_BARCODE:8]",
+                  "role": "cell barcode 4",
+                  "segment_id": "s1g12",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "placeholder": "[UMI:12]",
+                  "role": "unique molecular identifier",
+                  "segment_id": "s1g13",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_barcoded_beads_oligo_t2_20_100_pips_fb0003913_fb0003914_fb0003915",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "poly(dT)30V mRNA capture sequence",
+                  "segment_id": "s1g14",
+                  "sequence": "TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTV",
+                  "structural_role": "unpaired"
+                }
+              ],
+              "sequence_architecture": "TTTTTTTAAGCAGTGGTATCAACGCAGAGTACGACTCCTCTTTCCCTACACGACGCTCTTCCGATCT[VARIABLE:3][CELL_BARCODE:8]ATG[CELL_BARCODE:6]GAG[CELL_BARCODE:6]TCGAG[CELL_BARCODE:8][UMI:12]TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTV",
+              "strand_id": "s1_bead",
+              "support_status": "derivable"
+            }
+          ],
+          "support_status": "derivable"
+        },
+        {
+          "discontinuities": [],
+          "molecule_type": "RNA",
+          "name": "Cellular poly(A) mRNA",
+          "paired_regions": [],
+          "physical_state": "released into the PIP partition by heat-activated lysis",
+          "properties": [
+            "released by heat-activated proteinase K / chemical lysis inside the partition"
+          ],
+          "reference_strand_id": "s2_mrna",
+          "state_id": "st_mrna",
+          "strand_architecture": "single_stranded",
+          "strands": [
+            {
+              "molecule_type": "RNA",
+              "name": "poly(A) mRNA",
+              "orientation": "5_to_3",
+              "segments": [
+                {
+                  "placeholder": "[MRNA]",
+                  "role": "mRNA transcript body",
+                  "segment_id": "s2g01",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "placeholder": "[POLYA]",
+                  "role": "poly(A) tail",
+                  "segment_id": "s2g02",
+                  "structural_role": "unpaired"
+                }
+              ],
+              "strand_id": "s2_mrna",
+              "support_status": "explicit"
+            }
+          ],
+          "support_status": "explicit"
+        },
+        {
+          "discontinuities": [],
+          "molecule_type": "RNA:DNA",
+          "name": "mRNA:cDNA hybrid with untemplated 3' dC extension",
+          "paired_regions": [
+            {
+              "paired_region_id": "pr_s3_polya",
+              "relationship": "unknown",
+              "side_1": {
+                "segment_ids": [
+                  "s3g14"
+                ],
+                "strand_id": "s3_cdna"
+              },
+              "side_2": {
+                "segment_ids": [
+                  "s3m02"
+                ],
+                "strand_id": "s3_mrna"
+              },
+              "support_status": "derivable"
+            },
+            {
+              "paired_region_id": "pr_s3_body",
+              "relationship": "unknown",
+              "side_1": {
+                "segment_ids": [
+                  "s3g15"
+                ],
+                "strand_id": "s3_cdna"
+              },
+              "side_2": {
+                "segment_ids": [
+                  "s3m01"
+                ],
+                "strand_id": "s3_mrna"
+              },
+              "support_status": "derivable"
+            }
+          ],
+          "physical_state": "bead-tethered",
+          "properties": [
+            "first-strand synthesis primed by the bead poly(dT)",
+            "MMLV-type reverse transcriptase adds untemplated dC at the 3' end"
+          ],
+          "reference_strand_id": "s3_cdna",
+          "state_id": "st_rt_hybrid",
+          "strand_architecture": "rna_dna_hybrid",
+          "strands": [
+            {
+              "molecule_type": "DNA",
+              "name": "First-strand cDNA (bead-tethered)",
+              "orientation": "5_to_3",
+              "segments": [
+                {
+                  "role": "acrydite poly(T) bead linker",
+                  "segment_id": "s3g01",
+                  "sequence": "TTTTTTT",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "role": "TSO/ISPCR handle",
+                  "segment_id": "s3g02",
+                  "sequence": "AAGCAGTGGTATCAACGCAGAGT",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "role": "internal spacer",
+                  "segment_id": "s3g03",
+                  "sequence": "ACGACTCC",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "role": "TruSeq Read 1 primer site (partial)",
+                  "segment_id": "s3g04",
+                  "sequence": "TCTTTCCCTACACGACGCTCTTCCGATCT",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "placeholder": "[VARIABLE:3]",
+                  "role": "read-1 desynchronisation spacer (0-3 nt)",
+                  "segment_id": "s3g05",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "placeholder": "[CELL_BARCODE:8]",
+                  "role": "cell barcode 1",
+                  "segment_id": "s3g06",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "role": "barcode linker 1",
+                  "segment_id": "s3g07",
+                  "sequence": "ATG",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "placeholder": "[CELL_BARCODE:6]",
+                  "role": "cell barcode 2",
+                  "segment_id": "s3g08",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "role": "barcode linker 2",
+                  "segment_id": "s3g09",
+                  "sequence": "GAG",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "placeholder": "[CELL_BARCODE:6]",
+                  "role": "cell barcode 3",
+                  "segment_id": "s3g10",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "role": "barcode linker 3",
+                  "segment_id": "s3g11",
+                  "sequence": "TCGAG",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "placeholder": "[CELL_BARCODE:8]",
+                  "role": "cell barcode 4",
+                  "segment_id": "s3g12",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "placeholder": "[UMI:12]",
+                  "role": "unique molecular identifier",
+                  "segment_id": "s3g13",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "role": "poly(dT)30V annealed to the poly(A) tail",
+                  "segment_id": "s3g14",
+                  "sequence": "TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTV",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[CDNA]",
+                  "role": "first-strand cDNA copied from the transcript",
+                  "segment_id": "s3g15",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "untemplated dC extension added by MMLV terminal transferase",
+                  "segment_id": "s3g16",
+                  "sequence": "CCC",
+                  "structural_role": "three_prime_overhang"
+                }
+              ],
+              "strand_id": "s3_cdna",
+              "support_status": "derivable"
+            },
+            {
+              "molecule_type": "RNA",
+              "name": "Template poly(A) mRNA",
+              "orientation": "5_to_3",
+              "segments": [
+                {
+                  "placeholder": "[MRNA]",
+                  "role": "mRNA transcript body",
+                  "segment_id": "s3m01",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[POLYA]",
+                  "role": "poly(A) tail",
+                  "segment_id": "s3m02",
+                  "structural_role": "paired_region"
+                }
+              ],
+              "strand_id": "s3_mrna",
+              "support_status": "explicit"
+            }
+          ],
+          "support_status": "derivable"
+        },
+        {
+          "discontinuities": [],
+          "molecule_type": "DNA",
+          "name": "First-strand cDNA carrying the incorporated TSO-derived sequence",
+          "paired_regions": [],
+          "physical_state": "bead-tethered",
+          "properties": [
+            "RNA template is not carried forward",
+            "both ends now carry PCR-priming sequence"
+          ],
+          "reference_strand_id": "s4_cdna",
+          "state_id": "st_first_strand_cdna",
+          "strand_architecture": "single_stranded",
+          "strands": [
+            {
+              "molecule_type": "DNA",
+              "name": "First-strand cDNA",
+              "orientation": "5_to_3",
+              "segments": [
+                {
+                  "role": "acrydite poly(T) bead linker",
+                  "segment_id": "s4g01",
+                  "sequence": "TTTTTTT",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "role": "TSO/ISPCR handle",
+                  "segment_id": "s4g02",
+                  "sequence": "AAGCAGTGGTATCAACGCAGAGT",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "role": "internal spacer",
+                  "segment_id": "s4g03",
+                  "sequence": "ACGACTCC",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "role": "TruSeq Read 1 primer site (partial)",
+                  "segment_id": "s4g04",
+                  "sequence": "TCTTTCCCTACACGACGCTCTTCCGATCT",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "placeholder": "[VARIABLE:3]",
+                  "role": "read-1 desynchronisation spacer (0-3 nt)",
+                  "segment_id": "s4g05",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "placeholder": "[CELL_BARCODE:8]",
+                  "role": "cell barcode 1",
+                  "segment_id": "s4g06",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "role": "barcode linker 1",
+                  "segment_id": "s4g07",
+                  "sequence": "ATG",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "placeholder": "[CELL_BARCODE:6]",
+                  "role": "cell barcode 2",
+                  "segment_id": "s4g08",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "role": "barcode linker 2",
+                  "segment_id": "s4g09",
+                  "sequence": "GAG",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "placeholder": "[CELL_BARCODE:6]",
+                  "role": "cell barcode 3",
+                  "segment_id": "s4g10",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "role": "barcode linker 3",
+                  "segment_id": "s4g11",
+                  "sequence": "TCGAG",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "placeholder": "[CELL_BARCODE:8]",
+                  "role": "cell barcode 4",
+                  "segment_id": "s4g12",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "placeholder": "[UMI:12]",
+                  "role": "unique molecular identifier",
+                  "segment_id": "s4g13",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "role": "poly(dT)30V capture sequence",
+                  "segment_id": "s4g14",
+                  "sequence": "TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTV",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "placeholder": "[CDNA]",
+                  "role": "cDNA insert",
+                  "segment_id": "s4g15",
+                  "structural_role": "unpaired"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_template_switching_oligo_tso",
+                      "orientation_to_source": "reverse_complement"
+                    }
+                  ],
+                  "role": "incorporated TSO-derived sequence (complement of the TSO)",
+                  "segment_id": "s4g16",
+                  "sequence": "CCCATTCACTCTGCGTTGATACCACTGCTT",
+                  "structural_role": "unpaired"
+                }
+              ],
+              "strand_id": "s4_cdna",
+              "support_status": "derivable"
+            }
+          ],
+          "support_status": "derivable"
+        },
+        {
+          "discontinuities": [],
+          "molecule_type": "DNA",
+          "name": "Amplified double-stranded barcoded cDNA",
+          "paired_regions": [
+            {
+              "paired_region_id": "pr_s5_r1",
+              "relationship": "reverse_complementary",
+              "side_1": {
+                "segment_ids": [
+                  "s5t01"
+                ],
+                "strand_id": "s5_top"
+              },
+              "side_2": {
+                "segment_ids": [
+                  "s5b13"
+                ],
+                "strand_id": "s5_bot"
+              },
+              "support_status": "explicit"
+            },
+            {
+              "paired_region_id": "pr_s5_barcodes",
+              "relationship": "unknown",
+              "side_1": {
+                "segment_ids": [
+                  "s5t02",
+                  "s5t03",
+                  "s5t04",
+                  "s5t05",
+                  "s5t06",
+                  "s5t07",
+                  "s5t08",
+                  "s5t09",
+                  "s5t10",
+                  "s5t11"
+                ],
+                "strand_id": "s5_top"
+              },
+              "side_2": {
+                "segment_ids": [
+                  "s5b03",
+                  "s5b04",
+                  "s5b05",
+                  "s5b06",
+                  "s5b07",
+                  "s5b08",
+                  "s5b09",
+                  "s5b10",
+                  "s5b11",
+                  "s5b12"
+                ],
+                "strand_id": "s5_bot"
+              },
+              "support_status": "derivable"
+            },
+            {
+              "paired_region_id": "pr_s5_cdna",
+              "relationship": "unknown",
+              "side_1": {
+                "segment_ids": [
+                  "s5t12"
+                ],
+                "strand_id": "s5_top"
+              },
+              "side_2": {
+                "segment_ids": [
+                  "s5b02"
+                ],
+                "strand_id": "s5_bot"
+              },
+              "support_status": "derivable"
+            },
+            {
+              "paired_region_id": "pr_s5_tso",
+              "relationship": "reverse_complementary",
+              "side_1": {
+                "segment_ids": [
+                  "s5t13"
+                ],
+                "strand_id": "s5_top"
+              },
+              "side_2": {
+                "segment_ids": [
+                  "s5b01"
+                ],
+                "strand_id": "s5_bot"
+              },
+              "support_status": "explicit"
+            }
+          ],
+          "physical_state": "in solution after bead removal and SPRI purification",
+          "properties": [
+            "bead-proximal acrydite/TSO-handle 5' region is lost because the WTA forward primer anneals internally"
+          ],
+          "reference_strand_id": "s5_top",
+          "state_id": "st_ds_cdna",
+          "strand_architecture": "double_stranded",
+          "strands": [
+            {
+              "molecule_type": "DNA",
+              "name": "Barcode-strand (WTA forward product)",
+              "orientation": "5_to_3",
+              "segments": [
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_wta_primer_fb0002006_fb0003084_forward",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "WTA forward primer / TruSeq Read 1 region",
+                  "segment_id": "s5t01",
+                  "sequence": "CTCTTTCCCTACACGACGCTCTTCCGATCT",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[VARIABLE:3]",
+                  "role": "read-1 desynchronisation spacer (0-3 nt)",
+                  "segment_id": "s5t02",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[CELL_BARCODE:8]",
+                  "role": "cell barcode 1",
+                  "segment_id": "s5t03",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "barcode linker 1",
+                  "segment_id": "s5t04",
+                  "sequence": "ATG",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[CELL_BARCODE:6]",
+                  "role": "cell barcode 2",
+                  "segment_id": "s5t05",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "barcode linker 2",
+                  "segment_id": "s5t06",
+                  "sequence": "GAG",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[CELL_BARCODE:6]",
+                  "role": "cell barcode 3",
+                  "segment_id": "s5t07",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "barcode linker 3",
+                  "segment_id": "s5t08",
+                  "sequence": "TCGAG",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[CELL_BARCODE:8]",
+                  "role": "cell barcode 4",
+                  "segment_id": "s5t09",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[UMI:12]",
+                  "role": "unique molecular identifier",
+                  "segment_id": "s5t10",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "poly(dT)30V capture sequence",
+                  "segment_id": "s5t11",
+                  "sequence": "TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTV",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[CDNA]",
+                  "role": "cDNA insert",
+                  "segment_id": "s5t12",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "incorporated TSO-derived sequence",
+                  "segment_id": "s5t13",
+                  "sequence": "CCCATTCACTCTGCGTTGATACCACTGCTT",
+                  "structural_role": "paired_region"
+                }
+              ],
+              "sequence_architecture": "CTCTTTCCCTACACGACGCTCTTCCGATCT[VARIABLE:3][CELL_BARCODE:8]ATG[CELL_BARCODE:6]GAG[CELL_BARCODE:6]TCGAG[CELL_BARCODE:8][UMI:12]TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTV[CDNA]CCCATTCACTCTGCGTTGATACCACTGCTT",
+              "strand_id": "s5_top",
+              "support_status": "derivable"
+            },
+            {
+              "molecule_type": "DNA",
+              "name": "Second-strand (WTA reverse product)",
+              "orientation": "5_to_3",
+              "segments": [
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_ispcr_tso_pcr_primer",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "TSO/ISPCR handle",
+                  "segment_id": "s5b01",
+                  "sequence": "AAGCAGTGGTATCAACGCAGAGTGAATGGG",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[CDNA]",
+                  "role": "cDNA insert complement",
+                  "segment_id": "s5b02",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "poly(A) complement of the capture sequence",
+                  "segment_id": "s5b03",
+                  "sequence": "BAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[UMI:12]",
+                  "role": "unique molecular identifier complement",
+                  "segment_id": "s5b04",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[CELL_BARCODE:8]",
+                  "role": "cell barcode 4 complement",
+                  "segment_id": "s5b05",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "barcode linker 3 complement",
+                  "segment_id": "s5b06",
+                  "sequence": "CTCGA",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[CELL_BARCODE:6]",
+                  "role": "cell barcode 3 complement",
+                  "segment_id": "s5b07",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "barcode linker 2 complement",
+                  "segment_id": "s5b08",
+                  "sequence": "CTC",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[CELL_BARCODE:6]",
+                  "role": "cell barcode 2 complement",
+                  "segment_id": "s5b09",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "barcode linker 1 complement",
+                  "segment_id": "s5b10",
+                  "sequence": "CAT",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[CELL_BARCODE:8]",
+                  "role": "cell barcode 1 complement",
+                  "segment_id": "s5b11",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[VARIABLE:3]",
+                  "role": "read-1 desynchronisation spacer (0-3 nt)",
+                  "segment_id": "s5b12",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "TruSeq Read 1 region complement",
+                  "segment_id": "s5b13",
+                  "sequence": "AGATCGGAAGAGCGTCGTGTAGGGAAAGAG",
+                  "structural_role": "paired_region"
+                }
+              ],
+              "strand_id": "s5_bot",
+              "support_status": "derivable"
+            }
+          ],
+          "support_status": "derivable"
+        },
+        {
+          "discontinuities": [],
+          "molecule_type": "DNA",
+          "name": "Barcode-proximal cDNA fragment with 3'-dA overhangs",
+          "paired_regions": [
+            {
+              "paired_region_id": "pr_s6_r1",
+              "relationship": "reverse_complementary",
+              "side_1": {
+                "segment_ids": [
+                  "s6t01"
+                ],
+                "strand_id": "s6_top"
+              },
+              "side_2": {
+                "segment_ids": [
+                  "s6b12"
+                ],
+                "strand_id": "s6_bot"
+              },
+              "support_status": "explicit"
+            },
+            {
+              "paired_region_id": "pr_s6_body",
+              "relationship": "unknown",
+              "side_1": {
+                "segment_ids": [
+                  "s6t02",
+                  "s6t03",
+                  "s6t04",
+                  "s6t05",
+                  "s6t06",
+                  "s6t07",
+                  "s6t08",
+                  "s6t09",
+                  "s6t10",
+                  "s6t11",
+                  "s6t12"
+                ],
+                "strand_id": "s6_top"
+              },
+              "side_2": {
+                "segment_ids": [
+                  "s6b01",
+                  "s6b02",
+                  "s6b03",
+                  "s6b04",
+                  "s6b05",
+                  "s6b06",
+                  "s6b07",
+                  "s6b08",
+                  "s6b09",
+                  "s6b10",
+                  "s6b11"
+                ],
+                "strand_id": "s6_bot"
+              },
+              "support_status": "derivable"
+            }
+          ],
+          "physical_state": "in solution",
+          "properties": [
+            "end repair and A-tailing leave single-base 3'-dA overhangs on both strands",
+            "middle and TSO-proximal fragments are also produced but are not amplifiable in the sample index PCR"
+          ],
+          "reference_strand_id": "s6_top",
+          "state_id": "st_atailed_fragment",
+          "strand_architecture": "partially_duplex",
+          "strands": [
+            {
+              "molecule_type": "DNA",
+              "name": "Barcode-strand fragment",
+              "orientation": "5_to_3",
+              "segments": [
+                {
+                  "role": "TruSeq Read 1 region",
+                  "segment_id": "s6t01",
+                  "sequence": "CTCTTTCCCTACACGACGCTCTTCCGATCT",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[VARIABLE:3]",
+                  "role": "read-1 desynchronisation spacer (0-3 nt)",
+                  "segment_id": "s6t02",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[CELL_BARCODE:8]",
+                  "role": "cell barcode 1",
+                  "segment_id": "s6t03",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "barcode linker 1",
+                  "segment_id": "s6t04",
+                  "sequence": "ATG",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[CELL_BARCODE:6]",
+                  "role": "cell barcode 2",
+                  "segment_id": "s6t05",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "barcode linker 2",
+                  "segment_id": "s6t06",
+                  "sequence": "GAG",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[CELL_BARCODE:6]",
+                  "role": "cell barcode 3",
+                  "segment_id": "s6t07",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "barcode linker 3",
+                  "segment_id": "s6t08",
+                  "sequence": "TCGAG",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[CELL_BARCODE:8]",
+                  "role": "cell barcode 4",
+                  "segment_id": "s6t09",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[UMI:12]",
+                  "role": "unique molecular identifier",
+                  "segment_id": "s6t10",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "poly(dT)30V capture sequence",
+                  "segment_id": "s6t11",
+                  "sequence": "TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTV",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[CDNA]",
+                  "role": "fragmented cDNA insert",
+                  "segment_id": "s6t12",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "3'-dA overhang from A-tailing",
+                  "segment_id": "s6t13",
+                  "sequence": "A",
+                  "structural_role": "three_prime_overhang"
+                }
+              ],
+              "strand_id": "s6_top",
+              "support_status": "derivable"
+            },
+            {
+              "molecule_type": "DNA",
+              "name": "Complementary fragment strand",
+              "orientation": "5_to_3",
+              "segments": [
+                {
+                  "placeholder": "[CDNA]",
+                  "role": "fragmented cDNA insert complement",
+                  "segment_id": "s6b01",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "poly(A) complement of the capture sequence",
+                  "segment_id": "s6b02",
+                  "sequence": "BAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[UMI:12]",
+                  "role": "unique molecular identifier complement",
+                  "segment_id": "s6b03",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[CELL_BARCODE:8]",
+                  "role": "cell barcode 4 complement",
+                  "segment_id": "s6b04",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "barcode linker 3 complement",
+                  "segment_id": "s6b05",
+                  "sequence": "CTCGA",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[CELL_BARCODE:6]",
+                  "role": "cell barcode 3 complement",
+                  "segment_id": "s6b06",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "barcode linker 2 complement",
+                  "segment_id": "s6b07",
+                  "sequence": "CTC",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[CELL_BARCODE:6]",
+                  "role": "cell barcode 2 complement",
+                  "segment_id": "s6b08",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "barcode linker 1 complement",
+                  "segment_id": "s6b09",
+                  "sequence": "CAT",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[CELL_BARCODE:8]",
+                  "role": "cell barcode 1 complement",
+                  "segment_id": "s6b10",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[VARIABLE:3]",
+                  "role": "read-1 desynchronisation spacer (0-3 nt)",
+                  "segment_id": "s6b11",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "TruSeq Read 1 region complement",
+                  "segment_id": "s6b12",
+                  "sequence": "AGATCGGAAGAGCGTCGTGTAGGGAAAGAG",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "3'-dA overhang from A-tailing",
+                  "segment_id": "s6b13",
+                  "sequence": "A",
+                  "structural_role": "three_prime_overhang"
+                }
+              ],
+              "strand_id": "s6_bot",
+              "support_status": "derivable"
+            }
+          ],
+          "support_status": "derivable"
+        },
+        {
+          "discontinuities": [],
+          "molecule_type": "DNA",
+          "name": "Adapter-ligated barcoded fragment",
+          "paired_regions": [
+            {
+              "paired_region_id": "pr_s7_r1",
+              "relationship": "reverse_complementary",
+              "side_1": {
+                "segment_ids": [
+                  "s7t01"
+                ],
+                "strand_id": "s7_top"
+              },
+              "side_2": {
+                "segment_ids": [
+                  "s7b14"
+                ],
+                "strand_id": "s7_bot"
+              },
+              "support_status": "explicit"
+            },
+            {
+              "paired_region_id": "pr_s7_body",
+              "relationship": "unknown",
+              "side_1": {
+                "segment_ids": [
+                  "s7t02",
+                  "s7t03",
+                  "s7t04",
+                  "s7t05",
+                  "s7t06",
+                  "s7t07",
+                  "s7t08",
+                  "s7t09",
+                  "s7t10",
+                  "s7t11",
+                  "s7t12"
+                ],
+                "strand_id": "s7_top"
+              },
+              "side_2": {
+                "segment_ids": [
+                  "s7b03",
+                  "s7b04",
+                  "s7b05",
+                  "s7b06",
+                  "s7b07",
+                  "s7b08",
+                  "s7b09",
+                  "s7b10",
+                  "s7b11",
+                  "s7b12",
+                  "s7b13"
+                ],
+                "strand_id": "s7_bot"
+              },
+              "support_status": "derivable"
+            },
+            {
+              "paired_region_id": "pr_s7_at",
+              "relationship": "reverse_complementary",
+              "side_1": {
+                "segment_ids": [
+                  "s7t13"
+                ],
+                "strand_id": "s7_top"
+              },
+              "side_2": {
+                "segment_ids": [
+                  "s7b02"
+                ],
+                "strand_id": "s7_bot"
+              },
+              "support_status": "explicit"
+            },
+            {
+              "paired_region_id": "pr_s7_me",
+              "relationship": "reverse_complementary",
+              "side_1": {
+                "segment_ids": [
+                  "s7t14"
+                ],
+                "strand_id": "s7_top"
+              },
+              "side_2": {
+                "segment_ids": [
+                  "s7b01"
+                ],
+                "strand_id": "s7_bot"
+              },
+              "support_status": "explicit"
+            }
+          ],
+          "physical_state": "in solution after post-ligation SPRI cleanup",
+          "properties": [
+            "T/A ligation of the Library Adapter Mix at one end only",
+            "the short adapter strand leaves a single-stranded 3' extension on the long strand"
+          ],
+          "reference_strand_id": "s7_top",
+          "state_id": "st_adapter_ligated",
+          "strand_architecture": "partially_duplex",
+          "strands": [
+            {
+              "molecule_type": "DNA",
+              "name": "Barcode-strand with ligated adapter",
+              "orientation": "5_to_3",
+              "segments": [
+                {
+                  "role": "TruSeq Read 1 region",
+                  "segment_id": "s7t01",
+                  "sequence": "CTCTTTCCCTACACGACGCTCTTCCGATCT",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[VARIABLE:3]",
+                  "role": "read-1 desynchronisation spacer (0-3 nt)",
+                  "segment_id": "s7t02",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[CELL_BARCODE:8]",
+                  "role": "cell barcode 1",
+                  "segment_id": "s7t03",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "barcode linker 1",
+                  "segment_id": "s7t04",
+                  "sequence": "ATG",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[CELL_BARCODE:6]",
+                  "role": "cell barcode 2",
+                  "segment_id": "s7t05",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "barcode linker 2",
+                  "segment_id": "s7t06",
+                  "sequence": "GAG",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[CELL_BARCODE:6]",
+                  "role": "cell barcode 3",
+                  "segment_id": "s7t07",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "barcode linker 3",
+                  "segment_id": "s7t08",
+                  "sequence": "TCGAG",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[CELL_BARCODE:8]",
+                  "role": "cell barcode 4",
+                  "segment_id": "s7t09",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[UMI:12]",
+                  "role": "unique molecular identifier",
+                  "segment_id": "s7t10",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "poly(dT)30V capture sequence",
+                  "segment_id": "s7t11",
+                  "sequence": "TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTV",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[CDNA]",
+                  "role": "fragmented cDNA insert",
+                  "segment_id": "s7t12",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "dA/dT junction base",
+                  "segment_id": "s7t13",
+                  "sequence": "A",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_library_adapter_mix_fb0001605",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "mosaic end, duplex portion of the ligated adapter",
+                  "segment_id": "s7t14",
+                  "sequence": "CTGTCTCTTATA",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_library_adapter_mix_fb0001605",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "mosaic end, single-stranded portion of the ligated adapter",
+                  "segment_id": "s7t15",
+                  "sequence": "CACATCT",
+                  "structural_role": "three_prime_overhang"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_library_adapter_mix_fb0001605",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "Nextera s7 partial sequence, single-stranded",
+                  "segment_id": "s7t16",
+                  "sequence": "CCGAGCC",
+                  "structural_role": "three_prime_overhang"
+                }
+              ],
+              "strand_id": "s7_top",
+              "support_status": "derivable"
+            },
+            {
+              "molecule_type": "DNA",
+              "name": "Complementary strand with ligated adapter short strand",
+              "orientation": "5_to_3",
+              "segments": [
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_library_adapter_mix_fb0001605",
+                      "orientation_to_source": "reverse_complement"
+                    }
+                  ],
+                  "role": "ligation adapter short strand (mosaic end complement)",
+                  "segment_id": "s7b01",
+                  "sequence": "TATAAGAGACAG",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_library_adapter_mix_fb0001605",
+                      "orientation_to_source": "reverse_complement"
+                    }
+                  ],
+                  "role": "dT junction base of the ligation adapter",
+                  "segment_id": "s7b02",
+                  "sequence": "T",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[CDNA]",
+                  "role": "fragmented cDNA insert complement",
+                  "segment_id": "s7b03",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "poly(A) complement of the capture sequence",
+                  "segment_id": "s7b04",
+                  "sequence": "BAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[UMI:12]",
+                  "role": "unique molecular identifier complement",
+                  "segment_id": "s7b05",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[CELL_BARCODE:8]",
+                  "role": "cell barcode 4 complement",
+                  "segment_id": "s7b06",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "barcode linker 3 complement",
+                  "segment_id": "s7b07",
+                  "sequence": "CTCGA",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[CELL_BARCODE:6]",
+                  "role": "cell barcode 3 complement",
+                  "segment_id": "s7b08",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "barcode linker 2 complement",
+                  "segment_id": "s7b09",
+                  "sequence": "CTC",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[CELL_BARCODE:6]",
+                  "role": "cell barcode 2 complement",
+                  "segment_id": "s7b10",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "barcode linker 1 complement",
+                  "segment_id": "s7b11",
+                  "sequence": "CAT",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[CELL_BARCODE:8]",
+                  "role": "cell barcode 1 complement",
+                  "segment_id": "s7b12",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[VARIABLE:3]",
+                  "role": "read-1 desynchronisation spacer (0-3 nt)",
+                  "segment_id": "s7b13",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "TruSeq Read 1 region complement",
+                  "segment_id": "s7b14",
+                  "sequence": "AGATCGGAAGAGCGTCGTGTAGGGAAAGAG",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "3'-dA overhang from A-tailing",
+                  "segment_id": "s7b15",
+                  "sequence": "A",
+                  "structural_role": "three_prime_overhang"
+                }
+              ],
+              "strand_id": "s7_bot",
+              "support_status": "derivable"
+            }
+          ],
+          "support_status": "derivable"
+        },
+        {
+          "discontinuities": [],
+          "molecule_type": "DNA",
+          "name": "Final dual-indexed PIPseq v4.0 3' gene expression library",
+          "paired_regions": [
+            {
+              "paired_region_id": "pr_s8_p5",
+              "relationship": "reverse_complementary",
+              "side_1": {
+                "segment_ids": [
+                  "s8f01"
+                ],
+                "strand_id": "s8_top"
+              },
+              "side_2": {
+                "segment_ids": [
+                  "s8g19"
+                ],
+                "strand_id": "s8_bot"
+              },
+              "support_status": "explicit"
+            },
+            {
+              "paired_region_id": "pr_s8_i5",
+              "relationship": "unknown",
+              "side_1": {
+                "segment_ids": [
+                  "s8f02"
+                ],
+                "strand_id": "s8_top"
+              },
+              "side_2": {
+                "segment_ids": [
+                  "s8g18"
+                ],
+                "strand_id": "s8_bot"
+              },
+              "support_status": "derivable"
+            },
+            {
+              "paired_region_id": "pr_s8_r1",
+              "relationship": "reverse_complementary",
+              "side_1": {
+                "segment_ids": [
+                  "s8f03"
+                ],
+                "strand_id": "s8_top"
+              },
+              "side_2": {
+                "segment_ids": [
+                  "s8g17"
+                ],
+                "strand_id": "s8_bot"
+              },
+              "support_status": "explicit"
+            },
+            {
+              "paired_region_id": "pr_s8_barcodes",
+              "relationship": "unknown",
+              "side_1": {
+                "segment_ids": [
+                  "s8f04",
+                  "s8f05",
+                  "s8f06",
+                  "s8f07",
+                  "s8f08",
+                  "s8f09",
+                  "s8f10",
+                  "s8f11",
+                  "s8f12",
+                  "s8f13"
+                ],
+                "strand_id": "s8_top"
+              },
+              "side_2": {
+                "segment_ids": [
+                  "s8g07",
+                  "s8g08",
+                  "s8g09",
+                  "s8g10",
+                  "s8g11",
+                  "s8g12",
+                  "s8g13",
+                  "s8g14",
+                  "s8g15",
+                  "s8g16"
+                ],
+                "strand_id": "s8_bot"
+              },
+              "support_status": "derivable"
+            },
+            {
+              "paired_region_id": "pr_s8_cdna",
+              "relationship": "unknown",
+              "side_1": {
+                "segment_ids": [
+                  "s8f14"
+                ],
+                "strand_id": "s8_top"
+              },
+              "side_2": {
+                "segment_ids": [
+                  "s8g06"
+                ],
+                "strand_id": "s8_bot"
+              },
+              "support_status": "derivable"
+            },
+            {
+              "paired_region_id": "pr_s8_at",
+              "relationship": "reverse_complementary",
+              "side_1": {
+                "segment_ids": [
+                  "s8f15"
+                ],
+                "strand_id": "s8_top"
+              },
+              "side_2": {
+                "segment_ids": [
+                  "s8g05"
+                ],
+                "strand_id": "s8_bot"
+              },
+              "support_status": "explicit"
+            },
+            {
+              "paired_region_id": "pr_s8_me",
+              "relationship": "reverse_complementary",
+              "side_1": {
+                "segment_ids": [
+                  "s8f16"
+                ],
+                "strand_id": "s8_top"
+              },
+              "side_2": {
+                "segment_ids": [
+                  "s8g04"
+                ],
+                "strand_id": "s8_bot"
+              },
+              "support_status": "explicit"
+            },
+            {
+              "paired_region_id": "pr_s8_s7",
+              "relationship": "reverse_complementary",
+              "side_1": {
+                "segment_ids": [
+                  "s8f17"
+                ],
+                "strand_id": "s8_top"
+              },
+              "side_2": {
+                "segment_ids": [
+                  "s8g03"
+                ],
+                "strand_id": "s8_bot"
+              },
+              "support_status": "explicit"
+            },
+            {
+              "paired_region_id": "pr_s8_i7",
+              "relationship": "unknown",
+              "side_1": {
+                "segment_ids": [
+                  "s8f18"
+                ],
+                "strand_id": "s8_top"
+              },
+              "side_2": {
+                "segment_ids": [
+                  "s8g02"
+                ],
+                "strand_id": "s8_bot"
+              },
+              "support_status": "derivable"
+            },
+            {
+              "paired_region_id": "pr_s8_p7",
+              "relationship": "reverse_complementary",
+              "side_1": {
+                "segment_ids": [
+                  "s8f19"
+                ],
+                "strand_id": "s8_top"
+              },
+              "side_2": {
+                "segment_ids": [
+                  "s8g01"
+                ],
+                "strand_id": "s8_bot"
+              },
+              "support_status": "explicit"
+            }
+          ],
+          "physical_state": "in solution after double-sided SPRI size selection",
+          "properties": [
+            "standard Illumina paired-end construct beginning with P5 and ending with P7",
+            "dual-indexed with 8-base i5 and i7 indexes",
+            "Read 1 reads the barcodes and UMI; Read 2 reads the cDNA"
+          ],
+          "reference_strand_id": "s8_top",
+          "state_id": "st_final_library",
+          "strand_architecture": "double_stranded",
+          "strands": [
+            {
+              "molecule_type": "DNA",
+              "name": "P5-to-P7 top strand",
+              "orientation": "5_to_3",
+              "segments": [
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_library_p5_index_fb0001915_1918_fb0001666_1669",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "Illumina P5 adapter",
+                  "segment_id": "s8f01",
+                  "sequence": "AATGATACGGCGACCACCGAGATCTACAC",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[I5_INDEX:8]",
+                  "role": "i5 sample index",
+                  "segment_id": "s8f02",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "TruSeq Read 1 primer site",
+                  "segment_id": "s8f03",
+                  "sequence": "ACACTCTTTCCCTACACGACGCTCTTCCGATCT",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[VARIABLE:3]",
+                  "role": "read-1 desynchronisation spacer (0-3 nt)",
+                  "segment_id": "s8f04",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[CELL_BARCODE:8]",
+                  "role": "cell barcode 1",
+                  "segment_id": "s8f05",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "barcode linker 1",
+                  "segment_id": "s8f06",
+                  "sequence": "ATG",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[CELL_BARCODE:6]",
+                  "role": "cell barcode 2",
+                  "segment_id": "s8f07",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "barcode linker 2",
+                  "segment_id": "s8f08",
+                  "sequence": "GAG",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[CELL_BARCODE:6]",
+                  "role": "cell barcode 3",
+                  "segment_id": "s8f09",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "barcode linker 3",
+                  "segment_id": "s8f10",
+                  "sequence": "TCGAG",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[CELL_BARCODE:8]",
+                  "role": "cell barcode 4",
+                  "segment_id": "s8f11",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[UMI:12]",
+                  "role": "unique molecular identifier",
+                  "segment_id": "s8f12",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "poly(dT)30V capture sequence",
+                  "segment_id": "s8f13",
+                  "sequence": "TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTV",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[CDNA]",
+                  "role": "cDNA insert",
+                  "segment_id": "s8f14",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "dA from end repair and A-tailing",
+                  "segment_id": "s8f15",
+                  "sequence": "A",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "Nextera mosaic end (ME)",
+                  "segment_id": "s8f16",
+                  "sequence": "CTGTCTCTTATACACATCT",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "Nextera s7 / Read 2 primer site",
+                  "segment_id": "s8f17",
+                  "sequence": "CCGAGCCCACGAGAC",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[I7_INDEX:8]",
+                  "role": "i7 sample index",
+                  "segment_id": "s8f18",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "Illumina P7 adapter",
+                  "segment_id": "s8f19",
+                  "sequence": "ATCTCGTATGCCGTCTTCTGCTTG",
+                  "structural_role": "paired_region"
+                }
+              ],
+              "sequence_architecture": "AATGATACGGCGACCACCGAGATCTACAC[I5_INDEX:8]ACACTCTTTCCCTACACGACGCTCTTCCGATCT[VARIABLE:3][CELL_BARCODE:8]ATG[CELL_BARCODE:6]GAG[CELL_BARCODE:6]TCGAG[CELL_BARCODE:8][UMI:12]TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTV[CDNA]ACTGTCTCTTATACACATCTCCGAGCCCACGAGAC[I7_INDEX:8]ATCTCGTATGCCGTCTTCTGCTTG",
+              "strand_id": "s8_top",
+              "support_status": "derivable"
+            },
+            {
+              "molecule_type": "DNA",
+              "name": "P7-to-P5 bottom strand",
+              "orientation": "5_to_3",
+              "segments": [
+                {
+                  "oligo_derivations": [
+                    {
+                      "oligo_id": "oligo_library_p7_index_fb0001626_1627_fb0001629_1633_fb0002092",
+                      "orientation_to_source": "same_orientation"
+                    }
+                  ],
+                  "role": "Illumina P7 adapter",
+                  "segment_id": "s8g01",
+                  "sequence": "CAAGCAGAAGACGGCATACGAGAT",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[I7_INDEX:8]",
+                  "role": "i7 sample index",
+                  "segment_id": "s8g02",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "Nextera s7 sequence",
+                  "segment_id": "s8g03",
+                  "sequence": "GTCTCGTGGGCTCGG",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "Nextera mosaic end complement",
+                  "segment_id": "s8g04",
+                  "sequence": "AGATGTGTATAAGAGACAG",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "dT complement of the A-tail",
+                  "segment_id": "s8g05",
+                  "sequence": "T",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[CDNA]",
+                  "role": "cDNA insert complement",
+                  "segment_id": "s8g06",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "poly(A) complement of the capture sequence",
+                  "segment_id": "s8g07",
+                  "sequence": "BAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[UMI:12]",
+                  "role": "unique molecular identifier complement",
+                  "segment_id": "s8g08",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[CELL_BARCODE:8]",
+                  "role": "cell barcode 4 complement",
+                  "segment_id": "s8g09",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "barcode linker 3 complement",
+                  "segment_id": "s8g10",
+                  "sequence": "CTCGA",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[CELL_BARCODE:6]",
+                  "role": "cell barcode 3 complement",
+                  "segment_id": "s8g11",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "barcode linker 2 complement",
+                  "segment_id": "s8g12",
+                  "sequence": "CTC",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[CELL_BARCODE:6]",
+                  "role": "cell barcode 2 complement",
+                  "segment_id": "s8g13",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "barcode linker 1 complement",
+                  "segment_id": "s8g14",
+                  "sequence": "CAT",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[CELL_BARCODE:8]",
+                  "role": "cell barcode 1 complement",
+                  "segment_id": "s8g15",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[VARIABLE:3]",
+                  "role": "read-1 desynchronisation spacer (0-3 nt)",
+                  "segment_id": "s8g16",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "TruSeq Read 1 primer site complement",
+                  "segment_id": "s8g17",
+                  "sequence": "AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "placeholder": "[I5_INDEX:8]",
+                  "role": "i5 sample index complement",
+                  "segment_id": "s8g18",
+                  "structural_role": "paired_region"
+                },
+                {
+                  "role": "Illumina P5 adapter complement",
+                  "segment_id": "s8g19",
+                  "sequence": "GTGTAGATCTCGGTGGTCGCCGTATCATT",
+                  "structural_role": "paired_region"
+                }
+              ],
+              "strand_id": "s8_bot",
+              "support_status": "derivable"
+            }
+          ],
+          "support_status": "derivable"
+        }
+      ],
+      "transitions": [
+        {
+          "carried_forward_product_ids": [
+            "st_rt_hybrid"
+          ],
+          "discarded_product_ids": [],
+          "major_reagents": [
+            {
+              "name": "Partitioning Reagent (FB0003123)",
+              "role": "emulsion oil"
+            },
+            {
+              "name": "CLB3 chemical lysis buffer (FB0003910)",
+              "role": "cell lysis"
+            },
+            {
+              "name": "RT Additive Mix (FB0002205)",
+              "role": "reverse transcription buffer"
+            },
+            {
+              "name": "RT Enzyme Mix (FB0002206)",
+              "role": "MMLV-type reverse transcriptase"
+            }
+          ],
+          "oligo_ids": [
+            "oligo_barcoded_beads_oligo_t2_20_100_pips_fb0003913_fb0003914_fb0003915"
+          ],
+          "operation": "reverse_transcription",
+          "operation_detail": "Cells and barcoded hydrogel templates are partitioned by vortexing, lysed by heat-activated chemical/proteinase lysis, poly(A) mRNA is captured on the bead poly(dT), and first-strand synthesis runs at 25 C 30 min / 42 C 90 min / 85 C 10 min. Emulsion breaking, de-partitioning and 1x/0.5x washing are folded in because neither sequence architecture nor strand structure changes.",
+          "product_state_ids": [
+            "st_rt_hybrid"
+          ],
+          "substrate_state_ids": [
+            "st_bead_oligo",
+            "st_mrna"
+          ],
+          "support_status": "explicit",
+          "transition_id": "tr_reverse_transcription"
+        },
+        {
+          "carried_forward_product_ids": [
+            "st_first_strand_cdna"
+          ],
+          "discarded_product_ids": [],
+          "major_reagents": [
+            {
+              "name": "TSO (FB0003140)",
+              "role": "template switch oligonucleotide"
+            }
+          ],
+          "oligo_ids": [
+            "oligo_template_switching_oligo_tso"
+          ],
+          "operation": "strand_synthesis",
+          "operation_detail": "Template switching: the untemplated 3' dC extension anneals to the TSO riboguanosines and the reverse transcriptase copies the TSO, appending its complement to the 3' end of first-strand cDNA. The RNA template is not carried forward.",
+          "product_state_ids": [
+            "st_first_strand_cdna"
+          ],
+          "substrate_state_ids": [
+            "st_rt_hybrid"
+          ],
+          "support_status": "explicit",
+          "transition_id": "tr_template_switching"
+        },
+        {
+          "carried_forward_product_ids": [
+            "st_ds_cdna"
+          ],
+          "discarded_product_ids": [],
+          "major_reagents": [
+            {
+              "name": "WTA Buffer Mix (FB0002208)",
+              "role": "PCR master mix"
+            },
+            {
+              "name": "SPRI Beads (FB0002215)",
+              "role": "purification"
+            }
+          ],
+          "oligo_ids": [
+            "oligo_wta_primer_fb0002006_fb0003084_forward",
+            "oligo_ispcr_tso_pcr_primer"
+          ],
+          "operation": "pcr",
+          "operation_detail": "Whole transcriptome amplification: 95 C 3 min; 11-16 cycles of 98 C 15 s / 69 C 4 min 20 s; 72 C 5 min. Bead removal by centrifuge filter and 0.8x SPRI purification, Qubit quantification and fragment analysis are folded in.",
+          "product_state_ids": [
+            "st_ds_cdna"
+          ],
+          "substrate_state_ids": [
+            "st_first_strand_cdna"
+          ],
+          "support_status": "explicit",
+          "transition_id": "tr_wta_amplification"
+        },
+        {
+          "carried_forward_product_ids": [
+            "st_atailed_fragment"
+          ],
+          "discarded_product_ids": [],
+          "major_reagents": [
+            {
+              "name": "Library Prep Buffer (FB0002211)",
+              "role": "reaction buffer"
+            },
+            {
+              "name": "Library Prep Enzymes (FB0002212)",
+              "role": "fragmentation, end repair and A-tailing"
+            }
+          ],
+          "oligo_ids": [],
+          "operation": "fragmentation",
+          "operation_detail": "Enzymatic fragmentation with end repair and A-tailing (30 C 8 min, 65 C 30 min). Only the barcode-proximal fragment is modelled; middle and TSO-proximal fragments are produced but cannot be amplified by the sample index primers.",
+          "product_state_ids": [
+            "st_atailed_fragment"
+          ],
+          "substrate_state_ids": [
+            "st_ds_cdna"
+          ],
+          "support_status": "explicit",
+          "transition_id": "tr_fragmentation_end_repair_atail"
+        },
+        {
+          "carried_forward_product_ids": [
+            "st_adapter_ligated"
+          ],
+          "discarded_product_ids": [],
+          "major_reagents": [
+            {
+              "name": "Library Prep Mix A (FB0002213)",
+              "role": "ligation master mix"
+            },
+            {
+              "name": "SPRI Beads (FB0002215)",
+              "role": "purification"
+            }
+          ],
+          "oligo_ids": [
+            "oligo_library_adapter_mix_fb0001605"
+          ],
+          "operation": "ligation",
+          "operation_detail": "T/A adapter ligation with the diluted Library Adapter Mix at 20 C for 15 min, followed by 0.8x SPRI post-ligation cleanup.",
+          "product_state_ids": [
+            "st_adapter_ligated"
+          ],
+          "substrate_state_ids": [
+            "st_atailed_fragment"
+          ],
+          "support_status": "explicit",
+          "transition_id": "tr_adapter_ligation"
+        },
+        {
+          "carried_forward_product_ids": [
+            "st_final_library"
+          ],
+          "discarded_product_ids": [],
+          "major_reagents": [
+            {
+              "name": "Library Prep Mix B (FB0002214)",
+              "role": "PCR master mix"
+            },
+            {
+              "name": "SPRI Beads (FB0002215)",
+              "role": "double-sided size selection"
+            }
+          ],
+          "oligo_ids": [
+            "oligo_library_p5_index_fb0001915_1918_fb0001666_1669",
+            "oligo_library_p7_index_fb0001626_1627_fb0001629_1633_fb0002092"
+          ],
+          "operation": "pcr",
+          "operation_detail": "Sample index PCR (98 C 45 s; 6-12 cycles of 98 C 15 s / 67 C 30 s / 69 C 45 s; 72 C 1 min) completes the P5/i5 and P7/i7 ends. Double-sided SPRI size selection and final QC are folded in.",
+          "product_state_ids": [
+            "st_final_library"
+          ],
+          "substrate_state_ids": [
+            "st_adapter_ligated"
+          ],
+          "support_status": "explicit",
+          "transition_id": "tr_sample_index_pcr"
+        }
+      ],
+      "workflow_id": "wf_pipseq_v4_3prime_gex"
+    }
+  ]
+}

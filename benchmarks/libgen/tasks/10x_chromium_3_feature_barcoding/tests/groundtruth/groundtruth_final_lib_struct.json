@@ -1,0 +1,301 @@
+{
+  "libraries": [
+    {
+      "final_molecule": "Double-stranded, P5/P7-flanked Illumina 3' gene expression library",
+      "library_sequence": "AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT[CELL_BARCODE:16][UMI:12]TTTTTTTTTTTTTTTTTTTTTTTTTTTTTT[CDNA]AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC[SAMPLE_INDEX:8]ATCTCGTATGCCGTCTTCTGCTTG",
+      "modality": "gene expression",
+      "orientation": "5_to_3",
+      "segments": [
+        {
+          "kind": "constant",
+          "length": 29,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_illumina_p5_adapter",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "Illumina P5 adapter",
+          "segment_id": "gex_p5",
+          "sequence": "AATGATACGGCGACCACCGAGATCTACAC",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "length": 29,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_illumina_truseq_read_1_primer",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "TruSeq Read 1 sequencing primer site",
+          "segment_id": "gex_truseq_read1",
+          "sequence": "TCTTTCCCTACACGACGCTCTTCCGATCT",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "variable",
+          "length": 16,
+          "orientation": "5_to_3",
+          "placeholder": "[CELL_BARCODE:16]",
+          "role": "10x cell barcode",
+          "segment_id": "gex_cell_barcode",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "variable",
+          "length": 12,
+          "orientation": "5_to_3",
+          "placeholder": "[UMI:12]",
+          "role": "unique molecular identifier",
+          "segment_id": "gex_umi",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "length": 30,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_beads_oligos_truseq_partial_read_1_dt_for_mrna",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "poly(dT) priming region",
+          "segment_id": "gex_polydt",
+          "sequence": "TTTTTTTTTTTTTTTTTTTTTTTTTTTTTT",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "biological_insert",
+          "orientation": "5_to_3",
+          "placeholder": "[CDNA]",
+          "role": "cDNA insert from poly-adenylated mRNA",
+          "segment_id": "gex_cdna",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "length": 34,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_illumina_truseq_read_2_primer",
+              "orientation_to_source": "reverse_complement"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "TruSeq Read 2 sequencing primer site",
+          "segment_id": "gex_truseq_read2",
+          "sequence": "AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "variable",
+          "length": 8,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_library_pcr_primer_2_pn_220103",
+              "orientation_to_source": "reverse_complement"
+            }
+          ],
+          "orientation": "5_to_3",
+          "placeholder": "[SAMPLE_INDEX:8]",
+          "role": "i7 sample index",
+          "segment_id": "gex_sample_index",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "length": 24,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_illumina_p7_adapter",
+              "orientation_to_source": "reverse_complement"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "Illumina P7 adapter",
+          "segment_id": "gex_p7",
+          "sequence": "ATCTCGTATGCCGTCTTCTGCTTG",
+          "support_status": "explicit"
+        }
+      ],
+      "strand": "top",
+      "support_status": "explicit"
+    },
+    {
+      "final_molecule": "Double-stranded, P5/P7-flanked Illumina cell surface protein (Feature Barcode) library, curated as 212 bp",
+      "library_sequence": "AATGATACGGCGACCACCGAGATCTACACTCGTCGGCAGCGTCAGATGTGTATAAGAGACAG[CELL_BARCODE:16][UMI:12]TTGCTAGGACCGGCCTTAAAGC[RANDOM:9][FEATURE_BARCODE:15][RANDOM:10]AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC[SAMPLE_INDEX:8]ATCTCGTATGCCGTCTTCTGCTTG",
+      "modality": "feature barcode",
+      "orientation": "5_to_3",
+      "segments": [
+        {
+          "kind": "constant",
+          "length": 29,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_illumina_p5_adapter",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "Illumina P5 adapter",
+          "segment_id": "fb_p5",
+          "sequence": "AATGATACGGCGACCACCGAGATCTACAC",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "length": 33,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_illumina_nextera_read_1_primer",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "Nextera Read 1 (Read 1N) sequencing primer site",
+          "segment_id": "fb_nextera_read1",
+          "sequence": "TCGTCGGCAGCGTCAGATGTGTATAAGAGACAG",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "variable",
+          "length": 16,
+          "orientation": "5_to_3",
+          "placeholder": "[CELL_BARCODE:16]",
+          "role": "10x cell barcode",
+          "segment_id": "fb_cell_barcode",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "variable",
+          "length": 12,
+          "orientation": "5_to_3",
+          "placeholder": "[UMI:12]",
+          "role": "unique molecular identifier",
+          "segment_id": "fb_umi",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "length": 22,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_beads_oligos_nextera_partial_read_1_capture_sequence_1_for_surface_protein",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "Capture Sequence 1",
+          "segment_id": "fb_capture_sequence_1",
+          "sequence": "TTGCTAGGACCGGCCTTAAAGC",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "variable",
+          "length": 9,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_dna_oligos_from_the_antibody",
+              "orientation_to_source": "reverse_complement"
+            }
+          ],
+          "orientation": "5_to_3",
+          "placeholder": "[RANDOM:9]",
+          "role": "random spacer adjacent to Capture Sequence 1",
+          "segment_id": "fb_spacer_5prime",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "variable",
+          "length": 15,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_dna_oligos_from_the_antibody",
+              "orientation_to_source": "reverse_complement"
+            }
+          ],
+          "orientation": "5_to_3",
+          "placeholder": "[FEATURE_BARCODE:15]",
+          "role": "antibody Feature Barcode",
+          "segment_id": "fb_feature_barcode",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "variable",
+          "length": 10,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_dna_oligos_from_the_antibody",
+              "orientation_to_source": "reverse_complement"
+            }
+          ],
+          "orientation": "5_to_3",
+          "placeholder": "[RANDOM:10]",
+          "role": "random spacer adjacent to TruSeq Read 2",
+          "segment_id": "fb_spacer_3prime",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "length": 34,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_illumina_truseq_read_2_primer",
+              "orientation_to_source": "reverse_complement"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "TruSeq Read 2 sequencing primer site",
+          "segment_id": "fb_truseq_read2",
+          "sequence": "AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "variable",
+          "length": 8,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_library_pcr_primer_2_pn_220103",
+              "orientation_to_source": "reverse_complement"
+            }
+          ],
+          "orientation": "5_to_3",
+          "placeholder": "[SAMPLE_INDEX:8]",
+          "role": "i7 sample index",
+          "segment_id": "fb_sample_index",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "length": 24,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_illumina_p7_adapter",
+              "orientation_to_source": "reverse_complement"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "Illumina P7 adapter",
+          "segment_id": "fb_p7",
+          "sequence": "ATCTCGTATGCCGTCTTCTGCTTG",
+          "support_status": "explicit"
+        }
+      ],
+      "strand": "top",
+      "support_status": "explicit"
+    }
+  ],
+  "protocol_id": "10x_chromium_3_feature_barcoding",
+  "protocol_name": "10x Chromium 3' Feature Barcoding",
+  "protocol_scope": {
+    "applicable_variants": [
+      "Cell Surface Protein"
+    ],
+    "protocol_version": "Single Cell 3' v3 & v3.1 with Feature Barcode technology for Cell Surface Protein (CG000185)"
+  }
+}

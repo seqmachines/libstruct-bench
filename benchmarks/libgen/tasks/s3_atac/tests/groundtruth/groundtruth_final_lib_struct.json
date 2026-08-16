@@ -1,0 +1,178 @@
+{
+  "libraries": [
+    {
+      "final_molecule": "double-stranded, dual-index Illumina sequencing library",
+      "library_sequence": "AATGATACGGCGACCACCGAGATCTACAC[I5_INDEX:8]TCGTCGGCAGCGTCAGATGTGTATAAGAGACAG[GDNA]CTGTCTCTTATACACATCTA[TN5_INDEX:8]AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC[I7_INDEX:8]ATCTCGTATGCCGTCTTCTGCTTG",
+      "modality": "chromatin accessibility",
+      "orientation": "5_to_3",
+      "segments": [
+        {
+          "kind": "constant",
+          "length": 29,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_pcr_i5_primer",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "Illumina P5 flowcell adapter",
+          "segment_id": "seg_p5",
+          "sequence": "AATGATACGGCGACCACCGAGATCTACAC",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "variable",
+          "length": 8,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_pcr_i5_primer",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "placeholder": "[I5_INDEX:8]",
+          "role": "i5 PCR sample index",
+          "segment_id": "seg_i5_index",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "length": 14,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_pcr_i5_primer",
+              "orientation_to_source": "same_orientation"
+            },
+            {
+              "oligo_id": "oligo_a14_me_lna_nextera_r1_a14_plus_u_me",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "Nextera Read 1 / A14 primer-binding site (s5)",
+          "segment_id": "seg_s5_a14",
+          "sequence": "TCGTCGGCAGCGTC",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "length": 19,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_a14_me_lna_nextera_r1_a14_plus_u_me",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "Tn5 mosaic end (ME)",
+          "segment_id": "seg_me",
+          "sequence": "AGATGTGTATAAGAGACAG",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "biological_insert",
+          "orientation": "5_to_3",
+          "placeholder": "[GDNA]",
+          "role": "tagmented genomic DNA insert",
+          "segment_id": "seg_gdna",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "length": 19,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_tn5_binding_site_19_bp_mosaic_end_me_bottom",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "Tn5 mosaic end reverse complement (ME')",
+          "segment_id": "seg_me_prime",
+          "sequence": "CTGTCTCTTATACACATCT",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "length": 1,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_sbs12_18_ume_sci_indexed_tn5_adapter",
+              "orientation_to_source": "reverse_complement"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "base copied opposite the transposome adapter blocking deoxyuridine",
+          "segment_id": "seg_uracil_derived_base",
+          "sequence": "A",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "variable",
+          "length": 8,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_sbs12_18_ume_sci_indexed_tn5_adapter",
+              "orientation_to_source": "reverse_complement"
+            }
+          ],
+          "orientation": "5_to_3",
+          "placeholder": "[TN5_INDEX:8]",
+          "role": "Tn5 transposome index (single-cell barcode component)",
+          "segment_id": "seg_tn5_index",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "length": 34,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_truseq_i7_pcr_primer",
+              "orientation_to_source": "reverse_complement"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "TruSeq Read 2 primer-binding site",
+          "segment_id": "seg_truseq_read2",
+          "sequence": "AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "variable",
+          "length": 8,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_truseq_i7_pcr_primer",
+              "orientation_to_source": "reverse_complement"
+            }
+          ],
+          "orientation": "5_to_3",
+          "placeholder": "[I7_INDEX:8]",
+          "role": "i7 PCR sample index",
+          "segment_id": "seg_i7_index",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "length": 24,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_truseq_i7_pcr_primer",
+              "orientation_to_source": "reverse_complement"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "Illumina P7 flowcell adapter",
+          "segment_id": "seg_p7",
+          "sequence": "ATCTCGTATGCCGTCTTCTGCTTG",
+          "support_status": "explicit"
+        }
+      ],
+      "strand": "top",
+      "support_status": "explicit"
+    }
+  ],
+  "protocol_id": "s3_atac",
+  "protocol_name": "s3-ATAC"
+}

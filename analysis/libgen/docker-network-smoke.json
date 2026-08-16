@@ -1,0 +1,37 @@
+{
+  "created_at": "2026-08-16T03:05:38.219293+00:00",
+  "docker_compose_returncode": 0,
+  "network_policy_sha256": "56ba69df40d6bc9587d95a5718364347564f23f2bd93772718df2cd54d36c46e",
+  "probe": {
+    "direct_external_access": {
+      "error": "OSError",
+      "reachable": false
+    },
+    "provider_api_access": {
+      "reachable": true,
+      "status": 401
+    },
+    "qwen_api_access": {
+      "reachable": true,
+      "status": 200
+    },
+    "setup_repository_access": {
+      "reachable": true,
+      "status": 200
+    },
+    "setup_repository_access_after_provider": {
+      "error": "URLError",
+      "reachable": false
+    },
+    "unrelated_public_web_access": {
+      "error": "URLError",
+      "reachable": false
+    },
+    "uv_installer_access": {
+      "reachable": true,
+      "status": 200
+    }
+  },
+  "ready": true,
+  "schema_version": 2
+}

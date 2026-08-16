@@ -1,0 +1,184 @@
+{
+  "libraries": [
+    {
+      "final_molecule": "Dual-indexed double-stranded Illumina P5/P7 3'-tag cDNA library",
+      "library_sequence": "AATGATACGGCGACCACCGAGATCTACAC[I5_INDEX:10]ACACTCTTTCCCTACACGACGCTCTTCCGATCT[UMI:8][RT_BARCODE:10]TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTVN[CDNA]CTGTCTCTTATACACATCTCCGAGCCCACGAGAC[I7_INDEX:10]ATCTCGTATGCCGTCTTCTGCTTG",
+      "modality": "gene expression",
+      "orientation": "5_to_3",
+      "segments": [
+        {
+          "kind": "constant",
+          "length": 29,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_pcr_p5_primer",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "Illumina P5 flow-cell adaptor",
+          "segment_id": "seg_p5",
+          "sequence": "AATGATACGGCGACCACCGAGATCTACAC",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "variable",
+          "length": 10,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_pcr_p5_primer",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "placeholder": "[I5_INDEX:10]",
+          "role": "i5 PCR index (second-round well index)",
+          "segment_id": "seg_i5_index",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "length": 33,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_pcr_p5_primer",
+              "orientation_to_source": "same_orientation"
+            },
+            {
+              "oligo_id": "oligo_illumina_truseq_read_1_primer",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "Illumina TruSeq Read 1 primer binding site",
+          "segment_id": "seg_truseq_read1",
+          "sequence": "ACACTCTTTCCCTACACGACGCTCTTCCGATCT",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "variable",
+          "length": 8,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_barcoded_rt_primer",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "placeholder": "[UMI:8]",
+          "role": "unique molecular identifier",
+          "segment_id": "seg_umi",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "variable",
+          "length": 10,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_barcoded_rt_primer",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "placeholder": "[RT_BARCODE:10]",
+          "role": "RT barcode (first-round cellular index)",
+          "segment_id": "seg_rt_barcode",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "length": 32,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_barcoded_rt_primer",
+              "orientation_to_source": "same_orientation"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "anchored oligo(dT)30VN priming tract",
+          "segment_id": "seg_polyt_vn",
+          "sequence": "TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTVN",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "biological_insert",
+          "orientation": "5_to_3",
+          "placeholder": "[CDNA]",
+          "role": "cDNA insert corresponding to the transcript 3' end",
+          "segment_id": "seg_cdna",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "length": 19,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_nextera_tn5_binding_site_19_bp_mosaic_end_me",
+              "orientation_to_source": "reverse_complement"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "Nextera Mosaic End (ME) transposase binding site on the top strand",
+          "segment_id": "seg_me",
+          "sequence": "CTGTCTCTTATACACATCT",
+          "support_status": "externally_completed"
+        },
+        {
+          "kind": "constant",
+          "length": 15,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_nextera_n7xx_primer_entry_point_s7",
+              "orientation_to_source": "reverse_complement"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "Nextera s7 primer entry point on the top strand",
+          "segment_id": "seg_s7",
+          "sequence": "CCGAGCCCACGAGAC",
+          "support_status": "externally_completed"
+        },
+        {
+          "kind": "variable",
+          "length": 10,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_nextera_n7_index_primer",
+              "orientation_to_source": "reverse_complement"
+            }
+          ],
+          "orientation": "5_to_3",
+          "placeholder": "[I7_INDEX:10]",
+          "role": "i7 PCR index (second-round well index)",
+          "segment_id": "seg_i7_index",
+          "support_status": "explicit"
+        },
+        {
+          "kind": "constant",
+          "length": 24,
+          "oligo_derivations": [
+            {
+              "oligo_id": "oligo_nextera_n7_index_primer",
+              "orientation_to_source": "reverse_complement"
+            }
+          ],
+          "orientation": "5_to_3",
+          "role": "Illumina P7 flow-cell adaptor on the top strand",
+          "segment_id": "seg_p7",
+          "sequence": "ATCTCGTATGCCGTCTTCTGCTTG",
+          "support_status": "explicit"
+        }
+      ],
+      "strand": "top",
+      "support_status": "derivable"
+    }
+  ],
+  "protocol_id": "sci_rna_seq",
+  "protocol_name": "sci-RNA-seq",
+  "protocol_scope": {
+    "applicable_variants": [
+      "sci-RNA-seq two-level indexing"
+    ],
+    "protocol_version": null
+  }
+}

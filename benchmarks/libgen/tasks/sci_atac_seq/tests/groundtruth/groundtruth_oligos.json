@@ -1,0 +1,289 @@
+{
+  "oligos": [
+    {
+      "aliases": [
+        "Index 2 sequencing primer (i5)"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "ATAC index sequencing primer",
+      "oligo_id": "oligo_atac_index_sequencing_primer",
+      "orientation": "5_to_3",
+      "role": "index 2 (i5) sequencing primer",
+      "sequence": "CTGTCTCTTATACACATCTGCCGTCCTCGATCGC",
+      "support_status": "derivable"
+    },
+    {
+      "aliases": [
+        "Read 1 sequencing primer",
+        "Read 1 Sequencing Primer (Extended Mosaic End A)"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "ATAC Read 1/2 sequencing primer",
+      "oligo_id": "oligo_atac_read_1_2_sequencing_primer",
+      "orientation": "5_to_3",
+      "role": "read 1 sequencing primer",
+      "sequence": "GCGATCGAGGACGGCAGATGTGTATAAGAGACAG",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "P5_i5_{1..8}_Universal_Connector_A_C15_ME",
+        "Index Transposon Oligo (Transferred Strand), A side"
+      ],
+      "components": [
+        {
+          "modifications": [],
+          "name": "P5 index primer entry point (s5)",
+          "orientation": "5_to_3",
+          "role": "index primer binding site",
+          "sequence": "TCGTCGGCAGCGTCTCCACGC",
+          "support_status": "explicit"
+        },
+        {
+          "length": 8,
+          "modifications": [],
+          "name": "Tn5 barcode",
+          "orientation": "5_to_3",
+          "placeholder": "[TN5_INDEX:8]",
+          "role": "transposome barcode",
+          "support_status": "explicit"
+        },
+        {
+          "modifications": [],
+          "name": "Universal connector A (C15)",
+          "orientation": "5_to_3",
+          "role": "connector / read 1 primer site",
+          "sequence": "GCGATCGAGGACGGC",
+          "support_status": "explicit"
+        },
+        {
+          "modifications": [],
+          "name": "Mosaic end (ME)",
+          "orientation": "5_to_3",
+          "role": "Tn5 binding site",
+          "sequence": "AGATGTGTATAAGAGACAG",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [],
+      "name": "Barcoded Tn5 sequence s5",
+      "oligo_id": "oligo_barcoded_tn5_sequence_s5",
+      "orientation": "5_to_3",
+      "role": "barcoded transposon adapter oligo, transferred strand (s5 side)",
+      "sequence": "TCGTCGGCAGCGTCTCCACGC[TN5_INDEX:8]GCGATCGAGGACGGCAGATGTGTATAAGAGACAG",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "P7_i7_{1..12}_Universal_Connector_B_D15_ME",
+        "Index Transposon Oligo (Transferred Strand), B side"
+      ],
+      "components": [
+        {
+          "modifications": [],
+          "name": "P7 index primer entry point (s7)",
+          "orientation": "5_to_3",
+          "role": "index primer binding site",
+          "sequence": "GTCTCGTGGGCTCGGCTGTCCCTGTCC",
+          "support_status": "explicit"
+        },
+        {
+          "length": 8,
+          "modifications": [],
+          "name": "Tn5 barcode",
+          "orientation": "5_to_3",
+          "placeholder": "[TN5_INDEX:8]",
+          "role": "transposome barcode",
+          "support_status": "explicit"
+        },
+        {
+          "modifications": [],
+          "name": "Universal connector B (D15)",
+          "orientation": "5_to_3",
+          "role": "connector / read 2 primer site",
+          "sequence": "CACCGTCTCCGCCTC",
+          "support_status": "explicit"
+        },
+        {
+          "modifications": [],
+          "name": "Mosaic end (ME)",
+          "orientation": "5_to_3",
+          "role": "Tn5 binding site",
+          "sequence": "AGATGTGTATAAGAGACAG",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [],
+      "name": "Barcoded Tn5 sequence s7",
+      "oligo_id": "oligo_barcoded_tn5_sequence_s7",
+      "orientation": "5_to_3",
+      "role": "barcoded transposon adapter oligo, transferred strand (s7 side)",
+      "sequence": "GTCTCGTGGGCTCGGCTGTCCCTGTCC[TN5_INDEX:8]CACCGTCTCCGCCTCAGATGTGTATAAGAGACAG",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "Index 1 Sequencing Primer (Reverse Complement of Extended Mosaic End B)"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Index 1 sequencing primer (i7)",
+      "oligo_id": "oligo_index_1_sequencing_primer_i7",
+      "orientation": "5_to_3",
+      "role": "index 1 (i7) sequencing primer",
+      "sequence": "CTGTCTCTTATACACATCTGAGGCGGAGACGGTG",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [],
+      "components": [
+        {
+          "modifications": [],
+          "name": "Illumina P5",
+          "orientation": "5_to_3",
+          "role": "flow-cell adapter",
+          "sequence": "AATGATACGGCGACCACCGAGATCTACAC",
+          "support_status": "externally_completed"
+        },
+        {
+          "length": 10,
+          "modifications": [],
+          "name": "i5 index",
+          "orientation": "5_to_3",
+          "placeholder": "[I5_INDEX:10]",
+          "role": "library index",
+          "support_status": "ambiguous"
+        },
+        {
+          "modifications": [],
+          "name": "P5 index primer entry point (s5)",
+          "orientation": "5_to_3",
+          "role": "priming site",
+          "sequence": "TCGTCGGCAGCGTCTCCACGC",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [],
+      "name": "P5 index primer",
+      "oligo_id": "oligo_p5_index_primer",
+      "orientation": "5_to_3",
+      "role": "library amplification primer (P5 side, adds i5 index)",
+      "sequence": "AATGATACGGCGACCACCGAGATCTACAC[I5_INDEX:10]TCGTCGGCAGCGTCTCCACGC",
+      "support_status": "externally_completed"
+    },
+    {
+      "aliases": [
+        "s5"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "P5 index primer entry point (s5)",
+      "oligo_id": "oligo_p5_index_primer_entry_point_s5",
+      "orientation": "5_to_3",
+      "role": "index primer binding site",
+      "sequence": "TCGTCGGCAGCGTCTCCACGC",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [],
+      "components": [
+        {
+          "modifications": [],
+          "name": "Illumina P7",
+          "orientation": "5_to_3",
+          "role": "flow-cell adapter",
+          "sequence": "CAAGCAGAAGACGGCATACGAGAT",
+          "support_status": "externally_completed"
+        },
+        {
+          "length": 10,
+          "modifications": [],
+          "name": "i7 index",
+          "orientation": "5_to_3",
+          "placeholder": "[I7_INDEX:10]",
+          "role": "library index",
+          "support_status": "ambiguous"
+        },
+        {
+          "modifications": [],
+          "name": "P7 index primer entry point (s7)",
+          "orientation": "5_to_3",
+          "role": "priming site",
+          "sequence": "GTCTCGTGGGCTCGGCTGTCCCTGTCC",
+          "support_status": "explicit"
+        }
+      ],
+      "kind": "assembled",
+      "modifications": [],
+      "name": "P7 index primer",
+      "oligo_id": "oligo_p7_index_primer",
+      "orientation": "5_to_3",
+      "role": "library amplification primer (P7 side, adds i7 index)",
+      "sequence": "CAAGCAGAAGACGGCATACGAGAT[I7_INDEX:10]GTCTCGTGGGCTCGGCTGTCCCTGTCC",
+      "support_status": "externally_completed"
+    },
+    {
+      "aliases": [
+        "s7"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "P7 index primer entry point (s7)",
+      "oligo_id": "oligo_p7_index_primer_entry_point_s7",
+      "orientation": "5_to_3",
+      "role": "index primer binding site",
+      "sequence": "GTCTCGTGGGCTCGGCTGTCCCTGTCC",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "Read 2 seuquencing primer",
+        "Read 2 Sequencing Primer (Extended Mosaic End B)"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [],
+      "name": "Read 1/2 ATACseq primer",
+      "oligo_id": "oligo_read_1_2_atacseq_primer",
+      "orientation": "5_to_3",
+      "role": "read 2 sequencing primer",
+      "sequence": "CACCGTCTCCGCCTCAGATGTGTATAAGAGACAG",
+      "support_status": "explicit"
+    },
+    {
+      "aliases": [
+        "pMENTS",
+        "Universal Transposon Oligo (Non-Transferred Strand)"
+      ],
+      "components": [],
+      "kind": "single",
+      "modifications": [
+        "5-prime phosphate"
+      ],
+      "name": "Tn5 binding site 19-bp Mosaic End (ME) bottom",
+      "oligo_id": "oligo_tn5_binding_site_19_bp_mosaic_end_me_bottom",
+      "orientation": "5_to_3",
+      "role": "Tn5 mosaic-end non-transferred strand",
+      "sequence": "CTGTCTCTTATACACATCT",
+      "support_status": "explicit"
+    }
+  ],
+  "protocol_id": "sci_atac_seq",
+  "protocol_name": "sci-ATAC-seq",
+  "protocol_scope": {
+    "applicable_variants": [
+      "sci-ATAC-seq"
+    ],
+    "protocol_version": "sci-ATAC-seq (Cusanovich et al. 2015)"
+  }
+}
