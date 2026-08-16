@@ -18,15 +18,6 @@ GROUNDTRUTH_FILENAMES = (
     "groundtruth_oligos.json",
     "groundtruth_library_generation_workflow.json",
 )
-AGENT_ALLOWED_HOSTS = (
-    "api.openai.com",
-    "api.anthropic.com",
-    "generativelanguage.googleapis.com",
-    "openrouter.ai",
-    "api.moonshot.ai",
-    "api.moonshot.cn",
-    "api.kimi.com",
-)
 VERIFIER_ALLOWED_HOSTS = (
     "huggingface.co",
     "cdn-lfs.huggingface.co",
@@ -34,7 +25,13 @@ VERIFIER_ALLOWED_HOSTS = (
     "cdn-lfs-us-1.hf.co",
     "cas-bridge.xethub.hf.co",
 )
-NETWORK_PROFILES = ("allowlist", "local-docker")
+NETWORK_PROFILES = ("docker-provider-only", "harbor-allowlist")
+AGENT_RUNTIME_FILES = (
+    "__init__.py",
+    "cli/__init__.py",
+    "cli/validate_libgen_predictions.py",
+    "libgen/prediction_validation.py",
+)
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -52,13 +49,21 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--groundtruth-repo", required=True)
     parser.add_argument("--groundtruth-revision", required=True)
     parser.add_argument(
+        "--network-policy",
+        default=str(DEFAULT_BENCHMARK_DIR / "network-policy.json"),
+    )
+    parser.add_argument(
+        "--network-assets-root",
+        default=str(DEFAULT_BENCHMARK_DIR / "docker_network"),
+    )
+    parser.add_argument(
         "--network-profile",
         choices=NETWORK_PROFILES,
-        default="allowlist",
+        default="docker-provider-only",
         help=(
-            "allowlist uses phase-level host restrictions for providers with dynamic "
-            "network-policy support; local-docker inherits public network baselines "
-            "without unsupported phase switching"
+            "docker-provider-only uses an internal Docker network and exact-host "
+            "CONNECT proxy; harbor-allowlist uses Harbor's native phase policy on "
+            "compatible Linux Docker hosts"
         ),
     )
     parser.add_argument("--protocol-id", action="append", default=[])
@@ -78,6 +83,8 @@ def main(argv: list[str] | None = None) -> int:
     source_root = Path(args.source_root).resolve()
     groundtruth_root = Path(args.groundtruth_root).resolve()
     schema_root = _repo_root() / "schemas"
+    network_assets_root = Path(args.network_assets_root).resolve()
+    network_policy = _load_network_policy(Path(args.network_policy).resolve())
     groundtruth_hashes = _validate_local_release(
         protocols,
         source_root=source_root,
@@ -103,6 +110,8 @@ def main(argv: list[str] | None = None) -> int:
             groundtruth_hashes=groundtruth_hashes[
                 _required_string(protocol, "protocol_id")
             ],
+            network_assets_root=network_assets_root,
+            network_policy=network_policy,
             force=args.force,
         )
     return 0
@@ -202,6 +211,8 @@ def _write_task(
     groundtruth_revision: str,
     network_profile: str,
     groundtruth_hashes: dict[str, str],
+    network_assets_root: Path,
+    network_policy: dict[str, Any],
     force: bool,
 ) -> None:
     protocol_id = _required_string(protocol, "protocol_id")
@@ -242,6 +253,7 @@ def _write_task(
             groundtruth_repo=groundtruth_repo,
             groundtruth_revision=groundtruth_revision,
             network_profile=network_profile,
+            network_policy=network_policy,
             source_manifest_hash=source_manifest_hash,
             groundtruth_bundle_hash=groundtruth_bundle_hash,
         ),
@@ -264,10 +276,22 @@ def _write_task(
     shutil.copy2(
         task_dir / "input_manifest.json", environment_dir / "input_manifest.json"
     )
+    _copy_agent_runtime(package_root, environment_dir / "libstruct_bench")
     shutil.copytree(
-        package_root, environment_dir / "libstruct_bench", ignore=_ignore_python_cache
+        schema_root / "benchmark", environment_dir / "schemas" / "benchmark"
     )
-    shutil.copytree(schema_root, environment_dir / "schemas")
+    if network_profile == "docker-provider-only":
+        for filename in (
+            "ProviderProxy.Dockerfile",
+            "docker-compose.yaml",
+            "provider_egress_proxy.py",
+            "network_smoke.py",
+        ):
+            shutil.copy2(network_assets_root / filename, environment_dir / filename)
+        (environment_dir / "egress_policy.json").write_text(
+            json.dumps(network_policy, indent=2, sort_keys=True) + "\n",
+            encoding="utf-8",
+        )
 
     (tests_dir / "Dockerfile").write_text(_tests_dockerfile(), encoding="utf-8")
     (tests_dir / "test.sh").write_text(
@@ -339,10 +363,13 @@ def _task_toml(
     groundtruth_repo: str,
     groundtruth_revision: str,
     network_profile: str,
+    network_policy: dict[str, Any],
     source_manifest_hash: str,
     groundtruth_bundle_hash: str,
 ) -> str:
-    agent_network = _phase_network_toml(network_profile, AGENT_ALLOWED_HOSTS)
+    agent_network = _phase_network_toml(
+        network_profile, tuple(network_policy["provider_hosts"])
+    )
     verifier_network = _phase_network_toml(network_profile, VERIFIER_ALLOWED_HOSTS)
     return f"""schema_version = "1.3"
 artifacts = [{{ source = "/logs/agent/trajectory.json", destination = "agent_trajectory.json" }}]
@@ -363,6 +390,7 @@ input_revision = {json.dumps(input_revision)}
 groundtruth_repo = {json.dumps(groundtruth_repo)}
 groundtruth_revision = {json.dumps(groundtruth_revision)}
 network_profile = {json.dumps(network_profile)}
+network_policy_sha256 = {json.dumps(_json_sha256(network_policy))}
 source_manifest_sha256 = {json.dumps(source_manifest_hash)}
 groundtruth_bundle_sha256 = {json.dumps(groundtruth_bundle_hash)}
 
@@ -395,9 +423,9 @@ HF_TOKEN = "${{HF_TOKEN}}"
 
 
 def _phase_network_toml(network_profile: str, allowed_hosts: tuple[str, ...]) -> str:
-    if network_profile == "local-docker":
+    if network_profile == "docker-provider-only":
         return ""
-    if network_profile == "allowlist":
+    if network_profile == "harbor-allowlist":
         return (
             '\nnetwork_mode = "allowlist"\n'
             f"allowed_hosts = {json.dumps(list(allowed_hosts))}"
@@ -560,6 +588,42 @@ def _ignore_python_cache(_path: str, names: list[str]) -> set[str]:
         for name in names
         if name == "__pycache__" or name.endswith((".pyc", ".pyo"))
     }
+
+
+def _copy_agent_runtime(package_root: Path, destination: Path) -> None:
+    for relative in AGENT_RUNTIME_FILES:
+        source = package_root / relative
+        target = destination / relative
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(source, target)
+    # The full package initializer imports the scorer. The agent runtime must not.
+    (destination / "libgen" / "__init__.py").write_text(
+        '"""Agent-visible Libgen prediction validation runtime."""\n',
+        encoding="utf-8",
+    )
+
+
+def _load_network_policy(path: Path) -> dict[str, Any]:
+    document = json.loads(path.read_text(encoding="utf-8"))
+    provider_hosts = document.get("provider_hosts")
+    setup_hosts = document.get("setup_hosts")
+    if not isinstance(provider_hosts, list) or not provider_hosts:
+        raise ValueError("network policy requires provider_hosts")
+    if not isinstance(setup_hosts, list):
+        raise ValueError("network policy setup_hosts must be an array")
+    qwen_url = _required_string(document, "qwen_openai_base_url")
+    qwen_host = qwen_url.split("/", 3)[2]
+    if qwen_host not in provider_hosts:
+        raise ValueError("Qwen endpoint host is missing from provider_hosts")
+    if set(provider_hosts) & set(setup_hosts):
+        raise ValueError("provider and setup hosts must be disjoint")
+    return document
+
+
+def _json_sha256(document: Any) -> str:
+    return hashlib.sha256(
+        json.dumps(document, sort_keys=True, separators=(",", ":")).encode()
+    ).hexdigest()
 
 
 def _repo_root() -> Path:

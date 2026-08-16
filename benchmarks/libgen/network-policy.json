@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "enforcement": "docker_internal_network_with_connect_proxy",
+  "agent_phase_transition": "first_model_provider_connect",
+  "provider_hosts": [
+    "api.openai.com",
+    "api.anthropic.com",
+    "generativelanguage.googleapis.com",
+    "openrouter.ai",
+    "api.moonshot.ai",
+    "api.moonshot.cn",
+    "api.kimi.com",
+    "coding-intl.dashscope.aliyuncs.com"
+  ],
+  "setup_hosts": [
+    "deb.debian.org",
+    "security.debian.org",
+    "raw.githubusercontent.com",
+    "nodejs.org",
+    "registry.npmjs.org",
+    "astral.sh",
+    "pypi.org",
+    "files.pythonhosted.org",
+    "downloads.claude.ai",
+    "github.com",
+    "objects.githubusercontent.com",
+    "release-assets.githubusercontent.com",
+    "storage.googleapis.com"
+  ],
+  "qwen_openai_base_url": "https://coding-intl.dashscope.aliyuncs.com/v1",
+  "unrelated_web_probe": "https://example.com/",
+  "model_api_probe": "https://api.openai.com/v1/models"
+}

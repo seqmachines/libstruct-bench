@@ -93,6 +93,8 @@
       "display_name": "Qwen Code",
       "harbor_agent": "qwen-coder",
       "version_env": "LIBGEN_QWEN_CODE_VERSION",
+      "base_url_env": "LIBGEN_QWEN_OPENAI_BASE_URL",
+      "required_base_url": "https://coding-intl.dashscope.aliyuncs.com/v1",
       "required_version": "0.21.12",
       "reasoning_setting": "provider_default",
       "agent_kwargs": {}
@@ -115,5 +117,6 @@
   "pilot_attempts": 1,
   "full_attempts": 2,
   "n_concurrent_trials": 4,
-  "environment": "e2b"
+  "environment": "docker",
+  "network_policy": "network-policy.json"
 }

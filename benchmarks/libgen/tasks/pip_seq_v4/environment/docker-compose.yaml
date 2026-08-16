@@ -1,0 +1,42 @@
+services:
+  main:
+    depends_on:
+      provider-egress:
+        condition: service_healthy
+    environment: &proxy-environment
+      HTTP_PROXY: http://provider-egress:3128
+      HTTPS_PROXY: http://provider-egress:3128
+      http_proxy: http://provider-egress:3128
+      https_proxy: http://provider-egress:3128
+      NO_PROXY: localhost,127.0.0.1,provider-egress
+      no_proxy: localhost,127.0.0.1,provider-egress
+    networks:
+      - agent-internal
+
+  provider-egress:
+    build:
+      context: .
+      dockerfile: ProviderProxy.Dockerfile
+    networks:
+      - agent-internal
+      - provider-external
+    restart: unless-stopped
+
+  network-smoke:
+    profiles: ["network-smoke"]
+    image: python:3.12-alpine
+    depends_on:
+      provider-egress:
+        condition: service_healthy
+    environment: *proxy-environment
+    command: ["python", "/smoke/network_smoke.py"]
+    volumes:
+      - ./network_smoke.py:/smoke/network_smoke.py:ro
+      - ./egress_policy.json:/smoke/egress_policy.json:ro
+    networks:
+      - agent-internal
+
+networks:
+  agent-internal:
+    internal: true
+  provider-external: {}

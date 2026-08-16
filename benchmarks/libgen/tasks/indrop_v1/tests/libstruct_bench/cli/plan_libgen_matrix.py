@@ -32,6 +32,11 @@ def main(argv: list[str] | None = None) -> int:
         "--pilot-clearance",
         help="validated pilot-review status; required before planning the full run",
     )
+    parser.add_argument(
+        "--network-smoke-report",
+        required=True,
+        help="successful Docker network smoke report to bind into the lock",
+    )
     args = parser.parse_args(argv)
 
     installed_harbor = _harbor_version()
@@ -40,6 +45,15 @@ def main(argv: list[str] | None = None) -> int:
             f"Harbor version mismatch: expected {args.harbor_version}, installed {installed_harbor}"
         )
     matrix = json.loads(Path(args.matrix).read_text(encoding="utf-8"))
+    if matrix.get("environment") != "docker":
+        raise ValueError("Libgen v3 must run in the private Docker environment")
+    network_policy_path = Path(args.matrix).parent / matrix["network_policy"]
+    network_policy = json.loads(network_policy_path.read_text(encoding="utf-8"))
+    network_policy_sha256 = _canonical_json_sha256(network_policy)
+    network_smoke_report = json.loads(
+        Path(args.network_smoke_report).read_text(encoding="utf-8")
+    )
+    _validate_network_smoke_report(network_smoke_report, network_policy_sha256)
     core_models = matrix["models"]
     native_only_models = matrix.get("native_only_models", [])
     all_models = core_models + native_only_models
@@ -138,6 +152,11 @@ def main(argv: list[str] | None = None) -> int:
         item["version_env"]
         for item in matrix["core_harnesses"] + matrix["native_extensions"]
     )
+    required_pin_names.update(
+        item["base_url_env"]
+        for item in matrix["native_extensions"]
+        if item.get("base_url_env")
+    )
     unset_pins = sorted(name for name in required_pin_names if not os.environ.get(name))
     if unset_pins:
         raise ValueError("required experiment pins are unset: " + ", ".join(unset_pins))
@@ -184,6 +203,17 @@ def main(argv: list[str] | None = None) -> int:
     commands: list[str] = []
     for cell in cells:
         job_name = f"libgen-{args.mode}-{cell['model_key']}-{cell['harness_key']}"
+        agent_config = {
+            "name": cell["harbor_agent"],
+            "model_name": cell["model_id"],
+            "kwargs": cell["agent_kwargs"],
+            "skills": [],
+            "mcp_servers": [],
+            "include_logs": [],
+            "exclude_logs": [],
+        }
+        if cell.get("provider_base_url"):
+            agent_config["env"] = {"OPENAI_BASE_URL": cell["provider_base_url"]}
         config = {
             "job_name": job_name,
             "jobs_dir": str(Path(args.jobs_dir).resolve()),
@@ -191,17 +221,7 @@ def main(argv: list[str] | None = None) -> int:
             "n_concurrent_trials": matrix["n_concurrent_trials"],
             "retry": {"max_retries": 0},
             "environment": {"type": matrix["environment"]},
-            "agents": [
-                {
-                    "name": cell["harbor_agent"],
-                    "model_name": cell["model_id"],
-                    "kwargs": cell["agent_kwargs"],
-                    "skills": [],
-                    "mcp_servers": [],
-                    "include_logs": [],
-                    "exclude_logs": [],
-                }
-            ],
+            "agents": [agent_config],
             "datasets": [
                 {
                     "path": str(tasks_root),
@@ -229,6 +249,10 @@ def main(argv: list[str] | None = None) -> int:
         "research_question": matrix["research_question"],
         "harbor_version": installed_harbor,
         "environment": matrix["environment"],
+        "network_policy": network_policy,
+        "network_policy_sha256": network_policy_sha256,
+        "network_smoke_report": network_smoke_report,
+        "network_smoke_required_before_execution": True,
         "attempts": attempts,
         "protocol_ids": selected,
         "task_bundle_sha256": task_digest,
@@ -261,6 +285,18 @@ def main(argv: list[str] | None = None) -> int:
             "resume_command": "libstruct-resume-libgen-job",
             "preserve_superseded_executions": True,
             "agent_exception_does_not_imply_invalid_prediction": True,
+        },
+        "primary_aggregation_policy": {
+            "population": "all_scheduled_attempts",
+            "valid_prediction": "normal_score",
+            "invalid_prediction": "zero",
+            "incomplete_output": "zero",
+            "agent_timeout": "zero",
+            "agent_timeout_rerun_eligible": False,
+            "infrastructure_provider_rerun": (
+                "eligible_only_with_documented_confirmation"
+            ),
+            "valid_output_only_performance_is_diagnostic": True,
         },
         "pilot_clearance": pilot_clearance,
     }
@@ -306,7 +342,7 @@ def _cell(
         )
     kwargs = dict(harness.get("agent_kwargs", {}))
     kwargs["version"] = version
-    return {
+    result = {
         "design": design,
         "native_pairing": native_pairing,
         "model_key": model["model_key"],
@@ -319,6 +355,16 @@ def _cell(
         "reasoning_setting": harness["reasoning_setting"],
         "agent_kwargs": kwargs,
     }
+    if base_url_env := harness.get("base_url_env"):
+        base_url = _required_env(base_url_env)
+        required_base_url = harness.get("required_base_url")
+        if required_base_url and base_url.rstrip("/") != required_base_url.rstrip("/"):
+            raise ValueError(
+                f"{harness['display_name']} must use {required_base_url}; "
+                f"found {base_url!r} in {base_url_env}"
+            )
+        result["provider_base_url"] = base_url.rstrip("/")
+    return result
 
 
 def _required_env(name: str) -> str:
@@ -326,6 +372,30 @@ def _required_env(name: str) -> str:
     if not value:
         raise ValueError(f"required experiment pin is unset: {name}")
     return value
+
+
+def _validate_network_smoke_report(
+    report: dict[str, Any], network_policy_sha256: str
+) -> None:
+    if report.get("ready") is not True:
+        raise ValueError("Docker network smoke report is not ready")
+    if report.get("network_policy_sha256") != network_policy_sha256:
+        raise ValueError("Docker network smoke report covers a different policy")
+    probe = report.get("probe")
+    if not isinstance(probe, dict):
+        raise ValueError("Docker network smoke report lacks probe results")
+    expected_reachability = {
+        "provider_api_access": True,
+        "qwen_api_access": True,
+        "unrelated_public_web_access": False,
+        "direct_external_access": False,
+    }
+    for probe_name, expected in expected_reachability.items():
+        result = probe.get(probe_name)
+        if not isinstance(result, dict) or result.get("reachable") is not expected:
+            raise ValueError(
+                f"Docker network smoke report failed {probe_name}: {result!r}"
+            )
 
 
 def _harbor_version() -> str:
@@ -336,6 +406,12 @@ def _harbor_version() -> str:
         text=True,
     )
     return result.stdout.strip()
+
+
+def _canonical_json_sha256(document: Any) -> str:
+    return hashlib.sha256(
+        json.dumps(document, sort_keys=True, separators=(",", ":")).encode()
+    ).hexdigest()
 
 
 def _available_harbor_agents() -> set[str]:

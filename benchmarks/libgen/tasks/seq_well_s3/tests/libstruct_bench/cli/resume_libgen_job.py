@@ -18,14 +18,22 @@ def main(argv: list[str] | None = None) -> int:
         )
     )
     parser.add_argument("--job-path", "-p", required=True)
-    parser.add_argument(
-        "--filter-error-type", "-f", action="append", default=[]
-    )
+    parser.add_argument("--filter-error-type", "-f", action="append", default=[])
     parser.add_argument(
         "--snapshot-only",
         action="store_true",
         help="create the preservation snapshot without invoking Harbor",
     )
+    parser.add_argument(
+        "--confirmed-infrastructure-outage",
+        action="store_true",
+        help=(
+            "mark the selected rerun as an approved primary replacement for a "
+            "confirmed infrastructure or provider outage"
+        ),
+    )
+    parser.add_argument("--confirmed-by")
+    parser.add_argument("--reason")
     args = parser.parse_args(argv)
 
     job_path = Path(args.job_path).resolve()
@@ -42,10 +50,25 @@ def main(argv: list[str] | None = None) -> int:
         if error_type and (not filters or error_type in filters):
             selected.append((result_path.parent, result))
 
+    if args.confirmed_infrastructure_outage:
+        if not args.confirmed_by or not args.reason:
+            raise ValueError(
+                "confirmed infrastructure reruns require --confirmed-by and --reason"
+            )
+        timeout_trials = [
+            result.get("trial_name") or trial_dir.name
+            for trial_dir, result in selected
+            if (result.get("exception_info") or {}).get("exception_type")
+            == "AgentTimeoutError"
+        ]
+        if timeout_trials:
+            raise ValueError(
+                "AgentTimeoutError is not eligible for a primary baseline rerun: "
+                + ", ".join(timeout_trials)
+            )
+
     invocation_id = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S.%fZ")
-    snapshot_root = (
-        job_path / ".libgen_telemetry" / "resume_snapshots" / invocation_id
-    )
+    snapshot_root = job_path / ".libgen_telemetry" / "resume_snapshots" / invocation_id
     snapshot_root.mkdir(parents=True)
     snapshots = []
     for trial_dir, result in selected:
@@ -71,12 +94,20 @@ def main(argv: list[str] | None = None) -> int:
         )
     event_path = snapshot_root / "resume_event.json"
     event = {
-        "schema_version": 1,
+        "schema_version": 2,
         "invocation_id": invocation_id,
         "created_at": datetime.now(timezone.utc).isoformat(),
         "job_path": str(job_path),
         "filter_error_types": sorted(filters),
         "snapshot_count": len(snapshots),
+        "rerun_classification": (
+            "confirmed_infrastructure_provider_outage"
+            if args.confirmed_infrastructure_outage
+            else "diagnostic_only"
+        ),
+        "primary_rerun_eligible": args.confirmed_infrastructure_outage,
+        "confirmed_by": args.confirmed_by,
+        "reason": args.reason,
         "snapshots": snapshots,
         "harbor_invoked": not args.snapshot_only,
         "harbor_returncode": None,

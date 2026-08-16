@@ -2,7 +2,11 @@ from __future__ import annotations
 
 import csv
 import hashlib
+import importlib.util
 import json
+import os
+import subprocess
+import sys
 import tempfile
 import tomllib
 from pathlib import Path
@@ -16,7 +20,13 @@ from libstruct_bench.cli.resume_libgen_job import main as resume_main
 from libstruct_bench.cli.summarize_libgen_runs import main as summarize_main
 from libstruct_bench.libgen.telemetry import normalized_api_cost
 from libstruct_bench.libgen.version import LIBGEN_BENCHMARK_VERSION
-from tests.libgen_fixtures import t1_groundtruth, t2_groundtruth, t3_groundtruth
+from tests.libgen_fixtures import (
+    t1_groundtruth,
+    t2_groundtruth,
+    t2_prediction,
+    t3_groundtruth,
+    t3_prediction,
+)
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -63,7 +73,7 @@ def _fixture_release(root: Path) -> tuple[Path, Path, Path]:
     return protocols, source_root, truth_root
 
 
-def test_generator_builds_separate_allowlisted_task_without_truth_leakage() -> None:
+def test_generator_builds_separate_docker_task_without_truth_leakage() -> None:
     with tempfile.TemporaryDirectory() as tmp:
         root = Path(tmp)
         protocols, source_root, truth_root = _fixture_release(root)
@@ -98,8 +108,7 @@ def test_generator_builds_separate_allowlisted_task_without_truth_leakage() -> N
         manifest = (task / "input_manifest.json").read_text()
         rules = (task / "rules.md").read_text()
         test_sh = (task / "tests/test.sh").read_text()
-        assert 'network_mode = "allowlist"' in task_toml
-        assert 'network_profile = "allowlist"' in task_toml
+        assert 'network_profile = "docker-provider-only"' in task_toml
         assert 'environment_mode = "separate"' in task_toml
         assert 'HF_TOKEN = "${HF_TOKEN}"' in task_toml
         assert "RUN python /workspace/fetch_input.py" in dockerfile
@@ -125,11 +134,73 @@ def test_generator_builds_separate_allowlisted_task_without_truth_leakage() -> N
         assert (
             task / "environment/schemas/benchmark/oligo_prediction.schema.json"
         ).is_file()
+        agent_package = task / "environment/libstruct_bench"
+        assert {
+            path.relative_to(agent_package).as_posix()
+            for path in agent_package.rglob("*")
+            if path.is_file()
+        } == {
+            "__init__.py",
+            "cli/__init__.py",
+            "cli/validate_libgen_predictions.py",
+            "libgen/__init__.py",
+            "libgen/prediction_validation.py",
+        }
+        assert not (task / "environment/schemas/audit").exists()
+        assert not (task / "environment/schemas/groundtruth").exists()
+        assert not (agent_package / "audit").exists()
+        assert not (agent_package / "libgen/scoring.py").exists()
+        assert not (agent_package / "libgen/error_analysis.py").exists()
+        assert not list(agent_package.rglob("*connected_process*"))
+        agent_runtime_text = "\n".join(
+            path.read_text(encoding="utf-8") for path in agent_package.rglob("*.py")
+        )
+        private_t3 = t3_groundtruth()
+        private_answer_ids = {
+            item["state_id"]
+            for workflow in private_t3["workflows"]
+            for item in workflow["states"]
+        } | {
+            item["transition_id"]
+            for workflow in private_t3["workflows"]
+            for item in workflow["transitions"]
+        }
+        assert not any(item in agent_runtime_text for item in private_answer_ids)
+        compose = (task / "environment/docker-compose.yaml").read_text()
+        policy = json.loads((task / "environment/egress_policy.json").read_text())
+        assert "internal: true" in compose
+        assert "provider-egress:3128" in compose
+        assert "coding-intl.dashscope.aliyuncs.com" in policy["provider_hosts"]
         assert (task / "tests/libstruct_bench/libgen/scoring.py").is_file()
         assert (task / "tests/libstruct_bench/libgen/error_analysis.py").is_file()
 
+        t2_path = root / "t2.json"
+        t3_path = root / "t3.json"
+        t2_path.write_text(json.dumps(t2_prediction()))
+        t3_path.write_text(json.dumps(t3_prediction()))
+        validation = subprocess.run(
+            [
+                sys.executable,
+                "-m",
+                "libstruct_bench.cli.validate_libgen_predictions",
+                "--t2",
+                str(t2_path),
+                "--t3",
+                str(t3_path),
+                "--protocol-id",
+                "example_protocol",
+                "--schema-root",
+                str(task / "environment/schemas"),
+            ],
+            env={**os.environ, "PYTHONPATH": str(task / "environment")},
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        assert validation.returncode == 0, validation.stderr + validation.stdout
 
-def test_generator_builds_local_docker_task_without_phase_network_overrides() -> None:
+
+def test_generator_can_build_native_harbor_allowlist_task() -> None:
     with tempfile.TemporaryDirectory() as tmp:
         root = Path(tmp)
         protocols, source_root, truth_root = _fixture_release(root)
@@ -154,7 +225,7 @@ def test_generator_builds_local_docker_task_without_phase_network_overrides() ->
                     "--groundtruth-revision",
                     "b" * 40,
                     "--network-profile",
-                    "local-docker",
+                    "harbor-allowlist",
                 ]
             )
             == 0
@@ -168,17 +239,35 @@ def test_generator_builds_local_docker_task_without_phase_network_overrides() ->
                 "destination": "agent_trajectory.json",
             }
         ]
-        assert task_config["metadata"]["network_profile"] == "local-docker"
-        assert "network_mode" not in task_config["agent"]
-        assert "allowed_hosts" not in task_config["agent"]
+        assert task_config["metadata"]["network_profile"] == "harbor-allowlist"
+        assert task_config["agent"]["network_mode"] == "allowlist"
+        assert (
+            "coding-intl.dashscope.aliyuncs.com"
+            in task_config["agent"]["allowed_hosts"]
+        )
         assert task_config["verifier"]["environment_mode"] == "separate"
-        assert "network_mode" not in task_config["verifier"]
-        assert "allowed_hosts" not in task_config["verifier"]
+        assert task_config["verifier"]["network_mode"] == "allowlist"
         assert task_config["environment"]["network_mode"] == "public"
         assert task_config["verifier"]["environment"]["network_mode"] == "public"
         assert (
             task_config["verifier"]["environment"]["env"]["HF_TOKEN"] == "${HF_TOKEN}"
         )
+
+
+def test_docker_proxy_switches_from_setup_to_provider_only() -> None:
+    proxy_path = ROOT / "benchmarks/libgen/docker_network/provider_egress_proxy.py"
+    spec = importlib.util.spec_from_file_location("libgen_provider_proxy", proxy_path)
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    policy = module.Policy(ROOT / "benchmarks/libgen/network-policy.json")
+    assert policy.authorize("registry.npmjs.org", 443)[0] is True
+    assert policy.phase == "setup"
+    assert policy.authorize("coding-intl.dashscope.aliyuncs.com", 443)[0] is True
+    assert policy.phase == "agent"
+    assert policy.authorize("registry.npmjs.org", 443)[0] is False
+    assert policy.authorize("example.com", 443)[0] is False
+    assert policy.authorize("api.openai.com", 80)[0] is False
 
 
 def test_checked_in_libgen_tasks_keep_verifier_snapshots_synchronized() -> None:
@@ -224,20 +313,43 @@ def test_checked_in_libgen_tasks_keep_verifier_snapshots_synchronized() -> None:
         assert "--error-analysis-out /logs/verifier/error_analysis.json" in test_sh
         assert "--trajectory /logs/agent/trajectory.json" in test_sh
 
-        for package_copy in (
-            task / "environment/libstruct_bench",
-            task / "tests/libstruct_bench",
-        ):
-            for relative in synchronized_files:
-                assert (package_copy / relative).read_bytes() == (
-                    source_package / relative
-                ).read_bytes(), f"{protocol_id}: stale {package_copy / relative}"
+        agent_package = task / "environment/libstruct_bench"
+        agent_files = {
+            path.relative_to(agent_package).as_posix()
+            for path in agent_package.rglob("*")
+            if path.is_file()
+        }
+        assert agent_files == {
+            "__init__.py",
+            "cli/__init__.py",
+            "cli/validate_libgen_predictions.py",
+            "libgen/__init__.py",
+            "libgen/prediction_validation.py",
+        }, f"{protocol_id}: agent runtime leakage"
+        assert not any("connected_process" in item for item in agent_files)
+        assert not (task / "environment/schemas/audit").exists()
+        assert not (task / "environment/schemas/groundtruth").exists()
+        assert (agent_package / "libgen/prediction_validation.py").read_bytes() == (
+            source_package / "libgen/prediction_validation.py"
+        ).read_bytes()
 
-        for schema_copy in (task / "environment/schemas", task / "tests/schemas"):
-            for schema_relative in synchronized_schemas:
-                assert (schema_copy / schema_relative).read_bytes() == (
-                    ROOT / "schemas" / schema_relative
-                ).read_bytes(), f"{protocol_id}: stale {schema_copy / schema_relative}"
+        package_copy = task / "tests/libstruct_bench"
+        for relative in synchronized_files + ("libgen/prediction_validation.py",):
+            assert (package_copy / relative).read_bytes() == (
+                source_package / relative
+            ).read_bytes(), f"{protocol_id}: stale {package_copy / relative}"
+
+        for schema_relative in synchronized_schemas:
+            assert (task / "tests/schemas" / schema_relative).read_bytes() == (
+                ROOT / "schemas" / schema_relative
+            ).read_bytes(), f"{protocol_id}: stale verifier {schema_relative}"
+        for schema_relative in (
+            "benchmark/library_generation_workflow_prediction.schema.json",
+            "benchmark/oligo_prediction.schema.json",
+        ):
+            assert (task / "environment/schemas" / schema_relative).read_bytes() == (
+                ROOT / "schemas" / schema_relative
+            ).read_bytes(), f"{protocol_id}: stale agent {schema_relative}"
         assert (task / "rules.md").read_bytes() == (
             ROOT / "benchmarks/libgen/rules.md"
         ).read_bytes(), f"{protocol_id}: stale rules.md"
@@ -356,6 +468,7 @@ def test_matrix_planner_creates_16_unique_cells_and_64_trial_pilot(
             "LIBGEN_CLAUDE_CODE_VERSION",
             "LIBGEN_GEMINI_CLI_VERSION",
             "LIBGEN_QWEN_CODE_VERSION",
+            "LIBGEN_QWEN_OPENAI_BASE_URL",
         ]
         for name in env_names:
             value = (
@@ -365,9 +478,32 @@ def test_matrix_planner_creates_16_unique_cells_and_64_trial_pilot(
             )
             if name == "LIBGEN_QWEN_CODE_VERSION":
                 value = "0.21.12"
+            if name == "LIBGEN_QWEN_OPENAI_BASE_URL":
+                value = "https://coding-intl.dashscope.aliyuncs.com/v1"
             monkeypatch.setenv(name, value)
         monkeypatch.setattr(
             "libstruct_bench.cli.plan_libgen_matrix._harbor_version", lambda: "9.9.9"
+        )
+        policy = json.loads(
+            (ROOT / "benchmarks/libgen/network-policy.json").read_text()
+        )
+        policy_digest = hashlib.sha256(
+            json.dumps(policy, sort_keys=True, separators=(",", ":")).encode()
+        ).hexdigest()
+        network_smoke = root / "docker-network-smoke.json"
+        network_smoke.write_text(
+            json.dumps(
+                {
+                    "ready": True,
+                    "network_policy_sha256": policy_digest,
+                    "probe": {
+                        "provider_api_access": {"reachable": True, "status": 401},
+                        "qwen_api_access": {"reachable": True, "status": 200},
+                        "unrelated_public_web_access": {"reachable": False},
+                        "direct_external_access": {"reachable": False},
+                    },
+                }
+            )
         )
         out = root / "plan"
         assert (
@@ -383,6 +519,8 @@ def test_matrix_planner_creates_16_unique_cells_and_64_trial_pilot(
                     str(out),
                     "--harbor-version",
                     "9.9.9",
+                    "--network-smoke-report",
+                    str(network_smoke),
                 ]
             )
             == 0
@@ -424,7 +562,7 @@ def test_matrix_planner_creates_16_unique_cells_and_64_trial_pilot(
             "unique_execution_cells": 16,
         }
         first = json.loads(next((out / "jobs").glob("*.json")).read_text())
-        assert first["environment"]["type"] == "e2b"
+        assert first["environment"]["type"] == "docker"
         assert first["agents"][0]["skills"] == []
         assert first["agents"][0]["mcp_servers"] == []
         assert first["agents"][0]["include_logs"] == []
@@ -435,6 +573,21 @@ def test_matrix_planner_creates_16_unique_cells_and_64_trial_pilot(
         assert len(lock["pricing_snapshot_sha256"]) == 64
         assert lock["pricing_snapshot"]["snapshot_id"].startswith("libgen-api-pricing-")
         assert lock["error_analysis_policy"]["automatic_process_attribution"] is False
+        assert lock["network_policy"]["enforcement"] == (
+            "docker_internal_network_with_connect_proxy"
+        )
+        assert lock["network_smoke_required_before_execution"] is True
+        assert lock["network_smoke_report"]["ready"] is True
+        assert (
+            lock["network_smoke_report"]["probe"]["unrelated_public_web_access"][
+                "reachable"
+            ]
+            is False
+        )
+        assert lock["primary_aggregation_policy"]["agent_timeout"] == "zero"
+        assert (
+            lock["primary_aggregation_policy"]["agent_timeout_rerun_eligible"] is False
+        )
 
         with pytest.raises(ValueError, match="pilot-clearance"):
             plan_main(
@@ -449,6 +602,8 @@ def test_matrix_planner_creates_16_unique_cells_and_64_trial_pilot(
                     str(root / "full-without-clearance"),
                     "--harbor-version",
                     "9.9.9",
+                    "--network-smoke-report",
+                    str(network_smoke),
                 ]
             )
 
@@ -479,6 +634,8 @@ def test_matrix_planner_creates_16_unique_cells_and_64_trial_pilot(
                     "9.9.9",
                     "--pilot-clearance",
                     str(clearance),
+                    "--network-smoke-report",
+                    str(network_smoke),
                 ]
             )
             == 0
@@ -501,6 +658,8 @@ def test_matrix_planner_creates_16_unique_cells_and_64_trial_pilot(
                     str(smoke_out),
                     "--harbor-version",
                     "9.9.9",
+                    "--network-smoke-report",
+                    str(network_smoke),
                 ]
             )
             == 0
@@ -510,6 +669,12 @@ def test_matrix_planner_creates_16_unique_cells_and_64_trial_pilot(
         assert smoke_lock["expected_trial_count"] == 16
         smoke_config = json.loads(next((smoke_out / "jobs").glob("*.json")).read_text())
         assert smoke_config["datasets"][0]["task_names"] == ["s3_atac"]
+        qwen_config = json.loads(
+            (smoke_out / "jobs/qwen_3_8_max__qwen_code.json").read_text()
+        )
+        assert qwen_config["agents"][0]["env"]["OPENAI_BASE_URL"] == (
+            "https://coding-intl.dashscope.aliyuncs.com/v1"
+        )
 
 
 def test_run_summarizer_keeps_core_and_native_estimands_separate(
@@ -542,7 +707,7 @@ def test_run_summarizer_keeps_core_and_native_estimands_separate(
     runs = tmp_path / "runs"
     for harness, reward in (("harness_a", 0.75), ("native_a", 0.9)):
         trial = runs / f"libgen-pilot-model_a-{harness}" / "example_protocol__abc"
-        trial.mkdir(parents=True)
+        (trial / "verifier").mkdir(parents=True)
         (trial / "result.json").write_text(
             json.dumps(
                 {
@@ -560,6 +725,9 @@ def test_run_summarizer_keeps_core_and_native_estimands_separate(
                     "finished_at": "2026-01-01T00:01:00+00:00",
                 }
             )
+        )
+        (trial / "verifier/details.json").write_text(
+            json.dumps({"prediction_valid": True})
         )
     output = tmp_path / "summary"
     assert (
@@ -723,6 +891,14 @@ def test_telemetry_keeps_timeout_usage_and_does_not_invalidate_prediction(
     assert summary["agent_exception_count"] == 1
     assert summary["valid_completion_rate"] == 1.0
     assert summary["scored_current_trial_count"] == 1
+    assert summary["balanced_core"]["grand_mean_reward"] == 0.0
+    assert summary["primary_outcome_counts"] == {"agent_timeout": 1}
+    assert summary["valid_output_only"]["grand_mean_reward_balanced_core"] == 0.7
+    with (out / "primary_attempts.csv").open(newline="") as handle:
+        primary = next(csv.DictReader(handle))
+    assert primary["primary_reward"] == "0.0"
+    assert primary["primary_score_reason"] == "agent_timeout"
+    assert primary["valid_output_reward"] == "0.7"
 
 
 def test_resume_wrapper_preserves_superseded_timeout_execution(tmp_path: Path) -> None:
@@ -819,6 +995,184 @@ def test_resume_wrapper_preserves_superseded_timeout_execution(tmp_path: Path) -
     assert preserved["input_tokens"] == "123"
     assert preserved["reported_cost_usd"] == "0.4"
     assert preserved["resume_count"] == "1"
+    primary = next(row for row in rows if row["is_primary_execution"] == "True")
+    assert primary["primary_score_reason"] == "agent_timeout"
+    assert primary["primary_reward"] == "0.0"
+
+
+def test_confirmed_infrastructure_rerun_can_replace_primary_execution(
+    tmp_path: Path,
+) -> None:
+    job = tmp_path / "runs/libgen-smoke-model_a-codex"
+    trial = job / "example_protocol__failed"
+    (trial / "verifier").mkdir(parents=True)
+    (job / "config.json").write_text(json.dumps({"retry": {"max_retries": 0}}))
+    result_path = trial / "result.json"
+    result_path.write_text(
+        json.dumps(
+            {
+                "trial_name": trial.name,
+                "config": {"task": {"path": "tasks/example_protocol"}},
+                "exception_info": {"exception_type": "ApiRateLimitError"},
+                "started_at": "2026-01-01T00:00:00Z",
+                "finished_at": "2026-01-01T00:01:00Z",
+            }
+        )
+    )
+    assert (
+        resume_main(
+            [
+                "-p",
+                str(job),
+                "-f",
+                "ApiRateLimitError",
+                "--confirmed-infrastructure-outage",
+                "--confirmed-by",
+                "reviewer",
+                "--reason",
+                "provider status incident 123",
+                "--snapshot-only",
+            ]
+        )
+        == 0
+    )
+    result_path.write_text(
+        json.dumps(
+            {
+                "trial_name": trial.name,
+                "config": {"task": {"path": "tasks/example_protocol"}},
+                "verifier_result": {"rewards": {"reward": 0.8}},
+                "exception_info": None,
+                "started_at": "2026-01-01T01:00:00Z",
+                "finished_at": "2026-01-01T01:01:00Z",
+            }
+        )
+    )
+    (trial / "verifier/details.json").write_text(json.dumps({"prediction_valid": True}))
+    lock = {
+        "mode": "smoke",
+        "attempts": 1,
+        "protocol_ids": ["example_protocol"],
+        "expected_trial_count": 1,
+        "cells": [
+            {
+                "design": "balanced_core",
+                "model_key": "model_a",
+                "model_id": "provider/model-a",
+                "harness_key": "codex",
+                "harbor_agent": "codex",
+                "harness_version": "1.0",
+            }
+        ],
+    }
+    lock_path = tmp_path / "lock.json"
+    lock_path.write_text(json.dumps(lock))
+    out = tmp_path / "summary"
+    assert (
+        summarize_main(
+            [
+                "--runs-root",
+                str(tmp_path / "runs"),
+                "--experiment-lock",
+                str(lock_path),
+                "--out",
+                str(out),
+            ]
+        )
+        == 0
+    )
+    summary = json.loads((out / "summary.json").read_text())
+    assert summary["balanced_core"]["grand_mean_reward"] == 0.8
+    assert summary["primary_outcome_counts"] == {"valid_prediction": 1}
+
+
+def test_agent_timeout_cannot_be_confirmed_as_infrastructure(tmp_path: Path) -> None:
+    job = tmp_path / "job"
+    trial = job / "example_protocol__timeout"
+    trial.mkdir(parents=True)
+    (job / "config.json").write_text("{}")
+    (trial / "result.json").write_text(
+        json.dumps(
+            {
+                "trial_name": trial.name,
+                "exception_info": {"exception_type": "AgentTimeoutError"},
+            }
+        )
+    )
+    with pytest.raises(ValueError, match="not eligible"):
+        resume_main(
+            [
+                "-p",
+                str(job),
+                "-f",
+                "AgentTimeoutError",
+                "--confirmed-infrastructure-outage",
+                "--confirmed-by",
+                "reviewer",
+                "--reason",
+                "not actually infrastructure",
+                "--snapshot-only",
+            ]
+        )
+
+
+def test_missing_scheduled_attempt_contributes_zero(tmp_path: Path) -> None:
+    lock = {
+        "mode": "smoke",
+        "attempts": 2,
+        "protocol_ids": ["example_protocol"],
+        "expected_trial_count": 2,
+        "cells": [
+            {
+                "design": "balanced_core",
+                "model_key": "model_a",
+                "model_id": "provider/model-a",
+                "harness_key": "codex",
+                "harbor_agent": "codex",
+                "harness_version": "1.0",
+            }
+        ],
+    }
+    lock_path = tmp_path / "lock.json"
+    lock_path.write_text(json.dumps(lock))
+    trial = tmp_path / "runs/libgen-smoke-model_a-codex/example_protocol__one"
+    (trial / "verifier").mkdir(parents=True)
+    (trial / "result.json").write_text(
+        json.dumps(
+            {
+                "trial_name": trial.name,
+                "config": {"task": {"path": "tasks/example_protocol"}},
+                "verifier_result": {"rewards": {"reward": 1.0}},
+                "exception_info": None,
+                "started_at": "2026-01-01T00:00:00Z",
+                "finished_at": "2026-01-01T00:01:00Z",
+            }
+        )
+    )
+    (trial / "verifier/details.json").write_text(json.dumps({"prediction_valid": True}))
+    out = tmp_path / "summary"
+    assert (
+        summarize_main(
+            [
+                "--runs-root",
+                str(tmp_path / "runs"),
+                "--experiment-lock",
+                str(lock_path),
+                "--out",
+                str(out),
+            ]
+        )
+        == 1
+    )
+    summary = json.loads((out / "summary.json").read_text())
+    assert summary["balanced_core"]["grand_mean_reward"] == 0.5
+    assert summary["primary_outcome_counts"] == {
+        "scheduled_attempt_missing": 1,
+        "valid_prediction": 1,
+    }
+    with (out / "primary_attempts.csv").open(newline="") as handle:
+        attempts = list(csv.DictReader(handle))
+    assert len(attempts) == 2
 
 
 def test_api_cost_normalization_applies_per_call_long_context_and_cache_ttl() -> None:

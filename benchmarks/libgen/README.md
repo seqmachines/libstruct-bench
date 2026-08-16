@@ -31,8 +31,13 @@ built before the trial, so no HF token enters the agent environment. The
 private `HF_TOKEN` exists only in Harbor's separate verifier container.
 Every downloaded ground-truth file is also checked against the local approved
 file hash embedded when the task is generated.
-During agent execution E2B allows only model-provider hosts; source browsing is
-not available. No skills or MCP servers are attached.
+During agent execution private Docker places `main` on an internal-only network.
+An exact-host CONNECT proxy permits the pinned harness's setup downloads before
+the model starts; the first model-provider connection irreversibly switches the
+proxy to provider-only mode. General web access and direct external connections
+then fail. The frozen provider list includes Alibaba Qwen Code's international
+Coding Plan endpoint, `coding-intl.dashscope.aliyuncs.com`. No skills or MCP
+servers are attached.
 
 `protocols.json` contains the 58 approved source paths and SHA-256 hashes for
 the 20-protocol set. The task generator refuses missing or changed sources,
@@ -194,9 +199,10 @@ PYTHONPATH=src python -m libstruct_bench.cli.generate_libgen_tasks \
   --out benchmarks/libgen/tasks
 ```
 
-The default `allowlist` network profile is intended for providers such as E2B
-that support phase-level network-policy switching. For a local Docker Desktop
-run, generate Docker-compatible tasks instead:
+The default `docker-provider-only` profile is the production profile. It vendors
+the internal-network proxy and smoke probe into each generated task. Harbor's
+native allowlist remains available only as an alternative on compatible Linux
+Docker hosts:
 
 ```bash
 PYTHONPATH=src python -m libstruct_bench.cli.generate_libgen_tasks \
@@ -206,23 +212,24 @@ PYTHONPATH=src python -m libstruct_bench.cli.generate_libgen_tasks \
   --input-revision INPUT_COMMIT_SHA \
   --groundtruth-repo ORG/PRIVATE_GROUNDTRUTH \
   --groundtruth-revision GROUNDTRUTH_COMMIT_SHA \
-  --network-profile local-docker \
+  --network-profile harbor-allowlist \
   --out benchmarks/libgen/tasks
 ```
 
-The local profile uses public network baselines because plain Docker cannot
-enforce dynamic allowlists. It still uses a separate verifier container, and
-the private `HF_TOKEN` remains confined to that verifier.
+Do not use a public-network fallback for benchmark runs. The verifier remains a
+separate container, and the private `HF_TOKEN` remains confined to it.
 
 The generated environment includes Docling, PyMuPDF, pypdf, OpenPyXL, Pillow,
 `antiword`, `file`, `unzip`, and `rg`. Source bytes are downloaded and
 hash-checked during image construction. Generated Libgen tasks give the agent
 one hour (`[agent].timeout_sec = 3600.0`) and the verifier ten minutes.
 
-Each generated task vendors snapshots of the scorer, verifier CLI, analysis
-schema, and supporting package. Regenerate all checked-in tasks after changing
-that shared implementation; the generator regression suite rejects stale task
-copies so verifier behavior cannot silently diverge between protocols.
+The agent image contains only the prediction schemas and generic local
+prediction-validation runtime. It does not contain audit modules, ground-truth
+schemas, scoring, error analysis, or protocol-specific migration code. The
+separate verifier image vendors the full scorer and verifier package. Regenerate
+all checked-in tasks after changing shared verifier code; regression tests reject
+stale copies and agent-image leakage.
 
 ## Lock and run the matrix
 
@@ -237,8 +244,10 @@ For the Qwen native-only cell, set
 your Harbor credential routing requires one) and
 `LIBGEN_QWEN_CODE_VERSION=0.21.12`. The planner enforces that Qwen Code stable
 release so a later `latest` tag cannot change the experiment silently. Harbor's
-agent name is `qwen-coder`; it uses `OPENAI_API_KEY` and `OPENAI_BASE_URL` for
-Alibaba's OpenAI-compatible endpoint.
+agent name is `qwen-coder`; also set
+`LIBGEN_QWEN_OPENAI_BASE_URL=https://coding-intl.dashscope.aliyuncs.com/v1`.
+The planner passes that exact Alibaba endpoint as `OPENAI_BASE_URL` and rejects
+another value.
 
 Use the highest stable reasoning setting supported by each adapter. The matrix
 pins `high`, `xhigh`, or `max` where Harbor exposes that control. Kimi Code's
@@ -250,7 +259,20 @@ silently claiming an equivalent effort setting.
 After upgrading Harbor, generate the pilot plan with its exact installed
 version:
 
-First run the single-protocol telemetry smoke test. It covers all 12 balanced
+First verify the Docker boundary itself:
+
+```bash
+PYTHONPATH=src python -m libstruct_bench.cli.smoke_libgen_docker_network \
+  --task benchmarks/libgen/tasks/s3_atac \
+  --out analysis/libgen/docker-network-smoke.json
+```
+
+The probe must show successful unauthenticated TLS/HTTP access to the OpenAI and
+Alibaba model APIs, failure for `example.com`, and failure for a direct external
+socket. Bind the successful report into the experiment lock with
+`--network-smoke-report analysis/libgen/docker-network-smoke.json`.
+
+Then run the single-protocol telemetry smoke test. It covers all 12 balanced
 model × harness cells and four additional native-only cells (16 unique trials
 total). The Kimi native pairing reuses its balanced-core execution:
 
@@ -259,6 +281,7 @@ PYTHONPATH=src python -m libstruct_bench.cli.plan_libgen_matrix \
   --mode smoke \
   --tasks benchmarks/libgen/tasks \
   --harbor-version "$(harbor --version)" \
+  --network-smoke-report analysis/libgen/docker-network-smoke.json \
   --out runs/libgen/plans/smoke
 
 bash runs/libgen/plans/smoke/run.sh
@@ -270,9 +293,10 @@ PYTHONPATH=src python -m libstruct_bench.cli.summarize_libgen_runs \
 ```
 
 Inspect `analysis/libgen/smoke/telemetry_audit.json` before starting the pilot.
-The planner explicitly disables Harbor's automatic retry because Harbor can
-replace the failed trial directory. Resume failures through the preserving
-wrapper instead:
+The planner explicitly disables Harbor's automatic retry. Agent timeouts are
+zero-valued scheduled attempts in the primary analysis and must not be replaced
+there. A post-freeze diagnostic rerun may still be preserved with the wrapper,
+but it remains excluded from the primary result:
 
 ```bash
 PYTHONPATH=src python -m libstruct_bench.cli.resume_libgen_job \
@@ -282,8 +306,21 @@ PYTHONPATH=src python -m libstruct_bench.cli.resume_libgen_job \
 
 The wrapper snapshots the prior result, trajectory, verifier output, and agent
 logs under `.libgen_telemetry/resume_snapshots/` before invoking
-`harbor job resume`. Superseded executions remain rows in `trials.csv`; filter
-`is_current_execution == true` for primary performance analyses.
+`harbor job resume`. A confirmed infrastructure/provider outage is the sole
+eligible primary replacement and requires explicit documentation:
+
+```bash
+PYTHONPATH=src python -m libstruct_bench.cli.resume_libgen_job \
+  -p runs/libgen/libgen-smoke-MODEL-HARNESS \
+  -f ApiRateLimitError \
+  --confirmed-infrastructure-outage \
+  --confirmed-by CURATOR_ID \
+  --reason "provider incident URL or frozen incident note"
+```
+
+`AgentTimeoutError` is rejected under this confirmation flag. All executions
+remain in `trials.csv`; `is_primary_execution` identifies the selected scheduled
+execution and `primary_attempts.csv` is the one-row-per-attempt analysis table.
 
 Then generate the pilot plan:
 
@@ -292,6 +329,7 @@ PYTHONPATH=src python -m libstruct_bench.cli.plan_libgen_matrix \
   --mode pilot \
   --tasks benchmarks/libgen/tasks \
   --harbor-version "$(harbor --version)" \
+  --network-smoke-report analysis/libgen/docker-network-smoke.json \
   --out runs/libgen/plans/pilot
 
 bash runs/libgen/plans/pilot/run.sh
@@ -321,13 +359,15 @@ PYTHONPATH=src python -m libstruct_bench.cli.plan_libgen_matrix \
   --mode full \
   --tasks benchmarks/libgen/tasks \
   --harbor-version "$(harbor --version)" \
+  --network-smoke-report analysis/libgen/docker-network-smoke.json \
   --pilot-clearance analysis/libgen/pilot-review-status.json \
   --out runs/libgen/plans/full
 ```
 
 The planner records model IDs, harness versions, reasoning settings, Harbor
-version, protocols, attempts, the frozen task digest, and expected trial count
-in `experiment_lock.json`. It also embeds the immutable pricing snapshot from
+version, protocols, attempts, the frozen task digest, expected trial count,
+Docker network policy and smoke evidence, and the primary aggregation policy in
+`experiment_lock.json`. It also embeds the immutable pricing snapshot from
 `pricing-2026-08-15.json` and its SHA-256 digest.
 
 The snapshot includes the official Qwen model and pricing-source metadata, but
@@ -346,7 +386,9 @@ PYTHONPATH=src python -m libstruct_bench.cli.summarize_libgen_runs \
 
 This produces:
 
-- `trials.csv`: one row per preserved execution, including the current one;
+- `trials.csv`: one row per preserved execution, with primary-selection fields;
+- `primary_attempts.csv`: one row per scheduled attempt, including explicit
+  zero rows for missing attempts;
 - `summary.json`: balanced-core effects, valid completion rate, and plot
   readiness;
 - `telemetry_audit.json`: missing fields by trial and model × harness cell;
@@ -369,6 +411,9 @@ normalization from aggregate-token fallbacks. Subscription fees, routing
 markups, tool-call charges, explicit-cache storage, taxes, and negotiated or
 nonstandard service tiers are outside that normalization.
 
-Balanced-core model means, harness means, and model×harness interaction
-residuals use scored current executions only. Native extensions are summarized
-in a separate descriptive section.
+Primary balanced-core model means, harness means, and model×harness interaction
+residuals use all scheduled attempts. Valid predictions receive their normal
+score; invalid, incomplete, missing, and agent-timeout attempts receive zero.
+Confirmed and documented infrastructure/provider reruns may replace the affected
+execution. Valid-output-only means remain a separate diagnostic. Native
+extensions are summarized in a separate descriptive section.
