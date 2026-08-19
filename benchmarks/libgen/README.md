@@ -485,3 +485,98 @@ score; invalid, incomplete, missing, and agent-timeout attempts receive zero.
 Confirmed and documented infrastructure/provider reruns may replace the affected
 execution. Valid-output-only means remain a separate diagnostic. Native
 extensions are summarized in a separate descriptive section.
+
+## Frozen external-knowledge interventions
+
+The Libgen improvement experiment reuses the unchanged v3 tasks and separate
+verifier. External knowledge is supplied only through a read-only bind mount at
+`/workspace/external_knowledge` plus a hash-pinned appended instruction. Harbor
+adds job-level environment mounts to the agent environment; its separate
+verifier environment receives a different mount list, so the verifier cannot
+read the intervention files.
+
+The three approved intervention conditions are:
+
+- `general_methods_v1`;
+- `cross_protocol_memory_v1`;
+- `general_methods_plus_memory_v1`.
+
+They run on `sci_atac_seq`, `scrrbs`, `smart_seq`, `share_seq`, and
+`ddseq_single_cell_3_rna_seq_kit`. The hidden donor-target overlap report and
+projection-validation report are never placed under an agent exposure root.
+The baseline task directories, schemas, scorer, ground truth, network policy,
+and verifier remain byte-identical.
+
+After human review, first record a detached approval; do not edit the frozen
+condition manifests to change their status:
+
+```bash
+LIBGEN_PRIVATE_ROOT=/Users/seqmachines/playground/protocols-test
+
+PYTHONPATH=src python -m \
+  libstruct_bench.cli.approve_libgen_external_knowledge \
+  --review-candidate \
+  "$LIBGEN_PRIVATE_ROOT/ground_truth_audit/reviews/external_knowledge/libgen_improvement_v1/iteration-002/review-candidate-002.json" \
+  --reviewer CURATOR_ID \
+  --approved-at 2026-08-17T00:00:00Z \
+  --rationale "Revised primer, donor lineage, overlap interpretation, and condition digests approved." \
+  --out \
+  "$LIBGEN_PRIVATE_ROOT/ground_truth_audit/reviews/external_knowledge/libgen_improvement_v1/iteration-002/final-approval-001.json"
+```
+
+Prepare the allowlisted Harbor exposure roots in the private data repository:
+
+```bash
+PYTHONPATH=src python -m \
+  libstruct_bench.cli.prepare_libgen_external_knowledge_harbor \
+  --asset-root \
+  "$LIBGEN_PRIVATE_ROOT/external_knowledge/libgen_improvement_v1_review_candidate_002" \
+  --review-candidate \
+  "$LIBGEN_PRIVATE_ROOT/ground_truth_audit/reviews/external_knowledge/libgen_improvement_v1/iteration-002/review-candidate-002.json" \
+  --approval \
+  "$LIBGEN_PRIVATE_ROOT/ground_truth_audit/reviews/external_knowledge/libgen_improvement_v1/iteration-002/final-approval-001.json" \
+  --tasks benchmarks/libgen/tasks \
+  --harbor-version "$(harbor --version)" \
+  --created-at 2026-08-17T00:00:00Z \
+  --out \
+  "$LIBGEN_PRIVATE_ROOT/external_knowledge/libgen_improvement_v1_harbor_integration_001"
+```
+
+Create intervention jobs by cloning the completed native baseline configs. The
+planner preserves each agent/model/version/reasoning configuration, pins the
+five targets, disables automatic retry, and changes only the condition mount,
+appended instruction, condition labels, output job name, and diagnostic
+artifact collection:
+
+```bash
+PYTHONPATH=src python -m \
+  libstruct_bench.cli.plan_libgen_external_knowledge_harbor \
+  --integration-root \
+  "$LIBGEN_PRIVATE_ROOT/external_knowledge/libgen_improvement_v1_harbor_integration_001" \
+  --tasks benchmarks/libgen/tasks \
+  --base-job-config runs/libgen/codex/libgen-gpt-5-6-sol/config.json \
+  --base-job-config runs/libgen/claude-code/libgen-claude-code-opus-5/config.json \
+  --base-job-config runs/libgen/antigravity-cli/libgen-gemini-3-7-flash/config.json \
+  --base-job-config runs/libgen/kimi-code/libgen-kimi-code-kimi-k3/config.json \
+  --jobs-dir runs/libgen/external-knowledge/results \
+  --created-at 2026-08-17T00:00:00Z \
+  --out runs/libgen/external-knowledge/plans/native-v1
+```
+
+This produces one script per baseline agent and a convenience `run_all.sh`, but
+the planner does not start a trial. Validate immediately before any run:
+
+```bash
+PYTHONPATH=src python -m \
+  libstruct_bench.cli.validate_libgen_external_knowledge_harbor \
+  --integration-root \
+  "$LIBGEN_PRIVATE_ROOT/external_knowledge/libgen_improvement_v1_harbor_integration_001" \
+  --tasks benchmarks/libgen/tasks \
+  --plan-root runs/libgen/external-knowledge/plans/native-v1
+```
+
+Each generated run script repeats that preflight before invoking Harbor. Run
+one agent script at a time when subscription or API quotas make the full
+60-trial plan impractical. The experiment lock retains the approved condition
+digests and preregisters T3 molecular-transition F1 as the primary memory
+outcome plus overlap-stratified post-hoc T2 reporting.
