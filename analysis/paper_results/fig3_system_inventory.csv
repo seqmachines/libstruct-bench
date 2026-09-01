@@ -1,0 +1,13 @@
+system_id,system_label,model,harness,system_group,model_key,display_order,run_path,run_available,observed_target_protocols,exclusion_reason
+gpt_pi,GPT + Pi,GPT,Pi,shared,gpt_5_6_sol,1,runs/libgen/pi/libgen-pi-gpt-5-6-sol,1,10,
+gpt_mini_swe,GPT + mini-SWE,GPT,mini-SWE,shared,gpt_5_6_sol,2,runs/libgen/mini-swe-agent/libgen-gpt-5-6-sol,1,10,
+claude_pi,Claude + Pi,Claude,Pi,shared,claude_opus_5,3,runs/libgen/pi/libgen-pi-claude-opus-5,1,10,
+claude_mini_swe,Claude + mini-SWE,Claude,mini-SWE,shared,claude_opus_5,4,runs/libgen/mini-swe-agent/libgen-claude-opus5,1,10,
+gemini_pi,Gemini + Pi,Gemini,Pi,shared,gemini_3_7_flash,5,runs/libgen/pi/libgen-pi-gemini-3-7-flash,1,10,
+gemini_mini_swe,Gemini + mini-SWE,Gemini,mini-SWE,shared,gemini_3_7_flash,6,runs/libgen/mini-swe-agent/libgen-gemini-3-7-flash,1,10,
+kimi_pi,Kimi + Pi,Kimi,Pi,shared,kimi_k3,7,runs/libgen/pi/libgen-pi-kimi-k3,0,0,no preserved Harbor result directory for this system
+kimi_mini_swe,Kimi + mini-SWE,Kimi,mini-SWE,shared,kimi_k3,8,runs/libgen/mini-swe-agent/libgen-kimi-k3,0,0,no preserved Harbor result directory for this system
+gpt_codex,GPT + Codex,GPT,Native,native,gpt_5_6_sol,9,runs/libgen/codex/libgen-gpt-5-6-sol,1,10,
+claude_code,Claude + Claude Code,Claude,Native,native,claude_opus_5,10,runs/libgen/claude-code/libgen-claude-code-opus-5,1,10,
+gemini_antigravity,Gemini + Antigravity CLI,Gemini,Native,native,gemini_3_7_flash,11,runs/libgen/antigravity-cli/libgen-gemini-3-7-flash,1,10,
+kimi_code,Kimi + Kimi Code,Kimi,Native,native,kimi_k3,12,runs/libgen/kimi-code/libgen-kimi-code-kimi-k3,1,10,

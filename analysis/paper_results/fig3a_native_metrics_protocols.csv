@@ -1,0 +1,633 @@
+"system_id","system_label","model","harness","display_order","protocol_id","protocol_label","protocol_order","status","valid_completion","metric_column","score","metric_id","metric_order","metric_label","model_id","model_version_label","reasoning_effort","native_axis_label"
+"gpt_codex","GPT + Codex","GPT","Native",9,"10x_chromium_single_cell_atac_v2","10x scATAC v2",1,"valid_completion",1,"primary_t2_required_family_f1",0.707446808510638,"t2_family",1,"Task 2 oligo-family F1","gpt-5.6-sol","GPT-5.6 Sol","Max","GPT-5.6 Sol Max
+Codex"
+"gpt_codex","GPT + Codex","GPT","Native",9,"10x_chromium_3_gene_expression_v4","10x 3' GEX v4",2,"valid_completion",1,"primary_t2_required_family_f1",0.6,"t2_family",1,"Task 2 oligo-family F1","gpt-5.6-sol","GPT-5.6 Sol","Max","GPT-5.6 Sol Max
+Codex"
+"gpt_codex","GPT + Codex","GPT","Native",9,"drop_seq","Drop-seq",4,"valid_completion",1,"primary_t2_required_family_f1",0.909090909090909,"t2_family",1,"Task 2 oligo-family F1","gpt-5.6-sol","GPT-5.6 Sol","Max","GPT-5.6 Sol Max
+Codex"
+"gpt_codex","GPT + Codex","GPT","Native",9,"seq_well_s3","Seq-Well S3",5,"valid_completion",1,"primary_t2_required_family_f1",0.877005347593583,"t2_family",1,"Task 2 oligo-family F1","gpt-5.6-sol","GPT-5.6 Sol","Max","GPT-5.6 Sol Max
+Codex"
+"gpt_codex","GPT + Codex","GPT","Native",9,"indrop_v1","inDrop v1",6,"valid_completion",1,"primary_t2_required_family_f1",0.624135586635587,"t2_family",1,"Task 2 oligo-family F1","gpt-5.6-sol","GPT-5.6 Sol","Max","GPT-5.6 Sol Max
+Codex"
+"gpt_codex","GPT + Codex","GPT","Native",9,"s3_atac","s3-ATAC",7,"valid_completion",1,"primary_t2_required_family_f1",0.995652173913043,"t2_family",1,"Task 2 oligo-family F1","gpt-5.6-sol","GPT-5.6 Sol","Max","GPT-5.6 Sol Max
+Codex"
+"gpt_codex","GPT + Codex","GPT","Native",9,"cel_seq","CEL-seq",8,"valid_completion",1,"primary_t2_required_family_f1",0.285714285714286,"t2_family",1,"Task 2 oligo-family F1","gpt-5.6-sol","GPT-5.6 Sol","Max","GPT-5.6 Sol Max
+Codex"
+"gpt_codex","GPT + Codex","GPT","Native",9,"split_seq","SPLiT-seq",9,"valid_completion",1,"primary_t2_required_family_f1",0.951902260341285,"t2_family",1,"Task 2 oligo-family F1","gpt-5.6-sol","GPT-5.6 Sol","Max","GPT-5.6 Sol Max
+Codex"
+"gpt_codex","GPT + Codex","GPT","Native",9,"sci_rna_seq","sci-RNA-seq",10,"valid_completion",1,"primary_t2_required_family_f1",0.633986928104575,"t2_family",1,"Task 2 oligo-family F1","gpt-5.6-sol","GPT-5.6 Sol","Max","GPT-5.6 Sol Max
+Codex"
+"gpt_codex","GPT + Codex","GPT","Native",9,"sci_atac_seq","sci-ATAC-seq",11,"valid_completion",1,"primary_t2_required_family_f1",0.551414768806073,"t2_family",1,"Task 2 oligo-family F1","gpt-5.6-sol","GPT-5.6 Sol","Max","GPT-5.6 Sol Max
+Codex"
+"gpt_codex","GPT + Codex","GPT","Native",9,"microwell_seq","Microwell-seq",12,"valid_completion",1,"primary_t2_required_family_f1",0.781144781144781,"t2_family",1,"Task 2 oligo-family F1","gpt-5.6-sol","GPT-5.6 Sol","Max","GPT-5.6 Sol Max
+Codex"
+"gpt_codex","GPT + Codex","GPT","Native",9,"scrrbs","scRRBS",13,"valid_completion",1,"primary_t2_required_family_f1",0.864583333333333,"t2_family",1,"Task 2 oligo-family F1","gpt-5.6-sol","GPT-5.6 Sol","Max","GPT-5.6 Sol Max
+Codex"
+"gpt_codex","GPT + Codex","GPT","Native",9,"pip_seq_v4","PIP-seq v4",14,"valid_completion",1,"primary_t2_required_family_f1",0.656318082788671,"t2_family",1,"Task 2 oligo-family F1","gpt-5.6-sol","GPT-5.6 Sol","Max","GPT-5.6 Sol Max
+Codex"
+"gpt_codex","GPT + Codex","GPT","Native",9,"scdamid","scDamID",15,"valid_completion",1,"primary_t2_required_family_f1",0.624187906046976,"t2_family",1,"Task 2 oligo-family F1","gpt-5.6-sol","GPT-5.6 Sol","Max","GPT-5.6 Sol Max
+Codex"
+"gpt_codex","GPT + Codex","GPT","Native",9,"ddseq_single_cell_3_rna_seq_kit","ddSEQ 3' RNA",16,"valid_completion",1,"primary_t2_required_family_f1",0,"t2_family",1,"Task 2 oligo-family F1","gpt-5.6-sol","GPT-5.6 Sol","Max","GPT-5.6 Sol Max
+Codex"
+"gpt_codex","GPT + Codex","GPT","Native",9,"smart_seq","SMART-seq",17,"valid_completion",1,"primary_t2_required_family_f1",0.741228070175439,"t2_family",1,"Task 2 oligo-family F1","gpt-5.6-sol","GPT-5.6 Sol","Max","GPT-5.6 Sol Max
+Codex"
+"gpt_codex","GPT + Codex","GPT","Native",9,"share_seq","SHARE-seq",18,"valid_completion",1,"primary_t2_required_family_f1",0.994137108937868,"t2_family",1,"Task 2 oligo-family F1","gpt-5.6-sol","GPT-5.6 Sol","Max","GPT-5.6 Sol Max
+Codex"
+"gpt_codex","GPT + Codex","GPT","Native",9,"dr_seq","DR-seq",19,"valid_completion",1,"primary_t2_required_family_f1",0.6,"t2_family",1,"Task 2 oligo-family F1","gpt-5.6-sol","GPT-5.6 Sol","Max","GPT-5.6 Sol Max
+Codex"
+"gpt_codex","GPT + Codex","GPT","Native",9,"petri_seq","PETRI-seq",20,"valid_completion",1,"primary_t2_required_family_f1",0.72613876040703,"t2_family",1,"Task 2 oligo-family F1","gpt-5.6-sol","GPT-5.6 Sol","Max","GPT-5.6 Sol Max
+Codex"
+"gpt_codex","GPT + Codex","GPT","Native",9,"10x_chromium_single_cell_atac_v2","10x scATAC v2",1,"valid_completion",1,"primary_t3_molecular_transition_f1",0.777005889396377,"t3_transition",2,"Task 3 transition F1","gpt-5.6-sol","GPT-5.6 Sol","Max","GPT-5.6 Sol Max
+Codex"
+"gpt_codex","GPT + Codex","GPT","Native",9,"10x_chromium_3_gene_expression_v4","10x 3' GEX v4",2,"valid_completion",1,"primary_t3_molecular_transition_f1",0.792307692307692,"t3_transition",2,"Task 3 transition F1","gpt-5.6-sol","GPT-5.6 Sol","Max","GPT-5.6 Sol Max
+Codex"
+"gpt_codex","GPT + Codex","GPT","Native",9,"drop_seq","Drop-seq",4,"valid_completion",1,"primary_t3_molecular_transition_f1",0.832539682539683,"t3_transition",2,"Task 3 transition F1","gpt-5.6-sol","GPT-5.6 Sol","Max","GPT-5.6 Sol Max
+Codex"
+"gpt_codex","GPT + Codex","GPT","Native",9,"seq_well_s3","Seq-Well S3",5,"valid_completion",1,"primary_t3_molecular_transition_f1",0.640809433406277,"t3_transition",2,"Task 3 transition F1","gpt-5.6-sol","GPT-5.6 Sol","Max","GPT-5.6 Sol Max
+Codex"
+"gpt_codex","GPT + Codex","GPT","Native",9,"indrop_v1","inDrop v1",6,"valid_completion",1,"primary_t3_molecular_transition_f1",0.827313071543841,"t3_transition",2,"Task 3 transition F1","gpt-5.6-sol","GPT-5.6 Sol","Max","GPT-5.6 Sol Max
+Codex"
+"gpt_codex","GPT + Codex","GPT","Native",9,"s3_atac","s3-ATAC",7,"valid_completion",1,"primary_t3_molecular_transition_f1",0.86195652173913,"t3_transition",2,"Task 3 transition F1","gpt-5.6-sol","GPT-5.6 Sol","Max","GPT-5.6 Sol Max
+Codex"
+"gpt_codex","GPT + Codex","GPT","Native",9,"cel_seq","CEL-seq",8,"valid_completion",1,"primary_t3_molecular_transition_f1",0.662820512820513,"t3_transition",2,"Task 3 transition F1","gpt-5.6-sol","GPT-5.6 Sol","Max","GPT-5.6 Sol Max
+Codex"
+"gpt_codex","GPT + Codex","GPT","Native",9,"split_seq","SPLiT-seq",9,"valid_completion",1,"primary_t3_molecular_transition_f1",0.660063075136246,"t3_transition",2,"Task 3 transition F1","gpt-5.6-sol","GPT-5.6 Sol","Max","GPT-5.6 Sol Max
+Codex"
+"gpt_codex","GPT + Codex","GPT","Native",9,"sci_rna_seq","sci-RNA-seq",10,"valid_completion",1,"primary_t3_molecular_transition_f1",0.72192513368984,"t3_transition",2,"Task 3 transition F1","gpt-5.6-sol","GPT-5.6 Sol","Max","GPT-5.6 Sol Max
+Codex"
+"gpt_codex","GPT + Codex","GPT","Native",9,"sci_atac_seq","sci-ATAC-seq",11,"valid_completion",1,"primary_t3_molecular_transition_f1",0.483521969174143,"t3_transition",2,"Task 3 transition F1","gpt-5.6-sol","GPT-5.6 Sol","Max","GPT-5.6 Sol Max
+Codex"
+"gpt_codex","GPT + Codex","GPT","Native",9,"microwell_seq","Microwell-seq",12,"valid_completion",1,"primary_t3_molecular_transition_f1",0.642575757575758,"t3_transition",2,"Task 3 transition F1","gpt-5.6-sol","GPT-5.6 Sol","Max","GPT-5.6 Sol Max
+Codex"
+"gpt_codex","GPT + Codex","GPT","Native",9,"scrrbs","scRRBS",13,"valid_completion",1,"primary_t3_molecular_transition_f1",0.894444444444444,"t3_transition",2,"Task 3 transition F1","gpt-5.6-sol","GPT-5.6 Sol","Max","GPT-5.6 Sol Max
+Codex"
+"gpt_codex","GPT + Codex","GPT","Native",9,"pip_seq_v4","PIP-seq v4",14,"valid_completion",1,"primary_t3_molecular_transition_f1",0.590478614301762,"t3_transition",2,"Task 3 transition F1","gpt-5.6-sol","GPT-5.6 Sol","Max","GPT-5.6 Sol Max
+Codex"
+"gpt_codex","GPT + Codex","GPT","Native",9,"scdamid","scDamID",15,"valid_completion",1,"primary_t3_molecular_transition_f1",0.613614346672817,"t3_transition",2,"Task 3 transition F1","gpt-5.6-sol","GPT-5.6 Sol","Max","GPT-5.6 Sol Max
+Codex"
+"gpt_codex","GPT + Codex","GPT","Native",9,"ddseq_single_cell_3_rna_seq_kit","ddSEQ 3' RNA",16,"valid_completion",1,"primary_t3_molecular_transition_f1",0.569642857142857,"t3_transition",2,"Task 3 transition F1","gpt-5.6-sol","GPT-5.6 Sol","Max","GPT-5.6 Sol Max
+Codex"
+"gpt_codex","GPT + Codex","GPT","Native",9,"smart_seq","SMART-seq",17,"valid_completion",1,"primary_t3_molecular_transition_f1",0.641366574330564,"t3_transition",2,"Task 3 transition F1","gpt-5.6-sol","GPT-5.6 Sol","Max","GPT-5.6 Sol Max
+Codex"
+"gpt_codex","GPT + Codex","GPT","Native",9,"share_seq","SHARE-seq",18,"valid_completion",1,"primary_t3_molecular_transition_f1",0.727880150082114,"t3_transition",2,"Task 3 transition F1","gpt-5.6-sol","GPT-5.6 Sol","Max","GPT-5.6 Sol Max
+Codex"
+"gpt_codex","GPT + Codex","GPT","Native",9,"dr_seq","DR-seq",19,"valid_completion",1,"primary_t3_molecular_transition_f1",0.470833333333333,"t3_transition",2,"Task 3 transition F1","gpt-5.6-sol","GPT-5.6 Sol","Max","GPT-5.6 Sol Max
+Codex"
+"gpt_codex","GPT + Codex","GPT","Native",9,"petri_seq","PETRI-seq",20,"valid_completion",1,"primary_t3_molecular_transition_f1",0.935086853736253,"t3_transition",2,"Task 3 transition F1","gpt-5.6-sol","GPT-5.6 Sol","Max","GPT-5.6 Sol Max
+Codex"
+"gpt_codex","GPT + Codex","GPT","Native",9,"10x_chromium_single_cell_atac_v2","10x scATAC v2",1,"valid_completion",1,"primary_t3_state_f1",0.384647905734854,"t3_state",3,"Task 3 state F1","gpt-5.6-sol","GPT-5.6 Sol","Max","GPT-5.6 Sol Max
+Codex"
+"gpt_codex","GPT + Codex","GPT","Native",9,"10x_chromium_3_gene_expression_v4","10x 3' GEX v4",2,"valid_completion",1,"primary_t3_state_f1",0.685161175896679,"t3_state",3,"Task 3 state F1","gpt-5.6-sol","GPT-5.6 Sol","Max","GPT-5.6 Sol Max
+Codex"
+"gpt_codex","GPT + Codex","GPT","Native",9,"drop_seq","Drop-seq",4,"valid_completion",1,"primary_t3_state_f1",0.550099896128845,"t3_state",3,"Task 3 state F1","gpt-5.6-sol","GPT-5.6 Sol","Max","GPT-5.6 Sol Max
+Codex"
+"gpt_codex","GPT + Codex","GPT","Native",9,"seq_well_s3","Seq-Well S3",5,"valid_completion",1,"primary_t3_state_f1",0.429500688651488,"t3_state",3,"Task 3 state F1","gpt-5.6-sol","GPT-5.6 Sol","Max","GPT-5.6 Sol Max
+Codex"
+"gpt_codex","GPT + Codex","GPT","Native",9,"indrop_v1","inDrop v1",6,"valid_completion",1,"primary_t3_state_f1",0.391560996155041,"t3_state",3,"Task 3 state F1","gpt-5.6-sol","GPT-5.6 Sol","Max","GPT-5.6 Sol Max
+Codex"
+"gpt_codex","GPT + Codex","GPT","Native",9,"s3_atac","s3-ATAC",7,"valid_completion",1,"primary_t3_state_f1",0.617088371972077,"t3_state",3,"Task 3 state F1","gpt-5.6-sol","GPT-5.6 Sol","Max","GPT-5.6 Sol Max
+Codex"
+"gpt_codex","GPT + Codex","GPT","Native",9,"cel_seq","CEL-seq",8,"valid_completion",1,"primary_t3_state_f1",0.305776749514293,"t3_state",3,"Task 3 state F1","gpt-5.6-sol","GPT-5.6 Sol","Max","GPT-5.6 Sol Max
+Codex"
+"gpt_codex","GPT + Codex","GPT","Native",9,"split_seq","SPLiT-seq",9,"valid_completion",1,"primary_t3_state_f1",0.365595729965297,"t3_state",3,"Task 3 state F1","gpt-5.6-sol","GPT-5.6 Sol","Max","GPT-5.6 Sol Max
+Codex"
+"gpt_codex","GPT + Codex","GPT","Native",9,"sci_rna_seq","sci-RNA-seq",10,"valid_completion",1,"primary_t3_state_f1",0.373617144928222,"t3_state",3,"Task 3 state F1","gpt-5.6-sol","GPT-5.6 Sol","Max","GPT-5.6 Sol Max
+Codex"
+"gpt_codex","GPT + Codex","GPT","Native",9,"sci_atac_seq","sci-ATAC-seq",11,"valid_completion",1,"primary_t3_state_f1",0.206102871475531,"t3_state",3,"Task 3 state F1","gpt-5.6-sol","GPT-5.6 Sol","Max","GPT-5.6 Sol Max
+Codex"
+"gpt_codex","GPT + Codex","GPT","Native",9,"microwell_seq","Microwell-seq",12,"valid_completion",1,"primary_t3_state_f1",0.343934239754575,"t3_state",3,"Task 3 state F1","gpt-5.6-sol","GPT-5.6 Sol","Max","GPT-5.6 Sol Max
+Codex"
+"gpt_codex","GPT + Codex","GPT","Native",9,"scrrbs","scRRBS",13,"valid_completion",1,"primary_t3_state_f1",0.361982797157325,"t3_state",3,"Task 3 state F1","gpt-5.6-sol","GPT-5.6 Sol","Max","GPT-5.6 Sol Max
+Codex"
+"gpt_codex","GPT + Codex","GPT","Native",9,"pip_seq_v4","PIP-seq v4",14,"valid_completion",1,"primary_t3_state_f1",0.242891433186352,"t3_state",3,"Task 3 state F1","gpt-5.6-sol","GPT-5.6 Sol","Max","GPT-5.6 Sol Max
+Codex"
+"gpt_codex","GPT + Codex","GPT","Native",9,"scdamid","scDamID",15,"valid_completion",1,"primary_t3_state_f1",0.448911436470626,"t3_state",3,"Task 3 state F1","gpt-5.6-sol","GPT-5.6 Sol","Max","GPT-5.6 Sol Max
+Codex"
+"gpt_codex","GPT + Codex","GPT","Native",9,"ddseq_single_cell_3_rna_seq_kit","ddSEQ 3' RNA",16,"valid_completion",1,"primary_t3_state_f1",0.564800787978496,"t3_state",3,"Task 3 state F1","gpt-5.6-sol","GPT-5.6 Sol","Max","GPT-5.6 Sol Max
+Codex"
+"gpt_codex","GPT + Codex","GPT","Native",9,"smart_seq","SMART-seq",17,"valid_completion",1,"primary_t3_state_f1",0.433702502801324,"t3_state",3,"Task 3 state F1","gpt-5.6-sol","GPT-5.6 Sol","Max","GPT-5.6 Sol Max
+Codex"
+"gpt_codex","GPT + Codex","GPT","Native",9,"share_seq","SHARE-seq",18,"valid_completion",1,"primary_t3_state_f1",0.34798718631361,"t3_state",3,"Task 3 state F1","gpt-5.6-sol","GPT-5.6 Sol","Max","GPT-5.6 Sol Max
+Codex"
+"gpt_codex","GPT + Codex","GPT","Native",9,"dr_seq","DR-seq",19,"valid_completion",1,"primary_t3_state_f1",0.27682974967971,"t3_state",3,"Task 3 state F1","gpt-5.6-sol","GPT-5.6 Sol","Max","GPT-5.6 Sol Max
+Codex"
+"gpt_codex","GPT + Codex","GPT","Native",9,"petri_seq","PETRI-seq",20,"valid_completion",1,"primary_t3_state_f1",0.407100429375722,"t3_state",3,"Task 3 state F1","gpt-5.6-sol","GPT-5.6 Sol","Max","GPT-5.6 Sol Max
+Codex"
+"gpt_codex","GPT + Codex","GPT","Native",9,"10x_chromium_single_cell_atac_v2","10x scATAC v2",1,"valid_completion",1,"primary_t3_typed_edge_f1",0.714285714285714,"t3_edge",4,"Task 3 typed-edge F1","gpt-5.6-sol","GPT-5.6 Sol","Max","GPT-5.6 Sol Max
+Codex"
+"gpt_codex","GPT + Codex","GPT","Native",9,"10x_chromium_3_gene_expression_v4","10x 3' GEX v4",2,"valid_completion",1,"primary_t3_typed_edge_f1",0.846153846153846,"t3_edge",4,"Task 3 typed-edge F1","gpt-5.6-sol","GPT-5.6 Sol","Max","GPT-5.6 Sol Max
+Codex"
+"gpt_codex","GPT + Codex","GPT","Native",9,"drop_seq","Drop-seq",4,"valid_completion",1,"primary_t3_typed_edge_f1",1,"t3_edge",4,"Task 3 typed-edge F1","gpt-5.6-sol","GPT-5.6 Sol","Max","GPT-5.6 Sol Max
+Codex"
+"gpt_codex","GPT + Codex","GPT","Native",9,"seq_well_s3","Seq-Well S3",5,"valid_completion",1,"primary_t3_typed_edge_f1",0.5,"t3_edge",4,"Task 3 typed-edge F1","gpt-5.6-sol","GPT-5.6 Sol","Max","GPT-5.6 Sol Max
+Codex"
+"gpt_codex","GPT + Codex","GPT","Native",9,"indrop_v1","inDrop v1",6,"valid_completion",1,"primary_t3_typed_edge_f1",0.692307692307692,"t3_edge",4,"Task 3 typed-edge F1","gpt-5.6-sol","GPT-5.6 Sol","Max","GPT-5.6 Sol Max
+Codex"
+"gpt_codex","GPT + Codex","GPT","Native",9,"s3_atac","s3-ATAC",7,"valid_completion",1,"primary_t3_typed_edge_f1",0.941176470588235,"t3_edge",4,"Task 3 typed-edge F1","gpt-5.6-sol","GPT-5.6 Sol","Max","GPT-5.6 Sol Max
+Codex"
+"gpt_codex","GPT + Codex","GPT","Native",9,"cel_seq","CEL-seq",8,"valid_completion",1,"primary_t3_typed_edge_f1",0.592592592592593,"t3_edge",4,"Task 3 typed-edge F1","gpt-5.6-sol","GPT-5.6 Sol","Max","GPT-5.6 Sol Max
+Codex"
+"gpt_codex","GPT + Codex","GPT","Native",9,"split_seq","SPLiT-seq",9,"valid_completion",1,"primary_t3_typed_edge_f1",0.4,"t3_edge",4,"Task 3 typed-edge F1","gpt-5.6-sol","GPT-5.6 Sol","Max","GPT-5.6 Sol Max
+Codex"
+"gpt_codex","GPT + Codex","GPT","Native",9,"sci_rna_seq","sci-RNA-seq",10,"valid_completion",1,"primary_t3_typed_edge_f1",0.727272727272727,"t3_edge",4,"Task 3 typed-edge F1","gpt-5.6-sol","GPT-5.6 Sol","Max","GPT-5.6 Sol Max
+Codex"
+"gpt_codex","GPT + Codex","GPT","Native",9,"sci_atac_seq","sci-ATAC-seq",11,"valid_completion",1,"primary_t3_typed_edge_f1",0.235294117647059,"t3_edge",4,"Task 3 typed-edge F1","gpt-5.6-sol","GPT-5.6 Sol","Max","GPT-5.6 Sol Max
+Codex"
+"gpt_codex","GPT + Codex","GPT","Native",9,"microwell_seq","Microwell-seq",12,"valid_completion",1,"primary_t3_typed_edge_f1",0.363636363636364,"t3_edge",4,"Task 3 typed-edge F1","gpt-5.6-sol","GPT-5.6 Sol","Max","GPT-5.6 Sol Max
+Codex"
+"gpt_codex","GPT + Codex","GPT","Native",9,"scrrbs","scRRBS",13,"valid_completion",1,"primary_t3_typed_edge_f1",0.818181818181818,"t3_edge",4,"Task 3 typed-edge F1","gpt-5.6-sol","GPT-5.6 Sol","Max","GPT-5.6 Sol Max
+Codex"
+"gpt_codex","GPT + Codex","GPT","Native",9,"pip_seq_v4","PIP-seq v4",14,"valid_completion",1,"primary_t3_typed_edge_f1",0.4375,"t3_edge",4,"Task 3 typed-edge F1","gpt-5.6-sol","GPT-5.6 Sol","Max","GPT-5.6 Sol Max
+Codex"
+"gpt_codex","GPT + Codex","GPT","Native",9,"scdamid","scDamID",15,"valid_completion",1,"primary_t3_typed_edge_f1",0.461538461538462,"t3_edge",4,"Task 3 typed-edge F1","gpt-5.6-sol","GPT-5.6 Sol","Max","GPT-5.6 Sol Max
+Codex"
+"gpt_codex","GPT + Codex","GPT","Native",9,"ddseq_single_cell_3_rna_seq_kit","ddSEQ 3' RNA",16,"valid_completion",1,"primary_t3_typed_edge_f1",0.375,"t3_edge",4,"Task 3 typed-edge F1","gpt-5.6-sol","GPT-5.6 Sol","Max","GPT-5.6 Sol Max
+Codex"
+"gpt_codex","GPT + Codex","GPT","Native",9,"smart_seq","SMART-seq",17,"valid_completion",1,"primary_t3_typed_edge_f1",0.611111111111111,"t3_edge",4,"Task 3 typed-edge F1","gpt-5.6-sol","GPT-5.6 Sol","Max","GPT-5.6 Sol Max
+Codex"
+"gpt_codex","GPT + Codex","GPT","Native",9,"share_seq","SHARE-seq",18,"valid_completion",1,"primary_t3_typed_edge_f1",0.46875,"t3_edge",4,"Task 3 typed-edge F1","gpt-5.6-sol","GPT-5.6 Sol","Max","GPT-5.6 Sol Max
+Codex"
+"gpt_codex","GPT + Codex","GPT","Native",9,"dr_seq","DR-seq",19,"valid_completion",1,"primary_t3_typed_edge_f1",0.347826086956522,"t3_edge",4,"Task 3 typed-edge F1","gpt-5.6-sol","GPT-5.6 Sol","Max","GPT-5.6 Sol Max
+Codex"
+"gpt_codex","GPT + Codex","GPT","Native",9,"petri_seq","PETRI-seq",20,"valid_completion",1,"primary_t3_typed_edge_f1",1,"t3_edge",4,"Task 3 typed-edge F1","gpt-5.6-sol","GPT-5.6 Sol","Max","GPT-5.6 Sol Max
+Codex"
+"claude_code","Claude + Claude Code","Claude","Native",10,"10x_chromium_single_cell_atac_v2","10x scATAC v2",1,"valid_completion",1,"primary_t2_required_family_f1",0.722408859027,"t2_family",1,"Task 2 oligo-family F1","claude-opus-5","Claude Opus 5","Max","Claude Opus 5 Max
+Claude Code"
+"claude_code","Claude + Claude Code","Claude","Native",10,"10x_chromium_3_gene_expression_v4","10x 3' GEX v4",2,"valid_completion",1,"primary_t2_required_family_f1",0.666666666666667,"t2_family",1,"Task 2 oligo-family F1","claude-opus-5","Claude Opus 5","Max","Claude Opus 5 Max
+Claude Code"
+"claude_code","Claude + Claude Code","Claude","Native",10,"10x_chromium_3_feature_barcoding","10x 3' Feature Barcoding",3,"valid_completion",1,"primary_t2_required_family_f1",0.889546280639683,"t2_family",1,"Task 2 oligo-family F1","claude-opus-5","Claude Opus 5","Max","Claude Opus 5 Max
+Claude Code"
+"claude_code","Claude + Claude Code","Claude","Native",10,"drop_seq","Drop-seq",4,"valid_completion",1,"primary_t2_required_family_f1",0.620985691573927,"t2_family",1,"Task 2 oligo-family F1","claude-opus-5","Claude Opus 5","Max","Claude Opus 5 Max
+Claude Code"
+"claude_code","Claude + Claude Code","Claude","Native",10,"seq_well_s3","Seq-Well S3",5,"valid_completion",1,"primary_t2_required_family_f1",0.833333333333333,"t2_family",1,"Task 2 oligo-family F1","claude-opus-5","Claude Opus 5","Max","Claude Opus 5 Max
+Claude Code"
+"claude_code","Claude + Claude Code","Claude","Native",10,"indrop_v1","inDrop v1",6,"valid_completion",1,"primary_t2_required_family_f1",0.666687820883019,"t2_family",1,"Task 2 oligo-family F1","claude-opus-5","Claude Opus 5","Max","Claude Opus 5 Max
+Claude Code"
+"claude_code","Claude + Claude Code","Claude","Native",10,"s3_atac","s3-ATAC",7,"valid_completion",1,"primary_t2_required_family_f1",0.99,"t2_family",1,"Task 2 oligo-family F1","claude-opus-5","Claude Opus 5","Max","Claude Opus 5 Max
+Claude Code"
+"claude_code","Claude + Claude Code","Claude","Native",10,"cel_seq","CEL-seq",8,"valid_completion",1,"primary_t2_required_family_f1",0.285714285714286,"t2_family",1,"Task 2 oligo-family F1","claude-opus-5","Claude Opus 5","Max","Claude Opus 5 Max
+Claude Code"
+"claude_code","Claude + Claude Code","Claude","Native",10,"split_seq","SPLiT-seq",9,"valid_completion",1,"primary_t2_required_family_f1",0.951902260341285,"t2_family",1,"Task 2 oligo-family F1","claude-opus-5","Claude Opus 5","Max","Claude Opus 5 Max
+Claude Code"
+"claude_code","Claude + Claude Code","Claude","Native",10,"sci_rna_seq","sci-RNA-seq",10,"valid_completion",1,"primary_t2_required_family_f1",0.875,"t2_family",1,"Task 2 oligo-family F1","claude-opus-5","Claude Opus 5","Max","Claude Opus 5 Max
+Claude Code"
+"claude_code","Claude + Claude Code","Claude","Native",10,"sci_atac_seq","sci-ATAC-seq",11,"valid_completion",1,"primary_t2_required_family_f1",0.89,"t2_family",1,"Task 2 oligo-family F1","claude-opus-5","Claude Opus 5","Max","Claude Opus 5 Max
+Claude Code"
+"claude_code","Claude + Claude Code","Claude","Native",10,"microwell_seq","Microwell-seq",12,"valid_completion",1,"primary_t2_required_family_f1",0.890909090909091,"t2_family",1,"Task 2 oligo-family F1","claude-opus-5","Claude Opus 5","Max","Claude Opus 5 Max
+Claude Code"
+"claude_code","Claude + Claude Code","Claude","Native",10,"scrrbs","scRRBS",13,"valid_completion",1,"primary_t2_required_family_f1",0.864583333333333,"t2_family",1,"Task 2 oligo-family F1","claude-opus-5","Claude Opus 5","Max","Claude Opus 5 Max
+Claude Code"
+"claude_code","Claude + Claude Code","Claude","Native",10,"pip_seq_v4","PIP-seq v4",14,"valid_completion",1,"primary_t2_required_family_f1",0.771362866134108,"t2_family",1,"Task 2 oligo-family F1","claude-opus-5","Claude Opus 5","Max","Claude Opus 5 Max
+Claude Code"
+"claude_code","Claude + Claude Code","Claude","Native",10,"scdamid","scDamID",15,"valid_completion",1,"primary_t2_required_family_f1",0.751724137931035,"t2_family",1,"Task 2 oligo-family F1","claude-opus-5","Claude Opus 5","Max","Claude Opus 5 Max
+Claude Code"
+"claude_code","Claude + Claude Code","Claude","Native",10,"ddseq_single_cell_3_rna_seq_kit","ddSEQ 3' RNA",16,"valid_completion",1,"primary_t2_required_family_f1",0,"t2_family",1,"Task 2 oligo-family F1","claude-opus-5","Claude Opus 5","Max","Claude Opus 5 Max
+Claude Code"
+"claude_code","Claude + Claude Code","Claude","Native",10,"smart_seq","SMART-seq",17,"valid_completion",1,"primary_t2_required_family_f1",0.461538461538462,"t2_family",1,"Task 2 oligo-family F1","claude-opus-5","Claude Opus 5","Max","Claude Opus 5 Max
+Claude Code"
+"claude_code","Claude + Claude Code","Claude","Native",10,"share_seq","SHARE-seq",18,"valid_completion",1,"primary_t2_required_family_f1",0.989203522600107,"t2_family",1,"Task 2 oligo-family F1","claude-opus-5","Claude Opus 5","Max","Claude Opus 5 Max
+Claude Code"
+"claude_code","Claude + Claude Code","Claude","Native",10,"dr_seq","DR-seq",19,"valid_completion",1,"primary_t2_required_family_f1",0.4,"t2_family",1,"Task 2 oligo-family F1","claude-opus-5","Claude Opus 5","Max","Claude Opus 5 Max
+Claude Code"
+"claude_code","Claude + Claude Code","Claude","Native",10,"petri_seq","PETRI-seq",20,"valid_completion",1,"primary_t2_required_family_f1",0.786732106759859,"t2_family",1,"Task 2 oligo-family F1","claude-opus-5","Claude Opus 5","Max","Claude Opus 5 Max
+Claude Code"
+"claude_code","Claude + Claude Code","Claude","Native",10,"10x_chromium_single_cell_atac_v2","10x scATAC v2",1,"valid_completion",1,"primary_t3_molecular_transition_f1",0.736346352854488,"t3_transition",2,"Task 3 transition F1","claude-opus-5","Claude Opus 5","Max","Claude Opus 5 Max
+Claude Code"
+"claude_code","Claude + Claude Code","Claude","Native",10,"10x_chromium_3_gene_expression_v4","10x 3' GEX v4",2,"valid_completion",1,"primary_t3_molecular_transition_f1",0.792307692307692,"t3_transition",2,"Task 3 transition F1","claude-opus-5","Claude Opus 5","Max","Claude Opus 5 Max
+Claude Code"
+"claude_code","Claude + Claude Code","Claude","Native",10,"10x_chromium_3_feature_barcoding","10x 3' Feature Barcoding",3,"valid_completion",1,"primary_t3_molecular_transition_f1",0.78622248427673,"t3_transition",2,"Task 3 transition F1","claude-opus-5","Claude Opus 5","Max","Claude Opus 5 Max
+Claude Code"
+"claude_code","Claude + Claude Code","Claude","Native",10,"drop_seq","Drop-seq",4,"valid_completion",1,"primary_t3_molecular_transition_f1",0.803882783882784,"t3_transition",2,"Task 3 transition F1","claude-opus-5","Claude Opus 5","Max","Claude Opus 5 Max
+Claude Code"
+"claude_code","Claude + Claude Code","Claude","Native",10,"seq_well_s3","Seq-Well S3",5,"valid_completion",1,"primary_t3_molecular_transition_f1",0.841138211382114,"t3_transition",2,"Task 3 transition F1","claude-opus-5","Claude Opus 5","Max","Claude Opus 5 Max
+Claude Code"
+"claude_code","Claude + Claude Code","Claude","Native",10,"indrop_v1","inDrop v1",6,"valid_completion",1,"primary_t3_molecular_transition_f1",0.497649572649573,"t3_transition",2,"Task 3 transition F1","claude-opus-5","Claude Opus 5","Max","Claude Opus 5 Max
+Claude Code"
+"claude_code","Claude + Claude Code","Claude","Native",10,"s3_atac","s3-ATAC",7,"valid_completion",1,"primary_t3_molecular_transition_f1",0.805,"t3_transition",2,"Task 3 transition F1","claude-opus-5","Claude Opus 5","Max","Claude Opus 5 Max
+Claude Code"
+"claude_code","Claude + Claude Code","Claude","Native",10,"cel_seq","CEL-seq",8,"valid_completion",1,"primary_t3_molecular_transition_f1",0.807692307692308,"t3_transition",2,"Task 3 transition F1","claude-opus-5","Claude Opus 5","Max","Claude Opus 5 Max
+Claude Code"
+"claude_code","Claude + Claude Code","Claude","Native",10,"split_seq","SPLiT-seq",9,"valid_completion",1,"primary_t3_molecular_transition_f1",0.85006758050312,"t3_transition",2,"Task 3 transition F1","claude-opus-5","Claude Opus 5","Max","Claude Opus 5 Max
+Claude Code"
+"claude_code","Claude + Claude Code","Claude","Native",10,"sci_rna_seq","sci-RNA-seq",10,"valid_completion",1,"primary_t3_molecular_transition_f1",0.761363636363636,"t3_transition",2,"Task 3 transition F1","claude-opus-5","Claude Opus 5","Max","Claude Opus 5 Max
+Claude Code"
+"claude_code","Claude + Claude Code","Claude","Native",10,"sci_atac_seq","sci-ATAC-seq",11,"valid_completion",1,"primary_t3_molecular_transition_f1",0.594444444444444,"t3_transition",2,"Task 3 transition F1","claude-opus-5","Claude Opus 5","Max","Claude Opus 5 Max
+Claude Code"
+"claude_code","Claude + Claude Code","Claude","Native",10,"microwell_seq","Microwell-seq",12,"valid_completion",1,"primary_t3_molecular_transition_f1",0.803939393939394,"t3_transition",2,"Task 3 transition F1","claude-opus-5","Claude Opus 5","Max","Claude Opus 5 Max
+Claude Code"
+"claude_code","Claude + Claude Code","Claude","Native",10,"scrrbs","scRRBS",13,"valid_completion",1,"primary_t3_molecular_transition_f1",0.863131313131313,"t3_transition",2,"Task 3 transition F1","claude-opus-5","Claude Opus 5","Max","Claude Opus 5 Max
+Claude Code"
+"claude_code","Claude + Claude Code","Claude","Native",10,"pip_seq_v4","PIP-seq v4",14,"valid_completion",1,"primary_t3_molecular_transition_f1",0.71957153231663,"t3_transition",2,"Task 3 transition F1","claude-opus-5","Claude Opus 5","Max","Claude Opus 5 Max
+Claude Code"
+"claude_code","Claude + Claude Code","Claude","Native",10,"scdamid","scDamID",15,"valid_completion",1,"primary_t3_molecular_transition_f1",0.753580901856764,"t3_transition",2,"Task 3 transition F1","claude-opus-5","Claude Opus 5","Max","Claude Opus 5 Max
+Claude Code"
+"claude_code","Claude + Claude Code","Claude","Native",10,"ddseq_single_cell_3_rna_seq_kit","ddSEQ 3' RNA",16,"valid_completion",1,"primary_t3_molecular_transition_f1",0.716071428571429,"t3_transition",2,"Task 3 transition F1","claude-opus-5","Claude Opus 5","Max","Claude Opus 5 Max
+Claude Code"
+"claude_code","Claude + Claude Code","Claude","Native",10,"smart_seq","SMART-seq",17,"valid_completion",1,"primary_t3_molecular_transition_f1",0.747368421052632,"t3_transition",2,"Task 3 transition F1","claude-opus-5","Claude Opus 5","Max","Claude Opus 5 Max
+Claude Code"
+"claude_code","Claude + Claude Code","Claude","Native",10,"share_seq","SHARE-seq",18,"valid_completion",1,"primary_t3_molecular_transition_f1",0.762194080248631,"t3_transition",2,"Task 3 transition F1","claude-opus-5","Claude Opus 5","Max","Claude Opus 5 Max
+Claude Code"
+"claude_code","Claude + Claude Code","Claude","Native",10,"dr_seq","DR-seq",19,"valid_completion",1,"primary_t3_molecular_transition_f1",0.567896825396825,"t3_transition",2,"Task 3 transition F1","claude-opus-5","Claude Opus 5","Max","Claude Opus 5 Max
+Claude Code"
+"claude_code","Claude + Claude Code","Claude","Native",10,"petri_seq","PETRI-seq",20,"valid_completion",1,"primary_t3_molecular_transition_f1",0.842471066154761,"t3_transition",2,"Task 3 transition F1","claude-opus-5","Claude Opus 5","Max","Claude Opus 5 Max
+Claude Code"
+"claude_code","Claude + Claude Code","Claude","Native",10,"10x_chromium_single_cell_atac_v2","10x scATAC v2",1,"valid_completion",1,"primary_t3_state_f1",0.409708852773796,"t3_state",3,"Task 3 state F1","claude-opus-5","Claude Opus 5","Max","Claude Opus 5 Max
+Claude Code"
+"claude_code","Claude + Claude Code","Claude","Native",10,"10x_chromium_3_gene_expression_v4","10x 3' GEX v4",2,"valid_completion",1,"primary_t3_state_f1",0.644976234595714,"t3_state",3,"Task 3 state F1","claude-opus-5","Claude Opus 5","Max","Claude Opus 5 Max
+Claude Code"
+"claude_code","Claude + Claude Code","Claude","Native",10,"10x_chromium_3_feature_barcoding","10x 3' Feature Barcoding",3,"valid_completion",1,"primary_t3_state_f1",0.446502225994334,"t3_state",3,"Task 3 state F1","claude-opus-5","Claude Opus 5","Max","Claude Opus 5 Max
+Claude Code"
+"claude_code","Claude + Claude Code","Claude","Native",10,"drop_seq","Drop-seq",4,"valid_completion",1,"primary_t3_state_f1",0.623876008209065,"t3_state",3,"Task 3 state F1","claude-opus-5","Claude Opus 5","Max","Claude Opus 5 Max
+Claude Code"
+"claude_code","Claude + Claude Code","Claude","Native",10,"seq_well_s3","Seq-Well S3",5,"valid_completion",1,"primary_t3_state_f1",0.629486773247244,"t3_state",3,"Task 3 state F1","claude-opus-5","Claude Opus 5","Max","Claude Opus 5 Max
+Claude Code"
+"claude_code","Claude + Claude Code","Claude","Native",10,"indrop_v1","inDrop v1",6,"valid_completion",1,"primary_t3_state_f1",0.326182477119326,"t3_state",3,"Task 3 state F1","claude-opus-5","Claude Opus 5","Max","Claude Opus 5 Max
+Claude Code"
+"claude_code","Claude + Claude Code","Claude","Native",10,"s3_atac","s3-ATAC",7,"valid_completion",1,"primary_t3_state_f1",0.622122872659866,"t3_state",3,"Task 3 state F1","claude-opus-5","Claude Opus 5","Max","Claude Opus 5 Max
+Claude Code"
+"claude_code","Claude + Claude Code","Claude","Native",10,"cel_seq","CEL-seq",8,"valid_completion",1,"primary_t3_state_f1",0.6195244581692,"t3_state",3,"Task 3 state F1","claude-opus-5","Claude Opus 5","Max","Claude Opus 5 Max
+Claude Code"
+"claude_code","Claude + Claude Code","Claude","Native",10,"split_seq","SPLiT-seq",9,"valid_completion",1,"primary_t3_state_f1",0.669239662587252,"t3_state",3,"Task 3 state F1","claude-opus-5","Claude Opus 5","Max","Claude Opus 5 Max
+Claude Code"
+"claude_code","Claude + Claude Code","Claude","Native",10,"sci_rna_seq","sci-RNA-seq",10,"valid_completion",1,"primary_t3_state_f1",0.719539536021559,"t3_state",3,"Task 3 state F1","claude-opus-5","Claude Opus 5","Max","Claude Opus 5 Max
+Claude Code"
+"claude_code","Claude + Claude Code","Claude","Native",10,"sci_atac_seq","sci-ATAC-seq",11,"valid_completion",1,"primary_t3_state_f1",0.248693392107599,"t3_state",3,"Task 3 state F1","claude-opus-5","Claude Opus 5","Max","Claude Opus 5 Max
+Claude Code"
+"claude_code","Claude + Claude Code","Claude","Native",10,"microwell_seq","Microwell-seq",12,"valid_completion",1,"primary_t3_state_f1",0.62827820375678,"t3_state",3,"Task 3 state F1","claude-opus-5","Claude Opus 5","Max","Claude Opus 5 Max
+Claude Code"
+"claude_code","Claude + Claude Code","Claude","Native",10,"scrrbs","scRRBS",13,"valid_completion",1,"primary_t3_state_f1",0.413182962030133,"t3_state",3,"Task 3 state F1","claude-opus-5","Claude Opus 5","Max","Claude Opus 5 Max
+Claude Code"
+"claude_code","Claude + Claude Code","Claude","Native",10,"pip_seq_v4","PIP-seq v4",14,"valid_completion",1,"primary_t3_state_f1",0.493589655374978,"t3_state",3,"Task 3 state F1","claude-opus-5","Claude Opus 5","Max","Claude Opus 5 Max
+Claude Code"
+"claude_code","Claude + Claude Code","Claude","Native",10,"scdamid","scDamID",15,"valid_completion",1,"primary_t3_state_f1",0.514336797243864,"t3_state",3,"Task 3 state F1","claude-opus-5","Claude Opus 5","Max","Claude Opus 5 Max
+Claude Code"
+"claude_code","Claude + Claude Code","Claude","Native",10,"ddseq_single_cell_3_rna_seq_kit","ddSEQ 3' RNA",16,"valid_completion",1,"primary_t3_state_f1",0.594234952888179,"t3_state",3,"Task 3 state F1","claude-opus-5","Claude Opus 5","Max","Claude Opus 5 Max
+Claude Code"
+"claude_code","Claude + Claude Code","Claude","Native",10,"smart_seq","SMART-seq",17,"valid_completion",1,"primary_t3_state_f1",0.495522677079185,"t3_state",3,"Task 3 state F1","claude-opus-5","Claude Opus 5","Max","Claude Opus 5 Max
+Claude Code"
+"claude_code","Claude + Claude Code","Claude","Native",10,"share_seq","SHARE-seq",18,"valid_completion",1,"primary_t3_state_f1",0.624111024154825,"t3_state",3,"Task 3 state F1","claude-opus-5","Claude Opus 5","Max","Claude Opus 5 Max
+Claude Code"
+"claude_code","Claude + Claude Code","Claude","Native",10,"dr_seq","DR-seq",19,"valid_completion",1,"primary_t3_state_f1",0.460554764934498,"t3_state",3,"Task 3 state F1","claude-opus-5","Claude Opus 5","Max","Claude Opus 5 Max
+Claude Code"
+"claude_code","Claude + Claude Code","Claude","Native",10,"petri_seq","PETRI-seq",20,"valid_completion",1,"primary_t3_state_f1",0.613771530541428,"t3_state",3,"Task 3 state F1","claude-opus-5","Claude Opus 5","Max","Claude Opus 5 Max
+Claude Code"
+"claude_code","Claude + Claude Code","Claude","Native",10,"10x_chromium_single_cell_atac_v2","10x scATAC v2",1,"valid_completion",1,"primary_t3_typed_edge_f1",0.714285714285714,"t3_edge",4,"Task 3 typed-edge F1","claude-opus-5","Claude Opus 5","Max","Claude Opus 5 Max
+Claude Code"
+"claude_code","Claude + Claude Code","Claude","Native",10,"10x_chromium_3_gene_expression_v4","10x 3' GEX v4",2,"valid_completion",1,"primary_t3_typed_edge_f1",0.846153846153846,"t3_edge",4,"Task 3 typed-edge F1","claude-opus-5","Claude Opus 5","Max","Claude Opus 5 Max
+Claude Code"
+"claude_code","Claude + Claude Code","Claude","Native",10,"10x_chromium_3_feature_barcoding","10x 3' Feature Barcoding",3,"valid_completion",1,"primary_t3_typed_edge_f1",0.65,"t3_edge",4,"Task 3 typed-edge F1","claude-opus-5","Claude Opus 5","Max","Claude Opus 5 Max
+Claude Code"
+"claude_code","Claude + Claude Code","Claude","Native",10,"drop_seq","Drop-seq",4,"valid_completion",1,"primary_t3_typed_edge_f1",0.888888888888889,"t3_edge",4,"Task 3 typed-edge F1","claude-opus-5","Claude Opus 5","Max","Claude Opus 5 Max
+Claude Code"
+"claude_code","Claude + Claude Code","Claude","Native",10,"seq_well_s3","Seq-Well S3",5,"valid_completion",1,"primary_t3_typed_edge_f1",0.823529411764706,"t3_edge",4,"Task 3 typed-edge F1","claude-opus-5","Claude Opus 5","Max","Claude Opus 5 Max
+Claude Code"
+"claude_code","Claude + Claude Code","Claude","Native",10,"indrop_v1","inDrop v1",6,"valid_completion",1,"primary_t3_typed_edge_f1",0.27027027027027,"t3_edge",4,"Task 3 typed-edge F1","claude-opus-5","Claude Opus 5","Max","Claude Opus 5 Max
+Claude Code"
+"claude_code","Claude + Claude Code","Claude","Native",10,"s3_atac","s3-ATAC",7,"valid_completion",1,"primary_t3_typed_edge_f1",0.705882352941177,"t3_edge",4,"Task 3 typed-edge F1","claude-opus-5","Claude Opus 5","Max","Claude Opus 5 Max
+Claude Code"
+"claude_code","Claude + Claude Code","Claude","Native",10,"cel_seq","CEL-seq",8,"valid_completion",1,"primary_t3_typed_edge_f1",0.814814814814815,"t3_edge",4,"Task 3 typed-edge F1","claude-opus-5","Claude Opus 5","Max","Claude Opus 5 Max
+Claude Code"
+"claude_code","Claude + Claude Code","Claude","Native",10,"split_seq","SPLiT-seq",9,"valid_completion",1,"primary_t3_typed_edge_f1",1,"t3_edge",4,"Task 3 typed-edge F1","claude-opus-5","Claude Opus 5","Max","Claude Opus 5 Max
+Claude Code"
+"claude_code","Claude + Claude Code","Claude","Native",10,"sci_rna_seq","sci-RNA-seq",10,"valid_completion",1,"primary_t3_typed_edge_f1",0.727272727272727,"t3_edge",4,"Task 3 typed-edge F1","claude-opus-5","Claude Opus 5","Max","Claude Opus 5 Max
+Claude Code"
+"claude_code","Claude + Claude Code","Claude","Native",10,"sci_atac_seq","sci-ATAC-seq",11,"valid_completion",1,"primary_t3_typed_edge_f1",0.31578947368421,"t3_edge",4,"Task 3 typed-edge F1","claude-opus-5","Claude Opus 5","Max","Claude Opus 5 Max
+Claude Code"
+"claude_code","Claude + Claude Code","Claude","Native",10,"microwell_seq","Microwell-seq",12,"valid_completion",1,"primary_t3_typed_edge_f1",0.782608695652174,"t3_edge",4,"Task 3 typed-edge F1","claude-opus-5","Claude Opus 5","Max","Claude Opus 5 Max
+Claude Code"
+"claude_code","Claude + Claude Code","Claude","Native",10,"scrrbs","scRRBS",13,"valid_completion",1,"primary_t3_typed_edge_f1",0.833333333333333,"t3_edge",4,"Task 3 typed-edge F1","claude-opus-5","Claude Opus 5","Max","Claude Opus 5 Max
+Claude Code"
+"claude_code","Claude + Claude Code","Claude","Native",10,"pip_seq_v4","PIP-seq v4",14,"valid_completion",1,"primary_t3_typed_edge_f1",0.628571428571429,"t3_edge",4,"Task 3 typed-edge F1","claude-opus-5","Claude Opus 5","Max","Claude Opus 5 Max
+Claude Code"
+"claude_code","Claude + Claude Code","Claude","Native",10,"scdamid","scDamID",15,"valid_completion",1,"primary_t3_typed_edge_f1",0.692307692307692,"t3_edge",4,"Task 3 typed-edge F1","claude-opus-5","Claude Opus 5","Max","Claude Opus 5 Max
+Claude Code"
+"claude_code","Claude + Claude Code","Claude","Native",10,"ddseq_single_cell_3_rna_seq_kit","ddSEQ 3' RNA",16,"valid_completion",1,"primary_t3_typed_edge_f1",0.6875,"t3_edge",4,"Task 3 typed-edge F1","claude-opus-5","Claude Opus 5","Max","Claude Opus 5 Max
+Claude Code"
+"claude_code","Claude + Claude Code","Claude","Native",10,"smart_seq","SMART-seq",17,"valid_completion",1,"primary_t3_typed_edge_f1",0.722222222222222,"t3_edge",4,"Task 3 typed-edge F1","claude-opus-5","Claude Opus 5","Max","Claude Opus 5 Max
+Claude Code"
+"claude_code","Claude + Claude Code","Claude","Native",10,"share_seq","SHARE-seq",18,"valid_completion",1,"primary_t3_typed_edge_f1",0.65625,"t3_edge",4,"Task 3 typed-edge F1","claude-opus-5","Claude Opus 5","Max","Claude Opus 5 Max
+Claude Code"
+"claude_code","Claude + Claude Code","Claude","Native",10,"dr_seq","DR-seq",19,"valid_completion",1,"primary_t3_typed_edge_f1",0.459016393442623,"t3_edge",4,"Task 3 typed-edge F1","claude-opus-5","Claude Opus 5","Max","Claude Opus 5 Max
+Claude Code"
+"claude_code","Claude + Claude Code","Claude","Native",10,"petri_seq","PETRI-seq",20,"valid_completion",1,"primary_t3_typed_edge_f1",0.846153846153846,"t3_edge",4,"Task 3 typed-edge F1","claude-opus-5","Claude Opus 5","Max","Claude Opus 5 Max
+Claude Code"
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"10x_chromium_single_cell_atac_v2","10x scATAC v2",1,"valid_completion",1,"primary_t2_required_family_f1",0.722408859027,"t2_family",1,"Task 2 oligo-family F1","google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash High
+Antigravity CLI"
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"10x_chromium_3_gene_expression_v4","10x 3' GEX v4",2,"valid_completion",1,"primary_t2_required_family_f1",0.666666666666667,"t2_family",1,"Task 2 oligo-family F1","google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash High
+Antigravity CLI"
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"10x_chromium_3_feature_barcoding","10x 3' Feature Barcoding",3,"valid_completion",1,"primary_t2_required_family_f1",0.861741111538955,"t2_family",1,"Task 2 oligo-family F1","google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash High
+Antigravity CLI"
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"drop_seq","Drop-seq",4,"valid_completion",1,"primary_t2_required_family_f1",0.659797297297297,"t2_family",1,"Task 2 oligo-family F1","google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash High
+Antigravity CLI"
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"seq_well_s3","Seq-Well S3",5,"valid_completion",1,"primary_t2_required_family_f1",1,"t2_family",1,"Task 2 oligo-family F1","google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash High
+Antigravity CLI"
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"indrop_v1","inDrop v1",6,"valid_completion",1,"primary_t2_required_family_f1",0.61791958041958,"t2_family",1,"Task 2 oligo-family F1","google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash High
+Antigravity CLI"
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"s3_atac","s3-ATAC",7,"valid_completion",1,"primary_t2_required_family_f1",0.872946859903382,"t2_family",1,"Task 2 oligo-family F1","google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash High
+Antigravity CLI"
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"cel_seq","CEL-seq",8,"valid_completion",1,"primary_t2_required_family_f1",0.285714285714286,"t2_family",1,"Task 2 oligo-family F1","google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash High
+Antigravity CLI"
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"split_seq","SPLiT-seq",9,"valid_completion",1,"primary_t2_required_family_f1",0.951902260341285,"t2_family",1,"Task 2 oligo-family F1","google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash High
+Antigravity CLI"
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"sci_rna_seq","sci-RNA-seq",10,"valid_completion",1,"primary_t2_required_family_f1",0.815126050420168,"t2_family",1,"Task 2 oligo-family F1","google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash High
+Antigravity CLI"
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"sci_atac_seq","sci-ATAC-seq",11,"valid_completion",1,"primary_t2_required_family_f1",0.689268461007591,"t2_family",1,"Task 2 oligo-family F1","google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash High
+Antigravity CLI"
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"microwell_seq","Microwell-seq",12,"valid_completion",1,"primary_t2_required_family_f1",0.98,"t2_family",1,"Task 2 oligo-family F1","google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash High
+Antigravity CLI"
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"scrrbs","scRRBS",13,"valid_completion",1,"primary_t2_required_family_f1",0.885416666666667,"t2_family",1,"Task 2 oligo-family F1","google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash High
+Antigravity CLI"
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"pip_seq_v4","PIP-seq v4",14,"valid_completion",1,"primary_t2_required_family_f1",0.845315904139434,"t2_family",1,"Task 2 oligo-family F1","google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash High
+Antigravity CLI"
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"scdamid","scDamID",15,"valid_completion",1,"primary_t2_required_family_f1",0.681880213739284,"t2_family",1,"Task 2 oligo-family F1","google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash High
+Antigravity CLI"
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"ddseq_single_cell_3_rna_seq_kit","ddSEQ 3' RNA",16,"valid_completion",1,"primary_t2_required_family_f1",0,"t2_family",1,"Task 2 oligo-family F1","google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash High
+Antigravity CLI"
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"smart_seq","SMART-seq",17,"valid_completion",1,"primary_t2_required_family_f1",0.58,"t2_family",1,"Task 2 oligo-family F1","google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash High
+Antigravity CLI"
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"share_seq","SHARE-seq",18,"valid_completion",1,"primary_t2_required_family_f1",0.995085875541284,"t2_family",1,"Task 2 oligo-family F1","google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash High
+Antigravity CLI"
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"dr_seq","DR-seq",19,"valid_completion",1,"primary_t2_required_family_f1",0.5,"t2_family",1,"Task 2 oligo-family F1","google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash High
+Antigravity CLI"
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"petri_seq","PETRI-seq",20,"valid_completion",1,"primary_t2_required_family_f1",0.898049945279077,"t2_family",1,"Task 2 oligo-family F1","google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash High
+Antigravity CLI"
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"10x_chromium_single_cell_atac_v2","10x scATAC v2",1,"valid_completion",1,"primary_t3_molecular_transition_f1",0.950737411663569,"t3_transition",2,"Task 3 transition F1","google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash High
+Antigravity CLI"
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"10x_chromium_3_gene_expression_v4","10x 3' GEX v4",2,"valid_completion",1,"primary_t3_molecular_transition_f1",0.9,"t3_transition",2,"Task 3 transition F1","google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash High
+Antigravity CLI"
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"10x_chromium_3_feature_barcoding","10x 3' Feature Barcoding",3,"valid_completion",1,"primary_t3_molecular_transition_f1",0.736873315363881,"t3_transition",2,"Task 3 transition F1","google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash High
+Antigravity CLI"
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"drop_seq","Drop-seq",4,"valid_completion",1,"primary_t3_molecular_transition_f1",0.912539682539683,"t3_transition",2,"Task 3 transition F1","google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash High
+Antigravity CLI"
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"seq_well_s3","Seq-Well S3",5,"valid_completion",1,"primary_t3_molecular_transition_f1",0.846153846153846,"t3_transition",2,"Task 3 transition F1","google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash High
+Antigravity CLI"
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"indrop_v1","inDrop v1",6,"valid_completion",1,"primary_t3_molecular_transition_f1",0.806360946745562,"t3_transition",2,"Task 3 transition F1","google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash High
+Antigravity CLI"
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"s3_atac","s3-ATAC",7,"valid_completion",1,"primary_t3_molecular_transition_f1",0.689382992327366,"t3_transition",2,"Task 3 transition F1","google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash High
+Antigravity CLI"
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"cel_seq","CEL-seq",8,"valid_completion",1,"primary_t3_molecular_transition_f1",0.661538461538462,"t3_transition",2,"Task 3 transition F1","google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash High
+Antigravity CLI"
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"split_seq","SPLiT-seq",9,"valid_completion",1,"primary_t3_molecular_transition_f1",0.878639009074549,"t3_transition",2,"Task 3 transition F1","google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash High
+Antigravity CLI"
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"sci_rna_seq","sci-RNA-seq",10,"valid_completion",1,"primary_t3_molecular_transition_f1",0.782352941176471,"t3_transition",2,"Task 3 transition F1","google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash High
+Antigravity CLI"
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"sci_atac_seq","sci-ATAC-seq",11,"valid_completion",1,"primary_t3_molecular_transition_f1",0.563521969174143,"t3_transition",2,"Task 3 transition F1","google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash High
+Antigravity CLI"
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"microwell_seq","Microwell-seq",12,"valid_completion",1,"primary_t3_molecular_transition_f1",0.936,"t3_transition",2,"Task 3 transition F1","google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash High
+Antigravity CLI"
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"scrrbs","scRRBS",13,"valid_completion",1,"primary_t3_molecular_transition_f1",0.808585858585859,"t3_transition",2,"Task 3 transition F1","google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash High
+Antigravity CLI"
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"pip_seq_v4","PIP-seq v4",14,"valid_completion",1,"primary_t3_molecular_transition_f1",0.777936224995048,"t3_transition",2,"Task 3 transition F1","google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash High
+Antigravity CLI"
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"scdamid","scDamID",15,"valid_completion",1,"primary_t3_molecular_transition_f1",0.925165542228886,"t3_transition",2,"Task 3 transition F1","google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash High
+Antigravity CLI"
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"ddseq_single_cell_3_rna_seq_kit","ddSEQ 3' RNA",16,"valid_completion",1,"primary_t3_molecular_transition_f1",0.413636363636364,"t3_transition",2,"Task 3 transition F1","google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash High
+Antigravity CLI"
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"smart_seq","SMART-seq",17,"valid_completion",1,"primary_t3_molecular_transition_f1",0.602777777777778,"t3_transition",2,"Task 3 transition F1","google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash High
+Antigravity CLI"
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"share_seq","SHARE-seq",18,"valid_completion",1,"primary_t3_molecular_transition_f1",0.666426146010187,"t3_transition",2,"Task 3 transition F1","google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash High
+Antigravity CLI"
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"dr_seq","DR-seq",19,"valid_completion",1,"primary_t3_molecular_transition_f1",0.52536231884058,"t3_transition",2,"Task 3 transition F1","google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash High
+Antigravity CLI"
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"petri_seq","PETRI-seq",20,"valid_completion",1,"primary_t3_molecular_transition_f1",0.980968950509266,"t3_transition",2,"Task 3 transition F1","google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash High
+Antigravity CLI"
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"10x_chromium_single_cell_atac_v2","10x scATAC v2",1,"valid_completion",1,"primary_t3_state_f1",0.672946304266452,"t3_state",3,"Task 3 state F1","google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash High
+Antigravity CLI"
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"10x_chromium_3_gene_expression_v4","10x 3' GEX v4",2,"valid_completion",1,"primary_t3_state_f1",0.662526865577574,"t3_state",3,"Task 3 state F1","google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash High
+Antigravity CLI"
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"10x_chromium_3_feature_barcoding","10x 3' Feature Barcoding",3,"valid_completion",1,"primary_t3_state_f1",0.479956574139221,"t3_state",3,"Task 3 state F1","google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash High
+Antigravity CLI"
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"drop_seq","Drop-seq",4,"valid_completion",1,"primary_t3_state_f1",0.644899142222399,"t3_state",3,"Task 3 state F1","google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash High
+Antigravity CLI"
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"seq_well_s3","Seq-Well S3",5,"valid_completion",1,"primary_t3_state_f1",0.596738304414827,"t3_state",3,"Task 3 state F1","google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash High
+Antigravity CLI"
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"indrop_v1","inDrop v1",6,"valid_completion",1,"primary_t3_state_f1",0.42759067756641,"t3_state",3,"Task 3 state F1","google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash High
+Antigravity CLI"
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"s3_atac","s3-ATAC",7,"valid_completion",1,"primary_t3_state_f1",0.384811171303278,"t3_state",3,"Task 3 state F1","google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash High
+Antigravity CLI"
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"cel_seq","CEL-seq",8,"valid_completion",1,"primary_t3_state_f1",0.391621831057401,"t3_state",3,"Task 3 state F1","google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash High
+Antigravity CLI"
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"split_seq","SPLiT-seq",9,"valid_completion",1,"primary_t3_state_f1",0.426002873299455,"t3_state",3,"Task 3 state F1","google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash High
+Antigravity CLI"
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"sci_rna_seq","sci-RNA-seq",10,"valid_completion",1,"primary_t3_state_f1",0.411159914573342,"t3_state",3,"Task 3 state F1","google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash High
+Antigravity CLI"
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"sci_atac_seq","sci-ATAC-seq",11,"valid_completion",1,"primary_t3_state_f1",0.205030990406473,"t3_state",3,"Task 3 state F1","google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash High
+Antigravity CLI"
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"microwell_seq","Microwell-seq",12,"valid_completion",1,"primary_t3_state_f1",0.654274697502986,"t3_state",3,"Task 3 state F1","google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash High
+Antigravity CLI"
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"scrrbs","scRRBS",13,"valid_completion",1,"primary_t3_state_f1",0.528148078957559,"t3_state",3,"Task 3 state F1","google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash High
+Antigravity CLI"
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"pip_seq_v4","PIP-seq v4",14,"valid_completion",1,"primary_t3_state_f1",0.376413141330628,"t3_state",3,"Task 3 state F1","google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash High
+Antigravity CLI"
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"scdamid","scDamID",15,"valid_completion",1,"primary_t3_state_f1",0.380661427674414,"t3_state",3,"Task 3 state F1","google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash High
+Antigravity CLI"
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"ddseq_single_cell_3_rna_seq_kit","ddSEQ 3' RNA",16,"valid_completion",1,"primary_t3_state_f1",0.491401751497901,"t3_state",3,"Task 3 state F1","google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash High
+Antigravity CLI"
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"smart_seq","SMART-seq",17,"valid_completion",1,"primary_t3_state_f1",0.381647828598717,"t3_state",3,"Task 3 state F1","google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash High
+Antigravity CLI"
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"share_seq","SHARE-seq",18,"valid_completion",1,"primary_t3_state_f1",0.510580029219787,"t3_state",3,"Task 3 state F1","google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash High
+Antigravity CLI"
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"dr_seq","DR-seq",19,"valid_completion",1,"primary_t3_state_f1",0.344270988518709,"t3_state",3,"Task 3 state F1","google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash High
+Antigravity CLI"
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"petri_seq","PETRI-seq",20,"valid_completion",1,"primary_t3_state_f1",0.721968851142978,"t3_state",3,"Task 3 state F1","google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash High
+Antigravity CLI"
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"10x_chromium_single_cell_atac_v2","10x scATAC v2",1,"valid_completion",1,"primary_t3_typed_edge_f1",1,"t3_edge",4,"Task 3 typed-edge F1","google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash High
+Antigravity CLI"
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"10x_chromium_3_gene_expression_v4","10x 3' GEX v4",2,"valid_completion",1,"primary_t3_typed_edge_f1",1,"t3_edge",4,"Task 3 typed-edge F1","google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash High
+Antigravity CLI"
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"10x_chromium_3_feature_barcoding","10x 3' Feature Barcoding",3,"valid_completion",1,"primary_t3_typed_edge_f1",0.578947368421053,"t3_edge",4,"Task 3 typed-edge F1","google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash High
+Antigravity CLI"
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"drop_seq","Drop-seq",4,"valid_completion",1,"primary_t3_typed_edge_f1",1,"t3_edge",4,"Task 3 typed-edge F1","google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash High
+Antigravity CLI"
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"seq_well_s3","Seq-Well S3",5,"valid_completion",1,"primary_t3_typed_edge_f1",0.733333333333333,"t3_edge",4,"Task 3 typed-edge F1","google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash High
+Antigravity CLI"
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"indrop_v1","inDrop v1",6,"valid_completion",1,"primary_t3_typed_edge_f1",0.692307692307692,"t3_edge",4,"Task 3 typed-edge F1","google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash High
+Antigravity CLI"
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"s3_atac","s3-ATAC",7,"valid_completion",1,"primary_t3_typed_edge_f1",0.470588235294118,"t3_edge",4,"Task 3 typed-edge F1","google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash High
+Antigravity CLI"
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"cel_seq","CEL-seq",8,"valid_completion",1,"primary_t3_typed_edge_f1",0.538461538461538,"t3_edge",4,"Task 3 typed-edge F1","google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash High
+Antigravity CLI"
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"split_seq","SPLiT-seq",9,"valid_completion",1,"primary_t3_typed_edge_f1",1,"t3_edge",4,"Task 3 typed-edge F1","google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash High
+Antigravity CLI"
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"sci_rna_seq","sci-RNA-seq",10,"valid_completion",1,"primary_t3_typed_edge_f1",0.777777777777778,"t3_edge",4,"Task 3 typed-edge F1","google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash High
+Antigravity CLI"
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"sci_atac_seq","sci-ATAC-seq",11,"valid_completion",1,"primary_t3_typed_edge_f1",0.235294117647059,"t3_edge",4,"Task 3 typed-edge F1","google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash High
+Antigravity CLI"
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"microwell_seq","Microwell-seq",12,"valid_completion",1,"primary_t3_typed_edge_f1",1,"t3_edge",4,"Task 3 typed-edge F1","google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash High
+Antigravity CLI"
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"scrrbs","scRRBS",13,"valid_completion",1,"primary_t3_typed_edge_f1",0.833333333333333,"t3_edge",4,"Task 3 typed-edge F1","google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash High
+Antigravity CLI"
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"pip_seq_v4","PIP-seq v4",14,"valid_completion",1,"primary_t3_typed_edge_f1",0.782608695652174,"t3_edge",4,"Task 3 typed-edge F1","google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash High
+Antigravity CLI"
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"scdamid","scDamID",15,"valid_completion",1,"primary_t3_typed_edge_f1",1,"t3_edge",4,"Task 3 typed-edge F1","google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash High
+Antigravity CLI"
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"ddseq_single_cell_3_rna_seq_kit","ddSEQ 3' RNA",16,"valid_completion",1,"primary_t3_typed_edge_f1",0.296296296296296,"t3_edge",4,"Task 3 typed-edge F1","google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash High
+Antigravity CLI"
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"smart_seq","SMART-seq",17,"valid_completion",1,"primary_t3_typed_edge_f1",0.457142857142857,"t3_edge",4,"Task 3 typed-edge F1","google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash High
+Antigravity CLI"
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"share_seq","SHARE-seq",18,"valid_completion",1,"primary_t3_typed_edge_f1",0.375,"t3_edge",4,"Task 3 typed-edge F1","google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash High
+Antigravity CLI"
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"dr_seq","DR-seq",19,"valid_completion",1,"primary_t3_typed_edge_f1",0.363636363636364,"t3_edge",4,"Task 3 typed-edge F1","google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash High
+Antigravity CLI"
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"petri_seq","PETRI-seq",20,"valid_completion",1,"primary_t3_typed_edge_f1",1,"t3_edge",4,"Task 3 typed-edge F1","google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash High
+Antigravity CLI"
+"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"10x_chromium_single_cell_atac_v2","10x scATAC v2",1,"valid_completion",1,"primary_t2_required_family_f1",0.707446808510638,"t2_family",1,"Task 2 oligo-family F1","kimi/kimi-k3","Kimi K3","Max","Kimi K3 Max
+Kimi Code"
+"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"10x_chromium_3_gene_expression_v4","10x 3' GEX v4",2,"valid_completion",1,"primary_t2_required_family_f1",0.6,"t2_family",1,"Task 2 oligo-family F1","kimi/kimi-k3","Kimi K3","Max","Kimi K3 Max
+Kimi Code"
+"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"10x_chromium_3_feature_barcoding","10x 3' Feature Barcoding",3,"valid_completion",1,"primary_t2_required_family_f1",0.889546280639683,"t2_family",1,"Task 2 oligo-family F1","kimi/kimi-k3","Kimi K3","Max","Kimi K3 Max
+Kimi Code"
+"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"drop_seq","Drop-seq",4,"valid_completion",1,"primary_t2_required_family_f1",0.886382623224728,"t2_family",1,"Task 2 oligo-family F1","kimi/kimi-k3","Kimi K3","Max","Kimi K3 Max
+Kimi Code"
+"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"seq_well_s3","Seq-Well S3",5,"valid_completion",1,"primary_t2_required_family_f1",0.909090909090909,"t2_family",1,"Task 2 oligo-family F1","kimi/kimi-k3","Kimi K3","Max","Kimi K3 Max
+Kimi Code"
+"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"indrop_v1","inDrop v1",6,"valid_completion",1,"primary_t2_required_family_f1",0.616423282599753,"t2_family",1,"Task 2 oligo-family F1","kimi/kimi-k3","Kimi K3","Max","Kimi K3 Max
+Kimi Code"
+"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"s3_atac","s3-ATAC",7,"valid_completion",1,"primary_t2_required_family_f1",1,"t2_family",1,"Task 2 oligo-family F1","kimi/kimi-k3","Kimi K3","Max","Kimi K3 Max
+Kimi Code"
+"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"cel_seq","CEL-seq",8,"valid_completion",1,"primary_t2_required_family_f1",0.285714285714286,"t2_family",1,"Task 2 oligo-family F1","kimi/kimi-k3","Kimi K3","Max","Kimi K3 Max
+Kimi Code"
+"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"split_seq","SPLiT-seq",9,"valid_completion",1,"primary_t2_required_family_f1",0.957575757575758,"t2_family",1,"Task 2 oligo-family F1","kimi/kimi-k3","Kimi K3","Max","Kimi K3 Max
+Kimi Code"
+"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"sci_rna_seq","sci-RNA-seq",10,"valid_completion",1,"primary_t2_required_family_f1",0.815126050420168,"t2_family",1,"Task 2 oligo-family F1","kimi/kimi-k3","Kimi K3","Max","Kimi K3 Max
+Kimi Code"
+"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"sci_atac_seq","sci-ATAC-seq",11,"valid_completion",1,"primary_t2_required_family_f1",0.6,"t2_family",1,"Task 2 oligo-family F1","kimi/kimi-k3","Kimi K3","Max","Kimi K3 Max
+Kimi Code"
+"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"microwell_seq","Microwell-seq",12,"valid_completion",1,"primary_t2_required_family_f1",0.94949494949495,"t2_family",1,"Task 2 oligo-family F1","kimi/kimi-k3","Kimi K3","Max","Kimi K3 Max
+Kimi Code"
+"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"scrrbs","scRRBS",13,"valid_completion",1,"primary_t2_required_family_f1",0.864583333333333,"t2_family",1,"Task 2 oligo-family F1","kimi/kimi-k3","Kimi K3","Max","Kimi K3 Max
+Kimi Code"
+"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"pip_seq_v4","PIP-seq v4",14,"valid_completion",1,"primary_t2_required_family_f1",0.684213458110517,"t2_family",1,"Task 2 oligo-family F1","kimi/kimi-k3","Kimi K3","Max","Kimi K3 Max
+Kimi Code"
+"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"scdamid","scDamID",15,"valid_completion",1,"primary_t2_required_family_f1",0.713076794935866,"t2_family",1,"Task 2 oligo-family F1","kimi/kimi-k3","Kimi K3","Max","Kimi K3 Max
+Kimi Code"
+"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"ddseq_single_cell_3_rna_seq_kit","ddSEQ 3' RNA",16,"valid_completion",1,"primary_t2_required_family_f1",0,"t2_family",1,"Task 2 oligo-family F1","kimi/kimi-k3","Kimi K3","Max","Kimi K3 Max
+Kimi Code"
+"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"smart_seq","SMART-seq",17,"valid_completion",1,"primary_t2_required_family_f1",0.745689655172414,"t2_family",1,"Task 2 oligo-family F1","kimi/kimi-k3","Kimi K3","Max","Kimi K3 Max
+Kimi Code"
+"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"share_seq","SHARE-seq",18,"valid_completion",1,"primary_t2_required_family_f1",0.991409404953048,"t2_family",1,"Task 2 oligo-family F1","kimi/kimi-k3","Kimi K3","Max","Kimi K3 Max
+Kimi Code"
+"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"dr_seq","DR-seq",19,"valid_completion",1,"primary_t2_required_family_f1",0.6,"t2_family",1,"Task 2 oligo-family F1","kimi/kimi-k3","Kimi K3","Max","Kimi K3 Max
+Kimi Code"
+"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"petri_seq","PETRI-seq",20,"valid_completion",1,"primary_t2_required_family_f1",0.72048125557673,"t2_family",1,"Task 2 oligo-family F1","kimi/kimi-k3","Kimi K3","Max","Kimi K3 Max
+Kimi Code"
+"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"10x_chromium_single_cell_atac_v2","10x scATAC v2",1,"valid_completion",1,"primary_t3_molecular_transition_f1",0.95650687096244,"t3_transition",2,"Task 3 transition F1","kimi/kimi-k3","Kimi K3","Max","Kimi K3 Max
+Kimi Code"
+"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"10x_chromium_3_gene_expression_v4","10x 3' GEX v4",2,"valid_completion",1,"primary_t3_molecular_transition_f1",0.792307692307692,"t3_transition",2,"Task 3 transition F1","kimi/kimi-k3","Kimi K3","Max","Kimi K3 Max
+Kimi Code"
+"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"10x_chromium_3_feature_barcoding","10x 3' Feature Barcoding",3,"valid_completion",1,"primary_t3_molecular_transition_f1",0.841951650943396,"t3_transition",2,"Task 3 transition F1","kimi/kimi-k3","Kimi K3","Max","Kimi K3 Max
+Kimi Code"
+"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"drop_seq","Drop-seq",4,"valid_completion",1,"primary_t3_molecular_transition_f1",0.720039682539682,"t3_transition",2,"Task 3 transition F1","kimi/kimi-k3","Kimi K3","Max","Kimi K3 Max
+Kimi Code"
+"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"seq_well_s3","Seq-Well S3",5,"valid_completion",1,"primary_t3_molecular_transition_f1",0.715897212543554,"t3_transition",2,"Task 3 transition F1","kimi/kimi-k3","Kimi K3","Max","Kimi K3 Max
+Kimi Code"
+"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"indrop_v1","inDrop v1",6,"valid_completion",1,"primary_t3_molecular_transition_f1",0.495833333333333,"t3_transition",2,"Task 3 transition F1","kimi/kimi-k3","Kimi K3","Max","Kimi K3 Max
+Kimi Code"
+"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"s3_atac","s3-ATAC",7,"valid_completion",1,"primary_t3_molecular_transition_f1",0.73125,"t3_transition",2,"Task 3 transition F1","kimi/kimi-k3","Kimi K3","Max","Kimi K3 Max
+Kimi Code"
+"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"cel_seq","CEL-seq",8,"valid_completion",1,"primary_t3_molecular_transition_f1",0.746153846153846,"t3_transition",2,"Task 3 transition F1","kimi/kimi-k3","Kimi K3","Max","Kimi K3 Max
+Kimi Code"
+"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"split_seq","SPLiT-seq",9,"valid_completion",1,"primary_t3_molecular_transition_f1",0.555525846702317,"t3_transition",2,"Task 3 transition F1","kimi/kimi-k3","Kimi K3","Max","Kimi K3 Max
+Kimi Code"
+"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"sci_rna_seq","sci-RNA-seq",10,"valid_completion",1,"primary_t3_molecular_transition_f1",0.695098039215686,"t3_transition",2,"Task 3 transition F1","kimi/kimi-k3","Kimi K3","Max","Kimi K3 Max
+Kimi Code"
+"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"sci_atac_seq","sci-ATAC-seq",11,"valid_completion",1,"primary_t3_molecular_transition_f1",0.508,"t3_transition",2,"Task 3 transition F1","kimi/kimi-k3","Kimi K3","Max","Kimi K3 Max
+Kimi Code"
+"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"microwell_seq","Microwell-seq",12,"valid_completion",1,"primary_t3_molecular_transition_f1",0.510338756521963,"t3_transition",2,"Task 3 transition F1","kimi/kimi-k3","Kimi K3","Max","Kimi K3 Max
+Kimi Code"
+"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"scrrbs","scRRBS",13,"valid_completion",1,"primary_t3_molecular_transition_f1",0.69040404040404,"t3_transition",2,"Task 3 transition F1","kimi/kimi-k3","Kimi K3","Max","Kimi K3 Max
+Kimi Code"
+"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"pip_seq_v4","PIP-seq v4",14,"valid_completion",1,"primary_t3_molecular_transition_f1",0.669494132672945,"t3_transition",2,"Task 3 transition F1","kimi/kimi-k3","Kimi K3","Max","Kimi K3 Max
+Kimi Code"
+"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"scdamid","scDamID",15,"valid_completion",1,"primary_t3_molecular_transition_f1",0.781415542228885,"t3_transition",2,"Task 3 transition F1","kimi/kimi-k3","Kimi K3","Max","Kimi K3 Max
+Kimi Code"
+"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"ddseq_single_cell_3_rna_seq_kit","ddSEQ 3' RNA",16,"valid_completion",1,"primary_t3_molecular_transition_f1",0.7,"t3_transition",2,"Task 3 transition F1","kimi/kimi-k3","Kimi K3","Max","Kimi K3 Max
+Kimi Code"
+"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"smart_seq","SMART-seq",17,"valid_completion",1,"primary_t3_molecular_transition_f1",0.399507389162562,"t3_transition",2,"Task 3 transition F1","kimi/kimi-k3","Kimi K3","Max","Kimi K3 Max
+Kimi Code"
+"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"share_seq","SHARE-seq",18,"valid_completion",1,"primary_t3_molecular_transition_f1",0.789177934812577,"t3_transition",2,"Task 3 transition F1","kimi/kimi-k3","Kimi K3","Max","Kimi K3 Max
+Kimi Code"
+"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"dr_seq","DR-seq",19,"valid_completion",1,"primary_t3_molecular_transition_f1",0.593800322061191,"t3_transition",2,"Task 3 transition F1","kimi/kimi-k3","Kimi K3","Max","Kimi K3 Max
+Kimi Code"
+"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"petri_seq","PETRI-seq",20,"valid_completion",1,"primary_t3_molecular_transition_f1",0.927609277456816,"t3_transition",2,"Task 3 transition F1","kimi/kimi-k3","Kimi K3","Max","Kimi K3 Max
+Kimi Code"
+"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"10x_chromium_single_cell_atac_v2","10x scATAC v2",1,"valid_completion",1,"primary_t3_state_f1",0.463352750098122,"t3_state",3,"Task 3 state F1","kimi/kimi-k3","Kimi K3","Max","Kimi K3 Max
+Kimi Code"
+"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"10x_chromium_3_gene_expression_v4","10x 3' GEX v4",2,"valid_completion",1,"primary_t3_state_f1",0.394939379037702,"t3_state",3,"Task 3 state F1","kimi/kimi-k3","Kimi K3","Max","Kimi K3 Max
+Kimi Code"
+"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"10x_chromium_3_feature_barcoding","10x 3' Feature Barcoding",3,"valid_completion",1,"primary_t3_state_f1",0.709295562758759,"t3_state",3,"Task 3 state F1","kimi/kimi-k3","Kimi K3","Max","Kimi K3 Max
+Kimi Code"
+"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"drop_seq","Drop-seq",4,"valid_completion",1,"primary_t3_state_f1",0.388041792515179,"t3_state",3,"Task 3 state F1","kimi/kimi-k3","Kimi K3","Max","Kimi K3 Max
+Kimi Code"
+"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"seq_well_s3","Seq-Well S3",5,"valid_completion",1,"primary_t3_state_f1",0.511935429719454,"t3_state",3,"Task 3 state F1","kimi/kimi-k3","Kimi K3","Max","Kimi K3 Max
+Kimi Code"
+"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"indrop_v1","inDrop v1",6,"valid_completion",1,"primary_t3_state_f1",0.238626052136074,"t3_state",3,"Task 3 state F1","kimi/kimi-k3","Kimi K3","Max","Kimi K3 Max
+Kimi Code"
+"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"s3_atac","s3-ATAC",7,"valid_completion",1,"primary_t3_state_f1",0.369007724580193,"t3_state",3,"Task 3 state F1","kimi/kimi-k3","Kimi K3","Max","Kimi K3 Max
+Kimi Code"
+"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"cel_seq","CEL-seq",8,"valid_completion",1,"primary_t3_state_f1",0.374707368328983,"t3_state",3,"Task 3 state F1","kimi/kimi-k3","Kimi K3","Max","Kimi K3 Max
+Kimi Code"
+"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"split_seq","SPLiT-seq",9,"valid_completion",1,"primary_t3_state_f1",0.484788024142242,"t3_state",3,"Task 3 state F1","kimi/kimi-k3","Kimi K3","Max","Kimi K3 Max
+Kimi Code"
+"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"sci_rna_seq","sci-RNA-seq",10,"valid_completion",1,"primary_t3_state_f1",0.361060813729495,"t3_state",3,"Task 3 state F1","kimi/kimi-k3","Kimi K3","Max","Kimi K3 Max
+Kimi Code"
+"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"sci_atac_seq","sci-ATAC-seq",11,"valid_completion",1,"primary_t3_state_f1",0.242599053274363,"t3_state",3,"Task 3 state F1","kimi/kimi-k3","Kimi K3","Max","Kimi K3 Max
+Kimi Code"
+"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"microwell_seq","Microwell-seq",12,"valid_completion",1,"primary_t3_state_f1",0.347759274022269,"t3_state",3,"Task 3 state F1","kimi/kimi-k3","Kimi K3","Max","Kimi K3 Max
+Kimi Code"
+"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"scrrbs","scRRBS",13,"valid_completion",1,"primary_t3_state_f1",0.314854890910259,"t3_state",3,"Task 3 state F1","kimi/kimi-k3","Kimi K3","Max","Kimi K3 Max
+Kimi Code"
+"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"pip_seq_v4","PIP-seq v4",14,"valid_completion",1,"primary_t3_state_f1",0.337770334361478,"t3_state",3,"Task 3 state F1","kimi/kimi-k3","Kimi K3","Max","Kimi K3 Max
+Kimi Code"
+"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"scdamid","scDamID",15,"valid_completion",1,"primary_t3_state_f1",0.560625020185575,"t3_state",3,"Task 3 state F1","kimi/kimi-k3","Kimi K3","Max","Kimi K3 Max
+Kimi Code"
+"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"ddseq_single_cell_3_rna_seq_kit","ddSEQ 3' RNA",16,"valid_completion",1,"primary_t3_state_f1",0.571653745188148,"t3_state",3,"Task 3 state F1","kimi/kimi-k3","Kimi K3","Max","Kimi K3 Max
+Kimi Code"
+"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"smart_seq","SMART-seq",17,"valid_completion",1,"primary_t3_state_f1",0.316273148904344,"t3_state",3,"Task 3 state F1","kimi/kimi-k3","Kimi K3","Max","Kimi K3 Max
+Kimi Code"
+"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"share_seq","SHARE-seq",18,"valid_completion",1,"primary_t3_state_f1",0.339278229993316,"t3_state",3,"Task 3 state F1","kimi/kimi-k3","Kimi K3","Max","Kimi K3 Max
+Kimi Code"
+"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"dr_seq","DR-seq",19,"valid_completion",1,"primary_t3_state_f1",0.299163976748489,"t3_state",3,"Task 3 state F1","kimi/kimi-k3","Kimi K3","Max","Kimi K3 Max
+Kimi Code"
+"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"petri_seq","PETRI-seq",20,"valid_completion",1,"primary_t3_state_f1",0.544030110191651,"t3_state",3,"Task 3 state F1","kimi/kimi-k3","Kimi K3","Max","Kimi K3 Max
+Kimi Code"
+"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"10x_chromium_single_cell_atac_v2","10x scATAC v2",1,"valid_completion",1,"primary_t3_typed_edge_f1",1,"t3_edge",4,"Task 3 typed-edge F1","kimi/kimi-k3","Kimi K3","Max","Kimi K3 Max
+Kimi Code"
+"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"10x_chromium_3_gene_expression_v4","10x 3' GEX v4",2,"valid_completion",1,"primary_t3_typed_edge_f1",0.846153846153846,"t3_edge",4,"Task 3 typed-edge F1","kimi/kimi-k3","Kimi K3","Max","Kimi K3 Max
+Kimi Code"
+"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"10x_chromium_3_feature_barcoding","10x 3' Feature Barcoding",3,"valid_completion",1,"primary_t3_typed_edge_f1",0.863636363636364,"t3_edge",4,"Task 3 typed-edge F1","kimi/kimi-k3","Kimi K3","Max","Kimi K3 Max
+Kimi Code"
+"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"drop_seq","Drop-seq",4,"valid_completion",1,"primary_t3_typed_edge_f1",0.72,"t3_edge",4,"Task 3 typed-edge F1","kimi/kimi-k3","Kimi K3","Max","Kimi K3 Max
+Kimi Code"
+"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"seq_well_s3","Seq-Well S3",5,"valid_completion",1,"primary_t3_typed_edge_f1",0.611111111111111,"t3_edge",4,"Task 3 typed-edge F1","kimi/kimi-k3","Kimi K3","Max","Kimi K3 Max
+Kimi Code"
+"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"indrop_v1","inDrop v1",6,"valid_completion",1,"primary_t3_typed_edge_f1",0.307692307692308,"t3_edge",4,"Task 3 typed-edge F1","kimi/kimi-k3","Kimi K3","Max","Kimi K3 Max
+Kimi Code"
+"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"s3_atac","s3-ATAC",7,"valid_completion",1,"primary_t3_typed_edge_f1",0.705882352941177,"t3_edge",4,"Task 3 typed-edge F1","kimi/kimi-k3","Kimi K3","Max","Kimi K3 Max
+Kimi Code"
+"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"cel_seq","CEL-seq",8,"valid_completion",1,"primary_t3_typed_edge_f1",0.692307692307692,"t3_edge",4,"Task 3 typed-edge F1","kimi/kimi-k3","Kimi K3","Max","Kimi K3 Max
+Kimi Code"
+"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"split_seq","SPLiT-seq",9,"valid_completion",1,"primary_t3_typed_edge_f1",0.352941176470588,"t3_edge",4,"Task 3 typed-edge F1","kimi/kimi-k3","Kimi K3","Max","Kimi K3 Max
+Kimi Code"
+"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"sci_rna_seq","sci-RNA-seq",10,"valid_completion",1,"primary_t3_typed_edge_f1",0.666666666666667,"t3_edge",4,"Task 3 typed-edge F1","kimi/kimi-k3","Kimi K3","Max","Kimi K3 Max
+Kimi Code"
+"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"sci_atac_seq","sci-ATAC-seq",11,"valid_completion",1,"primary_t3_typed_edge_f1",0.333333333333333,"t3_edge",4,"Task 3 typed-edge F1","kimi/kimi-k3","Kimi K3","Max","Kimi K3 Max
+Kimi Code"
+"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"microwell_seq","Microwell-seq",12,"valid_completion",1,"primary_t3_typed_edge_f1",0.333333333333333,"t3_edge",4,"Task 3 typed-edge F1","kimi/kimi-k3","Kimi K3","Max","Kimi K3 Max
+Kimi Code"
+"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"scrrbs","scRRBS",13,"valid_completion",1,"primary_t3_typed_edge_f1",0.416666666666667,"t3_edge",4,"Task 3 typed-edge F1","kimi/kimi-k3","Kimi K3","Max","Kimi K3 Max
+Kimi Code"
+"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"pip_seq_v4","PIP-seq v4",14,"valid_completion",1,"primary_t3_typed_edge_f1",0.714285714285714,"t3_edge",4,"Task 3 typed-edge F1","kimi/kimi-k3","Kimi K3","Max","Kimi K3 Max
+Kimi Code"
+"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"scdamid","scDamID",15,"valid_completion",1,"primary_t3_typed_edge_f1",0.75,"t3_edge",4,"Task 3 typed-edge F1","kimi/kimi-k3","Kimi K3","Max","Kimi K3 Max
+Kimi Code"
+"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"ddseq_single_cell_3_rna_seq_kit","ddSEQ 3' RNA",16,"valid_completion",1,"primary_t3_typed_edge_f1",0.909090909090909,"t3_edge",4,"Task 3 typed-edge F1","kimi/kimi-k3","Kimi K3","Max","Kimi K3 Max
+Kimi Code"
+"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"smart_seq","SMART-seq",17,"valid_completion",1,"primary_t3_typed_edge_f1",0.357142857142857,"t3_edge",4,"Task 3 typed-edge F1","kimi/kimi-k3","Kimi K3","Max","Kimi K3 Max
+Kimi Code"
+"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"share_seq","SHARE-seq",18,"valid_completion",1,"primary_t3_typed_edge_f1",0.607142857142857,"t3_edge",4,"Task 3 typed-edge F1","kimi/kimi-k3","Kimi K3","Max","Kimi K3 Max
+Kimi Code"
+"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"dr_seq","DR-seq",19,"valid_completion",1,"primary_t3_typed_edge_f1",0.384615384615385,"t3_edge",4,"Task 3 typed-edge F1","kimi/kimi-k3","Kimi K3","Max","Kimi K3 Max
+Kimi Code"
+"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"petri_seq","PETRI-seq",20,"valid_completion",1,"primary_t3_typed_edge_f1",1,"t3_edge",4,"Task 3 typed-edge F1","kimi/kimi-k3","Kimi K3","Max","Kimi K3 Max
+Kimi Code"

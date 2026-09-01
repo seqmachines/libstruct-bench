@@ -1,0 +1,22 @@
+Figure 3 validation summary
+Panel A: 4 native systems across 20 protocols; Panel B: 9 systems across 10 common protocols; Panel C: 10 systems across the same protocols.
+Panel A / GPT + Codex: 20 scheduled protocols, 19 valid completions, 19 protocols included in means; missing primary Task 2/transition/state/edge = 0/0/0/0.
+Panel A / Claude + Claude Code: 20 scheduled protocols, 20 valid completions, 20 protocols included in means; missing primary Task 2/transition/state/edge = 0/0/0/0.
+Panel A / Gemini + Antigravity CLI: 20 scheduled protocols, 20 valid completions, 20 protocols included in means; missing primary Task 2/transition/state/edge = 0/0/0/0.
+Panel A / Kimi + Kimi Code: 20 scheduled protocols, 20 valid completions, 20 protocols included in means; missing primary Task 2/transition/state/edge = 0/0/0/0.
+GPT + Pi: 10 protocols, 10 valid completions; missing T2/T3/state/edge = 0/0/0/0.
+GPT + mini-SWE: 10 protocols, 9 valid completions; missing T2/T3/state/edge = 0/0/0/0.
+Claude + Pi: 10 protocols, 10 valid completions; missing T2/T3/state/edge = 0/0/0/0.
+Claude + mini-SWE: 10 protocols, 9 valid completions; missing T2/T3/state/edge = 0/0/0/0.
+Gemini + Pi: 10 protocols, 10 valid completions; missing T2/T3/state/edge = 0/0/0/0.
+Gemini + mini-SWE: 10 protocols, 10 valid completions; missing T2/T3/state/edge = 0/0/0/0.
+Kimi + Pi: excluded - no preserved run.
+Kimi + mini-SWE: excluded - no preserved run.
+GPT + Codex: 10 protocols, 10 valid completions; missing T2/T3/state/edge = 0/0/0/0.
+Claude + Claude Code: 10 protocols, 10 valid completions; missing T2/T3/state/edge = 0/0/0/0.
+Gemini + Antigravity CLI: 10 protocols, 10 valid completions; missing T2/T3/state/edge = 0/0/0/0.
+Kimi + Kimi Code: 10 protocols, 10 valid completions; missing T2/T3/state/edge = 0/0/0/0.
+Panel B clustering: 9 plotted systems after excluding Kimi + Kimi Code; correlation distance (1 - Pearson r); average linkage; row dendrogram shown.
+Panel C clustering: 10 plotted systems; six-category affected-protocol rate vectors normalized by valid completions; correlation distance (1 - Pearson r); average linkage; row dendrogram shown.
+Panel C: mode=provisional_output_discrepancy_rates; 416 unique system-protocol-category incidences; each protocol contributes at most once per category; 0/10 plotted systems have complete error review.
+Panel D: omitted from the current figure set.
