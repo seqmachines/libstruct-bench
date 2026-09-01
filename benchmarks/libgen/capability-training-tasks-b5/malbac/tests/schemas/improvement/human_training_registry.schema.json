@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/improvement/human_training_registry.schema.json",
+  "title": "Frozen C0 training-output registry for human-guided improvement",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "source_experiment_digest", "protocol_count", "valid_prediction_count", "invalid_prediction_count", "entries", "registry_digest"],
+  "properties": {
+    "schema_version": {"const": "libstruct.libgen_human_training_registry.v1"},
+    "source_experiment_digest": {"$ref": "#/$defs/sha256"},
+    "protocol_count": {"const": 25},
+    "valid_prediction_count": {"type": "integer", "minimum": 0, "maximum": 25},
+    "invalid_prediction_count": {"type": "integer", "minimum": 0, "maximum": 25},
+    "entries": {"type": "array", "minItems": 25, "maxItems": 25, "items": {"$ref": "#/$defs/entry"}},
+    "registry_digest": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "id": {"type": "string", "minLength": 1, "maxLength": 240, "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"},
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["role", "path", "sha256", "size_bytes"],
+      "properties": {
+        "role": {"type": "string", "enum": ["target_source", "trial_result", "t2_prediction", "t3_prediction", "trajectory", "verifier_reward", "verifier_details", "verifier_error_analysis", "groundtruth_t1", "groundtruth_t2", "groundtruth_t3"]},
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "size_bytes": {"type": "integer", "minimum": 0}
+      }
+    },
+    "entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["batch_id", "batch_position", "global_position", "protocol_id", "trial_root", "trial_name", "prediction_valid", "artifacts", "entry_digest"],
+      "properties": {
+        "batch_id": {"type": "string", "enum": ["B1", "B2", "B3", "B4", "B5"]},
+        "batch_position": {"type": "integer", "minimum": 1, "maximum": 5},
+        "global_position": {"type": "integer", "minimum": 1, "maximum": 25},
+        "protocol_id": {"$ref": "#/$defs/id"},
+        "trial_root": {"type": "string", "minLength": 1},
+        "trial_name": {"$ref": "#/$defs/id"},
+        "prediction_valid": {"type": "boolean"},
+        "artifacts": {"type": "array", "minItems": 11, "items": {"$ref": "#/$defs/artifact"}},
+        "entry_digest": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  }
+}

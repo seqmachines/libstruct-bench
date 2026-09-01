@@ -200,6 +200,7 @@ def test_representation_equivalent_t2_sequence_is_not_an_error() -> None:
         {"sequence": "ACGT", "support_status": "explicit"},
         {"placeholder": "[UMI:4]", "support_status": "explicit"},
     ]
+    prediction["oligos"][0]["kind"] = "assembled"
 
     details = _valid_details(t2=prediction, truth_t2=truth)
     document = _analysis(
@@ -212,9 +213,43 @@ def test_representation_equivalent_t2_sequence_is_not_an_error() -> None:
     assert not any(item["task"] == "T2" for item in document["observations"])
 
 
+def test_t2_structured_identity_residuals_are_isolated_by_dimension() -> None:
+    prediction = t2_prediction()
+    prediction["oligos"][0].update(
+        {
+            "kind": "assembled",
+            "orientation": "3_to_5",
+            "role": "unrelated role",
+            "modifications": ["unknown modification"],
+        }
+    )
+    truth = t2_groundtruth()
+    truth["oligos"][0]["modifications"] = ["5' phosphate"]
+    details = _valid_details(t2=prediction, truth_t2=truth)
+    document = _analysis(
+        details,
+        prediction_t2=prediction,
+        truth_t2=truth,
+    )
+
+    t2_observations = [
+        item for item in document["observations"] if item["task"] == "T2"
+    ]
+    assert {item["location"].rsplit("/", 1)[-1] for item in t2_observations} == {
+        "kind",
+        "modifications",
+        "orientation",
+        "role",
+    }
+    assert all(
+        "t2_required_family_f1" in item["affected_metrics"] for item in t2_observations
+    )
+
+
 def test_stale_noncanonical_score_is_an_evaluator_defect_candidate() -> None:
     details = _valid_details()
     match = details["scoring"]["t2"]["matches"][0]
+    match["score"] = 0.5
     match["sequence_score"] = 0.5
     match["dimension_scores"]["sequence"] = 0.5
 

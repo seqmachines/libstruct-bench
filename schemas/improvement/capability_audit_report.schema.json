@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/improvement/capability_audit_report.schema.json",
+  "title": "Deterministic LibGen capability audit report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "status", "finding_count", "controls", "findings"],
+  "properties": {
+    "schema_version": {"const": "libstruct.libgen_capability_audit_report.v1"},
+    "status": {"type": "string", "enum": ["pass", "findings", "error"]},
+    "finding_count": {"type": "integer", "minimum": 0},
+    "controls": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["control_id", "status", "finding_count"],
+        "properties": {
+          "control_id": {"type": "string", "minLength": 1},
+          "status": {"type": "string", "enum": ["pass", "findings"]},
+          "finding_count": {"type": "integer", "minimum": 0}
+        }
+      }
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["control_id", "code", "location", "message"],
+        "properties": {
+          "control_id": {"type": "string", "minLength": 1},
+          "code": {"type": "string", "minLength": 1},
+          "location": {"type": "string"},
+          "message": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "error": {"type": "string", "minLength": 1}
+  }
+}

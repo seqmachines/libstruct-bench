@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/improvement/validation_plan.schema.json",
+  "title": "Fixed validation learning-curve plan",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "plan_id",
+    "experiment_digest",
+    "validation_panel_commitment_sha256",
+    "access_policy_digest",
+    "task_bundle_sha256",
+    "runner",
+    "checkpoint_labels",
+    "conditions",
+    "expected_job_count",
+    "trials_per_checkpoint",
+    "expected_trial_count",
+    "feedback_policy",
+    "created_at",
+    "plan_digest"
+  ],
+  "properties": {
+    "schema_version": {"const": "libstruct.libgen_validation_plan.v1"},
+    "plan_id": {"const": "fixed-validation-learning-curve-v1"},
+    "experiment_digest": {"$ref": "#/$defs/sha256"},
+    "validation_panel_commitment_sha256": {"$ref": "#/$defs/sha256"},
+    "access_policy_digest": {"$ref": "#/$defs/sha256"},
+    "task_bundle_sha256": {"$ref": "#/$defs/sha256"},
+    "runner": {"$ref": "#/$defs/runner"},
+    "checkpoint_labels": {"const": ["C0", "C5", "C10", "C15", "C20", "C25"]},
+    "conditions": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 6,
+      "items": {"$ref": "#/$defs/condition"}
+    },
+    "expected_job_count": {"const": 6},
+    "trials_per_checkpoint": {"const": 5},
+    "expected_trial_count": {"const": 30},
+    "feedback_policy": {"const": "macro_aggregate_may_guide_next_update_but_validation_examples_never_enter_memory_fixtures_or_pack"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "plan_digest": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "id": {"type": "string", "minLength": 1, "maxLength": 240, "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"},
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "runner": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["harness", "environment", "agent", "model", "agent_version", "reasoning_effort", "concurrency", "semantic_retries", "configuration_digest"],
+      "properties": {
+        "harness": {"const": "harbor"},
+        "environment": {"const": "docker"},
+        "agent": {"const": "codex"},
+        "model": {"const": "gpt-5.6-sol"},
+        "agent_version": {"const": "0.147.0"},
+        "reasoning_effort": {"const": "max"},
+        "concurrency": {"const": 4},
+        "semantic_retries": {"const": 0},
+        "configuration_digest": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "condition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["order", "checkpoint_label", "trained_protocol_count", "guidance_target_batch", "expected_trial_count", "aggregate_path"],
+      "properties": {
+        "order": {"type": "integer", "minimum": 1, "maximum": 6},
+        "checkpoint_label": {"type": "string", "enum": ["C0", "C5", "C10", "C15", "C20", "C25"]},
+        "trained_protocol_count": {"type": "integer", "enum": [0, 5, 10, 15, 20, 25]},
+        "guidance_target_batch": {"type": ["string", "null"], "enum": ["B1", "B2", "B3", "B4", "B5", null]},
+        "expected_trial_count": {"const": 5},
+        "aggregate_path": {"type": "string", "pattern": "^validation/aggregates/C(?:0|5|10|15|20|25)\\.json$"}
+      }
+    }
+  }
+}

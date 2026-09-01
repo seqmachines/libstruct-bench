@@ -1,0 +1,214 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/improvement/learning_ledger.schema.json",
+  "title": "Deterministic cross-protocol capability learning ledger",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "batch_id",
+    "protocol_ids",
+    "source_artifacts",
+    "filter_summary",
+    "clusters",
+    "ledger_digest"
+  ],
+  "properties": {
+    "schema_version": {"const": "libstruct.libgen_capability_learning_ledger.v1"},
+    "batch_id": {"type": "string", "enum": ["B1", "B2", "B3", "B4", "B5"]},
+    "protocol_ids": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/id"}
+    },
+    "source_artifacts": {
+      "type": "array",
+      "minItems": 10,
+      "maxItems": 20,
+      "items": {"$ref": "#/$defs/source_artifact"}
+    },
+    "filter_summary": {"$ref": "#/$defs/filter_summary"},
+    "clusters": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/cluster"}
+    },
+    "ledger_digest": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 240,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+    },
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "source_artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["protocol_id", "role", "artifact_sha256"],
+      "properties": {
+        "protocol_id": {"$ref": "#/$defs/id"},
+        "role": {"type": "string", "enum": ["verifier_error_analysis", "verifier_reward", "c0_verifier_error_analysis", "c0_verifier_reward"]},
+        "artifact_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "protocol_id",
+        "artifact_sha256",
+        "json_pointer",
+        "support",
+        "recoverability",
+        "affected_metrics",
+        "active_reward_sha256",
+        "c0_reward_sha256",
+        "metric_effects",
+        "c0_matching_observation_count"
+      ],
+      "properties": {
+        "protocol_id": {"$ref": "#/$defs/id"},
+        "artifact_sha256": {"$ref": "#/$defs/sha256"},
+        "json_pointer": {"type": "string", "pattern": "^/"},
+        "support": {
+          "type": "string",
+          "enum": ["explicit", "derivable", "externally_completed", "ambiguous", "unsupported", "unknown"]
+        },
+        "recoverability": {
+          "type": "string",
+          "enum": ["recoverable", "neutral", "unresolved", "not_applicable", "unknown"]
+        },
+        "affected_metrics": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "active_reward_sha256": {"$ref": "#/$defs/sha256"},
+        "c0_reward_sha256": {"oneOf": [{"$ref": "#/$defs/sha256"}, {"type": "null"}]},
+        "metric_effects": {"type": "array", "items": {"$ref": "#/$defs/metric_effect"}},
+        "c0_matching_observation_count": {"type": "integer", "minimum": 0}
+      }
+    },
+    "metric_effect": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["metric", "active_score", "c0_score", "paired_delta", "status"],
+      "properties": {
+        "metric": {"type": "string", "minLength": 1},
+        "active_score": {"type": ["number", "null"]},
+        "c0_score": {"type": ["number", "null"]},
+        "paired_delta": {"type": ["number", "null"]},
+        "status": {"type": "string", "enum": ["active_only_delta_unavailable", "paired"]}
+      }
+    },
+    "filter_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "substantive_observation_count",
+        "admitted_observation_count",
+        "excluded_observation_count",
+        "admitted_root_event_count",
+        "collapsed_observation_count",
+        "excluded_by_reason"
+      ],
+      "properties": {
+        "substantive_observation_count": {"type": "integer", "minimum": 0},
+        "admitted_observation_count": {"type": "integer", "minimum": 0},
+        "excluded_observation_count": {"type": "integer", "minimum": 0},
+        "admitted_root_event_count": {"type": "integer", "minimum": 0},
+        "collapsed_observation_count": {"type": "integer", "minimum": 0},
+        "excluded_by_reason": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "infrastructure",
+            "evaluator_defect",
+            "policy_defect",
+            "ground_truth_defect"
+          ],
+          "properties": {
+            "infrastructure": {"type": "integer", "minimum": 0},
+            "evaluator_defect": {"type": "integer", "minimum": 0},
+            "policy_defect": {"type": "integer", "minimum": 0},
+            "ground_truth_defect": {"type": "integer", "minimum": 0}
+          }
+        }
+      }
+    },
+    "cluster": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "cluster_id",
+        "task",
+        "category",
+        "entity_type",
+        "process_cause",
+        "finding_codes",
+        "affected_metrics",
+        "support_statuses",
+        "recoverability_statuses",
+        "observation_count",
+        "protocol_count",
+        "protocol_ids",
+        "root_error_status",
+        "evidence_refs",
+        "metric_effects",
+        "c0_observation_count"
+      ],
+      "properties": {
+        "cluster_id": {"type": "string", "pattern": "^cluster_[a-f0-9]{24}$"},
+        "task": {"type": "string", "minLength": 1},
+        "category": {"type": "string", "minLength": 1},
+        "entity_type": {"type": "string", "minLength": 1},
+        "process_cause": {"type": "string", "minLength": 1},
+        "finding_codes": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/id"}
+        },
+        "affected_metrics": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "support_statuses": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "recoverability_statuses": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "observation_count": {"type": "integer", "minimum": 1},
+        "protocol_count": {"type": "integer", "minimum": 1},
+        "protocol_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/id"}
+        },
+        "root_error_status": {
+          "type": "string",
+          "enum": ["singleton", "recurring_across_protocols"]
+        },
+        "evidence_refs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/evidence"}
+        },
+        "metric_effects": {"type": "array", "items": {"$ref": "#/$defs/metric_effect"}},
+        "c0_observation_count": {"type": "integer", "minimum": 0}
+      }
+    }
+  }
+}

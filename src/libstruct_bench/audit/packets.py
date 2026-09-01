@@ -16,7 +16,7 @@ from .artifacts import canonical_json_bytes, sha256_file
 
 
 MATERIALIZATION_MODES = ("copy", "symlink")
-PACKET_PHASES = ("comparison",)
+PACKET_PHASES = ("legacy_conversion", "comparison")
 _RENDITION_MEDIA_TYPES = {
     "application/pdf",
     "application/msword",
@@ -27,8 +27,9 @@ _RENDITION_MEDIA_TYPES = {
 _COMPARISON_ROLE_ORDER = {
     "legacy_curated_html": 0,
     "current_benchmark_record": 1,
-    "primary_evidence": 2,
-    "benchmark_run_artifact": 3,
+    "legacy_conversion_candidate": 2,
+    "primary_evidence": 3,
+    "benchmark_run_artifact": 4,
 }
 
 
@@ -84,9 +85,11 @@ def build_phase_packet(
     run_artifact_dir: Path | None = None,
     rendition_bundle_dir: Path | None = None,
     rendition_schema_path: Path | None = None,
+    legacy_conversion_path: Path | None = None,
+    legacy_conversion_schema_path: Path | None = None,
     mode: str = "copy",
 ) -> PhasePacketResult:
-    """Materialize one conversion-first comparison packet."""
+    """Materialize one isolated legacy-conversion or comparison packet."""
 
     if phase not in PACKET_PHASES:
         raise PacketError(f"phase must be one of: {', '.join(PACKET_PHASES)}")
@@ -109,6 +112,32 @@ def build_phase_packet(
         manifest_schema_path, "input manifest schema"
     )
     packet_schema_path = _required_file(packet_schema_path, "audit packet schema")
+    conversion: dict[str, Any] | None = None
+    conversion_path: Path | None = None
+    if legacy_conversion_path is not None:
+        if phase != "comparison":
+            raise PacketError(
+                "--legacy-conversion is supported only for comparison packets"
+            )
+        conversion_path = _required_file(
+            legacy_conversion_path, "legacy conversion artifact"
+        )
+        if legacy_conversion_schema_path is None:
+            raise PacketError(
+                "legacy conversion schema is required with a conversion artifact"
+            )
+        conversion_schema = _required_file(
+            legacy_conversion_schema_path, "legacy conversion schema"
+        )
+        try:
+            conversion = json.loads(conversion_path.read_text(encoding="utf-8"))
+        except (OSError, UnicodeDecodeError, json.JSONDecodeError) as error:
+            raise PacketError(f"cannot read legacy conversion artifact: {error}") from error
+        if not isinstance(conversion, dict):
+            raise PacketError("legacy conversion artifact must be a JSON object")
+        _validate_document(
+            conversion, conversion_schema, label="legacy conversion artifact"
+        )
     output_dir = output_dir.expanduser().resolve()
 
     manifest_bytes = manifest_path.read_bytes()
@@ -131,6 +160,10 @@ def build_phase_packet(
         )
 
     protocol_id = manifest["protocol_id"]
+    if conversion is not None and conversion.get("protocol_id") != protocol_id:
+        raise PacketError(
+            "legacy conversion protocol_id does not match the input manifest"
+        )
     selected_sources = sorted(
         (
             source
@@ -145,6 +178,26 @@ def build_phase_packet(
         source_dataset_dir=source_dataset_dir,
         groundtruth_dataset_dir=groundtruth_dataset_dir,
         run_artifact_dir=run_artifact_dir,
+    )
+    conversion_sha256 = ""
+    if conversion is not None and conversion_path is not None:
+        conversion_sha256 = sha256_file(conversion_path)
+        planned_files.append(
+            _PlannedFile(
+                source_id=conversion["conversion_id"],
+                role="legacy_conversion_candidate",
+                source_path=conversion_path,
+                packet_path=PurePosixPath(
+                    "legacy_conversion_candidate", "001-conversion.json"
+                ),
+                sha256=conversion_sha256,
+                source_kind="legacy_conversion_bundle",
+            )
+        )
+    planned_files.sort(
+        key=lambda item: (
+            _COMPARISON_ROLE_ORDER[item.role], item.packet_path.as_posix()
+        )
     )
     if not planned_files:
         raise PacketError(f"{phase} packet has no included files")
@@ -196,7 +249,7 @@ def build_phase_packet(
     projected_bytes = canonical_json_bytes(projected_manifest)
     projected_sha = hashlib.sha256(projected_bytes).hexdigest()
     identity = hashlib.sha256(
-        f"{source_manifest_sha}:{phase}".encode("utf-8")
+        f"{source_manifest_sha}:{phase}:{conversion_sha256}".encode("utf-8")
     ).hexdigest()
     packet_document: dict[str, Any] = {
         "packet_id": f"{protocol_id}:{phase}-packet:{identity[:16]}",
@@ -296,14 +349,19 @@ def build_phase_packet(
 
 
 def _source_in_phase(source: dict[str, Any], phase: str) -> bool:
-    if phase != "comparison":
-        return False
-    return source["role"] in {
-        "primary_evidence",
-        "legacy_curated_html",
-        "current_benchmark_record",
-        "benchmark_run_artifact",
-    }
+    if phase == "legacy_conversion":
+        return source["role"] in {
+            "legacy_curated_html",
+            "current_benchmark_record",
+        }
+    if phase == "comparison":
+        return source["role"] in {
+            "primary_evidence",
+            "legacy_curated_html",
+            "current_benchmark_record",
+            "benchmark_run_artifact",
+        }
+    return False
 
 
 def _plan_phase_files(

@@ -158,6 +158,16 @@ the tool call. The audit skill's scoped `Stop` hook treats a marked card—or a
 recognizable legacy card—as incomplete and prevents yielding until
 `AskUserQuestion` is called.
 
+For the offline capability-learning human branch, use `/review-capability` as
+the interactive controller. Keep the Codex-authored proposal immutable and
+show exactly one complete section at a time: T2, T3 workflow boundary, states,
+transitions, typed edges, then the final proposal. Enumerate every
+ground-truth and agent entity in its section. Append
+`<!-- capability-review-question-required -->` and immediately call
+`AskUserQuestion` after every section; never replace it with a printed or
+terminal prompt. Only the final explicit human disposition is recorded, and it
+does not authorize capability application.
+
 Use `modify` only for a `groundtruth_record` or `new_groundtruth_record` target.
 For evidence-only or source-bundle deltas, record `accept`, `reject`,
 `unresolved`, or `exclude`. If accepted deltas affect a proposed new artifact,

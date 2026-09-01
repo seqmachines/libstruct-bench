@@ -14,11 +14,13 @@ from pathlib import Path
 from typing import Any
 
 from libstruct_bench.libgen.telemetry import trial_telemetry
+from libstruct_bench.libgen.version import LIBGEN_BENCHMARK_VERSION
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 OUTPUT_ROOT = REPO_ROOT / "analysis" / "paper_results"
 PRICING_PATH = REPO_ROOT / "benchmarks" / "libgen" / "pricing-2026-08-15.json"
+RESCORE_LABEL = f"libgen-{LIBGEN_BENCHMARK_VERSION}"
 
 PROTOCOLS = (
     ("10x_chromium_3_gene_expression_v4", "10x 3' GEX v4"),
@@ -216,8 +218,25 @@ def _write_csv(path: Path, rows: list[dict[str, Any]]) -> None:
         writer.writerows(rows)
 
 
+def _rescore_artifact(trial_dir: Path, filename: str) -> Path:
+    path = trial_dir / "verifier" / "rescore" / RESCORE_LABEL / filename
+    if not path.is_file():
+        raise FileNotFoundError(
+            f"missing {LIBGEN_BENCHMARK_VERSION} rescore artifact: {path}"
+        )
+    return path
+
+
 def _protocol_id(trial_dir: Path, result: dict[str, Any]) -> str | None:
-    details = _read_json(trial_dir / "verifier" / "details.json") or {}
+    details_path = _rescore_artifact(trial_dir, "details.json")
+    details = _read_json(details_path)
+    if details is None:
+        raise ValueError(f"invalid verifier details JSON: {details_path}")
+    if details.get("benchmark_version") != LIBGEN_BENCHMARK_VERSION:
+        raise ValueError(
+            f"unexpected benchmark version in {details_path}: "
+            f"{details.get('benchmark_version')!r}"
+        )
     protocol_id = details.get("protocol_id")
     if isinstance(protocol_id, str) and protocol_id:
         return protocol_id
@@ -228,9 +247,11 @@ def _protocol_id(trial_dir: Path, result: dict[str, Any]) -> str | None:
 
 
 def _rewards(trial_dir: Path, result: dict[str, Any]) -> dict[str, float]:
-    reward_doc = _read_json(trial_dir / "verifier" / "reward.json")
+    del result
+    reward_path = _rescore_artifact(trial_dir, "reward.json")
+    reward_doc = _read_json(reward_path)
     if reward_doc is None:
-        reward_doc = (result.get("verifier_result") or {}).get("rewards") or {}
+        raise ValueError(f"invalid verifier reward JSON: {reward_path}")
     return {
         key: value
         for key in PUBLIC_METRICS
@@ -296,7 +317,12 @@ def _trial_row(
             base[f"primary_{metric}"] = 0.0
         return base, []
 
-    details = _read_json(trial_dir / "verifier" / "details.json") or {}
+    details_path = _rescore_artifact(trial_dir, "details.json")
+    reward_path = _rescore_artifact(trial_dir, "reward.json")
+    error_path = _rescore_artifact(trial_dir, "error_analysis.json")
+    details = _read_json(details_path)
+    if details is None:
+        raise ValueError(f"invalid verifier details JSON: {details_path}")
     rewards = _rewards(trial_dir, result)
     prediction_valid_raw = details.get("prediction_valid")
     prediction_valid = (
@@ -318,9 +344,15 @@ def _trial_row(
         if exception_type
         else "incomplete"
     )
-    error_doc = _read_json(trial_dir / "verifier" / "error_analysis.json") or {}
+    error_doc = _read_json(error_path)
+    if error_doc is None:
+        raise ValueError(f"invalid verifier error-analysis JSON: {error_path}")
     base.update(
         {
+            "benchmark_version": details.get("benchmark_version"),
+            "verifier_details_path": str(details_path),
+            "verifier_reward_path": str(reward_path),
+            "verifier_error_analysis_path": str(error_path),
             "status": status,
             "exception_type": exception_type or "",
             "prediction_valid": (

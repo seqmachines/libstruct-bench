@@ -1,0 +1,45 @@
+{
+  "protocol_id": "synthetic_protocol",
+  "workflows": [
+    {
+      "final_outputs": [
+        {
+          "modality": "gene expression",
+          "state_id": "missing-terminal"
+        }
+      ],
+      "initial_state_ids": ["template"],
+      "states": [
+        {
+          "discontinuities": [],
+          "molecule_type": "DNA",
+          "name": "Synthetic template",
+          "paired_regions": [],
+          "physical_state": "solution",
+          "properties": [],
+          "reference_strand_id": "template-strand",
+          "state_id": "template",
+          "strand_architecture": "single_stranded",
+          "strands": [
+            {
+              "molecule_type": "DNA",
+              "name": "Synthetic template strand",
+              "orientation": "5_to_3",
+              "segments": [
+                {
+                  "role": "synthetic template",
+                  "segment_id": "template-segment",
+                  "sequence": "CCGGTT",
+                  "structural_role": "unpaired"
+                }
+              ],
+              "strand_id": "template-strand"
+            }
+          ]
+        }
+      ],
+      "transitions": [],
+      "workflow_id": "synthetic-workflow"
+    }
+  ]
+}

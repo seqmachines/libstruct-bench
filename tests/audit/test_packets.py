@@ -192,3 +192,98 @@ def test_packet_rejects_stale_source_hash(tmp_path: Path) -> None:
             packet_schema_path=AUDIT_SCHEMAS / "audit_packet.schema.json",
             phase="comparison",
         )
+
+
+def _conversion_artifact() -> dict:
+    return {
+        "conversion_id": "example:legacy-conversion:conversion-001",
+        "protocol_id": "example",
+        "packet_sha256": "1" * 64,
+        "input_manifest_sha256": "2" * 64,
+        "status": "unapproved_legacy_conversion",
+        "run": {
+            "run_id": "conversion-001",
+            "agent": "claude-code",
+            "provider": "anthropic",
+            "model": "claude-opus-5",
+            "tool_version": "2.1.0",
+            "harness_version": "test",
+            "review_mode": "primary",
+            "started_at": "2026-08-01T12:00:00Z",
+            "completed_at": "2026-08-01T12:01:00Z",
+            "prompt_sha256": "3" * 64,
+            "skill_sha256": "4" * 64,
+            "policy_sha256": "5" * 64,
+            "schema_sha256": "6" * 64,
+            "skills": ["audit-protocol"],
+            "tools": ["Read"],
+            "permission_mode": "plan",
+            "checkpoint_id": "checkpoint-0",
+        },
+        "candidates": {"T1": {}, "T2": {}, "T3": {}},
+        "candidate_sha256s": {
+            "T1": "7" * 64,
+            "T2": "8" * 64,
+            "T3": "9" * 64,
+        },
+        "lineage": [
+            {"task": task, "source_ids": ["legacy:html"], "summary": "converted"}
+            for task in ("T1", "T2", "T3")
+        ],
+        "notes": [],
+    }
+
+
+def test_legacy_conversion_packet_excludes_primary_and_run_inputs(
+    tmp_path: Path,
+) -> None:
+    manifest, source_root, groundtruth_root, run_root = _fixture(tmp_path)
+    result = build_phase_packet(
+        manifest_path=manifest,
+        source_dataset_dir=source_root,
+        groundtruth_dataset_dir=groundtruth_root,
+        run_artifact_dir=run_root,
+        output_dir=tmp_path / "legacy-conversion-packet",
+        manifest_schema_path=AUDIT_SCHEMAS / "audit_input_manifest.schema.json",
+        packet_schema_path=AUDIT_SCHEMAS / "audit_packet.schema.json",
+        phase="legacy_conversion",
+    )
+
+    packet = json.loads(result.packet_path.read_text(encoding="utf-8"))
+    assert packet["phase"] == "legacy_conversion"
+    assert {item["role"] for item in packet["files"]} == {
+        "legacy_curated_html",
+        "current_benchmark_record",
+    }
+    assert "renditions" not in packet
+
+
+def test_comparison_packet_hash_pins_staged_legacy_conversion(
+    tmp_path: Path,
+) -> None:
+    manifest, source_root, groundtruth_root, run_root = _fixture(tmp_path)
+    conversion_path = tmp_path / "conversion.json"
+    conversion_path.write_text(json.dumps(_conversion_artifact()), encoding="utf-8")
+    result = build_phase_packet(
+        manifest_path=manifest,
+        source_dataset_dir=source_root,
+        groundtruth_dataset_dir=groundtruth_root,
+        run_artifact_dir=run_root,
+        output_dir=tmp_path / "comparison-with-conversion",
+        manifest_schema_path=AUDIT_SCHEMAS / "audit_input_manifest.schema.json",
+        packet_schema_path=AUDIT_SCHEMAS / "audit_packet.schema.json",
+        legacy_conversion_path=conversion_path,
+        legacy_conversion_schema_path=AUDIT_SCHEMAS
+        / "legacy_conversion.schema.json",
+        phase="comparison",
+    )
+
+    packet = json.loads(result.packet_path.read_text(encoding="utf-8"))
+    staged = next(
+        item
+        for item in packet["files"]
+        if item["role"] == "legacy_conversion_candidate"
+    )
+    assert staged["source_id"] == _conversion_artifact()["conversion_id"]
+    assert hashlib.sha256(conversion_path.read_bytes()).hexdigest() == staged["sha256"]
+    assert (result.output_dir / staged["path"]).read_bytes() == conversion_path.read_bytes()

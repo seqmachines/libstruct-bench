@@ -54,7 +54,7 @@ def main() -> None:
 
     _, counts = load_data()
     total = sum(counts)
-    fig, ax = plt.subplots(figsize=(6.5, 4.4))
+    fig, ax = plt.subplots(figsize=(6.5, 5.5))
 
     wedges, _ = ax.pie(
         counts,
@@ -66,17 +66,25 @@ def main() -> None:
     )
 
     # Keep even the two smallest slices readable with external labels and leaders.
-    label_radius = 1.23
-    for wedge, count in zip(wedges, counts):
+    label_radius = 1.27
+    small_label_positions = {
+        2: (-0.34, 1.34, "right"),
+        3: (0.20, 1.46, "left"),
+    }
+    for index, (wedge, count) in enumerate(zip(wedges, counts)):
         angle = math.radians((wedge.theta1 + wedge.theta2) / 2)
         x, y = math.cos(angle), math.sin(angle)
+        x_text, y_text = label_radius * x, label_radius * y
+        horizontal_alignment = "left" if x >= 0 else "right"
+        if index in small_label_positions:
+            x_text, y_text, horizontal_alignment = small_label_positions[index]
         ax.annotate(
             f"{100 * count / total:.1f}%\n(n={count})",
             xy=(0.92 * x, 0.92 * y),
-            xytext=(label_radius * x, label_radius * y),
-            ha="left" if x >= 0 else "right",
+            xytext=(x_text, y_text),
+            ha=horizontal_alignment,
             va="center",
-            fontsize=15,
+            fontsize=18,
             fontweight="normal",
             linespacing=1.15,
             arrowprops={
@@ -92,20 +100,23 @@ def main() -> None:
     ax.legend(
         wedges,
         DISPLAY_LABELS,
-        loc="upper right",
-        bbox_to_anchor=(1.12, 1.02),
+        loc="upper center",
+        bbox_to_anchor=(0.5, -0.08),
+        ncol=2,
         frameon=False,
-        fontsize=14,
-        labelspacing=0.75,
+        fontsize=20,
+        labelspacing=0.65,
+        columnspacing=0.80,
         handlelength=1.0,
         handleheight=1.0,
-        handletextpad=0.55,
+        handletextpad=0.40,
         borderaxespad=0,
     )
     ax.set(aspect="equal")
-    ax.set_xlim(-1.42, 2.05)
+    ax.set_xlim(-1.48, 1.48)
+    ax.set_ylim(-1.38, 1.52)
     ax.axis("off")
-    fig.subplots_adjust(left=0.03, right=0.98, bottom=0.04, top=0.96)
+    fig.subplots_adjust(left=0.03, right=0.97, bottom=0.25, top=0.96)
 
     OUT.parent.mkdir(parents=True, exist_ok=True)
     for suffix, options in (

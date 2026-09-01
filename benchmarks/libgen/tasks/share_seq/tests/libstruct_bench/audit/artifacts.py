@@ -6,6 +6,7 @@ import os
 import re
 import tempfile
 from datetime import datetime, timezone
+from functools import lru_cache
 from pathlib import Path
 from typing import Any
 
@@ -51,11 +52,40 @@ def load_json_object(path: Path, *, label: str = "JSON artifact") -> dict[str, A
 
 
 def schema_validator(schema_path: Path) -> Draft202012Validator:
-    schema = load_json_object(schema_path, label="JSON Schema")
+    resolved = schema_path.expanduser().resolve()
+    if not resolved.is_file():
+        raise AuditArtifactError(f"JSON Schema does not exist: {schema_path}")
+    try:
+        schema_bytes = resolved.read_bytes()
+    except OSError as error:
+        raise AuditArtifactError(f"cannot read JSON Schema: {error}") from error
+    return _schema_validator_from_bytes(str(resolved), schema_bytes)
+
+
+@lru_cache(maxsize=256)
+def _schema_validator_from_bytes(
+    schema_label: str,
+    schema_bytes: bytes,
+) -> Draft202012Validator:
+    """Compile each exact schema byte sequence once per process.
+
+    The bytes, rather than only the path, are part of the cache key so replacing
+    a schema during a test or controlled migration cannot reuse a stale
+    validator.
+    """
+
+    try:
+        schema = json.loads(schema_bytes.decode("utf-8"))
+    except (UnicodeDecodeError, json.JSONDecodeError) as error:
+        raise AuditArtifactError(f"cannot read JSON Schema: {error}") from error
+    if not isinstance(schema, dict):
+        raise AuditArtifactError("JSON Schema must be a JSON object")
     try:
         Draft202012Validator.check_schema(schema)
     except Exception as error:
-        raise AuditArtifactError(f"invalid JSON Schema {schema_path}: {error}") from error
+        raise AuditArtifactError(
+            f"invalid JSON Schema {schema_label}: {error}"
+        ) from error
     return Draft202012Validator(schema, format_checker=FormatChecker())
 
 
@@ -99,8 +129,10 @@ def write_json_atomic(path: Path, value: Any, *, mode: int | None = None) -> Non
 
 def normalize_timestamp(value: str | None) -> str:
     if value is None:
-        return datetime.now(timezone.utc).isoformat(timespec="seconds").replace(
-            "+00:00", "Z"
+        return (
+            datetime.now(timezone.utc)
+            .isoformat(timespec="seconds")
+            .replace("+00:00", "Z")
         )
     normalized = value.strip()
     try:
@@ -109,6 +141,8 @@ def normalize_timestamp(value: str | None) -> str:
         raise AuditArtifactError("timestamp must be ISO 8601") from error
     if parsed.tzinfo is None:
         raise AuditArtifactError("timestamp must include a timezone")
-    return parsed.astimezone(timezone.utc).isoformat(timespec="seconds").replace(
-        "+00:00", "Z"
+    return (
+        parsed.astimezone(timezone.utc)
+        .isoformat(timespec="seconds")
+        .replace("+00:00", "Z")
     )

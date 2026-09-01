@@ -1,10 +1,18 @@
 from __future__ import annotations
 
 import json
+import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 from jsonschema import Draft202012Validator
+
+from libstruct_bench.audit.artifacts import (
+    AuditArtifactError,
+    _schema_validator_from_bytes,
+    validate_document,
+)
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
@@ -31,6 +39,52 @@ def property_names(value: object) -> list[str]:
 
 
 class AuditSchemaTests(unittest.TestCase):
+    def test_schema_validator_cache_is_bound_to_path_and_exact_schema_bytes(self):
+        _schema_validator_from_bytes.cache_clear()
+        self.addCleanup(_schema_validator_from_bytes.cache_clear)
+        with tempfile.TemporaryDirectory() as directory:
+            schema_path = Path(directory) / "mutable.schema.json"
+            same_bytes_path = Path(directory) / "same-bytes.schema.json"
+            integer_schema = json.dumps(
+                {
+                    "$schema": "https://json-schema.org/draft/2020-12/schema",
+                    "type": "object",
+                    "properties": {"value": {"type": "integer"}},
+                    "required": ["value"],
+                    "additionalProperties": False,
+                }
+            )
+            schema_path.write_text(integer_schema, encoding="utf-8")
+            same_bytes_path.write_text(integer_schema, encoding="utf-8")
+            original_check_schema = Draft202012Validator.check_schema
+            with patch.object(
+                Draft202012Validator,
+                "check_schema",
+                side_effect=original_check_schema,
+            ) as check_schema:
+                validate_document({"value": 1}, schema_path, label="fixture")
+                validate_document({"value": 1}, schema_path, label="fixture")
+                self.assertEqual(check_schema.call_count, 1)
+
+                validate_document({"value": 1}, same_bytes_path, label="fixture")
+                self.assertEqual(check_schema.call_count, 2)
+
+                schema_path.write_text(
+                    json.dumps(
+                        {
+                            "$schema": "https://json-schema.org/draft/2020-12/schema",
+                            "type": "object",
+                            "properties": {"value": {"type": "string"}},
+                            "required": ["value"],
+                            "additionalProperties": False,
+                        }
+                    ),
+                    encoding="utf-8",
+                )
+                with self.assertRaisesRegex(AuditArtifactError, "schema error"):
+                    validate_document({"value": 1}, schema_path, label="fixture")
+                self.assertEqual(check_schema.call_count, 3)
+
     def test_all_audit_schemas_are_valid_draft_2020_12(self):
         names = sorted(path.name for path in SCHEMA_DIR.glob("*.schema.json"))
         self.assertEqual(
@@ -48,6 +102,7 @@ class AuditSchemaTests(unittest.TestCase):
                 "connected_process_preview.schema.json",
                 "connected_process_source_check.schema.json",
                 "groundtruth_release_manifest.schema.json",
+                "legacy_conversion.schema.json",
                 "oligo_output_build.schema.json",
                 "promotion_log.schema.json",
                 "protocol_audit.schema.json",

@@ -1,0 +1,15 @@
+{
+  "protocol_id": "strt_seq_2i",
+  "sources": [
+    {
+      "local_path": "STRT-seq-2i.pdf",
+      "path": "strt_seq_2i/STRT-seq-2i.pdf",
+      "sha256": "9b90764c5ff4f40598c0f76efffdaded84f0a76c56786239228398ddf4e55e7b"
+    },
+    {
+      "local_path": "STRT-seq-2i_supplement.pdf",
+      "path": "strt_seq_2i/STRT-seq-2i_supplement.pdf",
+      "sha256": "4afeb8e4c15b712c20201125b709ae71ff92344682b91ac32cd18eb7ef503b05"
+    }
+  ]
+}

@@ -17,11 +17,13 @@ AUDIT_SCHEMAS = REPO_ROOT / "schemas" / "audit"
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
-        description="Run one bounded, read-only Claude conversion and comparison."
+        description="Run one bounded legacy conversion or primary comparison."
     )
     parser.add_argument("--packet", type=Path, required=True)
     parser.add_argument("--out", type=Path, required=True)
-    parser.add_argument("--phase", choices=("comparison",), default="comparison")
+    parser.add_argument(
+        "--phase", choices=("legacy_conversion", "comparison"), default="comparison"
+    )
     parser.add_argument("--model", required=True, help="full immutable Claude model ID")
     parser.add_argument("--run-id", required=True)
     parser.add_argument("--effort", choices=("low", "medium", "high", "xhigh", "max"), default="high")
@@ -50,8 +52,18 @@ def main(argv: list[str] | None = None) -> int:
         default=AUDIT_SCHEMAS / "audit_packet.schema.json",
     )
     args = parser.parse_args(argv)
-    schema = args.schema or AUDIT_SCHEMAS / "protocol_audit.schema.json"
-    prompt = args.prompt or REPO_ROOT / ".claude" / "prompts" / "audit-comparison.md"
+    schema = args.schema or AUDIT_SCHEMAS / {
+        "legacy_conversion": "legacy_conversion.schema.json",
+        "comparison": "protocol_audit.schema.json",
+    }[args.phase]
+    prompt = args.prompt or REPO_ROOT / ".claude" / "prompts" / {
+        "legacy_conversion": "audit-legacy-conversion.md",
+        "comparison": "audit-comparison.md",
+    }[args.phase]
+    repair_prompt = args.repair_prompt or REPO_ROOT / ".claude" / "prompts" / {
+        "legacy_conversion": "audit-legacy-conversion-repair.md",
+        "comparison": "audit-comparison-repair.md",
+    }[args.phase]
     policies = args.policy or [
         REPO_ROOT / "docs" / "audit" / "evidence-policy.md",
         REPO_ROOT / "docs" / "audit" / "benchmark-standardization-policy.md",
@@ -72,7 +84,7 @@ def main(argv: list[str] | None = None) -> int:
             max_budget_usd=args.max_budget_usd,
             timeout_seconds=args.timeout_seconds,
             claude_executable=args.claude_executable,
-            repair_prompt_path=args.repair_prompt,
+            repair_prompt_path=repair_prompt,
             max_repair_attempts=args.max_repair_attempts,
         )
     except ClaudeAuditError as error:

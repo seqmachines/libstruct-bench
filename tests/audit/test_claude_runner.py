@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import copy
 import hashlib
 import json
 import stat
@@ -10,10 +11,12 @@ from jsonschema import Draft202012Validator
 
 from libstruct_bench.audit.claude_runner import (
     ClaudeAuditError,
+    _assert_repair_scope,
     _agent_output_schema,
     _claude_result_error,
     _progress_messages,
     _user_prompt,
+    revalidate_rejected_comparison,
     run_claude_audit,
 )
 from libstruct_bench.audit.packets import build_phase_packet
@@ -81,6 +84,199 @@ def _packet(tmp_path: Path) -> Path:
         packet_schema_path=AUDIT_SCHEMAS / "audit_packet.schema.json",
         phase="comparison",
     ).output_dir
+
+
+def _conversion_packet(tmp_path: Path) -> Path:
+    manifest, source_root, groundtruth_root, run_root = _fixture(tmp_path)
+    return build_phase_packet(
+        manifest_path=manifest,
+        source_dataset_dir=source_root,
+        groundtruth_dataset_dir=groundtruth_root,
+        run_artifact_dir=run_root,
+        output_dir=tmp_path / "legacy-conversion-packet",
+        manifest_schema_path=AUDIT_SCHEMAS / "audit_input_manifest.schema.json",
+        packet_schema_path=AUDIT_SCHEMAS / "audit_packet.schema.json",
+        phase="legacy_conversion",
+    ).output_dir
+
+
+def _staged_conversion_artifact() -> dict:
+    candidates = copy.deepcopy(_conversion_output()["candidates"])
+    return {
+        "conversion_id": "example:legacy-conversion:conversion-001",
+        "protocol_id": "example",
+        "packet_sha256": "1" * 64,
+        "input_manifest_sha256": "2" * 64,
+        "status": "unapproved_legacy_conversion",
+        "run": {
+            "run_id": "conversion-001",
+            "agent": "claude-code",
+            "provider": "anthropic",
+            "model": "claude-sonnet-4-20250514",
+            "tool_version": "2.1.0",
+            "harness_version": "test",
+            "review_mode": "primary",
+            "started_at": "2026-08-01T12:00:00Z",
+            "completed_at": "2026-08-01T12:01:00Z",
+            "prompt_sha256": "3" * 64,
+            "skill_sha256": "4" * 64,
+            "policy_sha256": "5" * 64,
+            "schema_sha256": "6" * 64,
+            "skills": ["audit-protocol"],
+            "tools": ["Read"],
+            "permission_mode": "plan",
+            "checkpoint_id": "checkpoint-0",
+        },
+        "candidates": candidates,
+        "candidate_sha256s": {
+            task: hashlib.sha256(
+                json.dumps(
+                    candidate,
+                    ensure_ascii=False,
+                    separators=(",", ":"),
+                    sort_keys=True,
+                ).encode("utf-8")
+            ).hexdigest()
+            for task, candidate in candidates.items()
+        },
+        "lineage": copy.deepcopy(_conversion_output()["lineage"]),
+        "notes": [],
+    }
+
+
+def _staged_packet(
+    tmp_path: Path, *, legacy_tasks: tuple[str, ...] = ()
+) -> Path:
+    manifest, source_root, groundtruth_root, run_root = _fixture(tmp_path)
+    conversion_path = tmp_path / "conversion.json"
+    conversion_path.write_text(
+        json.dumps(_staged_conversion_artifact()), encoding="utf-8"
+    )
+    packet = build_phase_packet(
+        manifest_path=manifest,
+        source_dataset_dir=source_root,
+        groundtruth_dataset_dir=groundtruth_root,
+        run_artifact_dir=run_root,
+        output_dir=tmp_path / "comparison-packet",
+        manifest_schema_path=AUDIT_SCHEMAS / "audit_input_manifest.schema.json",
+        packet_schema_path=AUDIT_SCHEMAS / "audit_packet.schema.json",
+        phase="comparison",
+        legacy_conversion_path=conversion_path,
+        legacy_conversion_schema_path=AUDIT_SCHEMAS
+        / "legacy_conversion.schema.json",
+    ).output_dir
+    if "T1" in legacy_tasks:
+        _replace_packet_file(
+            packet,
+            "current:t1",
+            {"protocol_id": "example", "libraries": []},
+        )
+    if "T2" in legacy_tasks:
+        _replace_packet_file(
+            packet,
+            "current:t2",
+            {"protocol_id": "example", "oligos": []},
+        )
+    return packet
+
+
+def _comparison_without_scientific_issues() -> dict:
+    return {
+        "source_coverage": [
+            {
+                "source_id": "primary:paper",
+                "status": "reviewed",
+                "tasks": ["T1", "T2", "T3"],
+                "portions_reviewed": [{"section": "complete file"}],
+            }
+        ],
+        "disposition": "no_issues",
+        "summary": "No primary-evidence differences were found.",
+        "audited_fields": [
+            {
+                "field_id": "field-1",
+                "task": "T1",
+                "object_id": "library",
+                "field_path": "/libraries/0/library_sequence",
+                "comparison_status": "verified_no_change",
+                "issue_ids": [],
+            }
+        ],
+        "issues": [],
+    }
+
+
+def _comparison_with_three_prose_root_mirrors() -> dict:
+    output = _comparison_without_scientific_issues()
+    output["disposition"] = "issues_proposed"
+    output["audited_fields"] = []
+    candidates = _staged_conversion_artifact()["candidates"]
+    conversion_id = "example:legacy-conversion:conversion-001"
+    for task in ("T1", "T2", "T3"):
+        issue_id = f"issue-{task.lower()}-root"
+        field_id = f"field-{task.lower()}-root"
+        output["audited_fields"].append(
+            {
+                "field_id": field_id,
+                "task": task,
+                "object_id": f"{task.lower()}-document",
+                "field_path": "/",
+                "comparison_status": "proposed_correction",
+                "issue_ids": [issue_id],
+            }
+        )
+        is_new = task == "T3"
+        target_source_id = conversion_id if is_new else f"current:{task.lower()}"
+        output["issues"].append(
+            {
+                "issue_id": issue_id,
+                "task": task,
+                "field_id": field_id,
+                "category": "formatting_or_schema_error",
+                "defect_type": "other",
+                "responsibility": "policy",
+                "severity": "medium",
+                "title": f"Canonical {task} migration",
+                "target": {
+                    "kind": (
+                        "new_groundtruth_record"
+                        if is_new
+                        else "groundtruth_record"
+                    ),
+                    "artifact_source_id": target_source_id,
+                    "artifact_filename": {
+                        "T1": "groundtruth_final_lib_struct.json",
+                        "T2": "groundtruth_oligos.json",
+                        "T3": "groundtruth_library_generation_workflow.json",
+                    }[task],
+                    "json_pointer": "",
+                },
+                "current_value": None,
+                "proposed_value": f"The complete frozen {task} document.",
+                "support_status": "derivable",
+                "evidence": [
+                    {
+                        "source_id": "legacy:html",
+                        "locator": {"html_selector": "body"},
+                        "supports": "current",
+                    }
+                ],
+                "transformations": [],
+                "explanation": "Schema migration only.",
+                "recommendation": "propose_change",
+                "proposed_patch": [
+                    {
+                        "op": "add" if is_new else "replace",
+                        "path": "",
+                        "value": copy.deepcopy(candidates[task]),
+                    }
+                ],
+                "confidence": "high",
+                "run_id": "comparison-001",
+                "checkpoint_id": "checkpoint-0",
+            }
+        )
+    return output
 
 
 def _run(tmp_path: Path, *, packet: Path, output: dict):
@@ -231,6 +427,105 @@ def _canonical_t3(sequence: str = "A") -> dict:
     }
 
 
+def _conversion_output() -> dict:
+    return {
+        "candidates": {
+            "T1": _canonical_t1(),
+            "T2": {
+                "protocol_id": "example",
+                "protocol_name": "Example",
+                "oligos": [],
+            },
+            "T3": _canonical_t3(),
+        },
+        "lineage": [
+            {
+                "task": "T1",
+                "source_ids": ["current:t1"],
+                "summary": "Canonical representation of current T1.",
+            },
+            {
+                "task": "T2",
+                "source_ids": ["current:t2", "current:tsv"],
+                "summary": "Canonical representation of current T2 and TSV.",
+            },
+            {
+                "task": "T3",
+                "source_ids": ["legacy:html"],
+                "summary": "Workflow translated from ordered legacy steps.",
+            },
+        ],
+        "notes": [],
+    }
+
+
+def test_legacy_conversion_run_is_linked_hash_pinned_and_unapproved(
+    tmp_path: Path,
+) -> None:
+    packet = _conversion_packet(tmp_path)
+    result = run_claude_audit(
+        packet_dir=packet,
+        output_dir=tmp_path / "legacy-conversion-run",
+        output_schema_path=AUDIT_SCHEMAS / "legacy_conversion.schema.json",
+        packet_schema_path=AUDIT_SCHEMAS / "audit_packet.schema.json",
+        prompt_path=PROMPTS / "audit-legacy-conversion.md",
+        skill_path=SKILL,
+        policy_paths=POLICIES,
+        model="claude-sonnet-4-20250514",
+        run_id="conversion-001",
+        max_repair_attempts=0,
+        claude_executable=str(
+            _fake_claude(tmp_path / "fake-conversion-claude", _conversion_output())
+        ),
+    )
+
+    artifact = json.loads(result.artifact_path.read_text(encoding="utf-8"))
+    assert result.artifact_path.name == "conversion.json"
+    assert artifact["status"] == "unapproved_legacy_conversion"
+    assert artifact["conversion_id"] == (
+        "example:legacy-conversion:conversion-001"
+    )
+    assert set(artifact["candidate_sha256s"]) == {"T1", "T2", "T3"}
+    packet_document = json.loads((packet / "packet.json").read_text(encoding="utf-8"))
+    assert not {
+        "primary_evidence",
+        "benchmark_run_artifact",
+    } & {item["role"] for item in packet_document["files"]}
+
+
+def test_legacy_conversion_gets_bounded_representation_repair(
+    tmp_path: Path,
+) -> None:
+    packet = _conversion_packet(tmp_path)
+    invalid = _conversion_output()
+    invalid["candidates"]["T3"] = _canonical_t3("C")
+    result = run_claude_audit(
+        packet_dir=packet,
+        output_dir=tmp_path / "legacy-conversion-run",
+        output_schema_path=AUDIT_SCHEMAS / "legacy_conversion.schema.json",
+        packet_schema_path=AUDIT_SCHEMAS / "audit_packet.schema.json",
+        prompt_path=PROMPTS / "audit-legacy-conversion.md",
+        repair_prompt_path=PROMPTS / "audit-legacy-conversion-repair.md",
+        skill_path=SKILL,
+        policy_paths=POLICIES,
+        model="claude-sonnet-4-20250514",
+        run_id="conversion-001",
+        max_repair_attempts=1,
+        claude_executable=str(
+            _fake_claude_sequence(
+                tmp_path / "fake-conversion-claude",
+                [invalid, _conversion_output()],
+            )
+        ),
+    )
+
+    metadata = json.loads(result.metadata_path.read_text(encoding="utf-8"))
+    assert metadata["validation_repair"]["status"] == "succeeded"
+    assert metadata["validation_repair"]["attempt_count"] == 1
+    artifact = json.loads(result.artifact_path.read_text(encoding="utf-8"))
+    assert artifact["candidates"]["T3"] == _canonical_t3()
+
+
 def _paired_terminal_t3(*, include_terminal_pair: bool) -> dict:
     document = _canonical_t3("A")
     final_state = {
@@ -246,7 +541,7 @@ def _paired_terminal_t3(*, include_terminal_pair: bool) -> dict:
                 "name": "Top strand",
                 "molecule_type": "DNA",
                 "orientation": "5_to_3",
-                "sequence_architecture": "A",
+                "sequence_architecture": "AC",
                 "segments": [
                     {
                         "segment_id": "top-left",
@@ -377,6 +672,13 @@ def test_worker_contract_is_primary_only_and_exposes_link_invariants() -> None:
         assert "applicable_variants" in text
         assert "issue_ids" in text
         assert "issue_id" in text
+    assert "must never appear in `issues[].evidence[].source_id`" in prompt
+    assert "not issue evidence" in skill
+    assert "not an independent evidence source" in policy
+    assert "do not serialize the complete frozen T1, T2, or T3" in prompt
+    assert "deterministic harness attaches" in prompt
+    assert "do not echo the complete documents" in skill
+    assert "deterministic harness attaches" in inline
 
 
 def test_canonical_schema_keeps_disposition_issue_invariant() -> None:
@@ -420,6 +722,23 @@ def test_terminal_t3_link_contract_reaches_comparison_worker() -> None:
         assert "sequence_architecture" in text
         assert "simpler" in text or "simplifications" in text
         assert "exact" in text
+
+
+def test_ordered_segment_projection_contract_reaches_both_workers() -> None:
+    instruction_paths = [
+        PROMPTS / "audit-legacy-conversion.md",
+        PROMPTS / "audit-comparison.md",
+        SKILL,
+        REPO_ROOT / "docs" / "audit" / "evidence-policy.md",
+        REPO_ROOT / "docs" / "audit" / "benchmark-standardization-policy.md",
+    ]
+    for path in instruction_paths:
+        text = " ".join(path.read_text(encoding="utf-8").split())
+        assert "ordered" in text
+        assert "segment" in text
+        assert "projection" in text
+        assert "consume" in text
+        assert "UMI" in text
 
 
 def test_minimal_groundtruth_contract_reaches_comparison_worker() -> None:
@@ -537,6 +856,98 @@ def test_repair_worker_is_evidence_isolated_and_scope_bounded() -> None:
     assert "do not change scientifically supported sequence content" in prompt
     assert "smallest change necessary" in prompt
     assert "re-run the full audit schema" in prompt
+    assert "legacy_conversion_candidate" in prompt
+    assert "at least one other admissible evidence entry remains" in prompt
+
+
+def test_repair_scope_allows_only_deleting_frozen_conversion_evidence() -> None:
+    initial = _proposal("a" * 64)
+    conversion_source_id = "example:legacy-conversion:conversion-001"
+    initial["issues"][0]["evidence"].append(
+        {
+            "source_id": conversion_source_id,
+            "locator": {"section": "candidates.T1"},
+            "supports": "current",
+            "excerpt": "Frozen claim",
+        }
+    )
+    repaired = copy.deepcopy(initial)
+    repaired["issues"][0]["evidence"] = [
+        item
+        for item in repaired["issues"][0]["evidence"]
+        if item["source_id"] != conversion_source_id
+    ]
+
+    _assert_repair_scope(
+        initial,
+        repaired,
+        removable_evidence_source_ids={conversion_source_id},
+    )
+
+    changed_locator = copy.deepcopy(repaired)
+    changed_locator["issues"][0]["evidence"][0]["locator"] = {"page": 99}
+    with pytest.raises(ClaudeAuditError, match="changed evidence beyond deleting"):
+        _assert_repair_scope(
+            initial,
+            changed_locator,
+            removable_evidence_source_ids={conversion_source_id},
+        )
+
+    removed_admissible = copy.deepcopy(repaired)
+    removed_admissible["issues"][0]["evidence"] = []
+    with pytest.raises(ClaudeAuditError, match="changed evidence beyond deleting"):
+        _assert_repair_scope(
+            initial,
+            removed_admissible,
+            removable_evidence_source_ids={conversion_source_id},
+        )
+
+
+def test_citation_repair_can_preserve_an_unrelated_root_mirror_error() -> None:
+    initial = _proposal("a" * 64, new_t3=_canonical_t3())
+    conversion_source_id = "example:legacy-conversion:conversion-001"
+    initial["issues"][0]["evidence"].append(
+        {
+            "source_id": conversion_source_id,
+            "locator": {"section": "candidates.T3"},
+            "supports": "current",
+            "excerpt": "Frozen claim",
+        }
+    )
+    initial["issues"][0]["proposed_value"] = copy.deepcopy(_canonical_t3())
+    initial["issues"][0]["proposed_value"]["protocol_name"] = "Stale mirror"
+    repaired = copy.deepcopy(initial)
+    repaired["issues"][0]["evidence"] = repaired["issues"][0]["evidence"][:-1]
+
+    _assert_repair_scope(
+        initial,
+        repaired,
+        removable_evidence_source_ids={conversion_source_id},
+    )
+
+
+def test_comparison_repairs_root_candidate_mirror_mismatch(tmp_path: Path) -> None:
+    packet = _packet(tmp_path)
+    repaired = _proposal("a" * 64, new_t3=_canonical_t3())
+    initial = copy.deepcopy(repaired)
+    initial["issues"][0]["proposed_value"] = copy.deepcopy(_canonical_t3())
+    initial["issues"][0]["proposed_value"]["protocol_name"] = "Stale mirror"
+
+    result = _run_sequence(
+        tmp_path,
+        packet=packet,
+        outputs=[initial, repaired],
+    )
+
+    metadata = json.loads(result.metadata_path.read_text(encoding="utf-8"))
+    attempt = metadata["validation_repair"]["attempts"][0]
+    errors = json.loads(
+        (result.output_dir / attempt["validator_errors_path"]).read_text(
+            encoding="utf-8"
+        )
+    )["errors"]
+    assert metadata["validation_repair"]["status"] == "succeeded"
+    assert "must serialize the same complete document" in errors[0]
 
 
 def test_placeholder_orientation_contract_reaches_comparison_worker() -> None:
@@ -808,6 +1219,10 @@ def test_comparison_repairs_complete_schema_invalid_artifact_once(
 
 def test_comparison_repairs_linked_t1_t3_validation_failure(tmp_path: Path) -> None:
     packet = _packet(tmp_path)
+    linked_t1 = _canonical_t1()
+    linked_t1["libraries"][0]["library_sequence"] = "AC"
+    linked_t1["libraries"][0]["segments"][0]["sequence"] = "AC"
+    _replace_packet_file(packet, "current:t1", linked_t1)
     initial = _proposal(
         "a" * 64,
         new_t3=_paired_terminal_t3(include_terminal_pair=False),
@@ -956,6 +1371,167 @@ def test_comparison_accepts_schema_valid_root_conversion(
 
     artifact = json.loads(result.artifact_path.read_text(encoding="utf-8"))
     assert artifact["issues"][0]["proposed_patch"][0]["path"] == ""
+
+
+def test_staged_comparison_attaches_all_required_roots_without_model_repair(
+    tmp_path: Path,
+) -> None:
+    packet = _staged_packet(tmp_path, legacy_tasks=("T1", "T2"))
+
+    result = _run(
+        tmp_path,
+        packet=packet,
+        output=_comparison_without_scientific_issues(),
+    )
+
+    artifact = json.loads(result.artifact_path.read_text(encoding="utf-8"))
+    metadata = json.loads(result.metadata_path.read_text(encoding="utf-8"))
+    roots = {issue["task"]: issue for issue in artifact["issues"]}
+    assert set(roots) == {"T1", "T2", "T3"}
+    assert roots["T1"]["target"]["kind"] == "groundtruth_record"
+    assert roots["T2"]["target"]["kind"] == "groundtruth_record"
+    assert roots["T3"]["target"] == {
+        "kind": "new_groundtruth_record",
+        "artifact_source_id": "example:legacy-conversion:conversion-001",
+        "artifact_filename": "groundtruth_library_generation_workflow.json",
+        "json_pointer": "",
+    }
+    for issue in roots.values():
+        assert issue["proposed_value"] == issue["proposed_patch"][0]["value"]
+    assert metadata["validation_repair"]["status"] == "not_needed"
+    normalization = metadata["deterministic_normalization"]
+    assert normalization["status"] == "applied"
+    assert normalization["attached_tasks"] == ["T1", "T2", "T3"]
+    generated = json.loads(
+        (result.output_dir / normalization["generated_artifact_path"]).read_text(
+            encoding="utf-8"
+        )
+    )
+    assert generated["issues"] == []
+    assert artifact["disposition"] == "issues_proposed"
+
+
+def test_staged_comparison_normalizes_three_prose_root_mirrors_in_one_pass(
+    tmp_path: Path,
+) -> None:
+    packet = _staged_packet(tmp_path, legacy_tasks=("T1", "T2"))
+
+    result = _run(
+        tmp_path,
+        packet=packet,
+        output=_comparison_with_three_prose_root_mirrors(),
+    )
+
+    artifact = json.loads(result.artifact_path.read_text(encoding="utf-8"))
+    metadata = json.loads(result.metadata_path.read_text(encoding="utf-8"))
+    assert metadata["validation_repair"]["attempt_count"] == 0
+    assert metadata["deterministic_normalization"]["status"] == "applied"
+    assert len(artifact["issues"]) == 3
+    for issue in artifact["issues"]:
+        assert isinstance(issue["proposed_value"], dict)
+        assert issue["proposed_value"] == issue["proposed_patch"][0]["value"]
+
+
+def test_staged_comparison_rejects_a_scientifically_changed_frozen_root(
+    tmp_path: Path,
+) -> None:
+    packet = _staged_packet(tmp_path, legacy_tasks=("T1", "T2"))
+    output = _comparison_with_three_prose_root_mirrors()
+    output["issues"][0]["proposed_patch"][0]["value"][
+        "protocol_name"
+    ] = "Changed by comparison worker"
+
+    with pytest.raises(
+        ClaudeAuditError,
+        match="changed the frozen legacy conversion candidate for T1",
+    ):
+        _run(tmp_path, packet=packet, output=output)
+
+
+def test_staged_root_attachment_does_not_invent_missing_scientific_issues(
+    tmp_path: Path,
+) -> None:
+    packet = _staged_packet(tmp_path, legacy_tasks=("T1", "T2"))
+    output = _comparison_without_scientific_issues()
+    output["audited_fields"].append(
+        {
+            "field_id": "scientific-field",
+            "task": "T3",
+            "object_id": "transition",
+            "field_path": "/workflows/0/transitions/0",
+            "comparison_status": "proposed_correction",
+            "issue_ids": ["missing-scientific-issue"],
+        }
+    )
+
+    with pytest.raises(
+        ClaudeAuditError,
+        match="unknown_issue_ids_in_ledger=.*missing-scientific-issue",
+    ):
+        _run_sequence(
+            tmp_path,
+            packet=packet,
+            outputs=[output],
+            max_repair_attempts=0,
+        )
+
+    rejected = json.loads(
+        (tmp_path / "comparison-run.rejected/rejected-artifact.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    assert "missing-scientific-issue" not in {
+        issue["issue_id"] for issue in rejected["issues"]
+    }
+    assert {
+        issue["task"] for issue in rejected["issues"]
+    } == {"T1", "T2", "T3"}
+
+
+def test_complete_rejected_comparison_can_be_revalidated_without_model_call(
+    tmp_path: Path,
+) -> None:
+    source_root = tmp_path / "source"
+    source_root.mkdir()
+    packet = _staged_packet(source_root, legacy_tasks=("T1", "T2"))
+    initial = _run(
+        source_root,
+        packet=packet,
+        output=_comparison_with_three_prose_root_mirrors(),
+    )
+    generated = initial.output_dir / "generated-artifact.json"
+    rejected_dir = tmp_path / "comparison-old.rejected"
+    rejected_dir.mkdir()
+    artifact_path = rejected_dir / "rejected-artifact.json"
+    artifact_path.write_bytes(generated.read_bytes())
+    failure = {
+        "status": "rejected",
+        "phase": "comparison",
+        "packet_sha256": hashlib.sha256(
+            (packet / "packet.json").read_bytes()
+        ).hexdigest(),
+        "artifact_path": artifact_path.name,
+        "artifact_sha256": hashlib.sha256(artifact_path.read_bytes()).hexdigest(),
+    }
+    (rejected_dir / "failure.json").write_text(
+        json.dumps(failure), encoding="utf-8"
+    )
+
+    result = revalidate_rejected_comparison(
+        packet_dir=packet,
+        rejected_dir=rejected_dir,
+        output_dir=tmp_path / "comparison-old.revalidated",
+        output_schema_path=AUDIT_SCHEMAS / "protocol_audit.schema.json",
+        packet_schema_path=AUDIT_SCHEMAS / "audit_packet.schema.json",
+    )
+
+    artifact = json.loads(result.artifact_path.read_text(encoding="utf-8"))
+    metadata = json.loads(result.metadata_path.read_text(encoding="utf-8"))
+    assert {issue["task"] for issue in artifact["issues"]} == {"T1", "T2", "T3"}
+    assert metadata["status"] == "validated"
+    assert metadata["source_rejected_run"] == "comparison-old.rejected"
+    assert metadata["deterministic_normalization"]["status"] == "applied"
+    assert metadata["artifact_sha256"]
 
 
 def test_root_conversion_cannot_embed_audit_evidence(tmp_path: Path) -> None:

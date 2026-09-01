@@ -1,0 +1,82 @@
+{
+  "schema_version": "libstruct.libgen_capability_synthetic_suite.v1",
+  "cases": [
+    {
+      "case_id": "compile.valid.canonical",
+      "polarity": "positive",
+      "covers": ["work_record_compile"],
+      "argv": ["python3", "{pack}/tools/compile_work_record.py", "--work-record", "{pack}/synthetic_tests/valid/work_record.json", "--t2-out", "{tmp}/t2.json", "--t3-out", "{tmp}/t3.json"],
+      "expected": {"exit_code": 0, "status": "pass", "finding_codes": {}}
+    },
+    {
+      "case_id": "compile.invalid.malformed",
+      "polarity": "negative",
+      "covers": ["work_record_compile"],
+      "argv": ["python3", "{pack}/tools/compile_work_record.py", "--work-record", "{pack}/synthetic_tests/invalid/malformed_work_record.json", "--t2-out", "{tmp}/t2.json", "--t3-out", "{tmp}/t3.json"],
+      "expected": {"exit_code": 2, "status": "error", "finding_codes": {"invalid_work_record": 1}}
+    },
+    {
+      "case_id": "audit.valid.complete",
+      "polarity": "positive",
+      "covers": ["evidence_support", "physical_oligo_linkage", "product_conservation", "source_reconciliation", "state_event_projection", "strand_pairing", "terminal_reachability", "typed_edges", "work_record_compile"],
+      "argv": ["python3", "{pack}/tools/audit_predictions.py", "--work-record", "{pack}/synthetic_tests/valid/work_record.json"],
+      "expected": {"exit_code": 0, "status": "pass", "finding_codes": {}}
+    },
+    {
+      "case_id": "audit.boundary.excluded-inventory",
+      "polarity": "boundary",
+      "covers": ["evidence_support", "physical_oligo_linkage", "product_conservation", "source_reconciliation", "state_event_projection", "strand_pairing", "terminal_reachability", "typed_edges", "work_record_compile"],
+      "argv": ["python3", "{pack}/tools/audit_predictions.py", "--work-record", "{pack}/synthetic_tests/boundary/excluded_inventory_work_record.json"],
+      "expected": {"exit_code": 0, "status": "pass", "finding_codes": {}}
+    },
+    {
+      "case_id": "audit.negative.source-and-linkage",
+      "polarity": "negative",
+      "covers": ["physical_oligo_linkage", "source_reconciliation", "typed_edges", "work_record_compile"],
+      "argv": ["python3", "{pack}/tools/audit_predictions.py", "--work-record", "{pack}/synthetic_tests/valid/work_record.json", "--t2", "{pack}/synthetic_tests/invalid/empty_t2.json", "--t3", "{pack}/synthetic_tests/valid/t3.json"],
+      "expected": {"exit_code": 1, "status": "findings", "finding_codes": {"compiled_t2_mismatch": 1, "inventory_target_missing": 1, "unknown_derivation_oligo": 1, "unknown_oligo": 1}}
+    },
+    {
+      "case_id": "audit.negative.state-event-projection",
+      "polarity": "negative",
+      "covers": ["physical_oligo_linkage", "state_event_projection", "typed_edges", "work_record_compile"],
+      "argv": ["python3", "{pack}/tools/audit_predictions.py", "--work-record", "{pack}/synthetic_tests/valid/work_record.json", "--t2", "{pack}/synthetic_tests/valid/t2.json", "--t3", "{pack}/synthetic_tests/invalid/typed_edges_t3.json"],
+      "expected": {"exit_code": 1, "status": "findings", "finding_codes": {"compiled_t3_mismatch": 1, "missing_event_record": 1, "missing_state_signature": 2, "orphan_event_record": 1, "orphan_state_signature": 2, "unknown_oligo": 1, "unused_t2_oligo": 1}}
+    },
+    {
+      "case_id": "audit.negative.terminal",
+      "polarity": "negative",
+      "covers": ["physical_oligo_linkage", "source_reconciliation", "state_event_projection", "terminal_reachability", "typed_edges", "work_record_compile"],
+      "argv": ["python3", "{pack}/tools/audit_predictions.py", "--work-record", "{pack}/synthetic_tests/valid/work_record.json", "--t2", "{pack}/synthetic_tests/valid/t2.json", "--t3", "{pack}/synthetic_tests/invalid/unreachable_terminal_t3.json"],
+      "expected": {"exit_code": 1, "status": "findings", "finding_codes": {"compiled_t3_mismatch": 1, "inventory_target_missing": 2, "orphan_event_record": 1, "orphan_state_signature": 1, "unknown_terminal": 1, "unreachable_final": 1, "unused_t2_oligo": 1}}
+    },
+    {
+      "case_id": "checker.negative.product-conservation",
+      "polarity": "negative",
+      "covers": ["product_conservation"],
+      "argv": ["python3", "{pack}/tools/check_product_conservation.py", "--t2", "{pack}/synthetic_tests/valid/t2.json", "--t3", "{pack}/synthetic_tests/invalid/product_conservation_t3.json"],
+      "expected": {"exit_code": 1, "status": "findings", "finding_codes": {"incomplete_product_classification": 1}}
+    },
+    {
+      "case_id": "checker.negative.typed-edges",
+      "polarity": "negative",
+      "covers": ["typed_edges"],
+      "argv": ["python3", "{pack}/tools/check_typed_edges.py", "--t2", "{pack}/synthetic_tests/valid/t2.json", "--t3", "{pack}/synthetic_tests/invalid/typed_edges_t3.json"],
+      "expected": {"exit_code": 1, "status": "findings", "finding_codes": {"unknown_oligo": 1}}
+    },
+    {
+      "case_id": "checker.negative.strand-pairing",
+      "polarity": "negative",
+      "covers": ["strand_pairing"],
+      "argv": ["python3", "{pack}/tools/check_strand_pairing.py", "--t2", "{pack}/synthetic_tests/valid/t2.json", "--t3", "{pack}/synthetic_tests/invalid/strand_pairing_t3.json"],
+      "expected": {"exit_code": 1, "status": "findings", "finding_codes": {"pairing_not_reverse_complementary": 1}}
+    },
+    {
+      "case_id": "checker.negative.evidence-support",
+      "polarity": "negative",
+      "covers": ["evidence_support"],
+      "argv": ["python3", "{pack}/tools/check_unsupported_completion.py", "--t2", "{pack}/synthetic_tests/valid/t2.json", "--t3", "{pack}/synthetic_tests/valid/t3.json", "--ledger", "{pack}/synthetic_tests/invalid/unsupported_ledger.json"],
+      "expected": {"exit_code": 1, "status": "findings", "finding_codes": {"missing_evidence_claim": 17, "missing_source_locator": 1, "unsupported_completion": 1}}
+    }
+  ]
+}

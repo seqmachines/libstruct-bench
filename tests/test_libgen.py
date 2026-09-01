@@ -12,6 +12,10 @@ from libstruct_bench.cli.grade_libgen import main as grade_main
 from libstruct_bench.cli.rescore_libgen_runs import main as rescore_main
 from libstruct_bench.libgen.scoring import (
     LIBGEN_PUBLIC_METRIC_KEYS,
+    _pairing_and_discontinuity_similarity,
+    _state_assignment_similarity,
+    _state_sequence_similarity,
+    _transition_assignment_similarity,
     grade_libgen,
     score_t2,
 )
@@ -19,10 +23,12 @@ from libstruct_bench.libgen.version import LIBGEN_BENCHMARK_VERSION
 from libstruct_bench.libgen.validation import (
     LibgenValidationError,
     derive_required_t2_ids,
+    validate_groundtruth_bundle,
     validate_prediction_links,
     validate_t2_prediction,
     validate_t3_prediction,
 )
+from libstruct_bench.matching import best_partial_one_to_one_matching
 from tests.libgen_fixtures import (
     renamed_predictions,
     t1_groundtruth,
@@ -90,6 +96,268 @@ def test_ids_and_collection_order_do_not_affect_score() -> None:
     validate_prediction_links(t2, t3)
     metrics, _ = grade_libgen(t2, t3, t2_groundtruth(), t3_groundtruth())
     assert metrics["reward"] == pytest.approx(1.0)
+
+
+def test_state_payload_aliases_and_metadata_prose_do_not_reduce_score() -> None:
+    truth = t3_groundtruth()
+    prediction = t3_prediction()
+    truth_state = truth["workflows"][0]["states"][0]
+    predicted_state = prediction["workflows"][0]["states"][0]
+    for state, architecture in (
+        (truth_state, "[GDNA]"),
+        (predicted_state, "[GENOMIC_DNA]"),
+    ):
+        state["molecule_type"] = "DNA"
+        state["strands"][0]["molecule_type"] = "DNA"
+        state["strands"][0]["sequence_architecture"] = architecture
+        state["strands"][0]["segments"][0]["placeholder"] = architecture
+    truth_state["physical_state"] = "double-stranded genomic DNA in nuclei"
+    truth_state["properties"] = ["input for transposition"]
+    predicted_state["physical_state"] = "native chromatin"
+    predicted_state["properties"] = ["accessible loci are preferred"]
+    predicted_state["strands"][0]["segments"][0]["role"] = (
+        "reverse-complementary genomic DNA"
+    )
+
+    metrics, details = grade_libgen(
+        t2_prediction(), prediction, t2_groundtruth(), truth
+    )
+
+    assert metrics["t3_state_f1"] == pytest.approx(1.0)
+    state_details = details["t3"]["workflows"]["workflow_main"]["state_matches"]
+    matched_input = next(
+        item for item in state_details if item["groundtruth_state_id"] == "state_input"
+    )
+    assert matched_input["dimension_scores"] == {
+        "reference_strand": pytest.approx(1.0),
+        "architecture": pytest.approx(1.0),
+        "segments": pytest.approx(1.0),
+        "pairing": pytest.approx(1.0),
+    }
+    assert matched_input["metadata_diagnostics"]["properties_f1"] == 0.0
+    assert details["t3"]["weights"]["state"] == {
+        "reference_strand": 0.50,
+        "architecture": 0.15,
+        "segments": 0.20,
+        "pairing": 0.15,
+    }
+
+    predicted_state["strands"][0]["sequence_architecture"] = "[CDNA]"
+    predicted_state["strands"][0]["segments"][0]["placeholder"] = "[CDNA]"
+    mismatch_metrics, _ = grade_libgen(
+        t2_prediction(), prediction, t2_groundtruth(), truth
+    )
+    assert mismatch_metrics["t3_state_f1"] < 1.0
+
+
+def test_state_scoring_uses_consistent_segment_projection_over_layout_prose() -> None:
+    prediction = t3_prediction()
+    predicted_state = prediction["workflows"][0]["states"][1]
+    predicted_state["physical_state"] = "different but compatible prose"
+    predicted_state["properties"] = ["another source-compatible description"]
+    predicted_state["strands"][0]["sequence_architecture"] += (
+        " ...descriptive gap text..."
+    )
+    predicted_state["strands"][0]["segments"][0]["role"] = "different role prose"
+
+    metrics, _ = grade_libgen(
+        t2_prediction(), prediction, t2_groundtruth(), t3_groundtruth()
+    )
+
+    assert metrics["t3_state_f1"] == pytest.approx(1.0)
+
+
+def test_truth_variable_state_region_accepts_specific_same_length_payload() -> None:
+    truth = t3_groundtruth()
+    prediction = t3_prediction()
+    truth_state = truth["workflows"][0]["states"][0]
+    predicted_state = prediction["workflows"][0]["states"][0]
+    for state, architecture in (
+        (truth_state, "[VARIABLE:9]"),
+        (predicted_state, "[GENOMIC_DNA:9]"),
+    ):
+        state["molecule_type"] = "DNA"
+        state["strands"][0]["molecule_type"] = "DNA"
+        state["strands"][0]["sequence_architecture"] = architecture
+        state["strands"][0]["segments"][0]["placeholder"] = architecture
+
+    metrics, _ = grade_libgen(t2_prediction(), prediction, t2_groundtruth(), truth)
+    assert metrics["t3_state_f1"] == pytest.approx(1.0)
+
+    truth_state["strands"][0]["sequence_architecture"] = "[UMI:9]"
+    truth_state["strands"][0]["segments"][0]["placeholder"] = "[UMI:9]"
+    predicted_state["strands"][0]["sequence_architecture"] = "[VARIABLE:9]"
+    predicted_state["strands"][0]["segments"][0]["placeholder"] = "[VARIABLE:9]"
+    underspecified_metrics, _ = grade_libgen(
+        t2_prediction(), prediction, t2_groundtruth(), truth
+    )
+    assert underspecified_metrics["t3_state_f1"] < 1.0
+
+
+def test_state_anchor_placeholder_accepts_only_two_base_iupac_shorthand() -> None:
+    anchor = ["<ANCHOR>", "<ANCHOR>"]
+
+    assert _state_sequence_similarity(["V", "N"], anchor) == pytest.approx(1.0)
+    assert _state_sequence_similarity(["N", "B"], anchor) == pytest.approx(1.0)
+    assert _state_sequence_similarity(["A", "A"], anchor) < 1.0
+    assert _state_sequence_similarity(["N", "N"], anchor) < 1.0
+    assert (
+        _state_sequence_similarity(["V", "N"], ["<SAMPLE_INDEX>", "<SAMPLE_INDEX>"])
+        < 1.0
+    )
+    assert _state_sequence_similarity(anchor, ["V", "N"]) < 1.0
+
+
+def test_continuous_duplex_pairing_is_invariant_to_region_partition() -> None:
+    def duplex_state(*, split: bool, omit_second_top_segment: bool = False) -> dict:
+        regions = [
+            {
+                "paired_region_id": "pair_all",
+                "relationship": "reverse_complementary",
+                "side_1": {"strand_id": "top", "segment_ids": ["top_a", "top_b"]},
+                "side_2": {
+                    "strand_id": "bottom",
+                    "segment_ids": ["bottom_b", "bottom_a"],
+                },
+            }
+        ]
+        if split:
+            regions = [
+                {
+                    "paired_region_id": "pair_a",
+                    "relationship": "reverse_complementary",
+                    "side_1": {"strand_id": "top", "segment_ids": ["top_a"]},
+                    "side_2": {"strand_id": "bottom", "segment_ids": ["bottom_a"]},
+                },
+                {
+                    "paired_region_id": "pair_b",
+                    "relationship": "reverse_complementary",
+                    "side_1": {
+                        "strand_id": "top",
+                        "segment_ids": [] if omit_second_top_segment else ["top_b"],
+                    },
+                    "side_2": {"strand_id": "bottom", "segment_ids": ["bottom_b"]},
+                },
+            ]
+        return {
+            "strands": [
+                {
+                    "strand_id": "top",
+                    "molecule_type": "DNA",
+                    "segments": [
+                        {
+                            "segment_id": "top_a",
+                            "structural_role": "paired_region",
+                            "sequence": "AAAA",
+                        },
+                        {
+                            "segment_id": "top_b",
+                            "structural_role": "paired_region",
+                            "sequence": "CCCC",
+                        },
+                    ],
+                },
+                {
+                    "strand_id": "bottom",
+                    "molecule_type": "DNA",
+                    "segments": [
+                        {
+                            "segment_id": "bottom_b",
+                            "structural_role": "paired_region",
+                            "sequence": "GGGG",
+                        },
+                        {
+                            "segment_id": "bottom_a",
+                            "structural_role": "paired_region",
+                            "sequence": "TTTT",
+                        },
+                    ],
+                },
+            ],
+            "paired_regions": regions,
+            "discontinuities": [],
+        }
+
+    whole = duplex_state(split=False)
+    partitioned = duplex_state(split=True)
+    incomplete = duplex_state(split=True, omit_second_top_segment=True)
+
+    assert _pairing_and_discontinuity_similarity(
+        whole, partitioned, scorable_only=False
+    ) == pytest.approx(1.0)
+    assert (
+        _pairing_and_discontinuity_similarity(
+            incomplete, partitioned, scorable_only=False
+        )
+        < 1.0
+    )
+
+
+@pytest.mark.parametrize("shorthand", ["VN", "NB"])
+def test_state_anchor_shorthand_scores_in_reference_and_segment(
+    shorthand: str,
+) -> None:
+    truth = t3_groundtruth()
+    prediction = t3_prediction()
+    truth_state = truth["workflows"][0]["states"][0]
+    predicted_state = prediction["workflows"][0]["states"][0]
+    for state, architecture in (
+        (truth_state, "T30[ANCHOR:2][CDNA]"),
+        (predicted_state, f"T30{shorthand}[CDNA_INSERT]"),
+    ):
+        state["molecule_type"] = "DNA"
+        strand = state["strands"][0]
+        strand["molecule_type"] = "DNA"
+        strand["sequence_architecture"] = architecture
+        strand["segments"][0].pop("placeholder", None)
+        strand["segments"][0]["sequence"] = architecture
+
+    metrics, details = grade_libgen(
+        t2_prediction(), prediction, t2_groundtruth(), truth
+    )
+
+    assert metrics["t3_state_f1"] == pytest.approx(1.0)
+    state_details = details["t3"]["workflows"]["workflow_main"]["state_matches"]
+    matched_input = next(
+        item for item in state_details if item["groundtruth_state_id"] == "state_input"
+    )
+    assert matched_input["dimension_scores"]["reference_strand"] == pytest.approx(1.0)
+    assert matched_input["dimension_scores"]["segments"] == pytest.approx(1.0)
+
+
+def test_terminal_reference_strand_accepts_token_aware_reverse_complement() -> None:
+    prediction = t3_prediction()
+    final_state = prediction["workflows"][0]["states"][1]
+    reverse = "[CDNA][UMI:4]ACGT"
+    final_state["strands"][0]["sequence_architecture"] = reverse
+    final_state["strands"][0]["segments"][0]["sequence"] = reverse
+
+    metrics, details = grade_libgen(
+        t2_prediction(), prediction, t2_groundtruth(), t3_groundtruth()
+    )
+
+    assert metrics["t3_state_f1"] == pytest.approx(1.0)
+    state_matches = details["t3"]["workflows"]["workflow_main"]["state_matches"]
+    final_match = next(
+        item for item in state_matches if item["groundtruth_state_id"] == "state_cdna"
+    )
+    assert final_match["dimension_scores"]["reference_strand"] == pytest.approx(1.0)
+    assert final_match["dimension_scores"]["segments"] == pytest.approx(1.0)
+
+
+def test_nonterminal_reference_strand_does_not_hide_reverse_complement_error() -> None:
+    truth = t3_groundtruth()
+    prediction = t3_prediction()
+    truth_state = truth["workflows"][0]["states"][0]
+    predicted_state = prediction["workflows"][0]["states"][0]
+    truth_state["strands"][0]["sequence_architecture"] = "ACGA[GDNA]"
+    truth_state["strands"][0]["segments"][0]["placeholder"] = "ACGA[GDNA]"
+    predicted_state["strands"][0]["sequence_architecture"] = "[GENOMIC_DNA]TCGT"
+    predicted_state["strands"][0]["segments"][0]["placeholder"] = "[GENOMIC_DNA]TCGT"
+
+    metrics, _ = grade_libgen(t2_prediction(), prediction, t2_groundtruth(), truth)
+
+    assert metrics["t3_state_f1"] < 1.0
 
 
 def test_missing_and_extra_entities_lower_scores() -> None:
@@ -286,10 +554,10 @@ def test_ordered_components_match_an_equivalent_flat_sequence(
 
     metrics, _ = grade_libgen(prediction, t3_prediction(), truth, t3_groundtruth())
 
-    assert metrics["t2_required_family_f1"] == pytest.approx(1.0)
-    assert metrics["t2_exact_required_family_recall"] == 1.0
+    assert metrics["t2_required_family_f1"] == pytest.approx(0.9)
+    assert metrics["t2_exact_required_family_recall"] == 0.0
     assert metrics["t3_molecular_transition_f1"] == pytest.approx(1.0)
-    assert metrics["reward"] == pytest.approx(1.0)
+    assert metrics["reward"] == pytest.approx(0.97)
 
     prediction["oligos"][0]["components"].reverse()
     reversed_metrics, _ = score_t2(
@@ -323,6 +591,106 @@ def test_flat_sequence_matches_equivalent_ordered_groundtruth_components() -> No
 
     assert metrics["required_family_f1"] == pytest.approx(1.0)
     assert metrics["exact_required_family_recall"] == 1.0
+
+
+def test_exact_modified_family_sequence_is_not_rewritten_from_role_prose() -> None:
+    sequence = "ACGTAC[SAMPLE_INDEX:8]/ideoxyU/TTGGCC"
+    truth = t2_groundtruth()
+    truth["oligos"][0].update(
+        {
+            "kind": "assembled",
+            "sequence": sequence,
+            "components": [
+                {
+                    "name": "left adapter",
+                    "role": "adapter",
+                    "sequence": "ACGTAC",
+                    "orientation": "5_to_3",
+                    "modifications": [],
+                    "support_status": "explicit",
+                },
+                {
+                    "name": "sample index",
+                    "role": "sample index",
+                    "placeholder": "[SAMPLE_INDEX:8]",
+                    "orientation": "5_to_3",
+                    "modifications": [],
+                    "support_status": "explicit",
+                },
+                {
+                    "name": "modified right adapter",
+                    "role": "blocking deoxyuridine plus adapter",
+                    "sequence": "/ideoxyU/TTGGCC",
+                    "orientation": "5_to_3",
+                    "modifications": ["internal deoxyuridine"],
+                    "support_status": "explicit",
+                },
+            ],
+        }
+    )
+    prediction = t2_prediction()
+    prediction["oligos"][0].update(
+        {
+            "kind": "single",
+            "sequence": sequence,
+            "components": [
+                {
+                    "name": "left adapter",
+                    "role": "adapter",
+                    "sequence": "ACGTAC",
+                    "orientation": "5_to_3",
+                    "modifications": [],
+                },
+                {
+                    "name": "sample index",
+                    "role": "sample index",
+                    "placeholder": "[SAMPLE_INDEX:8]",
+                    "orientation": "5_to_3",
+                    "modifications": [],
+                },
+                {
+                    "name": "blocking deoxyuridine",
+                    "role": "blocks the polymerase before it copies the barcode",
+                    "sequence": "U",
+                    "length": 1,
+                    "orientation": "5_to_3",
+                    "modifications": ["deoxyuridine"],
+                },
+                {
+                    "name": "right adapter",
+                    "role": "adapter",
+                    "sequence": "TTGGCC",
+                    "orientation": "5_to_3",
+                    "modifications": [],
+                },
+            ],
+        }
+    )
+
+    metrics, details = score_t2(
+        prediction["oligos"],
+        truth["oligos"],
+        required_oligo_ids={"oligo_rt"},
+    )
+
+    assert metrics["required_family_f1"] == pytest.approx(0.9)
+    assert metrics["exact_required_family_recall"] == 0.0
+    assert details["matches"][0]["sequence_score"] == pytest.approx(1.0)
+    assert details["matches"][0]["dimension_scores"]["modifications"] == 1.0
+    assert details["matches"][0]["dimension_scores"]["kind"] == 0.0
+
+    prediction["oligos"][0]["sequence"] = sequence.replace("ACGTAC", "ACGTTC", 1)
+    prediction["oligos"][0]["components"][0]["sequence"] = "ACGTTC"
+    mismatch_metrics, mismatch_details = score_t2(
+        prediction["oligos"],
+        truth["oligos"],
+        required_oligo_ids={"oligo_rt"},
+    )
+
+    assert mismatch_metrics["required_family_f1"] == pytest.approx(
+        0.65 * (20 / 21) + 0.25
+    )
+    assert mismatch_details["matches"][0]["sequence_score"] == pytest.approx(20 / 21)
 
 
 def test_double_stranded_components_remain_separate_sequence_claims() -> None:
@@ -697,15 +1065,12 @@ def test_duplicate_identical_prediction_collapses_to_one_family() -> None:
     ]
 
 
-def test_t2_metadata_does_not_affect_assignment_or_reward() -> None:
+def test_t2_names_and_aliases_do_not_affect_assignment_or_reward() -> None:
     prediction = t2_prediction()
     prediction["oligos"][0].update(
         {
             "name": "unrelated name",
             "aliases": ["unrelated alias"],
-            "role": "unrelated role",
-            "orientation": "3_to_5",
-            "modifications": ["unknown modification"],
         }
     )
     metrics, _ = score_t2(
@@ -714,6 +1079,317 @@ def test_t2_metadata_does_not_affect_assignment_or_reward() -> None:
         required_oligo_ids={"oligo_rt"},
     )
     assert metrics["required_family_f1"] == pytest.approx(1.0)
+
+
+def test_t2_structured_identity_claims_affect_reward() -> None:
+    truth = t2_groundtruth()
+    truth["oligos"][0]["modifications"] = ["5' phosphate"]
+    prediction = t2_prediction()
+    prediction["oligos"][0].update(
+        {
+            "role": "unrelated role",
+            "orientation": "3_to_5",
+            "modifications": ["unknown modification"],
+        }
+    )
+    metrics, _ = score_t2(
+        prediction["oligos"],
+        truth["oligos"],
+        required_oligo_ids={"oligo_rt"},
+    )
+    assert metrics["required_family_f1"] == pytest.approx(0.75)
+    assert metrics["exact_required_family_recall"] == 0.0
+
+
+def test_t2_empty_truth_modifications_receive_full_credit() -> None:
+    truth = t2_groundtruth()
+    prediction = t2_prediction()
+    prediction["oligos"][0]["modifications"] = [
+        "5' immobilization on Single Cell 3' v3 Gel Bead"
+    ]
+
+    metrics, details = score_t2(
+        prediction["oligos"], truth["oligos"], required_oligo_ids={"oligo_rt"}
+    )
+
+    assert metrics["required_family_f1"] == pytest.approx(1.0)
+    assert metrics["exact_required_family_recall"] == 1.0
+    assert metrics["modification_f1"] == pytest.approx(1.0)
+    assert details["matches"][0]["dimension_scores"]["modifications"] == 1.0
+
+
+def test_t2_empty_truth_modifications_do_not_reweight_other_dimensions() -> None:
+    truth = t2_groundtruth()
+    prediction = t2_prediction()
+    prediction["oligos"][0].update(
+        {
+            "kind": "assembled",
+            "modifications": ["5' immobilization on Single Cell 3' v3 Gel Bead"],
+        }
+    )
+
+    metrics, details = score_t2(
+        prediction["oligos"], truth["oligos"], required_oligo_ids={"oligo_rt"}
+    )
+
+    # Empty canonical chemistry is an unannotated wildcard worth full credit,
+    # not a removed dimension that changes the relative weight of kind.
+    assert metrics["required_family_f1"] == pytest.approx(0.9)
+    assert details["matches"][0]["score"] == pytest.approx(0.9)
+    assert details["matches"][0]["dimension_scores"]["modifications"] == 1.0
+
+
+def test_t2_bead_immobilization_phrases_are_equivalent() -> None:
+    truth = t2_groundtruth()
+    truth["oligos"][0]["modifications"] = ["5' bead-immobilized"]
+    prediction = t2_prediction()
+    prediction["oligos"][0]["modifications"] = [
+        "5' immobilization on Single Cell 3' v3 Gel Bead",
+        "5' gel-bead attachment",
+    ]
+
+    metrics, details = score_t2(
+        prediction["oligos"], truth["oligos"], required_oligo_ids={"oligo_rt"}
+    )
+
+    assert metrics["required_family_f1"] == pytest.approx(1.0)
+    assert details["matches"][0]["dimension_scores"]["modifications"] == 1.0
+
+
+def test_t2_generic_rna_wording_is_subsumed_by_explicit_rgrgrg() -> None:
+    truth = t2_groundtruth()
+    truth_oligo = truth["oligos"][0]
+    truth_oligo["sequence"] = "AAGCAGTGGTATCAACGCAGAGTACATrGrGrG"
+    truth_oligo["modifications"] = ["3'-rGrGrG (three riboguanosines)"]
+    prediction = t2_prediction()
+    predicted_oligo = prediction["oligos"][0]
+    predicted_oligo["sequence"] = "AAGCAGTGGTATCAACGCAGAGTACATrGrGrG"
+    predicted_oligo["modifications"] = [
+        "three 3' riboguanosines",
+        "RNA ribonucleotides",
+    ]
+
+    metrics, details = score_t2(
+        prediction["oligos"], truth["oligos"], required_oligo_ids={"oligo_rt"}
+    )
+
+    assert metrics["required_family_f1"] == pytest.approx(1.0)
+    assert details["matches"][0]["dimension_scores"]["modifications"] == 1.0
+
+
+def test_t2_inline_terminal_chemistry_matches_structured_recording() -> None:
+    truth = t2_groundtruth()
+    truth_oligo = truth["oligos"][0]
+    truth_oligo.update(
+        {
+            "kind": "assembled",
+            "sequence": "/5Phos/ACGT[CELL_BARCODE:8]TTTT",
+            "modifications": ["5' phosphate"],
+            "components": [
+                {
+                    "name": "fixed arm",
+                    "role": "adapter",
+                    "sequence": "ACGT",
+                    "orientation": "5_to_3",
+                    "modifications": ["5' phosphate"],
+                    "support_status": "explicit",
+                },
+                {
+                    "name": "barcode",
+                    "role": "cell barcode",
+                    "placeholder": "[CELL_BARCODE:8]",
+                    "orientation": "5_to_3",
+                    "modifications": [],
+                    "support_status": "explicit",
+                },
+                {
+                    "name": "capture tract",
+                    "role": "reverse transcription primer",
+                    "sequence": "TTTT",
+                    "orientation": "5_to_3",
+                    "modifications": [],
+                    "support_status": "explicit",
+                },
+            ],
+        }
+    )
+    prediction = t2_prediction()
+    predicted_oligo = prediction["oligos"][0]
+    predicted_oligo.update(
+        {
+            "kind": "assembled",
+            "sequence": "ACGT[CELL_BARCODE:8]TTTT",
+            "modifications": ["5-prime phosphate (/5Phos/)"],
+            "components": [
+                {
+                    "name": "fixed arm",
+                    "role": "adapter",
+                    "sequence": "ACGT",
+                    "orientation": "5_to_3",
+                    "modifications": ["5-prime phosphate at the oligo terminus"],
+                },
+                {
+                    "name": "barcode",
+                    "role": "cell barcode",
+                    "placeholder": "[CELL_BARCODE:8]",
+                    "orientation": "5_to_3",
+                    "modifications": [],
+                },
+                {
+                    "name": "capture tract",
+                    "role": "reverse transcription primer",
+                    "sequence": "TTTT",
+                    "orientation": "5_to_3",
+                    "modifications": [],
+                },
+            ],
+        }
+    )
+
+    metrics, details = score_t2(
+        prediction["oligos"], truth["oligos"], required_oligo_ids={"oligo_rt"}
+    )
+
+    assert metrics["required_family_f1"] == pytest.approx(1.0)
+    assert metrics["exact_required_family_recall"] == 1.0
+    assert details["matches"][0]["dimension_scores"] == {
+        "sequence": pytest.approx(1.0),
+        "modifications": pytest.approx(1.0),
+        "kind": pytest.approx(1.0),
+        "orientation": pytest.approx(1.0),
+        "role": pytest.approx(1.0),
+    }
+
+    predicted_oligo["modifications"] = []
+    predicted_oligo["components"][0]["modifications"] = []
+    missing_chemistry, _ = score_t2(
+        prediction["oligos"], truth["oligos"], required_oligo_ids={"oligo_rt"}
+    )
+    assert missing_chemistry["required_family_f1"] == pytest.approx(0.85)
+
+
+def test_t2_controlled_role_matches_semantic_paraphrase() -> None:
+    truth = t2_groundtruth()
+    truth["oligos"][0]["role"] = "ligation linker (round 2)"
+    prediction = t2_prediction()
+    prediction["oligos"][0]["role"] = (
+        "Universal bridge that anneals a barcode strand for ligation"
+    )
+
+    metrics, details = score_t2(
+        prediction["oligos"], truth["oligos"], required_oligo_ids={"oligo_rt"}
+    )
+
+    assert metrics["required_family_f1"] == pytest.approx(1.0)
+    assert details["matches"][0]["dimension_scores"]["role"] == 1.0
+
+
+def test_t2_generic_primer_role_accepts_specific_primer_function() -> None:
+    truth = t2_groundtruth()
+    truth["oligos"][0]["role"] = "primer"
+    prediction = t2_prediction()
+    prediction["oligos"][0]["role"] = (
+        "Feature-barcode indexing-PCR primer that appends P5 and Read 1N"
+    )
+
+    _, details = score_t2(
+        prediction["oligos"], truth["oligos"], required_oligo_ids={"oligo_rt"}
+    )
+
+    assert details["matches"][0]["dimension_scores"]["role"] == 1.0
+
+
+def test_t2_generic_adapter_role_accepts_explicit_adapter_component() -> None:
+    truth = t2_groundtruth()
+    truth["oligos"][0]["role"] = "adapter"
+    prediction = t2_prediction()
+    prediction["oligos"][0]["role"] = (
+        "Gene-expression indexing-PCR primer that appends P5"
+    )
+    prediction["oligos"][0]["components"] = [
+        {
+            "name": "P5",
+            "role": "Illumina P5 flow-cell adaptor",
+            "sequence": "ACGT",
+            "orientation": "5_to_3",
+            "modifications": [],
+        }
+    ]
+
+    _, details = score_t2(
+        prediction["oligos"], truth["oligos"], required_oligo_ids={"oligo_rt"}
+    )
+
+    assert details["matches"][0]["dimension_scores"]["role"] == 1.0
+
+
+def test_t2_generic_adapter_role_does_not_accept_bare_indexing_primer() -> None:
+    truth = t2_groundtruth()
+    truth["oligos"][0]["role"] = "adapter"
+    prediction = t2_prediction()
+    prediction["oligos"][0]["role"] = "Indexing-PCR primer"
+
+    _, details = score_t2(
+        prediction["oligos"], truth["oligos"], required_oligo_ids={"oligo_rt"}
+    )
+
+    assert details["matches"][0]["dimension_scores"]["role"] == 0.0
+
+
+def test_t2_generic_primer_prediction_does_not_satisfy_specific_role() -> None:
+    truth = t2_groundtruth()
+    truth["oligos"][0]["role"] = "indexing PCR primer"
+    prediction = t2_prediction()
+    prediction["oligos"][0]["role"] = "primer"
+
+    _, details = score_t2(
+        prediction["oligos"], truth["oligos"], required_oligo_ids={"oligo_rt"}
+    )
+
+    assert details["matches"][0]["dimension_scores"]["role"] == 0.0
+
+
+@pytest.mark.parametrize(
+    "predicted_role",
+    [
+        (
+            "first-round indexed PCR primer at the RT-handle end "
+            "that adds P5 and i5 sequence"
+        ),
+        (
+            "second-round indexed PCR primer at the Tn5-adaptor end "
+            "that adds P7 and i7 sequence"
+        ),
+    ],
+)
+def test_t2_indexing_primer_does_not_inherit_referenced_target_role(
+    predicted_role: str,
+) -> None:
+    truth = t2_groundtruth()
+    truth["oligos"][0]["role"] = "indexing PCR primer (P7 side)"
+    prediction = t2_prediction()
+    prediction["oligos"][0]["role"] = predicted_role
+
+    metrics, details = score_t2(
+        prediction["oligos"], truth["oligos"], required_oligo_ids={"oligo_rt"}
+    )
+
+    assert metrics["required_family_f1"] == pytest.approx(1.0)
+    assert details["matches"][0]["dimension_scores"]["role"] == 1.0
+
+
+def test_t2_randomer_placeholder_matches_family_n_run() -> None:
+    truth = t2_groundtruth()
+    truth["oligos"][0]["sequence"] = "ACGT[CELL_BARCODE:8]NNNNNN"
+    prediction = t2_prediction()
+    prediction["oligos"][0]["sequence"] = "ACGT[CELL_BARCODE:8][RANDOMER:6]"
+
+    metrics, details = score_t2(
+        prediction["oligos"], truth["oligos"], required_oligo_ids={"oligo_rt"}
+    )
+
+    assert metrics["required_family_f1"] == pytest.approx(1.0)
+    assert details["matches"][0]["sequence_score"] == pytest.approx(1.0)
 
 
 def test_t3_oligo_use_matches_local_t2_sequences_not_ids_or_names() -> None:
@@ -730,6 +1406,110 @@ def test_t3_oligo_use_matches_local_t2_sequences_not_ids_or_names() -> None:
         predicted_t2, predicted_t3, t2_groundtruth(), t3_groundtruth()
     )
     assert wrong_sequence_metrics["t3_molecular_transition_f1"] < 1.0
+
+
+def test_extension_and_strand_synthesis_operations_are_equivalent() -> None:
+    truth = t3_groundtruth()
+    prediction = t3_prediction()
+    truth["workflows"][0]["transitions"][0]["operation"] = "strand_synthesis"
+    prediction["workflows"][0]["transitions"][0]["operation"] = "extension"
+
+    metrics, details = grade_libgen(
+        t2_prediction(), prediction, t2_groundtruth(), truth
+    )
+
+    assert metrics["t3_molecular_transition_f1"] == pytest.approx(1.0)
+    transition = details["t3"]["workflows"]["workflow_main"]["transition_matches"][0]
+    assert transition["dimension_scores"]["operation"] == 1.0
+
+
+def test_indexing_and_pcr_operations_remain_distinct() -> None:
+    truth = t3_groundtruth()
+    prediction = t3_prediction()
+    truth["workflows"][0]["transitions"][0]["operation"] = "pcr"
+    prediction["workflows"][0]["transitions"][0]["operation"] = "indexing"
+
+    metrics, _ = grade_libgen(t2_prediction(), prediction, t2_groundtruth(), truth)
+
+    assert metrics["t3_molecular_transition_f1"] < 1.0
+
+
+def test_transition_assignment_prefers_event_identity_over_folded_cleanup() -> None:
+    truth = {
+        "operation": "extension",
+        "substrate_state_ids": ["truth_input"],
+        "product_state_ids": ["truth_final"],
+        "carried_forward_product_ids": ["truth_final"],
+        "discarded_product_ids": [],
+        "oligo_ids": [],
+    }
+    explicit_event = {
+        "operation": "extension",
+        "substrate_state_ids": ["pred_input"],
+        "product_state_ids": ["pred_intermediate"],
+        "carried_forward_product_ids": ["pred_intermediate"],
+        "discarded_product_ids": [],
+        "oligo_ids": [],
+    }
+    cleanup = {
+        "operation": "cleanup",
+        "substrate_state_ids": ["pred_intermediate"],
+        "product_state_ids": ["pred_final"],
+        "carried_forward_product_ids": ["pred_final"],
+        "discarded_product_ids": [],
+        "oligo_ids": [],
+    }
+    state_map = {"pred_input": "truth_input", "pred_final": "truth_final"}
+
+    explicit_score = _transition_assignment_similarity(
+        explicit_event,
+        truth,
+        state_map=state_map,
+        predicted_oligos={},
+        truth_oligos={},
+    )
+    cleanup_score = _transition_assignment_similarity(
+        cleanup,
+        truth,
+        state_map=state_map,
+        predicted_oligos={},
+        truth_oligos={},
+    )
+
+    assert explicit_score > cleanup_score
+
+
+def test_partial_assignment_leaves_low_similarity_entities_unmatched() -> None:
+    assert best_partial_one_to_one_matching(
+        [[0.90, 0.10], [0.20, 0.10]],
+        minimum_score=0.25,
+    ) == [(0, 0, 0.90)]
+    assert best_partial_one_to_one_matching(
+        [[0.90, 0.80], [0.85, 0.20]],
+        minimum_score=0.25,
+    ) == [(0, 1, 0.80), (1, 0, 0.85)]
+
+
+def test_state_assignment_uses_workflow_position_only_as_a_tie_break() -> None:
+    prediction = {"state_id": "predicted"}
+    truth = {"state_id": "truth"}
+    same_position = _state_assignment_similarity(
+        scientific_score=0.40,
+        prediction=prediction,
+        truth=truth,
+        predicted_positions={"predicted": "initial"},
+        truth_positions={"truth": "initial"},
+    )
+    different_position = _state_assignment_similarity(
+        scientific_score=0.40,
+        prediction=prediction,
+        truth=truth,
+        predicted_positions={"predicted": "initial"},
+        truth_positions={"truth": "intermediate"},
+    )
+
+    assert same_position > different_position
+    assert different_position == pytest.approx(0.40 / 1.10)
 
 
 def test_required_t2_ids_come_from_transitions_and_segment_derivations() -> None:
@@ -1001,6 +1781,95 @@ def test_prediction_validator_rejects_dangling_refs_and_cycles() -> None:
         validate_prediction_links(t2, cyclic)
 
 
+def _one_arm_y_shaped_state() -> dict:
+    return {
+        "state_id": "state_input",
+        "name": "one-arm Y-shaped prediction",
+        "molecule_type": "DNA",
+        "strand_architecture": "y_shaped_duplex",
+        "reference_strand_id": "top",
+        "physical_state": "solution",
+        "strands": [
+            {
+                "strand_id": "top",
+                "name": "top",
+                "molecule_type": "DNA",
+                "orientation": "5_to_3",
+                "sequence_architecture": "ACGTAA",
+                "segments": [
+                    {
+                        "segment_id": "top_paired",
+                        "role": "paired",
+                        "structural_role": "paired_region",
+                        "sequence": "ACGT",
+                    },
+                    {
+                        "segment_id": "top_overhang",
+                        "role": "overhang",
+                        "structural_role": "three_prime_overhang",
+                        "sequence": "AA",
+                    },
+                ],
+            },
+            {
+                "strand_id": "bottom",
+                "name": "bottom",
+                "molecule_type": "DNA",
+                "orientation": "5_to_3",
+                "sequence_architecture": "ACGT",
+                "segments": [
+                    {
+                        "segment_id": "bottom_paired",
+                        "role": "paired",
+                        "structural_role": "paired_region",
+                        "sequence": "ACGT",
+                    }
+                ],
+            },
+        ],
+        "paired_regions": [
+            {
+                "paired_region_id": "pair",
+                "side_1": {"strand_id": "top", "segment_ids": ["top_paired"]},
+                "side_2": {
+                    "strand_id": "bottom",
+                    "segment_ids": ["bottom_paired"],
+                },
+                "relationship": "reverse_complementary",
+            }
+        ],
+        "discontinuities": [],
+        "properties": [],
+    }
+
+
+def test_prediction_validation_does_not_apply_groundtruth_only_y_rule() -> None:
+    prediction = t3_prediction()
+    prediction["workflows"][0]["states"][0] = _one_arm_y_shaped_state()
+
+    validate_t3_prediction(
+        prediction,
+        protocol_id="example_protocol",
+        schema_root=SCHEMA_ROOT,
+    )
+    validate_prediction_links(t2_prediction(), prediction)
+
+    truth = t3_groundtruth()
+    truth_state = _one_arm_y_shaped_state()
+    truth_state["support_status"] = "explicit"
+    for strand in truth_state["strands"]:
+        strand["support_status"] = "explicit"
+    for region in truth_state["paired_regions"]:
+        region["support_status"] = "explicit"
+    truth["workflows"][0]["states"][0] = truth_state
+    with pytest.raises(LibgenValidationError, match="unpaired arm on both strands"):
+        validate_groundtruth_bundle(
+            {"T1": t1_groundtruth(), "T2": t2_groundtruth(), "T3": truth},
+            protocol_id="example_protocol",
+            schema_root=SCHEMA_ROOT,
+        )
+
+
 def test_partial_duplex_pairing_must_be_reverse_complementary() -> None:
     t3 = t3_prediction()
     state = t3["workflows"][0]["states"][0]
@@ -1141,6 +2010,14 @@ def test_verifier_cli_scores_valid_output_and_zeroes_invalid_prediction(
     assert analysis_document["run_outcome"] == "valid_prediction"
     assert analysis_document["summary"]["substantive_discrepancy_count"] == 0
     assert analysis_document["observations"] == []
+
+    y_shaped_prediction = t3_prediction()
+    y_shaped_prediction["workflows"][0]["states"][0] = _one_arm_y_shaped_state()
+    t3_path.write_text(json.dumps(y_shaped_prediction))
+    assert grade_main(common) == 0
+    assert json.loads(details.read_text())["prediction_valid"] is True
+    assert 0.0 < json.loads(reward.read_text())["reward"] < 1.0
+    t3_path.write_text(json.dumps(t3_prediction()))
 
     t1_file = truth / "groundtruth_final_lib_struct.json"
     original_t1 = t1_file.read_bytes()
@@ -1322,3 +2199,122 @@ def test_versioned_rescore_preserves_original_harbor_outputs(tmp_path: Path) -> 
                 str(SCHEMA_ROOT),
             ]
         )
+
+
+def test_versioned_rescore_ignores_telemetry_snapshots(tmp_path: Path) -> None:
+    groundtruth = tmp_path / "groundtruth" / "example_protocol"
+    groundtruth.mkdir(parents=True)
+    for filename, document in (
+        ("groundtruth_final_lib_struct.json", t1_groundtruth()),
+        ("groundtruth_oligos.json", t2_groundtruth()),
+        ("groundtruth_library_generation_workflow.json", t3_groundtruth()),
+    ):
+        (groundtruth / filename).write_text(json.dumps(document))
+
+    job = tmp_path / "runs" / "job"
+    trial = job / "example_protocol__authoritative"
+    artifacts = trial / "artifacts" / "logs" / "artifacts"
+    artifacts.mkdir(parents=True)
+    (artifacts / "t2_prediction.json").write_text(json.dumps(t2_prediction()))
+    (artifacts / "t3_prediction.json").write_text(json.dumps(t3_prediction()))
+    result = {
+        "trial_name": trial.name,
+        "task_name": "sequencing/libgen-example_protocol",
+    }
+    (trial / "result.json").write_text(json.dumps(result))
+
+    snapshot = job / ".libgen_telemetry" / "resume_snapshots" / "snapshot"
+    snapshot_trial = snapshot / "example_protocol__snapshot"
+    snapshot_trial.mkdir(parents=True)
+    (snapshot_trial / "result.json").write_text(
+        json.dumps({**result, "trial_name": snapshot_trial.name})
+    )
+
+    assert (
+        rescore_main(
+            [
+                "--runs-root",
+                str(job),
+                "--groundtruth-root",
+                str(tmp_path / "groundtruth"),
+                "--schema-root",
+                str(SCHEMA_ROOT),
+            ]
+        )
+        == 0
+    )
+
+    summary = json.loads(
+        (
+            job
+            / "rescore"
+            / f"libgen-{LIBGEN_BENCHMARK_VERSION}"
+            / "summary.json"
+        ).read_text()
+    )
+    assert summary["trial_count"] == 1
+    assert summary["trials"][0]["trial_name"] == trial.name
+    assert not (snapshot_trial / "verifier" / "rescore").exists()
+
+
+def test_single_trial_rescore_writes_immutable_local_summary(tmp_path: Path) -> None:
+    groundtruth = tmp_path / "groundtruth" / "example_protocol"
+    groundtruth.mkdir(parents=True)
+    legacy_t3 = t3_groundtruth()
+    legacy_workflow = legacy_t3["workflows"][0]
+    final_outputs = legacy_workflow.pop("final_outputs")
+    legacy_workflow["modality"] = final_outputs[0]["modality"]
+    legacy_workflow["final_state_ids"] = [item["state_id"] for item in final_outputs]
+    for filename, document in (
+        ("groundtruth_final_lib_struct.json", t1_groundtruth()),
+        ("groundtruth_oligos.json", t2_groundtruth()),
+        ("groundtruth_library_generation_workflow.json", legacy_t3),
+    ):
+        (groundtruth / filename).write_text(json.dumps(document))
+
+    trial = tmp_path / "runs" / "job" / "example_protocol__local"
+    artifacts = trial / "artifacts" / "logs" / "artifacts"
+    artifacts.mkdir(parents=True)
+    (artifacts / "t2_prediction.json").write_text(json.dumps(t2_prediction()))
+    (artifacts / "t3_prediction.json").write_text(json.dumps(t3_prediction()))
+    (trial / "result.json").write_text(
+        json.dumps(
+            {
+                "trial_name": trial.name,
+                "task_name": "sequencing/libgen-example_protocol",
+            }
+        )
+    )
+
+    assert (
+        rescore_main(
+            [
+                "--runs-root",
+                str(trial),
+                "--groundtruth-root",
+                str(tmp_path / "groundtruth"),
+                "--schema-root",
+                str(SCHEMA_ROOT),
+            ]
+        )
+        == 0
+    )
+
+    versioned = trial / "verifier" / "rescore" / f"libgen-{LIBGEN_BENCHMARK_VERSION}"
+    summary = json.loads((versioned / "summary.json").read_text())
+    assert summary["trial_count"] == 1
+    assert summary["trials"][0]["trial_name"] == trial.name
+    assert summary["trials"][0]["groundtruth_transform"] == (
+        "legacy_workflow_terminal_contract_to_final_outputs_v1"
+    )
+    effective_t3 = json.loads(
+        (
+            versioned
+            / "effective_groundtruth"
+            / "groundtruth_library_generation_workflow.json"
+        ).read_text()
+    )
+    assert effective_t3["workflows"][0]["final_outputs"] == final_outputs
+    assert not (
+        trial.parent / "rescore" / f"libgen-{LIBGEN_BENCHMARK_VERSION}" / "summary.json"
+    ).exists()

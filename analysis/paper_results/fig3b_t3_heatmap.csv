@@ -1,91 +1,91 @@
 "system_id","system_label","model","harness","model_annotation","harness_annotation","system_group","clustered_system_order","protocol_id","protocol_label","protocol_order","t3_molecular_transition_f1"
-"claude_mini_swe","Claude + mini-SWE","Claude","mini-SWE","Claude","mini-SWE","shared",1,"10x_chromium_3_gene_expression_v4","10x 3' GEX v4",1,0
-"claude_mini_swe","Claude + mini-SWE","Claude","mini-SWE","Claude","mini-SWE","shared",1,"ddseq_single_cell_3_rna_seq_kit","ddSEQ 3' RNA",2,0.480769230769231
-"claude_mini_swe","Claude + mini-SWE","Claude","mini-SWE","Claude","mini-SWE","shared",1,"dr_seq","DR-seq",3,0.596212121212121
-"claude_mini_swe","Claude + mini-SWE","Claude","mini-SWE","Claude","mini-SWE","shared",1,"indrop_v1","inDrop v1",4,0.890976331360947
-"claude_mini_swe","Claude + mini-SWE","Claude","mini-SWE","Claude","mini-SWE","shared",1,"petri_seq","PETRI-seq",5,0.951418123086098
-"claude_mini_swe","Claude + mini-SWE","Claude","mini-SWE","Claude","mini-SWE","shared",1,"pip_seq_v4","PIP-seq v4",6,0.589780853517878
-"claude_mini_swe","Claude + mini-SWE","Claude","mini-SWE","Claude","mini-SWE","shared",1,"sci_atac_seq","sci-ATAC-seq",7,0.502777777777778
-"claude_mini_swe","Claude + mini-SWE","Claude","mini-SWE","Claude","mini-SWE","shared",1,"scrrbs","scRRBS",8,0.863131313131313
-"claude_mini_swe","Claude + mini-SWE","Claude","mini-SWE","Claude","mini-SWE","shared",1,"share_seq","SHARE-seq",9,0.750809057923082
-"claude_mini_swe","Claude + mini-SWE","Claude","mini-SWE","Claude","mini-SWE","shared",1,"smart_seq","SMART-seq",10,0.722777777777778
-"claude_code","Claude + Claude Code","Claude","Native","Claude","Claude Code","native",2,"10x_chromium_3_gene_expression_v4","10x 3' GEX v4",1,0.792307692307692
-"claude_code","Claude + Claude Code","Claude","Native","Claude","Claude Code","native",2,"ddseq_single_cell_3_rna_seq_kit","ddSEQ 3' RNA",2,0.716071428571429
-"claude_code","Claude + Claude Code","Claude","Native","Claude","Claude Code","native",2,"dr_seq","DR-seq",3,0.567896825396825
-"claude_code","Claude + Claude Code","Claude","Native","Claude","Claude Code","native",2,"indrop_v1","inDrop v1",4,0.497649572649573
-"claude_code","Claude + Claude Code","Claude","Native","Claude","Claude Code","native",2,"petri_seq","PETRI-seq",5,0.842471066154761
-"claude_code","Claude + Claude Code","Claude","Native","Claude","Claude Code","native",2,"pip_seq_v4","PIP-seq v4",6,0.71957153231663
-"claude_code","Claude + Claude Code","Claude","Native","Claude","Claude Code","native",2,"sci_atac_seq","sci-ATAC-seq",7,0.594444444444444
-"claude_code","Claude + Claude Code","Claude","Native","Claude","Claude Code","native",2,"scrrbs","scRRBS",8,0.863131313131313
-"claude_code","Claude + Claude Code","Claude","Native","Claude","Claude Code","native",2,"share_seq","SHARE-seq",9,0.762194080248631
-"claude_code","Claude + Claude Code","Claude","Native","Claude","Claude Code","native",2,"smart_seq","SMART-seq",10,0.747368421052632
-"gpt_pi","GPT + Pi","GPT","Pi","GPT","Pi","shared",3,"10x_chromium_3_gene_expression_v4","10x 3' GEX v4",1,0.655203619909502
-"gpt_pi","GPT + Pi","GPT","Pi","GPT","Pi","shared",3,"ddseq_single_cell_3_rna_seq_kit","ddSEQ 3' RNA",2,0.54551282051282
-"gpt_pi","GPT + Pi","GPT","Pi","GPT","Pi","shared",3,"dr_seq","DR-seq",3,0.582142857142857
-"gpt_pi","GPT + Pi","GPT","Pi","GPT","Pi","shared",3,"indrop_v1","inDrop v1",4,0.708846153846154
-"gpt_pi","GPT + Pi","GPT","Pi","GPT","Pi","shared",3,"petri_seq","PETRI-seq",5,0.873822552412778
-"gpt_pi","GPT + Pi","GPT","Pi","GPT","Pi","shared",3,"pip_seq_v4","PIP-seq v4",6,0.528437281626887
-"gpt_pi","GPT + Pi","GPT","Pi","GPT","Pi","shared",3,"sci_atac_seq","sci-ATAC-seq",7,0.550676328502415
-"gpt_pi","GPT + Pi","GPT","Pi","GPT","Pi","shared",3,"scrrbs","scRRBS",8,0.949444444444444
-"gpt_pi","GPT + Pi","GPT","Pi","GPT","Pi","shared",3,"share_seq","SHARE-seq",9,0.738891355767417
-"gpt_pi","GPT + Pi","GPT","Pi","GPT","Pi","shared",3,"smart_seq","SMART-seq",10,0.571442495126706
-"gemini_pi","Gemini + Pi","Gemini","Pi","Gemini","Pi","shared",4,"10x_chromium_3_gene_expression_v4","10x 3' GEX v4",1,0.6375
-"gemini_pi","Gemini + Pi","Gemini","Pi","Gemini","Pi","shared",4,"ddseq_single_cell_3_rna_seq_kit","ddSEQ 3' RNA",2,0.392307692307692
-"gemini_pi","Gemini + Pi","Gemini","Pi","Gemini","Pi","shared",4,"dr_seq","DR-seq",3,0.486363636363636
-"gemini_pi","Gemini + Pi","Gemini","Pi","Gemini","Pi","shared",4,"indrop_v1","inDrop v1",4,0.890976331360947
-"gemini_pi","Gemini + Pi","Gemini","Pi","Gemini","Pi","shared",4,"petri_seq","PETRI-seq",5,0.980968950509266
-"gemini_pi","Gemini + Pi","Gemini","Pi","Gemini","Pi","shared",4,"pip_seq_v4","PIP-seq v4",6,0.862254901960784
-"gemini_pi","Gemini + Pi","Gemini","Pi","Gemini","Pi","shared",4,"sci_atac_seq","sci-ATAC-seq",7,0.57
-"gemini_pi","Gemini + Pi","Gemini","Pi","Gemini","Pi","shared",4,"scrrbs","scRRBS",8,0.741203703703704
-"gemini_pi","Gemini + Pi","Gemini","Pi","Gemini","Pi","shared",4,"share_seq","SHARE-seq",9,0.799757230130745
-"gemini_pi","Gemini + Pi","Gemini","Pi","Gemini","Pi","shared",4,"smart_seq","SMART-seq",10,0.416666666666667
-"gemini_mini_swe","Gemini + mini-SWE","Gemini","mini-SWE","Gemini","mini-SWE","shared",5,"10x_chromium_3_gene_expression_v4","10x 3' GEX v4",1,0.796969696969697
-"gemini_mini_swe","Gemini + mini-SWE","Gemini","mini-SWE","Gemini","mini-SWE","shared",5,"ddseq_single_cell_3_rna_seq_kit","ddSEQ 3' RNA",2,0.473076923076923
-"gemini_mini_swe","Gemini + mini-SWE","Gemini","mini-SWE","Gemini","mini-SWE","shared",5,"dr_seq","DR-seq",3,0.481746031746032
-"gemini_mini_swe","Gemini + mini-SWE","Gemini","mini-SWE","Gemini","mini-SWE","shared",5,"indrop_v1","inDrop v1",4,0.783284023668639
-"gemini_mini_swe","Gemini + mini-SWE","Gemini","mini-SWE","Gemini","mini-SWE","shared",5,"petri_seq","PETRI-seq",5,0.980968950509266
-"gemini_mini_swe","Gemini + mini-SWE","Gemini","mini-SWE","Gemini","mini-SWE","shared",5,"pip_seq_v4","PIP-seq v4",6,0.778411566646861
-"gemini_mini_swe","Gemini + mini-SWE","Gemini","mini-SWE","Gemini","mini-SWE","shared",5,"sci_atac_seq","sci-ATAC-seq",7,0.57
-"gemini_mini_swe","Gemini + mini-SWE","Gemini","mini-SWE","Gemini","mini-SWE","shared",5,"scrrbs","scRRBS",8,0.889444444444444
-"gemini_mini_swe","Gemini + mini-SWE","Gemini","mini-SWE","Gemini","mini-SWE","shared",5,"share_seq","SHARE-seq",9,0.745519368624207
-"gemini_mini_swe","Gemini + mini-SWE","Gemini","mini-SWE","Gemini","mini-SWE","shared",5,"smart_seq","SMART-seq",10,0.416666666666667
-"claude_pi","Claude + Pi","Claude","Pi","Claude","Pi","shared",6,"10x_chromium_3_gene_expression_v4","10x 3' GEX v4",1,0.9
-"claude_pi","Claude + Pi","Claude","Pi","Claude","Pi","shared",6,"ddseq_single_cell_3_rna_seq_kit","ddSEQ 3' RNA",2,0.536666666666667
-"claude_pi","Claude + Pi","Claude","Pi","Claude","Pi","shared",6,"dr_seq","DR-seq",3,0.596739130434783
-"claude_pi","Claude + Pi","Claude","Pi","Claude","Pi","shared",6,"indrop_v1","inDrop v1",4,0.827313071543841
-"claude_pi","Claude + Pi","Claude","Pi","Claude","Pi","shared",6,"petri_seq","PETRI-seq",5,0.86170183538553
-"claude_pi","Claude + Pi","Claude","Pi","Claude","Pi","shared",6,"pip_seq_v4","PIP-seq v4",6,0.788562091503268
-"claude_pi","Claude + Pi","Claude","Pi","Claude","Pi","shared",6,"sci_atac_seq","sci-ATAC-seq",7,0.502777777777778
-"claude_pi","Claude + Pi","Claude","Pi","Claude","Pi","shared",6,"scrrbs","scRRBS",8,0.863131313131313
-"claude_pi","Claude + Pi","Claude","Pi","Claude","Pi","shared",6,"share_seq","SHARE-seq",9,0.76328103677037
-"claude_pi","Claude + Pi","Claude","Pi","Claude","Pi","shared",6,"smart_seq","SMART-seq",10,0.713684210526316
-"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native","Gemini","Antigravity CLI","native",7,"10x_chromium_3_gene_expression_v4","10x 3' GEX v4",1,0.9
-"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native","Gemini","Antigravity CLI","native",7,"ddseq_single_cell_3_rna_seq_kit","ddSEQ 3' RNA",2,0.413636363636364
-"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native","Gemini","Antigravity CLI","native",7,"dr_seq","DR-seq",3,0.52536231884058
-"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native","Gemini","Antigravity CLI","native",7,"indrop_v1","inDrop v1",4,0.806360946745562
-"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native","Gemini","Antigravity CLI","native",7,"petri_seq","PETRI-seq",5,0.980968950509266
-"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native","Gemini","Antigravity CLI","native",7,"pip_seq_v4","PIP-seq v4",6,0.777936224995048
-"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native","Gemini","Antigravity CLI","native",7,"sci_atac_seq","sci-ATAC-seq",7,0.563521969174143
-"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native","Gemini","Antigravity CLI","native",7,"scrrbs","scRRBS",8,0.808585858585859
-"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native","Gemini","Antigravity CLI","native",7,"share_seq","SHARE-seq",9,0.666426146010187
-"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native","Gemini","Antigravity CLI","native",7,"smart_seq","SMART-seq",10,0.602777777777778
-"gpt_mini_swe","GPT + mini-SWE","GPT","mini-SWE","GPT","mini-SWE","shared",8,"10x_chromium_3_gene_expression_v4","10x 3' GEX v4",1,0.9
-"gpt_mini_swe","GPT + mini-SWE","GPT","mini-SWE","GPT","mini-SWE","shared",8,"ddseq_single_cell_3_rna_seq_kit","ddSEQ 3' RNA",2,0.4
-"gpt_mini_swe","GPT + mini-SWE","GPT","mini-SWE","GPT","mini-SWE","shared",8,"dr_seq","DR-seq",3,0
-"gpt_mini_swe","GPT + mini-SWE","GPT","mini-SWE","GPT","mini-SWE","shared",8,"indrop_v1","inDrop v1",4,0.708846153846154
-"gpt_mini_swe","GPT + mini-SWE","GPT","mini-SWE","GPT","mini-SWE","shared",8,"petri_seq","PETRI-seq",5,0.935086853736253
-"gpt_mini_swe","GPT + mini-SWE","GPT","mini-SWE","GPT","mini-SWE","shared",8,"pip_seq_v4","PIP-seq v4",6,0.491188853953179
-"gpt_mini_swe","GPT + mini-SWE","GPT","mini-SWE","GPT","mini-SWE","shared",8,"sci_atac_seq","sci-ATAC-seq",7,0.483521969174143
-"gpt_mini_swe","GPT + mini-SWE","GPT","mini-SWE","GPT","mini-SWE","shared",8,"scrrbs","scRRBS",8,0.949444444444444
-"gpt_mini_swe","GPT + mini-SWE","GPT","mini-SWE","GPT","mini-SWE","shared",8,"share_seq","SHARE-seq",9,0.620755880603079
-"gpt_mini_swe","GPT + mini-SWE","GPT","mini-SWE","GPT","mini-SWE","shared",8,"smart_seq","SMART-seq",10,0.551998050682261
-"gpt_codex","GPT + Codex","GPT","Native","GPT","Codex","native",9,"10x_chromium_3_gene_expression_v4","10x 3' GEX v4",1,0.792307692307692
-"gpt_codex","GPT + Codex","GPT","Native","GPT","Codex","native",9,"ddseq_single_cell_3_rna_seq_kit","ddSEQ 3' RNA",2,0.569642857142857
-"gpt_codex","GPT + Codex","GPT","Native","GPT","Codex","native",9,"dr_seq","DR-seq",3,0.470833333333333
-"gpt_codex","GPT + Codex","GPT","Native","GPT","Codex","native",9,"indrop_v1","inDrop v1",4,0.827313071543841
-"gpt_codex","GPT + Codex","GPT","Native","GPT","Codex","native",9,"petri_seq","PETRI-seq",5,0.935086853736253
-"gpt_codex","GPT + Codex","GPT","Native","GPT","Codex","native",9,"pip_seq_v4","PIP-seq v4",6,0.590478614301762
-"gpt_codex","GPT + Codex","GPT","Native","GPT","Codex","native",9,"sci_atac_seq","sci-ATAC-seq",7,0.483521969174143
-"gpt_codex","GPT + Codex","GPT","Native","GPT","Codex","native",9,"scrrbs","scRRBS",8,0.894444444444444
-"gpt_codex","GPT + Codex","GPT","Native","GPT","Codex","native",9,"share_seq","SHARE-seq",9,0.727880150082114
-"gpt_codex","GPT + Codex","GPT","Native","GPT","Codex","native",9,"smart_seq","SMART-seq",10,0.641366574330564
+"claude_code","Claude + Claude Code","Claude","Native","Claude","Claude Code","native",1,"10x_chromium_3_gene_expression_v4","10x 3' GEX v4",1,0.788461538461538
+"claude_code","Claude + Claude Code","Claude","Native","Claude","Claude Code","native",1,"ddseq_single_cell_3_rna_seq_kit","ddSEQ 3' RNA",2,0.828571428571429
+"claude_code","Claude + Claude Code","Claude","Native","Claude","Claude Code","native",1,"dr_seq","DR-seq",3,0.58109126984127
+"claude_code","Claude + Claude Code","Claude","Native","Claude","Claude Code","native",1,"indrop_v1","inDrop v1",4,0.592214397496088
+"claude_code","Claude + Claude Code","Claude","Native","Claude","Claude Code","native",1,"petri_seq","PETRI-seq",5,0.863574745084527
+"claude_code","Claude + Claude Code","Claude","Native","Claude","Claude Code","native",1,"pip_seq_v4","PIP-seq v4",6,0.760233918128655
+"claude_code","Claude + Claude Code","Claude","Native","Claude","Claude Code","native",1,"sci_atac_seq","sci-ATAC-seq",7,0.652777777777778
+"claude_code","Claude + Claude Code","Claude","Native","Claude","Claude Code","native",1,"scrrbs","scRRBS",8,0.813131313131313
+"claude_code","Claude + Claude Code","Claude","Native","Claude","Claude Code","native",1,"share_seq","SHARE-seq",9,0.721739130434783
+"claude_code","Claude + Claude Code","Claude","Native","Claude","Claude Code","native",1,"smart_seq","SMART-seq",10,0.836842105263158
+"gemini_pi","Gemini + Pi","Gemini","Pi","Gemini","Pi","shared",2,"10x_chromium_3_gene_expression_v4","10x 3' GEX v4",1,0.6375
+"gemini_pi","Gemini + Pi","Gemini","Pi","Gemini","Pi","shared",2,"ddseq_single_cell_3_rna_seq_kit","ddSEQ 3' RNA",2,0.434615384615385
+"gemini_pi","Gemini + Pi","Gemini","Pi","Gemini","Pi","shared",2,"dr_seq","DR-seq",3,0.628409090909091
+"gemini_pi","Gemini + Pi","Gemini","Pi","Gemini","Pi","shared",2,"indrop_v1","inDrop v1",4,0.893066088840737
+"gemini_pi","Gemini + Pi","Gemini","Pi","Gemini","Pi","shared",2,"petri_seq","PETRI-seq",5,0.982997936016512
+"gemini_pi","Gemini + Pi","Gemini","Pi","Gemini","Pi","shared",2,"pip_seq_v4","PIP-seq v4",6,0.86240253411306
+"gemini_pi","Gemini + Pi","Gemini","Pi","Gemini","Pi","shared",2,"sci_atac_seq","sci-ATAC-seq",7,0.57
+"gemini_pi","Gemini + Pi","Gemini","Pi","Gemini","Pi","shared",2,"scrrbs","scRRBS",8,0.69537037037037
+"gemini_pi","Gemini + Pi","Gemini","Pi","Gemini","Pi","shared",2,"share_seq","SHARE-seq",9,0.78421052631579
+"gemini_pi","Gemini + Pi","Gemini","Pi","Gemini","Pi","shared",2,"smart_seq","SMART-seq",10,0.420833333333333
+"gemini_mini_swe","Gemini + mini-SWE","Gemini","mini-SWE","Gemini","mini-SWE","shared",3,"10x_chromium_3_gene_expression_v4","10x 3' GEX v4",1,0.796969696969697
+"gemini_mini_swe","Gemini + mini-SWE","Gemini","mini-SWE","Gemini","mini-SWE","shared",3,"ddseq_single_cell_3_rna_seq_kit","ddSEQ 3' RNA",2,0.492307692307692
+"gemini_mini_swe","Gemini + mini-SWE","Gemini","mini-SWE","Gemini","mini-SWE","shared",3,"dr_seq","DR-seq",3,0.484126984126984
+"gemini_mini_swe","Gemini + mini-SWE","Gemini","mini-SWE","Gemini","mini-SWE","shared",3,"indrop_v1","inDrop v1",4,0.873835319609967
+"gemini_mini_swe","Gemini + mini-SWE","Gemini","mini-SWE","Gemini","mini-SWE","shared",3,"petri_seq","PETRI-seq",5,0.982997936016512
+"gemini_mini_swe","Gemini + mini-SWE","Gemini","mini-SWE","Gemini","mini-SWE","shared",3,"pip_seq_v4","PIP-seq v4",6,0.778522062732589
+"gemini_mini_swe","Gemini + mini-SWE","Gemini","mini-SWE","Gemini","mini-SWE","shared",3,"sci_atac_seq","sci-ATAC-seq",7,0.57
+"gemini_mini_swe","Gemini + mini-SWE","Gemini","mini-SWE","Gemini","mini-SWE","shared",3,"scrrbs","scRRBS",8,0.889444444444444
+"gemini_mini_swe","Gemini + mini-SWE","Gemini","mini-SWE","Gemini","mini-SWE","shared",3,"share_seq","SHARE-seq",9,0.76125
+"gemini_mini_swe","Gemini + mini-SWE","Gemini","mini-SWE","Gemini","mini-SWE","shared",3,"smart_seq","SMART-seq",10,0.395833333333333
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native","Gemini","Antigravity CLI","native",4,"10x_chromium_3_gene_expression_v4","10x 3' GEX v4",1,0.9
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native","Gemini","Antigravity CLI","native",4,"ddseq_single_cell_3_rna_seq_kit","ddSEQ 3' RNA",2,0.386363636363636
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native","Gemini","Antigravity CLI","native",4,"dr_seq","DR-seq",3,0.520933977455717
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native","Gemini","Antigravity CLI","native",4,"indrop_v1","inDrop v1",4,0.808450704225352
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native","Gemini","Antigravity CLI","native",4,"petri_seq","PETRI-seq",5,0.982997936016512
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native","Gemini","Antigravity CLI","native",4,"pip_seq_v4","PIP-seq v4",6,0.778043593833068
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native","Gemini","Antigravity CLI","native",4,"sci_atac_seq","sci-ATAC-seq",7,0.563521969174143
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native","Gemini","Antigravity CLI","native",4,"scrrbs","scRRBS",8,0.808585858585859
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native","Gemini","Antigravity CLI","native",4,"share_seq","SHARE-seq",9,0.697368421052632
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native","Gemini","Antigravity CLI","native",4,"smart_seq","SMART-seq",10,0.6
+"gpt_pi","GPT + Pi","GPT","Pi","GPT","Pi","shared",5,"10x_chromium_3_gene_expression_v4","10x 3' GEX v4",1,0.782126696832579
+"gpt_pi","GPT + Pi","GPT","Pi","GPT","Pi","shared",5,"ddseq_single_cell_3_rna_seq_kit","ddSEQ 3' RNA",2,0.541666666666667
+"gpt_pi","GPT + Pi","GPT","Pi","GPT","Pi","shared",5,"dr_seq","DR-seq",3,0.607698412698413
+"gpt_pi","GPT + Pi","GPT","Pi","GPT","Pi","shared",5,"indrop_v1","inDrop v1",4,0.710657276995305
+"gpt_pi","GPT + Pi","GPT","Pi","GPT","Pi","shared",5,"petri_seq","PETRI-seq",5,0.837375183991726
+"gpt_pi","GPT + Pi","GPT","Pi","GPT","Pi","shared",5,"pip_seq_v4","PIP-seq v4",6,0.728688708951867
+"gpt_pi","GPT + Pi","GPT","Pi","GPT","Pi","shared",5,"sci_atac_seq","sci-ATAC-seq",7,0.57
+"gpt_pi","GPT + Pi","GPT","Pi","GPT","Pi","shared",5,"scrrbs","scRRBS",8,0.949444444444444
+"gpt_pi","GPT + Pi","GPT","Pi","GPT","Pi","shared",5,"share_seq","SHARE-seq",9,0.739134125636672
+"gpt_pi","GPT + Pi","GPT","Pi","GPT","Pi","shared",5,"smart_seq","SMART-seq",10,0.663109161793372
+"gpt_mini_swe","GPT + mini-SWE","GPT","mini-SWE","GPT","mini-SWE","shared",6,"10x_chromium_3_gene_expression_v4","10x 3' GEX v4",1,0.9
+"gpt_mini_swe","GPT + mini-SWE","GPT","mini-SWE","GPT","mini-SWE","shared",6,"ddseq_single_cell_3_rna_seq_kit","ddSEQ 3' RNA",2,0.4
+"gpt_mini_swe","GPT + mini-SWE","GPT","mini-SWE","GPT","mini-SWE","shared",6,"dr_seq","DR-seq",3,0.622619047619048
+"gpt_mini_swe","GPT + mini-SWE","GPT","mini-SWE","GPT","mini-SWE","shared",6,"indrop_v1","inDrop v1",4,0.710657276995305
+"gpt_mini_swe","GPT + mini-SWE","GPT","mini-SWE","GPT","mini-SWE","shared",6,"petri_seq","PETRI-seq",5,0.937115839243499
+"gpt_mini_swe","GPT + mini-SWE","GPT","mini-SWE","GPT","mini-SWE","shared",6,"pip_seq_v4","PIP-seq v4",6,0.50491277174432
+"gpt_mini_swe","GPT + mini-SWE","GPT","mini-SWE","GPT","mini-SWE","shared",6,"sci_atac_seq","sci-ATAC-seq",7,0.483521969174143
+"gpt_mini_swe","GPT + mini-SWE","GPT","mini-SWE","GPT","mini-SWE","shared",6,"scrrbs","scRRBS",8,0.949444444444444
+"gpt_mini_swe","GPT + mini-SWE","GPT","mini-SWE","GPT","mini-SWE","shared",6,"share_seq","SHARE-seq",9,0.621591258848876
+"gpt_mini_swe","GPT + mini-SWE","GPT","mini-SWE","GPT","mini-SWE","shared",6,"smart_seq","SMART-seq",10,0.74088693957115
+"gpt_codex","GPT + Codex","GPT","Native","GPT","Codex","native",7,"10x_chromium_3_gene_expression_v4","10x 3' GEX v4",1,0.788461538461538
+"gpt_codex","GPT + Codex","GPT","Native","GPT","Codex","native",7,"ddseq_single_cell_3_rna_seq_kit","ddSEQ 3' RNA",2,0.591071428571429
+"gpt_codex","GPT + Codex","GPT","Native","GPT","Codex","native",7,"dr_seq","DR-seq",3,0.463333333333333
+"gpt_codex","GPT + Codex","GPT","Native","GPT","Codex","native",7,"indrop_v1","inDrop v1",4,0.894799566630552
+"gpt_codex","GPT + Codex","GPT","Native","GPT","Codex","native",7,"petri_seq","PETRI-seq",5,0.937115839243499
+"gpt_codex","GPT + Codex","GPT","Native","GPT","Codex","native",7,"pip_seq_v4","PIP-seq v4",6,0.608234210935518
+"gpt_codex","GPT + Codex","GPT","Native","GPT","Codex","native",7,"sci_atac_seq","sci-ATAC-seq",7,0.483521969174143
+"gpt_codex","GPT + Codex","GPT","Native","GPT","Codex","native",7,"scrrbs","scRRBS",8,0.949444444444444
+"gpt_codex","GPT + Codex","GPT","Native","GPT","Codex","native",7,"share_seq","SHARE-seq",9,0.673632538569425
+"gpt_codex","GPT + Codex","GPT","Native","GPT","Codex","native",7,"smart_seq","SMART-seq",10,0.757156048014774
+"claude_pi","Claude + Pi","Claude","Pi","Claude","Pi","shared",8,"10x_chromium_3_gene_expression_v4","10x 3' GEX v4",1,0.9
+"claude_pi","Claude + Pi","Claude","Pi","Claude","Pi","shared",8,"ddseq_single_cell_3_rna_seq_kit","ddSEQ 3' RNA",2,0.534444444444444
+"claude_pi","Claude + Pi","Claude","Pi","Claude","Pi","shared",8,"dr_seq","DR-seq",3,0.594202898550725
+"claude_pi","Claude + Pi","Claude","Pi","Claude","Pi","shared",8,"indrop_v1","inDrop v1",4,0.829414951245937
+"claude_pi","Claude + Pi","Claude","Pi","Claude","Pi","shared",8,"petri_seq","PETRI-seq",5,0.863574745084527
+"claude_pi","Claude + Pi","Claude","Pi","Claude","Pi","shared",8,"pip_seq_v4","PIP-seq v4",6,0.831390977443609
+"claude_pi","Claude + Pi","Claude","Pi","Claude","Pi","shared",8,"sci_atac_seq","sci-ATAC-seq",7,0.458333333333333
+"claude_pi","Claude + Pi","Claude","Pi","Claude","Pi","shared",8,"scrrbs","scRRBS",8,0.813131313131313
+"claude_pi","Claude + Pi","Claude","Pi","Claude","Pi","shared",8,"share_seq","SHARE-seq",9,0.79631324688533
+"claude_pi","Claude + Pi","Claude","Pi","Claude","Pi","shared",8,"smart_seq","SMART-seq",10,0.836842105263158
+"claude_mini_swe","Claude + mini-SWE","Claude","mini-SWE","Claude","mini-SWE","shared",9,"10x_chromium_3_gene_expression_v4","10x 3' GEX v4",1,0.9
+"claude_mini_swe","Claude + mini-SWE","Claude","mini-SWE","Claude","mini-SWE","shared",9,"ddseq_single_cell_3_rna_seq_kit","ddSEQ 3' RNA",2,0.5
+"claude_mini_swe","Claude + mini-SWE","Claude","mini-SWE","Claude","mini-SWE","shared",9,"dr_seq","DR-seq",3,0.576136363636364
+"claude_mini_swe","Claude + mini-SWE","Claude","mini-SWE","Claude","mini-SWE","shared",9,"indrop_v1","inDrop v1",4,0.893066088840737
+"claude_mini_swe","Claude + mini-SWE","Claude","mini-SWE","Claude","mini-SWE","shared",9,"petri_seq","PETRI-seq",5,0.953447108593344
+"claude_mini_swe","Claude + mini-SWE","Claude","mini-SWE","Claude","mini-SWE","shared",9,"pip_seq_v4","PIP-seq v4",6,0.626762985896113
+"claude_mini_swe","Claude + mini-SWE","Claude","mini-SWE","Claude","mini-SWE","shared",9,"sci_atac_seq","sci-ATAC-seq",7,0.458333333333333
+"claude_mini_swe","Claude + mini-SWE","Claude","mini-SWE","Claude","mini-SWE","shared",9,"scrrbs","scRRBS",8,0.813131313131313
+"claude_mini_swe","Claude + mini-SWE","Claude","mini-SWE","Claude","mini-SWE","shared",9,"share_seq","SHARE-seq",9,0.769318181818182
+"claude_mini_swe","Claude + mini-SWE","Claude","mini-SWE","Claude","mini-SWE","shared",9,"smart_seq","SMART-seq",10,0.788888888888889

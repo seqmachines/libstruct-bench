@@ -16,8 +16,10 @@ hooks:
 
 - `/audit-protocol <protocol_id>` audits one protocol.
 - `/audit-protocol <id1> ... <id10>` prepares up to ten protocols concurrently.
+- When the system prompt declares `PHASE: legacy_conversion`, act only as the
+  legacy/current-input conversion worker. Primary evidence is unavailable.
 - When the system prompt declares `PHASE: comparison`, act only as the
-  conversion-first, read-only worker.
+  primary-evidence comparison worker.
 - Otherwise act as the interactive controller and keep commands/details out of
   the console unless they are needed to resolve a blocker.
 
@@ -88,11 +90,14 @@ the tool if this contract is missed; on that continuation, call
    resolve them by availability instead of asking the human.
 4. For each approved protocol:
    - create deterministic renditions;
-   - build one packet containing legacy HTML, current T1/T2/T3 records, the
-     reviewed TSV projection, primary sources and renditions, and optional run
-     artifacts;
-   - run one comparison worker. It must finish the canonical legacy conversion
-     before reading primary sources, then validate that candidate against them;
+   - build one isolated conversion packet containing only legacy HTML, current
+     T1/T2/T3 records, and the reviewed TSV projection;
+   - run one conversion worker and freeze its schema-valid linked T1-T3 bundle;
+   - build one comparison packet containing that hash-pinned conversion,
+     primary sources and renditions, the original legacy/current lineage, and
+     optional run artifacts;
+   - run one comparison worker to validate the frozen candidate against the
+     primary sources;
    - stop with one validated proposal.
 5. Keep packets and runs immutable and hash-pinned. Workers are read-only. If
    invoking a nested Claude process, use `env -u CLAUDECODE`.
@@ -111,7 +116,12 @@ the tool if this contract is missed; on that continuation, call
    omission caused a rejection, attribute the failure to
    `agent_harness_or_context_error` with harness responsibility and confirmed
    cause `agent_harness_or_context_error`, not to human curation. Keep this
-   diagnostic attribution separate from scientific ground truth.
+   diagnostic attribution separate from scientific ground truth. After the
+   harness fix lands, use `libstruct-revalidate-claude-audit` on a preserved
+   complete artifact before considering another full comparison. Revalidation
+   must retain the original rejected run, use the same frozen packet, perform
+   no model call, and pass the entire current validation gate; it cannot fill a
+   missing scientific issue or change a frozen candidate.
 6. Prepare `review.txt` and a working decision JSON for the protocol iteration.
    Do not generate HTML; adjudication happens entirely in this console.
 7. Walk review-required issues interactively by default. An issue requires an
@@ -200,8 +210,14 @@ the tool if this contract is missed; on that continuation, call
     choices. Do not stop at a finalization recap or silently move past the
     application gate once the selected review queue is complete.
 14. Only an explicit apply-and-promote answer authorizes the deterministic
-    action. Generate fresh candidates from the pinned baselines, verify proposal
-    and decision hashes, apply accepted patches, validate linked T1–T3, run
+    action. For a patch review, generate fresh candidates from the pinned
+    baselines and apply accepted patches. For a conversion-first review, pass
+    the three compiled candidate paths to deterministic application; it must
+    verify their exact approved hashes, retain every proposal-stage and
+    post-proposal fact-check decision in lineage, and synthesize exactly one
+    root add/replace regression per deferred T1/T2/T3 root. Never reconstruct
+    fictitious per-field patches for compiled decisions. In both modes verify
+    proposal, baseline, and decision hashes, validate linked T1–T3, run
     correction regressions, and promote each successful protocol's three files
     to `/Users/seqmachines/playground/protocols-test/ground_truth/<protocol_id>/`.
     Keep application and promotion logs under `ground_truth_audit/`, isolate a
@@ -213,9 +229,10 @@ the tool if this contract is missed; on that continuation, call
 
 1. Build the availability-resolved manifest for each protocol before starting
    its worker. Do not stop for source approval.
-2. Launch at most ten protocol-scoped workers concurrently. Each worker owns
-   only its protocol audit directory and runs one conversion-first comparison.
-3. A worker stops after its validated proposal. It cannot adjudicate, apply,
+2. Launch at most ten protocol-scoped conversion workers concurrently. After
+   their frozen bundles validate, launch the corresponding protocol-scoped
+   comparison workers. Each worker owns only its protocol audit directory.
+3. A comparison worker stops after its validated proposal. It cannot adjudicate, apply,
    promote, publish, or edit another protocol.
 4. Isolate failures. Keep completed proposals when another protocol blocks.
 5. Sort the review queue by protocol ID and severity. Human review happens
@@ -223,18 +240,39 @@ the tool if this contract is missed; on that continuation, call
    rules above. After the selected queue is fully reviewed, ask once whether to
    apply and promote the finalized, unpromoted protocols.
 
+## Legacy-conversion worker
+
+- Read only legacy HTML, current T1/T2/T3 records, and the reviewed TSV
+  projection. The packet must contain no primary sources, renditions, benchmark
+  runs, proposals, decisions, or review records.
+- Convert all three linked tasks without changing their scientific claims. T3
+  comes primarily from the ordered legacy HTML workflow. Missing information
+  stays unknown or incomplete; do not repair it from memory.
+- Return one canonical, linked, unapproved T1-T3 conversion bundle with lineage
+  to only the packet-listed legacy/current inputs. Do not emit findings,
+  approvals, or scientific conclusions.
+
 ## Comparison worker
 
-- This is one audit pass, not a benchmark task. First read only legacy HTML,
-  current T1/T2/T3 records, and the reviewed TSV projection. Do not open primary
-  sources or renditions until the complete legacy-derived candidate is fixed in
-  working context.
-- Convert every legacy-shaped current T1/T2/T3 record into a canonical
-  candidate without changing its scientific claims. T3 comes primarily from
-  the ordered legacy HTML workflow. Emit one complete root replacement issue
-  for each legacy-shaped record, or a root add when HTML-derived T3 has no JSON.
-  Preserve legacy values and locators in audit lineage, remove legacy-only
-  metadata, and do not call migration a scientific human-curation error.
+- This is an audit pass, not a benchmark task. Load the packet's hash-pinned
+  `legacy_conversion_candidate` before primary evidence. Its T1/T2/T3 values
+  are immutable starting claims. Read and audit them, but do not echo the
+  complete documents in root conversion or new-document issues: the
+  deterministic harness attaches the exact hash-pinned root envelope after the
+  worker returns. Do not rebuild or silently revise them.
+- The frozen conversion is readable context, not issue evidence. Never put its
+  `conversion_id` in `issues[].evidence[].source_id`; cite the underlying
+  packet-listed legacy/current input for the claim and primary evidence for a
+  scientific correction.
+- Compare every legacy-shaped current T1/T2/T3 record through the frozen
+  canonical candidate without changing its scientific claims. T3 comes
+  primarily from the ordered legacy HTML workflow. For a staged comparison,
+  emit only scientific delta findings; the harness owns root replacements and
+  the root add when HTML-derived T3 has no JSON. In legacy compatibility mode
+  without a staged conversion, emit the complete root issues yourself and make
+  each root `proposed_value` identical to its patch value. Preserve legacy
+  values and locators in audit lineage, remove legacy-only metadata, and do not
+  call migration a scientific human-curation error.
 - Keep approved candidates minimal. T1 has no `evidence`,
   `ground_truth_status`, `library_id`, or `strands`. T2 has no `limitations`,
   `baseline_lineage`, `evidence`, `ground_truth_status`, or `notes`. T3 has no
@@ -242,6 +280,11 @@ the tool if this contract is missed; on that continuation, call
   `workflow_branch`; use one workflow per connected molecular process, store
   modality on each terminal in `final_outputs`, and retain
   shared ancestors once before modality-specific or alternative-route branches.
+- Before returning either phase, token-check every complete T1
+  `library_sequence` and T3 strand `sequence_architecture` against its ordered
+  deterministic segments. The projection must consume the complete assembled
+  string; T1 and terminal T3 agreeing with each other does not excuse both
+  omitting a declared UMI, barcode, index, insert, or adapter segment.
 - During conversion, normalize placeholders to orientation-free
   `[ROLE:LENGTH]` values. Preserve the strand-specific bases in T1/T3 segment
   `sequence`, the source-visible oligo bases in T2, and their relationship in
@@ -274,7 +317,7 @@ the tool if this contract is missed; on that continuation, call
   candidate. Preserve legacy wording and locators in audit lineage, not on its
   states and transitions. Use current T2 IDs only as explicit identifier
   normalization; match T3 terminal states to T1 by structure.
-- Only after conversion is complete, read every included primary source and
+- Only after the frozen conversion is loaded, read every included primary source and
   rendition. Account for each primary source exactly once in `source_coverage`.
   Coverage is primary-only: never add legacy HTML, current records, the TSV
   projection, renditions as separate sources, or benchmark-run artifacts to

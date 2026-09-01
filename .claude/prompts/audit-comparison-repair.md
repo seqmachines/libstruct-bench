@@ -14,10 +14,15 @@ Make the smallest change necessary to resolve that error:
 - preserve the set and identity of audited fields, their comparison statuses,
   and every field other than `issue_ids`;
 - preserve the set of issues and each issue's task, field, category, defect,
-  responsibility, severity, target, current value, evidence, transformations,
+  responsibility, severity, target, current value, transformations,
   explanation, recommendation, confidence, and notes;
 - do not add or remove a finding, reinterpret evidence, change a source
   locator, or alter an issue conclusion;
+- preserve evidence exactly except for one narrow validator-directed repair:
+  when the error names a packet `legacy_conversion_candidate` citation as
+  inadmissible, delete only that complete evidence entry, only when at least one
+  other admissible evidence entry remains on the issue. Never add, substitute,
+  reorder, rewrite, or relocate evidence;
 - change a complete T1/T2/T3 root candidate only inside the corresponding
   issue's `proposed_value` and root `proposed_patch`, and only when required by
   the reported schema or linked-candidate error;

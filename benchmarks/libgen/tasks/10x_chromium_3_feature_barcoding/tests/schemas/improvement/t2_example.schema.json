@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/improvement/t2_example.schema.json",
+  "title": "Pseudonymous T2 exemplar",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "exemplar_id", "example", "example_digest"],
+  "properties": {
+    "schema_version": {"const": "libstruct.libgen_t2_example.v1"},
+    "exemplar_id": {"$ref": "#/$defs/exemplar_id"},
+    "example": {"$ref": "#/$defs/prediction"},
+    "example_digest": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "exemplar_id": {"type": "string", "pattern": "^exm-[a-f0-9]{32}$"},
+    "id": {"type": "string", "pattern": "^oligo-[0-9]{3}$"},
+    "prediction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["protocol_id", "oligos"],
+      "properties": {
+        "protocol_id": {"$ref": "#/$defs/exemplar_id"},
+        "oligos": {"type": "array", "items": {"$ref": "#/$defs/oligo"}}
+      }
+    },
+    "component": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "role", "orientation", "modifications"],
+      "properties": {
+        "name": {"type": "string", "minLength": 1},
+        "role": {"type": "string", "minLength": 1},
+        "sequence": {"type": "string", "minLength": 1},
+        "length": {"type": "integer", "minimum": 0},
+        "placeholder": {"type": "string", "minLength": 1},
+        "orientation": {"type": "string", "enum": ["5_to_3", "3_to_5", "unknown"]},
+        "modifications": {"type": "array", "items": {"type": "string", "minLength": 1}}
+      },
+      "anyOf": [{"required": ["sequence"]}, {"required": ["length"]}, {"required": ["placeholder"]}]
+    },
+    "oligo": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["oligo_id", "name", "aliases", "role", "kind", "orientation", "components", "modifications"],
+      "properties": {
+        "oligo_id": {"$ref": "#/$defs/id"},
+        "name": {"type": "string", "minLength": 1},
+        "aliases": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "role": {"type": "string", "minLength": 1},
+        "kind": {"type": "string", "enum": ["single", "assembled", "double_stranded", "hairpin", "unknown"]},
+        "sequence": {"type": "string", "minLength": 1},
+        "orientation": {"type": "string", "enum": ["5_to_3", "3_to_5", "unknown"]},
+        "components": {"type": "array", "items": {"$ref": "#/$defs/component"}},
+        "modifications": {"type": "array", "items": {"type": "string", "minLength": 1}}
+      },
+      "anyOf": [{"required": ["sequence"]}, {"properties": {"components": {"minItems": 1}}}]
+    }
+  }
+}

@@ -8,6 +8,7 @@ import pytest
 from libstruct_bench.audit.application import ApplicationError, apply_review_decision
 from libstruct_bench.audit.artifacts import sha256_file
 from libstruct_bench.audit.promotion import promote_reviewed_groundtruth
+from libstruct_bench.audit.regressions import run_regressions
 from libstruct_bench.audit.review import (
     ReviewError,
     issue_requires_individual_review,
@@ -129,6 +130,15 @@ def _t3(sequence: str = "CCC") -> dict:
                 "final_outputs": [{"state_id": "final", "modality": "gene expression"}],
             }
         ],
+    }
+
+
+def _t2() -> dict:
+    return {
+        "protocol_id": "example_protocol",
+        "protocol_name": "Example",
+        "protocol_scope": _scope(),
+        "oligos": [],
     }
 
 
@@ -283,6 +293,145 @@ def _artifacts(tmp_path: Path, *, new_t3: bool = False) -> tuple[Path, Path, Pat
     )
     decision = _write(tmp_path / "decision.json", _decision(proposal))
     return baseline, proposal, decision
+
+
+def _compiled_artifacts(
+    tmp_path: Path,
+) -> tuple[dict[str, Path], Path, Path, dict[str, Path]]:
+    baseline_paths = {
+        "current:t1": _write(tmp_path / "baselines/t1.json", _t1()),
+        "current:t2": _write(tmp_path / "baselines/t2.json", _t2()),
+    }
+    candidates = {
+        "T1": _write(tmp_path / "review/candidates/T1.json", _t1("CCC")),
+        "T2": _write(tmp_path / "review/candidates/T2.json", _t2()),
+        "T3": _write(tmp_path / "review/candidates/T3.json", _t3("CCC")),
+    }
+    documents = {
+        task: json.loads(path.read_text(encoding="utf-8"))
+        for task, path in candidates.items()
+    }
+    proposal = _proposal(sha256_file(baseline_paths["current:t1"]))
+    proposal["baseline_artifacts"] = [
+        {"source_id": source_id, "sha256": sha256_file(path)}
+        for source_id, path in baseline_paths.items()
+    ]
+    base_issue = proposal["issues"][0]
+    roots = []
+    root_specs = [
+        ("root-t1", "T1", "current:t1", "groundtruth_record"),
+        ("root-t2", "T2", "current:t2", "groundtruth_record"),
+        ("root-t3", "T3", "new:t3", "new_groundtruth_record"),
+    ]
+    for issue_id, task, source_id, target_kind in root_specs:
+        operation = "replace" if target_kind == "groundtruth_record" else "add"
+        roots.append(
+            {
+                **base_issue,
+                "issue_id": issue_id,
+                "task": task,
+                "field_id": f"field-{task.lower()}",
+                "category": "formatting_or_schema_error",
+                "defect_type": "other",
+                "responsibility": "harness",
+                "title": f"Compile {task} root",
+                "target": {
+                    "kind": target_kind,
+                    "artifact_source_id": source_id,
+                    "artifact_filename": TASK_FILENAMES[task],
+                    "json_pointer": "",
+                },
+                "current_value": (
+                    None
+                    if target_kind == "new_groundtruth_record"
+                    else json.loads(baseline_paths[source_id].read_text())
+                ),
+                "proposed_value": documents[task],
+                "proposed_patch": [
+                    {"op": operation, "path": "", "value": documents[task]}
+                ],
+            }
+        )
+    delta = {
+        **base_issue,
+        "issue_id": "delta-evidence",
+        "task": "T2",
+        "field_id": "field-delta",
+        "title": "Resolve evidence status in the compiled T2 root",
+        "target": {"kind": "source_bundle"},
+        "current_value": "ambiguous",
+        "proposed_value": "review required",
+        "recommendation": "needs_human_review",
+        "proposed_patch": [],
+    }
+    proposal["issues"] = [*roots, delta]
+    root_paths = {
+        "T1": "/libraries",
+        "T2": "/oligos",
+        "T3": "/workflows",
+    }
+    proposal["audited_fields"] = [
+        {
+            "field_id": issue["field_id"],
+            "task": issue["task"],
+            "object_id": issue["issue_id"],
+            "field_path": root_paths[issue["task"]],
+            "comparison_status": "proposed_correction",
+            "issue_ids": [issue["issue_id"]],
+        }
+        for issue in proposal["issues"]
+    ]
+    proposal_path = _write(tmp_path / "audit.json", proposal)
+    decision = {
+        "decision_id": "example_protocol:compiled-decision:001",
+        "protocol_id": "example_protocol",
+        "audit_id": proposal["audit_id"],
+        "iteration": 1,
+        "review_state": "final",
+        "review_batch": "R1",
+        "issue_order": ["delta-evidence"],
+        "deferred_root_issues": ["root-t1", "root-t2", "root-t3"],
+        "decisions": [
+            {
+                "issue_id": "delta-evidence",
+                "task": "T2",
+                "target_kind": "groundtruth_record",
+                "disposition": "accept",
+                "confirmed_cause": "source_or_protocol_ambiguity",
+                "rationale": "Human-reviewed evidence tiering is compiled into T2.",
+                "decided_at": "2026-08-01",
+            },
+            {
+                "issue_id": "FACTCHECK-T3-CORRECTION",
+                "task": "T3",
+                "target_kind": "groundtruth_record",
+                "disposition": "modify",
+                "confirmed_cause": "original_human_curation_error",
+                "rationale": "The direct source check corrected the final T3 root.",
+                "decided_at": "2026-08-01",
+            },
+        ],
+        "overall_disposition": "accepted",
+        "review_completed_at": LATER,
+        "reviewer": "human reviewer",
+        "candidate_sha256": {
+            task: sha256_file(path) for task, path in candidates.items()
+        },
+        "scientific_approval": {
+            "granted": True,
+            "granted_at": LATER,
+            "scope": "Complete T1-T3 compiled candidates",
+        },
+    }
+    decision_path = _write(tmp_path / "decision.json", decision)
+    return baseline_paths, proposal_path, decision_path, candidates
+
+
+TASK_FILENAMES = {
+    "T1": "groundtruth_final_lib_struct.json",
+    "T2": "groundtruth_oligos.json",
+    "T3": "groundtruth_library_generation_workflow.json",
+}
 
 
 def test_review_console_is_conflict_only_and_template_is_unversioned(
@@ -587,4 +736,281 @@ def test_final_application_promotes_without_overwrite(tmp_path: Path) -> None:
             promotion_schema_path=AUDIT / "promotion_log.schema.json",
             regression_results_path=regression,
             regression_results_schema_path=AUDIT / "regression_results.schema.json",
+        )
+
+
+def test_compiled_review_preserves_gate_decisions_and_promotes_three_roots(
+    tmp_path: Path,
+) -> None:
+    baselines, proposal, decision, candidates = _compiled_artifacts(tmp_path)
+    validate_review_decision(
+        proposal_path=proposal,
+        decision_path=decision,
+        proposal_schema_path=AUDIT / "protocol_audit.schema.json",
+        decision_schema_path=AUDIT / "review_decision.schema.json",
+    )
+
+    application = apply_review_decision(
+        proposal_path=proposal,
+        decision_path=decision,
+        baseline_paths=baselines,
+        compiled_candidate_paths=candidates,
+        output_dir=tmp_path / "application",
+        proposal_schema_path=AUDIT / "protocol_audit.schema.json",
+        decision_schema_path=AUDIT / "review_decision.schema.json",
+        application_schema_path=AUDIT / "application_log.schema.json",
+    )
+    log = json.loads(application.log_path.read_text(encoding="utf-8"))
+    assert log["application_mode"] == "compiled_roots"
+    assert set(log["applied_issue_ids"]) == {"root-t1", "root-t2", "root-t3"}
+    assert set(log["incorporated_decision_ids"]) == {
+        "delta-evidence",
+        "FACTCHECK-T3-CORRECTION",
+    }
+    assert len(log["regression_fixtures"]) == 3
+    assert not any(
+        "FACTCHECK" in relative for relative in log["regression_fixtures"]
+    )
+    for task, reviewed_path in candidates.items():
+        source_id = {"T1": "current:t1", "T2": "current:t2", "T3": "new:t3"}[
+            task
+        ]
+        assert application.candidate_paths[source_id].read_bytes() == reviewed_path.read_bytes()
+
+    regression_path = tmp_path / "regression-results.json"
+    fixtures = [
+        application.output_dir / relative for relative in log["regression_fixtures"]
+    ]
+    run_regressions(
+        fixture_paths=fixtures,
+        baseline_paths=baselines,
+        output_path=regression_path,
+        fixture_schema_path=AUDIT / "accepted_correction_regression.schema.json",
+        results_schema_path=AUDIT / "regression_results.schema.json",
+        created_at=LATER,
+    )
+    promoted = promote_reviewed_groundtruth(
+        proposal_path=proposal,
+        decision_path=decision,
+        application_log_path=application.log_path,
+        groundtruth_root=tmp_path / "approved",
+        promotion_log_path=tmp_path / "promotion.json",
+        proposal_schema_path=AUDIT / "protocol_audit.schema.json",
+        decision_schema_path=AUDIT / "review_decision.schema.json",
+        application_schema_path=AUDIT / "application_log.schema.json",
+        promotion_schema_path=AUDIT / "promotion_log.schema.json",
+        regression_results_path=regression_path,
+        regression_results_schema_path=AUDIT / "regression_results.schema.json",
+    )
+    assert set(promoted.artifact_paths) == {"T1", "T2", "T3"}
+
+
+def test_compiled_application_rejects_candidate_changed_after_approval(
+    tmp_path: Path,
+) -> None:
+    baselines, proposal, decision, candidates = _compiled_artifacts(tmp_path)
+    candidates["T3"].write_text("{}", encoding="utf-8")
+
+    with pytest.raises(ApplicationError, match="stale compiled T3 candidate"):
+        apply_review_decision(
+            proposal_path=proposal,
+            decision_path=decision,
+            baseline_paths=baselines,
+            compiled_candidate_paths=candidates,
+            output_dir=tmp_path / "application",
+            proposal_schema_path=AUDIT / "protocol_audit.schema.json",
+            decision_schema_path=AUDIT / "review_decision.schema.json",
+            application_schema_path=AUDIT / "application_log.schema.json",
+        )
+
+
+def test_compiled_review_allows_empty_deferred_roots_and_grouped_findings(
+    tmp_path: Path,
+) -> None:
+    baselines, proposal, decision, candidates = _compiled_artifacts(tmp_path)
+    proposal_document = json.loads(proposal.read_text(encoding="utf-8"))
+    grouped = {
+        **next(
+            issue
+            for issue in proposal_document["issues"]
+            if issue["issue_id"] == "delta-evidence"
+        ),
+        "issue_id": "grouped-low",
+        "field_id": "field-grouped-low",
+        "severity": "low",
+        "title": "Grouped low finding compiled into T2",
+    }
+    proposal_document["issues"].insert(-3, grouped)
+    proposal_document["audited_fields"].append(
+        {
+            "field_id": grouped["field_id"],
+            "task": grouped["task"],
+            "object_id": grouped["issue_id"],
+            "field_path": "/oligos",
+            "comparison_status": "proposed_correction",
+            "issue_ids": [grouped["issue_id"]],
+        }
+    )
+    _write(proposal, proposal_document)
+
+    decision_document = json.loads(decision.read_text(encoding="utf-8"))
+    decision_document["iteration"] = "iteration-001"
+    decision_document["deferred_root_issues"] = []
+    decision_document["decisions"].insert(
+        1,
+        {
+            "issue_id": "grouped-low",
+            "task": "cross_task",
+            "target_kind": "groundtruth_record",
+            "disposition": "accept",
+            "confirmed_cause": "source_or_protocol_ambiguity",
+            "rationale": "Reviewed in a grouped low-severity adjudication.",
+            "decided_at": "2026-08-01",
+        },
+    )
+    decision_document["decisions"].append(
+        {
+            "issue_id": "SWEEP-FINAL-CONSISTENCY",
+            "task": "cross_task",
+            "target_kind": "groundtruth_record",
+            "disposition": "modify",
+            "confirmed_cause": "original_human_curation_error",
+            "rationale": "Final consistency sweep is embodied by approved roots.",
+            "decided_at": "2026-08-01",
+        }
+    )
+    _write(decision, decision_document)
+
+    validate_review_decision(
+        proposal_path=proposal,
+        decision_path=decision,
+        proposal_schema_path=AUDIT / "protocol_audit.schema.json",
+        decision_schema_path=AUDIT / "review_decision.schema.json",
+    )
+    application = apply_review_decision(
+        proposal_path=proposal,
+        decision_path=decision,
+        baseline_paths=baselines,
+        compiled_candidate_paths=candidates,
+        output_dir=tmp_path / "application",
+        proposal_schema_path=AUDIT / "protocol_audit.schema.json",
+        decision_schema_path=AUDIT / "review_decision.schema.json",
+        application_schema_path=AUDIT / "application_log.schema.json",
+    )
+    log = json.loads(application.log_path.read_text(encoding="utf-8"))
+    assert set(log["applied_issue_ids"]) == {"root-t1", "root-t2", "root-t3"}
+    assert "grouped-low" in log["incorporated_decision_ids"]
+    assert "SWEEP-FINAL-CONSISTENCY" in log["incorporated_decision_ids"]
+
+
+def test_compiled_review_without_proposal_roots_uses_application_operation_ids(
+    tmp_path: Path,
+) -> None:
+    baselines, proposal, decision, candidates = _compiled_artifacts(tmp_path)
+    proposal_document = json.loads(proposal.read_text(encoding="utf-8"))
+    root_ids = {"root-t1", "root-t2", "root-t3"}
+    proposal_document["issues"] = [
+        issue
+        for issue in proposal_document["issues"]
+        if issue["issue_id"] not in root_ids
+    ]
+    proposal_document["audited_fields"] = [
+        field
+        for field in proposal_document["audited_fields"]
+        if not root_ids.intersection(field["issue_ids"])
+    ]
+    _write(proposal, proposal_document)
+    decision_document = json.loads(decision.read_text(encoding="utf-8"))
+    decision_document["deferred_root_issues"] = []
+    _write(decision, decision_document)
+
+    application = apply_review_decision(
+        proposal_path=proposal,
+        decision_path=decision,
+        baseline_paths=baselines,
+        compiled_candidate_paths=candidates,
+        output_dir=tmp_path / "application",
+        proposal_schema_path=AUDIT / "protocol_audit.schema.json",
+        decision_schema_path=AUDIT / "review_decision.schema.json",
+        application_schema_path=AUDIT / "application_log.schema.json",
+    )
+    log = json.loads(application.log_path.read_text(encoding="utf-8"))
+    assert set(log["applied_issue_ids"]) == {
+        "compiled.t1.root-application",
+        "compiled.t2.root-application",
+        "compiled.t3.root-application",
+    }
+    assert set(application.candidate_paths) == {
+        "current:t1",
+        "current:t2",
+        "compiled:t3:new",
+    }
+
+    regression_path = tmp_path / "regression-results.json"
+    run_regressions(
+        fixture_paths=[
+            application.output_dir / relative
+            for relative in log["regression_fixtures"]
+        ],
+        baseline_paths=baselines,
+        output_path=regression_path,
+        fixture_schema_path=AUDIT / "accepted_correction_regression.schema.json",
+        results_schema_path=AUDIT / "regression_results.schema.json",
+        created_at=LATER,
+    )
+    promoted = promote_reviewed_groundtruth(
+        proposal_path=proposal,
+        decision_path=decision,
+        application_log_path=application.log_path,
+        groundtruth_root=tmp_path / "approved",
+        promotion_log_path=tmp_path / "promotion.json",
+        proposal_schema_path=AUDIT / "protocol_audit.schema.json",
+        decision_schema_path=AUDIT / "review_decision.schema.json",
+        application_schema_path=AUDIT / "application_log.schema.json",
+        promotion_schema_path=AUDIT / "promotion_log.schema.json",
+        regression_results_path=regression_path,
+        regression_results_schema_path=AUDIT / "regression_results.schema.json",
+    )
+    assert set(promoted.artifact_paths) == {"T1", "T2", "T3"}
+
+
+def test_compiled_review_accepts_only_supported_historical_root_ids(
+    tmp_path: Path,
+) -> None:
+    _, proposal, decision, _ = _compiled_artifacts(tmp_path)
+    proposal_document = json.loads(proposal.read_text(encoding="utf-8"))
+    root_ids = {"root-t1", "root-t2", "root-t3"}
+    proposal_document["issues"] = [
+        issue
+        for issue in proposal_document["issues"]
+        if issue["issue_id"] not in root_ids
+    ]
+    proposal_document["audited_fields"] = [
+        field
+        for field in proposal_document["audited_fields"]
+        if not root_ids.intersection(field["issue_ids"])
+    ]
+    _write(proposal, proposal_document)
+    decision_document = json.loads(decision.read_text(encoding="utf-8"))
+    decision_document["deferred_root_issues"] = [
+        "harness.t1.root-migration",
+        "harness.t2.root-migration",
+        "harness.t3.root-migration",
+    ]
+    _write(decision, decision_document)
+    validate_review_decision(
+        proposal_path=proposal,
+        decision_path=decision,
+        proposal_schema_path=AUDIT / "protocol_audit.schema.json",
+        decision_schema_path=AUDIT / "review_decision.schema.json",
+    )
+
+    decision_document["deferred_root_issues"] = ["invented.root"]
+    _write(decision, decision_document)
+    with pytest.raises(ReviewError, match="neither a proposal issue"):
+        validate_review_decision(
+            proposal_path=proposal,
+            decision_path=decision,
+            proposal_schema_path=AUDIT / "protocol_audit.schema.json",
+            decision_schema_path=AUDIT / "review_decision.schema.json",
         )

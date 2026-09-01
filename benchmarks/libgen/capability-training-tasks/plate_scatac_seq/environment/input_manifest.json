@@ -1,0 +1,15 @@
+{
+  "protocol_id": "plate_scatac_seq",
+  "sources": [
+    {
+      "local_path": "plate_scATAC-seq.pdf",
+      "path": "plate_scatac_seq/plate_scATAC-seq.pdf",
+      "sha256": "f5773809db99b63663992e58244bd5650d9dda436231f25c68bcc95d31432042"
+    },
+    {
+      "local_path": "plate_scATAC-seq_original_paper.pdf",
+      "path": "plate_scatac_seq/plate_scATAC-seq_original_paper.pdf",
+      "sha256": "713fe064fc5d4577a2f555099a0918f4b819c2ba83e70ebe8f02f8212535bde0"
+    }
+  ]
+}

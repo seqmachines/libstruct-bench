@@ -30,8 +30,9 @@ from .groundtruth import (
 )
 
 
-HARNESS_VERSION = "libstruct-bench-audit/0.6.0"
+HARNESS_VERSION = "libstruct-bench-audit/0.8.0"
 PHASE_SCHEMA_FILES = {
+    "legacy_conversion": "legacy_conversion.schema.json",
     "comparison": "protocol_audit.schema.json",
 }
 MODEL_ALIASES = {"default", "sonnet", "opus", "haiku", "fable"}
@@ -44,6 +45,12 @@ DEFAULT_REPAIR_PROMPT = (
     / ".claude"
     / "prompts"
     / "audit-comparison-repair.md"
+)
+DEFAULT_CONVERSION_PROMPT = (
+    Path(__file__).resolve().parents[3]
+    / ".claude"
+    / "prompts"
+    / "audit-legacy-conversion.md"
 )
 CURRENT_TASK_BY_SOURCE_KIND = {
     "current_t1": "T1",
@@ -72,6 +79,13 @@ class ClaudeRunResult:
     metadata_path: Path
     phase: str
     run_id: str
+
+
+@dataclass(frozen=True)
+class ClaudeRevalidationResult:
+    output_dir: Path
+    artifact_path: Path
+    metadata_path: Path
 
 
 @dataclass
@@ -114,7 +128,7 @@ def run_claude_audit(
     repair_prompt_path: Path | None = None,
     max_repair_attempts: int = MAX_COMPARISON_REPAIR_ATTEMPTS,
 ) -> ClaudeRunResult:
-    """Run one conversion-first Claude comparison audit."""
+    """Run one isolated legacy conversion or primary-evidence comparison."""
 
     packet_dir = _directory(packet_dir, "audit packet")
     packet_path = _file(packet_dir / "packet.json", "packet metadata")
@@ -259,6 +273,12 @@ def run_claude_audit(
         "checkpoint_id": packet_manifest_checkpoint(packet_dir),
     }
     artifact: dict[str, Any] | None = None
+    generated_artifact: dict[str, Any] | None = None
+    deterministic_normalization: dict[str, Any] = {
+        "status": "not_applicable",
+        "kind": "staged_root_envelope",
+        "changed_paths": [],
+    }
     initial_rejected_artifact: dict[str, Any] | None = None
     repair_attempts: list[_RepairAttempt] = []
     try:
@@ -284,8 +304,18 @@ def run_claude_audit(
             phase=phase,
             run=run,
         )
+        generated_artifact = copy.deepcopy(artifact)
+        if phase == "comparison":
+            artifact, deterministic_normalization = (
+                _attach_staged_root_envelope(
+                    artifact=artifact,
+                    packet=packet,
+                    packet_dir=packet_dir,
+                    groundtruth_schemas=groundtruth_schemas,
+                )
+            )
         try:
-            _validate_comparison_artifact(
+            _validate_phase_artifact(
                 artifact=artifact,
                 output_schema_path=output_schema_path,
                 packet=packet,
@@ -337,7 +367,7 @@ def run_claude_audit(
             phase=phase,
             run=run,
         )
-        _validate_comparison_artifact(
+        _validate_phase_artifact(
             artifact=artifact,
             output_schema_path=output_schema_path,
             packet=packet,
@@ -367,6 +397,8 @@ def run_claude_audit(
                 agent_schema=agent_schema,
                 repair_attempts=repair_attempts,
                 max_repair_attempts=max_repair_attempts,
+                generated_artifact=generated_artifact,
+                deterministic_normalization=deterministic_normalization,
             )
         except Exception as preservation_error:
             raise ClaudeAuditError(
@@ -389,10 +421,35 @@ def run_claude_audit(
         transcript_path.write_bytes(completed.stdout)
         stderr_path = temporary_dir / "stderr.txt"
         stderr_path.write_bytes(completed.stderr)
-        artifact_name = "audit.json"
+        artifact_name = (
+            "conversion.json" if phase == "legacy_conversion" else "audit.json"
+        )
         artifact_path = temporary_dir / artifact_name
         write_json_atomic(artifact_path, artifact)
+        generated_artifact_path: Path | None = None
+        if (
+            generated_artifact is not None
+            and deterministic_normalization["status"] == "applied"
+        ):
+            generated_artifact_path = temporary_dir / "generated-artifact.json"
+            write_json_atomic(generated_artifact_path, generated_artifact)
         repair_summaries = _write_repair_attempts(temporary_dir, repair_attempts)
+        normalization_metadata = copy.deepcopy(deterministic_normalization)
+        normalization_metadata.update(
+            {
+                "generated_artifact_path": (
+                    generated_artifact_path.name
+                    if generated_artifact_path is not None
+                    else None
+                ),
+                "generated_artifact_sha256": (
+                    sha256_file(generated_artifact_path)
+                    if generated_artifact_path is not None
+                    else None
+                ),
+                "normalized_artifact_sha256": sha256_file(artifact_path),
+            }
+        )
         metadata = {
             "run": run,
             "phase": phase,
@@ -413,6 +470,7 @@ def run_claude_audit(
                 "attempt_count": len(repair_attempts),
                 "attempts": repair_summaries,
             },
+            "deterministic_normalization": normalization_metadata,
             "groundtruth_schemas": [
                 {
                     "task": task,
@@ -440,6 +498,121 @@ def run_claude_audit(
     )
 
 
+def revalidate_rejected_comparison(
+    *,
+    packet_dir: Path,
+    rejected_dir: Path,
+    output_dir: Path,
+    output_schema_path: Path,
+    packet_schema_path: Path,
+    groundtruth_schema_paths: Mapping[str, Path] | None = None,
+) -> ClaudeRevalidationResult:
+    """Revalidate a preserved complete comparison without another model call."""
+
+    packet_dir = _directory(packet_dir, "audit packet")
+    rejected_dir = _directory(rejected_dir, "rejected comparison run")
+    packet_path = _file(packet_dir / "packet.json", "packet metadata")
+    failure_path = _file(rejected_dir / "failure.json", "rejected-run metadata")
+    output_schema_path = _file(output_schema_path, "output schema")
+    packet_schema_path = _file(packet_schema_path, "packet schema")
+    if output_schema_path.name != PHASE_SCHEMA_FILES["comparison"]:
+        raise ClaudeAuditError(
+            f"comparison revalidation requires {PHASE_SCHEMA_FILES['comparison']}"
+        )
+    packet = load_json_object(packet_path, label="packet metadata")
+    _validate(packet, packet_schema_path, "packet metadata")
+    if packet.get("phase") != "comparison":
+        raise ClaudeAuditError("only comparison packets can be revalidated")
+    _verify_packet_files(packet_dir, packet)
+    failure = load_json_object(failure_path, label="rejected-run metadata")
+    if failure.get("status") != "rejected" or failure.get("phase") != "comparison":
+        raise ClaudeAuditError("source directory is not a rejected comparison run")
+    if failure.get("packet_sha256") != sha256_file(packet_path):
+        raise ClaudeAuditError("rejected run references a different audit packet")
+    artifact_name = failure.get("artifact_path")
+    if not isinstance(artifact_name, str) or Path(artifact_name).name != artifact_name:
+        raise ClaudeAuditError("rejected run has no safe complete artifact path")
+    source_artifact_path = _file(
+        rejected_dir / artifact_name, "rejected comparison artifact"
+    )
+    if failure.get("artifact_sha256") != sha256_file(source_artifact_path):
+        raise ClaudeAuditError("rejected comparison artifact hash mismatch")
+    generated_artifact = load_json_object(
+        source_artifact_path, label="rejected comparison artifact"
+    )
+    groundtruth_schemas = _resolve_groundtruth_schemas(
+        "comparison", groundtruth_schema_paths
+    )
+    artifact, normalization = _attach_staged_root_envelope(
+        artifact=generated_artifact,
+        packet=packet,
+        packet_dir=packet_dir,
+        groundtruth_schemas=groundtruth_schemas,
+    )
+    _validate_phase_artifact(
+        artifact=artifact,
+        output_schema_path=output_schema_path,
+        packet=packet,
+        packet_dir=packet_dir,
+        phase="comparison",
+        groundtruth_schemas=groundtruth_schemas,
+    )
+
+    output_dir = output_dir.expanduser().resolve()
+    _reject_output(output_dir, packet_dir)
+    if (
+        output_dir == rejected_dir
+        or output_dir.is_relative_to(rejected_dir)
+        or rejected_dir.is_relative_to(output_dir)
+    ):
+        raise ClaudeAuditError("revalidation output must not overlap the rejected run")
+    if output_dir.exists():
+        raise ClaudeAuditError(f"revalidation output already exists: {output_dir}")
+    output_dir.parent.mkdir(parents=True, exist_ok=True)
+    temporary_dir = Path(
+        tempfile.mkdtemp(prefix=f".{output_dir.name}.building-", dir=output_dir.parent)
+    )
+    try:
+        artifact_path = temporary_dir / "audit.json"
+        generated_path = temporary_dir / "generated-artifact.json"
+        write_json_atomic(artifact_path, artifact)
+        write_json_atomic(generated_path, generated_artifact)
+        metadata = {
+            "status": "validated",
+            "phase": "comparison",
+            "revalidated_at": _now(),
+            "harness_version": HARNESS_VERSION,
+            "packet_sha256": sha256_file(packet_path),
+            "source_rejected_run": rejected_dir.name,
+            "source_failure_sha256": sha256_file(failure_path),
+            "source_artifact_sha256": sha256_file(source_artifact_path),
+            "generated_artifact_path": generated_path.name,
+            "generated_artifact_sha256": sha256_file(generated_path),
+            "artifact_path": artifact_path.name,
+            "artifact_sha256": sha256_file(artifact_path),
+            "deterministic_normalization": normalization,
+            "groundtruth_schemas": [
+                {
+                    "task": task,
+                    "filename": path.name,
+                    "sha256": sha256_file(path),
+                }
+                for task, path in sorted(groundtruth_schemas.items())
+            ],
+        }
+        metadata_path = temporary_dir / "revalidation-metadata.json"
+        write_json_atomic(metadata_path, metadata)
+        temporary_dir.rename(output_dir)
+    except BaseException:
+        shutil.rmtree(temporary_dir, ignore_errors=True)
+        raise
+    return ClaudeRevalidationResult(
+        output_dir=output_dir,
+        artifact_path=output_dir / "audit.json",
+        metadata_path=output_dir / "revalidation-metadata.json",
+    )
+
+
 def _rejected_output_dir(output_dir: Path) -> Path:
     return output_dir.with_name(f"{output_dir.name}.rejected")
 
@@ -463,6 +636,8 @@ def _preserve_rejected_run(
     agent_schema: dict[str, Any],
     repair_attempts: list[_RepairAttempt],
     max_repair_attempts: int,
+    generated_artifact: dict[str, Any] | None,
+    deterministic_normalization: Mapping[str, Any],
 ) -> Path:
     """Persist a completed but rejected model run for diagnosis and provenance."""
 
@@ -483,7 +658,32 @@ def _preserve_rejected_run(
         if artifact is not None:
             artifact_path = temporary_dir / "rejected-artifact.json"
             write_json_atomic(artifact_path, artifact)
+        generated_artifact_path: Path | None = None
+        if (
+            generated_artifact is not None
+            and deterministic_normalization.get("status") == "applied"
+        ):
+            generated_artifact_path = temporary_dir / "generated-artifact.json"
+            write_json_atomic(generated_artifact_path, generated_artifact)
         repair_summaries = _write_repair_attempts(temporary_dir, repair_attempts)
+        normalization_metadata = copy.deepcopy(dict(deterministic_normalization))
+        normalization_metadata.update(
+            {
+                "generated_artifact_path": (
+                    generated_artifact_path.name
+                    if generated_artifact_path is not None
+                    else None
+                ),
+                "generated_artifact_sha256": (
+                    sha256_file(generated_artifact_path)
+                    if generated_artifact_path is not None
+                    else None
+                ),
+                "normalized_artifact_sha256": (
+                    sha256_file(artifact_path) if artifact_path is not None else None
+                ),
+            }
+        )
         failure = {
             "status": "rejected",
             "phase": phase,
@@ -508,6 +708,7 @@ def _preserve_rejected_run(
                 "attempt_count": len(repair_attempts),
                 "attempts": repair_summaries,
             },
+            "deterministic_normalization": normalization_metadata,
             "groundtruth_schemas": [
                 {
                     "task": task,
@@ -697,8 +898,19 @@ def _run_repair_attempt(
             run=run,
         )
         changed_paths = _changed_json_paths(input_artifact, candidate)
-        _assert_repair_scope(initial_artifact, candidate)
-        _validate_comparison_artifact(
+        if phase == "legacy_conversion":
+            _assert_conversion_repair_scope(initial_artifact, candidate)
+        else:
+            _assert_repair_scope(
+                initial_artifact,
+                candidate,
+                removable_evidence_source_ids={
+                    item["source_id"]
+                    for item in packet["files"]
+                    if item["role"] == "legacy_conversion_candidate"
+                },
+            )
+        _validate_phase_artifact(
             artifact=candidate,
             output_schema_path=output_schema_path,
             packet=packet,
@@ -775,14 +987,18 @@ def _repair_user_prompt(repair_input_path: Path) -> str:
     return (
         f"Read {repair_input_path.name}. It contains the complete failed artifact "
         "and the exact deterministic validator errors. Read no other file. Make "
-        "only the smallest allowed repair and return the complete audit artifact "
+        "only the smallest allowed repair and return the complete phase artifact "
         "satisfying the supplied JSON Schema."
     )
 
 
 def _assert_repair_scope(
-    initial_artifact: dict[str, Any], candidate: dict[str, Any]
+    initial_artifact: dict[str, Any],
+    candidate: dict[str, Any],
+    *,
+    removable_evidence_source_ids: set[str] | None = None,
 ) -> None:
+    removable_evidence_source_ids = removable_evidence_source_ids or set()
     mutable_top_level = {"run", "audited_fields", "issues"}
     for key in sorted(set(initial_artifact) | set(candidate)):
         if key in mutable_top_level:
@@ -825,7 +1041,7 @@ def _assert_repair_scope(
         raise ClaudeAuditError("repair changed the set of comparison issues")
     for issue_id, initial_issue in initial_issues.items():
         repaired_issue = candidate_issues[issue_id]
-        mutable = {"run_id", "checkpoint_id"}
+        mutable = {"run_id", "checkpoint_id", "evidence"}
         if _issue_has_root_candidate(initial_issue):
             mutable.update({"proposed_value", "proposed_patch"})
         initial_protected = {
@@ -838,6 +1054,12 @@ def _assert_repair_scope(
             raise ClaudeAuditError(
                 f"repair changed protected conclusion fields for issue {issue_id}"
             )
+        _assert_evidence_repair_scope(
+            issue_id=issue_id,
+            initial=initial_issue.get("evidence"),
+            repaired=repaired_issue.get("evidence"),
+            removable_source_ids=removable_evidence_source_ids,
+        )
         if not _issue_has_root_candidate(initial_issue):
             if repaired_issue.get("proposed_value") != initial_issue.get(
                 "proposed_value"
@@ -853,11 +1075,75 @@ def _assert_repair_scope(
             raise ClaudeAuditError(
                 f"repair removed the complete root candidate for issue {issue_id}"
             )
-        if repaired_issue.get("proposed_value") != repaired_root:
+        root_fields_changed = (
+            repaired_issue.get("proposed_value")
+            != initial_issue.get("proposed_value")
+            or repaired_issue.get("proposed_patch")
+            != initial_issue.get("proposed_patch")
+        )
+        if root_fields_changed and repaired_issue.get("proposed_value") != repaired_root:
             raise ClaudeAuditError(
                 f"repair made proposed_value and proposed_patch disagree for "
                 f"issue {issue_id}"
             )
+
+
+def _assert_evidence_repair_scope(
+    *,
+    issue_id: str,
+    initial: Any,
+    repaired: Any,
+    removable_source_ids: set[str],
+) -> None:
+    if repaired == initial:
+        return
+    if not isinstance(initial, list) or not isinstance(repaired, list):
+        raise ClaudeAuditError(
+            f"repair changed evidence shape for issue {issue_id}"
+        )
+    expected = [
+        item
+        for item in initial
+        if not (
+            isinstance(item, dict)
+            and item.get("source_id") in removable_source_ids
+        )
+    ]
+    if not expected:
+        raise ClaudeAuditError(
+            f"repair removed all admissible evidence for issue {issue_id}"
+        )
+    if repaired != expected:
+        raise ClaudeAuditError(
+            f"repair changed evidence beyond deleting inadmissible frozen-"
+            f"conversion citations for issue {issue_id}"
+        )
+
+
+def _assert_conversion_repair_scope(
+    initial_artifact: dict[str, Any], candidate: dict[str, Any]
+) -> None:
+    mutable_top_level = {"candidates", "candidate_sha256s", "run"}
+    for key in sorted(set(initial_artifact) | set(candidate)):
+        if key in mutable_top_level:
+            continue
+        if key not in initial_artifact or key not in candidate:
+            raise ClaudeAuditError(
+                f"repair changed protected legacy-conversion field {key!r}"
+            )
+        if candidate[key] != initial_artifact[key]:
+            raise ClaudeAuditError(
+                f"repair changed protected legacy-conversion field {key!r}"
+            )
+
+    initial_candidates = initial_artifact.get("candidates")
+    repaired_candidates = candidate.get("candidates")
+    if not isinstance(initial_candidates, dict) or not isinstance(
+        repaired_candidates, dict
+    ):
+        raise ClaudeAuditError("repair removed legacy-conversion candidates")
+    if set(initial_candidates) != set(repaired_candidates):
+        raise ClaudeAuditError("repair changed the legacy-conversion task set")
 
 
 def _objects_by_id(value: Any, key: str, label: str) -> dict[str, dict[str, Any]]:
@@ -1239,10 +1525,30 @@ def _system_prompt(
 
 
 def _user_prompt(packet_dir: Path, phase: str) -> str:
+    if phase == "legacy_conversion":
+        return (
+            f"Legacy-conversion packet: {packet_dir}\n"
+            "Read packet.json and manifest.json, then read every packet-listed "
+            "legacy_curated_html and current_benchmark_record file. Convert the "
+            "linked human curation into canonical T1, T2, and T3 candidates. "
+            "The packet intentionally contains no primary evidence or renditions; "
+            "do not use online or remembered knowledge. Return no scientific "
+            "findings or approvals. Return only one object satisfying the supplied "
+            "JSON Schema."
+        )
     action = (
-        "Read packet.json and manifest.json. First use only legacy_curated_html and "
-        "current_benchmark_record files to convert the existing human curation into "
-        "canonical T1, T2, and T3 candidates. Finish that conversion before opening "
+        "Read packet.json and manifest.json. If a legacy_conversion_candidate is "
+        "present, read it before primary evidence and treat its T1, T2, and T3 "
+        "candidates as the frozen legacy-derived starting point. Audit those "
+        "candidates but do not serialize complete root conversion/add issues; the "
+        "deterministic harness attaches the exact hash-pinned roots after generation. "
+        "Within issues and audited_fields, return only scientific comparison "
+        "findings and their reciprocal ledger; still return every other field "
+        "required by the proposal schema. If no staged candidate is present, first use "
+        "only legacy_curated_html and current_benchmark_record files to convert the "
+        "existing human curation, and emit required complete root issues with each "
+        "proposed_value identical to its root patch value. Finish or load that "
+        "conversion before opening "
         "primary_evidence or its renditions. Then read every primary source and "
         "rendition. In source_coverage, list every included primary_evidence source "
         "exactly once and do not list legacy, current-record, TSV, or benchmark-run "
@@ -1272,6 +1578,10 @@ def _agent_output_schema(
     for keyword in ("allOf", "anyOf", "oneOf"):
         relaxed.pop(keyword, None)
     injected = {
+        "legacy_conversion": {
+            "conversion_id", "protocol_id", "packet_sha256",
+            "input_manifest_sha256", "status", "run", "candidate_sha256s",
+        },
         "comparison": {
             "audit_id", "protocol_id", "packet_sha256",
             "input_manifest_sha256", "baseline_artifacts", "run",
@@ -1306,6 +1616,18 @@ def _finalize_artifact(
     value["packet_sha256"] = sha256_file(packet_dir / "packet.json")
     value["input_manifest_sha256"] = packet["input_manifest"]["source_sha256"]
     value["run"] = run
+    if phase == "legacy_conversion":
+        value["conversion_id"] = (
+            f"{packet['protocol_id']}:legacy-conversion:{run['run_id']}"
+        )
+        value["status"] = "unapproved_legacy_conversion"
+        candidates = value.get("candidates", {})
+        value["candidate_sha256s"] = {
+            task: sha256_bytes(canonical_json_bytes(candidate))
+            for task, candidate in sorted(candidates.items())
+            if task in TASK_ARTIFACTS
+        }
+        return value
     value["audit_id"] = f"{packet['protocol_id']}:audit:{run['run_id']}"
     value["baseline_artifacts"] = [
         {"source_id": item["source_id"], "sha256": item["sha256"]}
@@ -1317,6 +1639,115 @@ def _finalize_artifact(
         issue["run_id"] = run["run_id"]
         issue["checkpoint_id"] = run["checkpoint_id"]
     return value
+
+
+def _validate_phase_artifact(
+    *,
+    artifact: dict[str, Any],
+    output_schema_path: Path,
+    packet: dict[str, Any],
+    packet_dir: Path,
+    phase: str,
+    groundtruth_schemas: Mapping[str, Path],
+) -> None:
+    if phase == "legacy_conversion":
+        _validate_legacy_conversion_artifact(
+            artifact=artifact,
+            output_schema_path=output_schema_path,
+            packet=packet,
+            packet_dir=packet_dir,
+            groundtruth_schemas=groundtruth_schemas,
+        )
+        return
+    if phase == "comparison":
+        _validate_comparison_artifact(
+            artifact=artifact,
+            output_schema_path=output_schema_path,
+            packet=packet,
+            packet_dir=packet_dir,
+            phase=phase,
+            groundtruth_schemas=groundtruth_schemas,
+        )
+        return
+    raise ClaudeAuditError(f"unsupported audit phase: {phase}")
+
+
+def _validate_legacy_conversion_artifact(
+    *,
+    artifact: dict[str, Any],
+    output_schema_path: Path,
+    packet: dict[str, Any],
+    packet_dir: Path,
+    groundtruth_schemas: Mapping[str, Path],
+) -> None:
+    _validate(
+        artifact,
+        output_schema_path,
+        "legacy conversion artifact",
+        repairable=True,
+        validation_kind="conversion_schema",
+    )
+    disallowed_roles = {
+        item["role"]
+        for item in packet["files"]
+        if item["role"]
+        in {
+            "primary_evidence",
+            "benchmark_run_artifact",
+            "legacy_conversion_candidate",
+        }
+    }
+    if disallowed_roles or packet.get("renditions"):
+        raise ClaudeAuditError(
+            "legacy conversion packet is not isolated from primary/run inputs"
+        )
+
+    candidates = artifact["candidates"]
+    if set(candidates) != set(TASK_ARTIFACTS):
+        raise ClaudeAuditError("legacy conversion must contain exactly T1, T2, and T3")
+    for task, candidate in sorted(candidates.items()):
+        if candidate.get("protocol_id") != packet["protocol_id"]:
+            raise ClaudeAuditError(
+                f"legacy conversion {task} candidate uses the wrong protocol_id"
+            )
+        _validate(
+            candidate,
+            groundtruth_schemas[task],
+            f"legacy conversion {task} candidate",
+            repairable=True,
+            validation_kind="groundtruth_schema",
+        )
+        expected_digest = sha256_bytes(canonical_json_bytes(candidate))
+        if artifact["candidate_sha256s"].get(task) != expected_digest:
+            raise ClaudeAuditError(
+                f"legacy conversion {task} candidate digest is inconsistent"
+            )
+    try:
+        validate_cross_task_links(candidates)
+    except GroundtruthValidationError as error:
+        raise _RepairableValidationError(
+            f"linked legacy conversion candidates are inconsistent: {error}",
+            validation_kind="linked_groundtruth",
+        ) from error
+
+    allowed_lineage_ids = {
+        item["source_id"]
+        for item in packet["files"]
+        if item["role"] in {"legacy_curated_html", "current_benchmark_record"}
+    }
+    lineage = artifact["lineage"]
+    tasks = [item["task"] for item in lineage]
+    if sorted(tasks) != sorted(TASK_ARTIFACTS):
+        raise ClaudeAuditError(
+            "legacy conversion lineage must contain one row for each of T1, T2, and T3"
+        )
+    for item in lineage:
+        unknown = set(item["source_ids"]) - allowed_lineage_ids
+        if unknown:
+            raise ClaudeAuditError(
+                f"legacy conversion {item['task']} lineage cites unavailable inputs: "
+                + ", ".join(sorted(unknown))
+            )
 
 
 def _validate_comparison_artifact(
@@ -1340,6 +1771,359 @@ def _validate_comparison_artifact(
     _validate_semantics(artifact, packet, packet_dir, phase, groundtruth_schemas)
 
 
+def _attach_staged_root_envelope(
+    *,
+    artifact: dict[str, Any],
+    packet: dict[str, Any],
+    packet_dir: Path,
+    groundtruth_schemas: Mapping[str, Path],
+) -> tuple[dict[str, Any], dict[str, Any]]:
+    """Attach immutable staged roots without asking the comparison model to echo them.
+
+    The legacy-conversion worker already produced and hash-pinned the canonical
+    T1-T3 documents. Re-serializing those large documents in the comparison
+    response is redundant and was a recurrent source of late, costly failures.
+    This normalizer owns only that representation envelope: it never creates or
+    repairs primary-evidence findings.
+    """
+
+    staged = _staged_conversion_candidates(packet, packet_dir)
+    if staged is None:
+        return copy.deepcopy(artifact), {
+            "status": "not_applicable",
+            "kind": "staged_root_envelope",
+            "changed_paths": [],
+        }
+    conversion_source_id, expected_candidates = staged
+    if not isinstance(artifact.get("issues"), list) or not isinstance(
+        artifact.get("audited_fields"), list
+    ):
+        return copy.deepcopy(artifact), {
+            "status": "skipped_invalid_artifact_shape",
+            "kind": "staged_root_envelope",
+            "conversion_source_id": conversion_source_id,
+            "changed_paths": [],
+        }
+
+    working = copy.deepcopy(artifact)
+    baseline_tasks, legacy_baseline_ids = _baseline_schema_status(
+        packet, packet_dir, groundtruth_schemas
+    )
+    source_by_task: dict[str, str] = {}
+    for source_id, task in baseline_tasks.items():
+        if task in source_by_task:
+            raise ClaudeAuditError(
+                f"comparison packet contains multiple current {task} records"
+            )
+        source_by_task[task] = source_id
+
+    required: dict[str, tuple[str, str]] = {}
+    for source_id in sorted(legacy_baseline_ids):
+        required[baseline_tasks[source_id]] = ("replace", source_id)
+    for task in sorted(set(TASK_ARTIFACTS) - set(source_by_task)):
+        required[task] = ("add", conversion_source_id)
+
+    root_issue_indexes: dict[str, int] = {}
+    for index, issue in enumerate(working["issues"]):
+        if not isinstance(issue, dict):
+            continue
+        candidate = _issue_root_candidate(issue)
+        task = issue.get("task")
+        if candidate is None or task not in expected_candidates:
+            continue
+        if candidate != expected_candidates[task]:
+            raise ClaudeAuditError(
+                "comparison changed the frozen legacy conversion candidate "
+                f"for {task}"
+            )
+        if task in root_issue_indexes:
+            raise ClaudeAuditError(
+                f"comparison emitted multiple staged root issues for {task}"
+            )
+        root_issue_indexes[task] = index
+        # Compatibility with pre-0.8 workers: an exact frozen root is safe to
+        # mirror deterministically even when it did not need migration.
+        issue["proposed_value"] = copy.deepcopy(expected_candidates[task])
+
+    staged_document = _staged_conversion_document(packet, packet_dir)
+    lineage_by_task = {
+        row["task"]: row["source_ids"]
+        for row in staged_document.get("lineage", [])
+        if isinstance(row, dict)
+        and isinstance(row.get("task"), str)
+        and isinstance(row.get("source_ids"), list)
+    }
+    packet_items = {item["source_id"]: item for item in packet["files"]}
+    existing_issue_ids = {
+        issue.get("issue_id")
+        for issue in working["issues"]
+        if isinstance(issue, dict) and isinstance(issue.get("issue_id"), str)
+    }
+    existing_field_ids = {
+        field.get("field_id")
+        for field in working["audited_fields"]
+        if isinstance(field, dict) and isinstance(field.get("field_id"), str)
+    }
+
+    for task in sorted(required):
+        action, target_source_id = required[task]
+        issue_index = root_issue_indexes.get(task)
+        existing_issue = (
+            working["issues"][issue_index] if issue_index is not None else None
+        )
+        field, field_id = _root_envelope_field(
+            artifact=working,
+            task=task,
+            existing_issue=existing_issue,
+            existing_issue_ids=existing_issue_ids,
+            existing_field_ids=existing_field_ids,
+        )
+        issue_id = (
+            existing_issue["issue_id"]
+            if isinstance(existing_issue, dict)
+            and isinstance(existing_issue.get("issue_id"), str)
+            else _root_envelope_issue_id(
+                task=task,
+                field=field,
+                existing_issue_ids=existing_issue_ids,
+            )
+        )
+        evidence_source_id = _root_envelope_evidence_source(
+            task=task,
+            action=action,
+            target_source_id=target_source_id,
+            lineage_by_task=lineage_by_task,
+            packet_items=packet_items,
+        )
+        issue = _root_envelope_issue(
+            artifact=working,
+            packet=packet,
+            packet_dir=packet_dir,
+            task=task,
+            action=action,
+            target_source_id=target_source_id,
+            evidence_source_id=evidence_source_id,
+            issue_id=issue_id,
+            field_id=field_id,
+            candidate=expected_candidates[task],
+        )
+        if issue_index is None:
+            working["issues"].append(issue)
+            existing_issue_ids.add(issue_id)
+        else:
+            working["issues"][issue_index] = issue
+        if issue_id not in field["issue_ids"]:
+            field["issue_ids"].append(issue_id)
+        if field["comparison_status"] == "verified_no_change":
+            field["comparison_status"] = "proposed_correction"
+
+    if required and working.get("disposition") == "no_issues":
+        working["disposition"] = "issues_proposed"
+    changed_paths = _changed_json_paths(artifact, working)
+    return working, {
+        "status": "applied" if changed_paths else "not_needed",
+        "kind": "staged_root_envelope",
+        "conversion_source_id": conversion_source_id,
+        "attached_tasks": sorted(required),
+        "changed_paths": changed_paths,
+    }
+
+
+def _staged_conversion_document(
+    packet: Mapping[str, Any], packet_dir: Path
+) -> dict[str, Any]:
+    item = next(
+        (
+            value
+            for value in packet["files"]
+            if value["role"] == "legacy_conversion_candidate"
+        ),
+        None,
+    )
+    if item is None:
+        raise ClaudeAuditError("comparison packet has no staged conversion")
+    return load_json_object(
+        packet_dir / item["path"], label="staged legacy conversion"
+    )
+
+
+def _root_envelope_field(
+    *,
+    artifact: dict[str, Any],
+    task: str,
+    existing_issue: Mapping[str, Any] | None,
+    existing_issue_ids: set[str],
+    existing_field_ids: set[str],
+) -> tuple[dict[str, Any], str]:
+    fields = artifact["audited_fields"]
+    existing_field_id = (
+        existing_issue.get("field_id")
+        if isinstance(existing_issue, Mapping)
+        else None
+    )
+    field = next(
+        (
+            value
+            for value in fields
+            if isinstance(value, dict)
+            and value.get("field_id") == existing_field_id
+            and value.get("task") == task
+        ),
+        None,
+    )
+    if field is None:
+        field = next(
+            (
+                value
+                for value in fields
+                if isinstance(value, dict)
+                and value.get("task") == task
+                and value.get("field_path") == "/"
+            ),
+            None,
+        )
+    if field is not None:
+        return field, field["field_id"]
+
+    field_id = _unique_stable_id(f"harness.{task.lower()}.root", existing_field_ids)
+    field = {
+        "field_id": field_id,
+        "task": task,
+        "object_id": f"{task.lower()}.document",
+        "field_path": "/",
+        "comparison_status": "proposed_correction",
+        "issue_ids": [],
+    }
+    fields.append(field)
+    existing_field_ids.add(field_id)
+    return field, field_id
+
+
+def _root_envelope_issue_id(
+    *, task: str, field: Mapping[str, Any], existing_issue_ids: set[str]
+) -> str:
+    dangling = [
+        issue_id
+        for issue_id in field.get("issue_ids", [])
+        if isinstance(issue_id, str) and issue_id not in existing_issue_ids
+    ]
+    if len(dangling) == 1:
+        return dangling[0]
+    return _unique_stable_id(
+        f"harness.{task.lower()}.root-migration", existing_issue_ids
+    )
+
+
+def _unique_stable_id(base: str, existing: set[str]) -> str:
+    candidate = base
+    suffix = 2
+    while candidate in existing:
+        candidate = f"{base}.{suffix}"
+        suffix += 1
+    return candidate
+
+
+def _root_envelope_evidence_source(
+    *,
+    task: str,
+    action: str,
+    target_source_id: str,
+    lineage_by_task: Mapping[str, list[Any]],
+    packet_items: Mapping[str, Mapping[str, Any]],
+) -> str:
+    if action == "replace":
+        return target_source_id
+    allowed_roles = {"legacy_curated_html", "current_benchmark_record"}
+    for source_id in lineage_by_task.get(task, []):
+        item = packet_items.get(source_id)
+        if item is not None and item.get("role") in allowed_roles:
+            return source_id
+    raise ClaudeAuditError(
+        f"staged {task} candidate has no packet-listed legacy lineage source"
+    )
+
+
+def _root_envelope_issue(
+    *,
+    artifact: Mapping[str, Any],
+    packet: Mapping[str, Any],
+    packet_dir: Path,
+    task: str,
+    action: str,
+    target_source_id: str,
+    evidence_source_id: str,
+    issue_id: str,
+    field_id: str,
+    candidate: dict[str, Any],
+) -> dict[str, Any]:
+    details = TASK_ARTIFACTS[task]
+    if action == "replace":
+        target_kind = "groundtruth_record"
+        patch_operation = "replace"
+        current_item = next(
+            item for item in packet["files"] if item["source_id"] == target_source_id
+        )
+        current_value: Any = load_json_object(
+            packet_dir / current_item["path"],
+            label=f"baseline {target_source_id}",
+        )
+        title = f"Represent legacy {task} in the canonical schema"
+    else:
+        target_kind = "new_groundtruth_record"
+        patch_operation = "add"
+        current_value = None
+        title = f"Add the canonical {task} ground-truth document"
+    return {
+        "issue_id": issue_id,
+        "task": task,
+        "field_id": field_id,
+        "category": "formatting_or_schema_error",
+        "defect_type": "other",
+        "responsibility": "policy",
+        "severity": "medium",
+        "title": title,
+        "target": {
+            "kind": target_kind,
+            "artifact_source_id": target_source_id,
+            "artifact_filename": details["filename"],
+            "json_pointer": "",
+        },
+        "current_value": current_value,
+        "proposed_value": copy.deepcopy(candidate),
+        "support_status": "derivable",
+        "evidence": [
+            {
+                "source_id": evidence_source_id,
+                "locator": {"section": "document root"},
+                "supports": "current",
+                "notes": (
+                    "Legacy/current curation lineage for a deterministic schema "
+                    "migration; it is not independent scientific evidence."
+                ),
+            }
+        ],
+        "transformations": [],
+        "explanation": (
+            "The hash-pinned phase-1 conversion already fixed this canonical "
+            "document. The deterministic harness attaches it verbatim so the "
+            "comparison worker cannot accidentally truncate, summarize, or "
+            "scientifically alter the migration root. Primary-source deltas "
+            "remain separate review findings."
+        ),
+        "recommendation": "propose_change",
+        "proposed_patch": [
+            {
+                "op": patch_operation,
+                "path": "",
+                "value": copy.deepcopy(candidate),
+            }
+        ],
+        "confidence": "high",
+        "run_id": artifact["run"]["run_id"],
+        "checkpoint_id": artifact["run"]["checkpoint_id"],
+    }
+
+
 def _validate_semantics(
     artifact: dict[str, Any],
     packet: dict[str, Any],
@@ -1347,6 +2131,7 @@ def _validate_semantics(
     phase: str,
     groundtruth_schemas: Mapping[str, Path],
 ) -> None:
+    staged_conversion = _staged_conversion_candidates(packet, packet_dir)
     expected_primary = {
         item["source_id"]
         for item in packet["files"]
@@ -1389,7 +2174,16 @@ def _validate_semantics(
     expected_filenames = {
         task: details["filename"] for task, details in TASK_ARTIFACTS.items()
     }
-    allowed_evidence_ids = {item["source_id"] for item in packet["files"]}
+    allowed_evidence_ids = {
+        item["source_id"]
+        for item in packet["files"]
+        if item["role"] != "legacy_conversion_candidate"
+    }
+    conversion_candidate_ids = {
+        item["source_id"]
+        for item in packet["files"]
+        if item["role"] == "legacy_conversion_candidate"
+    }
     conversion_evidence_ids = {
         item["source_id"]
         for item in packet["files"]
@@ -1405,9 +2199,28 @@ def _validate_semantics(
                 f"issue {issue_id} references unknown field {issue['field_id']}"
             )
         cited_ids = {item["source_id"] for item in issue["evidence"]}
-        if not cited_ids.issubset(allowed_evidence_ids):
+        inadmissible_ids = cited_ids - allowed_evidence_ids
+        if inadmissible_ids:
+            admissible_evidence = [
+                item
+                for item in issue["evidence"]
+                if item["source_id"] in allowed_evidence_ids
+            ]
+            if (
+                inadmissible_ids.issubset(conversion_candidate_ids)
+                and admissible_evidence
+            ):
+                raise _RepairableValidationError(
+                    f"issue {issue_id} cites the packet's "
+                    "legacy_conversion_candidate as evidence; delete only "
+                    "these inadmissible citation entries and retain the "
+                    "remaining evidence: "
+                    + ", ".join(sorted(inadmissible_ids)),
+                    validation_kind="inadmissible_conversion_evidence",
+                )
             raise ClaudeAuditError(
-                f"issue {issue_id} cites sources outside the comparison packet"
+                f"issue {issue_id} cites inadmissible or unavailable evidence: "
+                + ", ".join(sorted(inadmissible_ids))
             )
         if issue["recommendation"] != "propose_change":
             continue
@@ -1427,6 +2240,7 @@ def _validate_semantics(
             groundtruth_patch_issues.setdefault(source_id, []).append(issue_id)
             candidate = _root_replacement_candidate(issue["proposed_patch"])
             if candidate is not None:
+                _validate_root_candidate_mirror(issue_id, issue, candidate)
                 previous = root_conversion_issues.setdefault(source_id, issue_id)
                 if previous != issue_id:
                     raise ClaudeAuditError(
@@ -1469,6 +2283,7 @@ def _validate_semantics(
                     f"new artifact issue {issue_id} uses the wrong task filename"
                 )
             candidate = _new_artifact_candidate(issue_id, issue["proposed_patch"])
+            _validate_root_candidate_mirror(issue_id, issue, candidate)
             if candidate.get("protocol_id") != packet["protocol_id"]:
                 raise ClaudeAuditError(
                     f"new ground-truth candidate {issue_id} uses the wrong protocol_id"
@@ -1507,6 +2322,58 @@ def _validate_semantics(
         root_candidates=root_conversion_candidates,
         new_candidates=new_groundtruth_candidates,
     )
+    if staged_conversion is not None:
+        conversion_source_id, expected_candidates = staged_conversion
+        actual_candidates: dict[str, dict[str, Any]] = {}
+        for source_id, task in baseline_tasks.items():
+            if task in actual_candidates:
+                raise ClaudeAuditError(
+                    f"comparison packet contains multiple current {task} records"
+                )
+            current_item = next(
+                item for item in packet["files"] if item["source_id"] == source_id
+            )
+            actual_candidates[task] = root_conversion_candidates.get(
+                source_id
+            ) or load_json_object(
+                packet_dir / current_item["path"],
+                label=f"baseline {source_id}",
+            )
+        for source_id, candidate in new_groundtruth_candidates.items():
+            task = next(
+                (
+                    task
+                    for task, details in TASK_ARTIFACTS.items()
+                    if details["root_key"] in candidate
+                ),
+                None,
+            )
+            if task is None:
+                raise ClaudeAuditError(
+                    f"staged conversion root {source_id!r} has no task collection"
+                )
+            if task in actual_candidates:
+                raise ClaudeAuditError(
+                    f"staged conversion produced multiple {task} root candidates"
+                )
+            actual_candidates[task] = candidate
+            if task == "T3" and source_id != conversion_source_id:
+                raise ClaudeAuditError(
+                    "new T3 root must target the staged legacy conversion ID "
+                    f"{conversion_source_id!r}"
+                )
+        if actual_candidates != expected_candidates:
+            missing = sorted(set(expected_candidates) - set(actual_candidates))
+            extra = sorted(set(actual_candidates) - set(expected_candidates))
+            changed = sorted(
+                task
+                for task in set(actual_candidates) & set(expected_candidates)
+                if actual_candidates[task] != expected_candidates[task]
+            )
+            raise ClaudeAuditError(
+                "comparison changed the frozen legacy conversion candidates; "
+                f"missing={missing}, extra={extra}, changed={changed}"
+            )
     referenced = {
         issue_id
         for field in artifact["audited_fields"]
@@ -1521,6 +2388,36 @@ def _validate_semantics(
             f"unknown_issue_ids_in_ledger={unknown}",
             validation_kind="field_issue_linkage",
         )
+
+
+def _staged_conversion_candidates(
+    packet: dict[str, Any], packet_dir: Path
+) -> tuple[str, dict[str, dict[str, Any]]] | None:
+    staged = [
+        item
+        for item in packet["files"]
+        if item["role"] == "legacy_conversion_candidate"
+    ]
+    if not staged:
+        return None
+    if len(staged) != 1:
+        raise ClaudeAuditError(
+            "comparison packet must contain at most one legacy conversion candidate"
+        )
+    item = staged[0]
+    document = load_json_object(
+        packet_dir / item["path"], label="staged legacy conversion"
+    )
+    if document.get("status") != "unapproved_legacy_conversion":
+        raise ClaudeAuditError("staged legacy conversion has an invalid status")
+    if document.get("protocol_id") != packet["protocol_id"]:
+        raise ClaudeAuditError("staged legacy conversion uses the wrong protocol_id")
+    candidates = document.get("candidates")
+    if not isinstance(candidates, dict) or set(candidates) != set(TASK_ARTIFACTS):
+        raise ClaudeAuditError(
+            "staged legacy conversion must contain exactly T1, T2, and T3"
+        )
+    return item["source_id"], copy.deepcopy(candidates)
 
 
 def _validate_new_artifact_patch(
@@ -1547,6 +2444,19 @@ def _new_artifact_candidate(
             f"new ground-truth candidate {issue_id} must be a JSON object"
         )
     return value
+
+
+def _validate_root_candidate_mirror(
+    issue_id: str,
+    issue: Mapping[str, Any],
+    candidate: Mapping[str, Any],
+) -> None:
+    if issue.get("proposed_value") != candidate:
+        raise _RepairableValidationError(
+            f"root candidate {issue_id} must serialize the same complete document "
+            "in proposed_value and proposed_patch",
+            validation_kind="root_candidate_serialization",
+        )
 
 
 def _root_replacement_candidate(
@@ -1635,7 +2545,7 @@ def _validate_linked_root_candidates(
 def _resolve_groundtruth_schemas(
     phase: str, configured: Mapping[str, Path] | None
 ) -> dict[str, Path]:
-    if phase != "comparison":
+    if phase not in {"legacy_conversion", "comparison"}:
         raise ClaudeAuditError(f"unsupported audit phase: {phase}")
     paths = configured or {
         task: GROUNDTRUTH_SCHEMA_DIR / details["schema"]
@@ -1674,11 +2584,16 @@ def _verify_packet_files(packet_dir: Path, packet: dict[str, Any]) -> None:
             )
 def _extract_artifact(stdout: bytes, phase: str) -> dict[str, Any]:
     required_markers = {
-        "source_coverage",
-        "audited_fields",
-        "issues",
-        "disposition",
-    }
+        "legacy_conversion": {"candidates", "lineage", "notes"},
+        "comparison": {
+            "source_coverage",
+            "audited_fields",
+            "issues",
+            "disposition",
+        },
+    }.get(phase)
+    if required_markers is None:
+        raise ClaudeAuditError(f"unsupported audit phase: {phase}")
     candidates: list[Any] = []
     for raw_line in stdout.decode("utf-8", errors="replace").splitlines():
         try:

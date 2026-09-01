@@ -1,33 +1,49 @@
-"system_id","system_label","model","harness","display_order","model_id","model_version_label","reasoning_effort","native_axis_label","metric_id","metric_order","metric_label","protocols","mean_score","ci_low","ci_high","bootstrap_replicates","mean_label","label_y"
-"gpt_codex","GPT + Codex","GPT","Native",9,"gpt-5.6-sol","GPT-5.6 Sol","Max","GPT-5.6 Sol Max
-Codex","t2_family",1,"Task 2 oligo-family F1",19,0.690741426923372,0.582589384810585,0.789631272370986,5000,"0.69",0.824631272370986
-"gpt_codex","GPT + Codex","GPT","Native",9,"gpt-5.6-sol","GPT-5.6 Sol","Max","GPT-5.6 Sol Max
-Codex","t3_transition",2,"Task 3 transition F1",19,0.702430837545981,0.644171867781012,0.761735091190621,5000,"0.70",0.796735091190621
-"gpt_codex","GPT + Codex","GPT","Native",9,"gpt-5.6-sol","GPT-5.6 Sol","Max","GPT-5.6 Sol Max
-Codex","t3_state",3,"Task 3 state F1",19,0.407225899638951,0.355294068410779,0.461855889773118,5000,"0.41",0.496855889773118
-"gpt_codex","GPT + Codex","GPT","Native",9,"gpt-5.6-sol","GPT-5.6 Sol","Max","GPT-5.6 Sol Max
-Codex","t3_edge",4,"Task 3 typed-edge F1",19,0.606980368540639,0.506489976293281,0.71071212526079,5000,"0.61",0.74571212526079
-"claude_code","Claude + Claude Code","Claude","Native",10,"claude-opus-5","Claude Opus 5","Max","Claude Opus 5 Max
-Claude Code","t2_family",1,"Task 2 oligo-family F1",20,0.71541493586926,0.597627682491358,0.814327081510577,5000,"0.72",0.849327081510577
-"claude_code","Claude + Claude Code","Claude","Native",10,"claude-opus-5","Claude Opus 5","Max","Claude Opus 5 Max
-Claude Code","t3_transition",2,"Task 3 transition F1",20,0.752617001451263,0.705848882436913,0.792325970884757,5000,"0.75",0.827325970884757
-"claude_code","Claude + Claude Code","Claude","Native",10,"claude-opus-5","Claude Opus 5","Max","Claude Opus 5 Max
-Claude Code","t3_state",3,"Task 3 state F1",20,0.539871753074441,0.484582745637297,0.591637215087809,5000,"0.54",0.626637215087809
-"claude_code","Claude + Claude Code","Claude","Native",10,"claude-opus-5","Claude Opus 5","Max","Claude Opus 5 Max
-Claude Code","t3_edge",4,"Task 3 typed-edge F1",20,0.703242555587984,0.619705295459707,0.775968348989709,5000,"0.70",0.810968348989709
-"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash High
-Antigravity CLI","t2_family",1,"Task 2 oligo-family F1",20,0.725462001885098,0.612167381343484,0.827585868738657,5000,"0.73",0.862585868738657
-"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash High
-Antigravity CLI","t3_transition",2,"Task 3 transition F1",20,0.768247987917075,0.699590769328412,0.831123440803008,5000,"0.77",0.866123440803008
-"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash High
-Antigravity CLI","t3_state",3,"Task 3 state F1",20,0.484632572163526,0.425708367283685,0.544641909351726,5000,"0.48",0.579641909351726
-"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash High
-Antigravity CLI","t3_edge",4,"Task 3 typed-edge F1",20,0.70673638046518,0.588654751556555,0.818857559535258,5000,"0.71",0.853857559535258
-"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"kimi/kimi-k3","Kimi K3","Max","Kimi K3 Max
-Kimi Code","t2_family",1,"Task 2 oligo-family F1",20,0.726812742467639,0.614555696446138,0.823633083056878,5000,"0.73",0.858633083056878
-"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"kimi/kimi-k3","Kimi K3","Max","Kimi K3 Max
-Kimi Code","t3_transition",2,"Task 3 transition F1",20,0.691015578501146,0.627954437069899,0.751003694746711,5000,"0.69",0.786003694746711
-"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"kimi/kimi-k3","Kimi K3","Max","Kimi K3 Max
-Kimi Code","t3_state",3,"Task 3 state F1",20,0.408488134041305,0.358979040079149,0.465729692988288,5000,"0.41",0.500729692988288
-"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"kimi/kimi-k3","Kimi K3","Max","Kimi K3 Max
-Kimi Code","t3_edge",4,"Task 3 typed-edge F1",20,0.62860012862954,0.531909011413423,0.726107686431216,5000,"0.63",0.761107686431216
+"system_id","system_label","model","harness","display_order","model_id","model_version_label","reasoning_effort","native_axis_label","metric_id","metric_order","metric_label","protocols","mean_score","ci_low","ci_high","bootstrap_replicates","mean_label","label_stagger","label_y"
+"gpt_codex","GPT + Codex","GPT","Native",9,"gpt-5.6-sol","GPT-5.6 Sol","Max","GPT-5.6 Sol
+Max
+Codex","t2_family",1,"Task 2 oligo-family F1",20,0.651473351866901,0.547088156304341,0.73830886116639,5000,"0.65",0,0.77830886116639
+"gpt_codex","GPT + Codex","GPT","Native",9,"gpt-5.6-sol","GPT-5.6 Sol","Max","GPT-5.6 Sol
+Max
+Codex","t3_transition",2,"Task 3 transition F1",20,0.744478776601971,0.685250165511525,0.802429335627693,5000,"0.74",0.015,0.857429335627693
+"gpt_codex","GPT + Codex","GPT","Native",9,"gpt-5.6-sol","GPT-5.6 Sol","Max","GPT-5.6 Sol
+Max
+Codex","t3_state",3,"Task 3 state F1",20,0.691200201704762,0.616938191167535,0.75785104475925,5000,"0.69",0,0.79785104475925
+"gpt_codex","GPT + Codex","GPT","Native",9,"gpt-5.6-sol","GPT-5.6 Sol","Max","GPT-5.6 Sol
+Max
+Codex","t3_edge",4,"Task 3 typed-edge F1",20,0.685696420048242,0.590579175400307,0.779114320660656,5000,"0.69",0.025,0.844114320660656
+"claude_code","Claude + Claude Code","Claude","Native",10,"claude-opus-5","Claude Opus 5","Max","Claude Opus 5
+Max
+Claude Code","t2_family",1,"Task 2 oligo-family F1",20,0.638391686369745,0.532474795182166,0.732793360693411,5000,"0.64",0,0.772793360693411
+"claude_code","Claude + Claude Code","Claude","Native",10,"claude-opus-5","Claude Opus 5","Max","Claude Opus 5
+Max
+Claude Code","t3_transition",2,"Task 3 transition F1",20,0.776702726446979,0.737359266407281,0.811334136415736,5000,"0.78",0.015,0.866334136415736
+"claude_code","Claude + Claude Code","Claude","Native",10,"claude-opus-5","Claude Opus 5","Max","Claude Opus 5
+Max
+Claude Code","t3_state",3,"Task 3 state F1",20,0.73057475979427,0.676908081914213,0.781308314833772,5000,"0.73",0,0.821308314833772
+"claude_code","Claude + Claude Code","Claude","Native",10,"claude-opus-5","Claude Opus 5","Max","Claude Opus 5
+Max
+Claude Code","t3_edge",4,"Task 3 typed-edge F1",20,0.745037065137023,0.675786684902291,0.81011318609092,5000,"0.75",0.025,0.87511318609092
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash
+High
+Antigravity CLI","t2_family",1,"Task 2 oligo-family F1",20,0.650635819146474,0.548270110576805,0.741818994416184,5000,"0.65",0,0.781818994416184
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash
+High
+Antigravity CLI","t3_transition",2,"Task 3 transition F1",20,0.780686433819243,0.708959380625631,0.848302003714194,5000,"0.78",0.015,0.903302003714194
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash
+High
+Antigravity CLI","t3_state",3,"Task 3 state F1",20,0.55258025184274,0.476346775943098,0.625951707501055,5000,"0.55",0,0.665951707501055
+"gemini_antigravity","Gemini + Antigravity CLI","Gemini","Native",11,"google/gemini-3.7-flash-high","Gemini 3.7 Flash","High","Gemini 3.7 Flash
+High
+Antigravity CLI","t3_edge",4,"Task 3 typed-edge F1",20,0.715524836304719,0.586652343086797,0.834010009072025,5000,"0.72",0.025,0.899010009072025
+"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"kimi/kimi-k3","Kimi K3","Max","Kimi K3
+Max
+Kimi Code","t2_family",1,"Task 2 oligo-family F1",20,0.683934978289113,0.58184514265481,0.763735195474061,5000,"0.68",0,0.803735195474061
+"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"kimi/kimi-k3","Kimi K3","Max","Kimi K3
+Max
+Kimi Code","t3_transition",2,"Task 3 transition F1",20,0.711947012716319,0.64333360341692,0.779900031472897,5000,"0.71",0.015,0.834900031472897
+"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"kimi/kimi-k3","Kimi K3","Max","Kimi K3
+Max
+Kimi Code","t3_state",3,"Task 3 state F1",20,0.535611447815523,0.460609913088993,0.618071830685144,5000,"0.54",0,0.658071830685145
+"kimi_code","Kimi + Kimi Code","Kimi","Native",12,"kimi/kimi-k3","Kimi K3","Max","Kimi K3
+Max
+Kimi Code","t3_edge",4,"Task 3 typed-edge F1",20,0.674827345856758,0.565699763879911,0.779287254820343,5000,"0.67",0.025,0.844287254820343

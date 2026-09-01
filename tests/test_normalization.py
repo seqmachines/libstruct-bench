@@ -49,7 +49,8 @@ class SequenceNormalizationTests(unittest.TestCase):
             "[4-bp CB1]": "[CELL_BARCODE:4]",
             "[8-bp barcode2]": "[CELL_BARCODE:8]",
             "[8-bp Round1 barcode]": "[CELL_BARCODE:8]",
-            "[10-bp RT barcode]": "[RT_BARCODE:10]",
+            "[10-bp RT barcode]": "[CELL_BARCODE:10]",
+            "[RT_BARCODE:10]": "[CELL_BARCODE:10]",
             "[9-bp plate barcode]": "[CELL_BARCODE:9]",
             "[5-bp well barcode]": "[CELL_BARCODE:5]",
             "[8-bp subarray barcode]": "[CELL_BARCODE:8]",
@@ -83,6 +84,38 @@ class SequenceNormalizationTests(unittest.TestCase):
         self.assertEqual(normalize_sequence("[RANDOM_HEXAMER:6]"), "[RANDOM:6]")
         self.assertEqual(normalize_sequence("ACGTNNNNNNNNN"), "ACGTNNNNNNNNN")
         self.assertEqual(normalize_sequence("[NNNNNNNNN randomer]"), "[RANDOM:9]")
+
+    def test_biological_payload_placeholder_aliases(self):
+        cases = {
+            "[GDNA]": "[GDNA]",
+            "[GENOMIC_DNA]": "[GDNA]",
+            "[GENOMIC_DNA_INSERT]": "[GDNA]",
+            "[GENOMIC_INSERT]": "[GDNA]",
+            "[GENOMIC_DNA:9]": "[GDNA:9]",
+            "[CDNA_INSERT]": "[CDNA]",
+            "[MRNA_BODY]": "[MRNA]",
+            "[MRNA_INSERT]": "[MRNA]",
+            "[RNA_INSERT]": "[MRNA]",
+            "[RNA_TRANSCRIPT]": "[MRNA]",
+            "[TRANSCRIPT]": "[MRNA]",
+            "[POLY_A]": "[POLYA]",
+            "[POLY_A_TAIL]": "[POLYA]",
+            "[POLY_T]": "[POLYT]",
+            "[POLY_U]": "[POLYU]",
+        }
+        for raw, normalized in cases.items():
+            with self.subTest(raw=raw):
+                self.assertEqual(normalize_sequence(raw), normalized)
+
+        # State-changing chemistry and topology remain distinct.
+        self.assertEqual(
+            normalize_sequence("[BISULFITE_CONVERTED_GDNA]"),
+            "[BISULFITE_CONVERTED_GDNA]",
+        )
+        self.assertEqual(
+            normalize_sequence("[TN5_TAGGED_GENOMIC_DNA]"),
+            "[TN5_TAGGED_GENOMIC_DNA]",
+        )
 
     def test_letter_runs_are_preserved_as_sequence(self):
         self.assertEqual(normalize_sequence("BBBBBBBBBBBBBBBB"), "BBBBBBBBBBBBBBBB")

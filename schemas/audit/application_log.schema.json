@@ -7,6 +7,7 @@
  "required": ["application_id", "protocol_id", "audit_id", "decision_id", "review_state", "proposal_sha256", "decision_sha256", "created_at", "artifacts", "applied_issue_ids", "skipped_issue_ids", "regression_fixtures"],
  "properties": {
  "application_id": {"$ref": "#/$defs/stable_id"},
+ "application_mode": {"type": "string", "enum": ["patches", "compiled_roots"]},
  "protocol_id": {"$ref": "#/$defs/stable_id"},
  "audit_id": {"$ref": "#/$defs/stable_id"},
  "decision_id": {"$ref": "#/$defs/stable_id"},
@@ -16,9 +17,13 @@
  "created_at": {"type": "string", "format": "date-time"},
  "artifacts": {"type": "array", "items": {"$ref": "#/$defs/artifact"}},
  "applied_issue_ids": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/stable_id"}},
+ "incorporated_decision_ids": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/stable_id"}},
  "skipped_issue_ids": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/stable_id"}},
  "regression_fixtures": {"type": "array", "items": {"type": "string", "minLength": 1}}
  },
+ "allOf": [
+  {"if": {"properties": {"application_mode": {"const": "compiled_roots"}}, "required": ["application_mode"]}, "then": {"required": ["incorporated_decision_ids"]}}
+ ],
  "$defs": {
  "stable_id": {"type": "string", "minLength": 1, "maxLength": 240, "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"},
  "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},

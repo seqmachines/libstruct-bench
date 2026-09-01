@@ -6,24 +6,40 @@ Cross-validates coding-agent grades against the in-container verifier/reward.jso
 """
 from __future__ import annotations
 
+import argparse
+import csv
+import hashlib
 import json
 import os
 import sys
+from collections import Counter
 from pathlib import Path
 
 REPO = Path("/Users/seqmachines/playground/libstruct-bench")
 sys.path.insert(0, str(REPO / "src"))
 
-from libstruct_bench.hf_io import env_token, load_hf_json  # noqa: E402
 from libstruct_bench.library_structure import (  # noqa: E402
-    LibraryStructureValidationError,
     grade_library_prediction,
+    zero_metrics,
 )
 
-OUT = Path(sys.argv[1]) if len(sys.argv) > 1 else REPO / "analysis" / "library_structure"
+parser = argparse.ArgumentParser()
+parser.add_argument(
+    "output_root",
+    nargs="?",
+    default=REPO / "analysis" / "library_structure",
+    type=Path,
+)
+parser.add_argument(
+    "--groundtruth-root",
+    default=REPO / "analysis" / "library_structure" / "groundtruth",
+    type=Path,
+)
+args = parser.parse_args()
+
+OUT = args.output_root.resolve()
 OUT.mkdir(parents=True, exist_ok=True)
-GT_CACHE = OUT / "groundtruth"
-GT_CACHE.mkdir(exist_ok=True)
+GROUNDTRUTH_ROOT = args.groundtruth_root.resolve()
 
 RUNS = REPO / "runs" / "library_structure"
 
@@ -34,33 +50,50 @@ AIS = {
     "Gemini": ("google-gemini-3.1-pro-preview", "library-structure-gemini-cli-31pro-high"),
 }
 
-# ---- ground truth ---------------------------------------------------------
+# ---- frozen Task 1 ground truth --------------------------------------------
 manifest = json.loads((REPO / "benchmarks/library_structure/protocols.json").read_text())
-GT_REPO = manifest["groundtruth_repo"]
-GT_REV = manifest.get("groundtruth_revision", "main")
 PROTOCOLS = manifest["protocols"]
 DISPLAY = {p["protocol_id"]: p["display_name"] for p in PROTOCOLS}
-GT_PATH = {p["protocol_id"]: p["groundtruth_path"] for p in PROTOCOLS}
 
-token = env_token()
 ground_truth: dict[str, object] = {}
+ground_truth_path: dict[str, Path] = {}
+ground_truth_sha256: dict[str, str] = {}
 for p in PROTOCOLS:
     pid = p["protocol_id"]
-    cache = GT_CACHE / f"{pid}.json"
-    if cache.exists():
-        ground_truth[pid] = json.loads(cache.read_text())
-        continue
-    doc = load_hf_json(repo_id=GT_REPO, path=GT_PATH[pid], revision=GT_REV, token=token)
-    cache.write_text(json.dumps(doc, indent=2))
-    ground_truth[pid] = doc
-    print(f"fetched GT {pid}")
-print(f"ground truth ready for {len(ground_truth)} protocols")
+    candidates = (
+        GROUNDTRUTH_ROOT / f"{pid}.json",
+        GROUNDTRUTH_ROOT / pid / "groundtruth_final_lib_struct.json",
+    )
+    path = next((candidate for candidate in candidates if candidate.is_file()), None)
+    if path is None:
+        expected = " or ".join(str(candidate) for candidate in candidates)
+        raise FileNotFoundError(f"missing frozen Task 1 ground truth: {expected}")
+    raw = path.read_bytes()
+    ground_truth[pid] = json.loads(raw)
+    ground_truth_path[pid] = path
+    ground_truth_sha256[pid] = hashlib.sha256(raw).hexdigest()
+print(f"frozen Task 1 ground truth ready for {len(ground_truth)} protocols")
 
 
 def grade(pred_doc, pid):
     """Return (sequence_similarity, metrics) or raise."""
     metrics, _audit = grade_library_prediction(pred_doc, ground_truth[pid], expected_protocol_id=pid)
     return metrics
+
+
+def apply_metrics(row, metrics):
+    row.update(
+        status="ok",
+        parse_valid=int(metrics["prediction_parse_valid"]),
+        sequence_similarity=metrics["sequence_similarity"],
+        matched_sequence_similarity=metrics["matched_sequence_similarity"],
+        library_f1=metrics["library_f1"],
+        library_precision=metrics["library_precision"],
+        library_recall=metrics["library_recall"],
+        edit_distance=metrics["edit_distance"],
+        predicted_library_count=metrics["predicted_library_count"],
+        ground_truth_library_count=metrics["ground_truth_library_count"],
+    )
 
 
 rows = []  # tidy long format
@@ -72,6 +105,8 @@ for ai, (api_dir, _agent_dir) in AIS.items():
         pdir = base / pid
         row = {
             "ai": ai, "method": "API", "protocol": pid, "protocol_display": DISPLAY[pid],
+            "groundtruth_path": str(ground_truth_path[pid]),
+            "groundtruth_sha256": ground_truth_sha256[pid],
             "status": "missing", "sequence_similarity": None, "matched_sequence_similarity": None,
             "library_f1": None, "library_precision": None, "library_recall": None,
             "edit_distance": None, "predicted_library_count": None,
@@ -79,7 +114,8 @@ for ai, (api_dir, _agent_dir) in AIS.items():
         }
         if not pdir.is_dir():
             row["fail_reason"] = "no_dir"
-            rows.append(row); continue
+            rows.append(row)
+            continue
         files = set(os.listdir(pdir))
         pred_file = pdir / "prediction.json"
         if not pred_file.exists():
@@ -89,23 +125,18 @@ for ai, (api_dir, _agent_dir) in AIS.items():
                 row["fail_reason"] = "api_error:" + str(err.get("error", ""))[:80]
             else:
                 row["fail_reason"] = "no_prediction"
-            rows.append(row); continue
+            rows.append(row)
+            continue
         try:
             pred = json.loads(pred_file.read_text())
             m = grade(pred, pid)
-            row.update(status="ok", parse_valid=1, sequence_similarity=m["sequence_similarity"],
-                       matched_sequence_similarity=m["matched_sequence_similarity"],
-                       library_f1=m["library_f1"], library_precision=m["library_precision"],
-                       library_recall=m["library_recall"], edit_distance=m["edit_distance"],
-                       predicted_library_count=m["predicted_library_count"],
-                       ground_truth_library_count=m["ground_truth_library_count"])
-        except (LibraryStructureValidationError, Exception) as exc:  # noqa: BLE001
-            row["status"] = "failed"
-            row["fail_reason"] = "parse_grade_error:" + str(exc)[:80]
+            apply_metrics(row, m)
+        except Exception as exc:  # noqa: BLE001
+            apply_metrics(row, zero_metrics())
+            row["fail_reason"] = "unscorable_prediction:" + str(exc)[:80]
         rows.append(row)
 
-# ---- coding_agent (re-grade uniformly + cross-check reward.json) ----------
-mismatches = []
+# ---- coding_agent (re-grade uniformly) -------------------------------------
 for ai, (_api_dir, agent_dir) in AIS.items():
     base = RUNS / "coding_agent" / agent_dir
     # map protocol_id -> run dir via authoritative result.json task path
@@ -121,6 +152,8 @@ for ai, (_api_dir, agent_dir) in AIS.items():
     for pid in DISPLAY:
         row = {
             "ai": ai, "method": "Agent", "protocol": pid, "protocol_display": DISPLAY[pid],
+            "groundtruth_path": str(ground_truth_path[pid]),
+            "groundtruth_sha256": ground_truth_sha256[pid],
             "status": "missing", "sequence_similarity": None, "matched_sequence_similarity": None,
             "library_f1": None, "library_precision": None, "library_recall": None,
             "edit_distance": None, "predicted_library_count": None,
@@ -128,45 +161,29 @@ for ai, (_api_dir, agent_dir) in AIS.items():
         }
         d = run_dirs.get(pid)
         if d is None:
-            row["fail_reason"] = "no_dir"; rows.append(row); continue
+            row["fail_reason"] = "no_dir"
+            rows.append(row)
+            continue
         pred_file = d / "artifacts" / "prediction.json"
-        reward_file = d / "verifier" / "reward.json"
-        reward = json.loads(reward_file.read_text()) if reward_file.exists() else None
         if not pred_file.exists():
-            row["status"] = "failed"; row["fail_reason"] = "no_prediction"; rows.append(row); continue
+            row["status"] = "failed"
+            row["fail_reason"] = "no_prediction"
+            rows.append(row)
+            continue
         try:
             pred = json.loads(pred_file.read_text())
             m = grade(pred, pid)
-            row.update(status="ok", parse_valid=1, sequence_similarity=m["sequence_similarity"],
-                       matched_sequence_similarity=m["matched_sequence_similarity"],
-                       library_f1=m["library_f1"], library_precision=m["library_precision"],
-                       library_recall=m["library_recall"], edit_distance=m["edit_distance"],
-                       predicted_library_count=m["predicted_library_count"],
-                       ground_truth_library_count=m["ground_truth_library_count"])
-            if reward is not None and reward.get("prediction_parse_valid") == 1.0:
-                diff = abs(reward["sequence_similarity"] - m["sequence_similarity"])
-                if diff > 1e-6:
-                    mismatches.append((ai, pid, reward["sequence_similarity"], m["sequence_similarity"]))
+            apply_metrics(row, m)
         except Exception as exc:  # noqa: BLE001
-            # Agent RAN but produced an unscorable prediction (e.g. empty libraries).
-            # The benchmark scores this 0.0 (prediction_parse_valid=0). It's a real
-            # performance result, NOT an infra failure, so keep it as a 0.0 data point.
-            if reward is not None:
-                row.update(status="ok", parse_valid=0,
-                           sequence_similarity=reward["sequence_similarity"],
-                           matched_sequence_similarity=reward.get("matched_sequence_similarity"),
-                           library_f1=reward.get("library_f1"), edit_distance=reward.get("edit_distance"),
-                           predicted_library_count=reward.get("predicted_library_count"),
-                           ground_truth_library_count=reward.get("ground_truth_library_count"),
-                           fail_reason="unscorable_pred:" + str(exc)[:60])
-            else:
-                row["status"] = "failed"; row["fail_reason"] = "parse_grade_error:" + str(exc)[:80]
+            # A completed but invalid prediction is a scientific score of zero,
+            # not a missing infrastructure result.
+            apply_metrics(row, zero_metrics())
+            row["fail_reason"] = "unscorable_prediction:" + str(exc)[:80]
         rows.append(row)
 
 # ---- write outputs --------------------------------------------------------
-import csv
-
-cols = ["ai", "method", "protocol", "protocol_display", "status", "parse_valid",
+cols = ["ai", "method", "protocol", "protocol_display", "groundtruth_path",
+        "groundtruth_sha256", "status", "parse_valid",
         "sequence_similarity", "matched_sequence_similarity", "library_f1", "library_precision",
         "library_recall", "edit_distance", "predicted_library_count",
         "ground_truth_library_count", "fail_reason"]
@@ -178,15 +195,7 @@ with (OUT / "grades_long.csv").open("w", newline="") as f:
 (OUT / "grades_long.json").write_text(json.dumps(rows, indent=2))
 
 # ---- summary --------------------------------------------------------------
-print("\n=== cross-check vs verifier/reward.json ===")
-if mismatches:
-    for ai, pid, a, b in mismatches:
-        print(f"  MISMATCH {ai:7s} {pid:35s} reward={a:.4f} regrade={b:.4f}")
-else:
-    print("  all coding-agent re-grades match reward.json (<=1e-6)")
-
 print("\n=== per AI x method: ok / failed / missing counts ===")
-from collections import Counter
 c = Counter((r["ai"], r["method"], r["status"]) for r in rows)
 for ai in AIS:
     for method in ("API", "Agent"):

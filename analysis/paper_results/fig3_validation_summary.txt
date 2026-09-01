@@ -1,13 +1,14 @@
 Figure 3 validation summary
+Verifier benchmark version: 4.5.0 (immutable rescore sidecars).
 Panel A: 4 native systems across 20 protocols; Panel B: 9 systems across 10 common protocols; Panel C: 10 systems across the same protocols.
-Panel A / GPT + Codex: 20 scheduled protocols, 19 valid completions, 19 protocols included in means; missing primary Task 2/transition/state/edge = 0/0/0/0.
+Panel A / GPT + Codex: 20 scheduled protocols, 20 valid completions, 20 protocols included in means; missing primary Task 2/transition/state/edge = 0/0/0/0.
 Panel A / Claude + Claude Code: 20 scheduled protocols, 20 valid completions, 20 protocols included in means; missing primary Task 2/transition/state/edge = 0/0/0/0.
 Panel A / Gemini + Antigravity CLI: 20 scheduled protocols, 20 valid completions, 20 protocols included in means; missing primary Task 2/transition/state/edge = 0/0/0/0.
 Panel A / Kimi + Kimi Code: 20 scheduled protocols, 20 valid completions, 20 protocols included in means; missing primary Task 2/transition/state/edge = 0/0/0/0.
 GPT + Pi: 10 protocols, 10 valid completions; missing T2/T3/state/edge = 0/0/0/0.
-GPT + mini-SWE: 10 protocols, 9 valid completions; missing T2/T3/state/edge = 0/0/0/0.
+GPT + mini-SWE: 10 protocols, 10 valid completions; missing T2/T3/state/edge = 0/0/0/0.
 Claude + Pi: 10 protocols, 10 valid completions; missing T2/T3/state/edge = 0/0/0/0.
-Claude + mini-SWE: 10 protocols, 9 valid completions; missing T2/T3/state/edge = 0/0/0/0.
+Claude + mini-SWE: 10 protocols, 10 valid completions; missing T2/T3/state/edge = 0/0/0/0.
 Gemini + Pi: 10 protocols, 10 valid completions; missing T2/T3/state/edge = 0/0/0/0.
 Gemini + mini-SWE: 10 protocols, 10 valid completions; missing T2/T3/state/edge = 0/0/0/0.
 Kimi + Pi: excluded - no preserved run.
@@ -18,5 +19,7 @@ Gemini + Antigravity CLI: 10 protocols, 10 valid completions; missing T2/T3/stat
 Kimi + Kimi Code: 10 protocols, 10 valid completions; missing T2/T3/state/edge = 0/0/0/0.
 Panel B clustering: 9 plotted systems after excluding Kimi + Kimi Code; correlation distance (1 - Pearson r); average linkage; row dendrogram shown.
 Panel C clustering: 10 plotted systems; six-category affected-protocol rate vectors normalized by valid completions; correlation distance (1 - Pearson r); average linkage; row dendrogram shown.
-Panel C: mode=provisional_output_discrepancy_rates; 416 unique system-protocol-category incidences; each protocol contributes at most once per category; 0/10 plotted systems have complete error review.
+Panel C: mode=provisional_output_discrepancy_rates; 406 unique system-protocol-category incidences; each protocol contributes at most once per category; 0/10 plotted systems have complete error review.
+Protocol-centric companion: 10 protocols across 10 valid systems; cells are affected-system fractions; correlation distance (1 - Pearson r); average linkage; row dendrogram shown.
+Supplementary metric heatmaps: Task 2 family, Task 3 state, and Task 3 typed-edge F1; 9 Figure 3b systems across 10 protocols; independent correlation-distance clustering; fixed 0-1 scales.
 Panel D: omitted from the current figure set.

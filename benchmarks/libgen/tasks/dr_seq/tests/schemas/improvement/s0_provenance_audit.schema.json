@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema", "$id": "https://seqmachines.org/schemas/libstruct/improvement/s0_provenance_audit.schema.json",
+  "title": "S0 capability-pack provenance audit", "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "audit_id", "pack_digest", "audited_at", "baseline_inspection_preceded_s0_freeze", "aggregate_results_informed_s0", "influence_scope", "direct_baseline_artifact_ingestion", "direct_groundtruth_ingestion", "protocol_specific_content_detected", "protocol_term_hits", "audited_files", "conclusion", "audit_digest"],
+  "properties": {
+    "schema_version": {"const": "libstruct.libgen_s0_provenance_audit.v1"}, "audit_id": {"$ref": "#/$defs/id"}, "pack_digest": {"$ref": "#/$defs/sha256"}, "audited_at": {"type": "string", "format": "date-time"},
+    "baseline_inspection_preceded_s0_freeze": {"const": true}, "aggregate_results_informed_s0": {"const": true}, "influence_scope": {"const": "indirect_aggregate_problem_selection_and_generic_control_design"},
+    "direct_baseline_artifact_ingestion": {"const": false}, "direct_groundtruth_ingestion": {"const": false}, "protocol_specific_content_detected": {"type": "boolean"},
+    "protocol_term_hits": {"type": "array", "items": {"type": "object", "additionalProperties": false, "required": ["protocol_id", "path"], "properties": {"protocol_id": {"$ref": "#/$defs/id"}, "path": {"type": "string", "minLength": 1}}}},
+    "audited_files": {"type": "array", "minItems": 1, "items": {"type": "object", "additionalProperties": false, "required": ["path", "sha256"], "properties": {"path": {"type": "string", "minLength": 1}, "sha256": {"$ref": "#/$defs/sha256"}}}},
+    "conclusion": {"type": "string", "minLength": 1}, "audit_digest": {"$ref": "#/$defs/sha256"}
+  }, "$defs": {"id": {"type": "string", "minLength": 1, "maxLength": 240, "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"}, "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}}
+}

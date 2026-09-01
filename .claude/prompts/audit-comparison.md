@@ -1,22 +1,40 @@
-# Conversion-first ground-truth audit
+# Frozen-conversion ground-truth audit
 
 This is one audit pass, not a benchmark task and not an independent
 primary-source reconstruction. Work in the following order.
 
-## Stage 1 — convert existing human curation
+## Stage 1 — load the frozen legacy conversion
 
-First read only:
+First read:
 
+- the packet-listed `legacy_conversion_candidate`;
 - packet-listed legacy `scg_lib_structs` HTML and available legacy assets;
 - current T1, T2, and T3 JSON when present; and
 - the protocol-only projection of `groundtruth_oligos.tsv`.
 
 Do not open `primary_evidence/`, its renditions, benchmark-run artifacts, or use
-remembered/external kit knowledge until the complete legacy-derived candidate
-is fixed in your working context.
+remembered/external kit knowledge until the staged candidate and its lineage
+are fixed in your working context.
 
-Convert the existing curation into the canonical T1, T2, and T3 schemas without
-changing its scientific claims:
+The staged conversion was created in a separate read-only run that could not
+access primary evidence. Treat its T1, T2, and T3 values as immutable starting
+claims. Read and audit them, but **do not serialize the complete frozen T1, T2,
+or T3 documents into root replacement/add issues**. The deterministic harness
+attaches those exact hash-pinned roots after generation. Within `issues` and
+`audited_fields`, include only the scientific comparison findings and their
+ledger; still return every other field required by the supplied proposal
+schema, including primary-only `source_coverage`. Do not reconstruct, improve,
+or silently revise the frozen roots. The original legacy/current files remain
+available only to interpret lineage and formulate review cards.
+
+The staged conversion is a claim being audited, not an admissible evidence
+source. Its `conversion_id` must never appear in
+`issues[].evidence[].source_id`. When an issue describes the frozen claim, cite
+the underlying packet-listed legacy HTML or current benchmark record for that
+claim and cite primary evidence for a proposed scientific correction. Do not
+replace the conversion citation with an invented source or locator.
+
+The frozen candidates follow these rules:
 
 - T1 comes from the legacy/current final-library curation;
 - T2 comes from current T2, the reviewed TSV projection, and legacy HTML;
@@ -28,18 +46,31 @@ changing its scientific claims:
   review-status, and audit-note fields from cleaned candidate JSON. In
   particular, omit `ground_truth_status`, T2 `baseline_lineage`, and T3
   `workflow_branch`;
-- emit one `formatting_or_schema_error` root replacement issue for every
-  legacy-shaped existing T1/T2/T3 record;
-- when T3 JSON is absent but the HTML contains workflow steps, emit one
-  `new_groundtruth_record` root-add issue for the HTML-derived T3 candidate;
+- leave staged root replacement/add issues and their root audited fields to the
+  deterministic harness; do not emit a hash reference, prose stand-in, partial
+  document, or duplicate complete document for them;
+- when no staged conversion is present (legacy compatibility only), emit one
+  `formatting_or_schema_error` root replacement/add issue per required task and
+  make `proposed_value` the same complete JSON document as the root patch value;
 - classify conversion or a missing JSON representation as migration/schema
   work, not a scientific human-curation error; and
 - validate every complete root candidate against its embedded canonical schema.
 
-For a root-converted artifact, later primary-source differences must be
+For every root-converted artifact, later primary-source differences must be
 separate, patch-free findings. The controller will compile accepted findings
 into the reviewed root candidate. Do not silently blend corrections into the
 Stage 1 conversion.
+
+Before treating an assembled sequence as complete, compare it with its ordered
+segments. When every segment supplies exact bases, a placeholder, or a fixed
+length, the token-aware ordered projection must consume the complete T1
+`library_sequence` or T3 strand `sequence_architecture`. A fixed-length
+placeholder may be represented by the same placeholder or by the corresponding
+number of literal IUPAC bases, and nucleotide chemistry spelling such as `rG`
+or `/ddC/` does not remove the underlying base. Do not allow T1 and terminal T3
+to validate each other when both assembled strings omit a segment they declare.
+Never omit a declared UMI, barcode, index, insert, or adapter segment from an
+assembled sequence.
 
 Keep candidates minimal: do not create a T1 `library_id`. T1 has one canonical
 `library_sequence` and no duplicate `strands` or `annotated_library_sequence`. T2 uses
@@ -91,7 +122,9 @@ canonical non-root-converted ground-truth record. Source, policy, harness,
 extraction, evaluator, and patch-free root-candidate deltas are still preserved
 as issues.
 
-Before returning, make the field ledger and issue list exactly reciprocal:
+Before returning, make the scientific field ledger and issue list exactly
+reciprocal. The harness will add its own reciprocal migration-root entries
+afterward:
 
 - every `issue_id` in `issues` appears in the `issue_ids` array of its
   referenced `audited_fields` entry;

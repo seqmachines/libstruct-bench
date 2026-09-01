@@ -21,7 +21,12 @@ from .connected_process import (
     connected_process_counts,
     migrate_connected_process_bundle,
 )
-from .review import ReviewError, validate_review_decision
+from .review import (
+    ReviewError,
+    deferred_root_issue_ids,
+    proposal_decision_items,
+    validate_review_decision,
+)
 from libstruct_bench.libgen.validation import (
     LibgenValidationError,
     validate_groundtruth_bundle,
@@ -254,12 +259,18 @@ def _compile_protocol(
         issue = next(
             (
                 item
-                for item in decision["issue_decisions"]
+                for item in proposal_decision_items(proposal, decision)
                 if item["issue_id"] == review["required_issue_id"]
             ),
             None,
         )
-        if issue is None or issue["disposition"] != "accept":
+        deferred_root_accepted = (
+            review["required_issue_id"] in deferred_root_issue_ids(decision)
+            and decision["review_state"] == "final"
+        )
+        if not deferred_root_accepted and (
+            issue is None or issue["disposition"] != "accept"
+        ):
             raise ConnectedProcessPreviewError(
                 f"{protocol_id} migration issue {review['required_issue_id']} "
                 "does not have an accepted human decision"

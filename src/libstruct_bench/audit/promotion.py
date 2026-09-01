@@ -20,7 +20,13 @@ from .groundtruth import (
     validate_cross_task_links,
     validate_task_document,
 )
-from .review import ReviewError, validate_review_decision
+from .review import (
+    ReviewError,
+    all_review_decision_items,
+    compiled_root_operation_ids,
+    is_compiled_review_decision,
+    validate_review_decision,
+)
 
 
 class PromotionError(ValueError):
@@ -61,9 +67,10 @@ def promote_reviewed_groundtruth(
         )
     except ReviewError as error:
         raise PromotionError(str(error)) from error
+    review_items = all_review_decision_items(proposal, decision)
     unresolved = [
         item["issue_id"]
-        for item in decision["issue_decisions"]
+        for item in review_items
         if item["disposition"] == "unresolved"
     ]
     if unresolved:
@@ -73,7 +80,7 @@ def promote_reviewed_groundtruth(
 
     issues = {item["issue_id"]: item for item in proposal["issues"]}
     excluded_tasks: set[str] = set()
-    for item in decision["issue_decisions"]:
+    for item in review_items:
         if item["disposition"] != "exclude":
             continue
         scope = item["exclusion_scope"]
@@ -83,7 +90,8 @@ def promote_reviewed_groundtruth(
             raise PromotionError(
                 "field exclusion must be represented by a human-modified ground-truth patch"
             )
-        task = issues[item["issue_id"]]["task"]
+        issue = issues.get(item["issue_id"])
+        task = issue["task"] if issue is not None else item["task"]
         if task == "cross_task":
             raise PromotionError("a cross-task issue cannot exclude one task implicitly")
         excluded_tasks.add(task)
@@ -102,6 +110,31 @@ def promote_reviewed_groundtruth(
     if application["decision_sha256"] != sha256_file(_file(decision_path, "decision")):
         raise PromotionError("application references a stale decision")
 
+    if is_compiled_review_decision(decision):
+        if application.get("application_mode") != "compiled_roots":
+            raise PromotionError(
+                "compiled-root review requires a compiled-root application"
+            )
+        try:
+            expected_roots = set(
+                compiled_root_operation_ids(proposal, decision).values()
+            )
+        except ReviewError as error:
+            raise PromotionError(str(error)) from error
+        if set(application["applied_issue_ids"]) != expected_roots:
+            raise PromotionError(
+                "compiled-root application does not cover every approved task root"
+            )
+        expected_decisions = {item["issue_id"] for item in review_items}
+        if set(application.get("incorporated_decision_ids", [])) != expected_decisions:
+            raise PromotionError(
+                "compiled-root application omits reviewed gate or proposal decisions"
+            )
+    elif application.get("application_mode") == "compiled_roots":
+        raise PromotionError(
+            "patch review cannot be promoted from a compiled-root application"
+        )
+
     applied = set(application["applied_issue_ids"])
     _verify_regressions(
         applied,
@@ -114,6 +147,28 @@ def promote_reviewed_groundtruth(
     task_by_filename = {
         details["filename"]: task for task, details in TASK_ARTIFACTS.items()
     }
+    if is_compiled_review_decision(decision):
+        application_tasks: dict[str, dict[str, Any]] = {}
+        for artifact in application["artifacts"]:
+            task = task_by_filename.get(Path(artifact["candidate_path"]).name)
+            if task is None:
+                raise PromotionError(
+                    "compiled-root application contains a non-canonical artifact filename"
+                )
+            if task in application_tasks:
+                raise PromotionError(
+                    f"compiled-root application contains multiple {task} artifacts"
+                )
+            application_tasks[task] = artifact
+        if set(application_tasks) != set(decision["candidate_sha256"]):
+            raise PromotionError(
+                "compiled-root application artifacts do not match approved candidate tasks"
+            )
+        for task, artifact in application_tasks.items():
+            if artifact["candidate_sha256"] != decision["candidate_sha256"][task]:
+                raise PromotionError(
+                    f"compiled-root application does not contain the approved {task} bytes"
+                )
     documents: dict[str, dict[str, Any]] = {}
     source_paths: dict[str, Path] = {}
     source_ids: dict[str, str] = {}

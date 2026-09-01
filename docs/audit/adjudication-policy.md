@@ -130,10 +130,18 @@ the proposal, decision, and application records.
 
 ## Deterministic application
 
-Application validates proposal and decision hashes, applies only accepted or
-modified RFC 6902 patches, refuses stale or overlapping operations, writes new
-candidate files, and generates one regression fixture per accepted correction.
-The pinned inputs and all earlier proposals and decisions remain unchanged.
+Application validates proposal, baseline, decision, and candidate hashes. A
+patch review applies only accepted or modified RFC 6902 patches and refuses
+stale or overlapping operations. A conversion-first review instead preserves
+the exact approved T1--T3 candidate bytes and deterministically represents each
+approved task root as one root add or replace regression fixture. A proposal
+root issue supplies the fixture identity when present. If the proposal needs no
+root-conversion finding, `deferred_root_issues` may be empty and application
+uses a deterministic task-root operation ID; it must not fabricate a proposal
+issue or human decision merely to name the replacement. Proposal-stage and
+post-proposal T3 fact-check decisions remain in application lineage; they are
+not reconstructed as fictitious field patches. The pinned inputs and all
+earlier proposals and decisions remain unchanged.
 
 ## Promotion
 

@@ -1,0 +1,176 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/improvement/exemplar_retrieval.schema.json",
+  "title": "Deterministic pseudonymous exemplar retrieval",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "query_digest",
+    "target_work_record_sha256",
+    "memory_digest",
+    "catalog_digest",
+    "ranking_policy",
+    "max_results",
+    "match_count",
+    "matches",
+    "retrieval_digest"
+  ],
+  "properties": {
+    "schema_version": {"const": "libstruct.libgen_exemplar_retrieval.v1"},
+    "query_digest": {"$ref": "#/$defs/sha256"},
+    "target_work_record_sha256": {
+      "$ref": "#/$defs/sha256",
+      "description": "Raw-byte SHA-256 of the final target work record; retrieval must be rerun after every source-backed work-record change."
+    },
+    "memory_digest": {"$ref": "#/$defs/sha256"},
+    "catalog_digest": {"$ref": "#/$defs/sha256"},
+    "ranking_policy": {"const": "group_weighted_jaccard_then_exemplar_id_v1"},
+    "max_results": {"type": "integer", "minimum": 1, "maximum": 3},
+    "match_count": {"type": "integer", "minimum": 0, "maximum": 3},
+    "matches": {
+      "type": "array",
+      "maxItems": 3,
+      "items": {"$ref": "#/$defs/match"}
+    },
+    "retrieval_digest": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "exemplar_id": {
+      "type": "string",
+      "pattern": "^exm-[a-f0-9]{32}$"
+    },
+    "stable_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 240,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+    },
+    "feature_match": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "modalities",
+        "operations",
+        "barcoding_partitioning",
+        "architectures",
+        "selection_branching",
+        "chemistries"
+      ],
+      "properties": {
+        "modalities": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+        "operations": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+        "barcoding_partitioning": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+        "architectures": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+        "selection_branching": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+        "chemistries": {"type": "array", "uniqueItems": true, "items": {"type": "string"}}
+      }
+    },
+    "score": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["numerator", "denominator", "value"],
+      "properties": {
+        "numerator": {"type": "integer", "minimum": 1},
+        "denominator": {"type": "integer", "minimum": 1},
+        "value": {"type": "number", "exclusiveMinimum": 0, "maximum": 1}
+      }
+    },
+    "mechanism_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["counts", "features", "graph_features"],
+      "properties": {
+        "counts": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["oligo_families", "workflows", "states", "transitions"],
+          "properties": {
+            "oligo_families": {"type": "integer", "minimum": 0},
+            "workflows": {"type": "integer", "minimum": 0},
+            "states": {"type": "integer", "minimum": 0},
+            "transitions": {"type": "integer", "minimum": 0}
+          }
+        },
+        "features": {"$ref": "#/$defs/feature_match"},
+        "graph_features": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "has_branching",
+            "has_discarded_products",
+            "has_multiple_workflows",
+            "max_branch_factor"
+          ],
+          "properties": {
+            "has_branching": {"type": "boolean"},
+            "has_discarded_products": {"type": "boolean"},
+            "has_multiple_workflows": {"type": "boolean"},
+            "max_branch_factor": {"type": "integer", "minimum": 0}
+          }
+        }
+      }
+    },
+    "subgraph": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "workflow_id",
+        "focus_transition_ids",
+        "states",
+        "transitions",
+        "linked_t2"
+      ],
+      "properties": {
+        "workflow_id": {"$ref": "#/$defs/stable_id"},
+        "focus_transition_ids": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 3,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/stable_id"}
+        },
+        "states": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "object", "minProperties": 1}
+        },
+        "transitions": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 3,
+          "items": {"type": "object", "minProperties": 1}
+        },
+        "linked_t2": {
+          "type": "array",
+          "items": {"type": "object", "minProperties": 1}
+        }
+      }
+    },
+    "match": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "rank",
+        "exemplar_id",
+        "score",
+        "matched_features",
+        "mechanism_summary",
+        "donor_subgraphs"
+      ],
+      "properties": {
+        "rank": {"type": "integer", "minimum": 1, "maximum": 3},
+        "exemplar_id": {"$ref": "#/$defs/exemplar_id"},
+        "score": {"$ref": "#/$defs/score"},
+        "matched_features": {"$ref": "#/$defs/feature_match"},
+        "mechanism_summary": {"$ref": "#/$defs/mechanism_summary"},
+        "donor_subgraphs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/subgraph"}
+        }
+      }
+    }
+  }
+}

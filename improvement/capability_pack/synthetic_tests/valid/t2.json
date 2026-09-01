@@ -1,0 +1,24 @@
+{
+  "oligos": [
+    {
+      "aliases": [],
+      "components": [
+        {
+          "modifications": [],
+          "name": "Synthetic primer region",
+          "orientation": "5_to_3",
+          "role": "synthetic extension primer",
+          "sequence": "AACCGG"
+        }
+      ],
+      "kind": "single",
+      "modifications": [],
+      "name": "Synthetic primer",
+      "oligo_id": "synthetic-primer",
+      "orientation": "5_to_3",
+      "role": "synthetic extension primer",
+      "sequence": "AACCGG"
+    }
+  ],
+  "protocol_id": "synthetic_protocol"
+}

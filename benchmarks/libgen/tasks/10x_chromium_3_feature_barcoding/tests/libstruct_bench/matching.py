@@ -38,12 +38,74 @@ def best_one_to_one_matching(scores: list[list[float]]) -> list[tuple[int, int, 
     gt_count = len(scores[0])
     if pred_count <= gt_count:
         assignment = _hungarian_min_cost([[-score for score in row] for row in scores])
-        return [(pred_idx, gt_idx, scores[pred_idx][gt_idx]) for pred_idx, gt_idx in enumerate(assignment)]
+        return [
+            (pred_idx, gt_idx, scores[pred_idx][gt_idx])
+            for pred_idx, gt_idx in enumerate(assignment)
+        ]
 
-    transposed = [[scores[pred_idx][gt_idx] for pred_idx in range(pred_count)] for gt_idx in range(gt_count)]
+    transposed = [
+        [scores[pred_idx][gt_idx] for pred_idx in range(pred_count)]
+        for gt_idx in range(gt_count)
+    ]
     assignment = _hungarian_min_cost([[-score for score in row] for row in transposed])
-    matches = [(pred_idx, gt_idx, scores[pred_idx][gt_idx]) for gt_idx, pred_idx in enumerate(assignment)]
+    matches = [
+        (pred_idx, gt_idx, scores[pred_idx][gt_idx])
+        for gt_idx, pred_idx in enumerate(assignment)
+    ]
     return sorted(matches)
+
+
+def best_partial_one_to_one_matching(
+    scores: list[list[float]],
+    *,
+    minimum_score: float,
+) -> list[tuple[int, int, float]]:
+    """Return a maximum-weight partial assignment above a score floor.
+
+    Dummy rows and columns allow either side to remain unmatched.  Ineligible
+    real pairs receive a negative weight, while dummy assignments have weight
+    zero, so a low-similarity pair is never forced merely because the two
+    inventories have the same size.
+    """
+
+    if not scores or not scores[0]:
+        return []
+
+    pred_count = len(scores)
+    gt_count = len(scores[0])
+    if any(len(row) != gt_count for row in scores):
+        raise ValueError("score matrix must be rectangular")
+
+    size = pred_count + gt_count
+    lowest_score = min(min(row) for row in scores)
+    forbidden_score = min(lowest_score, 0.0, minimum_score) - 1.0
+    augmented_scores = [
+        [
+            (
+                scores[pred_idx][gt_idx]
+                if pred_idx < pred_count
+                and gt_idx < gt_count
+                and scores[pred_idx][gt_idx] >= minimum_score
+                else forbidden_score
+                if pred_idx < pred_count and gt_idx < gt_count
+                else 0.0
+            )
+            for gt_idx in range(size)
+        ]
+        for pred_idx in range(size)
+    ]
+    augmented_matches = best_one_to_one_matching(augmented_scores)
+    return sorted(
+        (
+            pred_idx,
+            gt_idx,
+            scores[pred_idx][gt_idx],
+        )
+        for pred_idx, gt_idx, _ in augmented_matches
+        if pred_idx < pred_count
+        and gt_idx < gt_count
+        and scores[pred_idx][gt_idx] >= minimum_score
+    )
 
 
 def _hungarian_min_cost(costs: list[list[float]]) -> list[int]:

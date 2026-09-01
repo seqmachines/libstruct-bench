@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/improvement/human_protocol_review_record.schema.json",
+  "title": "Final hash-bound record for one human-guided protocol review",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "record_id", "human_experiment_digest", "review_id", "batch_id", "batch_position", "global_position", "protocol_id", "comparison", "proposal", "decision", "adjudicated_error_analysis", "eligible_root_finding_count", "benchmark_issue_count", "review_seconds", "created_at", "record_digest"],
+  "properties": {
+    "schema_version": {"const": "libstruct.libgen_human_protocol_review_record.v1"},
+    "record_id": {"$ref": "#/$defs/id"},
+    "human_experiment_digest": {"$ref": "#/$defs/sha256"},
+    "review_id": {"$ref": "#/$defs/id"},
+    "batch_id": {"type": "string", "enum": ["B1", "B2", "B3", "B4", "B5"]},
+    "batch_position": {"type": "integer", "minimum": 1, "maximum": 5},
+    "global_position": {"type": "integer", "minimum": 1, "maximum": 25},
+    "protocol_id": {"$ref": "#/$defs/id"},
+    "reviewer_kind": {"type": "string", "enum": ["human", "independent_codex"]},
+    "comparison": {"$ref": "#/$defs/ref"},
+    "proposal": {"$ref": "#/$defs/ref"},
+    "decision": {"$ref": "#/$defs/ref"},
+    "adjudicated_error_analysis": {"$ref": "#/$defs/ref"},
+    "eligible_root_finding_count": {"type": "integer", "minimum": 0},
+    "benchmark_issue_count": {"type": "integer", "minimum": 0},
+    "review_seconds": {"type": "number", "minimum": 0},
+    "created_at": {"type": "string", "format": "date-time"},
+    "record_digest": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "id": {"type": "string", "minLength": 1, "maxLength": 240, "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"},
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "digest"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "digest": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  }
+}

@@ -1,0 +1,126 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/improvement/final_lock.schema.json",
+  "title": "Final cumulative LibGen checkpoint and test-panel lock",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "lock_id",
+    "experiment_digest",
+    "checkpoint_records",
+    "validation_curve",
+    "checkpoint_labels",
+    "endpoint_labels",
+    "transfer_panel_commitment_sha256",
+    "baseline_mode",
+    "primary_outcome",
+    "checkpoint_modification_closed",
+    "created_at",
+    "lock_digest"
+  ],
+  "properties": {
+    "schema_version": {"const": "libstruct.libgen_capability_final_lock.v1"},
+    "lock_id": {"$ref": "#/$defs/id"},
+    "experiment_digest": {"$ref": "#/$defs/sha256"},
+    "checkpoint_records": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 6,
+      "prefixItems": [
+        {"$ref": "#/$defs/c0_record"},
+        {"$ref": "#/$defs/c5_record"},
+        {"$ref": "#/$defs/c10_record"},
+        {"$ref": "#/$defs/c15_record"},
+        {"$ref": "#/$defs/c20_record"},
+        {"$ref": "#/$defs/c25_record"}
+      ],
+      "items": false
+    },
+    "validation_curve": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "access_policy_digest", "checkpoint_labels", "aggregate_records",
+        "expected_trial_count"
+      ],
+      "properties": {
+        "access_policy_digest": {"$ref": "#/$defs/sha256"},
+        "checkpoint_labels": {"const": ["C0", "C5", "C10", "C15", "C20", "C25"]},
+        "aggregate_records": {
+          "type": "array",
+          "minItems": 6,
+          "maxItems": 6,
+          "prefixItems": [
+            {"$ref": "#/$defs/c0_aggregate"},
+            {"$ref": "#/$defs/c5_aggregate"},
+            {"$ref": "#/$defs/c10_aggregate"},
+            {"$ref": "#/$defs/c15_aggregate"},
+            {"$ref": "#/$defs/c20_aggregate"},
+            {"$ref": "#/$defs/c25_aggregate"}
+          ],
+          "items": false
+        },
+        "expected_trial_count": {"const": 30}
+      }
+    },
+    "checkpoint_labels": {"const": ["C0", "C5", "C10", "C15", "C20", "C25"]},
+    "endpoint_labels": {"const": ["C25"]},
+    "transfer_panel_commitment_sha256": {"$ref": "#/$defs/sha256"},
+    "baseline_mode": {"const": "post_lock_c0_replay"},
+    "primary_outcome": {"const": "t3_molecular_transition_f1"},
+    "checkpoint_modification_closed": {"const": true},
+    "created_at": {"type": "string", "format": "date-time"},
+    "lock_digest": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "id": {"type": "string", "minLength": 1, "maxLength": 240, "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"},
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "record": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["checkpoint_id", "checkpoint_sha256", "checkpoint_digest", "pack_digest"],
+      "properties": {
+        "checkpoint_id": {"type": "string"},
+        "checkpoint_sha256": {"$ref": "#/$defs/sha256"},
+        "checkpoint_digest": {"$ref": "#/$defs/sha256"},
+        "pack_digest": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "aggregate_record": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "checkpoint_label", "aggregate_digest", "aggregate_sha256", "pack_digest",
+        "checkpoint_digest", "runtime_digest", "integration_digest",
+        "integration_manifest_sha256", "task_bundle_sha256",
+        "harbor_config_sha256", "result_bundle_digest"
+      ],
+      "properties": {
+        "checkpoint_label": {"type": "string"},
+        "aggregate_digest": {"$ref": "#/$defs/sha256"},
+        "aggregate_sha256": {"$ref": "#/$defs/sha256"},
+        "pack_digest": {"$ref": "#/$defs/sha256"},
+        "checkpoint_digest": {"$ref": "#/$defs/sha256"},
+        "runtime_digest": {"$ref": "#/$defs/sha256"},
+        "integration_digest": {"$ref": "#/$defs/sha256"},
+        "integration_manifest_sha256": {"$ref": "#/$defs/sha256"},
+        "task_bundle_sha256": {"$ref": "#/$defs/sha256"},
+        "harbor_config_sha256": {"$ref": "#/$defs/sha256"},
+        "result_bundle_digest": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "c0_aggregate": {"allOf": [{"$ref": "#/$defs/aggregate_record"}, {"properties": {"checkpoint_label": {"const": "C0"}}}]},
+    "c5_aggregate": {"allOf": [{"$ref": "#/$defs/aggregate_record"}, {"properties": {"checkpoint_label": {"const": "C5"}}}]},
+    "c10_aggregate": {"allOf": [{"$ref": "#/$defs/aggregate_record"}, {"properties": {"checkpoint_label": {"const": "C10"}}}]},
+    "c15_aggregate": {"allOf": [{"$ref": "#/$defs/aggregate_record"}, {"properties": {"checkpoint_label": {"const": "C15"}}}]},
+    "c20_aggregate": {"allOf": [{"$ref": "#/$defs/aggregate_record"}, {"properties": {"checkpoint_label": {"const": "C20"}}}]},
+    "c25_aggregate": {"allOf": [{"$ref": "#/$defs/aggregate_record"}, {"properties": {"checkpoint_label": {"const": "C25"}}}]},
+    "c0_record": {"allOf": [{"$ref": "#/$defs/record"}, {"properties": {"checkpoint_id": {"const": "C0"}}}]},
+    "c5_record": {"allOf": [{"$ref": "#/$defs/record"}, {"properties": {"checkpoint_id": {"const": "C5"}}}]},
+    "c10_record": {"allOf": [{"$ref": "#/$defs/record"}, {"properties": {"checkpoint_id": {"const": "C10"}}}]},
+    "c15_record": {"allOf": [{"$ref": "#/$defs/record"}, {"properties": {"checkpoint_id": {"const": "C15"}}}]},
+    "c20_record": {"allOf": [{"$ref": "#/$defs/record"}, {"properties": {"checkpoint_id": {"const": "C20"}}}]},
+    "c25_record": {"allOf": [{"$ref": "#/$defs/record"}, {"properties": {"checkpoint_id": {"const": "C25"}}}]}
+  }
+}

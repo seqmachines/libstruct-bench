@@ -1,121 +1,121 @@
 "system_id","category","protocols_with_discrepancy","valid_protocols","review_complete","category_order","category_label","category_axis_label","system_label","system_group","clustered_system_order","prevalence","analysis_mode","benchmark_validity_status","attribution_status","data_status","category_factor","cell_label"
-"gpt_mini_swe","missing_recoverable_information",8,9,FALSE,1,"Missing recoverable information","Missing recoverable
-information","GPT + mini-SWE","shared",1,0.888888888888889,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","missing_recoverable_information","0.89"
-"gpt_mini_swe","unsupported_completion",5,9,FALSE,2,"Unsupported completion","Unsupported
-completion","GPT + mini-SWE","shared",1,0.555555555555556,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","unsupported_completion","0.56"
-"gpt_mini_swe","operation_error",3,9,FALSE,3,"Wrong operation or target","Wrong operation
-or target","GPT + mini-SWE","shared",1,0.333333333333333,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","operation_error","0.33"
-"gpt_mini_swe","strand_or_orientation_error",4,9,FALSE,4,"Strand / orientation","Strand /
-orientation","GPT + mini-SWE","shared",1,0.444444444444444,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","strand_or_orientation_error","0.44"
-"gpt_mini_swe","molecular_state_or_assembly_error",9,9,FALSE,5,"Molecular-state assembly","Molecular-state
-assembly","GPT + mini-SWE","shared",1,1,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","molecular_state_or_assembly_error","1.00"
-"gpt_mini_swe","workflow_or_topology_error",9,9,FALSE,6,"Graph topology / disposition","Graph topology /
+"gpt_mini_swe","missing_recoverable_information",9,10,FALSE,1,"Missing recoverable information","Missing recoverable
+information","GPT + mini-SWE","shared",1,0.9,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","missing_recoverable_information","0.90"
+"gpt_mini_swe","unsupported_completion",6,10,FALSE,2,"Unsupported addition","Unsupported
+addition","GPT + mini-SWE","shared",1,0.6,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","unsupported_completion","0.60"
+"gpt_mini_swe","operation_error",4,10,FALSE,3,"Operation / target mismatch","Operation / target
+mismatch","GPT + mini-SWE","shared",1,0.4,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","operation_error","0.40"
+"gpt_mini_swe","strand_or_orientation_error",4,10,FALSE,4,"Strand / orientation error","Strand / orientation
+error","GPT + mini-SWE","shared",1,0.4,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","strand_or_orientation_error","0.40"
+"gpt_mini_swe","molecular_state_or_assembly_error",9,10,FALSE,5,"Molecular-state assembly","Molecular-state
+assembly","GPT + mini-SWE","shared",1,0.9,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","molecular_state_or_assembly_error","0.90"
+"gpt_mini_swe","workflow_or_topology_error",10,10,FALSE,6,"Workflow topology / disposition","Workflow topology /
 disposition","GPT + mini-SWE","shared",1,1,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","workflow_or_topology_error","1.00"
-"claude_pi","missing_recoverable_information",8,10,FALSE,1,"Missing recoverable information","Missing recoverable
-information","Claude + Pi","shared",2,0.8,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","missing_recoverable_information","0.80"
-"claude_pi","unsupported_completion",9,10,FALSE,2,"Unsupported completion","Unsupported
-completion","Claude + Pi","shared",2,0.9,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","unsupported_completion","0.90"
-"claude_pi","operation_error",6,10,FALSE,3,"Wrong operation or target","Wrong operation
-or target","Claude + Pi","shared",2,0.6,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","operation_error","0.60"
-"claude_pi","strand_or_orientation_error",0,10,FALSE,4,"Strand / orientation","Strand /
-orientation","Claude + Pi","shared",2,0,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","strand_or_orientation_error","0.00"
-"claude_pi","molecular_state_or_assembly_error",10,10,FALSE,5,"Molecular-state assembly","Molecular-state
-assembly","Claude + Pi","shared",2,1,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","molecular_state_or_assembly_error","1.00"
-"claude_pi","workflow_or_topology_error",10,10,FALSE,6,"Graph topology / disposition","Graph topology /
-disposition","Claude + Pi","shared",2,1,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","workflow_or_topology_error","1.00"
-"kimi_code","missing_recoverable_information",8,10,FALSE,1,"Missing recoverable information","Missing recoverable
-information","Kimi + Kimi Code","native",3,0.8,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","missing_recoverable_information","0.80"
-"kimi_code","unsupported_completion",8,10,FALSE,2,"Unsupported completion","Unsupported
-completion","Kimi + Kimi Code","native",3,0.8,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","unsupported_completion","0.80"
-"kimi_code","operation_error",6,10,FALSE,3,"Wrong operation or target","Wrong operation
-or target","Kimi + Kimi Code","native",3,0.6,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","operation_error","0.60"
-"kimi_code","strand_or_orientation_error",1,10,FALSE,4,"Strand / orientation","Strand /
-orientation","Kimi + Kimi Code","native",3,0.1,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","strand_or_orientation_error","0.10"
-"kimi_code","molecular_state_or_assembly_error",10,10,FALSE,5,"Molecular-state assembly","Molecular-state
-assembly","Kimi + Kimi Code","native",3,1,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","molecular_state_or_assembly_error","1.00"
-"kimi_code","workflow_or_topology_error",10,10,FALSE,6,"Graph topology / disposition","Graph topology /
-disposition","Kimi + Kimi Code","native",3,1,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","workflow_or_topology_error","1.00"
-"claude_code","missing_recoverable_information",8,10,FALSE,1,"Missing recoverable information","Missing recoverable
-information","Claude + Claude Code","native",4,0.8,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","missing_recoverable_information","0.80"
-"claude_code","unsupported_completion",9,10,FALSE,2,"Unsupported completion","Unsupported
-completion","Claude + Claude Code","native",4,0.9,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","unsupported_completion","0.90"
-"claude_code","operation_error",5,10,FALSE,3,"Wrong operation or target","Wrong operation
-or target","Claude + Claude Code","native",4,0.5,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","operation_error","0.50"
-"claude_code","strand_or_orientation_error",1,10,FALSE,4,"Strand / orientation","Strand /
-orientation","Claude + Claude Code","native",4,0.1,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","strand_or_orientation_error","0.10"
-"claude_code","molecular_state_or_assembly_error",10,10,FALSE,5,"Molecular-state assembly","Molecular-state
-assembly","Claude + Claude Code","native",4,1,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","molecular_state_or_assembly_error","1.00"
-"claude_code","workflow_or_topology_error",10,10,FALSE,6,"Graph topology / disposition","Graph topology /
-disposition","Claude + Claude Code","native",4,1,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","workflow_or_topology_error","1.00"
-"gemini_pi","missing_recoverable_information",9,10,FALSE,1,"Missing recoverable information","Missing recoverable
-information","Gemini + Pi","shared",5,0.9,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","missing_recoverable_information","0.90"
-"gemini_pi","unsupported_completion",8,10,FALSE,2,"Unsupported completion","Unsupported
-completion","Gemini + Pi","shared",5,0.8,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","unsupported_completion","0.80"
-"gemini_pi","operation_error",4,10,FALSE,3,"Wrong operation or target","Wrong operation
-or target","Gemini + Pi","shared",5,0.4,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","operation_error","0.40"
-"gemini_pi","strand_or_orientation_error",0,10,FALSE,4,"Strand / orientation","Strand /
-orientation","Gemini + Pi","shared",5,0,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","strand_or_orientation_error","0.00"
-"gemini_pi","molecular_state_or_assembly_error",10,10,FALSE,5,"Molecular-state assembly","Molecular-state
-assembly","Gemini + Pi","shared",5,1,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","molecular_state_or_assembly_error","1.00"
-"gemini_pi","workflow_or_topology_error",10,10,FALSE,6,"Graph topology / disposition","Graph topology /
-disposition","Gemini + Pi","shared",5,1,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","workflow_or_topology_error","1.00"
-"gpt_codex","missing_recoverable_information",9,10,FALSE,1,"Missing recoverable information","Missing recoverable
-information","GPT + Codex","native",6,0.9,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","missing_recoverable_information","0.90"
-"gpt_codex","unsupported_completion",9,10,FALSE,2,"Unsupported completion","Unsupported
-completion","GPT + Codex","native",6,0.9,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","unsupported_completion","0.90"
-"gpt_codex","operation_error",6,10,FALSE,3,"Wrong operation or target","Wrong operation
-or target","GPT + Codex","native",6,0.6,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","operation_error","0.60"
-"gpt_codex","strand_or_orientation_error",3,10,FALSE,4,"Strand / orientation","Strand /
-orientation","GPT + Codex","native",6,0.3,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","strand_or_orientation_error","0.30"
-"gpt_codex","molecular_state_or_assembly_error",10,10,FALSE,5,"Molecular-state assembly","Molecular-state
-assembly","GPT + Codex","native",6,1,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","molecular_state_or_assembly_error","1.00"
-"gpt_codex","workflow_or_topology_error",10,10,FALSE,6,"Graph topology / disposition","Graph topology /
-disposition","GPT + Codex","native",6,1,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","workflow_or_topology_error","1.00"
-"claude_mini_swe","missing_recoverable_information",9,9,FALSE,1,"Missing recoverable information","Missing recoverable
-information","Claude + mini-SWE","shared",7,1,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","missing_recoverable_information","1.00"
-"claude_mini_swe","unsupported_completion",6,9,FALSE,2,"Unsupported completion","Unsupported
-completion","Claude + mini-SWE","shared",7,0.666666666666667,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","unsupported_completion","0.67"
-"claude_mini_swe","operation_error",5,9,FALSE,3,"Wrong operation or target","Wrong operation
-or target","Claude + mini-SWE","shared",7,0.555555555555556,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","operation_error","0.56"
-"claude_mini_swe","strand_or_orientation_error",0,9,FALSE,4,"Strand / orientation","Strand /
-orientation","Claude + mini-SWE","shared",7,0,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","strand_or_orientation_error","0.00"
-"claude_mini_swe","molecular_state_or_assembly_error",9,9,FALSE,5,"Molecular-state assembly","Molecular-state
-assembly","Claude + mini-SWE","shared",7,1,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","molecular_state_or_assembly_error","1.00"
-"claude_mini_swe","workflow_or_topology_error",9,9,FALSE,6,"Graph topology / disposition","Graph topology /
-disposition","Claude + mini-SWE","shared",7,1,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","workflow_or_topology_error","1.00"
-"gemini_mini_swe","missing_recoverable_information",10,10,FALSE,1,"Missing recoverable information","Missing recoverable
-information","Gemini + mini-SWE","shared",8,1,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","missing_recoverable_information","1.00"
-"gemini_mini_swe","unsupported_completion",7,10,FALSE,2,"Unsupported completion","Unsupported
-completion","Gemini + mini-SWE","shared",8,0.7,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","unsupported_completion","0.70"
-"gemini_mini_swe","operation_error",4,10,FALSE,3,"Wrong operation or target","Wrong operation
-or target","Gemini + mini-SWE","shared",8,0.4,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","operation_error","0.40"
-"gemini_mini_swe","strand_or_orientation_error",0,10,FALSE,4,"Strand / orientation","Strand /
-orientation","Gemini + mini-SWE","shared",8,0,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","strand_or_orientation_error","0.00"
-"gemini_mini_swe","molecular_state_or_assembly_error",10,10,FALSE,5,"Molecular-state assembly","Molecular-state
-assembly","Gemini + mini-SWE","shared",8,1,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","molecular_state_or_assembly_error","1.00"
-"gemini_mini_swe","workflow_or_topology_error",10,10,FALSE,6,"Graph topology / disposition","Graph topology /
-disposition","Gemini + mini-SWE","shared",8,1,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","workflow_or_topology_error","1.00"
-"gpt_pi","missing_recoverable_information",9,10,FALSE,1,"Missing recoverable information","Missing recoverable
-information","GPT + Pi","shared",9,0.9,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","missing_recoverable_information","0.90"
-"gpt_pi","unsupported_completion",7,10,FALSE,2,"Unsupported completion","Unsupported
-completion","GPT + Pi","shared",9,0.7,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","unsupported_completion","0.70"
-"gpt_pi","operation_error",5,10,FALSE,3,"Wrong operation or target","Wrong operation
-or target","GPT + Pi","shared",9,0.5,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","operation_error","0.50"
-"gpt_pi","strand_or_orientation_error",2,10,FALSE,4,"Strand / orientation","Strand /
-orientation","GPT + Pi","shared",9,0.2,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","strand_or_orientation_error","0.20"
-"gpt_pi","molecular_state_or_assembly_error",10,10,FALSE,5,"Molecular-state assembly","Molecular-state
-assembly","GPT + Pi","shared",9,1,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","molecular_state_or_assembly_error","1.00"
-"gpt_pi","workflow_or_topology_error",10,10,FALSE,6,"Graph topology / disposition","Graph topology /
-disposition","GPT + Pi","shared",9,1,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","workflow_or_topology_error","1.00"
-"gemini_antigravity","missing_recoverable_information",9,10,FALSE,1,"Missing recoverable information","Missing recoverable
-information","Gemini + Antigravity CLI","native",10,0.9,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","missing_recoverable_information","0.90"
-"gemini_antigravity","unsupported_completion",7,10,FALSE,2,"Unsupported completion","Unsupported
-completion","Gemini + Antigravity CLI","native",10,0.7,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","unsupported_completion","0.70"
-"gemini_antigravity","operation_error",3,10,FALSE,3,"Wrong operation or target","Wrong operation
-or target","Gemini + Antigravity CLI","native",10,0.3,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","operation_error","0.30"
-"gemini_antigravity","strand_or_orientation_error",0,10,FALSE,4,"Strand / orientation","Strand /
-orientation","Gemini + Antigravity CLI","native",10,0,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","strand_or_orientation_error","0.00"
+"gemini_antigravity","missing_recoverable_information",8,10,FALSE,1,"Missing recoverable information","Missing recoverable
+information","Gemini + Antigravity CLI","native",2,0.8,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","missing_recoverable_information","0.80"
+"gemini_antigravity","unsupported_completion",8,10,FALSE,2,"Unsupported addition","Unsupported
+addition","Gemini + Antigravity CLI","native",2,0.8,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","unsupported_completion","0.80"
+"gemini_antigravity","operation_error",3,10,FALSE,3,"Operation / target mismatch","Operation / target
+mismatch","Gemini + Antigravity CLI","native",2,0.3,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","operation_error","0.30"
+"gemini_antigravity","strand_or_orientation_error",0,10,FALSE,4,"Strand / orientation error","Strand / orientation
+error","Gemini + Antigravity CLI","native",2,0,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","strand_or_orientation_error","0.00"
 "gemini_antigravity","molecular_state_or_assembly_error",10,10,FALSE,5,"Molecular-state assembly","Molecular-state
-assembly","Gemini + Antigravity CLI","native",10,1,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","molecular_state_or_assembly_error","1.00"
-"gemini_antigravity","workflow_or_topology_error",10,10,FALSE,6,"Graph topology / disposition","Graph topology /
-disposition","Gemini + Antigravity CLI","native",10,1,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","workflow_or_topology_error","1.00"
+assembly","Gemini + Antigravity CLI","native",2,1,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","molecular_state_or_assembly_error","1.00"
+"gemini_antigravity","workflow_or_topology_error",10,10,FALSE,6,"Workflow topology / disposition","Workflow topology /
+disposition","Gemini + Antigravity CLI","native",2,1,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","workflow_or_topology_error","1.00"
+"claude_mini_swe","missing_recoverable_information",8,10,FALSE,1,"Missing recoverable information","Missing recoverable
+information","Claude + mini-SWE","shared",3,0.8,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","missing_recoverable_information","0.80"
+"claude_mini_swe","unsupported_completion",9,10,FALSE,2,"Unsupported addition","Unsupported
+addition","Claude + mini-SWE","shared",3,0.9,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","unsupported_completion","0.90"
+"claude_mini_swe","operation_error",2,10,FALSE,3,"Operation / target mismatch","Operation / target
+mismatch","Claude + mini-SWE","shared",3,0.2,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","operation_error","0.20"
+"claude_mini_swe","strand_or_orientation_error",0,10,FALSE,4,"Strand / orientation error","Strand / orientation
+error","Claude + mini-SWE","shared",3,0,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","strand_or_orientation_error","0.00"
+"claude_mini_swe","molecular_state_or_assembly_error",10,10,FALSE,5,"Molecular-state assembly","Molecular-state
+assembly","Claude + mini-SWE","shared",3,1,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","molecular_state_or_assembly_error","1.00"
+"claude_mini_swe","workflow_or_topology_error",10,10,FALSE,6,"Workflow topology / disposition","Workflow topology /
+disposition","Claude + mini-SWE","shared",3,1,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","workflow_or_topology_error","1.00"
+"gpt_pi","missing_recoverable_information",10,10,FALSE,1,"Missing recoverable information","Missing recoverable
+information","GPT + Pi","shared",4,1,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","missing_recoverable_information","1.00"
+"gpt_pi","unsupported_completion",8,10,FALSE,2,"Unsupported addition","Unsupported
+addition","GPT + Pi","shared",4,0.8,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","unsupported_completion","0.80"
+"gpt_pi","operation_error",4,10,FALSE,3,"Operation / target mismatch","Operation / target
+mismatch","GPT + Pi","shared",4,0.4,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","operation_error","0.40"
+"gpt_pi","strand_or_orientation_error",2,10,FALSE,4,"Strand / orientation error","Strand / orientation
+error","GPT + Pi","shared",4,0.2,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","strand_or_orientation_error","0.20"
+"gpt_pi","molecular_state_or_assembly_error",10,10,FALSE,5,"Molecular-state assembly","Molecular-state
+assembly","GPT + Pi","shared",4,1,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","molecular_state_or_assembly_error","1.00"
+"gpt_pi","workflow_or_topology_error",10,10,FALSE,6,"Workflow topology / disposition","Workflow topology /
+disposition","GPT + Pi","shared",4,1,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","workflow_or_topology_error","1.00"
+"gpt_codex","missing_recoverable_information",9,10,FALSE,1,"Missing recoverable information","Missing recoverable
+information","GPT + Codex","native",5,0.9,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","missing_recoverable_information","0.90"
+"gpt_codex","unsupported_completion",8,10,FALSE,2,"Unsupported addition","Unsupported
+addition","GPT + Codex","native",5,0.8,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","unsupported_completion","0.80"
+"gpt_codex","operation_error",4,10,FALSE,3,"Operation / target mismatch","Operation / target
+mismatch","GPT + Codex","native",5,0.4,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","operation_error","0.40"
+"gpt_codex","strand_or_orientation_error",3,10,FALSE,4,"Strand / orientation error","Strand / orientation
+error","GPT + Codex","native",5,0.3,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","strand_or_orientation_error","0.30"
+"gpt_codex","molecular_state_or_assembly_error",10,10,FALSE,5,"Molecular-state assembly","Molecular-state
+assembly","GPT + Codex","native",5,1,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","molecular_state_or_assembly_error","1.00"
+"gpt_codex","workflow_or_topology_error",10,10,FALSE,6,"Workflow topology / disposition","Workflow topology /
+disposition","GPT + Codex","native",5,1,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","workflow_or_topology_error","1.00"
+"gemini_pi","missing_recoverable_information",9,10,FALSE,1,"Missing recoverable information","Missing recoverable
+information","Gemini + Pi","shared",6,0.9,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","missing_recoverable_information","0.90"
+"gemini_pi","unsupported_completion",7,10,FALSE,2,"Unsupported addition","Unsupported
+addition","Gemini + Pi","shared",6,0.7,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","unsupported_completion","0.70"
+"gemini_pi","operation_error",4,10,FALSE,3,"Operation / target mismatch","Operation / target
+mismatch","Gemini + Pi","shared",6,0.4,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","operation_error","0.40"
+"gemini_pi","strand_or_orientation_error",0,10,FALSE,4,"Strand / orientation error","Strand / orientation
+error","Gemini + Pi","shared",6,0,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","strand_or_orientation_error","0.00"
+"gemini_pi","molecular_state_or_assembly_error",10,10,FALSE,5,"Molecular-state assembly","Molecular-state
+assembly","Gemini + Pi","shared",6,1,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","molecular_state_or_assembly_error","1.00"
+"gemini_pi","workflow_or_topology_error",10,10,FALSE,6,"Workflow topology / disposition","Workflow topology /
+disposition","Gemini + Pi","shared",6,1,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","workflow_or_topology_error","1.00"
+"gemini_mini_swe","missing_recoverable_information",10,10,FALSE,1,"Missing recoverable information","Missing recoverable
+information","Gemini + mini-SWE","shared",7,1,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","missing_recoverable_information","1.00"
+"gemini_mini_swe","unsupported_completion",6,10,FALSE,2,"Unsupported addition","Unsupported
+addition","Gemini + mini-SWE","shared",7,0.6,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","unsupported_completion","0.60"
+"gemini_mini_swe","operation_error",3,10,FALSE,3,"Operation / target mismatch","Operation / target
+mismatch","Gemini + mini-SWE","shared",7,0.3,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","operation_error","0.30"
+"gemini_mini_swe","strand_or_orientation_error",0,10,FALSE,4,"Strand / orientation error","Strand / orientation
+error","Gemini + mini-SWE","shared",7,0,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","strand_or_orientation_error","0.00"
+"gemini_mini_swe","molecular_state_or_assembly_error",10,10,FALSE,5,"Molecular-state assembly","Molecular-state
+assembly","Gemini + mini-SWE","shared",7,1,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","molecular_state_or_assembly_error","1.00"
+"gemini_mini_swe","workflow_or_topology_error",10,10,FALSE,6,"Workflow topology / disposition","Workflow topology /
+disposition","Gemini + mini-SWE","shared",7,1,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","workflow_or_topology_error","1.00"
+"kimi_code","missing_recoverable_information",7,10,FALSE,1,"Missing recoverable information","Missing recoverable
+information","Kimi + Kimi Code","native",8,0.7,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","missing_recoverable_information","0.70"
+"kimi_code","unsupported_completion",8,10,FALSE,2,"Unsupported addition","Unsupported
+addition","Kimi + Kimi Code","native",8,0.8,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","unsupported_completion","0.80"
+"kimi_code","operation_error",7,10,FALSE,3,"Operation / target mismatch","Operation / target
+mismatch","Kimi + Kimi Code","native",8,0.7,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","operation_error","0.70"
+"kimi_code","strand_or_orientation_error",1,10,FALSE,4,"Strand / orientation error","Strand / orientation
+error","Kimi + Kimi Code","native",8,0.1,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","strand_or_orientation_error","0.10"
+"kimi_code","molecular_state_or_assembly_error",10,10,FALSE,5,"Molecular-state assembly","Molecular-state
+assembly","Kimi + Kimi Code","native",8,1,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","molecular_state_or_assembly_error","1.00"
+"kimi_code","workflow_or_topology_error",10,10,FALSE,6,"Workflow topology / disposition","Workflow topology /
+disposition","Kimi + Kimi Code","native",8,1,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","workflow_or_topology_error","1.00"
+"claude_pi","missing_recoverable_information",5,10,FALSE,1,"Missing recoverable information","Missing recoverable
+information","Claude + Pi","shared",9,0.5,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","missing_recoverable_information","0.50"
+"claude_pi","unsupported_completion",10,10,FALSE,2,"Unsupported addition","Unsupported
+addition","Claude + Pi","shared",9,1,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","unsupported_completion","1.00"
+"claude_pi","operation_error",3,10,FALSE,3,"Operation / target mismatch","Operation / target
+mismatch","Claude + Pi","shared",9,0.3,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","operation_error","0.30"
+"claude_pi","strand_or_orientation_error",0,10,FALSE,4,"Strand / orientation error","Strand / orientation
+error","Claude + Pi","shared",9,0,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","strand_or_orientation_error","0.00"
+"claude_pi","molecular_state_or_assembly_error",10,10,FALSE,5,"Molecular-state assembly","Molecular-state
+assembly","Claude + Pi","shared",9,1,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","molecular_state_or_assembly_error","1.00"
+"claude_pi","workflow_or_topology_error",10,10,FALSE,6,"Workflow topology / disposition","Workflow topology /
+disposition","Claude + Pi","shared",9,1,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","workflow_or_topology_error","1.00"
+"claude_code","missing_recoverable_information",5,10,FALSE,1,"Missing recoverable information","Missing recoverable
+information","Claude + Claude Code","native",10,0.5,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","missing_recoverable_information","0.50"
+"claude_code","unsupported_completion",10,10,FALSE,2,"Unsupported addition","Unsupported
+addition","Claude + Claude Code","native",10,1,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","unsupported_completion","1.00"
+"claude_code","operation_error",2,10,FALSE,3,"Operation / target mismatch","Operation / target
+mismatch","Claude + Claude Code","native",10,0.2,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","operation_error","0.20"
+"claude_code","strand_or_orientation_error",1,10,FALSE,4,"Strand / orientation error","Strand / orientation
+error","Claude + Claude Code","native",10,0.1,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","strand_or_orientation_error","0.10"
+"claude_code","molecular_state_or_assembly_error",10,10,FALSE,5,"Molecular-state assembly","Molecular-state
+assembly","Claude + Claude Code","native",10,1,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","molecular_state_or_assembly_error","1.00"
+"claude_code","workflow_or_topology_error",10,10,FALSE,6,"Workflow topology / disposition","Workflow topology /
+disposition","Claude + Claude Code","native",10,1,"provisional_output_discrepancy_rates","unresolved","unresolved","provisional unadjudicated output-discrepancy protocol rates","workflow_or_topology_error","1.00"

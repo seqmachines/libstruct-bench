@@ -187,6 +187,7 @@
         "source_scope_mismatch",
         "ground_truth_defect",
         "policy_ambiguity",
+        "source_conflict",
         "evaluator_defect",
         "unresolved"
       ]
@@ -203,6 +204,7 @@
         "evidence_retrieved_but_misinterpreted",
         "molecular_or_strand_reasoning_error",
         "graph_abstraction_error",
+        "context_or_time_limitation",
         "output_bookkeeping_error",
         "unresolved"
       ]

@@ -12,7 +12,7 @@ keywords = ["genomics", "oligo", "molecular-workflow", "protocol-understanding"]
 
 [metadata]
 benchmark = "libgen"
-benchmark_version = "3.0.0"
+benchmark_version = "4.5.0"
 protocol_id = "scdamid"
 protocol_name = "scDamID"
 input_repo = "sequencing/scg-protocols-v1"
@@ -20,9 +20,12 @@ input_revision = "19c29caabcb019a72d08fed59ed8030a2d3c449d"
 groundtruth_repo = "sequencing/scg-oligo-groundtruth-v1"
 groundtruth_revision = "5a81714daaa87d568a0c5b62320679d34219ebf7"
 network_profile = "docker-provider-only"
+source_delivery = "pinned-hf"
 network_policy_sha256 = "d9aaaa853d953b4eee1e2116d8b3ee7c705babcb0ab5fd7231852dea7b4df411"
 source_manifest_sha256 = "87b9dd232997e75630415bf26ad50bb61c4c190952f0a386fd13095e39fe1d79"
+groundtruth_source_bundle_sha256 = "8862ddda8400248fd4ddd520de36b4bfcc1d68994b500028ffa4e06f36571f90"
 groundtruth_bundle_sha256 = "8862ddda8400248fd4ddd520de36b4bfcc1d68994b500028ffa4e06f36571f90"
+groundtruth_transform = "none"
 
 [agent]
 timeout_sec = 3600.0

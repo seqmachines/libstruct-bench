@@ -1,0 +1,111 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/improvement/checkpoint.schema.json",
+  "title": "Frozen cumulative LibGen capability checkpoint",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "checkpoint_id",
+    "experiment_digest",
+    "branch",
+    "protocol_count",
+    "batch_id",
+    "parent_checkpoint_id",
+    "validation_guidance",
+    "pack_digest",
+    "pack_manifest_sha256",
+    "exemplar_memory",
+    "runtime_manifest_sha256",
+    "proposal_sha256",
+    "decision_sha256",
+    "application_sha256",
+    "status",
+    "frozen",
+    "created_at",
+    "checkpoint_digest"
+  ],
+  "properties": {
+    "schema_version": {"const": "libstruct.libgen_capability_checkpoint.v1"},
+    "checkpoint_id": {"type": "string", "enum": ["C0", "C5", "C10", "C15", "C20", "C25"]},
+    "experiment_digest": {"$ref": "#/$defs/sha256"},
+    "branch": {"const": "cumulative"},
+    "protocol_count": {"type": "integer", "enum": [0, 5, 10, 15, 20, 25]},
+    "batch_id": {"type": ["string", "null"], "enum": [null, "B1", "B2", "B3", "B4", "B5"]},
+    "parent_checkpoint_id": {"type": ["string", "null"], "enum": [null, "C0", "C5", "C10", "C15", "C20"]},
+    "validation_guidance": {"oneOf": [{"$ref": "#/$defs/validation_guidance"}, {"type": "null"}]},
+    "pack_digest": {"$ref": "#/$defs/sha256"},
+    "pack_manifest_sha256": {"$ref": "#/$defs/sha256"},
+    "exemplar_memory": {"$ref": "#/$defs/exemplar_memory"},
+    "runtime_manifest_sha256": {"$ref": "#/$defs/sha256"},
+    "proposal_sha256": {"$ref": "#/$defs/nullable_sha256"},
+    "decision_sha256": {"$ref": "#/$defs/nullable_sha256"},
+    "application_sha256": {"$ref": "#/$defs/nullable_sha256"},
+    "status": {"type": "string", "enum": ["baseline", "procedural_and_exemplar", "exemplar_only"]},
+    "frozen": {"const": true},
+    "created_at": {"type": "string", "format": "date-time"},
+    "checkpoint_digest": {"$ref": "#/$defs/sha256"}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"checkpoint_id": {"const": "C0"}}},
+      "then": {
+        "properties": {
+          "protocol_count": {"const": 0},
+          "batch_id": {"const": null},
+          "parent_checkpoint_id": {"const": null},
+          "validation_guidance": {"const": null},
+          "exemplar_memory": {
+            "allOf": [
+              {"$ref": "#/$defs/exemplar_memory"},
+              {"properties": {"exemplar_count": {"const": 0}}}
+            ]
+          },
+          "proposal_sha256": {"const": null},
+          "decision_sha256": {"const": null},
+          "application_sha256": {"const": null},
+          "status": {"const": "baseline"}
+        }
+      },
+      "else": {
+        "properties": {
+          "protocol_count": {"enum": [5, 10, 15, 20, 25]},
+          "batch_id": {"type": "string"},
+          "parent_checkpoint_id": {"type": "string"},
+          "validation_guidance": {"$ref": "#/$defs/validation_guidance"},
+          "proposal_sha256": {"$ref": "#/$defs/sha256"},
+          "decision_sha256": {"$ref": "#/$defs/sha256"},
+          "application_sha256": {"$ref": "#/$defs/sha256"},
+          "exemplar_memory": {
+            "allOf": [
+              {"$ref": "#/$defs/exemplar_memory"},
+              {"properties": {"exemplar_count": {"enum": [5, 10, 15, 20, 25]}}}
+            ]
+          },
+          "status": {"enum": ["procedural_and_exemplar", "exemplar_only"]}
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "nullable_sha256": {"oneOf": [{"$ref": "#/$defs/sha256"}, {"type": "null"}]},
+    "validation_guidance": {"type": "object", "additionalProperties": false, "required": ["checkpoint_label", "aggregate_digest", "aggregate_sha256", "workspace_digest", "workspace_manifest_sha256"], "properties": {"checkpoint_label": {"type": "string", "enum": ["C0", "C5", "C10", "C15", "C20"]}, "aggregate_digest": {"$ref": "#/$defs/sha256"}, "aggregate_sha256": {"$ref": "#/$defs/sha256"}, "workspace_digest": {"$ref": "#/$defs/sha256"}, "workspace_manifest_sha256": {"$ref": "#/$defs/sha256"}}},
+    "exemplar_memory": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "manifest_path", "catalog_path", "exemplar_count", "memory_digest", "memory_manifest_sha256", "catalog_digest", "catalog_sha256", "identity_map_commitment"],
+      "properties": {
+        "path": {"const": "memory"},
+        "manifest_path": {"const": "memory/manifest.json"},
+        "catalog_path": {"const": "memory/catalog.json"},
+        "exemplar_count": {"type": "integer", "enum": [0, 5, 10, 15, 20, 25]},
+        "memory_digest": {"$ref": "#/$defs/sha256"},
+        "memory_manifest_sha256": {"$ref": "#/$defs/sha256"},
+        "catalog_digest": {"$ref": "#/$defs/sha256"},
+        "catalog_sha256": {"$ref": "#/$defs/sha256"},
+        "identity_map_commitment": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  }
+}

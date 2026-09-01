@@ -1,0 +1,148 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/improvement/checkpoint_reattestation.schema.json",
+  "title": "LibGen capability checkpoint split re-attestation",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "reattestation_id",
+    "prior_experiment_digest",
+    "prior_split_digest",
+    "active_split",
+    "test_isolation_audit",
+    "unchanged_batches",
+    "checkpoint_records",
+    "attestations",
+    "created_at",
+    "reattestation_digest"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "libstruct.libgen_checkpoint_split_reattestation.v1"
+    },
+    "reattestation_id": {"$ref": "#/$defs/id"},
+    "prior_experiment_digest": {"$ref": "#/$defs/sha256"},
+    "prior_split_digest": {"$ref": "#/$defs/sha256"},
+    "active_split": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "digest", "split_digest"],
+      "properties": {
+        "path": {"const": "design/frozen_split.json"},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "digest": {"$ref": "#/$defs/sha256"},
+        "split_digest": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "test_isolation_audit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "digest"],
+      "properties": {
+        "path": {"const": "design/test_isolation_audit.json"},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "digest": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "unchanged_batches": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": {"$ref": "#/$defs/batch"}
+    },
+    "checkpoint_records": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": {"$ref": "#/$defs/checkpoint"}
+    },
+    "attestations": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "checkpoint_bytes_unchanged",
+        "development_batches_unchanged",
+        "test_evidence_absent_from_checkpoint_lineage",
+        "scope_limited_to_pre_split_checkpoints"
+      ],
+      "properties": {
+        "checkpoint_bytes_unchanged": {"const": true},
+        "development_batches_unchanged": {"const": true},
+        "test_evidence_absent_from_checkpoint_lineage": {"const": true},
+        "scope_limited_to_pre_split_checkpoints": {"const": true}
+      }
+    },
+    "created_at": {"type": "string", "format": "date-time"},
+    "reattestation_digest": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 240,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "batch": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "batch_id",
+        "protocol_ids",
+        "prior_batch_digest",
+        "active_batch_digest"
+      ],
+      "properties": {
+        "batch_id": {"type": "string", "enum": ["B1", "B2"]},
+        "protocol_ids": {
+          "type": "array",
+          "minItems": 5,
+          "maxItems": 5,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/id"}
+        },
+        "prior_batch_digest": {"$ref": "#/$defs/sha256"},
+        "active_batch_digest": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "checkpoint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "checkpoint_id",
+        "path",
+        "sha256",
+        "checkpoint_digest",
+        "original_experiment_digest",
+        "batch_id",
+        "protocol_count",
+        "runtime_sha256",
+        "runtime_digest",
+        "pack_digest",
+        "pack_manifest_sha256",
+        "pack_tree_digest"
+      ],
+      "properties": {
+        "checkpoint_id": {"type": "string", "enum": ["A5", "A10"]},
+        "path": {
+          "type": "string",
+          "pattern": "^checkpoints/A(?:5|10)/checkpoint\\.json$"
+        },
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "checkpoint_digest": {"$ref": "#/$defs/sha256"},
+        "original_experiment_digest": {"$ref": "#/$defs/sha256"},
+        "batch_id": {"type": "string", "enum": ["B1", "B2"]},
+        "protocol_count": {"type": "integer", "enum": [5, 10]},
+        "runtime_sha256": {"$ref": "#/$defs/sha256"},
+        "runtime_digest": {"$ref": "#/$defs/sha256"},
+        "pack_digest": {"$ref": "#/$defs/sha256"},
+        "pack_manifest_sha256": {"$ref": "#/$defs/sha256"},
+        "pack_tree_digest": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  }
+}

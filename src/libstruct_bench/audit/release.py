@@ -9,14 +9,25 @@ from typing import Any
 
 from .artifacts import (
     AuditArtifactError,
+    canonical_json_bytes,
     load_json_object,
     sha256_file,
     validate_document,
     write_json_atomic,
 )
-from .review import ReviewError, validate_review_decision
+from .review import (
+    ReviewError,
+    all_review_decision_items,
+    compiled_root_operation_ids,
+    is_compiled_review_decision,
+    validate_review_decision,
+)
 from .oligo_catalog import OligoCatalogError, build_oligo_outputs
-from .groundtruth import GroundtruthValidationError, validate_cross_task_links
+from .groundtruth import (
+    TASK_ARTIFACTS,
+    GroundtruthValidationError,
+    validate_cross_task_links,
+)
 
 
 SCHEMA_FILES = {
@@ -381,6 +392,24 @@ def _verify_protocol(
         if source["approval_status"] == "included"
         and source["role"] == "current_benchmark_record"
     }
+    task_by_filename = {
+        details["filename"]: task for task, details in TASK_ARTIFACTS.items()
+    }
+    current_source_by_task: dict[str, str] = {}
+    for source in manifest["sources"]:
+        if (
+            source["approval_status"] != "included"
+            or source["role"] != "current_benchmark_record"
+        ):
+            continue
+        task = task_by_filename.get(Path(source["path"]).name)
+        if task is None:
+            continue
+        if task in current_source_by_task:
+            raise ReleaseError(
+                f"input manifest contains multiple current {task} records for {protocol_id}"
+            )
+        current_source_by_task[task] = source["source_id"]
     manifest_sha256 = sha256_file(manifest_path)
     audits: dict[str, tuple[Path, dict[str, Any]]] = {}
     independent_ids: list[str] = []
@@ -431,21 +460,54 @@ def _verify_protocol(
     high_impact = False
     unresolved: set[str] = set()
     required_applications: dict[str, set[str]] = {}
-    required_application_patches: dict[str, dict[str, list[dict[str, Any]]]] = {}
+    required_application_patches: dict[
+        str, dict[str, list[dict[str, Any]] | None]
+    ] = {}
     required_application_sources: dict[str, dict[str, tuple[str, str]]] = {}
+    required_application_tasks: dict[str, dict[str, str]] = {}
     for audit_id, (_, proposal) in audits.items():
         decision = decisions[audit_id][1]
         issues = {issue["issue_id"]: issue for issue in proposal["issues"]}
         required_for_decision: set[str] = set()
-        patches_for_decision: dict[str, list[dict[str, Any]]] = {}
+        patches_for_decision: dict[str, list[dict[str, Any]] | None] = {}
         sources_for_decision: dict[str, tuple[str, str]] = {}
-        for item in decision["issue_decisions"]:
-            issue = issues[item["issue_id"]]
-            severity = item.get("severity", issue["severity"])
+        tasks_for_decision: dict[str, str] = {}
+        compiled = is_compiled_review_decision(decision)
+        if compiled:
+            try:
+                root_operations = compiled_root_operation_ids(proposal, decision)
+            except ReviewError as error:
+                raise ReleaseError(str(error)) from error
+            for task, issue_id in root_operations.items():
+                issue = issues.get(issue_id)
+                required_for_decision.add(issue_id)
+                patches_for_decision[issue_id] = None
+                if issue is not None:
+                    source_id = issue["target"]["artifact_source_id"]
+                    target_kind = issue["target"]["kind"]
+                else:
+                    source_id = current_source_by_task.get(
+                        task, f"compiled:{task.lower()}:new"
+                    )
+                    target_kind = (
+                        "groundtruth_record"
+                        if task in current_source_by_task
+                        else "new_groundtruth_record"
+                    )
+                sources_for_decision[issue_id] = (source_id, target_kind)
+                tasks_for_decision[source_id] = task
+        for item in all_review_decision_items(proposal, decision):
+            issue = issues.get(item["issue_id"])
             disposition = item["disposition"]
+            severity = item.get(
+                "severity",
+                issue["severity"]
+                if issue is not None
+                else ("high" if disposition == "modify" else "medium"),
+            )
             if disposition in {"accept", "modify"} and severity in {"blocker", "high"}:
                 high_impact = True
-            if (
+            if not compiled and issue is not None and (
                 disposition == "modify"
                 or (
                     disposition == "accept"
@@ -466,10 +528,14 @@ def _verify_protocol(
                     issue["target"]["kind"],
                 )
             if disposition == "unresolved":
-                unresolved.add(issue["issue_id"])
-                if severity in {"blocker", "high"} and protocol["task_dispositions"].get(issue["task"]) == "included":
+                unresolved.add(item["issue_id"])
+                task = issue["task"] if issue is not None else item["task"]
+                if severity in {"blocker", "high"} and protocol[
+                    "task_dispositions"
+                ].get(task) == "included":
                     raise ReleaseError(
-                        f"{protocol_id} includes {issue['task']} with unresolved {severity} issue {issue['issue_id']}"
+                        f"{protocol_id} includes {task} with unresolved {severity} "
+                        f"issue {item['issue_id']}"
                     )
             if disposition == "exclude":
                 scope = item["exclusion_scope"]
@@ -477,11 +543,15 @@ def _verify_protocol(
                     value == "included" for value in protocol["task_dispositions"].values()
                 ):
                     raise ReleaseError(f"protocol-level exclusion conflicts with included task for {protocol_id}")
-                if scope == "task" and protocol["task_dispositions"].get(issue["task"]) == "included":
-                    raise ReleaseError(f"task exclusion conflicts with included {issue['task']} for {protocol_id}")
+                task = issue["task"] if issue is not None else item["task"]
+                if scope == "task" and protocol["task_dispositions"].get(task) == "included":
+                    raise ReleaseError(
+                        f"task exclusion conflicts with included {task} for {protocol_id}"
+                    )
         required_applications[decision["decision_id"]] = required_for_decision
         required_application_patches[decision["decision_id"]] = patches_for_decision
         required_application_sources[decision["decision_id"]] = sources_for_decision
+        required_application_tasks[decision["decision_id"]] = tasks_for_decision
     if unresolved != set(protocol["unresolved_issue_ids"]):
         raise ReleaseError(f"unresolved issue list is stale for {protocol_id}")
 
@@ -514,6 +584,26 @@ def _verify_protocol(
             raise ReleaseError(f"application proposal hash is stale for {protocol_id}")
         if document["decision_sha256"] != sha256_file(decision_path):
             raise ReleaseError(f"application decision hash is stale for {protocol_id}")
+        compiled = is_compiled_review_decision(decision)
+        if compiled:
+            if document.get("application_mode") != "compiled_roots":
+                raise ReleaseError(
+                    f"compiled decision lacks a compiled-root application: {decision_id}"
+                )
+            expected_decisions = {
+                review["issue_id"]
+                for review in all_review_decision_items(
+                    audits[audit_id][1], decision
+                )
+            }
+            if set(document.get("incorporated_decision_ids", [])) != expected_decisions:
+                raise ReleaseError(
+                    f"application decision lineage is stale for {decision_id}"
+                )
+        elif document.get("application_mode") == "compiled_roots":
+            raise ReleaseError(
+                f"patch decision uses a compiled-root application: {decision_id}"
+            )
         expected_issue_ids = required_applications[decision_id]
         if set(document["applied_issue_ids"]) != expected_issue_ids:
             raise ReleaseError(
@@ -544,6 +634,7 @@ def _verify_protocol(
                 f"expected={sorted(expected_application_sources)}, "
                 f"got={sorted(application_artifacts)}"
             )
+        application_candidate_documents: dict[str, dict[str, Any]] = {}
         for artifact in document["artifacts"]:
             source_id = artifact["source_id"]
             baseline_state = artifact["baseline_state"]
@@ -579,6 +670,17 @@ def _verify_protocol(
                     f"application candidate hash is stale for {decision_id}: "
                     f"{artifact['source_id']}"
                 )
+            task = required_application_tasks[decision_id].get(source_id)
+            if task is not None and artifact["candidate_sha256"] != decision[
+                "candidate_sha256"
+            ][task]:
+                raise ReleaseError(
+                    f"application candidate is not the approved compiled {task} "
+                    f"document for {decision_id}"
+                )
+            application_candidate_documents[source_id] = load_json_object(
+                candidate_path, label="application candidate"
+            )
             artifact_chain[source_id] = artifact["candidate_sha256"]
         fixture_issue_ids: set[str] = set()
         for relative_fixture in document["regression_fixtures"]:
@@ -629,7 +731,26 @@ def _verify_protocol(
                 raise ReleaseError(
                     f"regression fixture source is stale for issue {issue_id}"
                 )
-            if fixture["patch"] != required_application_patches[decision_id][issue_id]:
+            expected_patch = required_application_patches[decision_id][issue_id]
+            if expected_patch is None:
+                candidate = application_candidate_documents[source_id]
+                expected_op = (
+                    "replace" if fixture["baseline_state"] == "present" else "add"
+                )
+                if fixture["patch"] != [
+                    {"op": expected_op, "path": "", "value": candidate}
+                ]:
+                    raise ReleaseError(
+                        f"compiled-root regression patch is stale for issue {issue_id}"
+                    )
+                canonical_sha = hashlib.sha256(
+                    canonical_json_bytes(candidate)
+                ).hexdigest()
+                if fixture["candidate_document_sha256"] != canonical_sha:
+                    raise ReleaseError(
+                        f"compiled-root regression candidate is stale for issue {issue_id}"
+                    )
+            elif fixture["patch"] != expected_patch:
                 raise ReleaseError(
                     f"regression fixture patch is stale for issue {issue_id}"
                 )

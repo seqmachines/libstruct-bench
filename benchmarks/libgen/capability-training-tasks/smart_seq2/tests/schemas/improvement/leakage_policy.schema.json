@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/improvement/leakage_policy.schema.json",
+  "title": "Private cumulative capability-pack leakage policy",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "experiment_digest", "through_batch", "protocol_ids", "groundtruth_artifacts", "forbidden_terms", "forbidden_sequences", "forbidden_scaffolds", "allowed_synthetic_paths", "agent_visibility", "policy_digest"],
+  "properties": {
+    "schema_version": {"const": "libstruct.libgen_capability_leakage_policy.v1"},
+    "experiment_digest": {"$ref": "#/$defs/sha256"},
+    "through_batch": {"type": "string", "enum": ["B1", "B2", "B3", "B4", "B5"]},
+    "protocol_ids": {"type": "array", "minItems": 5, "maxItems": 30, "uniqueItems": true, "items": {"$ref": "#/$defs/id"}},
+    "groundtruth_artifacts": {"type": "array", "minItems": 15, "items": {"$ref": "#/$defs/artifact"}},
+    "forbidden_terms": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "forbidden_sequences": {"type": "array", "uniqueItems": true, "items": {"type": "string", "pattern": "^[ACGTRYSWKMBDHVN]{8,}$"}},
+    "forbidden_scaffolds": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "allowed_synthetic_paths": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/path"}},
+    "agent_visibility": {"const": "none_orchestrator_only"},
+    "policy_digest": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "id": {"type": "string", "minLength": 1, "maxLength": 240, "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"},
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "path": {"type": "string", "minLength": 1, "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[^\\u0000]+$"},
+    "artifact": {"type": "object", "additionalProperties": false, "required": ["protocol_id", "filename", "sha256"], "properties": {"protocol_id": {"$ref": "#/$defs/id"}, "filename": {"type": "string", "enum": ["groundtruth_final_lib_struct.json", "groundtruth_oligos.json", "groundtruth_library_generation_workflow.json"]}, "sha256": {"$ref": "#/$defs/sha256"}}}
+  }
+}

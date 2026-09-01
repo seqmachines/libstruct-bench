@@ -1,0 +1,119 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/improvement/agent_guided_experiment.schema.json",
+  "title": "Offline protocol-by-protocol agent-guided LibGen capability experiment",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "experiment_id",
+    "condition",
+    "created_at",
+    "review_substrate",
+    "verifier_lock",
+    "protocol_review",
+    "mutation_policy",
+    "validation_policy",
+    "manifest_digest"
+  ],
+  "properties": {
+    "schema_version": {"const": "libstruct.libgen_agent_guided_experiment.v1"},
+    "experiment_id": {"$ref": "#/$defs/id"},
+    "condition": {"const": "offline_agent_guided_protocol_review_frozen_verifier"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "review_substrate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["format", "manifest_path", "manifest_sha256", "manifest_digest", "registry_path", "registry_sha256", "registry_digest"],
+      "properties": {
+        "format": {"const": "human_protocol_review_v1_compatibility_no_human_claim"},
+        "manifest_path": {"const": "design/human_guided_experiment.json"},
+        "manifest_sha256": {"$ref": "#/$defs/sha256"},
+        "manifest_digest": {"$ref": "#/$defs/sha256"},
+        "registry_path": {"const": "design/human_training_registry.json"},
+        "registry_sha256": {"$ref": "#/$defs/sha256"},
+        "registry_digest": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "verifier_lock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["benchmark_version", "repository_root", "source_contract", "task_contracts", "lock_digest"],
+      "properties": {
+        "benchmark_version": {"type": "string", "minLength": 1},
+        "repository_root": {"type": "string", "minLength": 1},
+        "source_contract": {"$ref": "#/$defs/tree"},
+        "task_contracts": {
+          "type": "array",
+          "minItems": 20,
+          "uniqueItems": true,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["protocol_id", "path", "file_count", "tree_digest"],
+            "properties": {
+              "protocol_id": {"$ref": "#/$defs/id"},
+              "path": {"type": "string", "minLength": 1},
+              "file_count": {"type": "integer", "minimum": 1},
+              "tree_digest": {"$ref": "#/$defs/sha256"}
+            }
+          }
+        },
+        "lock_digest": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "protocol_review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["order", "batch_size", "proposer", "critic", "revision_rounds", "finding_status"],
+      "properties": {
+        "order": {"const": "frozen_B1_through_B5_protocol_order"},
+        "batch_size": {"const": 5},
+        "proposer": {"const": "read_isolated_codex"},
+        "critic": {"const": "independent_read_isolated_codex"},
+        "revision_rounds": {"const": 1},
+        "finding_status": {"const": "agent_proposal_not_canonical_groundtruth_approval"}
+      }
+    },
+    "mutation_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["agent_mutation_scope", "verifier_mutation", "groundtruth_mutation", "orchestrator_exemplar_projection", "maximum_proposed_pack_changes_per_batch", "maximum_accepted_pack_changes_per_batch"],
+      "properties": {
+        "agent_mutation_scope": {"const": "capability_pack_only"},
+        "verifier_mutation": {"const": false},
+        "groundtruth_mutation": {"const": false},
+        "orchestrator_exemplar_projection": {"const": "deterministic_not_agent_authored"},
+        "maximum_proposed_pack_changes_per_batch": {"const": 2},
+        "maximum_accepted_pack_changes_per_batch": {"const": 1}
+      }
+    },
+    "validation_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["feedback_scope", "same_batch_direct_mutation", "next_batch_adjustment", "checkpoint_sweep", "sealed_final_test"],
+      "properties": {
+        "feedback_scope": {"const": "macro_means_and_counts_only"},
+        "same_batch_direct_mutation": {"const": false},
+        "next_batch_adjustment": {"const": true},
+        "checkpoint_sweep": {"const": "after_each_batch_replay_all_available_C5_through_current_on_fixed_validation_panel"},
+        "sealed_final_test": {"const": "unavailable_until_C25_lock"}
+      }
+    },
+    "manifest_digest": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "id": {"type": "string", "minLength": 1, "maxLength": 240, "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"},
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "tree": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["paths", "file_count", "tree_digest"],
+      "properties": {
+        "paths": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "file_count": {"type": "integer", "minimum": 1},
+        "tree_digest": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "protocol_id": "synthetic_protocol",
+  "workflows": [
+    {
+      "final_outputs": [{"modality": "genomic DNA", "state_id": "duplex"}],
+      "initial_state_ids": ["duplex"],
+      "states": [
+        {
+          "discontinuities": [],
+          "molecule_type": "DNA",
+          "name": "Broken synthetic duplex",
+          "paired_regions": [{"paired_region_id": "pair", "relationship": "reverse_complementary", "side_1": {"segment_ids": ["left"], "strand_id": "left-strand"}, "side_2": {"segment_ids": ["right"], "strand_id": "right-strand"}}],
+          "physical_state": "solution",
+          "properties": [],
+          "reference_strand_id": "left-strand",
+          "state_id": "duplex",
+          "strand_architecture": "double_stranded",
+          "strands": [
+            {"molecule_type": "DNA", "name": "Left", "orientation": "5_to_3", "segments": [{"role": "synthetic", "segment_id": "left", "sequence": "AACCGG", "structural_role": "paired_region"}], "strand_id": "left-strand"},
+            {"molecule_type": "DNA", "name": "Right", "orientation": "5_to_3", "segments": [{"role": "synthetic", "segment_id": "right", "sequence": "AACCGG", "structural_role": "paired_region"}], "strand_id": "right-strand"}
+          ]
+        }
+      ],
+      "transitions": [],
+      "workflow_id": "broken-pairing"
+    }
+  ]
+}

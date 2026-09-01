@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from collections import defaultdict, deque
+from functools import lru_cache
 from pathlib import Path
 import re
 from typing import Any, Mapping
@@ -10,6 +11,7 @@ from libstruct_bench.modalities import (
     canonical_modality_label,
     modality_key,
 )
+from libstruct_bench.normalization import sequence_tokens
 
 from .artifacts import AuditArtifactError, validate_document
 
@@ -59,6 +61,7 @@ def validate_task_document(
         )
     except AuditArtifactError as error:
         raise GroundtruthValidationError(str(error)) from error
+    _validate_ordered_sequence_assemblies(task, document)
 
 
 def documents_by_task(
@@ -94,6 +97,10 @@ def validate_cross_task_links(documents: Mapping[str, dict[str, Any]]) -> None:
     if not documents:
         return
     _preflight_cross_task_shape(documents)
+    for task in ("T1", "T3"):
+        document = documents.get(task)
+        if document is not None:
+            _validate_ordered_sequence_assemblies(task, document)
     protocol_ids = {document.get("protocol_id") for document in documents.values()}
     if len(protocol_ids) != 1:
         raise GroundtruthValidationError("T1, T2, and T3 protocol IDs must agree")
@@ -869,6 +876,159 @@ _IUPAC_BASES = {
     "V": frozenset("ACG"),
     "N": frozenset("ACGT"),
 }
+
+
+def _validate_ordered_sequence_assemblies(
+    task: str, document: Mapping[str, Any]
+) -> None:
+    if task == "T1":
+        for index, library in enumerate(document.get("libraries", [])):
+            _validate_ordered_segment_projection(
+                architecture=library.get("library_sequence"),
+                segments=library.get("segments"),
+                label=f"T1 library at index {index} library_sequence",
+            )
+        return
+    if task != "T3":
+        return
+    for workflow in document.get("workflows", []):
+        for state in workflow.get("states", []):
+            for strand in state.get("strands", []):
+                if "sequence_architecture" not in strand:
+                    continue
+                _validate_ordered_segment_projection(
+                    architecture=strand.get("sequence_architecture"),
+                    segments=strand.get("segments"),
+                    label=(
+                        f"T3 state {state.get('state_id')} strand "
+                        f"{strand.get('strand_id')} sequence_architecture"
+                    ),
+                )
+
+
+def _validate_ordered_segment_projection(
+    *, architecture: Any, segments: Any, label: str
+) -> None:
+    if not isinstance(architecture, str) or not isinstance(segments, list):
+        return
+    patterns: list[tuple[str, tuple[str, ...] | int]] = []
+    for segment in segments:
+        if not isinstance(segment, dict):
+            return
+        sequence = segment.get("sequence")
+        placeholder = segment.get("placeholder")
+        length = segment.get("length")
+        if isinstance(sequence, str):
+            patterns.append(("fixed", tuple(sequence_tokens(sequence))))
+        elif isinstance(placeholder, str):
+            tokens = tuple(sequence_tokens(placeholder))
+            if len(tokens) == 1 and _is_opaque_projection_token(tokens[0]):
+                patterns.append(
+                    ("length", length)
+                    if isinstance(length, int)
+                    else ("variable", tokens)
+                )
+            else:
+                patterns.append(("fixed", tokens))
+        elif isinstance(length, int):
+            patterns.append(("length", length))
+        else:
+            return
+
+    actual_tokens = tuple(sequence_tokens(architecture))
+
+    @lru_cache(maxsize=None)
+    def matches(pattern_index: int, actual_index: int) -> bool:
+        if pattern_index == len(patterns):
+            # Some promoted records historically leave a terminal overhang out
+            # of the segment ledger. That separate completeness defect must not
+            # hide an omitted segment declared earlier in the ordered ledger.
+            return True
+        kind, value = patterns[pattern_index]
+        if kind == "fixed":
+            expected = value
+            assert isinstance(expected, tuple)
+            end = actual_index + len(expected)
+            return end <= len(actual_tokens) and all(
+                _assembly_token_matches(actual, wanted)
+                for actual, wanted in zip(
+                    actual_tokens[actual_index:end], expected, strict=True
+                )
+            ) and matches(pattern_index + 1, end)
+        if kind == "variable":
+            return any(
+                matches(pattern_index + 1, end)
+                for end in range(actual_index + 1, len(actual_tokens) + 1)
+            )
+        expected_length = value
+        assert isinstance(expected_length, int)
+        return any(
+            _projection_span_can_have_length(
+                actual_tokens[actual_index:end], expected_length
+            )
+            and matches(pattern_index + 1, end)
+            for end in range(
+                actual_index + 1,
+                min(len(actual_tokens), actual_index + expected_length) + 1,
+            )
+        )
+
+    if not matches(0, 0):
+        raise GroundtruthValidationError(
+            f"{label} disagrees with its ordered segment projection"
+        )
+
+
+def _projection_span_can_have_length(tokens: tuple[str, ...], length: int) -> bool:
+    if len(tokens) > length:
+        return False
+    if all(_is_sequence_projection_token(token) for token in tokens):
+        return len(tokens) == length or any(
+            _is_opaque_projection_token(token) for token in tokens
+        )
+    return False
+
+
+def _is_sequence_projection_token(token: str) -> bool:
+    return (
+        _sequence_token_bases(token) is not None
+        or (token.startswith("<") and token.endswith(">"))
+        or _is_opaque_projection_token(token)
+    )
+
+
+def _is_opaque_projection_token(token: str) -> bool:
+    return token.startswith("[") and token.endswith("]")
+
+
+def _assembly_token_matches(actual: str, expected: str | None) -> bool:
+    if expected is None:
+        return True
+    if expected.startswith("<") and expected.endswith(">"):
+        return actual == expected or _sequence_token_bases(actual) is not None
+    if actual == expected:
+        return True
+    actual_bases = _sequence_token_bases(actual)
+    expected_bases = _sequence_token_bases(expected)
+    return (
+        actual_bases is not None
+        and expected_bases is not None
+        and bool(actual_bases & expected_bases)
+    )
+
+
+def _sequence_token_bases(token: str) -> frozenset[str] | None:
+    if len(token) == 1:
+        return _IUPAC_BASES.get(token.upper())
+    if len(token) == 2 and token[0] in {"r", "+"}:
+        return _IUPAC_BASES.get(token[1].upper().replace("U", "T"))
+    if token.lower() == "(du)":
+        return _IUPAC_BASES["T"]
+    if token.startswith("/") and token.endswith("/"):
+        match = re.search(r"([ACGTU])$", token[1:-1], flags=re.IGNORECASE)
+        if match is not None:
+            return _IUPAC_BASES[match.group(1).upper().replace("U", "T")]
+    return None
 
 
 def _normalized_nucleic_acid(sequence: str | None) -> str | None:

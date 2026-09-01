@@ -1,0 +1,15 @@
+{
+  "protocol_id": "lianti",
+  "sources": [
+    {
+      "local_path": "LIANTI.pdf",
+      "path": "lianti/LIANTI.pdf",
+      "sha256": "910a738e286f9c83a508b00084b67ecaa3ad76f655a65f8d8a07afd4ff5d4648"
+    },
+    {
+      "local_path": "LIANTI_original_paper.pdf",
+      "path": "lianti/LIANTI_original_paper.pdf",
+      "sha256": "b4956bc9469de7b1d67ce79ce9b3312ad2f00451574cfaa515d1ac17e902d6bb"
+    }
+  ]
+}

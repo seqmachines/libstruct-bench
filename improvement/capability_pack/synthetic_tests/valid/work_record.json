@@ -1,0 +1,243 @@
+{
+  "schema_version": "libstruct.libgen_capability_work_record.v1",
+  "protocol_id": "synthetic_protocol",
+  "source_coverage": [
+    {
+      "source_id": "synthetic-source",
+      "artifact": "synthetic fixture",
+      "coverage_status": "inspected",
+      "locators": ["complete fixture"],
+      "notes": "Protocol-neutral synthetic source used only for control tests."
+    }
+  ],
+  "inventory": [
+    {
+      "inventory_id": "inv-primer",
+      "item_kind": "oligo",
+      "name": "Synthetic extension primer",
+      "support": "explicit",
+      "derivation": null,
+      "source_locators": [{"source_id": "synthetic-source", "locator": "primer row"}],
+      "usage_scope": "physical_library_generation",
+      "disposition": "modeled",
+      "disposition_reason": "Physically used by extension.",
+      "target_pointers": [{"target": "t2", "json_pointer": "/oligos/0"}]
+    },
+    {
+      "inventory_id": "inv-process",
+      "item_kind": "branch",
+      "name": "Synthetic connected process",
+      "support": "explicit",
+      "derivation": null,
+      "source_locators": [{"source_id": "synthetic-source", "locator": "process diagram"}],
+      "usage_scope": "physical_library_generation",
+      "disposition": "modeled",
+      "disposition_reason": "Defines one connected molecular process.",
+      "target_pointers": [{"target": "t3", "json_pointer": "/workflows/0"}]
+    },
+    {
+      "inventory_id": "inv-template",
+      "item_kind": "molecular_state",
+      "name": "Synthetic template",
+      "support": "explicit",
+      "derivation": null,
+      "source_locators": [{"source_id": "synthetic-source", "locator": "input diagram"}],
+      "usage_scope": "physical_library_generation",
+      "disposition": "modeled",
+      "disposition_reason": "Initial molecular state.",
+      "target_pointers": [{"target": "t3", "json_pointer": "/workflows/0/states/0"}]
+    },
+    {
+      "inventory_id": "inv-extended",
+      "item_kind": "molecular_state",
+      "name": "Synthetic extended product",
+      "support": "explicit",
+      "derivation": null,
+      "source_locators": [{"source_id": "synthetic-source", "locator": "product diagram"}],
+      "usage_scope": "physical_library_generation",
+      "disposition": "modeled",
+      "disposition_reason": "Continuing molecular product.",
+      "target_pointers": [{"target": "t3", "json_pointer": "/workflows/0/states/1"}]
+    },
+    {
+      "inventory_id": "inv-extension",
+      "item_kind": "molecular_event",
+      "name": "Synthetic extension",
+      "support": "explicit",
+      "derivation": null,
+      "source_locators": [{"source_id": "synthetic-source", "locator": "extension step"}],
+      "usage_scope": "physical_library_generation",
+      "disposition": "modeled",
+      "disposition_reason": "Changes the carried molecule.",
+      "target_pointers": [{"target": "t3", "json_pointer": "/workflows/0/transitions/0"}]
+    },
+    {
+      "inventory_id": "inv-terminal",
+      "item_kind": "terminal",
+      "name": "Synthetic terminal",
+      "support": "explicit",
+      "derivation": null,
+      "source_locators": [{"source_id": "synthetic-source", "locator": "terminal label"}],
+      "usage_scope": "physical_library_generation",
+      "disposition": "modeled",
+      "disposition_reason": "Source identifies the final library.",
+      "target_pointers": [{"target": "t3", "json_pointer": "/workflows/0/final_outputs/0"}]
+    }
+  ],
+  "claims": [
+    {"claim_id": "t2-001", "json_pointer": "/oligos/0/kind", "source_locators": ["synthetic fixture"], "support": "explicit", "target": "t2"},
+    {"claim_id": "t2-002", "json_pointer": "/oligos/0/sequence", "source_locators": ["synthetic fixture"], "support": "explicit", "target": "t2"},
+    {"claim_id": "t2-003", "json_pointer": "/oligos/0/orientation", "source_locators": ["synthetic fixture"], "support": "explicit", "target": "t2"},
+    {"claim_id": "t2-004", "json_pointer": "/oligos/0/components/0/sequence", "source_locators": ["synthetic fixture"], "support": "explicit", "target": "t2"},
+    {"claim_id": "t2-005", "json_pointer": "/oligos/0/components/0/orientation", "source_locators": ["synthetic fixture"], "support": "explicit", "target": "t2"},
+    {"claim_id": "t3-001", "json_pointer": "/workflows/0/states/0/strand_architecture", "source_locators": ["synthetic fixture"], "support": "explicit", "target": "t3"},
+    {"claim_id": "t3-002", "json_pointer": "/workflows/0/states/0/strands/0/orientation", "source_locators": ["synthetic fixture"], "support": "explicit", "target": "t3"},
+    {"claim_id": "t3-003", "json_pointer": "/workflows/0/states/0/strands/0/segments/0/sequence", "source_locators": ["synthetic fixture"], "support": "explicit", "target": "t3"},
+    {"claim_id": "t3-004", "json_pointer": "/workflows/0/states/1/strand_architecture", "source_locators": ["synthetic fixture"], "support": "explicit", "target": "t3"},
+    {"claim_id": "t3-005", "json_pointer": "/workflows/0/states/1/strands/0/orientation", "source_locators": ["synthetic fixture"], "support": "explicit", "target": "t3"},
+    {"claim_id": "t3-006", "json_pointer": "/workflows/0/states/1/strands/0/segments/0/orientation_to_source", "source_locators": ["synthetic fixture"], "support": "explicit", "target": "t3"},
+    {"claim_id": "t3-007", "json_pointer": "/workflows/0/states/1/strands/0/segments/0/oligo_derivations/0/orientation_to_source", "source_locators": ["synthetic fixture"], "support": "explicit", "target": "t3"},
+    {"claim_id": "t3-008", "json_pointer": "/workflows/0/states/1/strands/0/segments/0/sequence", "source_locators": ["synthetic fixture"], "support": "explicit", "target": "t3"},
+    {"claim_id": "t3-009", "json_pointer": "/workflows/0/states/1/strands/0/segments/1/sequence", "source_locators": ["synthetic fixture"], "support": "explicit", "target": "t3"},
+    {"claim_id": "t3-010", "json_pointer": "/workflows/0/transitions/0/operation", "source_locators": ["synthetic fixture"], "support": "explicit", "target": "t3"},
+    {"claim_id": "t3-011", "json_pointer": "/workflows/0/transitions/0/substrate_state_ids", "source_locators": ["synthetic fixture"], "support": "explicit", "target": "t3"},
+    {"claim_id": "t3-012", "json_pointer": "/workflows/0/transitions/0/product_state_ids", "source_locators": ["synthetic fixture"], "support": "explicit", "target": "t3"},
+    {"claim_id": "t3-013", "json_pointer": "/workflows/0/transitions/0/carried_forward_product_ids", "source_locators": ["synthetic fixture"], "support": "explicit", "target": "t3"},
+    {"claim_id": "t3-014", "json_pointer": "/workflows/0/final_outputs", "source_locators": ["synthetic fixture"], "support": "explicit", "target": "t3"}
+  ],
+  "state_signatures": [
+    {
+      "workflow_id": "synthetic-workflow",
+      "state_id": "template",
+      "inventory_ids": ["inv-template"],
+      "strand_architecture": "single_stranded",
+      "reference_strand_id": "template-strand",
+      "strands": [{"strand_id": "template-strand", "molecule_type": "DNA", "segment_ids": ["template-segment"]}],
+      "paired_region_ids": [],
+      "discontinuity_ids": []
+    },
+    {
+      "workflow_id": "synthetic-workflow",
+      "state_id": "extended",
+      "inventory_ids": ["inv-extended"],
+      "strand_architecture": "single_stranded",
+      "reference_strand_id": "extended-strand",
+      "strands": [{"strand_id": "extended-strand", "molecule_type": "DNA", "segment_ids": ["primer-segment", "copied-segment"]}],
+      "paired_region_ids": [],
+      "discontinuity_ids": []
+    }
+  ],
+  "event_records": [
+    {
+      "workflow_id": "synthetic-workflow",
+      "transition_id": "synthetic-extension",
+      "inventory_ids": ["inv-extension"],
+      "operation": "extension",
+      "substrate_state_ids": ["template"],
+      "product_state_ids": ["extended"],
+      "carried_forward_product_ids": ["extended"],
+      "discarded_product_ids": [],
+      "oligo_ids": ["synthetic-primer"]
+    }
+  ],
+  "drafts": {
+    "t2": {
+      "oligos": [
+        {
+          "aliases": [],
+          "components": [
+            {
+              "modifications": [],
+              "name": "Synthetic primer region",
+              "orientation": "5_to_3",
+              "role": "synthetic extension primer",
+              "sequence": "AACCGG"
+            }
+          ],
+          "kind": "single",
+          "modifications": [],
+          "name": "Synthetic primer",
+          "oligo_id": "synthetic-primer",
+          "orientation": "5_to_3",
+          "role": "synthetic extension primer",
+          "sequence": "AACCGG"
+        }
+      ],
+      "protocol_id": "synthetic_protocol"
+    },
+    "t3": {
+      "protocol_id": "synthetic_protocol",
+      "workflows": [
+        {
+          "final_outputs": [{"modality": "gene expression", "state_id": "extended"}],
+          "initial_state_ids": ["template"],
+          "states": [
+            {
+              "discontinuities": [],
+              "molecule_type": "DNA",
+              "name": "Synthetic template",
+              "paired_regions": [],
+              "physical_state": "solution",
+              "properties": [],
+              "reference_strand_id": "template-strand",
+              "state_id": "template",
+              "strand_architecture": "single_stranded",
+              "strands": [
+                {
+                  "molecule_type": "DNA",
+                  "name": "Synthetic template strand",
+                  "orientation": "5_to_3",
+                  "segments": [{"role": "synthetic template", "segment_id": "template-segment", "sequence": "CCGGTT", "structural_role": "unpaired"}],
+                  "strand_id": "template-strand"
+                }
+              ]
+            },
+            {
+              "discontinuities": [],
+              "molecule_type": "DNA",
+              "name": "Synthetic extended product",
+              "paired_regions": [],
+              "physical_state": "solution",
+              "properties": [],
+              "reference_strand_id": "extended-strand",
+              "state_id": "extended",
+              "strand_architecture": "single_stranded",
+              "strands": [
+                {
+                  "molecule_type": "DNA",
+                  "name": "Synthetic extended strand",
+                  "orientation": "5_to_3",
+                  "segments": [
+                    {
+                      "oligo_derivations": [{"oligo_id": "synthetic-primer", "orientation_to_source": "same_orientation"}],
+                      "role": "synthetic primer-derived segment",
+                      "segment_id": "primer-segment",
+                      "sequence": "AACCGG",
+                      "structural_role": "unpaired"
+                    },
+                    {"role": "synthetic copied segment", "segment_id": "copied-segment", "sequence": "CCGGTT", "structural_role": "unpaired"}
+                  ],
+                  "strand_id": "extended-strand"
+                }
+              ]
+            }
+          ],
+          "transitions": [
+            {
+              "carried_forward_product_ids": ["extended"],
+              "discarded_product_ids": [],
+              "major_reagents": [],
+              "oligo_ids": ["synthetic-primer"],
+              "operation": "extension",
+              "operation_detail": "Synthetic primer extension fixture.",
+              "product_state_ids": ["extended"],
+              "substrate_state_ids": ["template"],
+              "transition_id": "synthetic-extension"
+            }
+          ],
+          "workflow_id": "synthetic-workflow"
+        }
+      ]
+    }
+  }
+}

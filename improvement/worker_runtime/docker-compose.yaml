@@ -1,0 +1,100 @@
+services:
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        CODEX_VERSION: ${LIBGEN_CODEX_VERSION:?set LIBGEN_CODEX_VERSION}
+    depends_on:
+      provider-egress:
+        condition: service_healthy
+    environment:
+      HOME: /tmp/home
+      CODEX_HOME: /codex-home
+      CODEX_FORCE_AUTH_JSON: ${LIBGEN_CODEX_FORCE_AUTH_JSON:?set LIBGEN_CODEX_FORCE_AUTH_JSON}
+      LIBGEN_CODEX_MODEL: ${LIBGEN_CODEX_MODEL:?set LIBGEN_CODEX_MODEL}
+      LIBGEN_CODEX_REASONING_EFFORT: ${LIBGEN_CODEX_REASONING_EFFORT:?set LIBGEN_CODEX_REASONING_EFFORT}
+      LIBGEN_CODEX_VERSION: ${LIBGEN_CODEX_VERSION:?set LIBGEN_CODEX_VERSION}
+      HTTP_PROXY: http://provider-egress:3128
+      HTTPS_PROXY: http://provider-egress:3128
+      http_proxy: http://provider-egress:3128
+      https_proxy: http://provider-egress:3128
+      NO_PROXY: localhost,127.0.0.1,provider-egress
+      no_proxy: localhost,127.0.0.1,provider-egress
+    volumes:
+      - type: bind
+        source: ${LIBGEN_WORKSPACE:?set LIBGEN_WORKSPACE}
+        target: /workspace
+        read_only: true
+      - type: bind
+        source: ${LIBGEN_CANDIDATE_DIR:?set LIBGEN_CANDIDATE_DIR}
+        target: /workspace/candidates
+      - type: bind
+        source: ${LIBGEN_OUTPUT_DIR:?set LIBGEN_OUTPUT_DIR}
+        target: /workspace/outputs
+      - type: bind
+        source: ${LIBGEN_CODEX_AUTH_FILE:?set LIBGEN_CODEX_AUTH_FILE}
+        target: /run/secrets/libgen-codex-auth.json
+        read_only: true
+    read_only: true
+    tmpfs:
+      - /tmp:size=1g,mode=1777
+      - /codex-home:size=32m,mode=0700,uid=${LIBGEN_WORKER_UID:?set LIBGEN_WORKER_UID},gid=${LIBGEN_WORKER_GID:?set LIBGEN_WORKER_GID}
+    user: ${LIBGEN_WORKER_UID:?set LIBGEN_WORKER_UID}:${LIBGEN_WORKER_GID:?set LIBGEN_WORKER_GID}
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    pids_limit: 512
+    init: true
+    networks:
+      - agent-internal
+
+  provider-egress:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        CODEX_VERSION: ${LIBGEN_CODEX_VERSION:?set LIBGEN_CODEX_VERSION}
+    entrypoint:
+      - python3
+      - /proxy/provider_egress_proxy.py
+      - /proxy/egress_policy.json
+    volumes:
+      - type: bind
+        source: ${LIBGEN_PROVIDER_PROXY:?set LIBGEN_PROVIDER_PROXY}
+        target: /proxy/provider_egress_proxy.py
+        read_only: true
+      - type: bind
+        source: ${LIBGEN_NETWORK_POLICY:?set LIBGEN_NETWORK_POLICY}
+        target: /proxy/egress_policy.json
+        read_only: true
+      - type: bind
+        source: ${LIBGEN_NETWORK_LOG_DIR:?set LIBGEN_NETWORK_LOG_DIR}
+        target: /logs/network
+    read_only: true
+    tmpfs:
+      - /tmp:size=64m,mode=1777
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    pids_limit: 128
+    healthcheck:
+      interval: 2s
+      timeout: 2s
+      retries: 30
+      test:
+        - CMD
+        - python3
+        - -c
+        - import socket; socket.create_connection(('127.0.0.1', 3128), 1).close()
+    restart: "no"
+    networks:
+      - agent-internal
+      - provider-external
+
+networks:
+  agent-internal:
+    internal: true
+  provider-external: {}

@@ -1,0 +1,19 @@
+{
+  "agents": [
+    {
+      "name": "codex",
+      "model_name": "gpt-5.6-sol",
+      "kwargs": {
+        "version": "0.147.0",
+        "reasoning_effort": "max"
+      }
+    }
+  ],
+  "datasets": [
+    {
+      "path": "benchmarks/libgen/tasks"
+    }
+  ],
+  "agent_timeout_multiplier": 2.0,
+  "n_concurrent_trials": 4
+}

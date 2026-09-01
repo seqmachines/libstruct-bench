@@ -12,7 +12,11 @@ from .artifacts import (
     validate_document,
     write_json_atomic,
 )
-from .review import ReviewError, validate_review_decision
+from .review import (
+    ReviewError,
+    all_review_decision_items,
+    validate_review_decision,
+)
 
 
 class ReportingError(ValueError):
@@ -103,15 +107,20 @@ def build_checkpoint_report(
         issues = {item["issue_id"]: item for item in proposal["issues"]}
         confirmed_for_protocol: set[tuple[str, str]] = set()
         confirmed_count = 0
-        for item in decision["issue_decisions"]:
+        for item in all_review_decision_items(proposal, decision):
             cause = item.get("confirmed_cause")
+            if cause == "human_curation_error":
+                cause = "original_human_curation_error"
             if cause is not None:
                 _increment(confirmed_causes, cause)
             if item["disposition"] not in {"accept", "modify"}:
                 continue
-            issue = issues[item["issue_id"]]
+            issue = issues.get(item["issue_id"])
             confirmed_count += 1
             confirmed_issue_count += 1
+            if issue is None:
+                _increment(tasks, item["task"])
+                continue
             field_key = (protocol_id, issue["field_id"])
             confirmed_fields.add(field_key)
             confirmed_for_protocol.add(field_key)
@@ -261,6 +270,8 @@ def build_checkpoint_report(
 def _review_seconds(decision: dict[str, Any]) -> float:
     if "review_duration_seconds" in decision:
         return float(decision["review_duration_seconds"])
+    if "review_started_at" not in decision:
+        return 0.0
     started = datetime.fromisoformat(decision["review_started_at"].replace("Z", "+00:00"))
     completed = datetime.fromisoformat(decision["review_completed_at"].replace("Z", "+00:00"))
     return (completed - started).total_seconds()

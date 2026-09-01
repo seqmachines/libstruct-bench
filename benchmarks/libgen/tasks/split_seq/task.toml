@@ -12,7 +12,7 @@ keywords = ["genomics", "oligo", "molecular-workflow", "protocol-understanding"]
 
 [metadata]
 benchmark = "libgen"
-benchmark_version = "3.0.0"
+benchmark_version = "4.5.0"
 protocol_id = "split_seq"
 protocol_name = "SPLiT-seq"
 input_repo = "sequencing/scg-protocols-v1"
@@ -20,9 +20,12 @@ input_revision = "19c29caabcb019a72d08fed59ed8030a2d3c449d"
 groundtruth_repo = "sequencing/scg-oligo-groundtruth-v1"
 groundtruth_revision = "5a81714daaa87d568a0c5b62320679d34219ebf7"
 network_profile = "docker-provider-only"
+source_delivery = "pinned-hf"
 network_policy_sha256 = "d9aaaa853d953b4eee1e2116d8b3ee7c705babcb0ab5fd7231852dea7b4df411"
 source_manifest_sha256 = "481bc4d1499307e2680c3654ee1b3d9ee8104863817acb1b375db099bfaed488"
+groundtruth_source_bundle_sha256 = "fd5021521bd429c081754ce0b07d5cd29e3e82b62ee842bec7de9e03376e09f9"
 groundtruth_bundle_sha256 = "fd5021521bd429c081754ce0b07d5cd29e3e82b62ee842bec7de9e03376e09f9"
+groundtruth_transform = "none"
 
 [agent]
 timeout_sec = 3600.0

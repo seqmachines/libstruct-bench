@@ -12,7 +12,7 @@ keywords = ["genomics", "oligo", "molecular-workflow", "protocol-understanding"]
 
 [metadata]
 benchmark = "libgen"
-benchmark_version = "3.0.0"
+benchmark_version = "4.5.0"
 protocol_id = "10x_chromium_3_gene_expression_v4"
 protocol_name = "10x Chromium 3' Gene Expression v4"
 input_repo = "sequencing/scg-protocols-v1"
@@ -20,9 +20,12 @@ input_revision = "19c29caabcb019a72d08fed59ed8030a2d3c449d"
 groundtruth_repo = "sequencing/scg-oligo-groundtruth-v1"
 groundtruth_revision = "5a81714daaa87d568a0c5b62320679d34219ebf7"
 network_profile = "docker-provider-only"
+source_delivery = "pinned-hf"
 network_policy_sha256 = "d9aaaa853d953b4eee1e2116d8b3ee7c705babcb0ab5fd7231852dea7b4df411"
 source_manifest_sha256 = "37d212f71c3f1d120037c936e55957c3c572d17bcd3fcfe7b3d1ed5eb6f4bcdf"
+groundtruth_source_bundle_sha256 = "c4db5674de87b7d98c04d44ed563d8f8fb64c4c3391e16397915fd72a82163d5"
 groundtruth_bundle_sha256 = "c4db5674de87b7d98c04d44ed563d8f8fb64c4c3391e16397915fd72a82163d5"
+groundtruth_transform = "none"
 
 [agent]
 timeout_sec = 3600.0

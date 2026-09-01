@@ -17,12 +17,20 @@ from .artifacts import (
     validate_document,
     write_json_atomic,
 )
-from .review import ReviewError, validate_review_decision
+from .review import (
+    ReviewError,
+    all_review_decision_items,
+    compiled_root_operation_ids,
+    is_compiled_review_decision,
+    proposal_compiled_root_issue_ids,
+    validate_review_decision,
+)
 from .groundtruth import (
     GroundtruthValidationError,
     TASK_ARTIFACTS,
     documents_by_task,
     validate_cross_task_links,
+    validate_task_document,
 )
 
 
@@ -49,6 +57,7 @@ def apply_review_decision(
     application_schema_path: Path,
     regression_schema_path: Path | None = None,
     artifact_schema_paths: Mapping[str, Path] | None = None,
+    compiled_candidate_paths: Mapping[str, Path] | None = None,
     allow_in_progress: bool = False,
 ) -> ApplicationResult:
     """Apply only human-approved ground-truth patches to immutable baselines."""
@@ -97,6 +106,30 @@ def apply_review_decision(
             )
         baselines[source_id] = load_json_object(resolved, label=f"baseline {source_id}")
         resolved_paths[source_id] = resolved
+
+    if is_compiled_review_decision(decision):
+        if allow_in_progress:
+            raise ApplicationError(
+                "compiled-root application requires a final scientific approval"
+            )
+        return _apply_compiled_review_decision(
+            proposal=proposal,
+            decision=decision,
+            proposal_path=proposal_path,
+            decision_path=decision_path,
+            baselines=baselines,
+            resolved_paths=resolved_paths,
+            expected_hashes=expected_hashes,
+            compiled_candidate_paths=compiled_candidate_paths or {},
+            output_dir=output_dir,
+            application_schema_path=application_schema_path,
+            regression_schema_path=regression_schema_path,
+            artifact_schema_paths=artifact_schema_paths or {},
+        )
+    if compiled_candidate_paths:
+        raise ApplicationError(
+            "--compiled-candidate is only valid for a compiled-root review"
+        )
 
     decisions = {item["issue_id"]: item for item in decision["issue_decisions"]}
     selected: list[
@@ -319,6 +352,323 @@ def apply_review_decision(
             for source_id in candidate_relative
         },
         applied_issue_ids=tuple(applied),
+    )
+
+
+def _compiled_baseline_sources(
+    baselines: Mapping[str, dict[str, Any]],
+    resolved_paths: Mapping[str, Path],
+) -> dict[str, str]:
+    """Identify each compiled baseline by its canonical task root."""
+
+    result: dict[str, str] = {}
+    task_by_filename = {
+        details["filename"]: task for task, details in TASK_ARTIFACTS.items()
+    }
+    for source_id, document in baselines.items():
+        matches = [
+            task
+            for task, details in TASK_ARTIFACTS.items()
+            if details["root_key"] in document
+        ]
+        if len(matches) != 1:
+            raise ApplicationError(
+                f"compiled baseline {source_id!r} does not identify exactly one task"
+            )
+        task = matches[0]
+        filename_task = task_by_filename.get(resolved_paths[source_id].name)
+        if filename_task is not None and filename_task != task:
+            raise ApplicationError(
+                f"compiled baseline {source_id!r} filename disagrees with its task root"
+            )
+        if task in result:
+            raise ApplicationError(f"compiled review has multiple {task} baselines")
+        result[task] = source_id
+    return result
+
+
+def _apply_compiled_review_decision(
+    *,
+    proposal: dict[str, Any],
+    decision: dict[str, Any],
+    proposal_path: Path,
+    decision_path: Path,
+    baselines: Mapping[str, dict[str, Any]],
+    resolved_paths: Mapping[str, Path],
+    expected_hashes: Mapping[str, str],
+    compiled_candidate_paths: Mapping[str, Path],
+    output_dir: Path,
+    application_schema_path: Path,
+    regression_schema_path: Path,
+    artifact_schema_paths: Mapping[str, Path],
+) -> ApplicationResult:
+    """Apply hash-approved complete task documents as deterministic root patches."""
+
+    approved_hashes = decision["candidate_sha256"]
+    if set(compiled_candidate_paths) != set(approved_hashes):
+        raise ApplicationError(
+            "compiled candidate map must exactly match approved task hashes; "
+            f"missing={sorted(set(approved_hashes) - set(compiled_candidate_paths))}, "
+            f"extra={sorted(set(compiled_candidate_paths) - set(approved_hashes))}"
+        )
+
+    issues = {item["issue_id"]: item for item in proposal["issues"]}
+    try:
+        root_operations = compiled_root_operation_ids(proposal, decision)
+    except ReviewError as error:
+        raise ApplicationError(str(error)) from error
+    root_ids = tuple(root_operations[task] for task in sorted(root_operations))
+    baseline_source_by_task = _compiled_baseline_sources(
+        baselines, resolved_paths
+    )
+    source_by_task: dict[str, str] = {}
+    baseline_states: dict[str, str] = {}
+    candidate_documents: dict[str, dict[str, Any]] = {}
+    candidate_sources: dict[str, Path] = {}
+    filenames: dict[str, str] = {}
+    regression_records: list[dict[str, Any]] = []
+
+    for task in sorted(root_operations):
+        issue_id = root_operations[task]
+        issue = issues.get(issue_id)
+        if issue is not None:
+            target = issue["target"]
+            source_id = target["artifact_source_id"]
+            state = (
+                "present" if target["kind"] == "groundtruth_record" else "absent"
+            )
+            operation = [
+                item for item in issue["proposed_patch"] if item["op"] != "test"
+            ]
+            expected_op = "replace" if state == "present" else "add"
+            if (
+                len(operation) != 1
+                or operation[0]["op"] != expected_op
+                or operation[0]["path"] != ""
+            ):
+                raise ApplicationError(
+                    f"compiled root {issue_id} must be one root {expected_op} patch"
+                )
+            filename = target.get(
+                "artifact_filename", TASK_ARTIFACTS[task]["filename"]
+            )
+        else:
+            source_id = baseline_source_by_task.get(
+                task, f"compiled:{task.lower()}:new"
+            )
+            state = "present" if task in baseline_source_by_task else "absent"
+            filename = TASK_ARTIFACTS[task]["filename"]
+        if source_id in source_by_task.values():
+            raise ApplicationError(
+                f"compiled roots reuse artifact source {source_id!r}"
+            )
+        if state == "present" and source_id not in baselines:
+            raise ApplicationError(
+                f"compiled root {issue_id} targets unknown baseline {source_id!r}"
+            )
+        if state == "absent" and source_id in baselines:
+            raise ApplicationError(
+                f"compiled root {issue_id} recreates baseline {source_id!r}"
+            )
+        if state == "present" and baseline_source_by_task.get(task) != source_id:
+            raise ApplicationError(
+                f"compiled {task} root targets the wrong baseline {source_id!r}"
+            )
+        source_by_task[task] = source_id
+        baseline_states[source_id] = state
+        filenames[task] = filename
+        if filenames[task] != TASK_ARTIFACTS[task]["filename"]:
+            raise ApplicationError(
+                f"compiled {task} root uses the wrong artifact filename"
+            )
+
+    present_sources = {
+        source_by_task[task]
+        for task in root_operations
+        if baseline_states[source_by_task[task]] == "present"
+    }
+    if present_sources != set(baselines):
+        raise ApplicationError(
+            "compiled roots must exactly cover proposal baselines; "
+            f"missing={sorted(set(baselines) - present_sources)}, "
+            f"extra={sorted(present_sources - set(baselines))}"
+        )
+    if set(root_operations) != set(approved_hashes):
+        raise ApplicationError(
+            "compiled roots do not match approved candidate tasks"
+        )
+
+    canonical_schema_dir = (
+        Path(__file__).resolve().parents[3] / "schemas" / "groundtruth"
+    )
+    unknown_schema_ids = sorted(
+        set(artifact_schema_paths) - set(source_by_task.values())
+    )
+    if unknown_schema_ids:
+        raise ApplicationError(
+            "artifact schema supplied for unknown compiled source: "
+            + ", ".join(unknown_schema_ids)
+        )
+    for task in sorted(root_operations):
+        source_path = _file(
+            compiled_candidate_paths[task], f"approved compiled {task} candidate"
+        )
+        actual_hash = sha256_file(source_path)
+        if actual_hash != approved_hashes[task]:
+            raise ApplicationError(
+                f"stale compiled {task} candidate: expected "
+                f"{approved_hashes[task]}, got {actual_hash}"
+            )
+        document = load_json_object(source_path, label=f"compiled {task} candidate")
+        try:
+            validate_task_document(
+                task,
+                document,
+                protocol_id=proposal["protocol_id"],
+                schema_dir=canonical_schema_dir,
+            )
+            source_id = source_by_task[task]
+            if source_id in artifact_schema_paths:
+                validate_document(
+                    document,
+                    _file(
+                        artifact_schema_paths[source_id],
+                        f"artifact schema for {source_id}",
+                    ),
+                    label=f"compiled candidate {source_id}",
+                )
+        except (AuditArtifactError, GroundtruthValidationError) as error:
+            raise ApplicationError(str(error)) from error
+        candidate_documents[task] = document
+        candidate_sources[task] = source_path
+
+    try:
+        validate_cross_task_links(candidate_documents)
+    except GroundtruthValidationError as error:
+        raise ApplicationError(str(error)) from error
+
+    for task in sorted(root_operations):
+        issue_id = root_operations[task]
+        source_id = source_by_task[task]
+        patch = [
+            {
+                "op": "replace" if baseline_states[source_id] == "present" else "add",
+                "path": "",
+                "value": candidate_documents[task],
+            }
+        ]
+        regression_record = {
+            "protocol_id": proposal["protocol_id"],
+            "audit_id": proposal["audit_id"],
+            "decision_id": decision["decision_id"],
+            "issue_id": issue_id,
+            "artifact_source_id": source_id,
+            "baseline_state": baseline_states[source_id],
+            "patch": patch,
+            "candidate_document_sha256": hashlib.sha256(
+                canonical_json_bytes(candidate_documents[task])
+            ).hexdigest(),
+        }
+        if baseline_states[source_id] == "present":
+            regression_record["baseline_sha256"] = expected_hashes[source_id]
+        try:
+            validate_document(
+                regression_record,
+                regression_schema_path,
+                label=f"compiled-root regression fixture {issue_id}",
+            )
+        except AuditArtifactError as error:
+            raise ApplicationError(str(error)) from error
+        regression_records.append(regression_record)
+
+    output_dir = output_dir.expanduser().resolve()
+    _reject_output(output_dir)
+    if output_dir.exists():
+        raise ApplicationError(f"application output already exists: {output_dir}")
+    output_dir.parent.mkdir(parents=True, exist_ok=True)
+    temporary_dir = Path(
+        tempfile.mkdtemp(prefix=f".{output_dir.name}.building-", dir=output_dir.parent)
+    )
+    candidate_relative: dict[str, str] = {}
+    try:
+        candidate_dir = temporary_dir / "candidates"
+        regression_dir = temporary_dir / "regressions"
+        candidate_dir.mkdir()
+        regression_dir.mkdir()
+        artifacts: list[dict[str, Any]] = []
+        for task in sorted(root_operations):
+            source_id = source_by_task[task]
+            relative = f"candidates/{filenames[task]}"
+            destination = temporary_dir / relative
+            shutil.copyfile(candidate_sources[task], destination)
+            copied_hash = sha256_file(destination)
+            if copied_hash != approved_hashes[task]:
+                raise ApplicationError(
+                    f"compiled {task} candidate changed while being copied"
+                )
+            candidate_relative[source_id] = relative
+            artifacts.append(
+                _application_artifact(
+                    source_id=source_id,
+                    baseline_state=baseline_states[source_id],
+                    resolved_paths=resolved_paths,
+                    expected_hashes=expected_hashes,
+                    candidate_path=relative,
+                    candidate_sha256=copied_hash,
+                )
+            )
+        regression_paths: list[str] = []
+        for record in regression_records:
+            relative = f"regressions/{_slug(record['issue_id'])}.json"
+            write_json_atomic(temporary_dir / relative, record)
+            regression_paths.append(relative)
+
+        proposal_sha = sha256_file(proposal_path)
+        decision_sha = sha256_file(decision_path)
+        identity = hashlib.sha256(f"{proposal_sha}:{decision_sha}".encode()).hexdigest()
+        incorporated = [
+            item["issue_id"]
+            for item in all_review_decision_items(proposal, decision)
+        ]
+        skipped = [
+            item["issue_id"]
+            for item in proposal["issues"]
+            if item["issue_id"] not in proposal_compiled_root_issue_ids(proposal)
+        ]
+        log = {
+            "application_id": f"{proposal['protocol_id']}:application:{identity[:16]}",
+            "application_mode": "compiled_roots",
+            "protocol_id": proposal["protocol_id"],
+            "audit_id": proposal["audit_id"],
+            "decision_id": decision["decision_id"],
+            "review_state": decision["review_state"],
+            "proposal_sha256": proposal_sha,
+            "decision_sha256": decision_sha,
+            "created_at": decision["review_completed_at"],
+            "artifacts": artifacts,
+            "applied_issue_ids": list(root_ids),
+            "incorporated_decision_ids": incorporated,
+            "skipped_issue_ids": skipped,
+            "regression_fixtures": regression_paths,
+        }
+        try:
+            validate_document(log, application_schema_path, label="application log")
+        except AuditArtifactError as error:
+            raise ApplicationError(str(error)) from error
+        write_json_atomic(temporary_dir / "application-log.json", log)
+        temporary_dir.rename(output_dir)
+    except BaseException:
+        shutil.rmtree(temporary_dir, ignore_errors=True)
+        raise
+
+    return ApplicationResult(
+        output_dir=output_dir,
+        log_path=output_dir / "application-log.json",
+        candidate_paths={
+            source_id: output_dir / relative
+            for source_id, relative in candidate_relative.items()
+        },
+        applied_issue_ids=tuple(root_ids),
     )
 
 

@@ -1,0 +1,182 @@
+{
+  "protocols": [
+    {
+      "protocol_id": "crispr_sciatac",
+      "display_name": "CRISPR-sciATAC",
+      "sources": [
+        {
+          "path": "crispr_sciatac/CRISPR-sciATAC.pdf",
+          "sha256": "5a28f795fbed9c02fbf0d99ae67af16e130db36be47dd6dd099ccc45d2b5d1d4"
+        },
+        {
+          "path": "crispr_sciatac/CRISPR-sciATAC.xlsx",
+          "sha256": "75208b67dd4ec6fa3bd274e738e6a98b272ccbb8d8e602d7c2b64d6d07502f53"
+        },
+        {
+          "path": "crispr_sciatac/CRISPR-sciATAC_supplement.pdf",
+          "sha256": "9712e93e49d710e2c213fb00e71fd26b8ba07ffaf098aacfc2019ee411119a14"
+        }
+      ],
+      "groundtruth_prefix": "crispr_sciatac"
+    },
+    {
+      "protocol_id": "lianti",
+      "display_name": "LIANTI",
+      "sources": [
+        {
+          "path": "lianti/LIANTI.pdf",
+          "sha256": "910a738e286f9c83a508b00084b67ecaa3ad76f655a65f8d8a07afd4ff5d4648"
+        },
+        {
+          "path": "lianti/LIANTI_original_paper.pdf",
+          "sha256": "b4956bc9469de7b1d67ce79ce9b3312ad2f00451574cfaa515d1ac17e902d6bb"
+        }
+      ],
+      "groundtruth_prefix": "lianti"
+    },
+    {
+      "protocol_id": "strt_seq",
+      "display_name": "STRT-seq",
+      "sources": [
+        {
+          "path": "strt_seq/STRT-seq.pdf",
+          "sha256": "5f6441985a7aa53e5fe6a1f7aa26e753aebea9ed76268d0d133bf40cf4185480"
+        },
+        {
+          "path": "strt_seq/STRT-seq_TSO_and_plate_tables.docx",
+          "sha256": "cfc4aee0e3c47bc8d6263a5ede13df42817721ae70be6224fe6cc26216c13231"
+        },
+        {
+          "path": "strt_seq/STRT-seq_original_paper.pdf",
+          "sha256": "97077af02b8aa6b03f943fed39b80f97670d1871273a7857d427e9b18ea01faa"
+        }
+      ],
+      "groundtruth_prefix": "strt_seq"
+    },
+    {
+      "protocol_id": "smart_seq2",
+      "display_name": "SMART-seq2",
+      "sources": [
+        {
+          "path": "smart_seq2/SMART-seq2.pdf",
+          "sha256": "bb8ee0c7f0b815b53b91a0cc26c206eb2c5c4d194370ada1e28a00e2dd49dd97"
+        },
+        {
+          "path": "smart_seq2/SMART-seq2_TSO_table.xlsx",
+          "sha256": "335e18f7419ad9b9662d9874e1dc1d527bed975f8289c090d9616ddf300c55b6"
+        },
+        {
+          "path": "smart_seq2/SMART-seq2_detailed_protocol.pdf",
+          "sha256": "f06e80ec0dfba042cc950696cbe18e1396662bff714931e70d115dbce55ba023"
+        },
+        {
+          "path": "smart_seq2/SMART-seq2_protocol_variants_table.xlsx",
+          "sha256": "2d72b73ba646b5140393e65c689d107ccf53c420a9a3a9229b9a96f6772aceff"
+        },
+        {
+          "path": "smart_seq2/SMART-seq2_supplement.pdf",
+          "sha256": "24c07d2451f41ec512db3f11cdd4ba6ba66de58511a68b1c22788d21b1722aee"
+        }
+      ],
+      "groundtruth_prefix": "smart_seq2"
+    },
+    {
+      "protocol_id": "plate_scatac_seq",
+      "display_name": "Plate scATAC-seq",
+      "sources": [
+        {
+          "path": "plate_scatac_seq/plate_scATAC-seq.pdf",
+          "sha256": "f5773809db99b63663992e58244bd5650d9dda436231f25c68bcc95d31432042"
+        },
+        {
+          "path": "plate_scatac_seq/plate_scATAC-seq_original_paper.pdf",
+          "sha256": "713fe064fc5d4577a2f555099a0918f4b819c2ba83e70ebe8f02f8212535bde0"
+        }
+      ],
+      "groundtruth_prefix": "plate_scatac_seq"
+    },
+    {
+      "protocol_id": "malbac",
+      "display_name": "MALBAC",
+      "sources": [
+        {
+          "path": "malbac/MALBAC.pdf",
+          "sha256": "e1cbe9ad3a920c6e899506d1d64aeaffeb9b8625042e9a9ffefb878d7b1341b4"
+        },
+        {
+          "path": "malbac/MALBAC_original_paper.pdf",
+          "sha256": "0a15d85fe9ca38a378d9dd2807e9fc57b237b814e6efa2955c381c2b1b5c2110"
+        }
+      ],
+      "groundtruth_prefix": "malbac"
+    },
+    {
+      "protocol_id": "scifi_atac_seq",
+      "display_name": "sci-fi ATAC-seq",
+      "sources": [
+        {
+          "path": "scifi_atac_seq/scifi-ATAC-seq.pdf",
+          "sha256": "6306fab0a82f1653a0ed060c724d0451f157f8112e15b94b018c194ac32dd4cf"
+        },
+        {
+          "path": "scifi_atac_seq/scifi-ATAC-seq_original_paper.pdf",
+          "sha256": "8da266e776285f5a2eb8517c32231fbc74b26e8e70bf08f12816edef85771bd1"
+        }
+      ],
+      "groundtruth_prefix": "scifi_atac_seq"
+    },
+    {
+      "protocol_id": "strt_seq_2i",
+      "display_name": "STRT-seq-2i",
+      "sources": [
+        {
+          "path": "strt_seq_2i/STRT-seq-2i.pdf",
+          "sha256": "9b90764c5ff4f40598c0f76efffdaded84f0a76c56786239228398ddf4e55e7b"
+        },
+        {
+          "path": "strt_seq_2i/STRT-seq-2i_supplement.pdf",
+          "sha256": "4afeb8e4c15b712c20201125b709ae71ff92344682b91ac32cd18eb7ef503b05"
+        }
+      ],
+      "groundtruth_prefix": "strt_seq_2i"
+    },
+    {
+      "protocol_id": "strt_seq_c1",
+      "display_name": "STRT-seq-C1",
+      "sources": [
+        {
+          "path": "strt_seq_c1/STRT-seq-C1.pdf",
+          "sha256": "dbc767d4ae895885aab93dba6847795ddc955cabc55fdb89c2305e12782c857a"
+        },
+        {
+          "path": "strt_seq_c1/STRT-seq-C1.xlsx",
+          "sha256": "8844d61c3af17102c43663ce3b4c13f46811ec470b67df917a4a4a8488c0cf88"
+        },
+        {
+          "path": "strt_seq_c1/STRT-seq-C1_supplement.pdf",
+          "sha256": "5933c3bf658db8390a2d89523009d07b425847f5b209c84109fdec28b215f4b2"
+        }
+      ],
+      "groundtruth_prefix": "strt_seq_c1"
+    },
+    {
+      "protocol_id": "tang_2009",
+      "display_name": "Tang 2009",
+      "sources": [
+        {
+          "path": "tang_2009/Tang_2009_original_paper.pdf",
+          "sha256": "9baea229201a13693ae7b645bf0ba961a5604a5c68b56da482968e0d8c210adf"
+        },
+        {
+          "path": "tang_2009/Tang_2009_supplement.pdf",
+          "sha256": "9d2c33752380ca4c9e9df44191f5a69a70bd93612c50e9632f2b86ce66832cf8"
+        },
+        {
+          "path": "tang_2009/tang2009.pdf",
+          "sha256": "8486e4b04b963b40c720a90973facd6d099e6506aafe269d0950732b0501f861"
+        }
+      ],
+      "groundtruth_prefix": "tang_2009"
+    }
+  ]
+}

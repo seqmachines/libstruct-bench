@@ -16,6 +16,15 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--decision", type=Path, required=True)
     parser.add_argument("--baseline", action="append", metavar="SOURCE_ID=PATH")
     parser.add_argument("--artifact-schema", action="append", metavar="SOURCE_ID=PATH")
+    parser.add_argument(
+        "--compiled-candidate",
+        action="append",
+        metavar="TASK=PATH",
+        help=(
+            "hash-approved complete T1/T2/T3 candidate; required for a "
+            "compiled-root review"
+        ),
+    )
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument(
         "--working",
@@ -30,11 +39,15 @@ def main(argv: list[str] | None = None) -> int:
     try:
         baselines = _mapping(args.baseline or [], "--baseline")
         schemas = _mapping(args.artifact_schema or [], "--artifact-schema")
+        compiled_candidates = _mapping(
+            args.compiled_candidate or [], "--compiled-candidate"
+        )
         result = apply_review_decision(
             proposal_path=args.proposal,
             decision_path=args.decision,
             baseline_paths=baselines,
             artifact_schema_paths=schemas,
+            compiled_candidate_paths=compiled_candidates,
             output_dir=args.out,
             proposal_schema_path=args.proposal_schema,
             decision_schema_path=args.decision_schema,

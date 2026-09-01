@@ -43,6 +43,7 @@
         },
         "modifications": {
           "type": "array",
+          "description": "Positional chemistry or physical-attachment claims for this component. An empty list makes no modification claim.",
           "items": {"type": "string", "minLength": 1}
         }
       },
@@ -98,6 +99,7 @@
         },
         "modifications": {
           "type": "array",
+          "description": "Positional chemistry or physical-attachment claims for this oligo. An empty list makes no modification claim.",
           "items": {"type": "string", "minLength": 1}
         }
       },

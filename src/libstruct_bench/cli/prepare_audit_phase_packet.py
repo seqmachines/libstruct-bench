@@ -12,14 +12,21 @@ SCHEMA_DIR = Path(__file__).resolve().parents[3] / "schemas" / "audit"
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
-        description="Build one conversion-first comparison audit packet."
+        description="Build one isolated legacy-conversion or comparison packet."
     )
     parser.add_argument("--manifest", type=Path, required=True)
     parser.add_argument("--source-dataset-dir", type=Path, required=True)
     parser.add_argument("--groundtruth-dataset-dir", type=Path, required=True)
     parser.add_argument("--run-artifact-dir", type=Path)
     parser.add_argument("--rendition-bundle-dir", type=Path)
-    parser.add_argument("--phase", choices=("comparison",), default="comparison")
+    parser.add_argument(
+        "--phase", choices=("legacy_conversion", "comparison"), default="comparison"
+    )
+    parser.add_argument(
+        "--legacy-conversion",
+        type=Path,
+        help="validated legacy-only conversion artifact to freeze into a comparison packet",
+    )
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument("--mode", choices=("copy", "symlink"), default="copy")
     parser.add_argument(
@@ -46,6 +53,12 @@ def main(argv: list[str] | None = None) -> int:
             run_artifact_dir=args.run_artifact_dir,
             rendition_bundle_dir=args.rendition_bundle_dir,
             rendition_schema_path=args.rendition_schema,
+            legacy_conversion_path=args.legacy_conversion,
+            legacy_conversion_schema_path=(
+                SCHEMA_DIR / "legacy_conversion.schema.json"
+                if args.legacy_conversion is not None
+                else None
+            ),
             phase=args.phase,
             output_dir=args.out,
             mode=args.mode,

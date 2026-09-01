@@ -1,0 +1,15 @@
+{
+  "protocol_id": "scifi_atac_seq",
+  "sources": [
+    {
+      "local_path": "scifi-ATAC-seq.pdf",
+      "path": "scifi_atac_seq/scifi-ATAC-seq.pdf",
+      "sha256": "6306fab0a82f1653a0ed060c724d0451f157f8112e15b94b018c194ac32dd4cf"
+    },
+    {
+      "local_path": "scifi-ATAC-seq_original_paper.pdf",
+      "path": "scifi_atac_seq/scifi-ATAC-seq_original_paper.pdf",
+      "sha256": "8da266e776285f5a2eb8517c32231fbc74b26e8e70bf08f12816edef85771bd1"
+    }
+  ]
+}

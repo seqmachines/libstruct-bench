@@ -1,0 +1,267 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/improvement/exemplar_projection_policy.schema.json",
+  "title": "Frozen approved-training exemplar projection and use policy",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "policy_id",
+    "created_at",
+    "training_batches",
+    "excluded_protocol_ids",
+    "projection",
+    "identity_map",
+    "checkpoint_schedule",
+    "retrieval",
+    "target_evidence_guard",
+    "procedural_update_admission",
+    "validation_guidance",
+    "public_statement",
+    "policy_digest"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "libstruct.libgen_exemplar_projection_policy.v1"
+    },
+    "policy_id": {"const": "cumulative-approved-training-exemplars-v1"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "training_batches": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "items": {"$ref": "#/$defs/training_batch"}
+    },
+    "excluded_protocol_ids": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["validation", "final_test"],
+      "properties": {
+        "validation": {
+          "type": "array",
+          "minItems": 5,
+          "maxItems": 5,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/id"}
+        },
+        "final_test": {
+          "type": "array",
+          "minItems": 10,
+          "maxItems": 10,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/id"}
+        }
+      }
+    },
+    "projection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_role",
+        "source_binding",
+        "outputs",
+        "removed_categories",
+        "preserved_content",
+        "public_identity",
+        "internal_id_policy",
+        "raw_input_visibility"
+      ],
+      "properties": {
+        "source_role": {"const": "approved_groundtruth"},
+        "source_binding": {
+          "const": "exact_batch_packet_artifact_paths_roles_and_sha256"
+        },
+        "outputs": {
+          "const": [
+            "mechanism_summary.json",
+            "t2_example.json",
+            "t3_example.json"
+          ]
+        },
+        "removed_categories": {
+          "const": [
+            "support_status",
+            "audit_or_reviewer_metadata",
+            "provenance",
+            "private_paths",
+            "groundtruth_only_schema_fields"
+          ]
+        },
+        "preserved_content": {
+          "const": "scientific_prediction_shaped_t2_and_t3"
+        },
+        "public_identity": {"const": "opaque_pseudonymous_exemplar_id_only"},
+        "internal_id_policy": {
+          "const": "deterministically_remap_identifiers_and_preserve_references"
+        },
+        "raw_input_visibility": {
+          "const": "orchestrator_only_never_copied_to_checkpoint_memory"
+        }
+      }
+    },
+    "identity_map": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "canonical_path",
+        "agent_visibility",
+        "mapping_count",
+        "map_sha256",
+        "map_digest",
+        "public_commitment_sha256"
+      ],
+      "properties": {
+        "canonical_path": {"const": "private/exemplar_identity_map.json"},
+        "agent_visibility": {"const": "none_orchestrator_only"},
+        "mapping_count": {"const": 25},
+        "map_sha256": {"$ref": "#/$defs/sha256"},
+        "map_digest": {"$ref": "#/$defs/sha256"},
+        "public_commitment_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "checkpoint_schedule": {
+      "const": [
+        {"checkpoint_id": "C0", "parent_checkpoint_id": null, "batch_id": null, "exemplar_count": 0},
+        {"checkpoint_id": "C5", "parent_checkpoint_id": "C0", "batch_id": "B1", "exemplar_count": 5},
+        {"checkpoint_id": "C10", "parent_checkpoint_id": "C5", "batch_id": "B2", "exemplar_count": 10},
+        {"checkpoint_id": "C15", "parent_checkpoint_id": "C10", "batch_id": "B3", "exemplar_count": 15},
+        {"checkpoint_id": "C20", "parent_checkpoint_id": "C15", "batch_id": "B4", "exemplar_count": 20},
+        {"checkpoint_id": "C25", "parent_checkpoint_id": "C20", "batch_id": "B5", "exemplar_count": 25}
+      ]
+    },
+    "retrieval": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "maximum_exemplars",
+        "query_evidence",
+        "allowed_features",
+        "forbidden_features",
+        "ranking",
+        "zero_overlap_policy",
+        "returned_scope",
+        "usage_record"
+      ],
+      "properties": {
+        "maximum_exemplars": {"const": 3},
+        "query_evidence": {
+          "const": "target_visible_source_derived_explicit_or_derivable_claims_only"
+        },
+        "allowed_features": {
+          "const": [
+            "modality",
+            "molecular_operations",
+            "barcoding_and_partitioning_strategy",
+            "strand_architecture",
+            "selection_and_branching_operations",
+            "reverse_transcription",
+            "template_switching",
+            "ligation",
+            "tagmentation",
+            "pcr",
+            "restriction_chemistry",
+            "conversion_chemistry"
+          ]
+        },
+        "forbidden_features": {
+          "const": [
+            "target_groundtruth",
+            "target_errors",
+            "verifier_diagnostics",
+            "target_scores"
+          ]
+        },
+        "ranking": {"const": "group_weighted_jaccard_then_exemplar_id_v1"},
+        "zero_overlap_policy": {"const": "return_no_exemplars"},
+        "returned_scope": {
+          "const": "matching_transitions_adjacent_states_linked_t2_and_short_summary"
+        },
+        "usage_record": {"const": "non_scored_exemplar_ids_only"}
+      }
+    },
+    "target_evidence_guard": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["categories", "allowed_support", "failure_policy"],
+      "properties": {
+        "categories": {
+          "const": ["sequence", "operation", "state", "modification", "branch"]
+        },
+        "allowed_support": {
+          "const": "target_source_or_mechanical_consequence_of_target_supported_operation"
+        },
+        "failure_policy": {"const": "finding_and_nonzero_audit_exit"}
+      }
+    },
+    "procedural_update_admission": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "maximum_proposed_per_batch",
+        "maximum_accepted_per_batch",
+        "admission_basis",
+        "synthetic_regression_required",
+        "exemplar_projection_budget"
+      ],
+      "properties": {
+        "maximum_proposed_per_batch": {"const": 2},
+        "maximum_accepted_per_batch": {"const": 1},
+        "admission_basis": {
+          "const": ["recurring_root_error", "general_invariant"]
+        },
+        "synthetic_regression_required": {"const": true},
+        "exemplar_projection_budget": {
+          "const": "separate_deterministic_five_example_addition"
+        }
+      }
+    },
+    "validation_guidance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["visibility", "maximum_bounded_revisions", "guidance_policy", "prohibited_content"],
+      "properties": {
+        "visibility": {"const": "five_protocol_macro_aggregate_only"},
+        "maximum_bounded_revisions": {"const": 1},
+        "guidance_policy": {
+          "const": "aggregate_may_guide_bounded_revision_but_payload_may_not_be_copied"
+        },
+        "prohibited_content": {
+          "const": [
+            "validation_groundtruth",
+            "validation_solved_records",
+            "validation_exact_sequences",
+            "validation_protocol_specific_errors"
+          ]
+        }
+      }
+    },
+    "public_statement": {
+      "const": "Raw GT and audit records are not exposed. Approved training GT is projected into prediction-shaped exemplars and retained as cumulative memory."
+    },
+    "policy_digest": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 240,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+    },
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "training_batch": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["batch_id", "protocol_ids"],
+      "properties": {
+        "batch_id": {"type": "string", "enum": ["B1", "B2", "B3", "B4", "B5"]},
+        "protocol_ids": {
+          "type": "array",
+          "minItems": 5,
+          "maxItems": 5,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/id"}
+        }
+      }
+    }
+  }
+}

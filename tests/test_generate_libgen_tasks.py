@@ -13,7 +13,11 @@ from pathlib import Path
 
 import pytest
 
-from libstruct_bench.cli.generate_libgen_tasks import _environment_dockerfile, main
+from libstruct_bench.cli.generate_libgen_tasks import (
+    _environment_dockerfile,
+    _protocols_from_audit_manifests,
+    main,
+)
 from libstruct_bench.cli.plan_libgen_matrix import (
     _validate_network_smoke_report,
     main as plan_main,
@@ -145,8 +149,7 @@ def test_generator_builds_separate_docker_task_without_truth_leakage() -> None:
         assert task_config["agent"]["timeout_sec"] == 3600.0
         assert task_config["verifier"]["environment"]["network_mode"] == "public"
         assert (
-            task_config["verifier"]["environment"]["env"]["HF_TOKEN"]
-            == "${HF_TOKEN:-}"
+            task_config["verifier"]["environment"]["env"]["HF_TOKEN"] == "${HF_TOKEN:-}"
         )
         assert task_config["metadata"]["benchmark_version"] == LIBGEN_BENCHMARK_VERSION
         assert task_config["artifacts"] == [
@@ -261,6 +264,262 @@ def test_generator_builds_separate_docker_task_without_truth_leakage() -> None:
         assert validation.returncode == 0, validation.stderr + validation.stdout
 
 
+def test_generator_stages_legacy_terminal_contract_as_verifier_only_derivation() -> (
+    None
+):
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        protocols, source_root, truth_root = _fixture_release(root)
+        source_t3_path = (
+            truth_root
+            / "example_protocol"
+            / "groundtruth_library_generation_workflow.json"
+        )
+        source_t3 = json.loads(source_t3_path.read_text())
+        source_workflow = source_t3["workflows"][0]
+        final_outputs = source_workflow.pop("final_outputs")
+        source_workflow["modality"] = final_outputs[0]["modality"]
+        source_workflow["final_state_ids"] = [
+            item["state_id"] for item in final_outputs
+        ]
+        source_t3_path.write_text(json.dumps(source_t3), encoding="utf-8")
+
+        out = root / "tasks"
+        assert (
+            main(
+                [
+                    "--protocols",
+                    str(protocols),
+                    "--out",
+                    str(out),
+                    "--source-root",
+                    str(source_root),
+                    "--groundtruth-root",
+                    str(truth_root),
+                    "--input-repo",
+                    "org/public-protocols",
+                    "--input-revision",
+                    "a" * 40,
+                    "--groundtruth-repo",
+                    "org/private-groundtruth",
+                    "--groundtruth-revision",
+                    "b" * 40,
+                ]
+            )
+            == 0
+        )
+
+        task = out / "example_protocol"
+        task_config = tomllib.loads((task / "task.toml").read_text())
+        staged_t3 = json.loads(
+            (
+                task / "tests/groundtruth/groundtruth_library_generation_workflow.json"
+            ).read_text()
+        )
+        staged_workflow = staged_t3["workflows"][0]
+        test_sh = (task / "tests/test.sh").read_text()
+
+        assert task_config["metadata"]["groundtruth_transform"] == (
+            "legacy_workflow_terminal_contract_to_final_outputs_v1"
+        )
+        assert (
+            task_config["metadata"]["groundtruth_source_bundle_sha256"]
+            != (task_config["metadata"]["groundtruth_bundle_sha256"])
+        )
+        assert staged_workflow["final_outputs"] == final_outputs
+        assert "modality" not in staged_workflow
+        assert "final_state_ids" not in staged_workflow
+        assert "--groundtruth-dir /tests/groundtruth" in test_sh
+        assert "--groundtruth-repo" not in test_sh
+        assert json.loads(source_t3_path.read_text()) == source_t3
+
+
+def test_generator_can_embed_hash_verified_sources_for_unpublished_protocol() -> None:
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        protocols, source_root, truth_root = _fixture_release(root)
+        out = root / "tasks"
+        assert (
+            main(
+                [
+                    "--protocols",
+                    str(protocols),
+                    "--out",
+                    str(out),
+                    "--source-root",
+                    str(source_root),
+                    "--groundtruth-root",
+                    str(truth_root),
+                    "--input-repo",
+                    "org/public-protocols",
+                    "--input-revision",
+                    "a" * 40,
+                    "--groundtruth-repo",
+                    "org/private-groundtruth",
+                    "--groundtruth-revision",
+                    "b" * 40,
+                    "--source-delivery",
+                    "embedded",
+                ]
+            )
+            == 0
+        )
+
+        task = out / "example_protocol"
+        task_config = tomllib.loads((task / "task.toml").read_text())
+        embedded = task / "environment/protocol_sources/source.pdf"
+        dockerfile = (task / "environment/Dockerfile").read_text()
+        fetch_input = (task / "environment/fetch_input.py").read_text()
+
+        assert task_config["metadata"]["source_delivery"] == "embedded"
+        assert embedded.read_bytes() == b"primary protocol fixture"
+        assert "COPY protocol_sources /workspace/input" in dockerfile
+        assert "urllib" not in fetch_input
+        assert "hashlib.sha256" in fetch_input
+        assert not (
+            task / "environment/protocol_sources/groundtruth_oligos.json"
+        ).exists()
+
+
+def test_generator_projects_only_included_primary_audit_sources() -> None:
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        protocols, source_root, truth_root = _fixture_release(root)
+        del protocols
+        source = source_root / "example_protocol/source.pdf"
+        manifest_root = root / "audit-manifests"
+        manifest_root.mkdir()
+        manifest = {
+            "manifest_id": "example_protocol:inputs:test",
+            "protocol_id": "example_protocol",
+            "created_at": "2026-08-23T00:00:00Z",
+            "source_catalog_sha256": "c" * 64,
+            "checkpoint": {
+                "checkpoint_id": "test-checkpoint",
+                "protocol_ordinal": 1,
+                "reviewed_protocol_count": 1,
+            },
+            "sources": [
+                {
+                    "source_id": "primary:included",
+                    "role": "primary_evidence",
+                    "source_kind": "protocol_document",
+                    "approval_status": "included",
+                    "task_relevance": ["T1", "T2", "T3"],
+                    "path": "protocols/example_protocol/source.pdf",
+                    "sha256": hashlib.sha256(source.read_bytes()).hexdigest(),
+                    "size_bytes": source.stat().st_size,
+                    "media_type": "application/pdf",
+                    "dataset_reference": {
+                        "provider": "local_fixture",
+                        "repository": "fixture",
+                        "revision": "fixture1",
+                        "path": "example_protocol/source.pdf",
+                    },
+                },
+                {
+                    "source_id": "primary:unavailable",
+                    "role": "primary_evidence",
+                    "source_kind": "paper",
+                    "approval_status": "unavailable",
+                    "task_relevance": ["T1", "T2", "T3"],
+                    "path": "protocols/example_protocol/missing.pdf",
+                },
+                {
+                    "source_id": "legacy:fixture",
+                    "role": "legacy_curated_html",
+                    "source_kind": "legacy_html",
+                    "approval_status": "included",
+                    "task_relevance": ["T1", "T2", "T3"],
+                    "path": "scg_html/example.html",
+                    "sha256": "d" * 64,
+                    "size_bytes": 1,
+                    "media_type": "text/html",
+                    "dataset_reference": {
+                        "provider": "local_fixture",
+                        "repository": "fixture",
+                        "revision": "fixture1",
+                        "path": "scg_html/example.html",
+                    },
+                },
+                {
+                    "source_id": "benchmark:fixture",
+                    "role": "current_benchmark_record",
+                    "source_kind": "current_t1",
+                    "approval_status": "included",
+                    "task_relevance": ["T1"],
+                    "path": "ground_truth/example_protocol/t1.json",
+                    "sha256": "e" * 64,
+                    "size_bytes": 1,
+                    "media_type": "application/json",
+                    "dataset_reference": {
+                        "provider": "local_fixture",
+                        "repository": "fixture",
+                        "revision": "fixture1",
+                        "path": "ground_truth/example_protocol/t1.json",
+                    },
+                },
+            ],
+        }
+        (manifest_root / "example_protocol.json").write_text(
+            json.dumps(manifest), encoding="utf-8"
+        )
+
+        projected = _protocols_from_audit_manifests(
+            manifest_root, ["example_protocol"]
+        )
+        assert projected == [
+            {
+                "protocol_id": "example_protocol",
+                "display_name": "example_protocol",
+                "sources": [
+                    {
+                        "path": "example_protocol/source.pdf",
+                        "sha256": hashlib.sha256(source.read_bytes()).hexdigest(),
+                    }
+                ],
+                "groundtruth_prefix": "example_protocol",
+            }
+        ]
+
+        out = root / "audit-derived-tasks"
+        assert (
+            main(
+                [
+                    "--audit-manifest-root",
+                    str(manifest_root),
+                    "--rules",
+                    str(ROOT / "benchmarks/libgen/rules.md"),
+                    "--protocol-id",
+                    "example_protocol",
+                    "--out",
+                    str(out),
+                    "--source-root",
+                    str(source_root),
+                    "--groundtruth-root",
+                    str(truth_root),
+                    "--input-repo",
+                    "org/public-protocols",
+                    "--input-revision",
+                    "a" * 40,
+                    "--groundtruth-repo",
+                    "org/private-groundtruth",
+                    "--groundtruth-revision",
+                    "b" * 40,
+                    "--source-delivery",
+                    "embedded",
+                ]
+            )
+            == 0
+        )
+        task_manifest = json.loads(
+            (out / "example_protocol/input_manifest.json").read_text()
+        )
+        assert [item["local_path"] for item in task_manifest["sources"]] == [
+            "source.pdf"
+        ]
+
+
 def test_generator_can_build_native_harbor_allowlist_task() -> None:
     with tempfile.TemporaryDirectory() as tmp:
         root = Path(tmp)
@@ -311,8 +570,7 @@ def test_generator_can_build_native_harbor_allowlist_task() -> None:
         assert task_config["environment"]["network_mode"] == "public"
         assert task_config["verifier"]["environment"]["network_mode"] == "public"
         assert (
-            task_config["verifier"]["environment"]["env"]["HF_TOKEN"]
-            == "${HF_TOKEN:-}"
+            task_config["verifier"]["environment"]["env"]["HF_TOKEN"] == "${HF_TOKEN:-}"
         )
 
 
@@ -485,7 +743,7 @@ def test_docker_proxy_clears_socket_timeouts_after_connect(
 
     handler.do_CONNECT()
 
-    assert connect_calls == [(('api.anthropic.com', 443), 30.0)]
+    assert connect_calls == [(("api.anthropic.com", 443), 30.0)]
     assert client.timeouts == [None]
     assert upstream.timeouts == [None]
     assert upstream.closed is True
@@ -595,6 +853,7 @@ def test_checked_in_libgen_tasks_keep_verifier_snapshots_synchronized() -> None:
         "libgen/scoring.py",
         "libgen/validation.py",
         "libgen/version.py",
+        "matching.py",
         "normalization.py",
     )
     synchronized_schemas = (

@@ -72,14 +72,22 @@ and review iteration.
 Source selection has no human gate. The catalog automatically includes every
 discovered file that exists and records missing files as unavailable;
 unavailable entries remain provenance but do not enter packets. One read-only
-Claude worker first converts legacy HTML, current T1/T2/T3 records, and the
-protocol TSV projection into canonical candidates. It must complete that
-conversion before opening primary evidence. It then reads every included paper,
-protocol, supplement, spreadsheet, table, figure, diagram, and rendition and
-verifies the legacy-derived candidates. This is one comparison run, with no
-separate primary-evidence agent phase or evidence artifact. T2 oligos and T3
-state transitions are checked in one chronological source pass. Every field
-receives one status:
+Claude conversion worker receives only legacy HTML, current T1/T2/T3 records,
+and the protocol TSV projection. It writes a hash-pinned, unapproved canonical
+T1-T3 conversion bundle before any model can open primary evidence. A fresh
+read-only comparison worker then receives that frozen bundle plus every
+included paper, protocol, supplement, spreadsheet, table, figure, diagram, and
+rendition and verifies the starting claims. The comparison worker cannot alter
+the root conversion and does not re-emit those large documents. After the
+worker returns, the deterministic harness attaches the exact hash-pinned root
+replacement/add envelope, including reciprocal root ledger entries. It may
+only attach or normalize this immutable representation envelope; it never
+creates, removes, or repairs a scientific comparison finding. The raw generated
+artifact is retained whenever normalization occurs. Missing or dangling
+scientific findings therefore still reject the proposal. Primary-source
+differences remain separate findings. T2 oligos and T3 state transitions are
+checked in one chronological source pass.
+Every field receives one status:
 
 - `verified_no_change`
 - `proposed_correction`
@@ -107,8 +115,17 @@ requested output as `<run>.rejected/`, including the original rejected artifact
 and all repair attempts. Repaired output remains an unapproved agent proposal;
 it still requires normal human adjudication.
 
+When a preserved complete comparison failed only because of a deterministic
+harness invariant that has since been fixed, use
+`libstruct-revalidate-claude-audit` with the original frozen packet and rejected
+run. It performs no model call, verifies both source hashes, applies only the
+current deterministic normalization, reruns the complete validation gate, and
+writes a new immutable proposal plus revalidation receipt. It refuses altered
+frozen roots and incomplete scientific issue ledgers; never use it to bypass a
+scientific comparison failure.
+
 When no T3 JSON exists but the legacy HTML contains a curated workflow, the
-comparison first converts that HTML into the T3 candidate with legacy
+isolated conversion run translates that HTML into the T3 candidate with legacy
 provenance. Primary-source corrections and additions remain separate review
 issues rather than being silently incorporated into the candidate.
 
@@ -144,10 +161,18 @@ missing support remains open for explicit human resolution.
 
 ### 4. Deterministic application
 
-Python applies only accepted or modified patches to the pinned records,
-validates linked T1–T3, and generates correction regressions. Promotion writes
-new approved files under `ground_truth/<protocol_id>/` and refuses to overwrite
-an existing approved directory.
+Python applies patch reviews to pinned records. For conversion-first reviews it
+instead verifies the approved hashes of the complete compiled T1--T3 files,
+copies those exact bytes, and emits one deterministic root regression for each
+approved task root. When the proposal contains a full-root conversion issue,
+its issue ID identifies that operation. A review whose inputs are already
+canonical may have no root issue and an empty `deferred_root_issues` list; the
+application then assigns a deterministic `compiled.<task>.root-application`
+operation ID without inventing a proposal finding. The application log retains
+every proposal and gate-stage decision. Both paths validate linked T1–T3 before
+promotion. Promotion writes new approved files under
+`ground_truth/<protocol_id>/` and refuses to overwrite an existing approved
+directory.
 
 ## T3 graph
 

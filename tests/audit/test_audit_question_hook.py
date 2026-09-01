@@ -55,6 +55,16 @@ def test_audit_question_hook_blocks_before_application_authorization() -> None:
     assert "AskUserQuestion" in result["reason"]
 
 
+def test_audit_question_hook_blocks_after_capability_review_section() -> None:
+    result = _run_hook(
+        "T3 molecular states — all ground-truth and agent states shown.\n"
+        "<!-- capability-review-question-required -->"
+    )
+    assert result["decision"] == "block"
+    assert "capability-review section" in result["reason"]
+    assert "AskUserQuestion" in result["reason"]
+
+
 def test_audit_question_hook_ignores_normal_completion() -> None:
     assert _run_hook("Audit proposal saved; no human gate is pending.") == {}
 
@@ -63,3 +73,17 @@ def test_audit_skill_registers_scoped_stop_hook() -> None:
     text = SKILL.read_text(encoding="utf-8")
     assert "Stop:" in text
     assert "require_audit_question.py" in text
+
+
+def test_capability_review_skill_registers_scoped_stop_hook() -> None:
+    skill = (
+        REPO_ROOT
+        / ".claude"
+        / "skills"
+        / "review-capability"
+        / "SKILL.md"
+    ).read_text(encoding="utf-8")
+    assert "Stop:" in skill
+    assert "require_audit_question.py" in skill
+    assert "AskUserQuestion" in skill
+    assert "<!-- capability-review-question-required -->" in skill

@@ -9,6 +9,11 @@ _ROLE_ALIASES = {
     "CB": "CELL_BARCODE",
     "GEM_BARCODE": "CELL_BARCODE",
     "BEAD_BARCODE": "CELL_BARCODE",
+    # Some legacy records name a cellular/well barcode for the reaction in
+    # which it is installed.  RT_BARCODE is not part of the agent-visible
+    # placeholder vocabulary, so retain its length while projecting it to the
+    # protocol-neutral cellular-barcode role.
+    "RT_BARCODE": "CELL_BARCODE",
     "INDEX": "SAMPLE_INDEX",
     "I5": "I5_INDEX",
     "I7": "I7_INDEX",
@@ -27,6 +32,24 @@ _ROLE_ALIASES = {
     "RANDOMER": "RANDOM",
     "RANDOM_HEXAMER": "RANDOM",
     "OVERHANG": "VARIABLE",
+    # Biological payload placeholders are orientation-free semantic labels.
+    # These aliases normalize common spelling variants without collapsing
+    # chemically or structurally distinct payloads such as converted DNA,
+    # fragments, or tagged molecules.
+    "GENOMIC_DNA": "GDNA",
+    "GENOMIC_DNA_INSERT": "GDNA",
+    "GENOMIC_INSERT": "GDNA",
+    "CDNA_INSERT": "CDNA",
+    "MRNA_BODY": "MRNA",
+    "MRNA_INSERT": "MRNA",
+    "RNA_INSERT": "MRNA",
+    "RNA_TRANSCRIPT": "MRNA",
+    "TRANSCRIPT": "MRNA",
+    "POLY_A": "POLYA",
+    "POLY_A_TAIL": "POLYA",
+    "POLY_T": "POLYT",
+    "POLY_U": "POLYU",
+    "POLY_C": "POLYC",
 }
 
 
@@ -91,11 +114,19 @@ def sequence_tokens(sequence: str, *, already_normalized: bool = False) -> list[
             tokens.append("(dU)")
             i += 4
             continue
-        if char == "r" and i + 1 < len(normalized) and normalized[i + 1].upper() in _BASES:
+        if (
+            char == "r"
+            and i + 1 < len(normalized)
+            and normalized[i + 1].upper() in _BASES
+        ):
             tokens.append("r" + normalized[i + 1].upper())
             i += 2
             continue
-        if char == "+" and i + 1 < len(normalized) and normalized[i + 1].upper() in _BASES:
+        if (
+            char == "+"
+            and i + 1 < len(normalized)
+            and normalized[i + 1].upper() in _BASES
+        ):
             tokens.append("+" + normalized[i + 1].upper())
             i += 2
             continue
@@ -160,6 +191,13 @@ def _normalize_bracket_placeholder(inner: str) -> str:
     if modification:
         return modification
 
+    plain_role = re.fullmatch(r"[a-z0-9_]+", low, flags=re.IGNORECASE)
+    if plain_role:
+        role = plain_role.group(0).upper()
+        canonical_role = _ROLE_ALIASES.get(role)
+        if canonical_role is not None:
+            return f"[{canonical_role}]"
+
     canonical = re.fullmatch(r"([a-z0-9_]+)\s*:\s*(\d+)", low, flags=re.IGNORECASE)
     if canonical:
         role, length = canonical.groups()
@@ -168,7 +206,7 @@ def _normalize_bracket_placeholder(inner: str) -> str:
     role_length = _placeholder_role_length(low)
     if role_length:
         role, length = role_length
-        return f"[{role}:{length}]"
+        return f"[{_canonical_role(role)}:{length}]"
 
     return f"[{raw}]"
 
@@ -191,7 +229,10 @@ def _placeholder_role_length(text: str) -> tuple[str, int] | None:
 
     patterns: list[tuple[str, str]] = [
         (r"0\s*-\s*(\d+)\s*-?\s*bp\s+(?:pb|phase\s+block)", "PHASE_BLOCK"),
-        (r"\d+\s*-?\s*bp\s+or\s+(\d+)\s*-?\s*bp\s+barcode(?:\s+[a-z])?", "CELL_BARCODE"),
+        (
+            r"\d+\s*-?\s*bp\s+or\s+(\d+)\s*-?\s*bp\s+barcode(?:\s+[a-z])?",
+            "CELL_BARCODE",
+        ),
         (r"(\d+)\s*-?\s*bp\s+rt\s+barcode", "RT_BARCODE"),
         (
             r"(\d+)\s*-?\s*bp\s+(?:cell\s+barcode|10x\s+barcode|gem\s+barcode|bead\s+barcode)",
@@ -207,7 +248,10 @@ def _placeholder_role_length(text: str) -> tuple[str, int] | None:
         (r"(\d+)\s*-?\s*bp\s+i7(?:\s+(?:sample\s+)?index)?", "I7_INDEX"),
         (r"(\d+)\s*-?\s*bp\s+n[57]\s+barcode", "TN5_INDEX"),
         (r"(\d+)\s*-?\s*bp\s+tn5\s+(?:index|barcode)(?:\s+[ab])?", "TN5_INDEX"),
-        (r"(\d+)\s*-?\s*bp\s+(?:fb|feature\s+barcode|antibody\s+barcodes?)", "FEATURE_BARCODE"),
+        (
+            r"(\d+)\s*-?\s*bp\s+(?:fb|feature\s+barcode|antibody\s+barcodes?)",
+            "FEATURE_BARCODE",
+        ),
         (r"(\d+)\s*-?\s*bp\s+(?:pb|phase\s+block)", "PHASE_BLOCK"),
     ]
     for pattern, role in patterns:
@@ -245,7 +289,9 @@ def _variable_alternative_length(text: str) -> int | None:
     alternatives = [part for part in text.split("/") if part and part != "none"]
     if len(alternatives) <= 1:
         return None
-    if all(re.fullmatch(r"[acgtn]+", part, flags=re.IGNORECASE) for part in alternatives):
+    if all(
+        re.fullmatch(r"[acgtn]+", part, flags=re.IGNORECASE) for part in alternatives
+    ):
         return max(len(part) for part in alternatives)
     return None
 

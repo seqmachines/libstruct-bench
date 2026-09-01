@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/improvement/target_evidence_guard_report.schema.json",
+  "title": "Deterministic target-evidence guard report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "status",
+    "finding_count",
+    "checked_overlap_count",
+    "findings"
+  ],
+  "properties": {
+    "schema_version": {"const": "libstruct.libgen_target_evidence_guard_report.v1"},
+    "status": {"enum": ["pass", "findings", "error"]},
+    "memory_digest": {"$ref": "#/$defs/sha256"},
+    "catalog_digest": {"$ref": "#/$defs/sha256"},
+    "retrieval_digest": {"$ref": "#/$defs/sha256"},
+    "usage_digest": {"$ref": "#/$defs/sha256"},
+    "target_work_record_sha256": {
+      "$ref": "#/$defs/sha256",
+      "description": "Must equal the final work-record hash bound by retrieval and usage; stale pre-memory evidence snapshots fail the guard."
+    },
+    "finding_count": {"type": "integer", "minimum": 0},
+    "checked_overlap_count": {"type": "integer", "minimum": 0},
+    "findings": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/finding"}
+    },
+    "error": {"type": "string", "minLength": 1},
+    "report_digest": {"$ref": "#/$defs/sha256"}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"status": {"enum": ["pass", "findings"]}}, "required": ["status"]},
+      "then": {"required": ["memory_digest", "catalog_digest", "retrieval_digest", "usage_digest", "target_work_record_sha256", "report_digest"]}
+    },
+    {
+      "if": {"properties": {"status": {"const": "error"}}, "required": ["status"]},
+      "then": {"required": ["error"]}
+    }
+  ],
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "finding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "code",
+        "category",
+        "target",
+        "json_pointer",
+        "exemplar_id",
+        "donor_pointer",
+        "memory_value_digest",
+        "message"
+      ],
+      "properties": {
+        "code": {
+          "enum": [
+            "memory_sequence_without_target_evidence",
+            "memory_operation_without_target_evidence",
+            "memory_state_without_target_evidence",
+            "memory_modification_without_target_evidence",
+            "memory_branch_without_target_evidence"
+          ]
+        },
+        "category": {"enum": ["sequence", "operation", "state", "modification", "branch"]},
+        "target": {"enum": ["t2", "t3"]},
+        "json_pointer": {"type": "string", "pattern": "^/"},
+        "exemplar_id": {
+          "type": "string",
+          "pattern": "^exm-[a-f0-9]{32}$"
+        },
+        "donor_pointer": {"type": "string", "pattern": "^/"},
+        "memory_value_digest": {"$ref": "#/$defs/sha256"},
+        "message": {"type": "string", "minLength": 1}
+      }
+    }
+  }
+}

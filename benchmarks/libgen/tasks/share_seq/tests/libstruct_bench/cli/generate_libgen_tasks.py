@@ -5,10 +5,19 @@ import hashlib
 import json
 import re
 import shutil
+from dataclasses import dataclass
 from pathlib import Path, PurePosixPath
 from typing import Any
 
-from libstruct_bench.libgen.validation import validate_groundtruth_bundle
+from libstruct_bench.audit.artifacts import validate_document
+from libstruct_bench.audit.connected_process import (
+    ConnectedProcessMigrationError,
+    migrate_connected_process_bundle,
+)
+from libstruct_bench.libgen.validation import (
+    LibgenValidationError,
+    validate_groundtruth_bundle,
+)
 from libstruct_bench.libgen.version import LIBGEN_BENCHMARK_VERSION
 
 
@@ -26,12 +35,25 @@ VERIFIER_ALLOWED_HOSTS = (
     "cas-bridge.xethub.hf.co",
 )
 NETWORK_PROFILES = ("docker-provider-only", "harbor-allowlist")
+SOURCE_DELIVERY_MODES = ("pinned-hf", "embedded")
+NO_GROUNDTRUTH_TRANSFORM = "none"
+LEGACY_CONNECTED_PROCESS_TRANSFORM = (
+    "legacy_workflow_terminal_contract_to_final_outputs_v1"
+)
 AGENT_RUNTIME_FILES = (
     "__init__.py",
     "cli/__init__.py",
     "cli/validate_libgen_predictions.py",
     "libgen/prediction_validation.py",
 )
+
+
+@dataclass(frozen=True)
+class PreparedGroundtruth:
+    source_hashes: dict[str, str]
+    staged_hashes: dict[str, str]
+    documents: dict[str, dict[str, Any]]
+    transform: str
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -41,6 +63,21 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument(
         "--protocols", default=str(DEFAULT_BENCHMARK_DIR / "protocols.json")
     )
+    parser.add_argument(
+        "--audit-manifest-root",
+        help=(
+            "derive the selected protocol source inventories from validated "
+            "audit input manifests instead of --protocols; requires one or "
+            "more --protocol-id values"
+        ),
+    )
+    parser.add_argument(
+        "--rules",
+        help=(
+            "explicit agent rules file; defaults to rules.md beside --protocols, "
+            "or benchmarks/libgen/rules.md with --audit-manifest-root"
+        ),
+    )
     parser.add_argument("--out", default=str(DEFAULT_BENCHMARK_DIR / "tasks"))
     parser.add_argument("--source-root", required=True)
     parser.add_argument("--groundtruth-root", required=True)
@@ -48,6 +85,16 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--input-revision", required=True)
     parser.add_argument("--groundtruth-repo", required=True)
     parser.add_argument("--groundtruth-revision", required=True)
+    parser.add_argument(
+        "--source-delivery",
+        choices=SOURCE_DELIVERY_MODES,
+        default="pinned-hf",
+        help=(
+            "pinned-hf downloads approved source bytes from the immutable input "
+            "revision; embedded copies the same hash-verified bytes into the task "
+            "build context for protocols absent from that revision"
+        ),
+    )
     parser.add_argument(
         "--network-policy",
         default=str(DEFAULT_BENCHMARK_DIR / "network-policy.json"),
@@ -78,14 +125,25 @@ def main(argv: list[str] | None = None) -> int:
         )
 
     config_path = Path(args.protocols)
-    config = json.loads(config_path.read_text(encoding="utf-8"))
-    protocols = _selected_protocols(config, args.protocol_id)
+    if args.audit_manifest_root:
+        if not args.protocol_id:
+            raise ValueError(
+                "--audit-manifest-root requires one or more --protocol-id values"
+            )
+        protocols = _protocols_from_audit_manifests(
+            Path(args.audit_manifest_root), args.protocol_id
+        )
+        default_rules_path = DEFAULT_BENCHMARK_DIR / "rules.md"
+    else:
+        config = json.loads(config_path.read_text(encoding="utf-8"))
+        protocols = _selected_protocols(config, args.protocol_id)
+        default_rules_path = config_path.parent / "rules.md"
     source_root = Path(args.source_root).resolve()
     groundtruth_root = Path(args.groundtruth_root).resolve()
     schema_root = _repo_root() / "schemas"
     network_assets_root = Path(args.network_assets_root).resolve()
     network_policy = _load_network_policy(Path(args.network_policy).resolve())
-    groundtruth_hashes = _validate_local_release(
+    groundtruth = _validate_local_release(
         protocols,
         source_root=source_root,
         groundtruth_root=groundtruth_root,
@@ -94,7 +152,9 @@ def main(argv: list[str] | None = None) -> int:
 
     output_root = Path(args.out)
     package_root = _repo_root() / "src" / "libstruct_bench"
-    rules_path = config_path.parent / "rules.md"
+    rules_path = Path(args.rules) if args.rules else default_rules_path
+    if rules_path.is_symlink() or not rules_path.is_file():
+        raise FileNotFoundError(f"agent rules file is missing: {rules_path}")
     for protocol in protocols:
         _write_task(
             protocol,
@@ -107,11 +167,11 @@ def main(argv: list[str] | None = None) -> int:
             groundtruth_repo=args.groundtruth_repo,
             groundtruth_revision=args.groundtruth_revision,
             network_profile=args.network_profile,
+            source_delivery=args.source_delivery,
+            source_root=source_root,
             groundtruth_dir=groundtruth_root
             / _required_string(protocol, "protocol_id"),
-            groundtruth_hashes=groundtruth_hashes[
-                _required_string(protocol, "protocol_id")
-            ],
+            groundtruth=groundtruth[_required_string(protocol, "protocol_id")],
             network_assets_root=network_assets_root,
             network_policy=network_policy,
             force=args.force,
@@ -136,13 +196,92 @@ def _selected_protocols(
     return [by_id[item] for item in requested]
 
 
+def _protocols_from_audit_manifests(
+    manifest_root: Path, requested: list[str]
+) -> list[dict[str, Any]]:
+    """Project approved primary-source entries into task-generator records."""
+
+    if len(requested) != len(set(requested)):
+        raise ValueError("protocol IDs must be unique")
+    unresolved_root = manifest_root.expanduser()
+    if unresolved_root.is_symlink() or not unresolved_root.is_dir():
+        raise FileNotFoundError(
+            f"audit input manifest root is missing or symlinked: {unresolved_root}"
+        )
+    root = unresolved_root.resolve()
+    schema_path = _repo_root() / "schemas/audit/audit_input_manifest.schema.json"
+    protocols: list[dict[str, Any]] = []
+    for protocol_id in requested:
+        if not re.fullmatch(r"[a-z0-9][a-z0-9_]*", protocol_id):
+            raise ValueError(f"invalid protocol ID: {protocol_id!r}")
+        manifest_path = root / f"{protocol_id}.json"
+        if (
+            manifest_path.is_symlink()
+            or not manifest_path.is_file()
+            or manifest_path.resolve().parent != root
+        ):
+            raise FileNotFoundError(
+                f"audit input manifest is missing: {manifest_path}"
+            )
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        validate_document(
+            manifest,
+            schema_path,
+            label=f"{protocol_id} audit input manifest",
+        )
+        if manifest["protocol_id"] != protocol_id:
+            raise ValueError(
+                f"audit input manifest protocol mismatch: expected {protocol_id}, "
+                f"found {manifest['protocol_id']}"
+            )
+        sources: list[dict[str, str]] = []
+        seen_paths: set[str] = set()
+        for source in manifest["sources"]:
+            if (
+                source["role"] != "primary_evidence"
+                or source["approval_status"] != "included"
+            ):
+                continue
+            source_path = _safe_relative_path(_required_string(source, "path"))
+            if source_path.parts[:2] != ("protocols", protocol_id):
+                raise ValueError(
+                    f"{protocol_id} approved primary source is outside its "
+                    f"protocol directory: {source_path}"
+                )
+            relative_path = PurePosixPath(*source_path.parts[1:]).as_posix()
+            if relative_path in seen_paths:
+                raise ValueError(
+                    f"{protocol_id} audit manifest repeats source: {relative_path}"
+                )
+            seen_paths.add(relative_path)
+            sources.append(
+                {
+                    "path": relative_path,
+                    "sha256": _required_sha256(source, "sha256"),
+                }
+            )
+        if not sources:
+            raise ValueError(
+                f"{protocol_id} audit manifest has no included primary evidence"
+            )
+        protocols.append(
+            {
+                "protocol_id": protocol_id,
+                "display_name": protocol_id,
+                "sources": sources,
+                "groundtruth_prefix": protocol_id,
+            }
+        )
+    return protocols
+
+
 def _validate_local_release(
     protocols: list[dict[str, Any]],
     *,
     source_root: Path,
     groundtruth_root: Path,
     schema_root: Path,
-) -> dict[str, dict[str, str]]:
+) -> dict[str, PreparedGroundtruth]:
     forbidden = sorted(
         path.relative_to(source_root).as_posix()
         for path in source_root.rglob("*")
@@ -160,7 +299,7 @@ def _validate_local_release(
             f"prepare a split export first ({preview})"
         )
 
-    groundtruth_hashes: dict[str, dict[str, str]] = {}
+    groundtruth: dict[str, PreparedGroundtruth] = {}
     for protocol in protocols:
         protocol_id = _required_string(protocol, "protocol_id")
         sources = protocol.get("sources")
@@ -182,7 +321,7 @@ def _validate_local_release(
                 )
 
         truth_dir = groundtruth_root / protocol_id
-        groundtruth_hashes[protocol_id] = {
+        source_hashes = {
             filename: _sha256(truth_dir / filename)
             for filename in GROUNDTRUTH_FILENAMES
         }
@@ -192,12 +331,51 @@ def _validate_local_release(
                 ("T1", "T2", "T3"), GROUNDTRUTH_FILENAMES, strict=True
             )
         }
+        prepared_documents, transform = _prepare_groundtruth_documents(
+            documents, protocol_id=protocol_id, schema_root=schema_root
+        )
+        if transform == NO_GROUNDTRUTH_TRANSFORM:
+            staged_hashes = dict(source_hashes)
+        else:
+            staged_hashes = {
+                filename: _sha256_bytes(_json_bytes(prepared_documents[task]))
+                for task, filename in zip(
+                    ("T1", "T2", "T3"), GROUNDTRUTH_FILENAMES, strict=True
+                )
+            }
+        groundtruth[protocol_id] = PreparedGroundtruth(
+            source_hashes=source_hashes,
+            staged_hashes=staged_hashes,
+            documents=prepared_documents,
+            transform=transform,
+        )
+    return groundtruth
+
+
+def _prepare_groundtruth_documents(
+    documents: dict[str, dict[str, Any]],
+    *,
+    protocol_id: str,
+    schema_root: Path,
+) -> tuple[dict[str, dict[str, Any]], str]:
+    try:
         validate_groundtruth_bundle(
             documents,
             protocol_id=protocol_id,
             schema_root=schema_root,
         )
-    return groundtruth_hashes
+    except LibgenValidationError as original_error:
+        try:
+            migrated = migrate_connected_process_bundle(documents)
+            validate_groundtruth_bundle(
+                migrated,
+                protocol_id=protocol_id,
+                schema_root=schema_root,
+            )
+        except (ConnectedProcessMigrationError, LibgenValidationError) as error:
+            raise original_error from error
+        return migrated, LEGACY_CONNECTED_PROCESS_TRANSFORM
+    return documents, NO_GROUNDTRUTH_TRANSFORM
 
 
 def _write_task(
@@ -212,8 +390,10 @@ def _write_task(
     groundtruth_repo: str,
     groundtruth_revision: str,
     network_profile: str,
+    source_delivery: str,
+    source_root: Path,
     groundtruth_dir: Path,
-    groundtruth_hashes: dict[str, str],
+    groundtruth: PreparedGroundtruth,
     network_assets_root: Path,
     network_policy: dict[str, Any],
     force: bool,
@@ -239,8 +419,15 @@ def _write_task(
     source_manifest_hash = hashlib.sha256(
         json.dumps(source_manifest, sort_keys=True, separators=(",", ":")).encode()
     ).hexdigest()
+    groundtruth_source_bundle_hash = hashlib.sha256(
+        json.dumps(
+            groundtruth.source_hashes, sort_keys=True, separators=(",", ":")
+        ).encode()
+    ).hexdigest()
     groundtruth_bundle_hash = hashlib.sha256(
-        json.dumps(groundtruth_hashes, sort_keys=True, separators=(",", ":")).encode()
+        json.dumps(
+            groundtruth.staged_hashes, sort_keys=True, separators=(",", ":")
+        ).encode()
     ).hexdigest()
     display_name = protocol.get("display_name", protocol_id)
 
@@ -256,9 +443,12 @@ def _write_task(
             groundtruth_repo=groundtruth_repo,
             groundtruth_revision=groundtruth_revision,
             network_profile=network_profile,
+            source_delivery=source_delivery,
             network_policy=network_policy,
             source_manifest_hash=source_manifest_hash,
+            groundtruth_source_bundle_hash=groundtruth_source_bundle_hash,
             groundtruth_bundle_hash=groundtruth_bundle_hash,
+            groundtruth_transform=groundtruth.transform,
         ),
         encoding="utf-8",
     )
@@ -270,11 +460,24 @@ def _write_task(
     )
 
     (environment_dir / "fetch_input.py").write_text(
-        _fetch_input_py(input_repo, input_revision, sources), encoding="utf-8"
+        _fetch_input_py(
+            input_repo,
+            input_revision,
+            sources,
+            source_delivery=source_delivery,
+        ),
+        encoding="utf-8",
     )
     (environment_dir / "Dockerfile").write_text(
-        _environment_dockerfile(), encoding="utf-8"
+        _environment_dockerfile(source_delivery=source_delivery), encoding="utf-8"
     )
+    if source_delivery == "embedded":
+        embedded_root = environment_dir / "protocol_sources"
+        for source in sources:
+            source_path = source_root / source["path"]
+            destination = embedded_root / source["local_path"]
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(source_path, destination)
     shutil.copy2(task_dir / "rules.md", environment_dir / "rules.md")
     shutil.copy2(
         task_dir / "input_manifest.json", environment_dir / "input_manifest.json"
@@ -302,15 +505,20 @@ def _write_task(
             protocol_id,
             groundtruth_repo,
             groundtruth_revision,
-            groundtruth_hashes,
+            groundtruth.staged_hashes,
+            local_only=groundtruth.transform != NO_GROUNDTRUTH_TRANSFORM,
         ),
         encoding="utf-8",
     )
     (tests_dir / "grade.py").write_text(_grade_py(), encoding="utf-8")
     private_groundtruth_dir = tests_dir / "groundtruth"
     private_groundtruth_dir.mkdir()
-    for filename in GROUNDTRUTH_FILENAMES:
-        shutil.copy2(groundtruth_dir / filename, private_groundtruth_dir / filename)
+    for task, filename in zip(("T1", "T2", "T3"), GROUNDTRUTH_FILENAMES, strict=True):
+        destination = private_groundtruth_dir / filename
+        if groundtruth.transform == NO_GROUNDTRUTH_TRANSFORM:
+            shutil.copy2(groundtruth_dir / filename, destination)
+        else:
+            destination.write_bytes(_json_bytes(groundtruth.documents[task]))
     shutil.copytree(
         package_root, tests_dir / "libstruct_bench", ignore=_ignore_python_cache
     )
@@ -370,9 +578,12 @@ def _task_toml(
     groundtruth_repo: str,
     groundtruth_revision: str,
     network_profile: str,
+    source_delivery: str,
     network_policy: dict[str, Any],
     source_manifest_hash: str,
+    groundtruth_source_bundle_hash: str,
     groundtruth_bundle_hash: str,
+    groundtruth_transform: str,
 ) -> str:
     agent_network = _phase_network_toml(
         network_profile, tuple(network_policy["provider_hosts"])
@@ -408,9 +619,12 @@ input_revision = {json.dumps(input_revision)}
 groundtruth_repo = {json.dumps(groundtruth_repo)}
 groundtruth_revision = {json.dumps(groundtruth_revision)}
 network_profile = {json.dumps(network_profile)}
+source_delivery = {json.dumps(source_delivery)}
 network_policy_sha256 = {json.dumps(_json_sha256(network_policy))}
 source_manifest_sha256 = {json.dumps(source_manifest_hash)}
+groundtruth_source_bundle_sha256 = {json.dumps(groundtruth_source_bundle_hash)}
 groundtruth_bundle_sha256 = {json.dumps(groundtruth_bundle_hash)}
+groundtruth_transform = {json.dumps(groundtruth_transform)}
 
 [agent]
 timeout_sec = 3600.0{agent_network}
@@ -451,7 +665,42 @@ def _phase_network_toml(network_profile: str, allowed_hosts: tuple[str, ...]) ->
     raise ValueError(f"unsupported network profile: {network_profile}")
 
 
-def _fetch_input_py(repo_id: str, revision: str, sources: list[dict[str, str]]) -> str:
+def _fetch_input_py(
+    repo_id: str,
+    revision: str,
+    sources: list[dict[str, str]],
+    *,
+    source_delivery: str,
+) -> str:
+    if source_delivery == "embedded":
+        return f"""from __future__ import annotations
+
+import hashlib
+from pathlib import Path
+
+SOURCES = {sources!r}
+
+
+def main() -> int:
+    root = Path("/workspace/input")
+    for source in SOURCES:
+        path = root / source["local_path"]
+        if not path.is_file():
+            raise FileNotFoundError(f"missing embedded source: {{path}}")
+        digest = hashlib.sha256(path.read_bytes()).hexdigest()
+        if digest != source["sha256"]:
+            raise RuntimeError(
+                f"source hash mismatch for {{source['path']}}: expected {{source['sha256']}}, found {{digest}}"
+            )
+        print(path)
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
+"""
+    if source_delivery != "pinned-hf":
+        raise ValueError(f"unsupported source delivery mode: {source_delivery}")
     return f"""from __future__ import annotations
 
 import hashlib
@@ -494,18 +743,25 @@ if __name__ == "__main__":
 """
 
 
-def _environment_dockerfile() -> str:
-    return """FROM python:3.12-slim
+def _environment_dockerfile(*, source_delivery: str = "pinned-hf") -> str:
+    if source_delivery == "pinned-hf":
+        source_stage = ""
+    elif source_delivery == "embedded":
+        source_stage = "COPY protocol_sources /workspace/input\n"
+    else:
+        raise ValueError(f"unsupported source delivery mode: {source_delivery}")
+    return f"""FROM python:3.12-slim
 WORKDIR /workspace
 RUN apt-get update \\
     && apt-get install -y --no-install-recommends antiword file ripgrep unzip \\
     && find /etc/apt -type f \\( -name '*.list' -o -name '*.sources' \\) \\
        -exec sed -i \\
          -e 's|http://deb.debian.org|https://deb.debian.org|g' \\
-         -e 's|http://security.debian.org|https://security.debian.org|g' {} + \\
+         -e 's|http://security.debian.org|https://security.debian.org|g' {{}} + \\
     && rm -rf /var/lib/apt/lists/*
 RUN python -m pip install --no-cache-dir --upgrade pip \\
     && python -m pip install --no-cache-dir jsonschema pymupdf pypdf docling openpyxl pillow
+{source_stage}\
 COPY fetch_input.py /workspace/fetch_input.py
 RUN python /workspace/fetch_input.py
 COPY rules.md /workspace/rules.md
@@ -530,7 +786,16 @@ def _test_sh(
     groundtruth_repo: str,
     revision: str,
     groundtruth_hashes: dict[str, str],
+    *,
+    local_only: bool,
 ) -> str:
+    remote_options = ""
+    if not local_only:
+        remote_options = (
+            f"  --groundtruth-repo {json.dumps(groundtruth_repo)} \\\n"
+            f"  --groundtruth-revision {json.dumps(revision)} \\\n"
+            f"  --groundtruth-prefix {json.dumps(protocol_id)} \\\n"
+        )
     return f"""#!/usr/bin/env bash
 set -euo pipefail
 mkdir -p /logs/verifier
@@ -538,9 +803,7 @@ python /tests/grade.py \\
   --t2-prediction /logs/artifacts/t2_prediction.json \\
   --t3-prediction /logs/artifacts/t3_prediction.json \\
   --protocol-id {json.dumps(protocol_id)} \\
-  --groundtruth-repo {json.dumps(groundtruth_repo)} \\
-  --groundtruth-revision {json.dumps(revision)} \\
-  --groundtruth-prefix {json.dumps(protocol_id)} \\
+{remote_options}\
   --groundtruth-dir /tests/groundtruth \\
   --t1-sha256 {json.dumps(groundtruth_hashes["groundtruth_final_lib_struct.json"])} \\
   --t2-sha256 {json.dumps(groundtruth_hashes["groundtruth_oligos.json"])} \\
@@ -603,6 +866,14 @@ def _sha256(path: Path) -> str:
         for chunk in iter(lambda: handle.read(1024 * 1024), b""):
             digest.update(chunk)
     return digest.hexdigest()
+
+
+def _sha256_bytes(data: bytes) -> str:
+    return hashlib.sha256(data).hexdigest()
+
+
+def _json_bytes(document: dict[str, Any]) -> bytes:
+    return (json.dumps(document, indent=2, sort_keys=True) + "\n").encode("utf-8")
 
 
 def _ignore_python_cache(_path: str, names: list[str]) -> set[str]:

@@ -12,7 +12,7 @@ keywords = ["genomics", "oligo", "molecular-workflow", "protocol-understanding"]
 
 [metadata]
 benchmark = "libgen"
-benchmark_version = "3.0.0"
+benchmark_version = "4.5.0"
 protocol_id = "cel_seq"
 protocol_name = "CEL-seq"
 input_repo = "sequencing/scg-protocols-v1"
@@ -20,9 +20,12 @@ input_revision = "19c29caabcb019a72d08fed59ed8030a2d3c449d"
 groundtruth_repo = "sequencing/scg-oligo-groundtruth-v1"
 groundtruth_revision = "5a81714daaa87d568a0c5b62320679d34219ebf7"
 network_profile = "docker-provider-only"
+source_delivery = "pinned-hf"
 network_policy_sha256 = "d9aaaa853d953b4eee1e2116d8b3ee7c705babcb0ab5fd7231852dea7b4df411"
 source_manifest_sha256 = "2e9165703d77dbe9f06b7898d0665942dee22193883619707e103162dbda48c6"
+groundtruth_source_bundle_sha256 = "299e3e6d3f05f0679892fa0b2ccee7d14a9afb53d0d177b6eeeb30f491023a12"
 groundtruth_bundle_sha256 = "299e3e6d3f05f0679892fa0b2ccee7d14a9afb53d0d177b6eeeb30f491023a12"
+groundtruth_transform = "none"
 
 [agent]
 timeout_sec = 3600.0

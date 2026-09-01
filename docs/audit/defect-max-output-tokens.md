@@ -1,4 +1,4 @@
-# Defect report: comparison-worker output ceiling is unpinned and nearly exhausted
+# Defect report: comparison-worker output ceiling is unpinned and can terminate runs
 
 Status: open. Filed from the `microwell_seq` audit, 2026-08-08. Engineering
 hand-off — not a normative policy document.
@@ -52,7 +52,7 @@ The raw transcripts are therefore **not** recoverable; the digest is the record.
 The ten rejected runs that did produce a `rejected-artifact.json` were retained
 in full, per `docs/audit/README.md`.
 
-## What is NOT established
+## What the original evidence did not establish
 
 All four 64,000-token runs also terminated on a `429` five-hour session limit,
 and all four were first attempts inside the same quota-exhausted batch. Their
@@ -64,7 +64,23 @@ What is independently established is the headroom: two protocols completed
 within 5% of the cap. That alone makes the unpinned ceiling a latent failure
 mode for the most complex protocols, whatever caused the four.
 
-## Result of the distinguishing test — truncation was NOT the cause
+## Subsequent unconfounded confirmation — the ceiling does bind
+
+On 2026-08-14, `hydrop_rna/comparison-006.rejected` supplied the distinguishing
+case that the original campaign lacked. The retained run lasted 3444.009 s,
+cost $14.286858, reported one structured-output iteration of exactly 64,000
+tokens, and ended with the explicit CLI error:
+
+> Claude's response exceeded the 64000 output token maximum.
+
+There was no simultaneous 429 in the failure reason. The retained transcript's
+`modelUsage` records `claude-opus-5.maxOutputTokens = 64000`, and the run has no
+recoverable proposal. This demonstrates that the ceiling can independently
+terminate a comparison run in practice. The earlier four at-cap runs remain
+confounded; this later run resolves the general causal question without
+retroactively reclassifying them.
+
+## Earlier distinguishing test — truncation was not the cause in that run
 
 The test was run on 2026-08-08: `microwell_seq/comparison-004`, same pinned
 packet `comparison-001`, `CLAUDE_CODE_MAX_OUTPUT_TOKENS=128000` exported into
@@ -92,26 +108,25 @@ Two conclusions:
    run passed regardless. The variable is not a working lever here, and should
    not be relied on as the remedy.
 
-The likely root cause of all nine no-artifact runs is therefore quota
-exhaustion alone, not output truncation. See the batch-pacing analysis: the
-failing batch launched its waves 49 minutes apart into an already-drained
-five-hour window, whereas the clean batch spaced them 9h16m apart and completed
-3x the work without a single failure.
+The likely root cause of those original nine no-artifact runs remains quota
+exhaustion, not output truncation. See the batch-pacing analysis: the failing
+batch launched its waves 49 minutes apart into an already-drained five-hour
+window, whereas the clean batch spaced them 9h16m apart and completed 3x the
+work without a single failure. That protocol-specific conclusion does not
+contradict the later unconfounded `hydrop_rna` ceiling failure.
 
 ## Revised assessment
 
-Defects 1 and 2 below still stand on their own terms — the ceiling is genuinely
-unpinned and unrecorded, and that is a real reproducibility gap regardless of
-what caused these failures. Defect 3 also stands: truncation remains
-undetectable if it ever does occur.
+All three defects below now have direct operational evidence. The ceiling is
+unpinned and unrecorded, and `hydrop_rna/comparison-006` proves that reaching it
+can destroy an otherwise complete comparison run after nearly an hour and more
+than $14 of generation. Priority is therefore high for large protocols.
 
-What is **withdrawn** is the implication that the ceiling caused the observed
-failures, and the urgency that came with it. The headroom observation is
-weaker than first stated: `pip_seq_v4` at 61,179 and `petri_seq` at 59,692 both
-completed successfully, so those are demonstrations that large proposals fit,
-not near-misses. Priority should be treated as low, and any fix validated
-against a lever that demonstrably works — `CLAUDE_CODE_MAX_OUTPUT_TOKENS` does
-not.
+The earlier environment-variable experiment still matters: setting
+`CLAUDE_CODE_MAX_OUTPUT_TOKENS=128000` did not change the CLI's recorded
+64,000-token limit. Any remedy must verify the applied limit from the child
+process rather than assuming that environment variable works in the installed
+CLI.
 
 ## Defects
 

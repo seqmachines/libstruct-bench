@@ -1,0 +1,160 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/improvement/human_guided_experiment.schema.json",
+  "title": "Offline human-guided LibGen capability experiment",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "experiment_id",
+    "condition",
+    "created_at",
+    "source_experiment",
+    "execution_experiment",
+    "baseline_registry",
+    "evidence_mode",
+    "checkpoint_aliases",
+    "batches",
+    "validation",
+    "posthoc_transfer",
+    "policies",
+    "manifest_digest"
+  ],
+  "properties": {
+    "schema_version": {"const": "libstruct.libgen_human_guided_experiment.v1"},
+    "experiment_id": {"$ref": "#/$defs/id"},
+    "condition": {"const": "offline_human_guided_fixed_c0_training_outputs"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "source_experiment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "root",
+        "experiment_digest",
+        "manifest_sha256",
+        "final_lock_digest",
+        "final_lock_sha256",
+        "transfer_authorization_digest",
+        "transfer_authorization_sha256"
+      ],
+      "properties": {
+        "root": {"type": "string", "minLength": 1},
+        "experiment_digest": {"$ref": "#/$defs/sha256"},
+        "manifest_sha256": {"$ref": "#/$defs/sha256"},
+        "final_lock_digest": {"$ref": "#/$defs/sha256"},
+        "final_lock_sha256": {"$ref": "#/$defs/sha256"},
+        "transfer_authorization_digest": {"$ref": "#/$defs/sha256"},
+        "transfer_authorization_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "execution_experiment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["manifest_path", "experiment_digest", "manifest_sha256", "c0_checkpoint_digest", "c0_checkpoint_sha256", "c0_pack_digest"],
+      "properties": {
+        "manifest_path": {"const": "design/experiment_manifest.json"},
+        "experiment_digest": {"$ref": "#/$defs/sha256"},
+        "manifest_sha256": {"$ref": "#/$defs/sha256"},
+        "c0_checkpoint_digest": {"$ref": "#/$defs/sha256"},
+        "c0_checkpoint_sha256": {"$ref": "#/$defs/sha256"},
+        "c0_pack_digest": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "baseline_registry": {"$ref": "#/$defs/ref"},
+    "verifier_refreshes": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/ref"}},
+    "evidence_mode": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["training_outputs", "later_checkpoint_training_reruns", "current_pack_checked_during_review", "public_interpretation"],
+      "properties": {
+        "training_outputs": {"const": "frozen_c0_outputs_for_all_25_training_protocols"},
+        "later_checkpoint_training_reruns": {"const": false},
+        "current_pack_checked_during_review": {"const": true},
+        "public_interpretation": {"const": "offline_human_guided_not_online_learning_or_pure_human_causal_ablation"}
+      }
+    },
+    "checkpoint_aliases": {
+      "const": {"C0": "H0", "C5": "H5", "C10": "H10", "C15": "H15", "C20": "H20", "C25": "H25"}
+    },
+    "batches": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "items": {"$ref": "#/$defs/batch"}
+    },
+    "validation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["protocol_ids", "checkpoint_labels", "feedback_scope", "c0_reuse"],
+      "properties": {
+        "protocol_ids": {"type": "array", "minItems": 5, "maxItems": 5, "uniqueItems": true, "items": {"$ref": "#/$defs/id"}},
+        "checkpoint_labels": {"const": ["C0", "C5", "C10", "C15", "C20", "C25"]},
+        "feedback_scope": {"const": "macro_means_and_counts_only_no_direct_pack_mutation"},
+        "c0_reuse": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["aggregate_path", "aggregate_sha256", "aggregate_digest"],
+          "properties": {
+            "aggregate_path": {"const": "validation/aggregates/C0.json"},
+            "aggregate_sha256": {"$ref": "#/$defs/sha256"},
+            "aggregate_digest": {"$ref": "#/$defs/sha256"}
+          }
+        }
+      }
+    },
+    "posthoc_transfer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["protocol_ids", "classification", "previously_unsealed", "unseen_or_sealed_claim", "software_visibility", "new_replay_labels", "comparison_references"],
+      "properties": {
+        "protocol_ids": {"type": "array", "minItems": 10, "maxItems": 10, "uniqueItems": true, "items": {"$ref": "#/$defs/id"}},
+        "classification": {"const": "fixed_posthoc_transfer_comparison"},
+        "previously_unsealed": {"const": true},
+        "unseen_or_sealed_claim": {"const": false},
+        "software_visibility": {"const": "blocked_from_all_review_and_synthesis_inputs_until_h25_lock"},
+        "new_replay_labels": {"const": ["C25"]},
+        "comparison_references": {"const": ["source_C0", "autonomous_C25", "human_C25"]}
+      }
+    },
+    "policies": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["review_interface", "protocol_revision_rounds", "maximum_proposed_pack_changes_per_batch", "maximum_accepted_pack_changes_per_batch", "validation_direct_mutation", "groundtruth_mutation"],
+      "properties": {
+        "review_interface": {"const": "codex_chat"},
+        "protocol_revision_rounds": {"const": 1},
+        "maximum_proposed_pack_changes_per_batch": {"const": 2},
+        "maximum_accepted_pack_changes_per_batch": {"const": 1},
+        "validation_direct_mutation": {"const": false},
+        "groundtruth_mutation": {"const": false}
+      }
+    },
+    "manifest_digest": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "id": {"type": "string", "minLength": 1, "maxLength": 240, "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"},
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "digest"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "digest": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "batch": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["batch_id", "checkpoint_from", "checkpoint_to", "display_checkpoint_to", "protocol_ids"],
+      "properties": {
+        "batch_id": {"type": "string", "enum": ["B1", "B2", "B3", "B4", "B5"]},
+        "checkpoint_from": {"type": "string", "enum": ["C0", "C5", "C10", "C15", "C20"]},
+        "checkpoint_to": {"type": "string", "enum": ["C5", "C10", "C15", "C20", "C25"]},
+        "display_checkpoint_to": {"type": "string", "enum": ["H5", "H10", "H15", "H20", "H25"]},
+        "protocol_ids": {"type": "array", "minItems": 5, "maxItems": 5, "uniqueItems": true, "items": {"$ref": "#/$defs/id"}}
+      }
+    }
+  }
+}

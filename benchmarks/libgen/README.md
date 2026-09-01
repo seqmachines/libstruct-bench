@@ -64,13 +64,50 @@ the 20-protocol set. The task generator refuses missing or changed sources,
 mutable revisions such as `main`, mixed source/ground-truth trees, an incomplete
 T1/T2/T3 set, or a linked ground-truth validation failure.
 
+The cumulative capability experiment keeps its prospective training-only
+sources in `capability-training-protocols.json` and its generated tasks outside
+the original 20-task root. Protocols absent from the pinned public input
+revision use the generator's explicit `--source-delivery embedded` mode. That
+mode copies only catalogued source bytes into the agent image and verifies every
+hash during the Docker build. Approved legacy terminal-contract ground truth is
+compiled deterministically into the current `final_outputs` representation only
+inside the isolated verifier snapshot; the canonical private source record is
+not changed, and both source and derived bundle digests remain in task metadata.
+
 ## Scoring
 
-Benchmark version: `3.0.0`. This is a major T3 representation and scoring
-revision: one workflow now represents one connected molecular process, with
-modality-labelled terminal outputs. Shared ancestors are represented and
-scored once. Results from the workflow-per-modality 2.x benchmark are not
-directly comparable; rerun baselines under 3.0.0.
+Benchmark version: `4.5.0`. Version 3.0 introduced one connected molecular
+process per T3 workflow. Version 3.1 repaired molecular-state equivalence by
+canonicalizing a narrow set of biological-payload aliases, accepting terminal
+token-aware reverse complements, removing free-text state metadata from
+reward, and weighting reference-strand sequence at 0.50. Version 3.2 adds one
+directional state-sequence equivalence: the IUPAC anchored-primer shorthand
+`VN`, or its opposite-strand form `NB`, may satisfy `[ANCHOR:2]`; other literal
+strings and placeholder roles remain distinct. Version 4.0 replaces T2's
+sequence-only reward with sequence-dominant scientific-family scoring over
+canonical nucleotide structure, positional chemistry, kind, orientation, and
+controlled role. Version 4.1 applies the first completed human-review batch's
+evaluator adjudications: it canonicalizes RT/cell-barcode and RNA-insert
+placeholder aliases, keeps referenced handles from creating extra oligo roles,
+compares continuous duplex coverage independently of paired-region partition,
+normalizes extension and strand-synthesis operations, and uses molecular-event
+identity only as a bounded transition-assignment tie-break. Version 4.2 makes
+grader eligibility use the exact agent-visible prediction contract and replaces
+forced T3 entity pairing with a minimum-confidence partial assignment plus an
+assignment-only workflow-position tie-break for states. Version 4.3 makes an
+empty ground-truth modification list neutral instead of treating it as verified
+chemical absence, canonicalizes bead-attachment wording, and removes redundant
+generic ribonucleotide prose when an explicit riboguanosine claim is present.
+Version 4.4 preserves the fixed T2 weighting when that canonical modification
+list is empty by imputing full wildcard credit instead of dropping the
+dimension; this avoids both false chemistry penalties and incidental
+reweighting of imperfect sequence, kind, orientation, or role dimensions.
+Version 4.5 makes broad canonical `primer` and `adapter` roles directionally
+scorable from specific primary or component functions without globally
+equating primers and adapters.
+Preserved predictions can be rescored, but T2 results across 3.x and 4.x are
+not directly comparable; corrected state or event alignment can also change T3
+graph alignment across releases.
 
 Overall reward is:
 
@@ -83,15 +120,21 @@ reward = 0.30 * t2_required_family_f1
   molecule-level representation. A ground-truth record containing a
   fixed-length placeholder is one family-level requirement. Concrete
   ground-truth records remain individual member-level requirements. Valid
-  concrete prediction members with the same scaffold, role, orientation, and
-  modification profile collapse to one predicted family before precision and
-  recall are computed. Extra members of a recovered family are therefore
-  neutral; missing required families and unrelated extra families still reduce
+  concrete prediction members with the same scaffold, kind, controlled role,
+  orientation, and canonical modification profile collapse to one predicted
+  family before precision and recall are computed. Assignment remains globally
+  optimal and nucleotide-sequence-first. Matched-family reward weights
+  nucleotide sequence and ordered molecule structure `0.65`, positional
+  chemistry `0.15`, kind `0.10`, orientation `0.05`, and controlled functional
+  role `0.05`. Inline terminal chemistry and equivalent structured modification
+  declarations are one claim, so a correct `/5Phos/` need not be duplicated in
+  both the sequence string and metadata. Names, aliases, and free-text role
+  wording remain diagnostic. Extra members of a recovered family are neutral;
+  missing required families and unrelated extra families still reduce
   `t2_required_family_f1`. Wildcards match fixed-length concrete variable
   regions but do not erase scaffold differences. The secondary
-  `t2_exact_required_family_recall` is the fraction of required families with
-  an exact molecule-template match and is intentionally unaffected by unrelated
-  extras.
+  `t2_exact_required_family_recall` requires equality on all source-supported
+  scientific dimensions and is intentionally unaffected by unrelated extras.
 - `O_used` contains the T2 families referenced by T3 transition `oligo_ids` or
   state-segment `oligo_derivations`; `O_score` restricts that set to sequence
   claims that are explicit or derivable from the agent-visible source bundle.
@@ -110,7 +153,14 @@ reward = 0.30 * t2_required_family_f1
   `t3_typed_edge_f1` directly compares substrate, carried-product, and
   discarded-product edges after semantic state and transition alignment. T3
   sequence and architecture claims use the same explicit-or-derivable
-  recoverability mask.
+  recoverability mask. State similarity weights reference-strand sequence
+  `0.50`, controlled architecture `0.15`, ordered strand/segment structure
+  `0.20`, and pairing/discontinuities `0.15`. State sequence comparison uses
+  canonical biological-payload aliases and both full-architecture and segment
+  projections. Free-text `physical_state`, `properties`, and segment `role`
+  remain diagnostics rather than reward inputs. Terminal states with a shared
+  modality accept the token-aware reverse complement of the physical reference
+  strand.
 - Schema-invalid or semantically invalid linked predictions receive zero.
   Verifier infrastructure or private-ground-truth failures fail the trial
   instead of being mislabeled as model errors.
@@ -153,11 +203,12 @@ PYTHONPATH=src python -m libstruct_bench.cli.rescore_libgen_runs \
 ```
 
 For each trial this writes
-`verifier/rescore/libgen-3.0.0/{reward,details,error_analysis}.json` and writes a
-run-level `rescore/libgen-3.0.0/summary.json`. Original Harbor results are kept
-unchanged so incompatible benchmark versions cannot be confused. For the 3.0.0
-release, rerunning baselines is preferred because the agent-facing T3 contract
-also changed.
+`verifier/rescore/libgen-4.5.0/{reward,details,error_analysis}.json` and writes a
+run-level `rescore/libgen-4.5.0/summary.json`. Original Harbor results are kept
+unchanged so incompatible benchmark versions cannot be confused. Rerunning was
+required for 3.0 because the agent-facing T3 contract changed; 3.1, 3.2, 4.0,
+4.1, 4.2, 4.3, and 4.4 may rescore preserved predictions because their changes are
+verifier-only.
 
 ## Experiment design
 

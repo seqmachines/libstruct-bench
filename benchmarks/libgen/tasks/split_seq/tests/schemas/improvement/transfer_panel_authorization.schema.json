@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/improvement/transfer_panel_authorization.schema.json",
+  "title": "Final LibGen retrospective-transfer-panel evaluation authorization",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "experiment_digest", "lock_digest",
+    "transfer_panel_commitment_sha256", "baseline_mode", "protocol_ids",
+    "replay_labels", "endpoint_labels", "authorized_by", "authorized_at",
+    "checkpoint_modification_closed", "authorization_digest"
+  ],
+  "properties": {
+    "schema_version": {"const": "libstruct.libgen_transfer_panel_authorization.v1"},
+    "experiment_digest": {"$ref": "#/$defs/sha256"},
+    "lock_digest": {"$ref": "#/$defs/sha256"},
+    "transfer_panel_commitment_sha256": {"$ref": "#/$defs/sha256"},
+    "baseline_mode": {"const": "post_lock_c0_replay"},
+    "protocol_ids": {
+      "type": "array", "minItems": 10, "maxItems": 10,
+      "uniqueItems": true, "items": {"$ref": "#/$defs/id"}
+    },
+    "replay_labels": {"const": ["C0", "C5", "C10", "C15", "C20", "C25"]},
+    "endpoint_labels": {"const": ["C25"]},
+    "authorized_by": {"$ref": "#/$defs/id"},
+    "authorized_at": {"type": "string", "format": "date-time"},
+    "checkpoint_modification_closed": {"const": true},
+    "authorization_digest": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "id": {
+      "type": "string", "minLength": 1, "maxLength": 240,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+    },
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+  }
+}

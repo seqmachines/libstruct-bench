@@ -11,6 +11,7 @@ from typing import Any
 
 _MARKER = "<!-- audit-question-required -->"
 _APPLICATION_MARKER = "<!-- audit-application-question-required -->"
+_CAPABILITY_REVIEW_MARKER = "<!-- capability-review-question-required -->"
 _ISSUE_HEADING = re.compile(r"\bIssue\s+\d+\s+of\s+\d+\b", re.IGNORECASE)
 
 
@@ -20,6 +21,8 @@ def _pending_gate(payload: dict[str, Any]) -> str | None:
         return None
     if _APPLICATION_MARKER in message:
         return "application"
+    if _CAPABILITY_REVIEW_MARKER in message:
+        return "capability_review"
     if _MARKER in message:
         return "issue"
     # Backstop for cards rendered by older sessions before the marker rule was
@@ -45,17 +48,24 @@ def main() -> int:
     gate = _pending_gate(payload)
     if gate is None:
         return 0
-    reason = (
-        "A finalized audit is awaiting separate application authorization. "
-        "Immediately call AskUserQuestion to offer deterministic application "
-        "and promotion, or leaving the finalized review unapplied."
-        if gate == "application"
-        else (
+    if gate == "application":
+        reason = (
+            "A finalized audit is awaiting separate application authorization. "
+            "Immediately call AskUserQuestion to offer deterministic application "
+            "and promotion, or leaving the finalized review unapplied."
+        )
+    elif gate == "capability_review":
+        reason = (
+            "A capability-review section is awaiting human input. Do not "
+            "repeat or summarize the section. Immediately call AskUserQuestion "
+            "with the section or final-proposal choices before stopping."
+        )
+    else:
+        reason = (
             "An audit decision card is awaiting interactive input. Do not "
             "repeat or summarize the card. Immediately call AskUserQuestion "
             "with the valid dispositions for this issue before stopping."
         )
-    )
     json.dump(
         {
             "decision": "block",

@@ -42,7 +42,7 @@
         "length": {"type": ["integer", "null"], "minimum": 0},
         "placeholder": {"oneOf": [{"$ref": "#/$defs/placeholder"}, {"type": "null"}]},
         "orientation": {"type": "string", "enum": ["5_to_3", "3_to_5", "unknown"]},
-        "modifications": {"type": "array", "items": {"type": "string", "minLength": 1}},
+        "modifications": {"type": "array", "description": "Source-supported positional chemistry claims. An empty list is an unannotated wildcard that receives full scoring credit; it does not assert verified absence or independently verify a prediction claim.", "items": {"type": "string", "minLength": 1}},
         "protocol_scope": {"$ref": "#/$defs/protocol_scope"},
         "support_status": {"$ref": "#/$defs/support_status"}
       },
@@ -67,7 +67,7 @@
         "sequence": {"type": ["string", "null"], "minLength": 1, "description": "Source-visible oligo sequence in the recorded orientation."},
         "orientation": {"type": "string", "enum": ["5_to_3", "3_to_5", "unknown"]},
         "components": {"type": "array", "items": {"$ref": "#/$defs/component"}},
-        "modifications": {"type": "array", "items": {"type": "string", "minLength": 1}},
+        "modifications": {"type": "array", "description": "Source-supported positional chemistry claims. An empty list is an unannotated wildcard that receives full scoring credit; it does not assert verified absence or independently verify a prediction claim.", "items": {"type": "string", "minLength": 1}},
         "protocol_scope": {"$ref": "#/$defs/protocol_scope"},
         "support_status": {"$ref": "#/$defs/support_status"}
       },

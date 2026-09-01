@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/improvement/exemplar_usage.schema.json",
+  "title": "Non-scored exemplar retrieval usage record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "query_digest",
+    "target_work_record_sha256",
+    "retrieval_digest",
+    "scoring_scope",
+    "score_inclusion",
+    "retrieved_exemplars",
+    "usage_digest"
+  ],
+  "properties": {
+    "schema_version": {"const": "libstruct.libgen_exemplar_usage.v1"},
+    "query_digest": {"$ref": "#/$defs/sha256"},
+    "target_work_record_sha256": {
+      "$ref": "#/$defs/sha256",
+      "description": "Binds this non-scored usage artifact to the final work record used by retrieval."
+    },
+    "retrieval_digest": {"$ref": "#/$defs/sha256"},
+    "scoring_scope": {"const": "diagnostic_only_excluded_from_benchmark_scores"},
+    "score_inclusion": {"const": false},
+    "retrieved_exemplars": {
+      "type": "array",
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["rank", "exemplar_id"],
+        "properties": {
+          "rank": {"type": "integer", "minimum": 1, "maximum": 3},
+          "exemplar_id": {
+            "type": "string",
+            "pattern": "^exm-[a-f0-9]{32}$"
+          }
+        }
+      }
+    },
+    "usage_digest": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+  }
+}

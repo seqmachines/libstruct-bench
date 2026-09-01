@@ -8,17 +8,21 @@ of scope.
 
 ## Isolation
 
-The audit uses one conversion-first comparison worker, not a separate
-primary-evidence reconstruction phase. Within that worker, the order is strict:
+The audit uses two hash-separated read-only workers, not a primary-evidence
+reconstruction agent. Their access boundary is strict:
 
-1. Read only legacy `scg_lib_structs` HTML and included assets, current T1/T2/T3
+1. A conversion worker reads only legacy `scg_lib_structs` HTML and included assets, current T1/T2/T3
    records, and the protocol-only `groundtruth_oligos.tsv` projection. Convert
-   those human-curated inputs into canonical candidates without changing their
-   scientific claims. T3 comes primarily from the ordered HTML workflow.
-2. Only after the conversion is complete, read all included primary papers,
+   those human-curated inputs into a hash-pinned canonical candidate bundle
+   without changing their scientific claims. T3 comes primarily from the
+   ordered HTML workflow. This worker cannot access primary evidence,
+   renditions, benchmark outputs, proposals, decisions, or review history.
+2. A fresh comparison worker receives the frozen conversion and all included primary papers,
    protocols, supplements, tables/spreadsheets, figures/diagrams, and
-   deterministic renditions. Verify the candidate against those sources.
-3. Read optional benchmark-run artifacts only for error attribution.
+   deterministic renditions. It verifies the candidate against those sources
+   and cannot change the frozen root values.
+3. The comparison worker may read optional benchmark-run artifacts only for
+   error attribution.
 
 The worker must not use online search, remembered kits, prior agent answers, or
 review memory. Primary-source findings may propose changes but must not be
@@ -32,6 +36,12 @@ records, TSV projections, renditions, and benchmark-run artifacts are not
 separate coverage entries. An unreadable source blocks review until its input
 is repaired.
 
+The frozen legacy-conversion bundle is the claim under audit, not an
+independent evidence source. A comparison worker may read it but must never use
+its `conversion_id` in `issues[].evidence[].source_id`. Evidence about the
+starting claim cites its packet-listed legacy/current lineage; evidence for a
+scientific correction cites the relevant primary source.
+
 ## Deterministic validation repair
 
 A complete comparison artifact that fails the audit schema, a canonical
@@ -43,11 +53,16 @@ renditions, current records, online sources, or remembered knowledge.
 Repair is representational, not evidentiary. It may reconcile only fields
 needed by the reported deterministic failure, such as declaring a pairing for
 segments the artifact already labels as paired. It must preserve source
-coverage, evidence and locators, audited-field statuses, issue identities and
+coverage, audited-field statuses, issue identities and
 classifications, current values, recommendations, explanations, and scientific
 conclusions. It cannot add or remove findings. The harness re-runs all schema,
 semantic, and linked validation after each attempt and preserves the complete
 attempt provenance. A repaired proposal remains subject to human review.
+Evidence and locators are otherwise immutable. The sole exception is deletion
+of a complete evidence entry whose source is the packet's inadmissible frozen
+conversion, and only when the issue retains at least one admissible evidence
+entry. Repair may never invent, substitute, rewrite, reorder, or relocate
+evidence.
 
 ## Extraction
 
@@ -138,6 +153,20 @@ attempt provenance. A repaired proposal remains subject to human review.
   the same or reverse-complement orientation. Matching is a unique one-to-one
   assignment by reference-strand structure and protocol scope; do not store T1
   library IDs or a separate link table.
+- Whenever T1 `library_sequence` or T3 strand `sequence_architecture` is
+  complete and every ordered segment supplies exact bases, a placeholder, or a
+  fixed length, require the token-aware segment projection to consume the
+  complete assembled string. Fixed-length placeholders may match literal IUPAC
+  bases of the same length, and chemistry notation such as `rG` or `/ddC/`
+  retains its underlying base. This intra-record check is independent of the
+  T1-to-terminal-T3 equality check so two identically incomplete strings cannot
+  validate one another.
+
+The deterministic compatibility check requires the declared projection to map
+contiguously from the 5' end. It does not, by itself, reject a trailing
+architecture suffix that an older record failed to segment; segment-ledger
+completeness remains an audit finding. New conversions must still segment the
+complete assembled molecule.
 
 Evidence, provenance lineage, review decisions, inclusion status, and audit
 notes belong to audit artifacts. Do not copy those fields into approved T1,

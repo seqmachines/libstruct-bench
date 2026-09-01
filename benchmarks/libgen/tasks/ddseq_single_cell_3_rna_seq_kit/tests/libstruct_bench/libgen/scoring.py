@@ -6,7 +6,11 @@ from dataclasses import dataclass
 from typing import Any, Callable, Iterable, Mapping
 
 from libstruct_bench.modalities import modality_key
-from libstruct_bench.matching import best_one_to_one_matching, edit_similarity
+from libstruct_bench.matching import (
+    best_one_to_one_matching,
+    best_partial_one_to_one_matching,
+    edit_similarity,
+)
 from libstruct_bench.normalization import normalize_sequence, sequence_tokens
 from libstruct_bench.libgen.validation import derive_required_t2_ids
 from libstruct_bench.libgen.version import LIBGEN_BENCHMARK_VERSION
@@ -16,9 +20,21 @@ SCORABLE_SUPPORT = frozenset({"explicit", "derivable"})
 NEUTRAL_SUPPORT = frozenset({"externally_completed", "ambiguous", "unsupported"})
 ORDERED_MOLECULE_KINDS = frozenset({"single", "assembled", "hairpin"})
 
+T2_WEIGHTS = {
+    "sequence": 0.65,
+    "modifications": 0.15,
+    "kind": 0.10,
+    "orientation": 0.05,
+    "role": 0.05,
+}
+_T2_ASSIGNMENT_TIE_BREAK = 1e-6
+_T3_MIN_ASSIGNMENT_SCORE = 0.25
+_STATE_BOUNDARY_TIE_BREAK = 0.10
+_TRANSITION_IDENTITY_TIE_BREAK = 0.03
+
 STATE_WEIGHTS = {
-    "reference_strand": 0.40,
-    "architecture": 0.25,
+    "reference_strand": 0.50,
+    "architecture": 0.15,
     "segments": 0.20,
     "pairing": 0.15,
 }
@@ -29,6 +45,52 @@ TRANSITION_WEIGHTS = {
     "disposition": 0.15,
     "oligos": 0.20,
 }
+
+_STATE_COMPLEMENT = {
+    "A": "T",
+    "C": "G",
+    "G": "C",
+    "T": "A",
+    "U": "A",
+    "R": "Y",
+    "Y": "R",
+    "S": "S",
+    "W": "W",
+    "K": "M",
+    "M": "K",
+    "B": "V",
+    "D": "H",
+    "H": "D",
+    "V": "B",
+    "N": "N",
+}
+_ANCHOR_PLACEHOLDER_SPAN = ("<ANCHOR>", "<ANCHOR>")
+_ANCHOR_IUPAC_SHORTHANDS = frozenset({("V", "N"), ("N", "B")})
+_EQUIVALENT_OPERATION_GROUPS = (frozenset({"extension", "strand_synthesis"}),)
+_CONTROLLED_PRIMER_ROLES = frozenset(
+    {
+        "primer",
+        "reverse_transcription_primer",
+        "second_strand_primer",
+        "indexing_primer",
+        "amplification_primer",
+        "sequencing_primer",
+        "index_sequencing_primer",
+        "sgrna_primer",
+        "linear_amplification_primer",
+        "random_amplification_primer",
+        "capture_oligo",
+    }
+)
+_CONTROLLED_ADAPTER_ROLES = frozenset(
+    {
+        "adapter",
+        "tagmentation_adapter",
+        "ligation_adapter",
+        "sequencing_adapter",
+        "flowcell_adapter",
+    }
+)
 LIBGEN_PUBLIC_METRIC_KEYS = (
     "reward",
     "t2_required_family_f1",
@@ -176,9 +238,9 @@ def score_t2(
         for index in range(len(prediction_families))
         if index not in pre_neutralized_families
     ]
-    required_scores = [
+    required_assignment_scores = [
         [
-            _prediction_family_similarity(
+            _prediction_family_assignment_similarity(
                 prediction_families[family_index],
                 predictions,
                 groundtruth[index],
@@ -188,11 +250,17 @@ def score_t2(
         ]
         for family_index in active_family_indices
     ]
-    raw_matches = best_one_to_one_matching(required_scores)
+    raw_matches = best_one_to_one_matching(required_assignment_scores)
     matches = [
         (
             active_family_indices[prediction_position],
             required_indices[required_position],
+            _prediction_family_similarity(
+                prediction_families[active_family_indices[prediction_position]],
+                predictions,
+                groundtruth[required_indices[required_position]],
+                scorable_only=True,
+            ),
             score,
         )
         for prediction_position, required_position, score in raw_matches
@@ -208,7 +276,10 @@ def score_t2(
     modification_scores: list[float] = []
     kind_scores: list[float] = []
 
-    for family_index, truth_index, sequence_score in matches:
+    sequence_scores: list[float] = []
+    controlled_role_scores: list[float] = []
+
+    for family_index, truth_index, scientific_score, assignment_score in matches:
         family = prediction_families[family_index]
         prediction_index = _best_prediction_family_member(
             family,
@@ -218,28 +289,38 @@ def score_t2(
         )
         prediction = predictions[prediction_index]
         truth = groundtruth[truth_index]
-        score_sum += sequence_score
+        dimensions = _t2_dimensions(
+            prediction,
+            truth,
+            scorable_only=True,
+        )
+        dimension_scores = _enabled_dimension_scores(dimensions)
+        sequence_score = float(dimension_scores["sequence"] or 0.0)
+        modification_score = dimension_scores["modifications"]
+        kind_score = dimension_scores["kind"]
+        orientation_score = dimension_scores["orientation"]
+        controlled_role_score = dimension_scores["role"]
+        score_sum += scientific_score
         name_score = _name_similarity(prediction["name"], truth["name"])
-        role_score = _name_similarity(prediction["role"], truth["role"])
+        role_text_score = _name_similarity(prediction["role"], truth["role"])
         alias_score = _text_collection_f1(
             prediction.get("aliases", []), truth.get("aliases", [])
         )
-        modification_score = _text_collection_f1(
+        modification_text_score = _text_collection_f1(
             prediction.get("modifications", []), truth.get("modifications", [])
         )
-        kind_score = float(prediction.get("kind") == truth.get("kind"))
-        orientation_score = (
-            None
-            if truth.get("orientation") == "unknown"
-            else float(prediction.get("orientation") == truth.get("orientation"))
-        )
         name_scores.append(name_score)
-        role_scores.append(role_score)
+        role_scores.append(role_text_score)
         alias_scores.append(alias_score)
-        modification_scores.append(modification_score)
-        kind_scores.append(kind_score)
+        sequence_scores.append(sequence_score)
+        if modification_score is not None:
+            modification_scores.append(float(modification_score))
+        if kind_score is not None:
+            kind_scores.append(float(kind_score))
         if orientation_score is not None:
-            orientation_scores.append(orientation_score)
+            orientation_scores.append(float(orientation_score))
+        if controlled_role_score is not None:
+            controlled_role_scores.append(float(controlled_role_score))
         match_details.append(
             {
                 "prediction_index": prediction_index,
@@ -251,6 +332,8 @@ def score_t2(
                 "prediction_family_signature": list(family.signature),
                 "groundtruth_index": truth_index,
                 "prediction_oligo_id": prediction.get("oligo_id"),
+                "score": scientific_score,
+                "assignment_score": assignment_score,
                 "sequence_score": sequence_score,
                 "groundtruth_oligo_id": truth["oligo_id"],
                 "groundtruth_family_id": truth["oligo_id"],
@@ -261,14 +344,12 @@ def score_t2(
                 ),
                 "groundtruth_support_status": truth.get("support_status", "explicit"),
                 "scored": True,
-                "dimension_scores": {
-                    "sequence": sequence_score,
+                "dimension_scores": dimension_scores,
+                "metadata_diagnostics": {
                     "name": name_score,
-                    "role": role_score,
+                    "role_text": role_text_score,
                     "aliases": alias_score,
-                    "modifications": modification_score,
-                    "kind": kind_score,
-                    "orientation": orientation_score,
+                    "modification_text": modification_text_score,
                 },
             }
         )
@@ -295,7 +376,7 @@ def score_t2(
         effective_prediction_count,
         len(scorable_truth),
     )
-    exact_required_matches = sum(score == 1.0 for _, _, score in matches)
+    exact_required_matches = sum(score == 1.0 for _, _, score, _ in matches)
     exact_required_family_recall = (
         exact_required_matches / len(scorable_truth) if scorable_truth else 1.0
     )
@@ -304,10 +385,12 @@ def score_t2(
         "required_family_recall": recall,
         "required_family_f1": f1,
         "exact_required_family_recall": exact_required_family_recall,
+        "sequence_similarity": _mean(sequence_scores),
         "name_similarity": _mean(name_scores),
         "role_similarity": _mean(role_scores),
+        "controlled_role_f1": _mean(controlled_role_scores, empty=1.0),
         "alias_f1": _mean(alias_scores),
-        "modification_f1": _mean(modification_scores),
+        "modification_f1": _mean(modification_scores, empty=1.0),
         "kind_accuracy": _mean(kind_scores),
         "orientation_accuracy": _mean(orientation_scores, empty=1.0),
         "predicted_member_count": float(len(predictions)),
@@ -369,7 +452,8 @@ def score_t2(
         ],
         "unmatched_required_family_ids": sorted(
             groundtruth[index]["oligo_id"]
-            for index in scorable_truth - {truth_index for _, truth_index, _ in matches}
+            for index in scorable_truth
+            - {truth_index for _, truth_index, _, _ in matches}
         ),
         "neutralized_prediction_family_indices": sorted(neutralized_families),
         "neutralized_prediction_indices": neutralized_prediction_indices,
@@ -389,13 +473,14 @@ def score_t2(
             groundtruth[index]["oligo_id"] for index in optional_truth
         ),
         "matching_policy": (
-            "collapse concrete panel members into role/orientation/modification-"
-            "bounded oligo families, then apply global maximum-weight one-to-one "
-            "wildcard-aware molecule-sequence matching; ordered single, assembled, "
-            "and hairpin components are concatenated while double-stranded "
-            "components remain separate; prediction metadata bounds family collapse "
-            "but does not otherwise affect sequence assignment or reward"
+            "collapse concrete panel members into kind/controlled-role/orientation/"
+            "canonical-modification-bounded oligo families, then apply global "
+            "maximum-weight one-to-one assignment with nucleotide sequence as the "
+            "primary key and structured scientific similarity as a deterministic "
+            "tie-break; reward weights canonical nucleotide sequence 0.65, positional "
+            "chemistry 0.15, kind 0.10, orientation 0.05, and controlled role 0.05"
         ),
+        "weights": T2_WEIGHTS,
         "family_policy": (
             "ground-truth records with fixed-length placeholders are family-level; "
             "concrete ground-truth records are member-level requirements; exact "
@@ -491,29 +576,70 @@ def score_t3(
             list(predicted_workflow.get("states", [])) if predicted_workflow else []
         )
         truth_states = list(truth_workflow.get("states", [])) if truth_workflow else []
-        state_scores = [
+        predicted_terminal_modalities = _terminal_modalities_by_state(
+            predicted_workflow
+        )
+        truth_terminal_modalities = _terminal_modalities_by_state(truth_workflow)
+        predicted_state_positions = _state_boundary_classes(predicted_workflow)
+        truth_state_positions = _state_boundary_classes(truth_workflow)
+        state_scientific_scores = [
             [
-                _state_similarity(item, truth, scorable_only=False)
+                _state_similarity(
+                    item,
+                    truth,
+                    scorable_only=False,
+                    allow_reverse_complement=_terminal_pair_allows_reverse_complement(
+                        item,
+                        truth,
+                        predicted_terminal_modalities,
+                        truth_terminal_modalities,
+                    ),
+                )
                 for truth in truth_states
             ]
             for item in predicted_states
         ]
-        state_matches = best_one_to_one_matching(state_scores)
+        state_assignment_scores = [
+            [
+                _state_assignment_similarity(
+                    scientific_score=state_scientific_scores[prediction_index][
+                        truth_index
+                    ],
+                    prediction=prediction_state,
+                    truth=truth_state,
+                    predicted_positions=predicted_state_positions,
+                    truth_positions=truth_state_positions,
+                )
+                for truth_index, truth_state in enumerate(truth_states)
+            ]
+            for prediction_index, prediction_state in enumerate(predicted_states)
+        ]
+        state_matches = best_partial_one_to_one_matching(
+            state_assignment_scores,
+            minimum_score=_T3_MIN_ASSIGNMENT_SCORE,
+        )
         state_map = {
             predicted_states[prediction_index]["state_id"]: truth_states[truth_index][
                 "state_id"
             ]
-            for prediction_index, truth_index, score in state_matches
-            if score >= 0.25
+            for prediction_index, truth_index, _ in state_matches
         }
         state_counts, state_details, neutralized_state_predictions = (
             _matched_entity_counts(
                 predicted_states,
                 truth_states,
                 state_matches,
-                state_scores,
+                state_scientific_scores,
                 score=lambda item, truth: _state_similarity(
-                    item, truth, scorable_only=True
+                    item,
+                    truth,
+                    scorable_only=True,
+                    allow_reverse_complement=_terminal_pair_allows_reverse_complement(
+                        item,
+                        truth,
+                        predicted_terminal_modalities,
+                        truth_terminal_modalities,
+                    ),
                 ),
                 scorable=_state_is_scorable,
             )
@@ -535,7 +661,19 @@ def score_t3(
                             predicted_state,
                             truth_state,
                             scorable_only=True,
+                            allow_reverse_complement=(
+                                _terminal_pair_allows_reverse_complement(
+                                    predicted_state,
+                                    truth_state,
+                                    predicted_terminal_modalities,
+                                    truth_terminal_modalities,
+                                )
+                            ),
                         )
+                    ),
+                    "metadata_diagnostics": _state_metadata_diagnostics(
+                        predicted_state,
+                        truth_state,
                     ),
                     "strand_orientation_accuracy": (
                         _matched_strand_orientation_accuracy(
@@ -557,7 +695,20 @@ def score_t3(
         truth_transitions = (
             list(truth_workflow.get("transitions", [])) if truth_workflow else []
         )
-        transition_scores = [
+        transition_assignment_scores = [
+            [
+                _transition_assignment_similarity(
+                    item,
+                    truth,
+                    state_map=state_map,
+                    predicted_oligos=predicted_oligos,
+                    truth_oligos=truth_oligos,
+                )
+                for truth in truth_transitions
+            ]
+            for item in predicted_transitions
+        ]
+        transition_scientific_scores = [
             [
                 _transition_similarity(
                     item,
@@ -570,13 +721,15 @@ def score_t3(
             ]
             for item in predicted_transitions
         ]
-        transition_matches = best_one_to_one_matching(transition_scores)
+        transition_matches = best_partial_one_to_one_matching(
+            transition_assignment_scores,
+            minimum_score=_T3_MIN_ASSIGNMENT_SCORE,
+        )
         transition_map = {
             predicted_transitions[prediction_index]["transition_id"]: truth_transitions[
                 truth_index
             ]["transition_id"]
-            for prediction_index, truth_index, score in transition_matches
-            if score >= 0.25
+            for prediction_index, truth_index, _ in transition_matches
         }
         (
             transition_counts,
@@ -586,7 +739,7 @@ def score_t3(
             predicted_transitions,
             truth_transitions,
             transition_matches,
-            transition_scores,
+            transition_scientific_scores,
             score=lambda item, truth: _transition_similarity(
                 item,
                 truth,
@@ -790,6 +943,29 @@ def score_t3(
             "using terminal-modality, molecular-state, and transition similarity; "
             "each connected DAG is scored once without modality projections"
         ),
+        "state_sequence_policy": (
+            "canonicalize protocol-neutral biological payload aliases; compare "
+            "both complete strand architecture and ordered segment projections; "
+            "accept the two-base IUPAC anchor shorthands VN and NB for a truth "
+            "ANCHOR:2 span; "
+            "allow token-aware reverse-complement equivalence only for terminal "
+            "states with a shared modality"
+        ),
+        "state_metadata_policy": (
+            "physical_state and properties are diagnostic prose and do not affect "
+            "state reward"
+        ),
+        "entity_assignment_policy": (
+            "global maximum-weight partial state and transition assignment; "
+            f"pairs below {_T3_MIN_ASSIGNMENT_SCORE:.2f} remain unmatched; "
+            "state workflow position and transition event identity are bounded "
+            "assignment-only tie-breaks and never add reward"
+        ),
+        "assignment_parameters": {
+            "minimum_score": _T3_MIN_ASSIGNMENT_SCORE,
+            "state_boundary_tie_break": _STATE_BOUNDARY_TIE_BREAK,
+            "transition_identity_tie_break": _TRANSITION_IDENTITY_TIE_BREAK,
+        },
         "oligo_use_policy": "resolve transition-local T2 IDs to nucleotide sequence signatures and compare multisets directly",
         "weights": {
             "state": STATE_WEIGHTS,
@@ -808,30 +984,75 @@ def _workflow_assignment_similarity(
 ) -> float:
     predicted_states = list(prediction.get("states", []))
     truth_states = list(truth.get("states", []))
-    state_scores = [
+    predicted_terminal_modalities = _terminal_modalities_by_state(prediction)
+    truth_terminal_modalities = _terminal_modalities_by_state(truth)
+    predicted_state_positions = _state_boundary_classes(prediction)
+    truth_state_positions = _state_boundary_classes(truth)
+    state_scientific_scores = [
         [
-            _state_similarity(item, expected, scorable_only=False)
+            _state_similarity(
+                item,
+                expected,
+                scorable_only=False,
+                allow_reverse_complement=_terminal_pair_allows_reverse_complement(
+                    item,
+                    expected,
+                    predicted_terminal_modalities,
+                    truth_terminal_modalities,
+                ),
+            )
             for expected in truth_states
         ]
         for item in predicted_states
     ]
-    state_matches = best_one_to_one_matching(state_scores)
+    state_assignment_scores = [
+        [
+            _state_assignment_similarity(
+                scientific_score=state_scientific_scores[prediction_index][truth_index],
+                prediction=prediction_state,
+                truth=truth_state,
+                predicted_positions=predicted_state_positions,
+                truth_positions=truth_state_positions,
+            )
+            for truth_index, truth_state in enumerate(truth_states)
+        ]
+        for prediction_index, prediction_state in enumerate(predicted_states)
+    ]
+    state_matches = best_partial_one_to_one_matching(
+        state_assignment_scores,
+        minimum_score=_T3_MIN_ASSIGNMENT_SCORE,
+    )
     state_map = {
         predicted_states[prediction_index]["state_id"]: truth_states[truth_index][
             "state_id"
         ]
-        for prediction_index, truth_index, score in state_matches
-        if score >= 0.25
+        for prediction_index, truth_index, _ in state_matches
     }
     state_f1 = _soft_prf(
-        sum(item[2] for item in state_matches),
+        sum(
+            state_scientific_scores[prediction_index][truth_index]
+            for prediction_index, truth_index, _ in state_matches
+        ),
         len(predicted_states),
         len(truth_states),
     )[2]
 
     predicted_transitions = list(prediction.get("transitions", []))
     truth_transitions = list(truth.get("transitions", []))
-    transition_scores = [
+    transition_assignment_scores = [
+        [
+            _transition_assignment_similarity(
+                item,
+                expected,
+                state_map=state_map,
+                predicted_oligos=predicted_oligos,
+                truth_oligos=truth_oligos,
+            )
+            for expected in truth_transitions
+        ]
+        for item in predicted_transitions
+    ]
+    transition_scientific_scores = [
         [
             _transition_similarity(
                 item,
@@ -844,9 +1065,15 @@ def _workflow_assignment_similarity(
         ]
         for item in predicted_transitions
     ]
-    transition_matches = best_one_to_one_matching(transition_scores)
+    transition_matches = best_partial_one_to_one_matching(
+        transition_assignment_scores,
+        minimum_score=_T3_MIN_ASSIGNMENT_SCORE,
+    )
     transition_f1 = _soft_prf(
-        sum(item[2] for item in transition_matches),
+        sum(
+            transition_scientific_scores[prediction_index][truth_index]
+            for prediction_index, truth_index, _ in transition_matches
+        ),
         len(predicted_transitions),
         len(truth_transitions),
     )[2]
@@ -864,6 +1091,71 @@ def _terminal_modality_f1(
         [modality_key(str(item.get("modality", ""))) for item in predicted_outputs],
         [modality_key(str(item.get("modality", ""))) for item in truth_outputs],
     )
+
+
+def _terminal_modalities_by_state(
+    workflow: Mapping[str, Any] | None,
+) -> dict[str, set[str]]:
+    result: dict[str, set[str]] = defaultdict(set)
+    if workflow is None:
+        return result
+    for output in workflow.get("final_outputs", []):
+        state_id = str(output.get("state_id", ""))
+        if state_id:
+            result[state_id].add(modality_key(str(output.get("modality", ""))))
+    return result
+
+
+def _state_boundary_classes(
+    workflow: Mapping[str, Any] | None,
+) -> dict[str, str]:
+    if workflow is None:
+        return {}
+    initial_ids = set(workflow.get("initial_state_ids", []))
+    terminal_ids = {
+        str(item.get("state_id", "")) for item in workflow.get("final_outputs", [])
+    }
+    result: dict[str, str] = {}
+    for state in workflow.get("states", []):
+        state_id = str(state.get("state_id", ""))
+        if state_id in initial_ids and state_id in terminal_ids:
+            result[state_id] = "initial_terminal"
+        elif state_id in initial_ids:
+            result[state_id] = "initial"
+        elif state_id in terminal_ids:
+            result[state_id] = "terminal"
+        else:
+            result[state_id] = "intermediate"
+    return result
+
+
+def _state_assignment_similarity(
+    *,
+    scientific_score: float,
+    prediction: Mapping[str, Any],
+    truth: Mapping[str, Any],
+    predicted_positions: Mapping[str, str],
+    truth_positions: Mapping[str, str],
+) -> float:
+    predicted_position = predicted_positions.get(
+        str(prediction.get("state_id", "")), "intermediate"
+    )
+    truth_position = truth_positions.get(str(truth.get("state_id", "")), "intermediate")
+    boundary_identity = float(predicted_position == truth_position)
+    return (scientific_score + _STATE_BOUNDARY_TIE_BREAK * boundary_identity) / (
+        1.0 + _STATE_BOUNDARY_TIE_BREAK
+    )
+
+
+def _terminal_pair_allows_reverse_complement(
+    prediction: Mapping[str, Any],
+    truth: Mapping[str, Any],
+    predicted_modalities: Mapping[str, set[str]],
+    truth_modalities: Mapping[str, set[str]],
+) -> bool:
+    predicted = predicted_modalities.get(str(prediction.get("state_id", "")), set())
+    expected = truth_modalities.get(str(truth.get("state_id", "")), set())
+    return bool(predicted & expected)
 
 
 def _mapped_terminal_output_f1(
@@ -940,6 +1232,7 @@ def _matched_entity_counts(
     matched_predictions = {prediction_index for prediction_index, _, _ in matches}
     for prediction_index, truth_index, alignment_score in matches:
         is_scored = truth_index in scorable_truth
+        scientific_alignment_score = all_scores[prediction_index][truth_index]
         entity_score = (
             score(predicted[prediction_index], truth[truth_index])
             if is_scored
@@ -947,7 +1240,7 @@ def _matched_entity_counts(
         )
         if entity_score is not None:
             score_sum += entity_score
-        if not is_scored and alignment_score == 1.0:
+        if not is_scored and scientific_alignment_score == 1.0:
             neutralized_predictions.add(prediction_index)
         details.append(
             {
@@ -955,8 +1248,9 @@ def _matched_entity_counts(
                 "groundtruth_index": truth_index,
                 "score": entity_score,
                 "alignment_score": alignment_score,
+                "scientific_alignment_score": scientific_alignment_score,
                 "scored": is_scored,
-                "neutralized": not is_scored and alignment_score == 1.0,
+                "neutralized": not is_scored and scientific_alignment_score == 1.0,
             }
         )
     for prediction_index in set(range(len(predicted))) - matched_predictions:
@@ -1070,12 +1364,12 @@ def _canonical_oligo_signature(
             family_template=family_template,
         )
         if molecule:
-            return (normalize_sequence(molecule),)
+            return (_t2_nucleotide_projection(molecule),)
     values = _prediction_sequence_claims(
         dict(item),
         family_template=family_template,
     )
-    return tuple(normalize_sequence(value) for value in values)
+    return tuple(_t2_nucleotide_projection(value) for value in values)
 
 
 def _prediction_family_similarity(
@@ -1087,7 +1381,55 @@ def _prediction_family_similarity(
 ) -> float:
     return max(
         (
+            _t2_scientific_similarity(
+                predictions[index],
+                truth,
+                scorable_only=scorable_only,
+            )
+            for index in family.member_indices
+        ),
+        default=0.0,
+    )
+
+
+def _prediction_family_sequence_similarity(
+    family: _PredictionFamily,
+    predictions: list[dict[str, Any]],
+    truth: dict[str, Any],
+    *,
+    scorable_only: bool,
+) -> float:
+    return max(
+        (
             _oligo_similarity(
+                predictions[index],
+                truth,
+                scorable_only=scorable_only,
+            )
+            for index in family.member_indices
+        ),
+        default=0.0,
+    )
+
+
+def _prediction_family_assignment_similarity(
+    family: _PredictionFamily,
+    predictions: list[dict[str, Any]],
+    truth: dict[str, Any],
+    *,
+    scorable_only: bool,
+) -> float:
+    """Keep sequence primary while using structured claims to break ties."""
+
+    return max(
+        (
+            _oligo_similarity(
+                predictions[index],
+                truth,
+                scorable_only=scorable_only,
+            )
+            + _T2_ASSIGNMENT_TIE_BREAK
+            * _t2_scientific_similarity(
                 predictions[index],
                 truth,
                 scorable_only=scorable_only,
@@ -1108,6 +1450,11 @@ def _best_prediction_family_member(
     return max(
         family.member_indices,
         key=lambda index: (
+            _t2_scientific_similarity(
+                predictions[index],
+                truth,
+                scorable_only=scorable_only,
+            ),
             _oligo_similarity(
                 predictions[index],
                 truth,
@@ -1146,22 +1493,454 @@ def _item_has_family_template(item: Mapping[str, Any]) -> bool:
     )
 
 
-def _family_metadata_key(item: Mapping[str, Any]) -> tuple[Any, ...]:
-    modifications = {
-        _normalize_text(str(value)) for value in item.get("modifications", [])
+def _t2_scientific_similarity(
+    prediction: Mapping[str, Any],
+    truth: Mapping[str, Any],
+    *,
+    scorable_only: bool,
+) -> float:
+    return _weighted_supported_score(
+        _t2_dimensions(prediction, truth, scorable_only=scorable_only),
+        T2_WEIGHTS,
+    )
+
+
+def _t2_dimensions(
+    prediction: Mapping[str, Any],
+    truth: Mapping[str, Any],
+    *,
+    scorable_only: bool,
+) -> dict[str, tuple[float, bool]]:
+    truth_supported = (
+        not scorable_only or truth.get("support_status", "explicit") in SCORABLE_SUPPORT
+    )
+    truth_modifications = _oligo_modification_claims(
+        truth,
+        allowed_support=SCORABLE_SUPPORT if scorable_only else None,
+    )
+    predicted_modifications = _oligo_modification_claims(prediction)
+    if scorable_only:
+        neutral_modifications = _oligo_modification_claims(
+            truth,
+            allowed_support=NEUTRAL_SUPPORT,
+        )
+        predicted_modifications -= neutral_modifications
+
+    truth_roles = _controlled_oligo_roles(str(truth.get("role", "")))
+    truth_kind = str(truth.get("kind", "unknown"))
+    truth_orientation = str(truth.get("orientation", "unknown"))
+    modification_score = (
+        _canonical_modification_f1(
+            predicted_modifications,
+            truth_modifications,
+        )
+        if truth_modifications
+        else 1.0
+    )
+    return {
+        "sequence": (
+            _oligo_similarity(
+                dict(prediction),
+                dict(truth),
+                scorable_only=scorable_only,
+            ),
+            True,
+        ),
+        "modifications": (
+            modification_score,
+            True,
+        ),
+        "kind": (
+            float(prediction.get("kind") == truth_kind),
+            truth_supported and truth_kind != "unknown",
+        ),
+        "orientation": (
+            float(prediction.get("orientation") == truth_orientation),
+            truth_supported and truth_orientation != "unknown",
+        ),
+        "role": (
+            _controlled_role_similarity(prediction, truth),
+            truth_supported and bool(truth_roles),
+        ),
     }
+
+
+def _controlled_role_similarity(
+    prediction: Mapping[str, Any], truth: Mapping[str, Any]
+) -> float:
+    truth_roles = _controlled_oligo_roles(str(truth.get("role", "")))
+    if not truth_roles:
+        return 1.0
+    prediction_roles = _controlled_oligo_roles(str(prediction.get("role", "")))
+
+    # Canonical records sometimes make only the broad claim "primer". A
+    # prediction with a more specific primer function satisfies that claim,
+    # while the reverse remains false so generic prose cannot satisfy a
+    # source-supported specific role.
+    if truth_roles == {"primer"}:
+        return float(bool(prediction_roles & _CONTROLLED_PRIMER_ROLES))
+
+    # An assembled indexing oligo may be described by its primary PCR-primer
+    # function while declaring a physical P5/P7 adapter component. Let that
+    # explicit component satisfy a broad canonical "adapter" role; do not
+    # globally alias primers and adapters.
+    if truth_roles == {"adapter"}:
+        component_roles = {
+            role
+            for component in prediction.get("components", [])
+            for role in _controlled_oligo_roles(str(component.get("role", "")))
+        }
+        return float(
+            bool(
+                (set(prediction_roles) | component_roles)
+                & _CONTROLLED_ADAPTER_ROLES
+            )
+        )
+
+    return _set_f1(prediction_roles, truth_roles)
+
+
+def _controlled_oligo_roles(value: str) -> frozenset[str]:
+    """Project free-text roles into protocol-neutral functional categories."""
+
+    text = _normalize_text(value)
+    if not text:
+        return frozenset()
+    roles: set[str] = set()
+
+    # Resolve primary roles before looking at words that may only describe a
+    # referenced handle. For example, a ligation bridge can mention an RT
+    # primer handle without itself becoming an RT primer.
+    if re.search(r"\b(?:blocking|blocker|blocks|terminator|quench|quenching)\b", text):
+        return frozenset({"blocking_oligo"})
+    if ("linker" in text or "bridge" in text or "splint" in text) and (
+        "ligat" in text or "anneal" in text
+    ):
+        return frozenset({"ligation_linker"})
+    if (
+        "ligation barcode" in text
+        or "barcode ligation" in text
+        or bool(
+            re.search(
+                r"\b(?:second|third|round [234]) round\b.*\bbarcode strand\b",
+                text,
+            )
+        )
+        or bool(re.search(r"\bbarcode strand ligated\b", text))
+    ):
+        return frozenset({"ligation_barcode"})
+    if "template switch" in text and ("oligo" in text or "oligonucleotide" in text):
+        return frozenset({"template_switching_oligo"})
+
+    is_sequencing = "sequencing primer" in text or bool(
+        re.search(r"\bread [12]\b.*\bprimer\b", text)
+    )
+    is_index_read = is_sequencing and bool(
+        re.search(r"\b(?:index|i5|i7|sample index)\b", text)
+    )
+    if is_index_read:
+        roles.add("index_sequencing_primer")
+    elif is_sequencing:
+        roles.add("sequencing_primer")
+
+    is_amplification = bool(
+        re.search(r"\b(?:pcr|amplification|amplifies|enrichment)\b", text)
+    ) and ("primer" in text or "oligo" in text)
+    referenced_rt_target = bool(
+        is_amplification
+        and re.search(
+            r"\b(?:at|on|against|anneals?(?:\s+to)?|complementary\s+to)\b"
+            r"[^.;]*\brt[- ]*(?:handle|adapter|adaptor|end)\b",
+            text,
+        )
+    )
+    if (
+        not referenced_rt_target
+        and re.search(r"\b(?:reverse transcription|reverse transcriptase|rt)\b", text)
+        and ("primer" in text or "oligo" in text)
+    ):
+        roles.add("reverse_transcription_primer")
+    if "second strand" in text and ("primer" in text or "oligo" in text):
+        roles.add("second_strand_primer")
+
+    is_indexing = is_amplification and bool(
+        re.search(r"\b(?:indexing|indexed|sample index|i5 index|i7 index)\b", text)
+    )
+    if is_indexing:
+        roles.add("indexing_primer")
+    elif is_amplification:
+        roles.add("amplification_primer")
+
+    if "capture" in text and ("primer" in text or "oligo" in text):
+        roles.add("capture_oligo")
+    if "feature barcode" in text:
+        roles.add("feature_barcode_oligo")
+    if "sgrna" in text and ("primer" in text or "oligo" in text):
+        roles.add("sgrna_primer")
+
+    has_ligation = "ligat" in text
+    referenced_tagmentation_target = bool(
+        (is_amplification or is_sequencing)
+        and re.search(
+            r"\b(?:at|on|against|anneals?(?:\s+to)?|complementary\s+to)\b"
+            r"[^.;]*\b(?:tn5|tagment\w*)[- ]*(?:adapter|adaptor)\b",
+            text,
+        )
+    )
+
+    if "primer entry point" in text or "primer_entry_point" in value.lower():
+        roles.add("primer_entry_point")
+    if (
+        not referenced_tagmentation_target
+        and re.search(r"\b(?:tn5|tagment|transposome|transposon)\b", text)
+        and re.search(
+            r"\b(?:adapter|adaptor|oligo|strand|binding site|transposon)\b", text
+        )
+    ):
+        roles.add("tagmentation_adapter")
+        if "non transferred" in text:
+            roles.add("nontransferred_strand")
+        elif "transferred" in text:
+            roles.add("transferred_strand")
+    if has_ligation and re.search(r"\badapt(?:er|or)\b", text):
+        roles.add("ligation_adapter")
+    if ("y shaped" in text or "sequencing adapter" in text) and not is_sequencing:
+        roles.add("sequencing_adapter")
+    if "flow cell" in text and re.search(r"\badapt(?:er|or)\b", text):
+        roles.add("flowcell_adapter")
+
+    if "promoter" in text:
+        roles.add("promoter")
+    if "probe" in text and ("hybrid" in text or "qc" in text):
+        roles.add("hybridization_probe")
+    if "bead synthesis" in text or "poly dt synthesis on beads" in text:
+        roles.add("bead_synthesis_oligo")
+    if "splint capture" in text:
+        roles.add("splint_capture_oligo")
+    if "linear amplification" in text and ("primer" in text or "oligo" in text):
+        roles.add("linear_amplification_primer")
+    if "random" in text and is_amplification:
+        roles.add("random_amplification_primer")
+
+    # Keep generic source labels scorable. They are added only when no more
+    # specific primary function was recovered, then interpreted directionally
+    # by _controlled_role_similarity.
+    if not roles and re.search(r"\bprimer\b", text):
+        roles.add("primer")
+    if not roles and re.search(r"\badapt(?:er|or)\b", text):
+        roles.add("adapter")
+
+    return frozenset(roles)
+
+
+def _oligo_modification_claims(
+    item: Mapping[str, Any],
+    *,
+    allowed_support: frozenset[str] | None = None,
+) -> set[str]:
+    """Canonicalize inline and structured chemistry into one claim set."""
+
+    claims: set[str] = set()
+    item_status = str(item.get("support_status", "explicit"))
+    item_enabled = allowed_support is None or item_status in allowed_support
+    if item_enabled:
+        sequence = item.get("sequence")
+        if isinstance(sequence, str):
+            claims.update(_inline_modification_claims(sequence))
+        for value in item.get("modifications", []):
+            claims.update(_canonical_modification_text(str(value)))
+
+    components = list(item.get("components", []))
+    for index, component in enumerate(components):
+        status = str(component.get("support_status", item_status))
+        if allowed_support is not None and status not in allowed_support:
+            continue
+        position_hint = (
+            "five_prime"
+            if index == 0
+            else "three_prime"
+            if index == len(components) - 1
+            else "internal"
+        )
+        for field in ("sequence", "placeholder"):
+            value = component.get(field)
+            if isinstance(value, str):
+                claims.update(_inline_modification_claims(value))
+        for value in component.get("modifications", []):
+            claims.update(
+                _canonical_modification_text(
+                    str(value),
+                    position_hint=position_hint,
+                )
+            )
+    return _reduce_modification_claims(claims)
+
+
+def _reduce_modification_claims(claims: Iterable[str]) -> set[str]:
+    """Remove generic chemistry claims already entailed by a specific claim."""
+
+    reduced = set(claims)
+    if any(re.fullmatch(r"riboguanosine:[1-9][0-9]*", claim) for claim in reduced):
+        reduced.discard("riboguanosine")
+        reduced.discard("ribonucleotide")
+    return reduced
+
+
+def _inline_modification_claims(value: str) -> set[str]:
+    tokens = sequence_tokens(value)
+    claims: set[str] = set()
+    riboguanosines = sum(token == "rG" for token in tokens)
+    lna_guanosines = sum(token == "+G" for token in tokens)
+    deoxyuridines = sum(token == "(dU)" for token in tokens)
+    if riboguanosines:
+        claims.add(f"riboguanosine:{riboguanosines}")
+    if lna_guanosines:
+        claims.add(f"lna_guanosine:{lna_guanosines}")
+    if deoxyuridines:
+        claims.add(f"deoxyuridine:{deoxyuridines}")
+
+    known_tags = {
+        "/5phos/": "five_prime:phosphate",
+        "/5bio/": "five_prime:biotin",
+        "/5biosg/": "five_prime:biotin",
+        "/5acryd/": "five_prime:acrydite",
+        "/6-fam/": "five_prime:fluorescein",
+        "/56-fam/": "five_prime:fluorescein",
+        "/nh2/": "amino",
+        "/3spc3/": "three_prime:c3_spacer",
+        "/3ddc/": "three_prime:dideoxycytidine",
+        "/ddc/": "dideoxycytidine",
+        "/ddu/": "dideoxyuridine",
+        "/3invdt/": "three_prime:inverted_dt",
+        "/ideoxyu/": "internal:deoxyuridine",
+        "/ibiodt/": "internal:biotin_dt",
+        "/isppc/": "internal:photocleavable_spacer",
+        "/ithiomc6-d/": "internal:thiol",
+        "/5rapp/": "five_prime:preadenylated_phosphate",
+    }
+    for token in tokens:
+        if not (token.startswith("/") and token.endswith("/")):
+            continue
+        canonical = known_tags.get(token.lower())
+        claims.add(canonical or f"inline:{token[1:-1].lower()}")
+    return claims
+
+
+def _canonical_modification_text(
+    value: str,
+    *,
+    position_hint: str | None = None,
+) -> set[str]:
+    text = _normalize_text(value)
+    if not text:
+        return set()
+    location = _modification_location(text, position_hint=position_hint)
+    claims: set[str] = set()
+
+    if "phosphorothioate" in text:
+        claims.add(f"{location}:phosphorothioate")
+    elif "phosphate" in text or "phosphorylation" in text or "5phos" in text:
+        claims.add(f"{location}:phosphate")
+    if "biotin dt" in text or "ibiodt" in text:
+        claims.add(f"{location}:biotin_dt")
+    elif "biotin" in text or "5biosg" in text:
+        claims.add(f"{location}:biotin")
+    if "acrydite" in text or "5acryd" in text:
+        claims.add(f"{location}:acrydite")
+    if "fluorescein" in text or "6 fam" in text:
+        claims.add(f"{location}:fluorescein")
+    if re.search(r"\b(?:amine|amino|nh2)\b", text):
+        claims.add(f"{location}:amino")
+    if "c3 spacer" in text or "3spc3" in text:
+        claims.add(f"{location}:c3_spacer")
+    if "photocleavable spacer" in text or "isppc" in text:
+        claims.add(f"{location}:photocleavable_spacer")
+    if "inverted dt" in text or "3invdt" in text:
+        claims.add(f"{location}:inverted_dt")
+    if "dideoxy" in text or "ddc" in text:
+        claims.add(f"{location}:dideoxycytidine")
+    if "deoxyuridine" in text or re.search(r"\bdu\b", text):
+        claims.add("internal:deoxyuridine")
+    if "methylcytosine" in text:
+        claims.add("methylcytosine")
+    if "locked nucleic acid" in text or re.search(r"\blna\b", text):
+        count = _modification_count(text)
+        claims.add(f"lna_guanosine:{count}" if count else "lna_guanosine")
+    if "riboguan" in text or "rgrg" in text or re.search(r"\brg\b", text):
+        count = _modification_count(text)
+        claims.add(f"riboguanosine:{count}" if count else "riboguanosine")
+    if re.search(r"\b(?:rna )?ribonucleotides?\b", text):
+        claims.add("ribonucleotide")
+    if "hplc" in text:
+        claims.add("purification:hplc")
+    if "all rna" in text or "rna oligonucleotide" in text:
+        claims.add("backbone:rna")
+    if "t overhang" in text:
+        claims.add(f"{location}:t_overhang")
+    if "degenerate" in text and ("vn" in text or "anchor" in text):
+        claims.add("anchor:degenerate_vn")
+    if re.search(r"\b(?:bead|gel bead|magnetic bead)\b", text) and re.search(
+        r"\b(?:attach(?:ed|ment)?|conjugat(?:ed|ion)|"
+        r"immobili[sz](?:ed|ation)|tether(?:ed|ing)?)\b",
+        text,
+    ):
+        claims.add(f"{location}:bead_tether")
+    if "peg" in text and "linker" in text:
+        claims.add(f"{location}:peg_linker")
+    if "iso dc" in text or "iso dg" in text:
+        claims.add(f"{location}:iso_base")
+
+    if not claims:
+        claims.add(f"text:{text}")
+    return claims
+
+
+def _modification_location(text: str, *, position_hint: str | None) -> str:
+    if re.search(r"\b5 (?:prime )?(?:end )?", text) or "5prime" in text:
+        return "five_prime"
+    if re.search(r"\b3 (?:prime )?(?:end |terminal )?", text) or "3prime" in text:
+        return "three_prime"
+    if "internal" in text:
+        return "internal"
+    return position_hint or "unspecified"
+
+
+def _modification_count(text: str) -> int | None:
+    if "three" in text or "x3" in text or "rgrgrg" in text:
+        return 3
+    if "two" in text or "x2" in text or "rgrg" in text:
+        return 2
+    return None
+
+
+def _canonical_modification_f1(
+    prediction: Iterable[str], truth: Iterable[str]
+) -> float:
+    return _set_f1(set(prediction), set(truth))
+
+
+def _set_f1(
+    prediction: set[str] | frozenset[str], truth: set[str] | frozenset[str]
+) -> float:
+    overlap = len(set(prediction) & set(truth))
+    return _soft_prf(float(overlap), len(prediction), len(truth))[2]
+
+
+def _family_metadata_key(item: Mapping[str, Any]) -> tuple[Any, ...]:
     component_orientations: set[str] = set()
     for component in item.get("components", []):
-        modifications.update(
-            _normalize_text(str(value)) for value in component.get("modifications", [])
-        )
         orientation = component.get("orientation")
         if isinstance(orientation, str) and orientation != item.get("orientation"):
             component_orientations.add(orientation)
+    controlled_roles = _controlled_oligo_roles(str(item.get("role", "")))
+    role_key: tuple[str, ...] = tuple(sorted(controlled_roles))
+    if not role_key:
+        role_key = (f"unclassified:{_normalize_text(str(item.get('role', '')))}",)
     return (
-        _normalize_text(str(item.get("role", ""))),
+        item.get("kind", "unknown"),
+        role_key,
         item.get("orientation", "unknown"),
-        tuple(sorted(modifications)),
+        tuple(sorted(_oligo_modification_claims(item))),
         tuple(sorted(component_orientations)),
     )
 
@@ -1170,19 +1949,24 @@ def _family_metadata_similarity(
     prediction: Mapping[str, Any],
     truth: Mapping[str, Any],
 ) -> float:
-    role = _name_similarity(
-        str(prediction.get("role", "")),
-        str(truth.get("role", "")),
-    )
+    role = _controlled_role_similarity(prediction, truth)
     orientation = float(
         truth.get("orientation") == "unknown"
         or prediction.get("orientation") == truth.get("orientation")
     )
-    modifications = _text_collection_f1(
-        list(prediction.get("modifications", [])),
-        list(truth.get("modifications", [])),
+    truth_modifications = _oligo_modification_claims(truth)
+    modifications = (
+        _canonical_modification_f1(
+            _oligo_modification_claims(prediction),
+            truth_modifications,
+        )
+        if truth_modifications
+        else 1.0
     )
-    return 0.5 * role + 0.25 * orientation + 0.25 * modifications
+    kind = float(
+        truth.get("kind") == "unknown" or prediction.get("kind") == truth.get("kind")
+    )
+    return 0.40 * role + 0.20 * orientation + 0.25 * modifications + 0.15 * kind
 
 
 def _infer_flat_panel_signatures(
@@ -1403,6 +2187,24 @@ def _ordered_molecule_similarity(
         # Component-level claims preserve the support mask for mixed-evidence
         # molecules. The fallback path below can remove exact neutral claims.
         return None
+    raw_predicted_sequence = _ordered_molecule_sequence(
+        prediction,
+        family_template=False,
+    )
+    raw_truth_sequence = _ordered_molecule_sequence(
+        truth,
+        family_template=False,
+    )
+    if (
+        raw_predicted_sequence is not None
+        and raw_truth_sequence is not None
+        and normalize_sequence(raw_predicted_sequence)
+        == normalize_sequence(raw_truth_sequence)
+    ):
+        # Exact normalized molecule equality is decisive. Component role prose
+        # may mention a downstream barcode without making the component itself
+        # variable; family templating must never degrade an exact sequence.
+        return 1.0
     predicted_sequence = _ordered_molecule_sequence(
         prediction,
         family_template=truth_is_family,
@@ -1464,7 +2266,7 @@ def _family_template_sequence(item: Mapping[str, Any]) -> str:
             or normalize_sequence(component["sequence"])
             for component in components
         )
-        position = result.find(concrete_molecule)
+        position = _find_unprotected_subsequence(result, concrete_molecule)
         if position >= 0:
             return (
                 result[:position]
@@ -1479,7 +2281,11 @@ def _family_template_sequence(item: Mapping[str, Any]) -> str:
         if not isinstance(concrete, str) or not concrete:
             continue
         normalized_concrete = normalize_sequence(concrete)
-        position = result.find(normalized_concrete, cursor)
+        position = _find_unprotected_subsequence(
+            result,
+            normalized_concrete,
+            start=cursor,
+        )
         if position < 0:
             continue
         if replacement:
@@ -1492,6 +2298,41 @@ def _family_template_sequence(item: Mapping[str, Any]) -> str:
         else:
             cursor = position + len(normalized_concrete)
     return result
+
+
+def _find_unprotected_subsequence(
+    sequence: str,
+    subsequence: str,
+    *,
+    start: int = 0,
+) -> int:
+    """Find literal bases without matching inside placeholders/modification tags."""
+
+    protected_spans: list[tuple[int, int]] = []
+    cursor = 0
+    while cursor < len(sequence):
+        opener = sequence[cursor]
+        closer = "]" if opener == "[" else "/" if opener == "/" else None
+        if closer is None:
+            cursor += 1
+            continue
+        end = sequence.find(closer, cursor + 1)
+        if end < 0:
+            cursor += 1
+            continue
+        protected_spans.append((cursor, end + 1))
+        cursor = end + 1
+
+    position = sequence.find(subsequence, start)
+    while position >= 0:
+        end = position + len(subsequence)
+        if all(
+            end <= protected_start or position >= protected_end
+            for protected_start, protected_end in protected_spans
+        ):
+            return position
+        position = sequence.find(subsequence, position + 1)
+    return -1
 
 
 def _component_family_placeholder(
@@ -1635,8 +2476,58 @@ def _family_tokens_match(left: str, right: str) -> bool:
 
 
 def _sequence_value(value: str) -> list[str]:
-    normalized = normalize_sequence(value)
+    normalized = _t2_nucleotide_projection(value)
     return sequence_tokens(normalized, already_normalized=True)
+
+
+def _t2_nucleotide_projection(value: str) -> str:
+    """Remove chemistry serialization while preserving the nucleotide molecule."""
+
+    normalized = normalize_sequence(value)
+    result: list[str] = []
+    cursor = 0
+    while cursor < len(normalized):
+        if normalized[cursor] == "[":
+            end = normalized.find("]", cursor + 1)
+            if end >= 0:
+                result.append(normalized[cursor : end + 1])
+                cursor = end + 1
+                continue
+        if normalized[cursor] == "/":
+            end = normalized.find("/", cursor + 1)
+            if end >= 0:
+                tag = normalized[cursor : end + 1]
+                base = _modified_base_from_tag(tag)
+                if base is not None:
+                    result.append(base)
+                cursor = end + 1
+                continue
+        if normalized[cursor : cursor + 4].lower() == "(du)":
+            result.append("U")
+            cursor += 4
+            continue
+        if (
+            normalized[cursor] in {"r", "+"}
+            and cursor + 1 < len(normalized)
+            and normalized[cursor + 1] in _STATE_COMPLEMENT
+        ):
+            result.append(normalized[cursor + 1])
+            cursor += 2
+            continue
+        result.append(normalized[cursor])
+        cursor += 1
+    return "".join(result)
+
+
+def _modified_base_from_tag(tag: str) -> str | None:
+    return {
+        "/ideoxyu/": "U",
+        "/ibiodt/": "T",
+        "/ddc/": "C",
+        "/3ddc/": "C",
+        "/ddu/": "U",
+        "/3invdt/": "T",
+    }.get(tag.lower())
 
 
 def _state_is_scorable(state: dict[str, Any]) -> bool:
@@ -1655,12 +2546,14 @@ def _state_similarity(
     truth: dict[str, Any],
     *,
     scorable_only: bool,
+    allow_reverse_complement: bool = False,
 ) -> float:
     return _weighted_supported_score(
         _state_dimensions(
             prediction,
             truth,
             scorable_only=scorable_only,
+            allow_reverse_complement=allow_reverse_complement,
         ),
         STATE_WEIGHTS,
     )
@@ -1671,11 +2564,16 @@ def _state_dimensions(
     truth: dict[str, Any],
     *,
     scorable_only: bool,
+    allow_reverse_complement: bool = False,
 ) -> dict[str, tuple[float, bool]]:
     truth_reference = _reference_strand(truth)
     return {
         "reference_strand": (
-            _reference_similarity(prediction, truth),
+            _reference_similarity(
+                prediction,
+                truth,
+                allow_reverse_complement=allow_reverse_complement,
+            ),
             not scorable_only or _supported(truth_reference),
         ),
         "architecture": (
@@ -1684,7 +2582,10 @@ def _state_dimensions(
         ),
         "segments": (
             _strand_collection_similarity(
-                prediction, truth, scorable_only=scorable_only
+                prediction,
+                truth,
+                scorable_only=scorable_only,
+                allow_reverse_complement=allow_reverse_complement,
             ),
             not scorable_only
             or any(_supported(strand) for strand in truth.get("strands", [])),
@@ -1701,16 +2602,29 @@ def _state_dimensions(
     }
 
 
-def _reference_similarity(prediction: dict[str, Any], truth: dict[str, Any]) -> float:
+def _reference_similarity(
+    prediction: dict[str, Any],
+    truth: dict[str, Any],
+    *,
+    allow_reverse_complement: bool,
+) -> float:
     predicted = _reference_strand(prediction)
     expected = _reference_strand(truth)
     if not predicted or not expected:
         return 0.0
-    predicted_value = _strand_architecture_value(predicted)
-    expected_value = _strand_architecture_value(expected)
-    return edit_similarity(
-        _sequence_value(predicted_value), _sequence_value(expected_value)
-    )
+    scores: list[float] = []
+    for predicted_value in _strand_architecture_values(predicted):
+        predicted_tokens = _sequence_value(predicted_value)
+        for expected_value in _strand_architecture_values(expected):
+            expected_tokens = _sequence_value(expected_value)
+            scores.append(_state_sequence_similarity(predicted_tokens, expected_tokens))
+            if allow_reverse_complement:
+                reverse_tokens = _reverse_complement_state_tokens(expected_tokens)
+                if reverse_tokens is not None:
+                    scores.append(
+                        _state_sequence_similarity(predicted_tokens, reverse_tokens)
+                    )
+    return max(scores, default=0.0)
 
 
 def _reference_strand(state: dict[str, Any]) -> dict[str, Any]:
@@ -1725,11 +2639,101 @@ def _reference_strand(state: dict[str, Any]) -> dict[str, Any]:
     )
 
 
-def _strand_architecture_value(strand: dict[str, Any]) -> str:
+def _strand_architecture_values(strand: dict[str, Any]) -> list[str]:
+    values: list[str] = []
     architecture = strand.get("sequence_architecture")
     if isinstance(architecture, str) and architecture:
-        return architecture
-    return "".join(_segment_value(segment) for segment in strand.get("segments", []))
+        values.append(architecture)
+    segments = strand.get("segments", [])
+    if segments:
+        values.append("".join(_segment_value(segment) for segment in segments))
+
+    result: list[str] = []
+    observed: set[tuple[str, ...]] = set()
+    for value in values:
+        key = tuple(_sequence_value(value))
+        if key not in observed:
+            observed.add(key)
+            result.append(value)
+    return result
+
+
+def _reverse_complement_state_tokens(tokens: list[str]) -> list[str] | None:
+    result: list[str] = []
+    for token in reversed(tokens):
+        if token in _STATE_COMPLEMENT:
+            result.append(_STATE_COMPLEMENT[token])
+        elif (token.startswith("<") and token.endswith(">")) or (
+            token.startswith("[") and token.endswith("]")
+        ):
+            # Placeholder roles are biological and orientation-free.
+            result.append(token)
+        elif len(token) == 2 and token[0] in {"r", "+"}:
+            complement = _STATE_COMPLEMENT.get(token[1])
+            if complement is None:
+                return None
+            result.append(token[0] + complement)
+        else:
+            # Modification tags cannot be reverse-complemented mechanically.
+            return None
+    return result
+
+
+def _state_sequence_similarity(
+    predicted_tokens: list[str], expected_tokens: list[str]
+) -> float:
+    """Directional edit similarity for prediction-shaped state sequences.
+
+    Ground-truth VARIABLE placeholders are wildcards. A predicted two-base
+    anchored-primer shorthand (``VN`` or its opposite-strand form ``NB``) also
+    satisfies a canonical ground-truth ``[ANCHOR:2]`` span. The latter is a
+    phrase-level rule so neither base alone becomes an ANCHOR wildcard.
+    """
+
+    denominator = max(len(predicted_tokens), len(expected_tokens))
+    if denominator == 0:
+        return 1.0
+    # Keep the expected/ground-truth side fixed because VARIABLE compatibility
+    # is intentionally directional: a specific prediction may satisfy an
+    # unspecified truth region, but a generic prediction does not satisfy a
+    # specifically typed truth region.
+    two_rows_back: list[int] | None = None
+    previous = list(range(len(expected_tokens) + 1))
+    for predicted_index, predicted in enumerate(predicted_tokens, start=1):
+        current = [predicted_index]
+        for expected_index, expected in enumerate(expected_tokens, start=1):
+            substitution = previous[expected_index - 1] + (
+                not _state_tokens_compatible(predicted, expected)
+            )
+            insertion = current[expected_index - 1] + 1
+            deletion = previous[expected_index] + 1
+            distance = min(substitution, insertion, deletion)
+            if (
+                predicted_index >= 2
+                and expected_index >= 2
+                and two_rows_back is not None
+                and tuple(predicted_tokens[predicted_index - 2 : predicted_index])
+                in _ANCHOR_IUPAC_SHORTHANDS
+                and tuple(expected_tokens[expected_index - 2 : expected_index])
+                == _ANCHOR_PLACEHOLDER_SPAN
+            ):
+                distance = min(
+                    distance,
+                    two_rows_back[expected_index - 2],
+                )
+            current.append(distance)
+        two_rows_back, previous = previous, current
+    return max(0.0, 1.0 - previous[-1] / denominator)
+
+
+def _state_tokens_compatible(predicted: str, expected: str) -> bool:
+    if predicted == expected:
+        return True
+    if expected == "<VARIABLE>":
+        return predicted.startswith("<") and predicted.endswith(">")
+    if expected == "[VARIABLE]":
+        return predicted.startswith("[") and predicted.endswith("]")
+    return False
 
 
 def _segment_value(segment: dict[str, Any]) -> str:
@@ -1745,6 +2749,8 @@ def _segment_value(segment: dict[str, Any]) -> str:
 def _architecture_similarity(
     prediction: dict[str, Any], truth: dict[str, Any]
 ) -> float:
+    # Only controlled structural fields affect reward. Free-text physical-state
+    # and property descriptions remain available as diagnostics below.
     scores = [
         float(
             prediction.get("strand_architecture") == truth.get("strand_architecture")
@@ -1759,12 +2765,21 @@ def _architecture_similarity(
             [item.get("molecule_type", "") for item in prediction.get("strands", [])],
             [item.get("molecule_type", "") for item in truth.get("strands", [])],
         ),
-        _name_similarity(
-            prediction.get("physical_state", ""), truth.get("physical_state", "")
-        ),
-        _multiset_f1(prediction.get("properties", []), truth.get("properties", [])),
     ]
     return sum(scores) / len(scores)
+
+
+def _state_metadata_diagnostics(
+    prediction: dict[str, Any], truth: dict[str, Any]
+) -> dict[str, float]:
+    return {
+        "physical_state_similarity": _name_similarity(
+            prediction.get("physical_state", ""), truth.get("physical_state", "")
+        ),
+        "properties_f1": _multiset_f1(
+            prediction.get("properties", []), truth.get("properties", [])
+        ),
+    }
 
 
 def _strand_collection_similarity(
@@ -1772,6 +2787,7 @@ def _strand_collection_similarity(
     truth: dict[str, Any],
     *,
     scorable_only: bool,
+    allow_reverse_complement: bool = False,
 ) -> float:
     predicted = list(prediction.get("strands", []))
     expected = [
@@ -1787,28 +2803,79 @@ def _strand_collection_similarity(
             predicted, neutral, _strand_similarity
         )
     scores = [
-        [_strand_similarity(left, right) for right in expected] for left in predicted
+        [
+            _strand_similarity(
+                left,
+                right,
+                allow_reverse_complement=allow_reverse_complement,
+            )
+            for right in expected
+        ]
+        for left in predicted
     ]
     matches = best_one_to_one_matching(scores)
     return _soft_prf(sum(item[2] for item in matches), len(predicted), len(expected))[2]
 
 
-def _strand_similarity(prediction: dict[str, Any], truth: dict[str, Any]) -> float:
+def _strand_similarity(
+    prediction: dict[str, Any],
+    truth: dict[str, Any],
+    *,
+    allow_reverse_complement: bool = False,
+) -> float:
+    direct = _strand_similarity_in_orientation(
+        prediction,
+        truth,
+        reverse_complement=False,
+    )
+    if not allow_reverse_complement:
+        return direct
+    return max(
+        direct,
+        _strand_similarity_in_orientation(
+            prediction,
+            truth,
+            reverse_complement=True,
+        ),
+    )
+
+
+def _strand_similarity_in_orientation(
+    prediction: dict[str, Any],
+    truth: dict[str, Any],
+    *,
+    reverse_complement: bool,
+) -> float:
     predicted_segments = prediction.get("segments", [])
-    truth_segments = truth.get("segments", [])
+    truth_segments = list(truth.get("segments", []))
+    if reverse_complement:
+        truth_segments.reverse()
     position_scores: list[float] = []
     for left, right in zip(predicted_segments, truth_segments):
-        sequence_score = edit_similarity(
-            _sequence_value(_segment_value(left)),
-            _sequence_value(_segment_value(right)),
-        )
-        role_score = _name_similarity(left.get("role", ""), right.get("role", ""))
+        predicted_tokens = _sequence_value(_segment_value(left))
+        truth_tokens = _sequence_value(_segment_value(right))
+        if reverse_complement:
+            reverse_tokens = _reverse_complement_state_tokens(truth_tokens)
+            sequence_score = (
+                _state_sequence_similarity(predicted_tokens, reverse_tokens)
+                if reverse_tokens is not None
+                else 0.0
+            )
+        else:
+            sequence_score = _state_sequence_similarity(
+                predicted_tokens,
+                truth_tokens,
+            )
+        expected_structural_role = str(right.get("structural_role", ""))
+        if reverse_complement:
+            expected_structural_role = {
+                "five_prime_overhang": "three_prime_overhang",
+                "three_prime_overhang": "five_prime_overhang",
+            }.get(expected_structural_role, expected_structural_role)
         structural_score = float(
-            left.get("structural_role") == right.get("structural_role")
+            left.get("structural_role") == expected_structural_role
         )
-        position_scores.append(
-            0.50 * sequence_score + 0.25 * role_score + 0.25 * structural_score
-        )
+        position_scores.append(0.75 * sequence_score + 0.25 * structural_score)
     segment_score = _soft_prf(
         sum(position_scores), len(predicted_segments), len(truth_segments)
     )[2]
@@ -1878,15 +2945,68 @@ def _pairing_and_discontinuity_similarity(
 def _pairing_descriptors(state: dict[str, Any], *, support: str | None) -> list[str]:
     strands = {item["strand_id"]: item for item in state.get("strands", [])}
     segment_values = {
-        segment["segment_id"]: f"{segment.get('role', '')}:{_segment_value(segment)}"
+        segment["segment_id"]: (
+            f"{segment.get('structural_role', '')}:"
+            + normalize_sequence(_segment_value(segment))
+        )
         for strand in state.get("strands", [])
         for segment in strand.get("segments", [])
     }
-    result: list[str] = []
+    selected_regions: list[dict[str, Any]] = []
     for region in state.get("paired_regions", []):
         if support == "scorable" and not _supported(region):
             continue
         if support == "neutral" and _supported(region):
+            continue
+        selected_regions.append(region)
+
+    # Region records are a serialization choice.  When several records cover
+    # one continuous duplex, compare the relationship and complete paired
+    # coverage once instead of penalizing one-side partition boundaries.  A
+    # missing paired segment still prevents this collapse and remains visible
+    # through the ordinary region descriptors below.
+    grouped: dict[tuple[str, tuple[str, str]], list[dict[str, Any]]] = defaultdict(list)
+    for region in selected_regions:
+        strand_pair = tuple(
+            sorted((region["side_1"]["strand_id"], region["side_2"]["strand_id"]))
+        )
+        grouped[(str(region.get("relationship", "")), strand_pair)].append(region)
+
+    complete_groups: set[tuple[str, tuple[str, str]]] = set()
+    result: list[str] = []
+    for group_key, regions in grouped.items():
+        relationship, strand_pair = group_key
+        covered: dict[str, set[str]] = {strand_id: set() for strand_id in strand_pair}
+        for region in regions:
+            for side_key in ("side_1", "side_2"):
+                side = region[side_key]
+                covered.setdefault(side["strand_id"], set()).update(side["segment_ids"])
+        expected = {
+            strand_id: {
+                segment["segment_id"]
+                for segment in strands.get(strand_id, {}).get("segments", [])
+                if segment.get("structural_role") == "paired_region"
+            }
+            for strand_id in strand_pair
+        }
+        if all(
+            expected[strand_id] and covered[strand_id] == expected[strand_id]
+            for strand_id in strand_pair
+        ):
+            complete_groups.add(group_key)
+            molecule_types = sorted(
+                str(strands.get(strand_id, {}).get("molecule_type", ""))
+                for strand_id in strand_pair
+            )
+            result.append(
+                f"complete_paired_coverage:{relationship}:" + "<>".join(molecule_types)
+            )
+
+    for region in selected_regions:
+        strand_pair = tuple(
+            sorted((region["side_1"]["strand_id"], region["side_2"]["strand_id"]))
+        )
+        if (str(region.get("relationship", "")), strand_pair) in complete_groups:
             continue
         sides: list[str] = []
         for key in ("side_1", "side_2"):
@@ -1904,7 +3024,10 @@ def _discontinuity_descriptors(
     state: dict[str, Any], *, support: str | None
 ) -> list[str]:
     segment_values = {
-        segment["segment_id"]: f"{segment.get('role', '')}:{_segment_value(segment)}"
+        segment["segment_id"]: (
+            f"{segment.get('structural_role', '')}:"
+            + normalize_sequence(_segment_value(segment))
+        )
         for strand in state.get("strands", [])
         for segment in strand.get("segments", [])
     }
@@ -1939,6 +3062,46 @@ def _transition_similarity(
     return sum(TRANSITION_WEIGHTS[key] * value for key, value in dimensions.items())
 
 
+def _transition_assignment_similarity(
+    prediction: dict[str, Any],
+    truth: dict[str, Any],
+    *,
+    state_map: dict[str, str],
+    predicted_oligos: Mapping[str, dict[str, Any]],
+    truth_oligos: Mapping[str, dict[str, Any]],
+) -> float:
+    """Align events by molecular identity before adjacent-state boundaries.
+
+    A handling transition can share a canonical event's product after one
+    graph folds cleanup into the event.  Operation identity, or a scorable
+    physical-oligo identity when the event has one, therefore receives a
+    bounded tie-break.  The ordinary scientific score remains the reward after
+    assignment, so this changes close alignments without overriding a
+    materially better topology match.
+    """
+
+    dimensions = _transition_dimensions(
+        prediction,
+        truth,
+        state_map=state_map,
+        predicted_oligos=predicted_oligos,
+        truth_oligos=truth_oligos,
+    )
+    scientific_score = sum(
+        TRANSITION_WEIGHTS[key] * value for key, value in dimensions.items()
+    )
+    identity_scores = [dimensions["operation"]]
+    if any(
+        oligo_id in truth_oligos and _oligo_is_scorable(truth_oligos[oligo_id])
+        for oligo_id in truth.get("oligo_ids", [])
+    ):
+        identity_scores.append(dimensions["oligos"])
+    event_identity = max(identity_scores, default=0.0)
+    return (scientific_score + _TRANSITION_IDENTITY_TIE_BREAK * event_identity) / (
+        1.0 + _TRANSITION_IDENTITY_TIE_BREAK
+    )
+
+
 def _transition_dimensions(
     prediction: dict[str, Any],
     truth: dict[str, Any],
@@ -1948,7 +3111,10 @@ def _transition_dimensions(
     truth_oligos: Mapping[str, dict[str, Any]],
 ) -> dict[str, float]:
     return {
-        "operation": float(prediction.get("operation") == truth.get("operation")),
+        "operation": _operation_similarity(
+            str(prediction.get("operation", "")),
+            str(truth.get("operation", "")),
+        ),
         "substrates": _mapped_set_f1(
             prediction.get("substrate_state_ids", []),
             set(truth.get("substrate_state_ids", [])),
@@ -1981,6 +3147,18 @@ def _transition_dimensions(
     }
 
 
+def _operation_similarity(prediction: str, truth: str) -> float:
+    """Compare controlled molecular operations using published equivalences."""
+
+    if prediction == truth:
+        return 1.0
+    if any(
+        prediction in group and truth in group for group in _EQUIVALENT_OPERATION_GROUPS
+    ):
+        return 1.0
+    return 0.0
+
+
 def _transition_oligo_sequence_f1(
     predicted_ids: Iterable[str],
     truth_ids: Iterable[str],
@@ -2000,7 +3178,7 @@ def _transition_oligo_sequence_f1(
         family_index
         for family_index, family in enumerate(prediction_families)
         if any(
-            _prediction_family_similarity(
+            _prediction_family_sequence_similarity(
                 family,
                 predicted,
                 truth[index],
@@ -2010,7 +3188,7 @@ def _transition_oligo_sequence_f1(
             for index in neutral_truth
         )
         and not any(
-            _prediction_family_similarity(
+            _prediction_family_sequence_similarity(
                 family,
                 predicted,
                 truth[index],
@@ -2027,7 +3205,7 @@ def _transition_oligo_sequence_f1(
     ]
     scores = [
         [
-            _prediction_family_similarity(
+            _prediction_family_sequence_similarity(
                 prediction_families[family_index],
                 predicted,
                 truth[index],
@@ -2050,7 +3228,7 @@ def _transition_oligo_sequence_f1(
     neutralized_families: set[int] = set(pre_neutralized_families)
     for family_index in set(range(len(prediction_families))) - matched_families:
         if any(
-            _prediction_family_similarity(
+            _prediction_family_sequence_similarity(
                 prediction_families[family_index],
                 predicted,
                 truth[index],

@@ -1,0 +1,133 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/improvement/exemplar_mechanism_summary.schema.json",
+  "title": "Protocol-neutral exemplar mechanism summary",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "exemplar_id",
+    "counts",
+    "operation_counts",
+    "architecture_counts",
+    "modality_counts",
+    "graph_features",
+    "barcoding_partitioning",
+    "selection_branching",
+    "chemistry_flags",
+    "summary_digest"
+  ],
+  "properties": {
+    "schema_version": {"const": "libstruct.libgen_exemplar_mechanism_summary.v1"},
+    "exemplar_id": {"$ref": "#/$defs/exemplar_id"},
+    "counts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["oligo_families", "workflows", "states", "transitions"],
+      "properties": {
+        "oligo_families": {"type": "integer", "minimum": 0},
+        "workflows": {"type": "integer", "minimum": 0},
+        "states": {"type": "integer", "minimum": 0},
+        "transitions": {"type": "integer", "minimum": 0}
+      }
+    },
+    "operation_counts": {"$ref": "#/$defs/count_rows"},
+    "architecture_counts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["strand_architecture", "count"],
+        "properties": {
+          "strand_architecture": {"type": "string", "minLength": 1},
+          "count": {"type": "integer", "minimum": 1}
+        }
+      }
+    },
+    "modality_counts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["modality", "count"],
+        "properties": {
+          "modality": {"type": "string", "minLength": 1},
+          "count": {"type": "integer", "minimum": 1}
+        }
+      }
+    },
+    "graph_features": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["has_branching", "has_discarded_products", "has_multiple_workflows", "max_branch_factor"],
+      "properties": {
+        "has_branching": {"type": "boolean"},
+        "has_discarded_products": {"type": "boolean"},
+        "has_multiple_workflows": {"type": "boolean"},
+        "max_branch_factor": {"type": "integer", "minimum": 0}
+      }
+    },
+    "barcoding_partitioning": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["cell_barcode", "umi", "sample_index", "round_barcode", "combinatorial", "droplet_partitioning", "microwell_partitioning", "plate_partitioning", "bead_partitioning", "split_pool_partitioning"],
+      "properties": {
+        "cell_barcode": {"type": "boolean"},
+        "umi": {"type": "boolean"},
+        "sample_index": {"type": "boolean"},
+        "round_barcode": {"type": "boolean"},
+        "combinatorial": {"type": "boolean"},
+        "droplet_partitioning": {"type": "boolean"},
+        "microwell_partitioning": {"type": "boolean"},
+        "plate_partitioning": {"type": "boolean"},
+        "bead_partitioning": {"type": "boolean"},
+        "split_pool_partitioning": {"type": "boolean"}
+      }
+    },
+    "selection_branching": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["affinity_selection", "size_selection", "capture", "discarded_product_branch", "sample_split", "modality_branching", "alternative_branching"],
+      "properties": {
+        "affinity_selection": {"type": "boolean"},
+        "size_selection": {"type": "boolean"},
+        "capture": {"type": "boolean"},
+        "discarded_product_branch": {"type": "boolean"},
+        "sample_split": {"type": "boolean"},
+        "modality_branching": {"type": "boolean"},
+        "alternative_branching": {"type": "boolean"}
+      }
+    },
+    "chemistry_flags": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["reverse_transcription", "template_switching", "ligation", "tagmentation", "pcr", "restriction", "conversion"],
+      "properties": {
+        "reverse_transcription": {"type": "boolean"},
+        "template_switching": {"type": "boolean"},
+        "ligation": {"type": "boolean"},
+        "tagmentation": {"type": "boolean"},
+        "pcr": {"type": "boolean"},
+        "restriction": {"type": "boolean"},
+        "conversion": {"type": "boolean"}
+      }
+    },
+    "summary_digest": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "exemplar_id": {"type": "string", "pattern": "^exm-[a-f0-9]{32}$"},
+    "count_rows": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["operation", "count"],
+        "properties": {
+          "operation": {"type": "string", "minLength": 1},
+          "count": {"type": "integer", "minimum": 1}
+        }
+      }
+    }
+  }
+}

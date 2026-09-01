@@ -1,0 +1,54 @@
+schema_version = "1.3"
+artifacts = [
+  { source = "/logs/agent/trajectory.json", destination = "agent_trajectory.json" },
+  { source = "/logs/network/provider-egress.jsonl", destination = "provider_egress.jsonl", service = "provider-egress" }
+]
+
+[task]
+name = "sequencing/libgen-smart_seq2"
+description = "Reconstruct linked oligos and molecular library generation for SMART-seq2."
+authors = [{ name = "Seq Machines" }]
+keywords = ["genomics", "oligo", "molecular-workflow", "protocol-understanding"]
+
+[metadata]
+benchmark = "libgen"
+benchmark_version = "4.1.0"
+protocol_id = "smart_seq2"
+protocol_name = "SMART-seq2"
+input_repo = "sequencing/scg-protocols-v1"
+input_revision = "19c29caabcb019a72d08fed59ed8030a2d3c449d"
+groundtruth_repo = "sequencing/scg-oligo-groundtruth-v1"
+groundtruth_revision = "5a81714daaa87d568a0c5b62320679d34219ebf7"
+network_profile = "docker-provider-only"
+source_delivery = "embedded"
+network_policy_sha256 = "d9aaaa853d953b4eee1e2116d8b3ee7c705babcb0ab5fd7231852dea7b4df411"
+source_manifest_sha256 = "ac7fa89e50c8744773c4718e37498afad02137450cffea3bcd31faf9c17769a4"
+groundtruth_source_bundle_sha256 = "5b3ed7c3ea693476fb0d4b302dec8b546e9caea3f9fe7c88f90c4c33c498da42"
+groundtruth_bundle_sha256 = "8dda3c117232e2c310a89d058d72a32f525dbf4069e4df1a7f0fc7399fd071af"
+groundtruth_transform = "legacy_workflow_terminal_contract_to_final_outputs_v1"
+
+[agent]
+timeout_sec = 3600.0
+
+[agent.env]
+LIBGEN_PROTOCOL_ID = "smart_seq2"
+
+[verifier]
+timeout_sec = 600.0
+environment_mode = "separate"
+
+[environment]
+network_mode = "public"
+build_timeout_sec = 1800.0
+cpus = 4
+memory_mb = 8192
+storage_mb = 16384
+
+[verifier.environment]
+network_mode = "public"
+cpus = 1
+memory_mb = 2048
+storage_mb = 4096
+
+[verifier.environment.env]
+HF_TOKEN = "${HF_TOKEN:-}"

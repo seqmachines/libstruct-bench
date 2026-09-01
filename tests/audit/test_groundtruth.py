@@ -556,8 +556,28 @@ def test_t1_single_sequence_retains_biological_insert_and_links_to_t3() -> None:
     documents = _documents()
     library = documents["T1"]["libraries"][0]
     library["library_sequence"] = "AAA[CDNA]"
+    library["segments"].append(
+        {
+            "segment_id": "library-insert",
+            "kind": "biological_insert",
+            "role": "cDNA insert",
+            "placeholder": "[CDNA]",
+            "orientation": "5_to_3",
+            "oligo_derivations": [],
+            "support_status": "explicit",
+        }
+    )
     final_strand = documents["T3"]["workflows"][0]["states"][1]["strands"][0]
     final_strand["sequence_architecture"] = "AAA[CDNA]"
+    final_strand["segments"].append(
+        {
+            "segment_id": "final-insert",
+            "role": "cDNA insert",
+            "structural_role": "unpaired",
+            "placeholder": "[CDNA]",
+            "oligo_derivations": [],
+        }
+    )
 
     validate_task_document(
         "T1",
@@ -566,6 +586,100 @@ def test_t1_single_sequence_retains_biological_insert_and_links_to_t3() -> None:
         schema_dir=SCHEMAS,
     )
     validate_cross_task_links(documents)
+
+
+def test_t1_assembled_sequence_cannot_omit_a_declared_umi_segment() -> None:
+    document = _documents()["T1"]
+    document["libraries"][0]["segments"].append(
+        {
+            "segment_id": "library-umi",
+            "kind": "variable",
+            "role": "UMI",
+            "placeholder": "[UMI:10]",
+            "length": 10,
+            "orientation": "5_to_3",
+            "oligo_derivations": [],
+            "support_status": "explicit",
+        }
+    )
+
+    with pytest.raises(
+        GroundtruthValidationError, match="ordered segment projection"
+    ):
+        validate_task_document(
+            "T1",
+            document,
+            protocol_id="example_protocol",
+            schema_dir=SCHEMAS,
+        )
+
+
+def test_matching_t1_and_t3_strings_cannot_both_omit_declared_umi() -> None:
+    documents = _documents()
+    documents["T1"]["libraries"][0]["segments"].append(
+        {
+            "segment_id": "library-umi",
+            "kind": "variable",
+            "role": "UMI",
+            "placeholder": "[UMI:10]",
+            "length": 10,
+            "orientation": "5_to_3",
+            "oligo_derivations": [],
+            "support_status": "explicit",
+        }
+    )
+    final_strand = documents["T3"]["workflows"][0]["states"][1]["strands"][0]
+    final_strand["sequence_architecture"] = documents["T1"]["libraries"][0][
+        "library_sequence"
+    ]
+    final_strand["segments"].append(
+        {
+            "segment_id": "final-umi",
+            "role": "UMI",
+            "structural_role": "unpaired",
+            "placeholder": "[UMI:10]",
+            "oligo_derivations": [],
+        }
+    )
+    assert (
+        documents["T1"]["libraries"][0]["library_sequence"]
+        == final_strand["sequence_architecture"]
+    )
+
+    with pytest.raises(
+        GroundtruthValidationError, match="ordered segment projection"
+    ):
+        validate_cross_task_links(documents)
+
+
+def test_segment_projection_accepts_literal_iupac_and_modified_bases() -> None:
+    t1 = _documents()["T1"]
+    library = t1["libraries"][0]
+    library["library_sequence"] = "VN"
+    library["segments"] = [
+        {
+            "segment_id": "anchor",
+            "kind": "variable",
+            "role": "anchor",
+            "placeholder": "[ANCHOR:2]",
+            "length": 2,
+            "orientation": "5_to_3",
+            "oligo_derivations": [],
+            "support_status": "explicit",
+        }
+    ]
+    validate_task_document(
+        "T1", t1, protocol_id="example_protocol", schema_dir=SCHEMAS
+    )
+
+    t3 = _documents()["T3"]
+    strand = t3["workflows"][0]["states"][1]["strands"][0]
+    strand["sequence_architecture"] = "rGrGrG/ddC/"
+    strand["segments"][0]["sequence"] = "GGGC"
+    strand["segments"][0]["oligo_derivations"] = []
+    validate_task_document(
+        "T3", t3, protocol_id="example_protocol", schema_dir=SCHEMAS
+    )
 
 
 def test_t3_requires_explicit_five_to_three_strands() -> None:
@@ -793,6 +907,7 @@ def test_t1_segment_orientation_to_source_matches_exact_sequences() -> None:
     segment["placeholder"] = "[TN5_INDEX:8]"
     segment["oligo_derivations"][0]["orientation_to_source"] = "reverse_complement"
     oligo["sequence"] = "GAACCGCG"
+    documents["T1"]["libraries"][0]["library_sequence"] = "CGCGGTTC"
 
     validate_cross_task_links({"T1": documents["T1"], "T2": documents["T2"]})
 
@@ -955,8 +1070,12 @@ def test_terminal_matching_rejects_ambiguous_duplicate_libraries() -> None:
     _add_second_library_and_terminal_state(documents)
     second_library = documents["T1"]["libraries"][1]
     second_library["library_sequence"] = "AAA"
+    second_library["segments"][0]["sequence"] = "AAA"
     documents["T3"]["workflows"][0]["states"][2]["strands"][0][
         "sequence_architecture"
+    ] = "AAA"
+    documents["T3"]["workflows"][0]["states"][2]["strands"][0]["segments"][0][
+        "sequence"
     ] = "AAA"
 
     with pytest.raises(GroundtruthValidationError, match="matching is ambiguous"):
@@ -982,10 +1101,14 @@ def test_matching_terminal_architecture_allows_simplified_t3_segments() -> None:
 
 def test_terminal_architecture_accepts_token_aware_reverse_complement() -> None:
     documents = _documents()
-    documents["T1"]["libraries"][0]["library_sequence"] = "GA[UMI:2]C[CDNA]TT"
-    documents["T3"]["workflows"][0]["states"][1]["strands"][0][
-        "sequence_architecture"
-    ] = "AA[CDNA]G[UMI:2]TC"
+    library = documents["T1"]["libraries"][0]
+    library["library_sequence"] = "GA[UMI:2]C[CDNA]TT"
+    library["segments"][0]["sequence"] = "GA[UMI:2]C[CDNA]TT"
+    library["segments"][0]["oligo_derivations"] = []
+    strand = documents["T3"]["workflows"][0]["states"][1]["strands"][0]
+    strand["sequence_architecture"] = "AA[CDNA]G[UMI:2]TC"
+    strand["segments"][0]["sequence"] = "AA[CDNA]G[UMI:2]TC"
+    strand["segments"][0]["oligo_derivations"] = []
 
     validate_cross_task_links(documents)
 
@@ -1005,7 +1128,7 @@ def test_terminal_architecture_mismatch_is_not_hidden_by_matching_segments() -> 
         "sequence_architecture"
     ] = "CCC"
 
-    with pytest.raises(GroundtruthValidationError, match="does not match any"):
+    with pytest.raises(GroundtruthValidationError, match="ordered segment projection"):
         validate_cross_task_links(documents)
 
 
@@ -1023,6 +1146,8 @@ def test_duplex_terminal_state_links_its_reference_strand_to_t1() -> None:
     validate_cross_task_links(documents)
 
     final_state["strands"][1]["sequence_architecture"] = "CCC"
+    final_state["strands"][1]["segments"][0]["sequence"] = "CCC"
+    final_state["paired_regions"][0]["relationship"] = "documented_noncanonical"
     with pytest.raises(GroundtruthValidationError, match="does not match any"):
         validate_cross_task_links(documents)
 
@@ -1035,6 +1160,9 @@ def test_reverse_complement_candidates_keep_matching_ambiguity_strict() -> None:
     second_library["segments"][0]["sequence"] = "TTT"
     documents["T3"]["workflows"][0]["states"][2]["strands"][0][
         "sequence_architecture"
+    ] = "TTT"
+    documents["T3"]["workflows"][0]["states"][2]["strands"][0]["segments"][0][
+        "sequence"
     ] = "TTT"
 
     with pytest.raises(GroundtruthValidationError, match="matching is ambiguous"):

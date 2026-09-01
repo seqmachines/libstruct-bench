@@ -50,7 +50,23 @@ errors <- read.csv(
 
 expected_protocols <- 10L
 expected_native_protocols <- 20L
+expected_benchmark_version <- "4.5.0"
 bootstrap_replicates <- 5000L
+
+observed_versions <- sort(unique(na.omit(trials$benchmark_version)))
+native_observed_versions <- sort(unique(na.omit(native_trials$benchmark_version)))
+if (!identical(observed_versions, expected_benchmark_version) ||
+    !identical(native_observed_versions, expected_benchmark_version)) {
+  stop(sprintf(
+    paste0(
+      "Figure 3 inputs must use benchmark %s; common/native versions are ",
+      "%s / %s."
+    ),
+    expected_benchmark_version,
+    paste(observed_versions, collapse = ";"),
+    paste(native_observed_versions, collapse = ";")
+  ))
+}
 
 protocol_key <- trials %>%
   distinct(protocol_id, protocol_label, protocol_order) %>%
@@ -263,6 +279,9 @@ panel_b_heatmap_colours <- colorRampPalette(
     "#225ea8", "#0c2c84"
   )
 )(100)
+# Panel B values occupy approximately 0.4--1.0. Mapping that observed range
+# across the full palette makes protocol-level differences visually legible.
+panel_b_fill_limits <- c(0.38, 1.00)
 panel_c_heatmap_colours <- colorRampPalette(
   c(
     "#fcfdbf", "#feca8d", "#fd9668", "#e85362", "#bd3786",
@@ -304,7 +323,8 @@ metric_key <- tibble(
 
 # Frozen model identifiers and reasoning settings are taken from the preserved
 # native-CLI result configs; Gemini's High setting is encoded in its model ID.
-# The two-line labels retain the model, effort, and harness without crowding.
+# The three-line labels retain the model, effort, and harness while supporting
+# publication-sized axis text.
 native_model_key <- tibble(
   system_id = c(
     "gpt_codex", "claude_code", "gemini_antigravity", "kimi_code"
@@ -320,10 +340,10 @@ native_model_key <- tibble(
   ),
   reasoning_effort = c("Max", "Max", "High", "Max"),
   native_axis_label = c(
-    "GPT-5.6 Sol Max\nCodex",
-    "Claude Opus 5 Max\nClaude Code",
-    "Gemini 3.7 Flash High\nAntigravity CLI",
-    "Kimi K3 Max\nKimi Code"
+    "GPT-5.6 Sol\nMax\nCodex",
+    "Claude Opus 5\nMax\nClaude Code",
+    "Gemini 3.7 Flash\nHigh\nAntigravity CLI",
+    "Kimi K3\nMax\nKimi Code"
   )
 )
 if (!setequal(native_ids, native_model_key$system_id)) {
@@ -385,7 +405,8 @@ panel_a_summary <- panel_a_protocol %>%
   ungroup() %>%
   mutate(
     mean_label = sprintf("%.2f", mean_score),
-    label_y = pmin(ci_high + 0.035, 1.04)
+    label_stagger = c(0, 0.015, 0, 0.025)[metric_order],
+    label_y = pmin(ci_high + 0.04 + label_stagger, 1.08)
   ) %>%
   arrange(display_order, metric_order)
 write.csv(
@@ -433,13 +454,13 @@ panel_a <- panel_a_summary %>%
     aes(y = label_y, label = mean_label),
     position = position_dodge(width = 0.78),
     vjust = 0,
-    size = 3.0,
+    size = 3.8,
     colour = "#222222"
   ) +
   scale_fill_manual(values = metric_colours, name = NULL) +
   scale_x_discrete(labels = native_axis_labels) +
   scale_y_continuous(
-    limits = c(0, 1.06),
+    limits = c(0, 1.10),
     breaks = seq(0, 1, 0.2),
     labels = number_format(accuracy = 0.1),
     expand = expansion(mult = c(0, 0))
@@ -449,16 +470,16 @@ panel_a <- panel_a_summary %>%
     x = NULL,
     y = "Mean score"
   ) +
-  theme_classic(base_size = 9.5, base_family = "Helvetica") +
+  theme_classic(base_size = 13.5, base_family = "Helvetica") +
   theme(
-    axis.title.y = element_text(size = 10.0),
-    axis.text = element_text(size = 9.0, colour = "#222222"),
-    axis.text.x = element_text(size = 8.8, lineheight = 0.96),
-    plot.title = element_text(size = 10.5, face = "plain", colour = "#222222"),
+    axis.title.y = element_text(size = 16),
+    axis.text = element_text(size = 12.8, colour = "#222222"),
+    axis.text.x = element_text(size = 11.2, lineheight = 0.96),
+    plot.title = element_text(size = 17.5, face = "plain", colour = "#222222"),
     legend.position = "bottom",
-    legend.text = element_text(size = 7.8),
-    legend.key.width = grid::unit(3.8, "mm"),
-    legend.spacing.x = grid::unit(1.0, "mm"),
+    legend.text = element_text(size = 9.8),
+    legend.key.width = grid::unit(2.0, "mm"),
+    legend.spacing.x = grid::unit(0.2, "mm"),
     plot.margin = margin(6, 7, 3, 6)
   ) +
   guides(fill = guide_legend(nrow = 1, byrow = TRUE))
@@ -571,19 +592,19 @@ category_key <- tibble(
   category_order = 1:6,
   category_label = c(
     "Missing recoverable information",
-    "Unsupported completion",
-    "Wrong operation or target",
-    "Strand / orientation",
+    "Unsupported addition",
+    "Operation / target mismatch",
+    "Strand / orientation error",
     "Molecular-state assembly",
-    "Graph topology / disposition"
+    "Workflow topology / disposition"
   ),
   category_axis_label = c(
     "Missing recoverable\ninformation",
-    "Unsupported\ncompletion",
-    "Wrong operation\nor target",
-    "Strand /\norientation",
+    "Unsupported\naddition",
+    "Operation / target\nmismatch",
+    "Strand / orientation\nerror",
     "Molecular-state\nassembly",
-    "Graph topology /\ndisposition"
+    "Workflow topology /\ndisposition"
   )
 )
 
@@ -791,13 +812,260 @@ panel_c_annotation_colours <- list(
   )
 )
 
+# Protocol-centric companion to Panel C. Each cell is the fraction of valid
+# systems for which a protocol has at least one discrepancy in the category.
+valid_protocol_status <- trials %>%
+  filter(system_id %in% system_order, valid_completion == 1) %>%
+  group_by(protocol_id) %>%
+  summarise(valid_systems = n(), .groups = "drop")
+
+protocol_error_data <- crossing(
+  protocol_id = protocol_ids_order,
+  category = category_key$category
+) %>%
+  left_join(
+    profile_presence %>%
+      count(protocol_id, category, name = "systems_with_discrepancy"),
+    by = c("protocol_id", "category")
+  ) %>%
+  left_join(valid_protocol_status, by = "protocol_id") %>%
+  left_join(category_key, by = "category") %>%
+  mutate(
+    protocol_label = unname(protocol_labels[protocol_id]),
+    systems_with_discrepancy = replace_na(systems_with_discrepancy, 0L),
+    prevalence = systems_with_discrepancy / valid_systems,
+    analysis_mode = panel_c_mode,
+    data_status = ifelse(
+      strict_panel_ready,
+      "adjudicated benchmark-valid agent-attributed system rates",
+      "provisional unadjudicated output-discrepancy system rates"
+    ),
+    cell_label = sprintf("%.2f", prevalence)
+  )
+
+protocol_error_wide <- protocol_error_data %>%
+  select(protocol_id, category, prevalence) %>%
+  mutate(category = factor(category, levels = category_key$category)) %>%
+  pivot_wider(names_from = category, values_from = prevalence)
+protocol_error_wide <- protocol_error_wide[
+  match(protocol_ids_order, protocol_error_wide$protocol_id),
+  c("protocol_id", category_key$category),
+  drop = FALSE
+]
+protocol_error_rate_matrix <- as.matrix(
+  protocol_error_wide[, category_key$category, drop = FALSE]
+)
+storage.mode(protocol_error_rate_matrix) <- "numeric"
+rownames(protocol_error_rate_matrix) <- protocol_error_wide$protocol_id
+
+protocol_error_correlation <- cor(
+  t(protocol_error_rate_matrix), method = "pearson", use = "everything"
+)
+if (anyNA(protocol_error_correlation)) {
+  stop("Cannot cluster protocol-centric error profiles: correlation contains NA.")
+}
+protocol_error_correlation[protocol_error_correlation > 1] <- 1
+protocol_error_correlation[protocol_error_correlation < -1] <- -1
+protocol_error_cluster <- hclust(
+  as.dist(1 - protocol_error_correlation), method = "average"
+)
+protocol_error_order <- protocol_error_cluster$labels[
+  protocol_error_cluster$order
+]
+
+protocol_error_data <- protocol_error_data %>%
+  mutate(clustered_protocol_order = match(protocol_id, protocol_error_order)) %>%
+  arrange(clustered_protocol_order, category_order)
+write.csv(
+  protocol_error_data,
+  file.path(data_root, "fig3c_protocol_error_profiles.csv"),
+  row.names = FALSE,
+  na = ""
+)
+
+order_data <- bind_rows(
+  order_data,
+  tibble(
+    order_type = "protocol_error_profile",
+    position = seq_along(protocol_error_order),
+    id = protocol_error_order,
+    label = unname(protocol_labels[protocol_error_order]),
+    group = NA_character_,
+    status = "plotted"
+  )
+)
+write.csv(
+  order_data,
+  file.path(data_root, "fig3_orders.csv"),
+  row.names = FALSE,
+  na = ""
+)
+
+protocol_error_matrix <- protocol_error_rate_matrix
+rownames(protocol_error_matrix) <- unname(
+  protocol_labels[rownames(protocol_error_matrix)]
+)
+colnames(protocol_error_matrix) <- unname(
+  category_key$category_label[
+    match(colnames(protocol_error_matrix), category_key$category)
+  ]
+)
+protocol_error_numbers <- matrix(
+  sprintf("%.2f", as.numeric(protocol_error_matrix)),
+  nrow = nrow(protocol_error_matrix),
+  ncol = ncol(protocol_error_matrix),
+  dimnames = dimnames(protocol_error_matrix)
+)
+protocol_error_plot_cluster <- protocol_error_cluster
+protocol_error_plot_cluster$labels <- unname(
+  protocol_labels[protocol_error_plot_cluster$labels]
+)
+protocol_error_main <- ifelse(
+  strict_panel_ready,
+  "Fraction of valid systems with at least one agent error",
+  "Fraction of valid systems with at least one output discrepancy"
+)
+
+# Supplementary metric heatmaps use the same systems, protocols, annotation
+# scheme, and visual style as Panel B. Each metric is clustered independently
+# from its ten-protocol vector and retains the absolute 0--1 score scale.
+supp_metric_specs <- data.frame(
+  panel_key = c("t2", "state", "edge"),
+  metric_column = c(
+    "t2_required_family_f1",
+    "t3_state_f1",
+    "t3_typed_edge_f1"
+  ),
+  metric_title = c(
+    "Task 2 oligo-family F1",
+    "Task 3 molecular-state F1",
+    "Task 3 typed-edge F1"
+  ),
+  output_stem = c(
+    "fig3b_t2_heatmap",
+    "fig3b_t3_state_heatmap",
+    "fig3b_t3_typed_edge_heatmap"
+  ),
+  stringsAsFactors = FALSE
+)
+
+supp_metric_results <- list()
+supp_metric_order_rows <- list()
+for (spec_index in seq_len(nrow(supp_metric_specs))) {
+  spec <- supp_metric_specs[spec_index, ]
+  metric_column <- spec$metric_column
+  metric_data <- trials %>%
+    filter(system_id %in% panel_b_plot_ids) %>%
+    transmute(
+      system_id,
+      system_label,
+      model,
+      harness,
+      system_group,
+      protocol_id,
+      protocol_label,
+      protocol_order,
+      score = .data[[metric_column]]
+    )
+  if (nrow(metric_data) != length(panel_b_plot_ids) * expected_protocols ||
+      anyNA(metric_data$score)) {
+    stop(sprintf(
+      "Supplementary %s heatmap does not contain a complete system-protocol matrix.",
+      spec$panel_key
+    ))
+  }
+
+  metric_wide <- metric_data %>%
+    select(system_id, protocol_id, score) %>%
+    mutate(protocol_id = factor(protocol_id, levels = protocol_ids_order)) %>%
+    pivot_wider(names_from = protocol_id, values_from = score)
+  metric_wide <- metric_wide[
+    match(panel_b_plot_ids, metric_wide$system_id),
+    c("system_id", protocol_ids_order),
+    drop = FALSE
+  ]
+  metric_matrix <- as.matrix(
+    metric_wide[, protocol_ids_order, drop = FALSE]
+  )
+  storage.mode(metric_matrix) <- "numeric"
+  rownames(metric_matrix) <- metric_wide$system_id
+
+  metric_correlation <- cor(
+    t(metric_matrix), method = "pearson", use = "everything"
+  )
+  if (anyNA(metric_correlation)) {
+    stop(sprintf(
+      "Cannot cluster supplementary %s heatmap: correlation contains NA.",
+      spec$panel_key
+    ))
+  }
+  metric_correlation[metric_correlation > 1] <- 1
+  metric_correlation[metric_correlation < -1] <- -1
+  metric_cluster <- hclust(
+    as.dist(1 - metric_correlation), method = "average"
+  )
+  metric_system_order <- metric_cluster$labels[metric_cluster$order]
+
+  metric_data <- metric_data %>%
+    mutate(clustered_system_order = match(system_id, metric_system_order)) %>%
+    arrange(clustered_system_order, protocol_order)
+  write.csv(
+    metric_data,
+    file.path(data_root, paste0(spec$output_stem, ".csv")),
+    row.names = FALSE,
+    na = ""
+  )
+
+  display_matrix <- metric_matrix
+  rownames(display_matrix) <- unname(system_labels[rownames(display_matrix)])
+  colnames(display_matrix) <- unname(protocol_labels[colnames(display_matrix)])
+  display_numbers <- matrix(
+    sprintf("%.2f", as.numeric(display_matrix)),
+    nrow = nrow(display_matrix),
+    ncol = ncol(display_matrix),
+    dimnames = dimnames(display_matrix)
+  )
+  display_cluster <- metric_cluster
+  display_cluster$labels <- unname(system_labels[display_cluster$labels])
+  display_annotation <- panel_b_annotation[
+    rownames(display_matrix), , drop = FALSE
+  ]
+
+  supp_metric_results[[spec$panel_key]] <- list(
+    matrix = display_matrix,
+    numbers = display_numbers,
+    cluster = display_cluster,
+    annotation = display_annotation,
+    title = spec$metric_title,
+    output_stem = spec$output_stem
+  )
+  supp_metric_order_rows[[spec$panel_key]] <- tibble(
+    order_type = paste0("system_", spec$panel_key, "_heatmap"),
+    position = seq_along(metric_system_order),
+    id = metric_system_order,
+    label = unname(system_labels[metric_system_order]),
+    group = system_checks$system_group[
+      match(metric_system_order, system_checks$system_id)
+    ],
+    status = "plotted"
+  )
+}
+
+order_data <- bind_rows(order_data, bind_rows(supp_metric_order_rows))
+write.csv(
+  order_data,
+  file.path(data_root, "fig3_orders.csv"),
+  row.names = FALSE,
+  na = ""
+)
+
 # Write panels --------------------------------------------------------------
 panels_to_write <- trimws(strsplit(
   Sys.getenv("FIG3_PANELS", unset = "a,b,c"), ",", fixed = TRUE
 )[[1]])
 
 if ("a" %in% panels_to_write) {
-  save_ggplot_pdf(panel_a, "fig3a_native_metrics.pdf", 7.2, 4.25)
+  save_ggplot_pdf(panel_a, "fig3a_native_metrics.pdf", 6.4, 4.65)
 }
 if ("b" %in% panels_to_write) {
   grDevices::pdf(
@@ -813,7 +1081,8 @@ if ("b" %in% panels_to_write) {
     panel_b_matrix,
     color = panel_b_heatmap_colours,
     breaks = seq(
-      0, 1, length.out = length(panel_b_heatmap_colours) + 1
+      panel_b_fill_limits[1], panel_b_fill_limits[2],
+      length.out = length(panel_b_heatmap_colours) + 1
     ),
     cluster_rows = panel_b_cluster,
     cluster_cols = FALSE,
@@ -822,20 +1091,32 @@ if ("b" %in% panels_to_write) {
     border_color = "white",
     display_numbers = panel_b_numbers,
     number_color = "#1f1f1f",
-    fontsize = 9.2,
-    fontsize_row = 9.0,
-    fontsize_col = 8.6,
-    fontsize_number = 7.5,
+    fontsize = 10.5,
+    fontsize_row = 12.0,
+    fontsize_col = 9.6,
+    fontsize_number = 9.5,
     angle_col = 45,
     annotation_row = panel_b_annotation,
     annotation_colors = panel_b_annotation_colours,
     annotation_legend = TRUE,
     annotation_names_row = FALSE,
-    legend_breaks = c(0, 0.5, 1),
-    legend_labels = c("0", "0.5", "1"),
+    legend_breaks = c(0.4, 0.6, 0.8, 1.0),
+    legend_labels = c("0.4", "0.6", "0.8", "1.0"),
     main = "Task 3 molecular-transition F1",
     silent = TRUE
   )
+
+  # Enlarge the Panel B title without inheriting pheatmap's bold default.
+  main_index <- which(panel_b_heatmap$gtable$layout$name == "main")
+  if (length(main_index) != 1L) {
+    stop("Could not identify the Panel B title grob.")
+  }
+  main_grob <- panel_b_heatmap$gtable$grobs[[main_index]]
+  main_grob$gp <- grid::gpar(fontsize = 17.5, fontface = "plain")
+  panel_b_heatmap$gtable$grobs[[main_index]] <- main_grob
+  main_row <- panel_b_heatmap$gtable$layout$t[main_index]
+  panel_b_heatmap$gtable$heights[main_row] <-
+    1.5 * grid::grobHeight(main_grob)
 
   # Use white numbers on darker cells and dark numbers on lighter cells.
   matrix_index <- which(panel_b_heatmap$gtable$layout$name == "matrix")
@@ -881,10 +1162,10 @@ if ("c" %in% panels_to_write) {
     border_color = "white",
     display_numbers = panel_c_numbers,
     number_color = "#1f1f1f",
-    fontsize = 9.2,
-    fontsize_row = 9.0,
-    fontsize_col = 8.6,
-    fontsize_number = 7.5,
+    fontsize = 10.5,
+    fontsize_row = 10.2,
+    fontsize_col = 9.6,
+    fontsize_number = 8.5,
     angle_col = 45,
     annotation_row = panel_c_annotation,
     annotation_colors = panel_c_annotation_colours,
@@ -916,6 +1197,133 @@ if ("c" %in% panels_to_write) {
   grid::grid.draw(panel_c_heatmap$gtable)
   grDevices::dev.off()
 }
+if ("p" %in% panels_to_write) {
+  grDevices::pdf(
+    file = file.path(figure_root, "fig3c_protocol_error_profiles.pdf"),
+    width = 9.5,
+    height = 5.25,
+    family = "Helvetica",
+    paper = "special",
+    useDingbats = FALSE,
+    bg = "white"
+  )
+  protocol_error_heatmap <- pheatmap(
+    protocol_error_matrix,
+    color = panel_c_heatmap_colours,
+    breaks = seq(
+      0, 1,
+      length.out = length(panel_c_heatmap_colours) + 1
+    ),
+    cluster_rows = protocol_error_plot_cluster,
+    cluster_cols = FALSE,
+    treeheight_row = 50,
+    treeheight_col = 0,
+    border_color = "white",
+    display_numbers = protocol_error_numbers,
+    number_color = "#1f1f1f",
+    fontsize = 10.5,
+    fontsize_row = 10.2,
+    fontsize_col = 9.6,
+    fontsize_number = 8.5,
+    angle_col = 45,
+    legend_breaks = c(0, 0.5, 1),
+    legend_labels = c("0", "0.5", "1"),
+    main = protocol_error_main,
+    silent = TRUE
+  )
+
+  matrix_index <- which(protocol_error_heatmap$gtable$layout$name == "matrix")
+  matrix_grob <- protocol_error_heatmap$gtable$grobs[[matrix_index]]
+  text_child_index <- which(vapply(
+    matrix_grob$children,
+    function(child) inherits(child, "text"),
+    logical(1)
+  ))
+  if (length(text_child_index) != 1L) {
+    stop("Could not identify the protocol-centric numeric-label grob.")
+  }
+  number_grob <- matrix_grob$children[[text_child_index]]
+  number_values <- suppressWarnings(as.numeric(number_grob$label))
+  number_grob$gp$col <- ifelse(number_values >= 0.50, "white", "#1f1f1f")
+  matrix_grob$children[[text_child_index]] <- number_grob
+  protocol_error_heatmap$gtable$grobs[[matrix_index]] <- matrix_grob
+  grid::grid.newpage()
+  grid::grid.draw(protocol_error_heatmap$gtable)
+  grDevices::dev.off()
+}
+for (panel_key in intersect(
+  supp_metric_specs$panel_key, panels_to_write
+)) {
+  metric_result <- supp_metric_results[[panel_key]]
+  grDevices::pdf(
+    file = file.path(
+      figure_root, paste0(metric_result$output_stem, ".pdf")
+    ),
+    width = 11.0,
+    height = 5.25,
+    family = "Helvetica",
+    paper = "special",
+    useDingbats = FALSE,
+    bg = "white"
+  )
+  metric_heatmap <- pheatmap(
+    metric_result$matrix,
+    color = panel_b_heatmap_colours,
+    breaks = seq(
+      0, 1, length.out = length(panel_b_heatmap_colours) + 1
+    ),
+    cluster_rows = metric_result$cluster,
+    cluster_cols = FALSE,
+    treeheight_row = 50,
+    treeheight_col = 0,
+    border_color = "white",
+    display_numbers = metric_result$numbers,
+    number_color = "#1f1f1f",
+    fontsize = 10.5,
+    fontsize_row = 12.0,
+    fontsize_col = 9.6,
+    fontsize_number = 9.5,
+    angle_col = 45,
+    annotation_row = metric_result$annotation,
+    annotation_colors = panel_b_annotation_colours,
+    annotation_legend = TRUE,
+    annotation_names_row = FALSE,
+    legend_breaks = c(0, 0.5, 1),
+    legend_labels = c("0", "0.5", "1"),
+    main = metric_result$title,
+    silent = TRUE
+  )
+
+  main_index <- which(metric_heatmap$gtable$layout$name == "main")
+  if (length(main_index) != 1L) {
+    stop(sprintf("Could not identify the %s title grob.", panel_key))
+  }
+  main_grob <- metric_heatmap$gtable$grobs[[main_index]]
+  main_grob$gp <- grid::gpar(fontsize = 17.5, fontface = "plain")
+  metric_heatmap$gtable$grobs[[main_index]] <- main_grob
+  main_row <- metric_heatmap$gtable$layout$t[main_index]
+  metric_heatmap$gtable$heights[main_row] <-
+    1.5 * grid::grobHeight(main_grob)
+
+  matrix_index <- which(metric_heatmap$gtable$layout$name == "matrix")
+  matrix_grob <- metric_heatmap$gtable$grobs[[matrix_index]]
+  text_child_index <- which(vapply(
+    matrix_grob$children,
+    function(child) inherits(child, "text"),
+    logical(1)
+  ))
+  if (length(text_child_index) != 1L) {
+    stop(sprintf("Could not identify the %s numeric-label grob.", panel_key))
+  }
+  number_grob <- matrix_grob$children[[text_child_index]]
+  number_values <- suppressWarnings(as.numeric(number_grob$label))
+  number_grob$gp$col <- ifelse(number_values >= 0.68, "white", "#1f1f1f")
+  matrix_grob$children[[text_child_index]] <- number_grob
+  metric_heatmap$gtable$grobs[[matrix_index]] <- matrix_grob
+  grid::grid.newpage()
+  grid::grid.draw(metric_heatmap$gtable)
+  grDevices::dev.off()
+}
 
 # Validation summary --------------------------------------------------------
 system_checks <- system_checks %>%
@@ -936,6 +1344,10 @@ write.csv(
 
 validation_lines <- c(
   "Figure 3 validation summary",
+  sprintf(
+    "Verifier benchmark version: %s (immutable rescore sidecars).",
+    expected_benchmark_version
+  ),
   sprintf(
     "Panel A: %d native systems across %d protocols; Panel B: %d systems across %d common protocols; Panel C: %d systems across the same protocols.",
     length(native_ids), expected_native_protocols,
@@ -998,6 +1410,16 @@ validation_lines <- c(
     nrow(profile_presence),
     sum(valid_review_status$review_complete, na.rm = TRUE),
     length(system_order)
+  ),
+  paste0(
+    "Protocol-centric companion: 10 protocols across 10 valid systems; cells are ",
+    "affected-system fractions; correlation distance (1 - Pearson r); average ",
+    "linkage; row dendrogram shown."
+  ),
+  paste0(
+    "Supplementary metric heatmaps: Task 2 family, Task 3 state, and Task 3 ",
+    "typed-edge F1; 9 Figure 3b systems across 10 protocols; independent ",
+    "correlation-distance clustering; fixed 0-1 scales."
   ),
   "Panel D: omitted from the current figure set."
 )

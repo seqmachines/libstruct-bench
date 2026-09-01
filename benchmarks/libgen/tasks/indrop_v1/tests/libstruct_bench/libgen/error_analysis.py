@@ -31,6 +31,7 @@ BENCHMARK_VALIDITY_VALUES = (
     "source_scope_mismatch",
     "ground_truth_defect",
     "policy_ambiguity",
+    "source_conflict",
     "evaluator_defect",
     "unresolved",
 )
@@ -47,6 +48,7 @@ PROCESS_CAUSES = (
     "evidence_retrieved_but_misinterpreted",
     "molecular_or_strand_reasoning_error",
     "graph_abstraction_error",
+    "context_or_time_limitation",
     "output_bookkeeping_error",
     "unresolved",
 )
@@ -331,6 +333,7 @@ def summarize_error_analysis(document: Mapping[str, Any]) -> dict[str, Any]:
         "source_scope_mismatch",
         "ground_truth_defect",
         "policy_ambiguity",
+        "source_conflict",
         "evaluator_defect",
     }
     return {
@@ -420,7 +423,7 @@ def _scoring_consistency_observations(
         entity_type="oligo_family_scoring",
         prediction_key="prediction_oligo_id",
         groundtruth_key="groundtruth_oligo_id",
-        score_key="sequence_score",
+        score_key="score",
         location_prefix="T2/oligo_families",
         affected_metrics=_T2_AFFECTED_METRICS,
     )
@@ -737,7 +740,48 @@ def _t2_observations(
                 ),
                 substantive=not evaluator_candidate,
             )
-        orientation_score = (match.get("dimension_scores") or {}).get("orientation")
+        dimension_scores = match.get("dimension_scores") or {}
+        for dimension, category, summary, signal in (
+            (
+                "modifications",
+                "molecular_state_or_assembly_error",
+                f"Oligo family {groundtruth_id!r} has different positional chemistry or modifications.",
+                "canonical_modification_f1",
+            ),
+            (
+                "kind",
+                "molecular_state_or_assembly_error",
+                f"Oligo family {groundtruth_id!r} has the wrong molecular kind or assembly declaration.",
+                "kind_accuracy",
+            ),
+            (
+                "role",
+                "workflow_or_topology_error",
+                f"Oligo family {groundtruth_id!r} has a different controlled functional role.",
+                "controlled_role_f1",
+            ),
+        ):
+            dimension_score = dimension_scores.get(dimension)
+            if not _below_one(dimension_score):
+                continue
+            _append_observation(
+                observations,
+                task="T2",
+                category=category,
+                entity_type="oligo_family",
+                prediction_id=prediction_id,
+                groundtruth_id=groundtruth_id,
+                matched_score=float(dimension_score),
+                location=f"T2/oligo_families/{groundtruth_id}/{dimension}",
+                summary=summary,
+                signals=[f"{signal}={dimension_score:.6f}"],
+                affected_metrics=_T2_AFFECTED_METRICS,
+                recoverability="recoverable",
+                source_support_status=support,
+                substantive=True,
+            )
+
+        orientation_score = dimension_scores.get("orientation")
         if orientation_score == 0.0:
             _append_observation(
                 observations,
@@ -752,7 +796,7 @@ def _t2_observations(
                     f"Oligo family {groundtruth_id!r} has the wrong stated orientation."
                 ),
                 signals=["orientation_accuracy=0"],
-                affected_metrics=["diagnostic:t2_orientation_accuracy"],
+                affected_metrics=_T2_AFFECTED_METRICS,
                 recoverability="recoverable",
                 source_support_status=support,
                 substantive=True,

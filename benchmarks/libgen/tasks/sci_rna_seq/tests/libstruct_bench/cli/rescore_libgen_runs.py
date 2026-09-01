@@ -7,9 +7,17 @@ from collections import defaultdict
 from pathlib import Path
 from typing import Any, Iterable
 
+from libstruct_bench.audit.connected_process import (
+    ConnectedProcessMigrationError,
+    migrate_connected_process_bundle,
+)
 from libstruct_bench.cli.grade_libgen import GROUNDTRUTH_FILENAMES
 from libstruct_bench.cli.grade_libgen import main as grade_main
 from libstruct_bench.libgen.scoring import LIBGEN_PUBLIC_METRIC_KEYS
+from libstruct_bench.libgen.validation import (
+    LibgenValidationError,
+    validate_groundtruth_bundle,
+)
 from libstruct_bench.libgen.version import LIBGEN_BENCHMARK_VERSION
 
 
@@ -43,15 +51,18 @@ def main(argv: list[str] | None = None) -> int:
             + ", ".join(str(path) for path in existing[:5])
         )
 
+    single_trial_root = len(trials) == 1 and next(iter(trials)) == runs_root
     by_job: dict[Path, list[dict[str, Any]]] = defaultdict(list)
     for trial, result in trials.items():
         protocol_id = _protocol_id(result, trial)
-        truth_dir = groundtruth_root / protocol_id
-        truth_paths = {
-            task: truth_dir / filename
+        source_truth_dir = groundtruth_root / protocol_id
+        source_truth_paths = {
+            task: source_truth_dir / filename
             for task, filename in GROUNDTRUTH_FILENAMES.items()
         }
-        missing_truth = [path for path in truth_paths.values() if not path.is_file()]
+        missing_truth = [
+            path for path in source_truth_paths.values() if not path.is_file()
+        ]
         if missing_truth:
             raise FileNotFoundError(
                 f"{protocol_id} is missing local ground truth: {missing_truth[0]}"
@@ -59,6 +70,16 @@ def main(argv: list[str] | None = None) -> int:
 
         output = targets[trial]
         output.mkdir(parents=True)
+        truth_dir, groundtruth_transform = _prepare_groundtruth(
+            protocol_id=protocol_id,
+            source_paths=source_truth_paths,
+            schema_root=schema_root,
+            output_root=output,
+        )
+        truth_paths = {
+            task: truth_dir / filename
+            for task, filename in GROUNDTRUTH_FILENAMES.items()
+        }
         t2_prediction = _prediction_path(trial, "t2_prediction.json")
         t3_prediction = _prediction_path(trial, "t3_prediction.json")
         trajectory = _trajectory_path(trial)
@@ -112,13 +133,19 @@ def main(argv: list[str] | None = None) -> int:
                 if original_reward is not None
                 else None
             ),
+            "groundtruth_transform": groundtruth_transform,
             "output_dir": str(output),
         }
         by_job[trial.parent].append(record)
 
     for job, records in sorted(by_job.items()):
-        summary_dir = job / "rescore" / version_label
-        summary_dir.mkdir(parents=True, exist_ok=False)
+        summary_dir = (
+            targets[next(iter(trials))]
+            if single_trial_root
+            else job / "rescore" / version_label
+        )
+        if not single_trial_root:
+            summary_dir.mkdir(parents=True, exist_ok=False)
         summary = _summary(job, records)
         _write_json(summary_dir / "summary.json", summary)
         print(summary_dir / "summary.json")
@@ -192,6 +219,38 @@ def _summary(job: Path, records: list[dict[str, Any]]) -> dict[str, Any]:
             "result.json files are unchanged"
         ),
     }
+
+
+def _prepare_groundtruth(
+    *,
+    protocol_id: str,
+    source_paths: dict[str, Path],
+    schema_root: Path,
+    output_root: Path,
+) -> tuple[Path, str]:
+    documents = {task: _load_object(path) for task, path in source_paths.items()}
+    try:
+        validate_groundtruth_bundle(
+            documents,
+            protocol_id=protocol_id,
+            schema_root=schema_root,
+        )
+    except LibgenValidationError as original_error:
+        try:
+            effective = migrate_connected_process_bundle(documents)
+            validate_groundtruth_bundle(
+                effective,
+                protocol_id=protocol_id,
+                schema_root=schema_root,
+            )
+        except (ConnectedProcessMigrationError, LibgenValidationError) as error:
+            raise original_error from error
+        effective_root = output_root / "effective_groundtruth"
+        effective_root.mkdir()
+        for task, filename in GROUNDTRUTH_FILENAMES.items():
+            _write_json(effective_root / filename, effective[task])
+        return effective_root, "legacy_workflow_terminal_contract_to_final_outputs_v1"
+    return next(iter(source_paths.values())).parent, "none"
 
 
 def _mean_metrics(documents: Iterable[dict[str, Any]]) -> dict[str, float]:

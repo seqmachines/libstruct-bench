@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/improvement/lineage_restart.schema.json",
+  "title": "In-place capability lineage restart record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "restart_id",
+    "restarted_at",
+    "reason",
+    "prior_experiment_digest",
+    "prior_experiment_manifest_sha256",
+    "prior_active_checkpoint_ids",
+    "archived_root",
+    "archived_artifact_count",
+    "archived_artifacts",
+    "history_eligibility",
+    "new_initial_pack_digest",
+    "new_initial_pack_manifest_sha256",
+    "new_active_start",
+    "supersession_rebase_root",
+    "restart_digest"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "libstruct.libgen_capability_lineage_restart.v1"
+    },
+    "restart_id": {"$ref": "#/$defs/id"},
+    "restarted_at": {"type": "string", "format": "date-time"},
+    "reason": {
+      "const": "replace_the_current_orchestration_in_place_with_deterministic_learning_controls"
+    },
+    "prior_experiment_digest": {"$ref": "#/$defs/sha256"},
+    "prior_experiment_manifest_sha256": {"$ref": "#/$defs/sha256"},
+    "prior_active_checkpoint_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^[AH](?:5|10|15|20|25|30)$"}
+    },
+    "archived_root": {
+      "const": "history/superseded/pre-deterministic-rewrite/root"
+    },
+    "archived_artifact_count": {"type": "integer", "minimum": 1},
+    "archived_artifacts": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/artifact"}
+    },
+    "history_eligibility": {"const": "immutable_pilot_history_only"},
+    "new_initial_pack_digest": {"$ref": "#/$defs/sha256"},
+    "new_initial_pack_manifest_sha256": {"$ref": "#/$defs/sha256"},
+    "new_active_start": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["S0", "A0", "H0", "byte_identical"],
+      "properties": {
+        "S0": {"const": "packs/S0"},
+        "A0": {"const": "packs/A0"},
+        "H0": {"const": "packs/H0"},
+        "byte_identical": {"const": true}
+      }
+    },
+    "supersession_rebase_root": {
+      "const": "history/superseded/pre-deterministic-rewrite/root"
+    },
+    "restart_digest": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 240,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+    },
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "path": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[^\\u0000]+$"
+    },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"$ref": "#/$defs/path"},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  }
+}

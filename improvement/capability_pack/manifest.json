@@ -1,0 +1,216 @@
+{
+  "editable_roots": [
+    "PLAYBOOK.md",
+    "checklists",
+    "schemas",
+    "tools",
+    "synthetic_tests"
+  ],
+  "files": [
+    {
+      "mode": "0444",
+      "path": "PLAYBOOK.md",
+      "sha256": "38c39fa11a8f41408bbc44bd338ba494e79a0f9a878b3521a3e7177cae885f34",
+      "size_bytes": 3903
+    },
+    {
+      "mode": "0444",
+      "path": "adapters/codex.md",
+      "sha256": "8443c08bf3f191430379038d3fada95fe5b7ed1501d0ba05421c7a81468fa173",
+      "size_bytes": 1113
+    },
+    {
+      "mode": "0444",
+      "path": "checklists/evidence_ledger.md",
+      "sha256": "58452cb16a557320a2e5617a75ef4ebca2cd8c868fb38125ca754224959856c6",
+      "size_bytes": 1104
+    },
+    {
+      "mode": "0444",
+      "path": "checklists/final_graph_audit.md",
+      "sha256": "fa227e682085601971b8100a60452c871dee7dd5e526ea9fdceca6a9ada7cf60",
+      "size_bytes": 853
+    },
+    {
+      "mode": "0444",
+      "path": "checklists/state_conservation.md",
+      "sha256": "51f1dc44a23002b0eb6aac2c461b2178f7e80cb163485f0e00ec3c55bc90e13e",
+      "size_bytes": 750
+    },
+    {
+      "mode": "0444",
+      "path": "checklists/transition_accounting.md",
+      "sha256": "79fc571ff7836f5c10c68cd12026f41cba4957bc977eafe2ab7f96560232ca71",
+      "size_bytes": 751
+    },
+    {
+      "mode": "0444",
+      "path": "schemas/audit_report.schema.json",
+      "sha256": "72459cf3c19a1f81bca7b0e0c6bf02418d09804f02c9b791e234b55a9288c73c",
+      "size_bytes": 1486
+    },
+    {
+      "mode": "0444",
+      "path": "schemas/control_index.schema.json",
+      "sha256": "fa5670455295da53978f2b34ba1b2829df63494f27fa14017f41e5eff5531979",
+      "size_bytes": 2218
+    },
+    {
+      "mode": "0444",
+      "path": "schemas/synthetic_suite.schema.json",
+      "sha256": "9ee2fa4e06c5a7622fc3502cea987c555a3c0be30f889a2d36251ecb074e65db",
+      "size_bytes": 1629
+    },
+    {
+      "mode": "0444",
+      "path": "schemas/work_record.schema.json",
+      "sha256": "a33d4d853b22c2045265310b901774585b38f2ea8eb096d0abb82b4be7533434",
+      "size_bytes": 1081
+    },
+    {
+      "mode": "0444",
+      "path": "synthetic_tests/README.md",
+      "sha256": "a7ab4adc892341cb86ecc9c727cc6c0cbd43751f65bd0f0206c1cee162db55c9",
+      "size_bytes": 721
+    },
+    {
+      "mode": "0444",
+      "path": "synthetic_tests/boundary/excluded_inventory_work_record.json",
+      "sha256": "c3d17e05e0fed1081c2806a14149951273dd952ca1fa866b30db67bd8c44fa4c",
+      "size_bytes": 1186
+    },
+    {
+      "mode": "0444",
+      "path": "synthetic_tests/invalid/empty_t2.json",
+      "sha256": "7df57e13bb140c017f54e486b2a901c505b3356f2564707388616422d4576932",
+      "size_bytes": 58
+    },
+    {
+      "mode": "0444",
+      "path": "synthetic_tests/invalid/malformed_work_record.json",
+      "sha256": "4a5b9fcc70bbea571188d07ac4fbaaed0dd529f6f2f0bcafac1fa6c1976c7f3d",
+      "size_bytes": 133
+    },
+    {
+      "mode": "0444",
+      "path": "synthetic_tests/invalid/product_conservation_t3.json",
+      "sha256": "c71a742f17a4e4182e3468a5d016592f3fefd99da831ac0fb315b44bf83a0492",
+      "size_bytes": 1509
+    },
+    {
+      "mode": "0444",
+      "path": "synthetic_tests/invalid/strand_pairing_t3.json",
+      "sha256": "13ef3c426928b211a8a6d91a306ea31043610e28cc85ceaeba4e3649bbcfd886",
+      "size_bytes": 1331
+    },
+    {
+      "mode": "0444",
+      "path": "synthetic_tests/invalid/typed_edges_t3.json",
+      "sha256": "1b500b747cf5b8379eccefd32e9be97f662483f53e3b4a80d34067972c2b0a96",
+      "size_bytes": 1527
+    },
+    {
+      "mode": "0444",
+      "path": "synthetic_tests/invalid/unreachable_terminal_t3.json",
+      "sha256": "18b04586e965025d85ae00b201e23d36a1c16cd19635ef63c36e358b117a7bef",
+      "size_bytes": 1217
+    },
+    {
+      "mode": "0444",
+      "path": "synthetic_tests/invalid/unsupported_ledger.json",
+      "sha256": "bc3c7e882ccb1b5dc0b83461c31ba435547016f2e0a79e0294ba87b06d8e2131",
+      "size_bytes": 254
+    },
+    {
+      "mode": "0444",
+      "path": "synthetic_tests/suite.json",
+      "sha256": "7a982a930ab2a39064ff0a5bc67494aa9948e08d05ae0d4962ad5708ece8bc26",
+      "size_bytes": 5858
+    },
+    {
+      "mode": "0444",
+      "path": "synthetic_tests/valid/evidence_ledger.json",
+      "sha256": "65710a5d102757615eba5e153bb716bf3e299cbb04595217682d718f937968db",
+      "size_bytes": 3317
+    },
+    {
+      "mode": "0444",
+      "path": "synthetic_tests/valid/t2.json",
+      "sha256": "20c4fcc7392692189fa390fd16c256b94ea455e30685e2214f9f0a744bc43d79",
+      "size_bytes": 560
+    },
+    {
+      "mode": "0444",
+      "path": "synthetic_tests/valid/t3.json",
+      "sha256": "78cade269e7d3ed2c48410b3f4c3d08c80a57575886118b50857540454314fcd",
+      "size_bytes": 3111
+    },
+    {
+      "mode": "0444",
+      "path": "synthetic_tests/valid/work_record.json",
+      "sha256": "06382e054d263ffcf7e21d81c510b8054b554261fb7e39bc7ebf73ae4b649a80",
+      "size_bytes": 11542
+    },
+    {
+      "mode": "0555",
+      "path": "tools/_common.py",
+      "sha256": "0fd7dfff4b8738438949a08d3629dfecd5502ab184eb31d872bcc792df0f0804",
+      "size_bytes": 4542
+    },
+    {
+      "mode": "0444",
+      "path": "tools/audit_predictions.py",
+      "sha256": "ffaca708861458fcaa4e19797f463b58f234d25d1b2ad2ea686f071ad06a2195",
+      "size_bytes": 18332
+    },
+    {
+      "mode": "0555",
+      "path": "tools/check_product_conservation.py",
+      "sha256": "fd881690047605c71203899cd81a3d922765ec90b2ed92d956075093ebcc8a03",
+      "size_bytes": 3280
+    },
+    {
+      "mode": "0555",
+      "path": "tools/check_strand_pairing.py",
+      "sha256": "cd235521af2be47ea401b743ac855310f3f8106d7ce0259e2aed5af271e7c9d2",
+      "size_bytes": 5603
+    },
+    {
+      "mode": "0555",
+      "path": "tools/check_typed_edges.py",
+      "sha256": "649920005df1cc262e557a581713e3f7506650be4e8fedcae6a1a567ab57a10d",
+      "size_bytes": 3315
+    },
+    {
+      "mode": "0555",
+      "path": "tools/check_unsupported_completion.py",
+      "sha256": "26da13acff7910175ab60af03f5c2b348e829c5c87e011c6e2149775ffb0f1c8",
+      "size_bytes": 3291
+    },
+    {
+      "mode": "0444",
+      "path": "tools/compile_work_record.py",
+      "sha256": "ac35ba44f85afc8932bb9fa16ad7ecf1db29e89b25a062dfae55474ffcae4faa",
+      "size_bytes": 4131
+    },
+    {
+      "mode": "0444",
+      "path": "tools/control_index.json",
+      "sha256": "87de262d963fe02d97aa40afc61184e3a82f8c28344af5943238a6d650f3d4a3",
+      "size_bytes": 3810
+    },
+    {
+      "mode": "0444",
+      "path": "tools/work_record.py",
+      "sha256": "8e77cc51d0c167dac4d90086cabeac67dedbed9bd35d042d79ef32d2665f0343",
+      "size_bytes": 13434
+    }
+  ],
+  "immutable_paths": [
+    "adapters/codex.md"
+  ],
+  "manifest_self_excluded": true,
+  "pack_digest": "1b9623c37eeb4fe7b933ba67b9a8f3e83c2d4b831b5e40b08f36ec5d5c5072e2",
+  "pack_kind": "model_neutral",
+  "schema_version": "libstruct.libgen_capability_pack.v1"
+}

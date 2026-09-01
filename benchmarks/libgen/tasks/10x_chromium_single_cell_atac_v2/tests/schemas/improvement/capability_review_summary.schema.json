@@ -1,0 +1,137 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/improvement/capability_review_summary.schema.json",
+  "title": "Deterministic summary of a finalized capability review",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "summary_id",
+    "proposal_digest",
+    "decision_digest",
+    "branch",
+    "batch_id",
+    "reviewer_kind",
+    "revision_round",
+    "review_state",
+    "counts",
+    "lessons",
+    "summary_digest"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "libstruct.libgen_capability_review_summary.v1"
+    },
+    "summary_id": {"$ref": "#/$defs/id"},
+    "proposal_digest": {"$ref": "#/$defs/sha256"},
+    "decision_digest": {"$ref": "#/$defs/sha256"},
+    "branch": {"const": "cumulative"},
+    "batch_id": {
+      "type": "string",
+      "enum": ["B1", "B2", "B3", "B4", "B5"]
+    },
+    "reviewer_kind": {
+      "type": "string",
+      "enum": ["independent_codex", "human"]
+    },
+    "revision_round": {"type": "integer", "minimum": 0, "maximum": 1},
+    "review_state": {
+      "type": "string",
+      "enum": ["final", "revision_requested"]
+    },
+    "counts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["proposed", "accept", "reject", "modify", "unresolved"],
+      "properties": {
+        "proposed": {"type": "integer", "minimum": 0},
+        "accept": {"type": "integer", "minimum": 0},
+        "reject": {"type": "integer", "minimum": 0},
+        "modify": {"type": "integer", "minimum": 0},
+        "unresolved": {"type": "integer", "minimum": 0}
+      }
+    },
+    "lessons": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/lesson"}
+    },
+    "summary_digest": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 240,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "lesson": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "change_id",
+        "capability_class",
+        "mutation_paths",
+        "enforcement_paths",
+        "finding_codes",
+        "residual_judgment",
+        "disposition",
+        "effect",
+        "generalized_failure_pattern",
+        "expected_invariant",
+        "reviewer_rationale",
+        "revision_instruction"
+      ],
+      "properties": {
+        "change_id": {"$ref": "#/$defs/id"},
+        "capability_class": {
+          "type": "string",
+          "enum": ["deterministic", "hybrid", "instruction_only"]
+        },
+        "mutation_paths": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "enforcement_paths": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "finding_codes": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/id"}
+        },
+        "residual_judgment": {
+          "type": ["string", "null"],
+          "minLength": 1
+        },
+        "disposition": {
+          "type": "string",
+          "enum": ["accept", "reject", "modify", "unresolved"]
+        },
+        "effect": {
+          "type": "string",
+          "enum": [
+            "candidate_bytes_accepted",
+            "parent_bytes_retained",
+            "revision_required",
+            "no_change_unresolved"
+          ]
+        },
+        "generalized_failure_pattern": {"type": "string", "minLength": 1},
+        "expected_invariant": {"type": "string", "minLength": 1},
+        "reviewer_rationale": {"type": "string", "minLength": 1},
+        "revision_instruction": {
+          "type": ["string", "null"],
+          "minLength": 1
+        }
+      }
+    }
+  }
+}

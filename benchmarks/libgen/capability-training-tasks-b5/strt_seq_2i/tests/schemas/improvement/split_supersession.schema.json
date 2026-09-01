@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/improvement/split_supersession.schema.json",
+  "title": "Direct in-place final-test split supersession",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "supersession_id",
+    "recorded_at",
+    "prior_experiment_digest",
+    "prior_panel_commitment_sha256",
+    "old_split_digest",
+    "new_split_digest",
+    "archive_root",
+    "archived_design_artifacts",
+    "archived_round_tree_digest",
+    "archived_round_file_count",
+    "completed_checkpoint_ids",
+    "human_review_state",
+    "test_isolation_audit_digest",
+    "checkpoint_reattestation_digest",
+    "history_eligibility",
+    "supersession_digest"
+  ],
+  "properties": {
+    "schema_version": {"const": "libstruct.libgen_capability_split_supersession.v1"},
+    "supersession_id": {"$ref": "#/$defs/id"},
+    "recorded_at": {"type": "string", "format": "date-time"},
+    "prior_experiment_digest": {"$ref": "#/$defs/sha256"},
+    "prior_panel_commitment_sha256": {"$ref": "#/$defs/sha256"},
+    "old_split_digest": {"$ref": "#/$defs/sha256"},
+    "new_split_digest": {"$ref": "#/$defs/sha256"},
+    "archive_root": {"type": "string", "minLength": 1},
+    "archived_design_artifacts": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/artifact"}},
+    "archived_round_tree_digest": {"oneOf": [{"$ref": "#/$defs/sha256"}, {"type": "null"}]},
+    "archived_round_file_count": {"type": "integer", "minimum": 0},
+    "completed_checkpoint_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "pattern": "^[AH](?:5|10)$"}},
+    "human_review_state": {"type": "string", "enum": ["absent", "empty_in_progress_archived_for_restage"]},
+    "test_isolation_audit_digest": {"$ref": "#/$defs/sha256"},
+    "checkpoint_reattestation_digest": {"$ref": "#/$defs/sha256"},
+    "history_eligibility": {"const": "immutable_superseded_split_history_only"},
+    "supersession_digest": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "id": {"type": "string", "minLength": 1, "maxLength": 240, "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"},
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  }
+}
