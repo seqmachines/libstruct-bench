@@ -1,7 +1,0 @@
-input_id,input_label,protocol_n,reference_sequence_n,mean_max_similarity,macro_protocol_mean,min_max_similarity,exact_n,exact_rate,nonexact_n
-human,human-verified text,5,80,1.000000,1.000000,1.000000,80,1.0000,0
-pymupdf,PyMuPDF text layer,5,80,1.000000,1.000000,1.000000,80,1.0000,0
-pypdf,pypdf text layer,5,80,1.000000,1.000000,1.000000,80,1.0000,0
-docling,Docling without OCR,5,80,1.000000,1.000000,1.000000,80,1.0000,0
-mineru,MinerU OCR,5,80,0.982209,0.979870,0.317460,71,0.8875,9
-

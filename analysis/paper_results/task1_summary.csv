@@ -1,9 +1,0 @@
-scope,model_family,paired_n,api_mean_similarity,agent_mean_similarity,agent_minus_api,api_exact_n,agent_exact_n,agent_wins,ties,api_wins,notes
-paired,Claude,12,0.788843,0.761753,-0.027090,2,3,2,7,3,API completed 12 of 20 protocols
-paired,GPT,13,0.724203,0.704347,-0.019855,2,2,1,11,1,API completed 13 of 20 protocols
-paired,Gemini,13,0.754037,0.730803,-0.023234,3,3,2,7,4,API completed 13 of 20 protocols
-paired,pooled_descriptive,38,0.754822,0.731526,-0.023296,7,8,5,25,8,Protocol observations repeat across model families
-all_agent,Claude,20,,0.806034,,0,4,,,,One coding-agent run per protocol
-all_agent,GPT,20,,0.726534,,0,2,,,,One coding-agent run per protocol
-all_agent,Gemini,20,,0.802701,,0,6,,,,One coding-agent run per protocol
-all_agent,pooled_descriptive,60,,0.778423,,0,12,,,,Protocol observations repeat across model families
