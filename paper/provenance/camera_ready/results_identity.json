@@ -1,0 +1,13 @@
+{
+  "authoritative_table": "results.csv",
+  "auxiliary_error_cost_rows": 100,
+  "completed_codex_attempts": 60,
+  "completed_task1_attempts": 180,
+  "historical_C30_preserved": true,
+  "main_panel_rows": 285,
+  "primary_t2": "macro mean over protocols with N_req > 0; zero-required separate",
+  "reference_set_id": "approved-20261010-b672aab997a2fdc0",
+  "rows": 182740,
+  "sha256": "919871c29ba8d47a6847e5550cac646876bb224f7246e6645968b70eb834609a",
+  "verifier": "4.7.0"
+}

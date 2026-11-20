@@ -1,0 +1,169 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/improvement/kb_experiment_design.schema.json",
+  "title": "Manifest-driven LibGen knowledge-base improvement design",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "experiment_id",
+    "condition",
+    "created_at",
+    "benchmark_version",
+    "agent",
+    "expected_counts",
+    "protocol_ids",
+    "split",
+    "training_batches",
+    "learned_checkpoints",
+    "families",
+    "policies",
+    "execution",
+    "design_digest"
+  ],
+  "properties": {
+    "schema_version": {"const": "libstruct.libgen_kb_experiment_design.v1"},
+    "experiment_id": {"$ref": "#/$defs/id"},
+    "condition": {"const": "online_agent_guided_knowledge_base"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "benchmark_version": {"type": "string", "minLength": 1},
+    "agent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "model", "version", "reasoning_effort"],
+      "properties": {
+        "name": {"const": "codex"},
+        "model": {"type": "string", "minLength": 1},
+        "version": {"type": "string", "minLength": 1},
+        "reasoning_effort": {"type": "string", "minLength": 1}
+      }
+    },
+    "expected_counts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["universe", "training", "validation", "test", "learned_checkpoints", "new_validation_cells", "new_test_cells"],
+      "properties": {
+        "universe": {"type": "integer", "minimum": 1},
+        "training": {"type": "integer", "minimum": 1},
+        "validation": {"type": "integer", "minimum": 1},
+        "test": {"type": "integer", "minimum": 1},
+        "learned_checkpoints": {"type": "integer", "minimum": 1},
+        "new_validation_cells": {"type": "integer", "minimum": 1},
+        "new_test_cells": {"type": "integer", "minimum": 1}
+      }
+    },
+    "protocol_ids": {"$ref": "#/$defs/protocol_ids"},
+    "split": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["training", "validation", "test"],
+      "properties": {
+        "training": {"$ref": "#/$defs/protocol_ids"},
+        "validation": {"$ref": "#/$defs/protocol_ids"},
+        "test": {"$ref": "#/$defs/protocol_ids"}
+      }
+    },
+    "training_batches": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["batch_id", "protocol_ids"],
+        "properties": {
+          "batch_id": {"$ref": "#/$defs/id"},
+          "protocol_ids": {"$ref": "#/$defs/protocol_ids"}
+        }
+      }
+    },
+    "learned_checkpoints": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["label", "after_training_count", "run_validation", "run_test"],
+        "properties": {
+          "label": {"type": "string", "pattern": "^C[1-9][0-9]*$"},
+          "after_training_count": {"type": "integer", "minimum": 1},
+          "run_validation": {"const": true},
+          "run_test": {"const": true}
+        }
+      }
+    },
+    "families": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["family_id", "ordered_protocol_ids"],
+        "properties": {
+          "family_id": {"$ref": "#/$defs/id"},
+          "ordered_protocol_ids": {"$ref": "#/$defs/protocol_ids"}
+        }
+      }
+    },
+    "policies": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["c0", "groundtruth_mutation", "human_learning_artifacts", "validation_visibility", "validation_score_use", "validation_selection_policy", "test_visibility", "retrieval_max_units", "repair_attempts", "review_provenance"],
+      "properties": {
+        "c0": {"const": "raw_baseline_no_learned_pact_empty_kb"},
+        "groundtruth_mutation": {"const": false},
+        "human_learning_artifacts": {"const": false},
+        "validation_visibility": {"const": "macro_aggregate_only_no_learning_authority"},
+        "validation_score_use": {"const": "primary_test_endpoint_selection_and_regression_diagnostics_only"},
+        "validation_selection_policy": {"const": "balanced_core_mean_then_validity_minimum_reward_earlier_v1"},
+        "test_visibility": {"const": "sealed_until_final_lock"},
+        "retrieval_max_units": {
+          "description": "Legacy capped retrieval uses a positive integer; null means any distinct subset of the eligible catalog.",
+          "oneOf": [
+            {"type": "integer", "minimum": 1},
+            {"type": "null"}
+          ]
+        },
+        "repair_attempts": {"const": 2},
+        "review_provenance": {"const": "codex_adjudicated_user_delegated"}
+      }
+    },
+    "execution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "wall_clock_budget_hours",
+        "training_concurrency",
+        "validation_concurrency",
+        "test_concurrency",
+        "overlap_validation_with_training",
+        "artifact_validation",
+        "adjudication",
+        "default_timeout_seconds",
+        "slow_protocol_timeout_seconds",
+        "slow_protocol_ids"
+      ],
+      "properties": {
+        "wall_clock_budget_hours": {"type": "number", "exclusiveMinimum": 0, "maximum": 48},
+        "training_concurrency": {"type": "integer", "minimum": 1, "maximum": 16},
+        "validation_concurrency": {"type": "integer", "minimum": 1, "maximum": 16},
+        "test_concurrency": {"type": "integer", "minimum": 1, "maximum": 16},
+        "overlap_validation_with_training": {"const": true},
+        "artifact_validation": {
+          "const": "full_once_then_incremental_delta_and_parent_digest_with_checkpoint_audit"
+        },
+        "adjudication": {
+          "const": "single_codex_pass_plus_critic_only_for_pact_change"
+        },
+        "default_timeout_seconds": {"type": "integer", "minimum": 900, "maximum": 10800},
+        "slow_protocol_timeout_seconds": {"type": "integer", "minimum": 1800, "maximum": 21600},
+        "slow_protocol_ids": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/protocol_id"}}
+      }
+    },
+    "design_digest": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "id": {"type": "string", "minLength": 1, "maxLength": 240, "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"},
+    "protocol_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9_]*$"},
+    "protocol_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/protocol_id"}},
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+  }
+}

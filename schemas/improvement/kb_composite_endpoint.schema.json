@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/improvement/kb_composite_endpoint.schema.json",
+  "title": "Validation-selected pact paired with the complete final ground-truth knowledge base",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "design_digest",
+    "endpoint_id",
+    "validation_selection",
+    "pact_checkpoint",
+    "knowledge_checkpoint",
+    "confirmation_panel",
+    "confirmation_gate",
+    "created_at",
+    "endpoint_digest"
+  ],
+  "properties": {
+    "schema_version": {"const": "libstruct.libgen_kb_composite_endpoint.v1"},
+    "design_digest": {"$ref": "#/$defs/sha256"},
+    "endpoint_id": {"type": "string", "pattern": "^pact-C[1-9][0-9]*__kb-C58$"},
+    "validation_selection": {"$ref": "#/$defs/artifact_ref"},
+    "pact_checkpoint": {"$ref": "#/$defs/pact_checkpoint"},
+    "knowledge_checkpoint": {"$ref": "#/$defs/knowledge_checkpoint"},
+    "confirmation_panel": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^[a-z0-9][a-z0-9_]*$"}
+    },
+    "confirmation_gate": {"const": "all_valid_and_same_selection_order_not_worse_v1"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "endpoint_digest": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "artifact_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "digest"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "digest": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "pact_checkpoint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["label", "path", "sha256", "digest", "pact"],
+      "properties": {
+        "label": {"type": "string", "pattern": "^C[1-9][0-9]*$"},
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "digest": {"$ref": "#/$defs/sha256"},
+        "pact": {"$ref": "#/$defs/pact_ref"}
+      }
+    },
+    "knowledge_checkpoint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["label", "path", "sha256", "digest", "catalog"],
+      "properties": {
+        "label": {"type": "string", "pattern": "^C[1-9][0-9]*$"},
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "digest": {"$ref": "#/$defs/sha256"},
+        "catalog": {"$ref": "#/$defs/catalog_ref"}
+      }
+    },
+    "pact_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "path", "digest"],
+      "properties": {
+        "kind": {"const": "learned"},
+        "path": {"type": "string", "minLength": 1},
+        "digest": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "catalog_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "digest", "training_count"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "digest": {"$ref": "#/$defs/sha256"},
+        "training_count": {"const": 58}
+      }
+    }
+  }
+}

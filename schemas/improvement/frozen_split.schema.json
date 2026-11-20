@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/improvement/frozen_split.schema.json",
+  "title": "Frozen LibGen development and test split",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "split_id",
+    "recorded_at",
+    "status",
+    "development_batches",
+    "validation_panel",
+    "final_test_panel",
+    "rebalance_policy",
+    "split_digest",
+    "split_manifest_digest"
+  ],
+  "properties": {
+    "schema_version": {"const": "libstruct.libgen_capability_frozen_split.v1"},
+    "split_id": {"$ref": "#/$defs/id"},
+    "recorded_at": {"type": "string", "format": "date-time"},
+    "status": {"const": "active"},
+    "development_batches": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "items": {"$ref": "#/$defs/batch"}
+    },
+    "validation_panel": {"$ref": "#/$defs/validation_panel"},
+    "final_test_panel": {"$ref": "#/$defs/panel"},
+    "rebalance_policy": {"const": "explicit_score_blind_reclassification_of_the_superseded_30_protocol_development_set_into_25_training_and_5_fixed_validation_protocols"},
+    "split_digest": {"$ref": "#/$defs/sha256"},
+    "split_manifest_digest": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "id": {"type": "string", "minLength": 1, "maxLength": 240, "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"},
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "batch": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["batch_id", "phase", "checkpoint_size", "protocol_ids"],
+      "properties": {
+        "batch_id": {"type": "string", "enum": ["B1", "B2", "B3", "B4", "B5"]},
+        "phase": {"type": "string", "enum": ["retrospective", "prospective"]},
+        "checkpoint_size": {"type": "integer", "enum": [5, 10, 15, 20, 25]},
+        "protocol_ids": {"type": "array", "minItems": 5, "maxItems": 5, "uniqueItems": true, "items": {"$ref": "#/$defs/id"}}
+      }
+    },
+    "validation_panel": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["panel_id", "protocol_ids", "evaluation_checkpoints", "learning_visibility", "commitment_sha256"],
+      "properties": {
+        "panel_id": {"const": "fixed-validation-panel-v1"},
+        "protocol_ids": {"const": ["sci_atac_seq", "scrrbs", "smart_seq", "share_seq", "ddseq_single_cell_3_rna_seq_kit"]},
+        "evaluation_checkpoints": {"type": "array", "const": ["C0", "C5", "C10", "C15", "C20", "C25"]},
+        "learning_visibility": {"const": "five_protocol_macro_aggregate_only_no_example_memory"},
+        "commitment_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "stratum": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "protocol_ids"],
+      "properties": {
+        "name": {"type": "string", "enum": ["direct_related_family", "related_platform_or_mechanism", "broader_architectural_transfer"]},
+        "protocol_ids": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/id"}}
+      }
+    },
+    "annotation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["protocol_id", "stratum", "rationale"],
+      "properties": {
+        "protocol_id": {"$ref": "#/$defs/id"},
+        "stratum": {"type": "string", "enum": ["direct_related_family", "related_platform_or_mechanism", "broader_architectural_transfer"]},
+        "rationale": {"type": "string", "minLength": 1}
+      }
+    },
+    "panel": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["panel_id", "protocol_ids", "transfer_strata", "transfer_annotations", "purposes", "commitment_sha256"],
+      "properties": {
+        "panel_id": {"const": "frozen-retrospective-transfer-panel-v1"},
+        "protocol_ids": {"type": "array", "minItems": 10, "maxItems": 10, "uniqueItems": true, "items": {"$ref": "#/$defs/id"}},
+        "transfer_strata": {"type": "array", "minItems": 3, "maxItems": 3, "items": {"$ref": "#/$defs/stratum"}},
+        "transfer_annotations": {"type": "array", "minItems": 10, "maxItems": 10, "items": {"$ref": "#/$defs/annotation"}},
+        "purposes": {"const": ["transfer_within_related_protocol_or_platform_families", "transfer_to_distinct_molecular_architectures"]},
+        "commitment_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  }
+}

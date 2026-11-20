@@ -1,0 +1,113 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/improvement/human_verifier_refresh.schema.json",
+  "title": "Versioned verifier refresh for an unfinalized human protocol review",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "refresh_id",
+    "recorded_at",
+    "reason",
+    "protocol_id",
+    "trial_name",
+    "benchmark_version",
+    "prior_human_manifest",
+    "prior_registry",
+    "prior_entry_digest",
+    "original_verifier_artifacts",
+    "rescored_verifier_artifacts",
+    "rescore_summary",
+    "archived_review",
+    "new_registry_digest",
+    "new_entry_digest",
+    "refresh_digest"
+  ],
+  "properties": {
+    "schema_version": {"const": "libstruct.libgen_human_verifier_refresh.v1"},
+    "refresh_id": {"$ref": "#/$defs/id"},
+    "recorded_at": {"type": "string", "format": "date-time"},
+    "reason": {"const": "canonical_evaluator_defect_corrected_by_versioned_sidecar_rescore"},
+    "protocol_id": {"$ref": "#/$defs/id"},
+    "trial_name": {"$ref": "#/$defs/id"},
+    "benchmark_version": {"type": "string", "minLength": 1},
+    "prior_human_manifest": {"$ref": "#/$defs/ref"},
+    "prior_registry": {"$ref": "#/$defs/ref"},
+    "prior_entry_digest": {"$ref": "#/$defs/sha256"},
+    "original_verifier_artifacts": {"$ref": "#/$defs/verifier_artifacts"},
+    "rescored_verifier_artifacts": {"$ref": "#/$defs/verifier_artifacts"},
+    "rescore_summary": {"$ref": "#/$defs/artifact"},
+    "archived_review": {
+      "oneOf": [
+        {"$ref": "#/$defs/tree"},
+        {"type": "null"}
+      ]
+    },
+    "new_registry_digest": {"$ref": "#/$defs/sha256"},
+    "new_entry_digest": {"$ref": "#/$defs/sha256"},
+    "refresh_digest": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 240,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+    },
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "digest"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "digest": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "size_bytes"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "size_bytes": {"type": "integer", "minimum": 0}
+      }
+    },
+    "verifier_artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["role", "path", "sha256", "size_bytes"],
+      "properties": {
+        "role": {
+          "type": "string",
+          "enum": [
+            "verifier_reward",
+            "verifier_details",
+            "verifier_error_analysis"
+          ]
+        },
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "size_bytes": {"type": "integer", "minimum": 0}
+      }
+    },
+    "verifier_artifacts": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {"$ref": "#/$defs/verifier_artifact"}
+    },
+    "tree": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "file_count", "tree_digest"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "file_count": {"type": "integer", "minimum": 1},
+        "tree_digest": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  }
+}

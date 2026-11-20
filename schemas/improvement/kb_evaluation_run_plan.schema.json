@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/improvement/kb_evaluation_run_plan.schema.json",
+  "title": "One checkpoint-panel KB evaluation plan",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "design_digest", "checkpoint", "checkpoint_digest", "panel", "protocol_ids", "concurrency", "timeout_seconds", "test_authorized", "config", "created_at", "plan_digest"],
+  "properties": {
+    "schema_version": {"const": "libstruct.libgen_kb_evaluation_run_plan.v1"},
+    "design_digest": {"$ref": "#/$defs/sha256"},
+    "lineage_digest": {"$ref": "#/$defs/sha256"},
+    "checkpoint": {"type": "string", "pattern": "^C[1-9][0-9]*$"},
+    "checkpoint_digest": {"$ref": "#/$defs/sha256"},
+    "panel": {"enum": ["validation", "test"]},
+    "protocol_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "^[a-z0-9][a-z0-9_]*$"}},
+    "retrieval_policy": {"enum": ["source_evidenced_same_family_priority_then_weighted_jaccard_v1", "source_evidenced_full_similarity_ranking_agent_selected_v2", "source_evidenced_full_similarity_ranking_agent_selected_unbounded_v3"]},
+    "knowledge_runtime": {"$ref": "#/$defs/knowledge_runtime"},
+    "composite_endpoint": {"$ref": "#/$defs/composite_endpoint_ref"},
+    "concurrency": {"type": "integer", "minimum": 1, "maximum": 16},
+    "timeout_seconds": {"type": "integer", "minimum": 900},
+    "test_authorized": {"type": "boolean"},
+    "config": {"$ref": "#/$defs/artifact"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "plan_digest": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string"},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "composite_endpoint_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["endpoint_id", "path", "sha256", "digest", "pact_checkpoint", "knowledge_checkpoint"],
+      "properties": {
+        "endpoint_id": {"type": "string", "pattern": "^pact-C[1-9][0-9]*__kb-C[1-9][0-9]*$"},
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "digest": {"$ref": "#/$defs/sha256"},
+        "pact_checkpoint": {"type": "string", "pattern": "^C[1-9][0-9]*$"},
+        "knowledge_checkpoint": {"type": "string", "pattern": "^C[1-9][0-9]*$"}
+      }
+    },
+    "knowledge_runtime": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["retrieval_policy", "query_tool_sha256", "catalog_sha256", "ranking_index_sha256", "family_priorities_sha256", "instruction_sha256", "runtime_digest"],
+      "properties": {
+        "retrieval_policy": {"enum": ["source_evidenced_full_similarity_ranking_agent_selected_v2", "source_evidenced_full_similarity_ranking_agent_selected_unbounded_v3"]},
+        "query_tool_sha256": {"$ref": "#/$defs/sha256"},
+        "catalog_sha256": {"$ref": "#/$defs/sha256"},
+        "ranking_index_sha256": {"$ref": "#/$defs/sha256"},
+        "family_priorities_sha256": {"$ref": "#/$defs/sha256"},
+        "instruction_sha256": {"$ref": "#/$defs/sha256"},
+        "runtime_digest": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  }
+}

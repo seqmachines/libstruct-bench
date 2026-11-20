@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/improvement/kb_task_registry.schema.json",
+  "title": "One-time hash registry for all generated experiment tasks",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "design_digest", "tasks_root", "entries", "registry_digest"],
+  "properties": {
+    "schema_version": {"const": "libstruct.libgen_kb_task_registry.v1"},
+    "design_digest": {"$ref": "#/$defs/sha256"},
+    "tasks_root": {"type": "string"},
+    "entries": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["protocol_id", "path", "file_count", "tree_digest", "agent_visible_fingerprint"],
+        "properties": {
+          "protocol_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9_]*$"},
+          "path": {"type": "string"},
+          "file_count": {"type": "integer", "minimum": 1},
+          "tree_digest": {"$ref": "#/$defs/sha256"},
+          "agent_visible_fingerprint": {"$ref": "#/$defs/sha256"}
+        }
+      }
+    },
+    "registry_digest": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {"sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}}
+}

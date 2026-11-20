@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/improvement/agent_protocol_review_decision_draft.schema.json",
+  "title": "Independent Codex decision on one protocol-review proposal",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "proposal_digest", "disposition", "rationale", "revision_instruction"],
+  "properties": {
+    "schema_version": {"const": "libstruct.libgen_agent_protocol_review_decision_draft.v1"},
+    "proposal_digest": {"$ref": "#/$defs/sha256"},
+    "disposition": {"type": "string", "enum": ["approve", "reject", "revision_requested", "unresolved"]},
+    "rationale": {"type": "string", "minLength": 1},
+    "revision_instruction": {"type": ["string", "null"], "minLength": 1}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+  }
+}

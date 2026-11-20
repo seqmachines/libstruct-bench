@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/improvement/kb_microstate.schema.json",
+  "title": "Immutable online LibGen learning microstate",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "design_digest", "state_id", "training_count", "parent_state_id", "protocol_id", "adjudication", "pact", "catalog", "created_at", "microstate_digest"],
+  "properties": {
+    "schema_version": {"const": "libstruct.libgen_kb_microstate.v1"},
+    "design_digest": {"$ref": "#/$defs/sha256"},
+    "state_id": {"type": "string", "pattern": "^S[0-9]{3}$"},
+    "training_count": {"type": "integer", "minimum": 0},
+    "parent_state_id": {"type": ["string", "null"]},
+    "protocol_id": {"type": ["string", "null"]},
+    "adjudication": {
+      "oneOf": [
+        {"type": "null"},
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["path", "sha256", "digest"],
+          "properties": {
+            "path": {"type": "string"},
+            "sha256": {"$ref": "#/$defs/sha256"},
+            "digest": {"$ref": "#/$defs/sha256"}
+          }
+        }
+      ]
+    },
+    "pact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "digest"],
+      "properties": {
+        "kind": {"enum": ["none", "learned"]},
+        "digest": {"$ref": "#/$defs/sha256"},
+        "path": {"type": "string"}
+      }
+    },
+    "catalog": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "digest"],
+      "properties": {
+        "path": {"type": "string"},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "digest": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "created_at": {"type": "string", "format": "date-time"},
+    "microstate_digest": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {"sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}}
+}

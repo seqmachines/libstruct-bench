@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/improvement/kb_pact_critic_output.schema.json",
+  "title": "Independent local Codex critique of one KB pact proposal",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "proposal_digest", "disposition", "protocol_neutral", "evidence_bound", "checker_supported", "regression_risk", "rationale"],
+  "properties": {
+    "schema_version": {"type": "string", "const": "libstruct.libgen_kb_pact_critic_output.v1"},
+    "proposal_digest": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "disposition": {"enum": ["accept", "reject"]},
+    "protocol_neutral": {"type": "boolean"},
+    "evidence_bound": {"type": "boolean"},
+    "checker_supported": {"type": "boolean"},
+    "regression_risk": {"enum": ["low", "medium", "high"]},
+    "rationale": {"type": "string", "minLength": 1}
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/improvement/human_protocol_review_decision.schema.json",
+  "title": "Human decision on one Codex protocol-review proposal",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "decision_id", "human_experiment_digest", "review_id", "protocol_id", "proposal_digest", "proposal_sha256", "revision_round", "reviewer_id", "interface", "disposition", "rationale", "revision_instruction", "started_at", "completed_at", "decision_digest"],
+  "properties": {
+    "schema_version": {"const": "libstruct.libgen_human_protocol_review_decision.v1"},
+    "decision_id": {"$ref": "#/$defs/id"},
+    "human_experiment_digest": {"$ref": "#/$defs/sha256"},
+    "review_id": {"$ref": "#/$defs/id"},
+    "protocol_id": {"$ref": "#/$defs/id"},
+    "proposal_digest": {"$ref": "#/$defs/sha256"},
+    "proposal_sha256": {"$ref": "#/$defs/sha256"},
+    "revision_round": {"type": "integer", "minimum": 0, "maximum": 1},
+    "reviewer_id": {"$ref": "#/$defs/id"},
+    "reviewer_kind": {"type": "string", "enum": ["human", "independent_codex"]},
+    "reviewer_model": {"type": ["string", "null"], "minLength": 1},
+    "reviewer_version": {"type": ["string", "null"], "minLength": 1},
+    "reviewer_reasoning_effort": {"type": ["string", "null"], "minLength": 1},
+    "reviewer_transcript_sha256": {"oneOf": [{"$ref": "#/$defs/sha256"}, {"type": "null"}]},
+    "interface": {"const": "codex_chat"},
+    "disposition": {"type": "string", "enum": ["approve", "reject", "revision_requested", "unresolved"]},
+    "rationale": {"type": "string", "minLength": 1},
+    "revision_instruction": {"type": ["string", "null"], "minLength": 1},
+    "started_at": {"type": "string", "format": "date-time"},
+    "completed_at": {"type": "string", "format": "date-time"},
+    "decision_digest": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "id": {"type": "string", "minLength": 1, "maxLength": 240, "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"},
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+  }
+}

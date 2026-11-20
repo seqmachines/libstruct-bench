@@ -1,0 +1,4 @@
+family,contrast,n,difference,ci_low,ci_high,api_or_pdf_wins,other_wins,ties,wilcoxon_sign_permutation_p,historical_holm_p,bonferroni_p,correction_family_size
+Claude,agent_minus_api,20,0.032513499039759586,-0.025513644472467931,0.12975266564233562,4,3,13,0.6875,1,1.0,3
+GPT,agent_minus_api,20,0.0048015049299429211,-0.00091463414634145382,0.015319148936170219,1,1,18,1,1,1.0,3
+Gemini,agent_minus_api,20,-0.0297589816926054,-0.086583289646585751,0.004877552530334406,3,1,16,0.375,1,1.0,3

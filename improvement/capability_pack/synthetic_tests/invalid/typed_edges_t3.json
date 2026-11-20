@@ -1,0 +1,15 @@
+{
+  "protocol_id": "synthetic_protocol",
+  "workflows": [
+    {
+      "final_outputs": [{"modality": "gene expression", "state_id": "product"}],
+      "initial_state_ids": ["input"],
+      "states": [
+        {"discontinuities": [], "molecule_type": "DNA", "name": "Input", "paired_regions": [], "physical_state": "solution", "properties": [], "reference_strand_id": "input-strand", "state_id": "input", "strand_architecture": "single_stranded", "strands": [{"molecule_type": "DNA", "name": "Input strand", "orientation": "5_to_3", "segments": [{"role": "synthetic", "segment_id": "input-segment", "sequence": "AACCGG", "structural_role": "unpaired"}], "strand_id": "input-strand"}]},
+        {"discontinuities": [], "molecule_type": "DNA", "name": "Product", "paired_regions": [], "physical_state": "solution", "properties": [], "reference_strand_id": "product-strand", "state_id": "product", "strand_architecture": "single_stranded", "strands": [{"molecule_type": "DNA", "name": "Product strand", "orientation": "5_to_3", "segments": [{"role": "synthetic", "segment_id": "product-segment", "sequence": "CCGGTT", "structural_role": "unpaired"}], "strand_id": "product-strand"}]}
+      ],
+      "transitions": [{"carried_forward_product_ids": ["product"], "discarded_product_ids": [], "major_reagents": [], "oligo_ids": ["missing-oligo"], "operation": "extension", "product_state_ids": ["product"], "substrate_state_ids": ["input"], "transition_id": "broken-typed-edge"}],
+      "workflow_id": "broken-typed-edges"
+    }
+  ]
+}

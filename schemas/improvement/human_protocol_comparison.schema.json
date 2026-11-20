@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/improvement/human_protocol_comparison.schema.json",
+  "title": "Deterministic prediction-ground-truth comparison for human review",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "review_id", "human_experiment_digest", "execution_experiment_digest", "batch_id", "batch_position", "global_position", "protocol_id", "baseline_entry_digest", "parent_checkpoint", "display_parent_checkpoint", "parent_pack_digest", "validation_context", "prediction_valid", "artifacts", "metrics", "scoring", "observations", "source_recoverability_policy", "created_at", "comparison_digest"],
+  "properties": {
+    "schema_version": {"const": "libstruct.libgen_human_protocol_comparison.v1"},
+    "review_id": {"$ref": "#/$defs/id"},
+    "human_experiment_digest": {"$ref": "#/$defs/sha256"},
+    "execution_experiment_digest": {"$ref": "#/$defs/sha256"},
+    "batch_id": {"type": "string", "enum": ["B1", "B2", "B3", "B4", "B5"]},
+    "batch_position": {"type": "integer", "minimum": 1, "maximum": 5},
+    "global_position": {"type": "integer", "minimum": 1, "maximum": 25},
+    "protocol_id": {"$ref": "#/$defs/id"},
+    "baseline_entry_digest": {"$ref": "#/$defs/sha256"},
+    "parent_checkpoint": {"type": "string", "enum": ["C0", "C5", "C10", "C15", "C20"]},
+    "display_parent_checkpoint": {"type": "string", "enum": ["H0", "H5", "H10", "H15", "H20"]},
+    "parent_pack_digest": {"$ref": "#/$defs/sha256"},
+    "validation_context": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["checkpoint_label", "display_checkpoint_label", "aggregate_digest", "aggregate_sha256", "macro_means", "delta_from_c0", "human_guidance", "feedback_scope"],
+      "properties": {
+        "checkpoint_label": {"type": "string", "enum": ["C0", "C5", "C10", "C15", "C20"]},
+        "display_checkpoint_label": {"type": "string", "enum": ["H0", "H5", "H10", "H15", "H20"]},
+        "aggregate_digest": {"$ref": "#/$defs/sha256"},
+        "aggregate_sha256": {"$ref": "#/$defs/sha256"},
+        "macro_means": {"$ref": "#/$defs/metrics"},
+        "delta_from_c0": {"$ref": "#/$defs/deltas"},
+        "human_guidance": {"oneOf": [{"$ref": "#/$defs/ref"}, {"type": "null"}]},
+        "feedback_scope": {"const": "aggregate_guidance_only_not_scientific_evidence_or_direct_pack_mutation"}
+      }
+    },
+    "prediction_valid": {"type": "boolean"},
+    "artifacts": {"type": "array", "minItems": 11, "items": {"$ref": "#/$defs/artifact"}},
+    "metrics": {
+      "oneOf": [
+        {"type": "null"},
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["reward", "t2_required_family_f1", "t2_exact_required_family_recall", "t3_molecular_transition_f1", "t3_state_f1", "t3_typed_edge_f1"],
+          "properties": {
+            "reward": {"$ref": "#/$defs/score"},
+            "t2_required_family_f1": {"$ref": "#/$defs/score"},
+            "t2_exact_required_family_recall": {"$ref": "#/$defs/score"},
+            "t3_molecular_transition_f1": {"$ref": "#/$defs/score"},
+            "t3_state_f1": {"$ref": "#/$defs/score"},
+            "t3_typed_edge_f1": {"$ref": "#/$defs/score"}
+          }
+        }
+      ]
+    },
+    "scoring": {"type": ["object", "null"]},
+    "observations": {"type": "array", "items": {"type": "object"}},
+    "source_recoverability_policy": {"const": "score_only_explicit_or_derivable_agent_visible_claims_optional_and_nonrecoverable_claims_neutral"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "comparison_digest": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "id": {"type": "string", "minLength": 1, "maxLength": 240, "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"},
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "score": {"type": "number", "minimum": 0, "maximum": 1},
+    "metrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["reward", "t2_exact_required_family_recall", "t2_required_family_f1", "t3_molecular_transition_f1", "t3_state_f1", "t3_typed_edge_f1"],
+      "properties": {
+        "reward": {"$ref": "#/$defs/score"},
+        "t2_exact_required_family_recall": {"$ref": "#/$defs/score"},
+        "t2_required_family_f1": {"$ref": "#/$defs/score"},
+        "t3_molecular_transition_f1": {"$ref": "#/$defs/score"},
+        "t3_state_f1": {"$ref": "#/$defs/score"},
+        "t3_typed_edge_f1": {"$ref": "#/$defs/score"}
+      }
+    },
+    "deltas": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["reward", "t2_exact_required_family_recall", "t2_required_family_f1", "t3_molecular_transition_f1", "t3_state_f1", "t3_typed_edge_f1"],
+      "properties": {
+        "reward": {"type": "number", "minimum": -1, "maximum": 1},
+        "t2_exact_required_family_recall": {"type": "number", "minimum": -1, "maximum": 1},
+        "t2_required_family_f1": {"type": "number", "minimum": -1, "maximum": 1},
+        "t3_molecular_transition_f1": {"type": "number", "minimum": -1, "maximum": 1},
+        "t3_state_f1": {"type": "number", "minimum": -1, "maximum": 1},
+        "t3_typed_edge_f1": {"type": "number", "minimum": -1, "maximum": 1}
+      }
+    },
+    "ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "digest"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "digest": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["role", "path", "sha256", "size_bytes"],
+      "properties": {
+        "role": {"type": "string", "minLength": 1},
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "size_bytes": {"type": "integer", "minimum": 0}
+      }
+    }
+  }
+}

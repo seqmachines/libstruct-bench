@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/improvement/kb_c0_backfill_plan.schema.json",
+  "title": "Raw C0 backfill plan for missing fixed-panel trials",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "design_digest", "protocol_ids", "concurrency", "timeout_seconds", "config", "created_at", "plan_digest"],
+  "properties": {
+    "schema_version": {"const": "libstruct.libgen_kb_c0_backfill_plan.v1"},
+    "design_digest": {"$ref": "#/$defs/sha256"},
+    "protocol_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "pattern": "^[a-z0-9][a-z0-9_]*$"}},
+    "concurrency": {"type": "integer", "minimum": 0, "maximum": 16},
+    "timeout_seconds": {"type": "integer", "minimum": 900},
+    "config": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/artifact"}]},
+    "created_at": {"type": "string", "format": "date-time"},
+    "plan_digest": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string"},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  }
+}

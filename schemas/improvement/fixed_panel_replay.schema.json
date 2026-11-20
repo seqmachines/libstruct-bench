@@ -1,0 +1,154 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/improvement/fixed_panel_replay.schema.json",
+  "title": "Post-lock fixed-panel LibGen learning-curve replay",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "replay_id", "experiment_digest", "final_lock",
+    "transfer_panel_authorization", "panel", "runner", "replay_labels",
+    "endpoint_labels", "packs", "jobs", "expected_trial_count",
+    "checkpoint_modification_closed", "selection_policy",
+    "development_diagnostics_policy", "created_at", "replay_digest"
+  ],
+  "properties": {
+    "schema_version": {"const": "libstruct.libgen_capability_fixed_panel_replay.v1"},
+    "replay_id": {"$ref": "#/$defs/id"},
+    "experiment_digest": {"$ref": "#/$defs/sha256"},
+    "final_lock": {"$ref": "#/$defs/artifact_ref"},
+    "transfer_panel_authorization": {"$ref": "#/$defs/artifact_ref"},
+    "panel": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "set_id", "classification", "commitment_sha256", "protocol_count",
+        "protocol_ids", "task_bundle_sha256", "panel_digest"
+      ],
+      "properties": {
+        "set_id": {"const": "frozen-retrospective-transfer-panel-v1"},
+        "classification": {"const": "frozen_retrospective_transfer_panel"},
+        "commitment_sha256": {"$ref": "#/$defs/sha256"},
+        "protocol_count": {"const": 10},
+        "protocol_ids": {"const": ["cel_seq2", "indrop_v2", "smart_seq3xpress", "ddseq_scatac_seq", "snare_seq", "scrb_seq", "paired_seq", "pi_atac_seq", "scdnase_seq", "spear_atac"]},
+        "task_bundle_sha256": {"$ref": "#/$defs/sha256"},
+        "panel_digest": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "runner": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "harness", "harness_version", "environment", "agent", "model",
+        "agent_version", "reasoning_effort", "concurrency", "semantic_retries",
+        "base_config_sha256", "configuration_digest", "harbor_command_template"
+      ],
+      "properties": {
+        "harness": {"const": "harbor"},
+        "harness_version": {"type": "string", "minLength": 1},
+        "environment": {"const": "docker"},
+        "agent": {"const": "codex"},
+        "model": {"const": "gpt-5.6-sol"},
+        "agent_version": {"const": "0.147.0"},
+        "reasoning_effort": {"const": "max"},
+        "concurrency": {"const": 4},
+        "semantic_retries": {"const": 0},
+        "base_config_sha256": {"$ref": "#/$defs/sha256"},
+        "configuration_digest": {"$ref": "#/$defs/sha256"},
+        "harbor_command_template": {
+          "type": "array", "minItems": 16,
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "replay_labels": {"const": ["C0", "C5", "C10", "C15", "C20", "C25"]},
+    "endpoint_labels": {"const": ["C25"]},
+    "packs": {
+      "type": "array", "minItems": 6, "maxItems": 6,
+      "items": {"$ref": "#/$defs/pack"}
+    },
+    "jobs": {
+      "type": "array", "minItems": 6, "maxItems": 6,
+      "items": {"$ref": "#/$defs/job"}
+    },
+    "expected_trial_count": {"const": 60},
+    "checkpoint_modification_closed": {"const": true},
+    "selection_policy": {
+      "const": "C25_is_the_predefined_endpoint_no_replay_based_checkpoint_selection"
+    },
+    "development_diagnostics_policy": {
+      "const": "B4_and_B5_are_rolling_development_diagnostics_not_the_final_learning_curve"
+    },
+    "created_at": {"type": "string", "format": "date-time"},
+    "replay_digest": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "id": {
+      "type": "string", "minLength": 1, "maxLength": 240,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+    },
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "label": {"type": "string", "enum": ["C0", "C5", "C10", "C15", "C20", "C25"]},
+    "artifact_ref": {
+      "type": "object", "additionalProperties": false,
+      "required": ["digest", "sha256"],
+      "properties": {
+        "digest": {"$ref": "#/$defs/sha256"},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "pack": {
+      "type": "object", "additionalProperties": false,
+      "required": [
+        "label", "branch", "protocol_count", "pack_digest",
+        "pack_manifest_sha256", "memory_digest", "memory_manifest_sha256",
+        "memory_catalog_digest", "memory_catalog_sha256", "exemplar_count",
+        "identity_map_commitment", "checkpoint_digest", "checkpoint_sha256",
+        "checkpoint_experiment_digest", "runtime_digest", "runtime_sha256"
+      ],
+      "properties": {
+        "label": {"$ref": "#/$defs/label"},
+        "branch": {"const": "cumulative"},
+        "protocol_count": {"type": "integer", "enum": [0, 5, 10, 15, 20, 25]},
+        "pack_digest": {"$ref": "#/$defs/sha256"},
+        "pack_manifest_sha256": {"$ref": "#/$defs/sha256"},
+        "memory_digest": {"$ref": "#/$defs/sha256"},
+        "memory_manifest_sha256": {"$ref": "#/$defs/sha256"},
+        "memory_catalog_digest": {"$ref": "#/$defs/sha256"},
+        "memory_catalog_sha256": {"$ref": "#/$defs/sha256"},
+        "exemplar_count": {"type": "integer", "enum": [0, 5, 10, 15, 20, 25]},
+        "identity_map_commitment": {"$ref": "#/$defs/sha256"},
+        "checkpoint_digest": {"$ref": "#/$defs/sha256"},
+        "checkpoint_sha256": {"$ref": "#/$defs/sha256"},
+        "checkpoint_experiment_digest": {"$ref": "#/$defs/sha256"},
+        "runtime_digest": {"$ref": "#/$defs/sha256"},
+        "runtime_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "job": {
+      "type": "object", "additionalProperties": false,
+      "required": [
+        "order", "label", "pack_digest", "memory_digest", "integration_digest",
+        "integration_manifest_sha256", "config_path", "config_sha256",
+        "job_name", "expected_result_root", "expected_trial_count",
+        "harbor_command"
+      ],
+      "properties": {
+        "order": {"type": "integer", "minimum": 1, "maximum": 6},
+        "label": {"$ref": "#/$defs/label"},
+        "pack_digest": {"$ref": "#/$defs/sha256"},
+        "memory_digest": {"$ref": "#/$defs/sha256"},
+        "integration_digest": {"$ref": "#/$defs/sha256"},
+        "integration_manifest_sha256": {"$ref": "#/$defs/sha256"},
+        "config_path": {"type": "string", "minLength": 1},
+        "config_sha256": {"$ref": "#/$defs/sha256"},
+        "job_name": {"$ref": "#/$defs/id"},
+        "expected_result_root": {"type": "string", "minLength": 1},
+        "expected_trial_count": {"const": 10},
+        "harbor_command": {
+          "type": "array", "minItems": 16,
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    }
+  }
+}

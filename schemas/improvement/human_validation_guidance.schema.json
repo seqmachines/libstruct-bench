@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/improvement/human_validation_guidance.schema.json",
+  "title": "Non-mutating human guidance from sanitized validation aggregates",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "human_experiment_digest", "checkpoint_label", "display_checkpoint_label", "aggregate_digest", "aggregate_sha256", "previous_checkpoint_label", "macro_means", "delta_from_previous", "delta_from_c0", "guidance_target_batch", "codex_summary", "human_note", "reviewer_id", "created_at", "guidance_digest"],
+  "properties": {
+    "schema_version": {"const": "libstruct.libgen_human_validation_guidance.v1"},
+    "human_experiment_digest": {"$ref": "#/$defs/sha256"},
+    "checkpoint_label": {"type": "string", "enum": ["C0", "C5", "C10", "C15", "C20", "C25"]},
+    "display_checkpoint_label": {"type": "string", "enum": ["H0", "H5", "H10", "H15", "H20", "H25"]},
+    "aggregate_digest": {"$ref": "#/$defs/sha256"},
+    "aggregate_sha256": {"$ref": "#/$defs/sha256"},
+    "previous_checkpoint_label": {"type": ["string", "null"], "enum": ["C0", "C5", "C10", "C15", "C20", null]},
+    "macro_means": {"$ref": "#/$defs/metrics"},
+    "delta_from_previous": {"oneOf": [{"$ref": "#/$defs/deltas"}, {"type": "null"}]},
+    "delta_from_c0": {"$ref": "#/$defs/deltas"},
+    "guidance_target_batch": {"type": ["string", "null"], "enum": ["B1", "B2", "B3", "B4", "B5", null]},
+    "codex_summary": {"type": "string", "minLength": 1},
+    "human_note": {"type": "string", "minLength": 1},
+    "reviewer_id": {"$ref": "#/$defs/id"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "guidance_digest": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "id": {"type": "string", "minLength": 1, "maxLength": 240, "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"},
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "metrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["reward", "t2_exact_required_family_recall", "t2_required_family_f1", "t3_molecular_transition_f1", "t3_state_f1", "t3_typed_edge_f1"],
+      "properties": {
+        "reward": {"type": "number", "minimum": 0, "maximum": 1},
+        "t2_exact_required_family_recall": {"type": "number", "minimum": 0, "maximum": 1},
+        "t2_required_family_f1": {"type": "number", "minimum": 0, "maximum": 1},
+        "t3_molecular_transition_f1": {"type": "number", "minimum": 0, "maximum": 1},
+        "t3_state_f1": {"type": "number", "minimum": 0, "maximum": 1},
+        "t3_typed_edge_f1": {"type": "number", "minimum": 0, "maximum": 1}
+      }
+    },
+    "deltas": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["reward", "t2_exact_required_family_recall", "t2_required_family_f1", "t3_molecular_transition_f1", "t3_state_f1", "t3_typed_edge_f1"],
+      "properties": {
+        "reward": {"type": "number", "minimum": -1, "maximum": 1},
+        "t2_exact_required_family_recall": {"type": "number", "minimum": -1, "maximum": 1},
+        "t2_required_family_f1": {"type": "number", "minimum": -1, "maximum": 1},
+        "t3_molecular_transition_f1": {"type": "number", "minimum": -1, "maximum": 1},
+        "t3_state_f1": {"type": "number", "minimum": -1, "maximum": 1},
+        "t3_typed_edge_f1": {"type": "number", "minimum": -1, "maximum": 1}
+      }
+    }
+  }
+}

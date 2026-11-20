@@ -1,0 +1,19 @@
+#!/bin/sh
+# Run the host archive CLI with this checkout's private configuration.
+set +x
+set -eu
+repo=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd -P)
+cd "$repo"
+if [ ! -r .env.archive.local ]; then
+    echo 'Configure .env.archive.local as described in docs/experiment-archive.md.' >&2
+    exit 1
+fi
+requested_mode=${LSB_ARCHIVE_MODE-}
+set -a
+. ./.env.archive.local
+set +a
+if [ -n "$requested_mode" ]; then
+    export LSB_ARCHIVE_MODE="$requested_mode"
+fi
+export PATH="$repo/.venv/bin:$PATH"
+exec "$repo/.venv/bin/libstruct-archive" "$@"

@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/improvement/kb_repair_output.schema.json",
+  "title": "Bounded deterministic-validation repair output",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "t2_json", "t3_json", "repair_summary"],
+  "properties": {
+    "schema_version": {"type": "string", "const": "libstruct.libgen_kb_repair_output.v1"},
+    "t2_json": {"type": "string", "minLength": 2},
+    "t3_json": {"type": "string", "minLength": 2},
+    "repair_summary": {"type": "string", "minLength": 1}
+  }
+}

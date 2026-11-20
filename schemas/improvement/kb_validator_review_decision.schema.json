@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/improvement/kb_validator_review_decision.schema.json",
+  "title": "Human classification decision for a validator diagnostic proposal",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "decision_id", "review_manifest_digest", "protocol_id", "panel", "proposal_digest", "proposal_sha256", "revision_round", "reviewer_id", "reviewer_kind", "disposition", "rationale", "revision_instruction", "effect", "started_at", "completed_at", "decision_digest"],
+  "properties": {
+    "schema_version": {"const": "libstruct.libgen_kb_validator_review_decision.v1"},
+    "decision_id": {"$ref": "#/$defs/id"},
+    "review_manifest_digest": {"$ref": "#/$defs/sha256"},
+    "protocol_id": {"$ref": "#/$defs/id"},
+    "panel": {"type": "string", "enum": ["validation", "test"]},
+    "proposal_digest": {"$ref": "#/$defs/sha256"},
+    "proposal_sha256": {"$ref": "#/$defs/sha256"},
+    "revision_round": {"type": "integer", "minimum": 0, "maximum": 1},
+    "reviewer_id": {"$ref": "#/$defs/id"},
+    "reviewer_kind": {"const": "human"},
+    "disposition": {"type": "string", "enum": ["approve", "reject", "revision_requested", "unresolved"]},
+    "rationale": {"type": "string", "minLength": 1},
+    "revision_instruction": {"type": ["string", "null"], "minLength": 1},
+    "effect": {"const": "classification_record_only_no_mutation"},
+    "started_at": {"type": "string", "format": "date-time"},
+    "completed_at": {"type": "string", "format": "date-time"},
+    "decision_digest": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "id": {"type": "string", "minLength": 1, "maxLength": 240, "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"},
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+  }
+}

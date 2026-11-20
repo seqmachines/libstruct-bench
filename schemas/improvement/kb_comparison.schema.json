@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/improvement/kb_comparison.schema.json",
+  "title": "Hash-pinned deterministic training-result comparison",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "design_digest", "state_id", "protocol_id", "training_ordinal", "trial_root", "prediction_validation", "metrics", "observation_ids", "artifacts", "created_at", "comparison_digest"],
+  "properties": {
+    "schema_version": {"const": "libstruct.libgen_kb_comparison.v1"},
+    "design_digest": {"$ref": "#/$defs/sha256"},
+    "state_id": {"type": "string", "pattern": "^S[0-9]{3}$"},
+    "protocol_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9_]*$"},
+    "training_ordinal": {"type": "integer", "minimum": 1},
+    "trial_root": {"type": "string", "minLength": 1},
+    "prediction_validation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "errors", "repair_attempts"],
+      "properties": {
+        "status": {"enum": ["valid", "invalid", "missing"]},
+        "errors": {"type": "array", "items": {"type": "string", "minLength": 1}},
+        "repair_attempts": {"type": "integer", "minimum": 0, "maximum": 2}
+      }
+    },
+    "metrics": {"type": "object", "additionalProperties": {"type": "number"}},
+    "observation_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "pattern": "^err_[0-9]{4,}$"}},
+    "artifacts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["result", "t2_prediction", "t3_prediction", "trajectory", "reward", "verifier_details", "error_analysis", "repair_manifest"],
+      "properties": {
+        "result": {"$ref": "#/$defs/artifact"},
+        "t2_prediction": {"$ref": "#/$defs/artifact"},
+        "t3_prediction": {"$ref": "#/$defs/artifact"},
+        "trajectory": {"$ref": "#/$defs/artifact"},
+        "reward": {"$ref": "#/$defs/artifact"},
+        "verifier_details": {"$ref": "#/$defs/artifact"},
+        "error_analysis": {"$ref": "#/$defs/artifact"}
+        ,"repair_manifest": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/artifact"}]}
+      }
+    },
+    "created_at": {"type": "string", "format": "date-time"},
+    "comparison_digest": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  }
+}

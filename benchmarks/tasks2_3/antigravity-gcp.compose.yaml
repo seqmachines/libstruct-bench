@@ -1,0 +1,31 @@
+# Add the global Vertex AI endpoint only for the Antigravity ADC job.
+# Harbor records this overlay's digest in the job lock; shared tasks stay fixed.
+services:
+  provider-egress:
+    entrypoint:
+      - python
+      - -c
+      - |
+        import hashlib, json, os, sys
+        from pathlib import Path
+        source, effective, events, proxy = map(Path, sys.argv[1:])
+        base = source.read_bytes()
+        policy = json.loads(base)
+        host = "aiplatform.googleapis.com"
+        if host not in policy["provider_hosts"]:
+            policy["provider_hosts"].append(host)
+        encoded = (json.dumps(policy, indent=2) + "\n").encode()
+        effective.write_bytes(encoded)
+        events.parent.mkdir(parents=True, exist_ok=True)
+        with events.open("a") as log:
+            log.write(json.dumps({
+                "event": "gcp_network_policy",
+                "base_policy_sha256": hashlib.sha256(base).hexdigest(),
+                "effective_policy_sha256": hashlib.sha256(encoded).hexdigest(),
+                "additional_provider_hosts": [host],
+            }) + "\n")
+        os.execv(sys.executable, [sys.executable, str(proxy), str(effective)])
+      - /proxy/egress_policy.json
+      - /tmp/libgen-gcp-egress-policy.json
+      - /logs/network/provider-egress.jsonl
+      - /proxy/provider_egress_proxy.py

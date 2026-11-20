@@ -1,0 +1,235 @@
+metric,protocol_id,model,contrast,value
+t2_required_family_f1,10x_chromium_3_gene_expression_v4,GPT,GPT: Codex - Pi,-0.084605508870214785
+t2_required_family_f1,dr_seq,GPT,GPT: Codex - Pi,0.10000000000000009
+t2_required_family_f1,indrop_v1,GPT,GPT: Codex - Pi,0.0018518518518521043
+t2_required_family_f1,petri_seq,GPT,GPT: Codex - Pi,0.13660136704259851
+t2_required_family_f1,pip_seq_v4,GPT,GPT: Codex - Pi,-0.028489727608494775
+t2_required_family_f1,sci_atac_seq,GPT,GPT: Codex - Pi,-0.080117211575012059
+t2_required_family_f1,scrrbs,GPT,GPT: Codex - Pi,0.0044444444444445841
+t2_required_family_f1,share_seq,GPT,GPT: Codex - Pi,0.00015479876161006434
+t2_required_family_f1,smart_seq,GPT,GPT: Codex - Pi,0.27524366471734907
+t2_required_family_f1,10x_chromium_3_gene_expression_v4,GPT,GPT: Codex - mini-SWE,-0.0019047619047620756
+t2_required_family_f1,dr_seq,GPT,GPT: Codex - mini-SWE,0.10000000000000009
+t2_required_family_f1,indrop_v1,GPT,GPT: Codex - mini-SWE,0.014814814814815058
+t2_required_family_f1,petri_seq,GPT,GPT: Codex - mini-SWE,0.0028985507246378495
+t2_required_family_f1,pip_seq_v4,GPT,GPT: Codex - mini-SWE,-0.094267659279778315
+t2_required_family_f1,sci_atac_seq,GPT,GPT: Codex - mini-SWE,0.0047519587545161723
+t2_required_family_f1,scrrbs,GPT,GPT: Codex - mini-SWE,0.0044444444444445841
+t2_required_family_f1,share_seq,GPT,GPT: Codex - mini-SWE,0.0036351076933319737
+t2_required_family_f1,smart_seq,GPT,GPT: Codex - mini-SWE,0.25302144249512692
+t2_required_family_f1,10x_chromium_3_gene_expression_v4,Claude,Claude: Claude Code - Pi,-0.055952380952380976
+t2_required_family_f1,dr_seq,Claude,Claude: Claude Code - Pi,-0.24027777777777803
+t2_required_family_f1,indrop_v1,Claude,Claude: Claude Code - Pi,0.004920634920634992
+t2_required_family_f1,petri_seq,Claude,Claude: Claude Code - Pi,-0.047044112685560302
+t2_required_family_f1,pip_seq_v4,Claude,Claude: Claude Code - Pi,-0.0129142300194931
+t2_required_family_f1,sci_atac_seq,Claude,Claude: Claude Code - Pi,-0.0018181818181818299
+t2_required_family_f1,scrrbs,Claude,Claude: Claude Code - Pi,-0.0037037037037038756
+t2_required_family_f1,share_seq,Claude,Claude: Claude Code - Pi,0.0012605042016810009
+t2_required_family_f1,smart_seq,Claude,Claude: Claude Code - Pi,0
+t2_required_family_f1,10x_chromium_3_gene_expression_v4,Claude,Claude: Claude Code - mini-SWE,-0.058333333333333237
+t2_required_family_f1,dr_seq,Claude,Claude: Claude Code - mini-SWE,-0.1620370370370372
+t2_required_family_f1,indrop_v1,Claude,Claude: Claude Code - mini-SWE,-0.029245619816554047
+t2_required_family_f1,petri_seq,Claude,Claude: Claude Code - mini-SWE,-0.029603170883307328
+t2_required_family_f1,pip_seq_v4,Claude,Claude: Claude Code - mini-SWE,0.086067251461988348
+t2_required_family_f1,sci_atac_seq,Claude,Claude: Claude Code - mini-SWE,0.0061991626794261068
+t2_required_family_f1,scrrbs,Claude,Claude: Claude Code - mini-SWE,-0.043703703703703689
+t2_required_family_f1,share_seq,Claude,Claude: Claude Code - mini-SWE,-0.0016806722689076681
+t2_required_family_f1,smart_seq,Claude,Claude: Claude Code - mini-SWE,0.073611111111110961
+t2_required_family_f1,10x_chromium_3_gene_expression_v4,Gemini,Gemini: Antigravity CLI - Pi,0
+t2_required_family_f1,dr_seq,Gemini,Gemini: Antigravity CLI - Pi,-0.066666666666666763
+t2_required_family_f1,indrop_v1,Gemini,Gemini: Antigravity CLI - Pi,0.0083333333333331927
+t2_required_family_f1,petri_seq,Gemini,Gemini: Antigravity CLI - Pi,0.30209709322325418
+t2_required_family_f1,pip_seq_v4,Gemini,Gemini: Antigravity CLI - Pi,0.21843358395989954
+t2_required_family_f1,sci_atac_seq,Gemini,Gemini: Antigravity CLI - Pi,-0.023978222528947213
+t2_required_family_f1,scrrbs,Gemini,Gemini: Antigravity CLI - Pi,-0.028888888888888742
+t2_required_family_f1,share_seq,Gemini,Gemini: Antigravity CLI - Pi,0.0055727554179566541
+t2_required_family_f1,smart_seq,Gemini,Gemini: Antigravity CLI - Pi,-0.12619047619047619
+t2_required_family_f1,10x_chromium_3_gene_expression_v4,Gemini,Gemini: Antigravity CLI - mini-SWE,0
+t2_required_family_f1,dr_seq,Gemini,Gemini: Antigravity CLI - mini-SWE,-0.066666666666666763
+t2_required_family_f1,indrop_v1,Gemini,Gemini: Antigravity CLI - mini-SWE,0.0055555555555555358
+t2_required_family_f1,petri_seq,Gemini,Gemini: Antigravity CLI - mini-SWE,0.29654153766769864
+t2_required_family_f1,pip_seq_v4,Gemini,Gemini: Antigravity CLI - mini-SWE,0.0048684210526315219
+t2_required_family_f1,sci_atac_seq,Gemini,Gemini: Antigravity CLI - mini-SWE,-0.023978222528947213
+t2_required_family_f1,scrrbs,Gemini,Gemini: Antigravity CLI - mini-SWE,0.0077777777777779944
+t2_required_family_f1,share_seq,Gemini,Gemini: Antigravity CLI - mini-SWE,0.016696152145068477
+t2_required_family_f1,smart_seq,Gemini,Gemini: Antigravity CLI - mini-SWE,-0.12619047619047619
+t3_molecular_transition_f1,10x_chromium_3_gene_expression_v4,GPT,GPT: Codex - Pi,0.0079185520361992889
+t3_molecular_transition_f1,ddseq_single_cell_3_rna_seq_kit,GPT,GPT: Codex - Pi,0.15366300366300356
+t3_molecular_transition_f1,dr_seq,GPT,GPT: Codex - Pi,-0.03780423280423284
+t3_molecular_transition_f1,indrop_v1,GPT,GPT: Codex - Pi,0.12594268476621429
+t3_molecular_transition_f1,petri_seq,GPT,GPT: Codex - Pi,0.06402847502071618
+t3_molecular_transition_f1,pip_seq_v4,GPT,GPT: Codex - Pi,0.25980622984723178
+t3_molecular_transition_f1,sci_atac_seq,GPT,GPT: Codex - Pi,-0.0064780308258570729
+t3_molecular_transition_f1,scrrbs,GPT,GPT: Codex - Pi,0
+t3_molecular_transition_f1,share_seq,GPT,GPT: Codex - Pi,-0.023707790982833488
+t3_molecular_transition_f1,smart_seq,GPT,GPT: Codex - Pi,0.086590745870524399
+t3_molecular_transition_f1,10x_chromium_3_gene_expression_v4,GPT,GPT: Codex - mini-SWE,-0.11923076923076925
+t3_molecular_transition_f1,ddseq_single_cell_3_rna_seq_kit,GPT,GPT: Codex - mini-SWE,0.25844155844155836
+t3_molecular_transition_f1,dr_seq,GPT,GPT: Codex - mini-SWE,-0.03780423280423284
+t3_molecular_transition_f1,indrop_v1,GPT,GPT: Codex - mini-SWE,0.12594268476621429
+t3_molecular_transition_f1,petri_seq,GPT,GPT: Codex - mini-SWE,0.026891252955082545
+t3_molecular_transition_f1,pip_seq_v4,GPT,GPT: Codex - mini-SWE,0.018070175438596459
+t3_molecular_transition_f1,sci_atac_seq,GPT,GPT: Codex - mini-SWE,0
+t3_molecular_transition_f1,scrrbs,GPT,GPT: Codex - mini-SWE,0
+t3_molecular_transition_f1,share_seq,GPT,GPT: Codex - mini-SWE,0.082385398981324132
+t3_molecular_transition_f1,smart_seq,GPT,GPT: Codex - mini-SWE,-0.024520365240586983
+t3_molecular_transition_f1,10x_chromium_3_gene_expression_v4,Claude,Claude: Claude Code - Pi,-0.11923076923076925
+t3_molecular_transition_f1,ddseq_single_cell_3_rna_seq_kit,Claude,Claude: Claude Code - Pi,0.23809523809523814
+t3_molecular_transition_f1,dr_seq,Claude,Claude: Claude Code - Pi,-0.086052449965493383
+t3_molecular_transition_f1,indrop_v1,Claude,Claude: Claude Code - Pi,-0.1463549522373051
+t3_molecular_transition_f1,petri_seq,Claude,Claude: Claude Code - Pi,0
+t3_molecular_transition_f1,pip_seq_v4,Claude,Claude: Claude Code - Pi,-0.060279866332497711
+t3_molecular_transition_f1,sci_atac_seq,Claude,Claude: Claude Code - Pi,0.21944444444444461
+t3_molecular_transition_f1,scrrbs,Claude,Claude: Claude Code - Pi,0.027272727272727337
+t3_molecular_transition_f1,share_seq,Claude,Claude: Claude Code - Pi,-0.018478260869565277
+t3_molecular_transition_f1,smart_seq,Claude,Claude: Claude Code - Pi,0.044736842105263075
+t3_molecular_transition_f1,10x_chromium_3_gene_expression_v4,Claude,Claude: Claude Code - mini-SWE,-0.11923076923076925
+t3_molecular_transition_f1,ddseq_single_cell_3_rna_seq_kit,Claude,Claude: Claude Code - mini-SWE,0.37912087912087911
+t3_molecular_transition_f1,dr_seq,Claude,Claude: Claude Code - mini-SWE,-0.15733044733044715
+t3_molecular_transition_f1,indrop_v1,Claude,Claude: Claude Code - mini-SWE,-0.18866264454499748
+t3_molecular_transition_f1,petri_seq,Claude,Claude: Claude Code - mini-SWE,-0.086744522083102904
+t3_molecular_transition_f1,pip_seq_v4,Claude,Claude: Claude Code - mini-SWE,0.10121087031303733
+t3_molecular_transition_f1,sci_atac_seq,Claude,Claude: Claude Code - mini-SWE,0.18611111111111123
+t3_molecular_transition_f1,scrrbs,Claude,Claude: Claude Code - mini-SWE,0.051515151515151514
+t3_molecular_transition_f1,share_seq,Claude,Claude: Claude Code - mini-SWE,0.02915233293297137
+t3_molecular_transition_f1,smart_seq,Claude,Claude: Claude Code - mini-SWE,0.028947368421052611
+t3_molecular_transition_f1,10x_chromium_3_gene_expression_v4,Gemini,Gemini: Antigravity CLI - Pi,-0.02083333333333337
+t3_molecular_transition_f1,ddseq_single_cell_3_rna_seq_kit,Gemini,Gemini: Antigravity CLI - Pi,0.071328671328671267
+t3_molecular_transition_f1,dr_seq,Gemini,Gemini: Antigravity CLI - Pi,0.043837285902503464
+t3_molecular_transition_f1,indrop_v1,Gemini,Gemini: Antigravity CLI - Pi,-0.10769230769230775
+t3_molecular_transition_f1,petri_seq,Gemini,Gemini: Antigravity CLI - Pi,0
+t3_molecular_transition_f1,pip_seq_v4,Gemini,Gemini: Antigravity CLI - Pi,0.27814105972000713
+t3_molecular_transition_f1,sci_atac_seq,Gemini,Gemini: Antigravity CLI - Pi,-0.0064780308258568509
+t3_molecular_transition_f1,scrrbs,Gemini,Gemini: Antigravity CLI - Pi,0.067382154882155043
+t3_molecular_transition_f1,share_seq,Gemini,Gemini: Antigravity CLI - Pi,0
+t3_molecular_transition_f1,smart_seq,Gemini,Gemini: Antigravity CLI - Pi,0.34861111111111109
+t3_molecular_transition_f1,10x_chromium_3_gene_expression_v4,Gemini,Gemini: Antigravity CLI - mini-SWE,0.015909090909090873
+t3_molecular_transition_f1,ddseq_single_cell_3_rna_seq_kit,Gemini,Gemini: Antigravity CLI - mini-SWE,0.14440559440559453
+t3_molecular_transition_f1,dr_seq,Gemini,Gemini: Antigravity CLI - mini-SWE,0.24526224982746742
+t3_molecular_transition_f1,indrop_v1,Gemini,Gemini: Antigravity CLI - mini-SWE,-0.10769230769230775
+t3_molecular_transition_f1,petri_seq,Gemini,Gemini: Antigravity CLI - mini-SWE,0
+t3_molecular_transition_f1,pip_seq_v4,Gemini,Gemini: Antigravity CLI - mini-SWE,-0.0014354066985645675
+t3_molecular_transition_f1,sci_atac_seq,Gemini,Gemini: Antigravity CLI - mini-SWE,-0.0064780308258568509
+t3_molecular_transition_f1,scrrbs,Gemini,Gemini: Antigravity CLI - mini-SWE,-0.080858585858585741
+t3_molecular_transition_f1,share_seq,Gemini,Gemini: Antigravity CLI - mini-SWE,-0.070789473684210402
+t3_molecular_transition_f1,smart_seq,Gemini,Gemini: Antigravity CLI - mini-SWE,0.34861111111111109
+t3_state_f1,10x_chromium_3_gene_expression_v4,GPT,GPT: Codex - Pi,0.021690756054769111
+t3_state_f1,ddseq_single_cell_3_rna_seq_kit,GPT,GPT: Codex - Pi,0.082851573377889176
+t3_state_f1,dr_seq,GPT,GPT: Codex - Pi,-0.1433790963898619
+t3_state_f1,indrop_v1,GPT,GPT: Codex - Pi,0.13324069279131745
+t3_state_f1,petri_seq,GPT,GPT: Codex - Pi,0.12270378919450342
+t3_state_f1,pip_seq_v4,GPT,GPT: Codex - Pi,0.041216348345644249
+t3_state_f1,sci_atac_seq,GPT,GPT: Codex - Pi,-0.014644313398762876
+t3_state_f1,scrrbs,GPT,GPT: Codex - Pi,0.011544592600741477
+t3_state_f1,share_seq,GPT,GPT: Codex - Pi,-0.064239848260580601
+t3_state_f1,smart_seq,GPT,GPT: Codex - Pi,0.10149297542102947
+t3_state_f1,10x_chromium_3_gene_expression_v4,GPT,GPT: Codex - mini-SWE,-0.027353982600147986
+t3_state_f1,ddseq_single_cell_3_rna_seq_kit,GPT,GPT: Codex - mini-SWE,0.16857769423558877
+t3_state_f1,dr_seq,GPT,GPT: Codex - mini-SWE,-0.13454897544836097
+t3_state_f1,indrop_v1,GPT,GPT: Codex - mini-SWE,0.11668885468047985
+t3_state_f1,petri_seq,GPT,GPT: Codex - mini-SWE,0.050573979591836737
+t3_state_f1,pip_seq_v4,GPT,GPT: Codex - mini-SWE,-0.088061806908025397
+t3_state_f1,sci_atac_seq,GPT,GPT: Codex - mini-SWE,0.0014901525785673275
+t3_state_f1,scrrbs,GPT,GPT: Codex - mini-SWE,0.0087025807166867253
+t3_state_f1,share_seq,GPT,GPT: Codex - mini-SWE,-0.047587230256308066
+t3_state_f1,smart_seq,GPT,GPT: Codex - mini-SWE,0.010119171340718158
+t3_state_f1,10x_chromium_3_gene_expression_v4,Claude,Claude: Claude Code - Pi,-0.012385733636401497
+t3_state_f1,ddseq_single_cell_3_rna_seq_kit,Claude,Claude: Claude Code - Pi,0.14142857142857135
+t3_state_f1,dr_seq,Claude,Claude: Claude Code - Pi,-0.047610864495951366
+t3_state_f1,indrop_v1,Claude,Claude: Claude Code - Pi,-0.00094616270723640872
+t3_state_f1,petri_seq,Claude,Claude: Claude Code - Pi,0.012299422126762272
+t3_state_f1,pip_seq_v4,Claude,Claude: Claude Code - Pi,-0.07123837105937203
+t3_state_f1,sci_atac_seq,Claude,Claude: Claude Code - Pi,0.010445928919018743
+t3_state_f1,scrrbs,Claude,Claude: Claude Code - Pi,0.18187342998532219
+t3_state_f1,share_seq,Claude,Claude: Claude Code - Pi,0.029324413192433174
+t3_state_f1,smart_seq,Claude,Claude: Claude Code - Pi,0.048461826040491762
+t3_state_f1,10x_chromium_3_gene_expression_v4,Claude,Claude: Claude Code - mini-SWE,-0.062458959331837094
+t3_state_f1,ddseq_single_cell_3_rna_seq_kit,Claude,Claude: Claude Code - mini-SWE,0.43064814814814811
+t3_state_f1,dr_seq,Claude,Claude: Claude Code - mini-SWE,-0.14573339671810409
+t3_state_f1,indrop_v1,Claude,Claude: Claude Code - mini-SWE,-0.20742522428648313
+t3_state_f1,petri_seq,Claude,Claude: Claude Code - mini-SWE,-0.056189035761461836
+t3_state_f1,pip_seq_v4,Claude,Claude: Claude Code - mini-SWE,0.040410603782299992
+t3_state_f1,sci_atac_seq,Claude,Claude: Claude Code - mini-SWE,0.040309377907387645
+t3_state_f1,scrrbs,Claude,Claude: Claude Code - mini-SWE,0.13479030160495242
+t3_state_f1,share_seq,Claude,Claude: Claude Code - mini-SWE,0.043790274258063588
+t3_state_f1,smart_seq,Claude,Claude: Claude Code - mini-SWE,-0.0073323404127993985
+t3_state_f1,10x_chromium_3_gene_expression_v4,Gemini,Gemini: Antigravity CLI - Pi,-0.065219017644153165
+t3_state_f1,ddseq_single_cell_3_rna_seq_kit,Gemini,Gemini: Antigravity CLI - Pi,0.12592592592592611
+t3_state_f1,dr_seq,Gemini,Gemini: Antigravity CLI - Pi,0.0027956514378323916
+t3_state_f1,indrop_v1,Gemini,Gemini: Antigravity CLI - Pi,-0.41807880344341858
+t3_state_f1,petri_seq,Gemini,Gemini: Antigravity CLI - Pi,-0.029568601297728425
+t3_state_f1,pip_seq_v4,Gemini,Gemini: Antigravity CLI - Pi,0.1649877773119835
+t3_state_f1,sci_atac_seq,Gemini,Gemini: Antigravity CLI - Pi,-0.17673999549662359
+t3_state_f1,scrrbs,Gemini,Gemini: Antigravity CLI - Pi,-0.051353008557421309
+t3_state_f1,share_seq,Gemini,Gemini: Antigravity CLI - Pi,0.1588674215057137
+t3_state_f1,smart_seq,Gemini,Gemini: Antigravity CLI - Pi,0.28463544780420547
+t3_state_f1,10x_chromium_3_gene_expression_v4,Gemini,Gemini: Antigravity CLI - mini-SWE,-0.093476275924955776
+t3_state_f1,ddseq_single_cell_3_rna_seq_kit,Gemini,Gemini: Antigravity CLI - mini-SWE,0.15341130604288516
+t3_state_f1,dr_seq,Gemini,Gemini: Antigravity CLI - mini-SWE,-0.056012904358628601
+t3_state_f1,indrop_v1,Gemini,Gemini: Antigravity CLI - mini-SWE,-0.1642026528559547
+t3_state_f1,petri_seq,Gemini,Gemini: Antigravity CLI - mini-SWE,0.21714512503450689
+t3_state_f1,pip_seq_v4,Gemini,Gemini: Antigravity CLI - mini-SWE,0.0084531186345834786
+t3_state_f1,sci_atac_seq,Gemini,Gemini: Antigravity CLI - mini-SWE,-0.0084978158497077128
+t3_state_f1,scrrbs,Gemini,Gemini: Antigravity CLI - mini-SWE,0.17801192754451245
+t3_state_f1,share_seq,Gemini,Gemini: Antigravity CLI - mini-SWE,0.1913335388442195
+t3_state_f1,smart_seq,Gemini,Gemini: Antigravity CLI - mini-SWE,0.30498863605880133
+t3_typed_edge_f1,10x_chromium_3_gene_expression_v4,GPT,GPT: Codex - Pi,0
+t3_typed_edge_f1,ddseq_single_cell_3_rna_seq_kit,GPT,GPT: Codex - Pi,0.29233870967741937
+t3_typed_edge_f1,dr_seq,GPT,GPT: Codex - Pi,-0.0093617021276597434
+t3_typed_edge_f1,indrop_v1,GPT,GPT: Codex - Pi,0.1364764267990074
+t3_typed_edge_f1,petri_seq,GPT,GPT: Codex - Pi,0.076923076923076761
+t3_typed_edge_f1,pip_seq_v4,GPT,GPT: Codex - Pi,0.48333333333333339
+t3_typed_edge_f1,sci_atac_seq,GPT,GPT: Codex - Pi,0
+t3_typed_edge_f1,scrrbs,GPT,GPT: Codex - Pi,0
+t3_typed_edge_f1,share_seq,GPT,GPT: Codex - Pi,-0.020833333333333259
+t3_typed_edge_f1,smart_seq,GPT,GPT: Codex - Pi,0.13398692810457524
+t3_typed_edge_f1,10x_chromium_3_gene_expression_v4,GPT,GPT: Codex - mini-SWE,-0.15384615384615385
+t3_typed_edge_f1,ddseq_single_cell_3_rna_seq_kit,GPT,GPT: Codex - mini-SWE,0.37749999999999995
+t3_typed_edge_f1,dr_seq,GPT,GPT: Codex - mini-SWE,-0.0093617021276597434
+t3_typed_edge_f1,indrop_v1,GPT,GPT: Codex - mini-SWE,0.1364764267990074
+t3_typed_edge_f1,petri_seq,GPT,GPT: Codex - mini-SWE,0.08333333333333337
+t3_typed_edge_f1,pip_seq_v4,GPT,GPT: Codex - mini-SWE,-0.024193548387096753
+t3_typed_edge_f1,sci_atac_seq,GPT,GPT: Codex - mini-SWE,0
+t3_typed_edge_f1,scrrbs,GPT,GPT: Codex - mini-SWE,0
+t3_typed_edge_f1,share_seq,GPT,GPT: Codex - mini-SWE,0.0625
+t3_typed_edge_f1,smart_seq,GPT,GPT: Codex - mini-SWE,-0.16013071895424824
+t3_typed_edge_f1,10x_chromium_3_gene_expression_v4,Claude,Claude: Claude Code - Pi,-0.15384615384615385
+t3_typed_edge_f1,ddseq_single_cell_3_rna_seq_kit,Claude,Claude: Claude Code - Pi,0.47058823529411775
+t3_typed_edge_f1,dr_seq,Claude,Claude: Claude Code - Pi,-0.2105571847507331
+t3_typed_edge_f1,indrop_v1,Claude,Claude: Claude Code - Pi,-0.020790020790020791
+t3_typed_edge_f1,petri_seq,Claude,Claude: Claude Code - Pi,0
+t3_typed_edge_f1,pip_seq_v4,Claude,Claude: Claude Code - Pi,-0.04761904761904745
+t3_typed_edge_f1,sci_atac_seq,Claude,Claude: Claude Code - Pi,0.10526315789473692
+t3_typed_edge_f1,scrrbs,Claude,Claude: Claude Code - Pi,0.08333333333333337
+t3_typed_edge_f1,share_seq,Claude,Claude: Claude Code - Pi,-0.0625
+t3_typed_edge_f1,smart_seq,Claude,Claude: Claude Code - Pi,0.11111111111111105
+t3_typed_edge_f1,10x_chromium_3_gene_expression_v4,Claude,Claude: Claude Code - mini-SWE,-0.15384615384615385
+t3_typed_edge_f1,ddseq_single_cell_3_rna_seq_kit,Claude,Claude: Claude Code - mini-SWE,0.5
+t3_typed_edge_f1,dr_seq,Claude,Claude: Claude Code - mini-SWE,-0.31964809384164222
+t3_typed_edge_f1,indrop_v1,Claude,Claude: Claude Code - mini-SWE,-0.097713097713097552
+t3_typed_edge_f1,petri_seq,Claude,Claude: Claude Code - mini-SWE,-0.15384615384615385
+t3_typed_edge_f1,pip_seq_v4,Claude,Claude: Claude Code - mini-SWE,0.091119691119691093
+t3_typed_edge_f1,sci_atac_seq,Claude,Claude: Claude Code - mini-SWE,0.10526315789473692
+t3_typed_edge_f1,scrrbs,Claude,Claude: Claude Code - mini-SWE,0.16666666666666674
+t3_typed_edge_f1,share_seq,Claude,Claude: Claude Code - mini-SWE,0.079166666666666829
+t3_typed_edge_f1,smart_seq,Claude,Claude: Claude Code - mini-SWE,-0.049019607843137192
+t3_typed_edge_f1,10x_chromium_3_gene_expression_v4,Gemini,Gemini: Antigravity CLI - Pi,-0.16666666666666663
+t3_typed_edge_f1,ddseq_single_cell_3_rna_seq_kit,Gemini,Gemini: Antigravity CLI - Pi,0.018518518518518379
+t3_typed_edge_f1,dr_seq,Gemini,Gemini: Antigravity CLI - Pi,0.015406162464986051
+t3_typed_edge_f1,indrop_v1,Gemini,Gemini: Antigravity CLI - Pi,-0.23076923076923067
+t3_typed_edge_f1,petri_seq,Gemini,Gemini: Antigravity CLI - Pi,0
+t3_typed_edge_f1,pip_seq_v4,Gemini,Gemini: Antigravity CLI - Pi,0.62260869565217392
+t3_typed_edge_f1,sci_atac_seq,Gemini,Gemini: Antigravity CLI - Pi,0
+t3_typed_edge_f1,scrrbs,Gemini,Gemini: Antigravity CLI - Pi,0.064102564102564097
+t3_typed_edge_f1,share_seq,Gemini,Gemini: Antigravity CLI - Pi,0
+t3_typed_edge_f1,smart_seq,Gemini,Gemini: Antigravity CLI - Pi,0.34803921568627455
+t3_typed_edge_f1,10x_chromium_3_gene_expression_v4,Gemini,Gemini: Antigravity CLI - mini-SWE,-0.060606060606060552
+t3_typed_edge_f1,ddseq_single_cell_3_rna_seq_kit,Gemini,Gemini: Antigravity CLI - mini-SWE,0.17369093231162186
+t3_typed_edge_f1,dr_seq,Gemini,Gemini: Antigravity CLI - mini-SWE,0.40285714285714302
+t3_typed_edge_f1,indrop_v1,Gemini,Gemini: Antigravity CLI - mini-SWE,-0.23076923076923067
+t3_typed_edge_f1,petri_seq,Gemini,Gemini: Antigravity CLI - mini-SWE,0
+t3_typed_edge_f1,pip_seq_v4,Gemini,Gemini: Antigravity CLI - mini-SWE,0
+t3_typed_edge_f1,sci_atac_seq,Gemini,Gemini: Antigravity CLI - mini-SWE,0
+t3_typed_edge_f1,scrrbs,Gemini,Gemini: Antigravity CLI - mini-SWE,-0.07575757575757569
+t3_typed_edge_f1,share_seq,Gemini,Gemini: Antigravity CLI - mini-SWE,-0.14743589743589747
+t3_typed_edge_f1,smart_seq,Gemini,Gemini: Antigravity CLI - mini-SWE,0.34803921568627455

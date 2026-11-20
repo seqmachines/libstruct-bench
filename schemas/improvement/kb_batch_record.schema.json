@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/improvement/kb_batch_record.schema.json",
+  "title": "Completed checkpoint-bounded parallel training batch",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "design_digest",
+    "amendment_digest",
+    "parent_state_id",
+    "parent_microstate_digest",
+    "checkpoint",
+    "analysis_concurrency",
+    "protocols",
+    "validation_launch",
+    "started_at",
+    "completed_at",
+    "batch_digest"
+  ],
+  "properties": {
+    "schema_version": {"const": "libstruct.libgen_kb_batch_record.v1"},
+    "design_digest": {"$ref": "#/$defs/sha256"},
+    "amendment_digest": {"$ref": "#/$defs/sha256"},
+    "parent_state_id": {"type": "string", "pattern": "^S[0-9]{3}$"},
+    "parent_microstate_digest": {"$ref": "#/$defs/sha256"},
+    "checkpoint": {"type": "string", "pattern": "^C[0-9]+$"},
+    "analysis_concurrency": {"type": "integer", "minimum": 2, "maximum": 8},
+    "protocols": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["state_id", "protocol_id", "adjudication_digest", "cycle_digest"],
+        "properties": {
+          "state_id": {"type": "string", "pattern": "^S[0-9]{3}$"},
+          "protocol_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9_]*$"},
+          "adjudication_digest": {"$ref": "#/$defs/sha256"},
+          "cycle_digest": {"$ref": "#/$defs/sha256"}
+        }
+      }
+    },
+    "validation_launch": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["checkpoint", "status", "receipt", "pid"],
+      "properties": {
+        "checkpoint": {"type": "string", "pattern": "^C[0-9]+$"},
+        "status": {"enum": ["launched", "running", "succeeded"]},
+        "receipt": {"type": "string", "minLength": 1},
+        "pid": {"type": "integer", "minimum": 1}
+      }
+    },
+    "started_at": {"type": "string", "format": "date-time"},
+    "completed_at": {"type": "string", "format": "date-time"},
+    "batch_digest": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+  }
+}

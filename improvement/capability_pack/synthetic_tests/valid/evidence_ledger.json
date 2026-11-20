@@ -1,0 +1,24 @@
+{
+  "claims": [
+    {"claim_id": "t2-001", "json_pointer": "/oligos/0/kind", "source_locators": ["synthetic fixture"], "support": "explicit", "target": "t2"},
+    {"claim_id": "t2-002", "json_pointer": "/oligos/0/sequence", "source_locators": ["synthetic fixture"], "support": "explicit", "target": "t2"},
+    {"claim_id": "t2-003", "json_pointer": "/oligos/0/orientation", "source_locators": ["synthetic fixture"], "support": "explicit", "target": "t2"},
+    {"claim_id": "t2-004", "json_pointer": "/oligos/0/components/0/sequence", "source_locators": ["synthetic fixture"], "support": "explicit", "target": "t2"},
+    {"claim_id": "t2-005", "json_pointer": "/oligos/0/components/0/orientation", "source_locators": ["synthetic fixture"], "support": "explicit", "target": "t2"},
+    {"claim_id": "t3-001", "json_pointer": "/workflows/0/states/0/strand_architecture", "source_locators": ["synthetic fixture"], "support": "explicit", "target": "t3"},
+    {"claim_id": "t3-002", "json_pointer": "/workflows/0/states/0/strands/0/orientation", "source_locators": ["synthetic fixture"], "support": "explicit", "target": "t3"},
+    {"claim_id": "t3-003", "json_pointer": "/workflows/0/states/0/strands/0/segments/0/sequence", "source_locators": ["synthetic fixture"], "support": "explicit", "target": "t3"},
+    {"claim_id": "t3-004", "json_pointer": "/workflows/0/states/1/strand_architecture", "source_locators": ["synthetic fixture"], "support": "explicit", "target": "t3"},
+    {"claim_id": "t3-005", "json_pointer": "/workflows/0/states/1/strands/0/orientation", "source_locators": ["synthetic fixture"], "support": "explicit", "target": "t3"},
+    {"claim_id": "t3-006", "json_pointer": "/workflows/0/states/1/strands/0/segments/0/orientation_to_source", "source_locators": ["synthetic fixture"], "support": "explicit", "target": "t3"},
+    {"claim_id": "t3-007", "json_pointer": "/workflows/0/states/1/strands/0/segments/0/oligo_derivations/0/orientation_to_source", "source_locators": ["synthetic fixture"], "support": "explicit", "target": "t3"},
+    {"claim_id": "t3-008", "json_pointer": "/workflows/0/states/1/strands/0/segments/0/sequence", "source_locators": ["synthetic fixture"], "support": "explicit", "target": "t3"},
+    {"claim_id": "t3-009", "json_pointer": "/workflows/0/states/1/strands/0/segments/1/sequence", "source_locators": ["synthetic fixture"], "support": "explicit", "target": "t3"},
+    {"claim_id": "t3-010", "json_pointer": "/workflows/0/transitions/0/operation", "source_locators": ["synthetic fixture"], "support": "explicit", "target": "t3"},
+    {"claim_id": "t3-011", "json_pointer": "/workflows/0/transitions/0/substrate_state_ids", "source_locators": ["synthetic fixture"], "support": "explicit", "target": "t3"},
+    {"claim_id": "t3-012", "json_pointer": "/workflows/0/transitions/0/product_state_ids", "source_locators": ["synthetic fixture"], "support": "explicit", "target": "t3"},
+    {"claim_id": "t3-013", "json_pointer": "/workflows/0/transitions/0/carried_forward_product_ids", "source_locators": ["synthetic fixture"], "support": "explicit", "target": "t3"},
+    {"claim_id": "t3-014", "json_pointer": "/workflows/0/final_outputs", "source_locators": ["synthetic fixture"], "support": "explicit", "target": "t3"}
+  ],
+  "schema_version": "libstruct.evidence_ledger.v1"
+}

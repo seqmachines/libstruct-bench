@@ -1,0 +1,115 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/improvement/kb_validation_selection.schema.json",
+  "title": "Pre-test checkpoint selection from macro validation aggregates",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "design_digest",
+    "selection_policy",
+    "component_metrics",
+    "aggregate_refs",
+    "ranking",
+    "selected_checkpoint",
+    "selected_checkpoint_digest",
+    "validation_use",
+    "prohibited_uses",
+    "created_at",
+    "selection_digest"
+  ],
+  "properties": {
+    "schema_version": {"const": "libstruct.libgen_kb_validation_selection.v1"},
+    "design_digest": {"$ref": "#/$defs/sha256"},
+    "selection_policy": {"const": "balanced_core_mean_then_validity_minimum_reward_earlier_v1"},
+    "component_metrics": {
+      "const": [
+        "t2_required_family_f1",
+        "t3_molecular_transition_f1",
+        "t3_state_f1",
+        "t3_typed_edge_f1"
+      ]
+    },
+    "aggregate_refs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/aggregate_ref"}
+    },
+    "ranking": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/ranking_row"}
+    },
+    "selected_checkpoint": {"type": "string", "pattern": "^C[1-9][0-9]*$"},
+    "selected_checkpoint_digest": {"$ref": "#/$defs/sha256"},
+    "validation_use": {"const": "primary_test_endpoint_selection_and_regression_diagnostics_only"},
+    "prohibited_uses": {
+      "const": [
+        "pact_learning",
+        "knowledge_base_content",
+        "protocol_specific_error_feedback",
+        "groundtruth_mutation"
+      ]
+    },
+    "created_at": {"type": "string", "format": "date-time"},
+    "selection_digest": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "metric_map": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "t2_required_family_f1",
+        "t3_molecular_transition_f1",
+        "t3_state_f1",
+        "t3_typed_edge_f1"
+      ],
+      "properties": {
+        "t2_required_family_f1": {"type": "number", "minimum": 0, "maximum": 1},
+        "t3_molecular_transition_f1": {"type": "number", "minimum": 0, "maximum": 1},
+        "t3_state_f1": {"type": "number", "minimum": 0, "maximum": 1},
+        "t3_typed_edge_f1": {"type": "number", "minimum": 0, "maximum": 1}
+      }
+    },
+    "aggregate_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["checkpoint", "path", "sha256", "digest"],
+      "properties": {
+        "checkpoint": {"type": "string", "pattern": "^C[1-9][0-9]*$"},
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "digest": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "ranking_row": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "rank",
+        "checkpoint",
+        "checkpoint_digest",
+        "balanced_core_mean",
+        "component_minimum",
+        "component_metrics",
+        "reward",
+        "valid_count",
+        "invalid_or_missing_count",
+        "regressed_from_previous"
+      ],
+      "properties": {
+        "rank": {"type": "integer", "minimum": 1},
+        "checkpoint": {"type": "string", "pattern": "^C[1-9][0-9]*$"},
+        "checkpoint_digest": {"$ref": "#/$defs/sha256"},
+        "balanced_core_mean": {"type": "number", "minimum": 0, "maximum": 1},
+        "component_minimum": {"type": "number", "minimum": 0, "maximum": 1},
+        "component_metrics": {"$ref": "#/$defs/metric_map"},
+        "reward": {"type": "number", "minimum": 0, "maximum": 1},
+        "valid_count": {"type": "integer", "minimum": 0},
+        "invalid_or_missing_count": {"type": "integer", "minimum": 0},
+        "regressed_from_previous": {"type": ["boolean", "null"]}
+      }
+    }
+  }
+}

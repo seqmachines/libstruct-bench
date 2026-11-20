@@ -1,0 +1,4415 @@
+{
+  "manifest": "benchmarks/library_structure/round2/protocols.json",
+  "manifest_sha256": "05305d5f2e14b9028236a9e48a2f0624d4e94b0d56c076629aa8818ff840f6e8",
+  "input_revision": "59f49763dc258db15d754ba6504b5cacd3404e94",
+  "protocol_ids": [
+    "10x_chromium_single_cell_atac_v2",
+    "10x_chromium_3_gene_expression_v4",
+    "10x_chromium_3_feature_barcoding",
+    "drop_seq",
+    "seq_well_s3",
+    "indrop_v1",
+    "s3_atac",
+    "cel_seq",
+    "split_seq",
+    "sci_rna_seq",
+    "sci_atac_seq",
+    "microwell_seq",
+    "scrrbs",
+    "pip_seq_v4",
+    "scdamid",
+    "ddseq_single_cell_3_rna_seq_kit",
+    "smart_seq",
+    "share_seq",
+    "dr_seq",
+    "petri_seq"
+  ],
+  "source_root": "runs/library_structure/round2",
+  "scorer_sha256": {
+    "library_structure.py": "b9960ab9ec3a6ca8ce00d39ce42bc6485f83940d5bf3160af8e32d619b4519e6",
+    "matching.py": "7e17e2badf2608a942cb206dc03df4bc01a861ed6e66680173d26fb7c7f35f21",
+    "cli/grade_library_v0.py": "952d0e7a398a81adc140cfb3af9400ae9bd39917d825ec2cb12fd5258056bd99"
+  },
+  "reference_repository": "sequencing/scg-oligo-groundtruth-v1",
+  "reference_revision": "5a81714daaa87d568a0c5b62320679d34219ebf7",
+  "reference_snapshot": "5a81714+human-vn-w1-barcode-range-2026-10-10",
+  "reference_amendments": [
+    {
+      "protocol_id": "10x_chromium_3_feature_barcoding",
+      "description": "Explicit T(30)VN[CDNA] human correction",
+      "artifacts": {
+        "proposal.json": {
+          "path": "external/audit-data/ground_truth_audit/applications/10x_chromium_3_feature_barcoding/vn-anchor-2026-10-10/proposal.json",
+          "sha256": "3d353ae3ee1e3fe2d6f1e136ca867f3c72b0ec92ad21c467787e3c933bcc2825"
+        },
+        "decision.json": {
+          "path": "external/audit-data/ground_truth_audit/applications/10x_chromium_3_feature_barcoding/vn-anchor-2026-10-10/decision.json",
+          "sha256": "99d69bfd829b0722e1ac76d7eab21b3d938d82838b94d9ac57f58c84a2bcf42d"
+        },
+        "application/application-log.json": {
+          "path": "external/audit-data/ground_truth_audit/applications/10x_chromium_3_feature_barcoding/vn-anchor-2026-10-10/application/application-log.json",
+          "sha256": "2c89b81fe6ce9bbbcc3a153280d317096ef3cf2ef75a8f1046e67ff2eb7d3e8c"
+        },
+        "installation-receipt.json": {
+          "path": "external/audit-data/ground_truth_audit/applications/10x_chromium_3_feature_barcoding/vn-anchor-2026-10-10/installation-receipt.json",
+          "sha256": "2c7f05867062542bfb9f0cc04c9664685fe2749187a1851a46d315e4b90254b2"
+        }
+      },
+      "remote_published": false
+    },
+    {
+      "protocol_id": "indrop_v1",
+      "description": "Restore Table S5 W1 orientation in the final-library strand and linked T2/T3 records",
+      "artifacts": {
+        "proposal.json": {
+          "path": "external/audit-data/ground_truth_audit/applications/indrop_v1/w1-orientation-2026-10-10/proposal.json",
+          "sha256": "a1b07fa4f4a80726a38a506594c57b7479467655b1a125560eb9af2802808fef"
+        },
+        "decision.json": {
+          "path": "external/audit-data/ground_truth_audit/applications/indrop_v1/w1-orientation-2026-10-10/decision.json",
+          "sha256": "33e0d3047a5bb340337bb7ccda0610f006c9b8d0f0fb78f29d206a0158b9c4d3"
+        },
+        "application/application-log.json": {
+          "path": "external/audit-data/ground_truth_audit/applications/indrop_v1/w1-orientation-2026-10-10/application/application-log.json",
+          "sha256": "8de35d20ee45f2ea6d417d2476911f639e7b964401d09ea926fe0c8fd83d212e"
+        },
+        "installation-receipt.json": {
+          "path": "external/audit-data/ground_truth_audit/applications/indrop_v1/w1-orientation-2026-10-10/installation-receipt.json",
+          "sha256": "6f32008305464cc0018db66eed37b9e0b36a7ab8308123018ee7f578f4e5749e"
+        }
+      },
+      "remote_published": false
+    },
+    {
+      "protocol_id": "indrop_v1",
+      "description": "Approved barcode1 lengths 8, 9, 10, or 11 nt; T(19)V segment metadata length 20. W1 unchanged.",
+      "artifacts": {
+        "proposal": {
+          "path": "external/audit-data/ground_truth_audit/applications/indrop_v1/barcode-range-polyt-length-2026-10-10/proposal.json",
+          "sha256": "621c577d3cca8d08a1b69707b939ddbb83c05813a15f30981d5a241130496cfa"
+        },
+        "decision": {
+          "path": "external/audit-data/ground_truth_audit/applications/indrop_v1/barcode-range-polyt-length-2026-10-10/decision.json",
+          "sha256": "b7d4ce5a1dcb39351c9ff8be2c30d763fe6589a31ef5d3805a5e440d5542beab"
+        },
+        "application_log": {
+          "path": "external/audit-data/ground_truth_audit/applications/indrop_v1/barcode-range-polyt-length-2026-10-10/application/application-log.json",
+          "sha256": "e823b196090cc714922dd8f5cb30736d88750b1f777727e016a00c3ed9b490c8"
+        },
+        "installation_receipt": {
+          "path": "external/audit-data/ground_truth_audit/applications/indrop_v1/barcode-range-polyt-length-2026-10-10/installation-receipt.json",
+          "sha256": "479e302d656bf713fccc9135eb62550b3ad6808fe210fa97dc65cc4e467efaf5"
+        },
+        "evidence_check": {
+          "path": "external/audit-data/ground_truth_audit/applications/indrop_v1/barcode-range-polyt-length-2026-10-10/evidence-check.json",
+          "sha256": "f902232aa2ffef36652d5ad660d46b3e59576fb9d377cbf0533a545defd72a81"
+        },
+        "input_manifest": {
+          "path": "external/audit-data/ground_truth_audit/applications/indrop_v1/barcode-range-polyt-length-2026-10-10/input-manifest.json",
+          "sha256": "927420415a42ac7a006869bd59a0e18e75f6271a69527d638096d9f1f95d2c2e"
+        }
+      }
+    }
+  ],
+  "reference_lock_sha256": "7694a38ab5495fa4c4d38b5e3af5558ab216ef4ac4b9e3caabb17934adb1f894",
+  "reference_projection_sha256": "7952fd2f1497e7fd20599bd255f58fde34c914c16439d4e2c04af52fad4f4a2c",
+  "reference_policy": "HF base plus human-approved 10x T(30)VN[CDNA], inDrop W1 orientation and barcode1=8/9/10/11 corrections, projected to the original Task 1 string contract; VN is required in primary analysis",
+  "length_alternatives": [
+    {
+      "protocol_id": "indrop_v1",
+      "library_index": 0,
+      "segment_id": "seg_cell_barcode_1",
+      "placeholder": "[CELL_BARCODE1]",
+      "lengths": [
+        8,
+        9,
+        10,
+        11
+      ]
+    }
+  ],
+  "length_alternative_policy": "Generate all declared reference alternatives before reading predictions. Apply the unchanged v0 scorer to each complete alternative and retain maximum protocol sequence similarity; ties use declaration order. Alternatives are not extra libraries or observations. Applied to both interfaces and all models.",
+  "groundtruth": {
+    "10x_chromium_single_cell_atac_v2": {
+      "path": "external/audit-data/ground_truth/10x_chromium_single_cell_atac_v2/groundtruth_final_lib_struct.json",
+      "sha256": "09c2db4c42c7e603530542a722583b7ef919f345f3bf75e172287c3d17094c38",
+      "historical_path": "runs/library_structure/round2/tasks/10x_chromium_single_cell_atac_v2/tests/groundtruth.json",
+      "historical_sha256": "4bfb724357d02e73006b556511b1f164edeeed6dd5beef9c3b5e63eb8fe29707",
+      "canonical_library_count": 1,
+      "historical_library_count": 1,
+      "projection": {
+        "transformations": [
+          {
+            "library_index": 0,
+            "segment_id": "seg_cell_barcode",
+            "source": "[CELL_BARCODE:16]",
+            "scoring": "################",
+            "reason": "existing v0 placeholder normalization"
+          },
+          {
+            "library_index": 0,
+            "segment_id": "seg_gdna_insert",
+            "source": "[GDNA]",
+            "scoring": "",
+            "reason": "omit biological payload, including annotated internal insert bases"
+          },
+          {
+            "library_index": 0,
+            "segment_id": "seg_sample_index",
+            "source": "[SAMPLE_INDEX:8]",
+            "scoring": "@@@@@@@@",
+            "reason": "existing v0 placeholder normalization"
+          }
+        ],
+        "unresolved_placeholders": []
+      },
+      "reference_variants": [
+        {
+          "index": 0,
+          "length_choices": [],
+          "projection": {
+            "transformations": [
+              {
+                "library_index": 0,
+                "segment_id": "seg_cell_barcode",
+                "source": "[CELL_BARCODE:16]",
+                "scoring": "################",
+                "reason": "existing v0 placeholder normalization"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "seg_gdna_insert",
+                "source": "[GDNA]",
+                "scoring": "",
+                "reason": "omit biological payload, including annotated internal insert bases"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "seg_sample_index",
+                "source": "[SAMPLE_INDEX:8]",
+                "scoring": "@@@@@@@@",
+                "reason": "existing v0 placeholder normalization"
+              }
+            ],
+            "unresolved_placeholders": []
+          },
+          "library_sequences": [
+            "AATGATACGGCGACCACCGAGATCTACAC################TCGTCGGCAGCGTCAGATGTGTATAAGAGACAGCTGTCTCTTATACACATCTCCGAGCCCACGAGAC@@@@@@@@ATCTCGTATGCCGTCTTCTGCTTG"
+          ]
+        }
+      ]
+    },
+    "10x_chromium_3_gene_expression_v4": {
+      "path": "external/audit-data/ground_truth/10x_chromium_3_gene_expression_v4/groundtruth_final_lib_struct.json",
+      "sha256": "81daf52f0d6eb144700504e7ee5748daf22026ebace63a62d61df71078b0d3b6",
+      "historical_path": "runs/library_structure/round2/tasks/10x_chromium_3_gene_expression_v4/tests/groundtruth.json",
+      "historical_sha256": "ad859a454fc9b65162fe727cf23a878b19318a24f36c1e90d8c263886e131d57",
+      "canonical_library_count": 1,
+      "historical_library_count": 1,
+      "projection": {
+        "transformations": [
+          {
+            "library_index": 0,
+            "segment_id": "seg_i5",
+            "source": "[I5_INDEX:10]",
+            "scoring": "@@@@@@@@@@",
+            "reason": "existing v0 placeholder normalization"
+          },
+          {
+            "library_index": 0,
+            "segment_id": "seg_cell_barcode",
+            "source": "[CELL_BARCODE:16]",
+            "scoring": "################",
+            "reason": "existing v0 placeholder normalization"
+          },
+          {
+            "library_index": 0,
+            "segment_id": "seg_umi",
+            "source": "[UMI:12]",
+            "scoring": "~~~~~~~~~~~~",
+            "reason": "existing v0 placeholder normalization"
+          },
+          {
+            "library_index": 0,
+            "segment_id": "seg_cdna",
+            "source": "[CDNA]",
+            "scoring": "",
+            "reason": "omit biological payload, including annotated internal insert bases"
+          },
+          {
+            "library_index": 0,
+            "segment_id": "seg_i7",
+            "source": "[I7_INDEX:10]",
+            "scoring": "@@@@@@@@@@",
+            "reason": "existing v0 placeholder normalization"
+          }
+        ],
+        "unresolved_placeholders": []
+      },
+      "reference_variants": [
+        {
+          "index": 0,
+          "length_choices": [],
+          "projection": {
+            "transformations": [
+              {
+                "library_index": 0,
+                "segment_id": "seg_i5",
+                "source": "[I5_INDEX:10]",
+                "scoring": "@@@@@@@@@@",
+                "reason": "existing v0 placeholder normalization"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "seg_cell_barcode",
+                "source": "[CELL_BARCODE:16]",
+                "scoring": "################",
+                "reason": "existing v0 placeholder normalization"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "seg_umi",
+                "source": "[UMI:12]",
+                "scoring": "~~~~~~~~~~~~",
+                "reason": "existing v0 placeholder normalization"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "seg_cdna",
+                "source": "[CDNA]",
+                "scoring": "",
+                "reason": "omit biological payload, including annotated internal insert bases"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "seg_i7",
+                "source": "[I7_INDEX:10]",
+                "scoring": "@@@@@@@@@@",
+                "reason": "existing v0 placeholder normalization"
+              }
+            ],
+            "unresolved_placeholders": []
+          },
+          "library_sequences": [
+            "AATGATACGGCGACCACCGAGATCTACAC@@@@@@@@@@ACACTCTTTCCCTACACGACGCTCTTCCGATCT################~~~~~~~~~~~~TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTVNAGATCGGAAGAGCACACGTCTGAACTCCAGTCAC@@@@@@@@@@ATCTCGTATGCCGTCTTCTGCTTG"
+          ]
+        }
+      ]
+    },
+    "10x_chromium_3_feature_barcoding": {
+      "path": "external/audit-data/ground_truth/10x_chromium_3_feature_barcoding/groundtruth_final_lib_struct.json",
+      "sha256": "9be2830359ced3cc50fb8df21b3d73e002cbae9cd36f65e26632c0201e9258ba",
+      "historical_path": "runs/library_structure/round2/tasks/10x_chromium_3_feature_barcoding/tests/groundtruth.json",
+      "historical_sha256": "1354a49531e094d18abbcd58952354e5c472872c17e04641d3869c8035c7d89d",
+      "canonical_library_count": 2,
+      "historical_library_count": 2,
+      "projection": {
+        "transformations": [
+          {
+            "library_index": 0,
+            "segment_id": "gex_cell_barcode",
+            "source": "[CELL_BARCODE:16]",
+            "scoring": "################",
+            "reason": "existing v0 placeholder normalization"
+          },
+          {
+            "library_index": 0,
+            "segment_id": "gex_umi",
+            "source": "[UMI:12]",
+            "scoring": "~~~~~~~~~~~~",
+            "reason": "existing v0 placeholder normalization"
+          },
+          {
+            "library_index": 0,
+            "segment_id": "gex_cdna",
+            "source": "[CDNA]",
+            "scoring": "",
+            "reason": "omit biological payload, including annotated internal insert bases"
+          },
+          {
+            "library_index": 0,
+            "segment_id": "gex_sample_index",
+            "source": "[SAMPLE_INDEX:8]",
+            "scoring": "@@@@@@@@",
+            "reason": "existing v0 placeholder normalization"
+          },
+          {
+            "library_index": 1,
+            "segment_id": "fb_cell_barcode",
+            "source": "[CELL_BARCODE:16]",
+            "scoring": "################",
+            "reason": "existing v0 placeholder normalization"
+          },
+          {
+            "library_index": 1,
+            "segment_id": "fb_umi",
+            "source": "[UMI:12]",
+            "scoring": "~~~~~~~~~~~~",
+            "reason": "existing v0 placeholder normalization"
+          },
+          {
+            "library_index": 1,
+            "segment_id": "fb_spacer_5prime",
+            "source": "[RANDOM:9]",
+            "scoring": "?????????",
+            "reason": "existing v0 placeholder normalization"
+          },
+          {
+            "library_index": 1,
+            "segment_id": "fb_feature_barcode",
+            "source": "[FEATURE_BARCODE:15]",
+            "scoring": "$$$$$$$$$$$$$$$",
+            "reason": "existing v0 placeholder normalization"
+          },
+          {
+            "library_index": 1,
+            "segment_id": "fb_spacer_3prime",
+            "source": "[RANDOM:10]",
+            "scoring": "??????????",
+            "reason": "existing v0 placeholder normalization"
+          },
+          {
+            "library_index": 1,
+            "segment_id": "fb_sample_index",
+            "source": "[SAMPLE_INDEX:8]",
+            "scoring": "@@@@@@@@",
+            "reason": "existing v0 placeholder normalization"
+          }
+        ],
+        "unresolved_placeholders": []
+      },
+      "reference_variants": [
+        {
+          "index": 0,
+          "length_choices": [],
+          "projection": {
+            "transformations": [
+              {
+                "library_index": 0,
+                "segment_id": "gex_cell_barcode",
+                "source": "[CELL_BARCODE:16]",
+                "scoring": "################",
+                "reason": "existing v0 placeholder normalization"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "gex_umi",
+                "source": "[UMI:12]",
+                "scoring": "~~~~~~~~~~~~",
+                "reason": "existing v0 placeholder normalization"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "gex_cdna",
+                "source": "[CDNA]",
+                "scoring": "",
+                "reason": "omit biological payload, including annotated internal insert bases"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "gex_sample_index",
+                "source": "[SAMPLE_INDEX:8]",
+                "scoring": "@@@@@@@@",
+                "reason": "existing v0 placeholder normalization"
+              },
+              {
+                "library_index": 1,
+                "segment_id": "fb_cell_barcode",
+                "source": "[CELL_BARCODE:16]",
+                "scoring": "################",
+                "reason": "existing v0 placeholder normalization"
+              },
+              {
+                "library_index": 1,
+                "segment_id": "fb_umi",
+                "source": "[UMI:12]",
+                "scoring": "~~~~~~~~~~~~",
+                "reason": "existing v0 placeholder normalization"
+              },
+              {
+                "library_index": 1,
+                "segment_id": "fb_spacer_5prime",
+                "source": "[RANDOM:9]",
+                "scoring": "?????????",
+                "reason": "existing v0 placeholder normalization"
+              },
+              {
+                "library_index": 1,
+                "segment_id": "fb_feature_barcode",
+                "source": "[FEATURE_BARCODE:15]",
+                "scoring": "$$$$$$$$$$$$$$$",
+                "reason": "existing v0 placeholder normalization"
+              },
+              {
+                "library_index": 1,
+                "segment_id": "fb_spacer_3prime",
+                "source": "[RANDOM:10]",
+                "scoring": "??????????",
+                "reason": "existing v0 placeholder normalization"
+              },
+              {
+                "library_index": 1,
+                "segment_id": "fb_sample_index",
+                "source": "[SAMPLE_INDEX:8]",
+                "scoring": "@@@@@@@@",
+                "reason": "existing v0 placeholder normalization"
+              }
+            ],
+            "unresolved_placeholders": []
+          },
+          "library_sequences": [
+            "AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT################~~~~~~~~~~~~TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTVNAGATCGGAAGAGCACACGTCTGAACTCCAGTCAC@@@@@@@@ATCTCGTATGCCGTCTTCTGCTTG",
+            "AATGATACGGCGACCACCGAGATCTACACTCGTCGGCAGCGTCAGATGTGTATAAGAGACAG################~~~~~~~~~~~~TTGCTAGGACCGGCCTTAAAGC?????????$$$$$$$$$$$$$$$??????????AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC@@@@@@@@ATCTCGTATGCCGTCTTCTGCTTG"
+          ]
+        }
+      ]
+    },
+    "drop_seq": {
+      "path": "external/audit-data/ground_truth/drop_seq/groundtruth_final_lib_struct.json",
+      "sha256": "bfa9062ae9364b9fb066ecc1da9eaacb2d21f5a170e9cb46d88124c9116ed731",
+      "historical_path": "runs/library_structure/round2/tasks/drop_seq/tests/groundtruth.json",
+      "historical_sha256": "8406a618523b3dc399188d4b8932b05947fb77474d615757092f0ec38369b701",
+      "canonical_library_count": 1,
+      "historical_library_count": 1,
+      "projection": {
+        "transformations": [
+          {
+            "library_index": 0,
+            "segment_id": "seg_cell_barcode",
+            "source": "[CELL_BARCODE:12]",
+            "scoring": "############",
+            "reason": "existing v0 placeholder normalization"
+          },
+          {
+            "library_index": 0,
+            "segment_id": "seg_umi",
+            "source": "[UMI:8]",
+            "scoring": "~~~~~~~~",
+            "reason": "existing v0 placeholder normalization"
+          },
+          {
+            "library_index": 0,
+            "segment_id": "seg_cdna",
+            "source": "[CDNA]",
+            "scoring": "",
+            "reason": "omit biological payload, including annotated internal insert bases"
+          },
+          {
+            "library_index": 0,
+            "segment_id": "seg_i7_index",
+            "source": "[I7_INDEX:8]",
+            "scoring": "@@@@@@@@",
+            "reason": "existing v0 placeholder normalization"
+          }
+        ],
+        "unresolved_placeholders": []
+      },
+      "reference_variants": [
+        {
+          "index": 0,
+          "length_choices": [],
+          "projection": {
+            "transformations": [
+              {
+                "library_index": 0,
+                "segment_id": "seg_cell_barcode",
+                "source": "[CELL_BARCODE:12]",
+                "scoring": "############",
+                "reason": "existing v0 placeholder normalization"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "seg_umi",
+                "source": "[UMI:8]",
+                "scoring": "~~~~~~~~",
+                "reason": "existing v0 placeholder normalization"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "seg_cdna",
+                "source": "[CDNA]",
+                "scoring": "",
+                "reason": "omit biological payload, including annotated internal insert bases"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "seg_i7_index",
+                "source": "[I7_INDEX:8]",
+                "scoring": "@@@@@@@@",
+                "reason": "existing v0 placeholder normalization"
+              }
+            ],
+            "unresolved_placeholders": []
+          },
+          "library_sequences": [
+            "AATGATACGGCGACCACCGAGATCTACACGCCTGTCCGCGGAAGCAGTGGTATCAACGCAGAGTACGT############~~~~~~~~TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTCTGTCTCTTATACACATCTCCGAGCCCACGAGAC@@@@@@@@ATCTCGTATGCCGTCTTCTGCTTG"
+          ]
+        }
+      ]
+    },
+    "seq_well_s3": {
+      "path": "external/audit-data/ground_truth/seq_well_s3/groundtruth_final_lib_struct.json",
+      "sha256": "e7c4337b39440b29c6261eda7c84a215fff028317434ceaa432f66bfdfdcf44d",
+      "historical_path": "runs/library_structure/round2/tasks/seq_well_s3/tests/groundtruth.json",
+      "historical_sha256": "95cb580f36a01f403dfba3c29b4ac59575f70cc03493399b910ff228b940277d",
+      "canonical_library_count": 1,
+      "historical_library_count": 1,
+      "projection": {
+        "transformations": [
+          {
+            "library_index": 0,
+            "segment_id": "seg_cbc",
+            "source": "[CELL_BARCODE:12]",
+            "scoring": "############",
+            "reason": "existing v0 placeholder normalization"
+          },
+          {
+            "library_index": 0,
+            "segment_id": "seg_umi",
+            "source": "[UMI:8]",
+            "scoring": "~~~~~~~~",
+            "reason": "existing v0 placeholder normalization"
+          },
+          {
+            "library_index": 0,
+            "segment_id": "seg_cdna",
+            "source": "[CDNA]",
+            "scoring": "",
+            "reason": "omit biological payload, including annotated internal insert bases"
+          },
+          {
+            "library_index": 0,
+            "segment_id": "seg_i7",
+            "source": "[I7_INDEX:8]",
+            "scoring": "@@@@@@@@",
+            "reason": "existing v0 placeholder normalization"
+          }
+        ],
+        "unresolved_placeholders": []
+      },
+      "reference_variants": [
+        {
+          "index": 0,
+          "length_choices": [],
+          "projection": {
+            "transformations": [
+              {
+                "library_index": 0,
+                "segment_id": "seg_cbc",
+                "source": "[CELL_BARCODE:12]",
+                "scoring": "############",
+                "reason": "existing v0 placeholder normalization"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "seg_umi",
+                "source": "[UMI:8]",
+                "scoring": "~~~~~~~~",
+                "reason": "existing v0 placeholder normalization"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "seg_cdna",
+                "source": "[CDNA]",
+                "scoring": "",
+                "reason": "omit biological payload, including annotated internal insert bases"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "seg_i7",
+                "source": "[I7_INDEX:8]",
+                "scoring": "@@@@@@@@",
+                "reason": "existing v0 placeholder normalization"
+              }
+            ],
+            "unresolved_placeholders": []
+          },
+          "library_sequences": [
+            "AATGATACGGCGACCACCGAGATCTACACGCCTGTCCGCGGAAGCAGTGGTATCAACGCAGAGTAC############~~~~~~~~TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTCTGTCTCTTATACACATCTCCGAGCCCACGAGAC@@@@@@@@ATCTCGTATGCCGTCTTCTGCTTG"
+          ]
+        }
+      ]
+    },
+    "indrop_v1": {
+      "path": "external/audit-data/ground_truth/indrop_v1/groundtruth_final_lib_struct.json",
+      "sha256": "703ae4df9c1e5cdd979422b6a0feff921d5208f46e54080a50f542093c86d48b",
+      "historical_path": "runs/library_structure/round2/tasks/indrop_v1/tests/groundtruth.json",
+      "historical_sha256": "f62db4b8e989c6b341b7ba506b6ad2af18f56b864eb5c3616cae34e74a766fa0",
+      "canonical_library_count": 1,
+      "historical_library_count": 1,
+      "projection": {
+        "transformations": [
+          {
+            "library_index": 0,
+            "segment_id": "seg_cell_barcode_1",
+            "source": "[CELL_BARCODE1]",
+            "scoring": "########",
+            "reason": "one explicitly allowed length from the hash-pinned reference alternatives"
+          },
+          {
+            "library_index": 0,
+            "segment_id": "seg_cell_barcode_2",
+            "source": "[CELL_BARCODE2:8]",
+            "scoring": "########",
+            "reason": "numbered cell-barcode role to v0 cell-barcode symbols"
+          },
+          {
+            "library_index": 0,
+            "segment_id": "seg_umi",
+            "source": "[UMI:6]",
+            "scoring": "~~~~~~",
+            "reason": "existing v0 placeholder normalization"
+          },
+          {
+            "library_index": 0,
+            "segment_id": "seg_cdna",
+            "source": "[CDNA]",
+            "scoring": "",
+            "reason": "omit biological payload, including annotated internal insert bases"
+          }
+        ],
+        "unresolved_placeholders": []
+      },
+      "reference_variants": [
+        {
+          "index": 0,
+          "length_choices": [
+            {
+              "library_index": 0,
+              "segment_id": "seg_cell_barcode_1",
+              "length": 8
+            }
+          ],
+          "projection": {
+            "transformations": [
+              {
+                "library_index": 0,
+                "segment_id": "seg_cell_barcode_1",
+                "source": "[CELL_BARCODE1]",
+                "scoring": "########",
+                "reason": "one explicitly allowed length from the hash-pinned reference alternatives"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "seg_cell_barcode_2",
+                "source": "[CELL_BARCODE2:8]",
+                "scoring": "########",
+                "reason": "numbered cell-barcode role to v0 cell-barcode symbols"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "seg_umi",
+                "source": "[UMI:6]",
+                "scoring": "~~~~~~",
+                "reason": "existing v0 placeholder normalization"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "seg_cdna",
+                "source": "[CDNA]",
+                "scoring": "",
+                "reason": "omit biological payload, including annotated internal insert bases"
+              }
+            ],
+            "unresolved_placeholders": []
+          },
+          "library_sequences": [
+            "AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT########GAGTGATTGCTTGTGACGCCTT########~~~~~~TTTTTTTTTTTTTTTTTTTVAGATCGGAAGAGCGGTTCAGCAGGAATGCCGAGACCGATCTCGTATGCCGTCTTCTGCTTG"
+          ]
+        },
+        {
+          "index": 1,
+          "length_choices": [
+            {
+              "library_index": 0,
+              "segment_id": "seg_cell_barcode_1",
+              "length": 9
+            }
+          ],
+          "projection": {
+            "transformations": [
+              {
+                "library_index": 0,
+                "segment_id": "seg_cell_barcode_1",
+                "source": "[CELL_BARCODE1]",
+                "scoring": "#########",
+                "reason": "one explicitly allowed length from the hash-pinned reference alternatives"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "seg_cell_barcode_2",
+                "source": "[CELL_BARCODE2:8]",
+                "scoring": "########",
+                "reason": "numbered cell-barcode role to v0 cell-barcode symbols"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "seg_umi",
+                "source": "[UMI:6]",
+                "scoring": "~~~~~~",
+                "reason": "existing v0 placeholder normalization"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "seg_cdna",
+                "source": "[CDNA]",
+                "scoring": "",
+                "reason": "omit biological payload, including annotated internal insert bases"
+              }
+            ],
+            "unresolved_placeholders": []
+          },
+          "library_sequences": [
+            "AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT#########GAGTGATTGCTTGTGACGCCTT########~~~~~~TTTTTTTTTTTTTTTTTTTVAGATCGGAAGAGCGGTTCAGCAGGAATGCCGAGACCGATCTCGTATGCCGTCTTCTGCTTG"
+          ]
+        },
+        {
+          "index": 2,
+          "length_choices": [
+            {
+              "library_index": 0,
+              "segment_id": "seg_cell_barcode_1",
+              "length": 10
+            }
+          ],
+          "projection": {
+            "transformations": [
+              {
+                "library_index": 0,
+                "segment_id": "seg_cell_barcode_1",
+                "source": "[CELL_BARCODE1]",
+                "scoring": "##########",
+                "reason": "one explicitly allowed length from the hash-pinned reference alternatives"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "seg_cell_barcode_2",
+                "source": "[CELL_BARCODE2:8]",
+                "scoring": "########",
+                "reason": "numbered cell-barcode role to v0 cell-barcode symbols"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "seg_umi",
+                "source": "[UMI:6]",
+                "scoring": "~~~~~~",
+                "reason": "existing v0 placeholder normalization"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "seg_cdna",
+                "source": "[CDNA]",
+                "scoring": "",
+                "reason": "omit biological payload, including annotated internal insert bases"
+              }
+            ],
+            "unresolved_placeholders": []
+          },
+          "library_sequences": [
+            "AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT##########GAGTGATTGCTTGTGACGCCTT########~~~~~~TTTTTTTTTTTTTTTTTTTVAGATCGGAAGAGCGGTTCAGCAGGAATGCCGAGACCGATCTCGTATGCCGTCTTCTGCTTG"
+          ]
+        },
+        {
+          "index": 3,
+          "length_choices": [
+            {
+              "library_index": 0,
+              "segment_id": "seg_cell_barcode_1",
+              "length": 11
+            }
+          ],
+          "projection": {
+            "transformations": [
+              {
+                "library_index": 0,
+                "segment_id": "seg_cell_barcode_1",
+                "source": "[CELL_BARCODE1]",
+                "scoring": "###########",
+                "reason": "one explicitly allowed length from the hash-pinned reference alternatives"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "seg_cell_barcode_2",
+                "source": "[CELL_BARCODE2:8]",
+                "scoring": "########",
+                "reason": "numbered cell-barcode role to v0 cell-barcode symbols"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "seg_umi",
+                "source": "[UMI:6]",
+                "scoring": "~~~~~~",
+                "reason": "existing v0 placeholder normalization"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "seg_cdna",
+                "source": "[CDNA]",
+                "scoring": "",
+                "reason": "omit biological payload, including annotated internal insert bases"
+              }
+            ],
+            "unresolved_placeholders": []
+          },
+          "library_sequences": [
+            "AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT###########GAGTGATTGCTTGTGACGCCTT########~~~~~~TTTTTTTTTTTTTTTTTTTVAGATCGGAAGAGCGGTTCAGCAGGAATGCCGAGACCGATCTCGTATGCCGTCTTCTGCTTG"
+          ]
+        }
+      ]
+    },
+    "s3_atac": {
+      "path": "external/audit-data/ground_truth/s3_atac/groundtruth_final_lib_struct.json",
+      "sha256": "2174de743cab769296495a96d02ccda69e66a6d639d6a3416e1aa9ed72dc92de",
+      "historical_path": "runs/library_structure/round2/tasks/s3_atac/tests/groundtruth.json",
+      "historical_sha256": "c7914275984fde3a9ee3dcacff9d8fccc304ae797fe6c0c2610ffea6c745a8b8",
+      "canonical_library_count": 1,
+      "historical_library_count": 1,
+      "projection": {
+        "transformations": [
+          {
+            "library_index": 0,
+            "segment_id": "seg_i5_index",
+            "source": "[I5_INDEX:8]",
+            "scoring": "@@@@@@@@",
+            "reason": "existing v0 placeholder normalization"
+          },
+          {
+            "library_index": 0,
+            "segment_id": "seg_gdna",
+            "source": "[GDNA]",
+            "scoring": "",
+            "reason": "omit biological payload, including annotated internal insert bases"
+          },
+          {
+            "library_index": 0,
+            "segment_id": "seg_tn5_index",
+            "source": "[TN5_INDEX:8]",
+            "scoring": "%%%%%%%%",
+            "reason": "existing v0 placeholder normalization"
+          },
+          {
+            "library_index": 0,
+            "segment_id": "seg_i7_index",
+            "source": "[I7_INDEX:8]",
+            "scoring": "@@@@@@@@",
+            "reason": "existing v0 placeholder normalization"
+          }
+        ],
+        "unresolved_placeholders": []
+      },
+      "reference_variants": [
+        {
+          "index": 0,
+          "length_choices": [],
+          "projection": {
+            "transformations": [
+              {
+                "library_index": 0,
+                "segment_id": "seg_i5_index",
+                "source": "[I5_INDEX:8]",
+                "scoring": "@@@@@@@@",
+                "reason": "existing v0 placeholder normalization"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "seg_gdna",
+                "source": "[GDNA]",
+                "scoring": "",
+                "reason": "omit biological payload, including annotated internal insert bases"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "seg_tn5_index",
+                "source": "[TN5_INDEX:8]",
+                "scoring": "%%%%%%%%",
+                "reason": "existing v0 placeholder normalization"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "seg_i7_index",
+                "source": "[I7_INDEX:8]",
+                "scoring": "@@@@@@@@",
+                "reason": "existing v0 placeholder normalization"
+              }
+            ],
+            "unresolved_placeholders": []
+          },
+          "library_sequences": [
+            "AATGATACGGCGACCACCGAGATCTACAC@@@@@@@@TCGTCGGCAGCGTCAGATGTGTATAAGAGACAGCTGTCTCTTATACACATCTA%%%%%%%%AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC@@@@@@@@ATCTCGTATGCCGTCTTCTGCTTG"
+          ]
+        }
+      ]
+    },
+    "cel_seq": {
+      "path": "external/audit-data/ground_truth/cel_seq/groundtruth_final_lib_struct.json",
+      "sha256": "08fd6f2f85dad5fbe1f2457323dc9676d47236a812291afb0c3f76c5289f43de",
+      "historical_path": "runs/library_structure/round2/tasks/cel_seq/tests/groundtruth.json",
+      "historical_sha256": "845112da592d8a08df43f61a3cacfb10d84ddc84071398e1d3516f098ef3d525",
+      "canonical_library_count": 1,
+      "historical_library_count": 1,
+      "projection": {
+        "transformations": [
+          {
+            "library_index": 0,
+            "segment_id": "seg_cell_barcode",
+            "source": "[CELL_BARCODE:8]",
+            "scoring": "########",
+            "reason": "existing v0 placeholder normalization"
+          },
+          {
+            "library_index": 0,
+            "segment_id": "seg_cdna",
+            "source": "[CDNA]",
+            "scoring": "",
+            "reason": "omit biological payload, including annotated internal insert bases"
+          },
+          {
+            "library_index": 0,
+            "segment_id": "seg_sample_index",
+            "source": "[SAMPLE_INDEX:6]",
+            "scoring": "@@@@@@",
+            "reason": "existing v0 placeholder normalization"
+          }
+        ],
+        "unresolved_placeholders": []
+      },
+      "reference_variants": [
+        {
+          "index": 0,
+          "length_choices": [],
+          "projection": {
+            "transformations": [
+              {
+                "library_index": 0,
+                "segment_id": "seg_cell_barcode",
+                "source": "[CELL_BARCODE:8]",
+                "scoring": "########",
+                "reason": "existing v0 placeholder normalization"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "seg_cdna",
+                "source": "[CDNA]",
+                "scoring": "",
+                "reason": "omit biological payload, including annotated internal insert bases"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "seg_sample_index",
+                "source": "[SAMPLE_INDEX:6]",
+                "scoring": "@@@@@@",
+                "reason": "existing v0 placeholder normalization"
+              }
+            ],
+            "unresolved_placeholders": []
+          },
+          "library_sequences": [
+            "AATGATACGGCGACCACCGAGATCTACACGTTCAGAGTTCTACAGTCCGACGATC########TTTTTTTTTTTTTTTTTTTTTTTTVTGGAATTCTCGGGTGCCAAGGAACTCCAGTCAC@@@@@@ATCTCGTATGCCGTCTTCTGCTTG"
+          ]
+        }
+      ]
+    },
+    "split_seq": {
+      "path": "external/audit-data/ground_truth/split_seq/groundtruth_final_lib_struct.json",
+      "sha256": "6d0baddb4bbfaea0f2115806c1d8de58dcd9322d203e9cb5dc4bcb814b9ba5c3",
+      "historical_path": "runs/library_structure/round2/tasks/split_seq/tests/groundtruth.json",
+      "historical_sha256": "707f7f693eb296ab0c74cdba88a6fbb6fac332ebf28a27d784954b29b3fa3484",
+      "canonical_library_count": 1,
+      "historical_library_count": 1,
+      "projection": {
+        "transformations": [
+          {
+            "library_index": 0,
+            "segment_id": "seg_cdna",
+            "source": "[CDNA]",
+            "scoring": "",
+            "reason": "omit biological payload, including annotated internal insert bases"
+          },
+          {
+            "library_index": 0,
+            "segment_id": "seg_bc1",
+            "source": "[CELL_BARCODE:8]",
+            "scoring": "########",
+            "reason": "existing v0 placeholder normalization"
+          },
+          {
+            "library_index": 0,
+            "segment_id": "seg_bc2",
+            "source": "[CELL_BARCODE:8]",
+            "scoring": "########",
+            "reason": "existing v0 placeholder normalization"
+          },
+          {
+            "library_index": 0,
+            "segment_id": "seg_bc3",
+            "source": "[CELL_BARCODE:8]",
+            "scoring": "########",
+            "reason": "existing v0 placeholder normalization"
+          },
+          {
+            "library_index": 0,
+            "segment_id": "seg_umi",
+            "source": "[UMI:10]",
+            "scoring": "~~~~~~~~~~",
+            "reason": "existing v0 placeholder normalization"
+          },
+          {
+            "library_index": 0,
+            "segment_id": "seg_i7",
+            "source": "[I7_INDEX:6]",
+            "scoring": "@@@@@@",
+            "reason": "existing v0 placeholder normalization"
+          }
+        ],
+        "unresolved_placeholders": [
+          {
+            "library_index": 0,
+            "segment_id": "seg_polya",
+            "placeholder": "[POLYA]",
+            "reason": "No supported expansion in this reference; retained literally by unchanged v0 scorer"
+          }
+        ]
+      },
+      "reference_variants": [
+        {
+          "index": 0,
+          "length_choices": [],
+          "projection": {
+            "transformations": [
+              {
+                "library_index": 0,
+                "segment_id": "seg_cdna",
+                "source": "[CDNA]",
+                "scoring": "",
+                "reason": "omit biological payload, including annotated internal insert bases"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "seg_bc1",
+                "source": "[CELL_BARCODE:8]",
+                "scoring": "########",
+                "reason": "existing v0 placeholder normalization"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "seg_bc2",
+                "source": "[CELL_BARCODE:8]",
+                "scoring": "########",
+                "reason": "existing v0 placeholder normalization"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "seg_bc3",
+                "source": "[CELL_BARCODE:8]",
+                "scoring": "########",
+                "reason": "existing v0 placeholder normalization"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "seg_umi",
+                "source": "[UMI:10]",
+                "scoring": "~~~~~~~~~~",
+                "reason": "existing v0 placeholder normalization"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "seg_i7",
+                "source": "[I7_INDEX:6]",
+                "scoring": "@@@@@@",
+                "reason": "existing v0 placeholder normalization"
+              }
+            ],
+            "unresolved_placeholders": [
+              {
+                "library_index": 0,
+                "segment_id": "seg_polya",
+                "placeholder": "[POLYA]",
+                "reason": "No supported expansion in this reference; retained literally by unchanged v0 scorer"
+              }
+            ]
+          },
+          "library_sequences": [
+            "AATGATACGGCGACCACCGAGATCTACACTAGATCGCTCGTCGGCAGCGTCAGATGTGTATAAGAGACAG[POLYA]########CGAATGCTCTGGCCTCTCAAGCACGTGGAT########AGTCGTACGCCGATGCGAAACATCGGCCAC########~~~~~~~~~~AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC@@@@@@ATCTCGTATGCCGTCTTCTGCTTG"
+          ]
+        }
+      ]
+    },
+    "sci_rna_seq": {
+      "path": "external/audit-data/ground_truth/sci_rna_seq/groundtruth_final_lib_struct.json",
+      "sha256": "ed6247b96fdd336e4ef65471544c7cb48c913a39c3f1a5d6bbaf75a81668051a",
+      "historical_path": "runs/library_structure/round2/tasks/sci_rna_seq/tests/groundtruth.json",
+      "historical_sha256": "cae8ecfb88ab3260c802d9148d1d0e1595b43b18051dfeb74fc828ca652dc15d",
+      "canonical_library_count": 1,
+      "historical_library_count": 1,
+      "projection": {
+        "transformations": [
+          {
+            "library_index": 0,
+            "segment_id": "seg_i5_index",
+            "source": "[I5_INDEX:10]",
+            "scoring": "@@@@@@@@@@",
+            "reason": "existing v0 placeholder normalization"
+          },
+          {
+            "library_index": 0,
+            "segment_id": "seg_umi",
+            "source": "[UMI:8]",
+            "scoring": "~~~~~~~~",
+            "reason": "existing v0 placeholder normalization"
+          },
+          {
+            "library_index": 0,
+            "segment_id": "seg_rt_barcode",
+            "source": "[RT_BARCODE:10]",
+            "scoring": "==========",
+            "reason": "existing v0 placeholder normalization"
+          },
+          {
+            "library_index": 0,
+            "segment_id": "seg_cdna",
+            "source": "[CDNA]",
+            "scoring": "",
+            "reason": "omit biological payload, including annotated internal insert bases"
+          },
+          {
+            "library_index": 0,
+            "segment_id": "seg_i7_index",
+            "source": "[I7_INDEX:10]",
+            "scoring": "@@@@@@@@@@",
+            "reason": "existing v0 placeholder normalization"
+          }
+        ],
+        "unresolved_placeholders": []
+      },
+      "reference_variants": [
+        {
+          "index": 0,
+          "length_choices": [],
+          "projection": {
+            "transformations": [
+              {
+                "library_index": 0,
+                "segment_id": "seg_i5_index",
+                "source": "[I5_INDEX:10]",
+                "scoring": "@@@@@@@@@@",
+                "reason": "existing v0 placeholder normalization"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "seg_umi",
+                "source": "[UMI:8]",
+                "scoring": "~~~~~~~~",
+                "reason": "existing v0 placeholder normalization"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "seg_rt_barcode",
+                "source": "[RT_BARCODE:10]",
+                "scoring": "==========",
+                "reason": "existing v0 placeholder normalization"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "seg_cdna",
+                "source": "[CDNA]",
+                "scoring": "",
+                "reason": "omit biological payload, including annotated internal insert bases"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "seg_i7_index",
+                "source": "[I7_INDEX:10]",
+                "scoring": "@@@@@@@@@@",
+                "reason": "existing v0 placeholder normalization"
+              }
+            ],
+            "unresolved_placeholders": []
+          },
+          "library_sequences": [
+            "AATGATACGGCGACCACCGAGATCTACAC@@@@@@@@@@ACACTCTTTCCCTACACGACGCTCTTCCGATCT~~~~~~~~==========TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTVNCTGTCTCTTATACACATCTCCGAGCCCACGAGAC@@@@@@@@@@ATCTCGTATGCCGTCTTCTGCTTG"
+          ]
+        }
+      ]
+    },
+    "sci_atac_seq": {
+      "path": "external/audit-data/ground_truth/sci_atac_seq/groundtruth_final_lib_struct.json",
+      "sha256": "79803b7d4d9e9d76b8df4d057eedf3fb4a9eeb2b9da354a5e5caec419c3130a0",
+      "historical_path": "runs/library_structure/round2/tasks/sci_atac_seq/tests/groundtruth.json",
+      "historical_sha256": "cc8cb6fae182ee5be0a7f58ee8cab07702730eabd6b9a0222def83255433524b",
+      "canonical_library_count": 1,
+      "historical_library_count": 1,
+      "projection": {
+        "transformations": [
+          {
+            "library_index": 0,
+            "segment_id": "seg_i5_index",
+            "source": "[I5_INDEX:10]",
+            "scoring": "@@@@@@@@@@",
+            "reason": "existing v0 placeholder normalization"
+          },
+          {
+            "library_index": 0,
+            "segment_id": "seg_tn5_barcode_s5",
+            "source": "[TN5_INDEX:8]",
+            "scoring": "%%%%%%%%",
+            "reason": "existing v0 placeholder normalization"
+          },
+          {
+            "library_index": 0,
+            "segment_id": "seg_gdna",
+            "source": "[GDNA]",
+            "scoring": "",
+            "reason": "omit biological payload, including annotated internal insert bases"
+          },
+          {
+            "library_index": 0,
+            "segment_id": "seg_tn5_barcode_s7",
+            "source": "[TN5_INDEX:8]",
+            "scoring": "%%%%%%%%",
+            "reason": "existing v0 placeholder normalization"
+          },
+          {
+            "library_index": 0,
+            "segment_id": "seg_i7_index",
+            "source": "[I7_INDEX:10]",
+            "scoring": "@@@@@@@@@@",
+            "reason": "existing v0 placeholder normalization"
+          }
+        ],
+        "unresolved_placeholders": []
+      },
+      "reference_variants": [
+        {
+          "index": 0,
+          "length_choices": [],
+          "projection": {
+            "transformations": [
+              {
+                "library_index": 0,
+                "segment_id": "seg_i5_index",
+                "source": "[I5_INDEX:10]",
+                "scoring": "@@@@@@@@@@",
+                "reason": "existing v0 placeholder normalization"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "seg_tn5_barcode_s5",
+                "source": "[TN5_INDEX:8]",
+                "scoring": "%%%%%%%%",
+                "reason": "existing v0 placeholder normalization"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "seg_gdna",
+                "source": "[GDNA]",
+                "scoring": "",
+                "reason": "omit biological payload, including annotated internal insert bases"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "seg_tn5_barcode_s7",
+                "source": "[TN5_INDEX:8]",
+                "scoring": "%%%%%%%%",
+                "reason": "existing v0 placeholder normalization"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "seg_i7_index",
+                "source": "[I7_INDEX:10]",
+                "scoring": "@@@@@@@@@@",
+                "reason": "existing v0 placeholder normalization"
+              }
+            ],
+            "unresolved_placeholders": []
+          },
+          "library_sequences": [
+            "AATGATACGGCGACCACCGAGATCTACAC@@@@@@@@@@TCGTCGGCAGCGTCTCCACGC%%%%%%%%GCGATCGAGGACGGCAGATGTGTATAAGAGACAGCTGTCTCTTATACACATCTGAGGCGGAGACGGTG%%%%%%%%GGACAGGGACAGCCGAGCCCACGAGAC@@@@@@@@@@ATCTCGTATGCCGTCTTCTGCTTG"
+          ]
+        }
+      ]
+    },
+    "microwell_seq": {
+      "path": "external/audit-data/ground_truth/microwell_seq/groundtruth_final_lib_struct.json",
+      "sha256": "f72f981b9cdfcaacac9dab1136166ae364f2bcb28ec2ae15825c30be4a82b6ea",
+      "historical_path": "runs/library_structure/round2/tasks/microwell_seq/tests/groundtruth.json",
+      "historical_sha256": "1f8a847aa5c95f54e8630da6b7c0aded74d0ee03f82487fe42363a24afd53cd9",
+      "canonical_library_count": 1,
+      "historical_library_count": 1,
+      "projection": {
+        "transformations": [
+          {
+            "library_index": 0,
+            "segment_id": "seg_bc1",
+            "source": "[CELL_BARCODE:6]",
+            "scoring": "######",
+            "reason": "existing v0 placeholder normalization"
+          },
+          {
+            "library_index": 0,
+            "segment_id": "seg_bc2",
+            "source": "[CELL_BARCODE:6]",
+            "scoring": "######",
+            "reason": "existing v0 placeholder normalization"
+          },
+          {
+            "library_index": 0,
+            "segment_id": "seg_bc3",
+            "source": "[CELL_BARCODE:6]",
+            "scoring": "######",
+            "reason": "existing v0 placeholder normalization"
+          },
+          {
+            "library_index": 0,
+            "segment_id": "seg_umi",
+            "source": "[UMI:6]",
+            "scoring": "~~~~~~",
+            "reason": "existing v0 placeholder normalization"
+          },
+          {
+            "library_index": 0,
+            "segment_id": "seg_cdna",
+            "source": "[CDNA]",
+            "scoring": "",
+            "reason": "omit biological payload, including annotated internal insert bases"
+          },
+          {
+            "library_index": 0,
+            "segment_id": "seg_i7",
+            "source": "[I7_INDEX:8]",
+            "scoring": "@@@@@@@@",
+            "reason": "existing v0 placeholder normalization"
+          }
+        ],
+        "unresolved_placeholders": []
+      },
+      "reference_variants": [
+        {
+          "index": 0,
+          "length_choices": [],
+          "projection": {
+            "transformations": [
+              {
+                "library_index": 0,
+                "segment_id": "seg_bc1",
+                "source": "[CELL_BARCODE:6]",
+                "scoring": "######",
+                "reason": "existing v0 placeholder normalization"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "seg_bc2",
+                "source": "[CELL_BARCODE:6]",
+                "scoring": "######",
+                "reason": "existing v0 placeholder normalization"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "seg_bc3",
+                "source": "[CELL_BARCODE:6]",
+                "scoring": "######",
+                "reason": "existing v0 placeholder normalization"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "seg_umi",
+                "source": "[UMI:6]",
+                "scoring": "~~~~~~",
+                "reason": "existing v0 placeholder normalization"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "seg_cdna",
+                "source": "[CDNA]",
+                "scoring": "",
+                "reason": "omit biological payload, including annotated internal insert bases"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "seg_i7",
+                "source": "[I7_INDEX:8]",
+                "scoring": "@@@@@@@@",
+                "reason": "existing v0 placeholder normalization"
+              }
+            ],
+            "unresolved_placeholders": []
+          },
+          "library_sequences": [
+            "AATGATACGGCGACCACCGAGATCTACACGCCTGTCCGCGGAAGCAGTGGTATCAACGCAGAGTACGT######CGACTCACTACAGGG######TCGGTGACACGATCG######~~~~~~TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTCTGTCTCTTATACACATCTCCGAGCCCACGAGAC@@@@@@@@ATCTCGTATGCCGTCTTCTGCTTG"
+          ]
+        }
+      ]
+    },
+    "scrrbs": {
+      "path": "external/audit-data/ground_truth/scrrbs/groundtruth_final_lib_struct.json",
+      "sha256": "3878b1e370dcf69d6c0c188ec7650ebcd50ff0bcbad410e7340e844946165d32",
+      "historical_path": "runs/library_structure/round2/tasks/scrrbs/tests/groundtruth.json",
+      "historical_sha256": "a6d5de6b8ff263b97c1a1e6ffb1e6109b1be9d54807312560160ebf1afc7ced3",
+      "canonical_library_count": 1,
+      "historical_library_count": 1,
+      "projection": {
+        "transformations": [
+          {
+            "library_index": 0,
+            "segment_id": "seg_gdna_1",
+            "source": "[GDNA]",
+            "scoring": "",
+            "reason": "omit biological payload, including annotated internal insert bases"
+          },
+          {
+            "library_index": 0,
+            "segment_id": "seg_cpg_converted_1",
+            "source": "TG",
+            "scoring": "",
+            "reason": "omit biological payload, including annotated internal insert bases"
+          },
+          {
+            "library_index": 0,
+            "segment_id": "seg_gdna_2",
+            "source": "[GDNA]",
+            "scoring": "",
+            "reason": "omit biological payload, including annotated internal insert bases"
+          },
+          {
+            "library_index": 0,
+            "segment_id": "seg_cpg_methylated",
+            "source": "CG",
+            "scoring": "",
+            "reason": "omit biological payload, including annotated internal insert bases"
+          },
+          {
+            "library_index": 0,
+            "segment_id": "seg_gdna_3",
+            "source": "[GDNA]",
+            "scoring": "",
+            "reason": "omit biological payload, including annotated internal insert bases"
+          },
+          {
+            "library_index": 0,
+            "segment_id": "seg_sample_index",
+            "source": "[SAMPLE_INDEX:6]",
+            "scoring": "@@@@@@",
+            "reason": "existing v0 placeholder normalization"
+          }
+        ],
+        "unresolved_placeholders": []
+      },
+      "reference_variants": [
+        {
+          "index": 0,
+          "length_choices": [],
+          "projection": {
+            "transformations": [
+              {
+                "library_index": 0,
+                "segment_id": "seg_gdna_1",
+                "source": "[GDNA]",
+                "scoring": "",
+                "reason": "omit biological payload, including annotated internal insert bases"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "seg_cpg_converted_1",
+                "source": "TG",
+                "scoring": "",
+                "reason": "omit biological payload, including annotated internal insert bases"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "seg_gdna_2",
+                "source": "[GDNA]",
+                "scoring": "",
+                "reason": "omit biological payload, including annotated internal insert bases"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "seg_cpg_methylated",
+                "source": "CG",
+                "scoring": "",
+                "reason": "omit biological payload, including annotated internal insert bases"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "seg_gdna_3",
+                "source": "[GDNA]",
+                "scoring": "",
+                "reason": "omit biological payload, including annotated internal insert bases"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "seg_sample_index",
+                "source": "[SAMPLE_INDEX:6]",
+                "scoring": "@@@@@@",
+                "reason": "existing v0 placeholder normalization"
+              }
+            ],
+            "unresolved_placeholders": []
+          },
+          "library_sequences": [
+            "AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCTTGGTTGAGATCGGAAGAGCACACGTCTGAACTCCAGTCAC@@@@@@ATCTCGTATGCCGTCTTCTGCTTG"
+          ]
+        }
+      ]
+    },
+    "pip_seq_v4": {
+      "path": "external/audit-data/ground_truth/pip_seq_v4/groundtruth_final_lib_struct.json",
+      "sha256": "574b959865e47c45f8c1a5706bf9d697d7c51ef9122dd67e76700ae43e7aabc4",
+      "historical_path": "runs/library_structure/round2/tasks/pip_seq_v4/tests/groundtruth.json",
+      "historical_sha256": "c3a3e47dbc0cfd75a8e51186040fa3e00c411af820b6fae8f96572dc7162f587",
+      "canonical_library_count": 1,
+      "historical_library_count": 1,
+      "projection": {
+        "transformations": [
+          {
+            "library_index": 0,
+            "segment_id": "seg_i5_index",
+            "source": "[I5_INDEX:8]",
+            "scoring": "@@@@@@@@",
+            "reason": "existing v0 placeholder normalization"
+          },
+          {
+            "library_index": 0,
+            "segment_id": "seg_desync_spacer",
+            "source": "[VARIABLE:3]",
+            "scoring": "???",
+            "reason": "existing v0 placeholder normalization"
+          },
+          {
+            "library_index": 0,
+            "segment_id": "seg_cell_barcode_1",
+            "source": "[CELL_BARCODE:8]",
+            "scoring": "########",
+            "reason": "existing v0 placeholder normalization"
+          },
+          {
+            "library_index": 0,
+            "segment_id": "seg_cell_barcode_2",
+            "source": "[CELL_BARCODE:6]",
+            "scoring": "######",
+            "reason": "existing v0 placeholder normalization"
+          },
+          {
+            "library_index": 0,
+            "segment_id": "seg_cell_barcode_3",
+            "source": "[CELL_BARCODE:6]",
+            "scoring": "######",
+            "reason": "existing v0 placeholder normalization"
+          },
+          {
+            "library_index": 0,
+            "segment_id": "seg_cell_barcode_4",
+            "source": "[CELL_BARCODE:8]",
+            "scoring": "########",
+            "reason": "existing v0 placeholder normalization"
+          },
+          {
+            "library_index": 0,
+            "segment_id": "seg_umi",
+            "source": "[UMI:12]",
+            "scoring": "~~~~~~~~~~~~",
+            "reason": "existing v0 placeholder normalization"
+          },
+          {
+            "library_index": 0,
+            "segment_id": "seg_cdna",
+            "source": "[CDNA]",
+            "scoring": "",
+            "reason": "omit biological payload, including annotated internal insert bases"
+          },
+          {
+            "library_index": 0,
+            "segment_id": "seg_i7_index",
+            "source": "[I7_INDEX:8]",
+            "scoring": "@@@@@@@@",
+            "reason": "existing v0 placeholder normalization"
+          }
+        ],
+        "unresolved_placeholders": []
+      },
+      "reference_variants": [
+        {
+          "index": 0,
+          "length_choices": [],
+          "projection": {
+            "transformations": [
+              {
+                "library_index": 0,
+                "segment_id": "seg_i5_index",
+                "source": "[I5_INDEX:8]",
+                "scoring": "@@@@@@@@",
+                "reason": "existing v0 placeholder normalization"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "seg_desync_spacer",
+                "source": "[VARIABLE:3]",
+                "scoring": "???",
+                "reason": "existing v0 placeholder normalization"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "seg_cell_barcode_1",
+                "source": "[CELL_BARCODE:8]",
+                "scoring": "########",
+                "reason": "existing v0 placeholder normalization"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "seg_cell_barcode_2",
+                "source": "[CELL_BARCODE:6]",
+                "scoring": "######",
+                "reason": "existing v0 placeholder normalization"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "seg_cell_barcode_3",
+                "source": "[CELL_BARCODE:6]",
+                "scoring": "######",
+                "reason": "existing v0 placeholder normalization"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "seg_cell_barcode_4",
+                "source": "[CELL_BARCODE:8]",
+                "scoring": "########",
+                "reason": "existing v0 placeholder normalization"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "seg_umi",
+                "source": "[UMI:12]",
+                "scoring": "~~~~~~~~~~~~",
+                "reason": "existing v0 placeholder normalization"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "seg_cdna",
+                "source": "[CDNA]",
+                "scoring": "",
+                "reason": "omit biological payload, including annotated internal insert bases"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "seg_i7_index",
+                "source": "[I7_INDEX:8]",
+                "scoring": "@@@@@@@@",
+                "reason": "existing v0 placeholder normalization"
+              }
+            ],
+            "unresolved_placeholders": []
+          },
+          "library_sequences": [
+            "AATGATACGGCGACCACCGAGATCTACAC@@@@@@@@ACACTCTTTCCCTACACGACGCTCTTCCGATCT???########ATG######GAG######TCGAG########~~~~~~~~~~~~TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTVACTGTCTCTTATACACATCTCCGAGCCCACGAGAC@@@@@@@@ATCTCGTATGCCGTCTTCTGCTTG"
+          ]
+        }
+      ]
+    },
+    "scdamid": {
+      "path": "external/audit-data/ground_truth/scdamid/groundtruth_final_lib_struct.json",
+      "sha256": "2ce9ba550e3f913e5c31624cfd45d00c283b0fe2b28d7d8e87442373c381343e",
+      "historical_path": "runs/library_structure/round2/tasks/scdamid/tests/groundtruth.json",
+      "historical_sha256": "53b57e9ed78d0c0bcd12cca2f6558c81dc202ed8fd3f8b0fb7a878f3955543c6",
+      "canonical_library_count": 1,
+      "historical_library_count": 1,
+      "projection": {
+        "transformations": [
+          {
+            "library_index": 0,
+            "segment_id": "seg_random_tail_5p",
+            "source": "[VARIABLE:4]",
+            "scoring": "????",
+            "reason": "existing v0 placeholder normalization"
+          },
+          {
+            "library_index": 0,
+            "segment_id": "seg_gdna",
+            "source": "[GDNA]",
+            "scoring": "",
+            "reason": "omit biological payload, including annotated internal insert bases"
+          },
+          {
+            "library_index": 0,
+            "segment_id": "seg_random_tail_3p",
+            "source": "[VARIABLE:4]",
+            "scoring": "????",
+            "reason": "existing v0 placeholder normalization"
+          },
+          {
+            "library_index": 0,
+            "segment_id": "seg_i7_index",
+            "source": "[I7_INDEX:8]",
+            "scoring": "@@@@@@@@",
+            "reason": "existing v0 placeholder normalization"
+          }
+        ],
+        "unresolved_placeholders": []
+      },
+      "reference_variants": [
+        {
+          "index": 0,
+          "length_choices": [],
+          "projection": {
+            "transformations": [
+              {
+                "library_index": 0,
+                "segment_id": "seg_random_tail_5p",
+                "source": "[VARIABLE:4]",
+                "scoring": "????",
+                "reason": "existing v0 placeholder normalization"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "seg_gdna",
+                "source": "[GDNA]",
+                "scoring": "",
+                "reason": "omit biological payload, including annotated internal insert bases"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "seg_random_tail_3p",
+                "source": "[VARIABLE:4]",
+                "scoring": "????",
+                "reason": "existing v0 placeholder normalization"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "seg_i7_index",
+                "source": "[I7_INDEX:8]",
+                "scoring": "@@@@@@@@",
+                "reason": "existing v0 placeholder normalization"
+              }
+            ],
+            "unresolved_placeholders": []
+          },
+          "library_sequences": [
+            "AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT????GTGGTCGCGGCCGAGGATCGATCCTCGGCCGCGACCAC????AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC@@@@@@@@CTCGTATGCCGTCTTCTGCTTG"
+          ]
+        }
+      ]
+    },
+    "ddseq_single_cell_3_rna_seq_kit": {
+      "path": "external/audit-data/ground_truth/ddseq_single_cell_3_rna_seq_kit/groundtruth_final_lib_struct.json",
+      "sha256": "4f93de000b9d2fe1414dc4c85fe3947be2b1b87c371c0067bada4784cf33c1af",
+      "historical_path": "runs/library_structure/round2/tasks/ddseq_single_cell_3_rna_seq_kit/tests/groundtruth.json",
+      "historical_sha256": "935b011d033c8aa33842ece161e295bd6b3a5781cce6bb2461ba825da61320f0",
+      "canonical_library_count": 2,
+      "historical_library_count": 2,
+      "projection": {
+        "transformations": [
+          {
+            "library_index": 0,
+            "segment_id": "cdna_i5",
+            "source": "[I5_INDEX:8]",
+            "scoring": "@@@@@@@@",
+            "reason": "existing v0 placeholder normalization"
+          },
+          {
+            "library_index": 0,
+            "segment_id": "cdna_umi",
+            "source": "[UMI:8]",
+            "scoring": "~~~~~~~~",
+            "reason": "existing v0 placeholder normalization"
+          },
+          {
+            "library_index": 0,
+            "segment_id": "cdna_bc1",
+            "source": "[CELL_BARCODE:7]",
+            "scoring": "#######",
+            "reason": "existing v0 placeholder normalization"
+          },
+          {
+            "library_index": 0,
+            "segment_id": "cdna_pb",
+            "source": "[PHASE_BLOCK]",
+            "scoring": "????",
+            "reason": "existing Task 1 prompt selects the maximum stated phase-block length"
+          },
+          {
+            "library_index": 0,
+            "segment_id": "cdna_bc2",
+            "source": "[CELL_BARCODE:7]",
+            "scoring": "#######",
+            "reason": "existing v0 placeholder normalization"
+          },
+          {
+            "library_index": 0,
+            "segment_id": "cdna_bc3",
+            "source": "[CELL_BARCODE:7]",
+            "scoring": "#######",
+            "reason": "existing v0 placeholder normalization"
+          },
+          {
+            "library_index": 0,
+            "segment_id": "cdna_insert",
+            "source": "[CDNA]",
+            "scoring": "",
+            "reason": "omit biological payload, including annotated internal insert bases"
+          },
+          {
+            "library_index": 0,
+            "segment_id": "cdna_i7",
+            "source": "[I7_INDEX:8]",
+            "scoring": "@@@@@@@@",
+            "reason": "existing v0 placeholder normalization"
+          },
+          {
+            "library_index": 1,
+            "segment_id": "do_i5",
+            "source": "[I5_INDEX:8]",
+            "scoring": "@@@@@@@@",
+            "reason": "existing v0 placeholder normalization"
+          },
+          {
+            "library_index": 1,
+            "segment_id": "do_umi_a",
+            "source": "[UMI:8]",
+            "scoring": "~~~~~~~~",
+            "reason": "existing v0 placeholder normalization"
+          },
+          {
+            "library_index": 1,
+            "segment_id": "do_bc1_a",
+            "source": "[CELL_BARCODE:7]",
+            "scoring": "#######",
+            "reason": "existing v0 placeholder normalization"
+          },
+          {
+            "library_index": 1,
+            "segment_id": "do_pb_a",
+            "source": "[PHASE_BLOCK]",
+            "scoring": "????",
+            "reason": "existing Task 1 prompt selects the maximum stated phase-block length"
+          },
+          {
+            "library_index": 1,
+            "segment_id": "do_bc2_a",
+            "source": "[CELL_BARCODE:7]",
+            "scoring": "#######",
+            "reason": "existing v0 placeholder normalization"
+          },
+          {
+            "library_index": 1,
+            "segment_id": "do_bc3_a",
+            "source": "[CELL_BARCODE:7]",
+            "scoring": "#######",
+            "reason": "existing v0 placeholder normalization"
+          },
+          {
+            "library_index": 1,
+            "segment_id": "do_bc3_b",
+            "source": "[CELL_BARCODE:7]",
+            "scoring": "#######",
+            "reason": "existing v0 placeholder normalization"
+          },
+          {
+            "library_index": 1,
+            "segment_id": "do_bc2_b",
+            "source": "[CELL_BARCODE:7]",
+            "scoring": "#######",
+            "reason": "existing v0 placeholder normalization"
+          },
+          {
+            "library_index": 1,
+            "segment_id": "do_pb_b",
+            "source": "[PHASE_BLOCK]",
+            "scoring": "????",
+            "reason": "existing Task 1 prompt selects the maximum stated phase-block length"
+          },
+          {
+            "library_index": 1,
+            "segment_id": "do_bc1_b",
+            "source": "[CELL_BARCODE:7]",
+            "scoring": "#######",
+            "reason": "existing v0 placeholder normalization"
+          },
+          {
+            "library_index": 1,
+            "segment_id": "do_umi_b",
+            "source": "[UMI:8]",
+            "scoring": "~~~~~~~~",
+            "reason": "existing v0 placeholder normalization"
+          },
+          {
+            "library_index": 1,
+            "segment_id": "do_i7",
+            "source": "[I7_INDEX:8]",
+            "scoring": "@@@@@@@@",
+            "reason": "existing v0 placeholder normalization"
+          }
+        ],
+        "unresolved_placeholders": []
+      },
+      "reference_variants": [
+        {
+          "index": 0,
+          "length_choices": [],
+          "projection": {
+            "transformations": [
+              {
+                "library_index": 0,
+                "segment_id": "cdna_i5",
+                "source": "[I5_INDEX:8]",
+                "scoring": "@@@@@@@@",
+                "reason": "existing v0 placeholder normalization"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "cdna_umi",
+                "source": "[UMI:8]",
+                "scoring": "~~~~~~~~",
+                "reason": "existing v0 placeholder normalization"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "cdna_bc1",
+                "source": "[CELL_BARCODE:7]",
+                "scoring": "#######",
+                "reason": "existing v0 placeholder normalization"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "cdna_pb",
+                "source": "[PHASE_BLOCK]",
+                "scoring": "????",
+                "reason": "existing Task 1 prompt selects the maximum stated phase-block length"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "cdna_bc2",
+                "source": "[CELL_BARCODE:7]",
+                "scoring": "#######",
+                "reason": "existing v0 placeholder normalization"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "cdna_bc3",
+                "source": "[CELL_BARCODE:7]",
+                "scoring": "#######",
+                "reason": "existing v0 placeholder normalization"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "cdna_insert",
+                "source": "[CDNA]",
+                "scoring": "",
+                "reason": "omit biological payload, including annotated internal insert bases"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "cdna_i7",
+                "source": "[I7_INDEX:8]",
+                "scoring": "@@@@@@@@",
+                "reason": "existing v0 placeholder normalization"
+              },
+              {
+                "library_index": 1,
+                "segment_id": "do_i5",
+                "source": "[I5_INDEX:8]",
+                "scoring": "@@@@@@@@",
+                "reason": "existing v0 placeholder normalization"
+              },
+              {
+                "library_index": 1,
+                "segment_id": "do_umi_a",
+                "source": "[UMI:8]",
+                "scoring": "~~~~~~~~",
+                "reason": "existing v0 placeholder normalization"
+              },
+              {
+                "library_index": 1,
+                "segment_id": "do_bc1_a",
+                "source": "[CELL_BARCODE:7]",
+                "scoring": "#######",
+                "reason": "existing v0 placeholder normalization"
+              },
+              {
+                "library_index": 1,
+                "segment_id": "do_pb_a",
+                "source": "[PHASE_BLOCK]",
+                "scoring": "????",
+                "reason": "existing Task 1 prompt selects the maximum stated phase-block length"
+              },
+              {
+                "library_index": 1,
+                "segment_id": "do_bc2_a",
+                "source": "[CELL_BARCODE:7]",
+                "scoring": "#######",
+                "reason": "existing v0 placeholder normalization"
+              },
+              {
+                "library_index": 1,
+                "segment_id": "do_bc3_a",
+                "source": "[CELL_BARCODE:7]",
+                "scoring": "#######",
+                "reason": "existing v0 placeholder normalization"
+              },
+              {
+                "library_index": 1,
+                "segment_id": "do_bc3_b",
+                "source": "[CELL_BARCODE:7]",
+                "scoring": "#######",
+                "reason": "existing v0 placeholder normalization"
+              },
+              {
+                "library_index": 1,
+                "segment_id": "do_bc2_b",
+                "source": "[CELL_BARCODE:7]",
+                "scoring": "#######",
+                "reason": "existing v0 placeholder normalization"
+              },
+              {
+                "library_index": 1,
+                "segment_id": "do_pb_b",
+                "source": "[PHASE_BLOCK]",
+                "scoring": "????",
+                "reason": "existing Task 1 prompt selects the maximum stated phase-block length"
+              },
+              {
+                "library_index": 1,
+                "segment_id": "do_bc1_b",
+                "source": "[CELL_BARCODE:7]",
+                "scoring": "#######",
+                "reason": "existing v0 placeholder normalization"
+              },
+              {
+                "library_index": 1,
+                "segment_id": "do_umi_b",
+                "source": "[UMI:8]",
+                "scoring": "~~~~~~~~",
+                "reason": "existing v0 placeholder normalization"
+              },
+              {
+                "library_index": 1,
+                "segment_id": "do_i7",
+                "source": "[I7_INDEX:8]",
+                "scoring": "@@@@@@@@",
+                "reason": "existing v0 placeholder normalization"
+              }
+            ],
+            "unresolved_placeholders": []
+          },
+          "library_sequences": [
+            "AATGATACGGCGACCACCGAGATCTACAC@@@@@@@@ACACTCTTTCCCTACACGACGCTCTTCCGATCT~~~~~~~~#######????TATGCATGAC#######CAGTCAGTCA#######AACGCAGTCAGATTTTTTTTTTTTTTTTTTTTTTTTTTTCTGTCTCTTATACACATCTCCGAGCCCACGAGAC@@@@@@@@ATCTCGTATGCCGTCTTCTGCTTG",
+            "AATGATACGGCGACCACCGAGATCTACAC@@@@@@@@ACACTCTTTCCCTACACGACGCTCTTCCGATCT~~~~~~~~#######????TATGCATGAC#######CAGTCAGTCA#######AACGCAGTCAGAGAACGATACCATAATCTTGGCTCTCTGACTGCGTT#######TGACTGACTG#######GTCATGCATA????#######~~~~~~~~AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC@@@@@@@@ATCTCGTATGCCGTCTTCTGCTTG"
+          ]
+        }
+      ]
+    },
+    "smart_seq": {
+      "path": "external/audit-data/ground_truth/smart_seq/groundtruth_final_lib_struct.json",
+      "sha256": "0ad148063002361dc5b70f6d040a6aeeaabb142cf1c82840bafab987e71c8ac2",
+      "historical_path": "runs/library_structure/round2/tasks/smart_seq/tests/groundtruth.json",
+      "historical_sha256": "0fbd3a59b6936da15afcc2c280a9e1fd4d8c944234ad378ed3065e7de53cbcfd",
+      "canonical_library_count": 2,
+      "historical_library_count": 1,
+      "projection": {
+        "transformations": [
+          {
+            "library_index": 0,
+            "segment_id": "seg_i5",
+            "source": "[I5_INDEX:8]",
+            "scoring": "@@@@@@@@",
+            "reason": "existing v0 placeholder normalization"
+          },
+          {
+            "library_index": 0,
+            "segment_id": "seg_cdna",
+            "source": "[CDNA]",
+            "scoring": "",
+            "reason": "omit biological payload, including annotated internal insert bases"
+          },
+          {
+            "library_index": 0,
+            "segment_id": "seg_i7",
+            "source": "[I7_INDEX:8]",
+            "scoring": "@@@@@@@@",
+            "reason": "existing v0 placeholder normalization"
+          },
+          {
+            "library_index": 1,
+            "segment_id": "pe_seg_cdna",
+            "source": "[CDNA]",
+            "scoring": "",
+            "reason": "omit biological payload, including annotated internal insert bases"
+          }
+        ],
+        "unresolved_placeholders": [
+          {
+            "library_index": 1,
+            "segment_id": "pe_seg_adapter_p5",
+            "placeholder": "[ILLUMINA_PE_ADAPTER_P5]",
+            "reason": "No supported expansion in this reference; retained literally by unchanged v0 scorer"
+          },
+          {
+            "library_index": 1,
+            "segment_id": "pe_seg_adapter_p7",
+            "placeholder": "[ILLUMINA_PE_ADAPTER_P7]",
+            "reason": "No supported expansion in this reference; retained literally by unchanged v0 scorer"
+          }
+        ]
+      },
+      "reference_variants": [
+        {
+          "index": 0,
+          "length_choices": [],
+          "projection": {
+            "transformations": [
+              {
+                "library_index": 0,
+                "segment_id": "seg_i5",
+                "source": "[I5_INDEX:8]",
+                "scoring": "@@@@@@@@",
+                "reason": "existing v0 placeholder normalization"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "seg_cdna",
+                "source": "[CDNA]",
+                "scoring": "",
+                "reason": "omit biological payload, including annotated internal insert bases"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "seg_i7",
+                "source": "[I7_INDEX:8]",
+                "scoring": "@@@@@@@@",
+                "reason": "existing v0 placeholder normalization"
+              },
+              {
+                "library_index": 1,
+                "segment_id": "pe_seg_cdna",
+                "source": "[CDNA]",
+                "scoring": "",
+                "reason": "omit biological payload, including annotated internal insert bases"
+              }
+            ],
+            "unresolved_placeholders": [
+              {
+                "library_index": 1,
+                "segment_id": "pe_seg_adapter_p5",
+                "placeholder": "[ILLUMINA_PE_ADAPTER_P5]",
+                "reason": "No supported expansion in this reference; retained literally by unchanged v0 scorer"
+              },
+              {
+                "library_index": 1,
+                "segment_id": "pe_seg_adapter_p7",
+                "placeholder": "[ILLUMINA_PE_ADAPTER_P7]",
+                "reason": "No supported expansion in this reference; retained literally by unchanged v0 scorer"
+              }
+            ]
+          },
+          "library_sequences": [
+            "AATGATACGGCGACCACCGAGATCTACAC@@@@@@@@TCGTCGGCAGCGTCAGATGTGTATAAGAGACAGCTGTCTCTTATACACATCTCCGAGCCCACGAGAC@@@@@@@@ATCTCGTATGCCGTCTTCTGCTTG",
+            "[ILLUMINA_PE_ADAPTER_P5][ILLUMINA_PE_ADAPTER_P7]"
+          ]
+        }
+      ]
+    },
+    "share_seq": {
+      "path": "external/audit-data/ground_truth/share_seq/groundtruth_final_lib_struct.json",
+      "sha256": "191d0cc53332fb9270f9d31ba3121225b8e3747281688da72120a84cbc9af77c",
+      "historical_path": "runs/library_structure/round2/tasks/share_seq/tests/groundtruth.json",
+      "historical_sha256": "ba22b79c41e0440dcbfbae1452cac28302efd849944069952bc6202cb54c97d7",
+      "canonical_library_count": 2,
+      "historical_library_count": 2,
+      "projection": {
+        "transformations": [
+          {
+            "library_index": 0,
+            "segment_id": "rna_i5",
+            "source": "[I5_INDEX:8]",
+            "scoring": "@@@@@@@@",
+            "reason": "existing v0 placeholder normalization"
+          },
+          {
+            "library_index": 0,
+            "segment_id": "rna_cdna",
+            "source": "[CDNA]",
+            "scoring": "",
+            "reason": "omit biological payload, including annotated internal insert bases"
+          },
+          {
+            "library_index": 0,
+            "segment_id": "rna_umi",
+            "source": "[UMI:10]",
+            "scoring": "~~~~~~~~~~",
+            "reason": "existing v0 placeholder normalization"
+          },
+          {
+            "library_index": 0,
+            "segment_id": "rna_bc1",
+            "source": "[CELL_BARCODE:8]",
+            "scoring": "########",
+            "reason": "existing v0 placeholder normalization"
+          },
+          {
+            "library_index": 0,
+            "segment_id": "rna_bc2",
+            "source": "[CELL_BARCODE:8]",
+            "scoring": "########",
+            "reason": "existing v0 placeholder normalization"
+          },
+          {
+            "library_index": 0,
+            "segment_id": "rna_bc3",
+            "source": "[CELL_BARCODE:8]",
+            "scoring": "########",
+            "reason": "existing v0 placeholder normalization"
+          },
+          {
+            "library_index": 1,
+            "segment_id": "atac_i5",
+            "source": "[I5_INDEX:8]",
+            "scoring": "@@@@@@@@",
+            "reason": "existing v0 placeholder normalization"
+          },
+          {
+            "library_index": 1,
+            "segment_id": "atac_gdna",
+            "source": "[GDNA]",
+            "scoring": "",
+            "reason": "omit biological payload, including annotated internal insert bases"
+          },
+          {
+            "library_index": 1,
+            "segment_id": "atac_bc1",
+            "source": "[CELL_BARCODE:8]",
+            "scoring": "########",
+            "reason": "existing v0 placeholder normalization"
+          },
+          {
+            "library_index": 1,
+            "segment_id": "atac_bc2",
+            "source": "[CELL_BARCODE:8]",
+            "scoring": "########",
+            "reason": "existing v0 placeholder normalization"
+          },
+          {
+            "library_index": 1,
+            "segment_id": "atac_bc3",
+            "source": "[CELL_BARCODE:8]",
+            "scoring": "########",
+            "reason": "existing v0 placeholder normalization"
+          }
+        ],
+        "unresolved_placeholders": []
+      },
+      "reference_variants": [
+        {
+          "index": 0,
+          "length_choices": [],
+          "projection": {
+            "transformations": [
+              {
+                "library_index": 0,
+                "segment_id": "rna_i5",
+                "source": "[I5_INDEX:8]",
+                "scoring": "@@@@@@@@",
+                "reason": "existing v0 placeholder normalization"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "rna_cdna",
+                "source": "[CDNA]",
+                "scoring": "",
+                "reason": "omit biological payload, including annotated internal insert bases"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "rna_umi",
+                "source": "[UMI:10]",
+                "scoring": "~~~~~~~~~~",
+                "reason": "existing v0 placeholder normalization"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "rna_bc1",
+                "source": "[CELL_BARCODE:8]",
+                "scoring": "########",
+                "reason": "existing v0 placeholder normalization"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "rna_bc2",
+                "source": "[CELL_BARCODE:8]",
+                "scoring": "########",
+                "reason": "existing v0 placeholder normalization"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "rna_bc3",
+                "source": "[CELL_BARCODE:8]",
+                "scoring": "########",
+                "reason": "existing v0 placeholder normalization"
+              },
+              {
+                "library_index": 1,
+                "segment_id": "atac_i5",
+                "source": "[I5_INDEX:8]",
+                "scoring": "@@@@@@@@",
+                "reason": "existing v0 placeholder normalization"
+              },
+              {
+                "library_index": 1,
+                "segment_id": "atac_gdna",
+                "source": "[GDNA]",
+                "scoring": "",
+                "reason": "omit biological payload, including annotated internal insert bases"
+              },
+              {
+                "library_index": 1,
+                "segment_id": "atac_bc1",
+                "source": "[CELL_BARCODE:8]",
+                "scoring": "########",
+                "reason": "existing v0 placeholder normalization"
+              },
+              {
+                "library_index": 1,
+                "segment_id": "atac_bc2",
+                "source": "[CELL_BARCODE:8]",
+                "scoring": "########",
+                "reason": "existing v0 placeholder normalization"
+              },
+              {
+                "library_index": 1,
+                "segment_id": "atac_bc3",
+                "source": "[CELL_BARCODE:8]",
+                "scoring": "########",
+                "reason": "existing v0 placeholder normalization"
+              }
+            ],
+            "unresolved_placeholders": []
+          },
+          "library_sequences": [
+            "AATGATACGGCGACCACCGAGATCTACAC@@@@@@@@TCGTCGGCAGCGTCAGATGTGTATAAGAGACAGBAAAAAAAAAAAAAAA~~~~~~~~~~CTGTCTCTTATACACATCTCCGAGCCCACGAGACTCGGACGATCATGGG########CAAGTATGCAGCGCGCTCAAGCACGTGGAT########AGTCGTACGCCGATGCGAAACATCGGCCAC########ATCTCGTATGCCGTCTTCTGCTTG",
+            "AATGATACGGCGACCACCGAGATCTACAC@@@@@@@@TCGTCGGCAGCGTCAGATGTGTATAAGAGACAGCTGTCTCTTATACACATCTCCGAGCCCACGAGACTCGGACGATCATGGG########CAAGTATGCAGCGCGCTCAAGCACGTGGAT########AGTCGTACGCCGATGCGAAACATCGGCCAC########ATCTCGTATGCCGTCTTCTGCTTG"
+          ]
+        }
+      ]
+    },
+    "dr_seq": {
+      "path": "external/audit-data/ground_truth/dr_seq/groundtruth_final_lib_struct.json",
+      "sha256": "1c91ac81aa89b0bc580ca61f61a3225e45b75781380087bd70884a39374ddc7d",
+      "historical_path": "runs/library_structure/round2/tasks/dr_seq/tests/groundtruth.json",
+      "historical_sha256": "326e58349bc054d6441ed1f5beab6e5f9a421850a6df08b6727c0f057905ceb3",
+      "canonical_library_count": 2,
+      "historical_library_count": 3,
+      "projection": {
+        "transformations": [
+          {
+            "library_index": 0,
+            "segment_id": "t1_ts_insert",
+            "source": "[GDNA]",
+            "scoring": "",
+            "reason": "omit biological payload, including annotated internal insert bases"
+          },
+          {
+            "library_index": 0,
+            "segment_id": "t1_ts_idx",
+            "source": "[SAMPLE_INDEX:8]",
+            "scoring": "@@@@@@@@",
+            "reason": "existing v0 placeholder normalization"
+          },
+          {
+            "library_index": 1,
+            "segment_id": "t1_rna_cbc",
+            "source": "[CELL_BARCODE:8]",
+            "scoring": "########",
+            "reason": "existing v0 placeholder normalization"
+          },
+          {
+            "library_index": 1,
+            "segment_id": "t1_rna_cdna",
+            "source": "[CDNA]",
+            "scoring": "",
+            "reason": "omit biological payload, including annotated internal insert bases"
+          },
+          {
+            "library_index": 1,
+            "segment_id": "t1_rna_idx",
+            "source": "[SAMPLE_INDEX:6]",
+            "scoring": "@@@@@@",
+            "reason": "existing v0 placeholder normalization"
+          }
+        ],
+        "unresolved_placeholders": []
+      },
+      "reference_variants": [
+        {
+          "index": 0,
+          "length_choices": [],
+          "projection": {
+            "transformations": [
+              {
+                "library_index": 0,
+                "segment_id": "t1_ts_insert",
+                "source": "[GDNA]",
+                "scoring": "",
+                "reason": "omit biological payload, including annotated internal insert bases"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "t1_ts_idx",
+                "source": "[SAMPLE_INDEX:8]",
+                "scoring": "@@@@@@@@",
+                "reason": "existing v0 placeholder normalization"
+              },
+              {
+                "library_index": 1,
+                "segment_id": "t1_rna_cbc",
+                "source": "[CELL_BARCODE:8]",
+                "scoring": "########",
+                "reason": "existing v0 placeholder normalization"
+              },
+              {
+                "library_index": 1,
+                "segment_id": "t1_rna_cdna",
+                "source": "[CDNA]",
+                "scoring": "",
+                "reason": "omit biological payload, including annotated internal insert bases"
+              },
+              {
+                "library_index": 1,
+                "segment_id": "t1_rna_idx",
+                "source": "[SAMPLE_INDEX:6]",
+                "scoring": "@@@@@@",
+                "reason": "existing v0 placeholder normalization"
+              }
+            ],
+            "unresolved_placeholders": []
+          },
+          "library_sequences": [
+            "AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCTAGATCGGAAGAGCACACGTCTGAACTCCAGTCAC@@@@@@@@ATCTCGTATGCCGTCTTCTGCTTG",
+            "AATGATACGGCGACCACCGAGATCTACACGTTCAGAGTTCTACAGTCCGACGATC########TTTTTTTTTTTTTTTTTTTTTTTTVCTCCACACTACCTCAACCATCACTCACTGGAATTCTCGGGTGCCAAGGAACTCCAGTCAC@@@@@@ATCTCGTATGCCGTCTTCTGCTTG"
+          ]
+        }
+      ]
+    },
+    "petri_seq": {
+      "path": "external/audit-data/ground_truth/petri_seq/groundtruth_final_lib_struct.json",
+      "sha256": "cda645afb172abe0d9cde92cdde711ba364934861cb9834518adb9dad8c57be6",
+      "historical_path": "runs/library_structure/round2/tasks/petri_seq/tests/groundtruth.json",
+      "historical_sha256": "522c0095dc363f407dfbc923c3ee4ffebde239b534efe26ddbdbbf8987f8643a",
+      "canonical_library_count": 1,
+      "historical_library_count": 1,
+      "projection": {
+        "transformations": [
+          {
+            "library_index": 0,
+            "segment_id": "seg_i5_index",
+            "source": "[I5_INDEX:8]",
+            "scoring": "@@@@@@@@",
+            "reason": "existing v0 placeholder normalization"
+          },
+          {
+            "library_index": 0,
+            "segment_id": "seg_umi",
+            "source": "[UMI:7]",
+            "scoring": "~~~~~~~",
+            "reason": "existing v0 placeholder normalization"
+          },
+          {
+            "library_index": 0,
+            "segment_id": "seg_bc3",
+            "source": "[CELL_BARCODE:7]",
+            "scoring": "#######",
+            "reason": "existing v0 placeholder normalization"
+          },
+          {
+            "library_index": 0,
+            "segment_id": "seg_bc2",
+            "source": "[CELL_BARCODE:7]",
+            "scoring": "#######",
+            "reason": "existing v0 placeholder normalization"
+          },
+          {
+            "library_index": 0,
+            "segment_id": "seg_bc1",
+            "source": "[CELL_BARCODE:7]",
+            "scoring": "#######",
+            "reason": "existing v0 placeholder normalization"
+          },
+          {
+            "library_index": 0,
+            "segment_id": "seg_random_hexamer",
+            "source": "[RANDOM_HEXAMER:6]",
+            "scoring": "??????",
+            "reason": "random hexamer is six structural variable bases"
+          },
+          {
+            "library_index": 0,
+            "segment_id": "seg_cdna",
+            "source": "[CDNA]",
+            "scoring": "",
+            "reason": "omit biological payload, including annotated internal insert bases"
+          },
+          {
+            "library_index": 0,
+            "segment_id": "seg_i7_index",
+            "source": "[I7_INDEX:8]",
+            "scoring": "@@@@@@@@",
+            "reason": "existing v0 placeholder normalization"
+          }
+        ],
+        "unresolved_placeholders": []
+      },
+      "reference_variants": [
+        {
+          "index": 0,
+          "length_choices": [],
+          "projection": {
+            "transformations": [
+              {
+                "library_index": 0,
+                "segment_id": "seg_i5_index",
+                "source": "[I5_INDEX:8]",
+                "scoring": "@@@@@@@@",
+                "reason": "existing v0 placeholder normalization"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "seg_umi",
+                "source": "[UMI:7]",
+                "scoring": "~~~~~~~",
+                "reason": "existing v0 placeholder normalization"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "seg_bc3",
+                "source": "[CELL_BARCODE:7]",
+                "scoring": "#######",
+                "reason": "existing v0 placeholder normalization"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "seg_bc2",
+                "source": "[CELL_BARCODE:7]",
+                "scoring": "#######",
+                "reason": "existing v0 placeholder normalization"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "seg_bc1",
+                "source": "[CELL_BARCODE:7]",
+                "scoring": "#######",
+                "reason": "existing v0 placeholder normalization"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "seg_random_hexamer",
+                "source": "[RANDOM_HEXAMER:6]",
+                "scoring": "??????",
+                "reason": "random hexamer is six structural variable bases"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "seg_cdna",
+                "source": "[CDNA]",
+                "scoring": "",
+                "reason": "omit biological payload, including annotated internal insert bases"
+              },
+              {
+                "library_index": 0,
+                "segment_id": "seg_i7_index",
+                "source": "[I7_INDEX:8]",
+                "scoring": "@@@@@@@@",
+                "reason": "existing v0 placeholder normalization"
+              }
+            ],
+            "unresolved_placeholders": []
+          },
+          "library_sequences": [
+            "AATGATACGGCGACCACCGAGATCTACAC@@@@@@@@ACACTCTTTCCCTACACGACGCTCTTCCGATCT~~~~~~~#######GGTCCTTGGCTTCGC#######CCTCCTACGCCAGA#######??????CTGTCTCTTATACACATCTCCGAGCCCACGAGAC@@@@@@@@ATCTCGTATGCCGTCTTCTGCTTG"
+          ]
+        }
+      ]
+    }
+  },
+  "input_transformations": [
+    {
+      "model_family": "Claude",
+      "protocol_id": "seq_well_s3",
+      "filename": "SeqWell_S3_paper.pdf",
+      "input_repo": "sequencing/scg-protocols-v1",
+      "input_revision": "59f49763dc258db15d754ba6504b5cacd3404e94",
+      "mime_type": "application/pdf",
+      "optimization": {
+        "applied": true,
+        "illustrator_editing_data_removed_from_pages": [],
+        "image_resampling": {
+          "bitonal_images": "unchanged",
+          "interpolation": "bicubic",
+          "page_rasterization": false,
+          "recompression": "lossless",
+          "target_dpi": 200,
+          "threshold_dpi": 225
+        },
+        "max_mean_absolute_pixel_error": 0.0,
+        "method": "deflate_and_remove_page_illustrator_editing_data_and_resample_images",
+        "page_mean_absolute_pixel_errors": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "pages_verified": 25,
+        "pymupdf_version": "1.27.2.2",
+        "render_check": "mean_absolute_pixel_difference",
+        "render_check_dpi": 100,
+        "sha256": "2c1d54e1548695874b4e2c7abb97b9e1af73c9d41081475cbe243a8ebac95cb0",
+        "size_bytes": 6471350,
+        "source_sha256": "b634dc0f285332de12725f34dba11715720cacf31d84982d8f52a9a01d07f2a7",
+        "source_size_bytes": 7432965,
+        "text_position_tolerance_points": 0.05
+      },
+      "path": "seq_well_s3/SeqWell_S3_paper.pdf",
+      "sha256": "2c1d54e1548695874b4e2c7abb97b9e1af73c9d41081475cbe243a8ebac95cb0",
+      "size_bytes": 6471350
+    },
+    {
+      "model_family": "Claude",
+      "protocol_id": "seq_well_s3",
+      "filename": "SeqWell_S3_supp.pdf",
+      "input_repo": "sequencing/scg-protocols-v1",
+      "input_revision": "59f49763dc258db15d754ba6504b5cacd3404e94",
+      "mime_type": "application/pdf",
+      "optimization": {
+        "applied": true,
+        "illustrator_editing_data_removed_from_pages": [
+          2,
+          4,
+          6,
+          8,
+          10,
+          12
+        ],
+        "image_resampling": {
+          "bitonal_images": "unchanged",
+          "interpolation": "bicubic",
+          "page_rasterization": false,
+          "recompression": "lossless",
+          "target_dpi": 200,
+          "threshold_dpi": 225
+        },
+        "max_mean_absolute_pixel_error": 0.7560791443850268,
+        "method": "deflate_and_remove_page_illustrator_editing_data_and_resample_images",
+        "page_mean_absolute_pixel_errors": [
+          0.0,
+          0.0,
+          0.0,
+          0.2646098675458384,
+          0.0,
+          0.23979572192513368,
+          0.0,
+          0.7560791443850268,
+          0.0,
+          0.1881650623885918,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "pages_verified": 54,
+        "pymupdf_version": "1.27.2.2",
+        "render_check": "mean_absolute_pixel_difference",
+        "render_check_dpi": 100,
+        "sha256": "2d6f169354ca22db27db008f495dd74534acb0f17d2969064eacc587556c2872",
+        "size_bytes": 13521257,
+        "source_sha256": "0de4dfbdf46f494f68387b80bd122e3614006039257340a94dba75718a870635",
+        "source_size_bytes": 74863156,
+        "text_position_tolerance_points": 0.05
+      },
+      "path": "seq_well_s3/SeqWell_S3_supp.pdf",
+      "sha256": "2d6f169354ca22db27db008f495dd74534acb0f17d2969064eacc587556c2872",
+      "size_bytes": 13521257
+    },
+    {
+      "model_family": "Gemini",
+      "protocol_id": "seq_well_s3",
+      "filename": "SeqWell_S3_paper.pdf",
+      "input_repo": "sequencing/scg-protocols-v1",
+      "input_revision": "59f49763dc258db15d754ba6504b5cacd3404e94",
+      "mime_type": "application/pdf",
+      "optimization": {
+        "applied": true,
+        "illustrator_editing_data_removed_from_pages": [],
+        "method": "deflate_and_remove_page_illustrator_editing_data",
+        "pages_verified": 25,
+        "pymupdf_version": "1.27.2.2",
+        "render_check_dpi": 100,
+        "sha256": "5d98902813dfd2a1871f696844707e1d6dbe539daea7e71564b6539e30d5b3be",
+        "size_bytes": 6474670,
+        "source_sha256": "b634dc0f285332de12725f34dba11715720cacf31d84982d8f52a9a01d07f2a7",
+        "source_size_bytes": 7432965
+      },
+      "path": "seq_well_s3/SeqWell_S3_paper.pdf",
+      "sha256": "5d98902813dfd2a1871f696844707e1d6dbe539daea7e71564b6539e30d5b3be",
+      "size_bytes": 6474670
+    },
+    {
+      "model_family": "Gemini",
+      "protocol_id": "seq_well_s3",
+      "filename": "SeqWell_S3_supp.pdf",
+      "input_repo": "sequencing/scg-protocols-v1",
+      "input_revision": "59f49763dc258db15d754ba6504b5cacd3404e94",
+      "mime_type": "application/pdf",
+      "optimization": {
+        "applied": true,
+        "illustrator_editing_data_removed_from_pages": [
+          2,
+          4,
+          6,
+          8,
+          10,
+          12
+        ],
+        "method": "deflate_and_remove_page_illustrator_editing_data",
+        "pages_verified": 54,
+        "pymupdf_version": "1.27.2.2",
+        "render_check_dpi": 100,
+        "sha256": "7ac2fcf5af2278dd60ba913e1b9b35ed42c32c83f903ab28b7945913b852b9c4",
+        "size_bytes": 30901591,
+        "source_sha256": "0de4dfbdf46f494f68387b80bd122e3614006039257340a94dba75718a870635",
+        "source_size_bytes": 74863156
+      },
+      "path": "seq_well_s3/SeqWell_S3_supp.pdf",
+      "sha256": "7ac2fcf5af2278dd60ba913e1b9b35ed42c32c83f903ab28b7945913b852b9c4",
+      "size_bytes": 30901591
+    },
+    {
+      "model_family": "Gemini",
+      "protocol_id": "indrop_v1",
+      "filename": "inDrop_paper.pdf",
+      "input_repo": "sequencing/scg-protocols-v1",
+      "input_revision": "59f49763dc258db15d754ba6504b5cacd3404e94",
+      "mime_type": "application/pdf",
+      "optimization": {
+        "applied": true,
+        "illustrator_editing_data_removed_from_pages": [],
+        "method": "deflate_and_remove_page_illustrator_editing_data",
+        "pages_verified": 30,
+        "pymupdf_version": "1.27.2.2",
+        "render_check_dpi": 100,
+        "sha256": "427acd2a9ad2fa698412ce0bd2680e4aeedb3fc2755558838358986188d35fa1",
+        "size_bytes": 2113166,
+        "source_sha256": "4e05dad25cd55b64b1d7c98b081a0cee51c038f0502ede21253cd3cfe6acd506",
+        "source_size_bytes": 2132179
+      },
+      "path": "indrop_v1/inDrop_paper.pdf",
+      "sha256": "427acd2a9ad2fa698412ce0bd2680e4aeedb3fc2755558838358986188d35fa1",
+      "size_bytes": 2113166
+    },
+    {
+      "model_family": "Gemini",
+      "protocol_id": "microwell_seq",
+      "filename": "Microwell-seq.pdf",
+      "input_repo": "sequencing/scg-protocols-v1",
+      "input_revision": "59f49763dc258db15d754ba6504b5cacd3404e94",
+      "mime_type": "application/pdf",
+      "optimization": {
+        "applied": true,
+        "illustrator_editing_data_removed_from_pages": [],
+        "method": "deflate_and_remove_page_illustrator_editing_data",
+        "pages_verified": 37,
+        "pymupdf_version": "1.27.2.2",
+        "render_check_dpi": 100,
+        "sha256": "f54bc8d19787c9cafe7b1eabba79d3f82cd3848daf69e4678f4e970e3aff5e75",
+        "size_bytes": 14726943,
+        "source_sha256": "64b440bc37f6cb00700a6ada5258d3fff0a64ea790e04478d895105a9714a38e",
+        "source_size_bytes": 15109140
+      },
+      "path": "microwell_seq/Microwell-seq.pdf",
+      "sha256": "f54bc8d19787c9cafe7b1eabba79d3f82cd3848daf69e4678f4e970e3aff5e75",
+      "size_bytes": 14726943
+    },
+    {
+      "model_family": "Gemini",
+      "protocol_id": "scdamid",
+      "filename": "scDamID.pdf",
+      "input_repo": "sequencing/scg-protocols-v1",
+      "input_revision": "59f49763dc258db15d754ba6504b5cacd3404e94",
+      "mime_type": "application/pdf",
+      "optimization": {
+        "applied": true,
+        "illustrator_editing_data_removed_from_pages": [],
+        "method": "deflate_and_remove_page_illustrator_editing_data",
+        "pages_verified": 16,
+        "pymupdf_version": "1.27.2.2",
+        "render_check_dpi": 100,
+        "sha256": "ecb680b0a9fe9625bb3d357cf7391da58fa52d4de57f08f173d6ecd348ba6f35",
+        "size_bytes": 372698,
+        "source_sha256": "80a616cc1df0614cd32ac916cf6d55a473ccde9ed3fb6829d04b85c4e13c937c",
+        "source_size_bytes": 384037
+      },
+      "path": "scdamid/scDamID.pdf",
+      "sha256": "ecb680b0a9fe9625bb3d357cf7391da58fa52d4de57f08f173d6ecd348ba6f35",
+      "size_bytes": 372698
+    },
+    {
+      "model_family": "Gemini",
+      "protocol_id": "scdamid",
+      "filename": "scDamID_paper.pdf",
+      "input_repo": "sequencing/scg-protocols-v1",
+      "input_revision": "59f49763dc258db15d754ba6504b5cacd3404e94",
+      "mime_type": "application/pdf",
+      "optimization": {
+        "applied": true,
+        "illustrator_editing_data_removed_from_pages": [],
+        "method": "deflate_and_remove_page_illustrator_editing_data",
+        "pages_verified": 15,
+        "pymupdf_version": "1.27.2.2",
+        "render_check_dpi": 100,
+        "sha256": "7668516fc1f73a219ced8d9bc36f131c02dc3b96f76d56fd1f6b9290dac7a7ac",
+        "size_bytes": 4647019,
+        "source_sha256": "15207de0a14eaad90d99b0a9fea5aad226db62b9ed702bae0cc16abbf7707201",
+        "source_size_bytes": 4801535
+      },
+      "path": "scdamid/scDamID_paper.pdf",
+      "sha256": "7668516fc1f73a219ced8d9bc36f131c02dc3b96f76d56fd1f6b9290dac7a7ac",
+      "size_bytes": 4647019
+    },
+    {
+      "model_family": "Gemini",
+      "protocol_id": "dr_seq",
+      "filename": "DR-seq.pdf",
+      "input_repo": "sequencing/scg-protocols-v1",
+      "input_revision": "59f49763dc258db15d754ba6504b5cacd3404e94",
+      "mime_type": "application/pdf",
+      "optimization": {
+        "applied": true,
+        "illustrator_editing_data_removed_from_pages": [],
+        "method": "deflate_and_remove_page_illustrator_editing_data",
+        "pages_verified": 7,
+        "pymupdf_version": "1.27.2.2",
+        "render_check_dpi": 100,
+        "sha256": "2b236074b29bf9296a7acaa84b96772f979368c4742f37e5aa87dc87f4096018",
+        "size_bytes": 666336,
+        "source_sha256": "c6cbc1210a713990c7b6d421ebd768a49ec7a9e7469a6bc9b99248d26bc817b8",
+        "source_size_bytes": 677271
+      },
+      "path": "dr_seq/DR-seq.pdf",
+      "sha256": "2b236074b29bf9296a7acaa84b96772f979368c4742f37e5aa87dc87f4096018",
+      "size_bytes": 666336
+    }
+  ],
+  "runs": [
+    {
+      "model_family": "Claude",
+      "interface": "API",
+      "protocol_id": "10x_chromium_single_cell_atac_v2",
+      "request_sha256": "b9647b841339ce48b43a5c9735b74bd4d81b0e5e7d04a0259d6f28db23953800",
+      "response_sha256": "fcb93068a43c1c4343f5c44faf09a6b57c94770d8b3654fd6528eebf83966170",
+      "input_files_sha256": "666031e1dc30c0bc9418bc050a932b8f150352f6326d8941d5538fe062a9e1db",
+      "reasoning_effort": "high",
+      "max_completion_tokens": 64000,
+      "response_model": "anthropic/claude-opus-5",
+      "finish_reason": "stop",
+      "archived_attempt_records": 0
+    },
+    {
+      "model_family": "Claude",
+      "interface": "Agent",
+      "protocol_id": "10x_chromium_single_cell_atac_v2",
+      "result_path": "runs/library_structure/round2/coding_agent/task1-round2-claude-code-high/10x_chromium_single_cell_atac_v2__AQt5SXP/result.json",
+      "result_sha256": "a8de63e020abdd7f8898599297044779650d10ca4437b8df428fac8ce8f44c8e",
+      "agent": "claude-code",
+      "agent_model": "claude-opus-5",
+      "agent_version": "2.1.233",
+      "reasoning_effort": "high"
+    },
+    {
+      "model_family": "Claude",
+      "interface": "API",
+      "protocol_id": "10x_chromium_3_gene_expression_v4",
+      "request_sha256": "cea2bcd9ca07fd57ede956458eafe09dc720c0b61c31e9bf6f3cefa80c604dcd",
+      "response_sha256": "487338574b3e3a3002da5c64058f841529ee7de5426af9d1fd2e2ffd5d7d9c70",
+      "input_files_sha256": "a8a8de7351c2cd08920f97e5ce3a090240798316e2f785c642da6a4ddcab08ab",
+      "reasoning_effort": "high",
+      "max_completion_tokens": 64000,
+      "response_model": "anthropic/claude-opus-5",
+      "finish_reason": "stop",
+      "archived_attempt_records": 0
+    },
+    {
+      "model_family": "Claude",
+      "interface": "Agent",
+      "protocol_id": "10x_chromium_3_gene_expression_v4",
+      "result_path": "runs/library_structure/round2/coding_agent/task1-round2-claude-code-high/10x_chromium_3_gene_expression_v__JBkmvL8/result.json",
+      "result_sha256": "1abbcd8444d1c72e441b31b0704868b9c8c21a949c28eab96715dccea8664db2",
+      "agent": "claude-code",
+      "agent_model": "claude-opus-5",
+      "agent_version": "2.1.233",
+      "reasoning_effort": "high"
+    },
+    {
+      "model_family": "Claude",
+      "interface": "API",
+      "protocol_id": "10x_chromium_3_feature_barcoding",
+      "request_sha256": "8d85b111285e30fee8b40bc21047f9502dc5b438957a90c8e11b28155d348ff2",
+      "response_sha256": "f3045e36b65aad571a77dc295cf6dd3f9138f2b92580744a794b77be3aef164c",
+      "input_files_sha256": "1ba02c0a459a1befab49701f2b552f07fec230777258c0f3042b70a87bdf186b",
+      "reasoning_effort": "high",
+      "max_completion_tokens": 64000,
+      "response_model": "anthropic/claude-opus-5",
+      "finish_reason": "stop",
+      "archived_attempt_records": 0
+    },
+    {
+      "model_family": "Claude",
+      "interface": "Agent",
+      "protocol_id": "10x_chromium_3_feature_barcoding",
+      "result_path": "runs/library_structure/round2/coding_agent/task1-round2-claude-code-high/10x_chromium_3_feature_barcoding__6kTgEUR/result.json",
+      "result_sha256": "84b4e77c6e379b6175fd889b5a13310dd61bbf0d5167801ce11709c0ac61b96c",
+      "agent": "claude-code",
+      "agent_model": "claude-opus-5",
+      "agent_version": "2.1.233",
+      "reasoning_effort": "high"
+    },
+    {
+      "model_family": "Claude",
+      "interface": "API",
+      "protocol_id": "drop_seq",
+      "request_sha256": "d56db7c562c1b2d5c0e068b92bcb4696049b5cc64291d3cc5b7aa0c3391ecb7d",
+      "response_sha256": "e65bfbde7714bcc001f07a866dcc7dd6813cbe05951424e2a3f46cd041d5bfd8",
+      "input_files_sha256": "573677d93055fa32951c05be2ff95b6baf53b272c225afe68dcfd4c6fb3c6f28",
+      "reasoning_effort": "high",
+      "max_completion_tokens": 64000,
+      "response_model": "anthropic/claude-opus-5",
+      "finish_reason": "stop",
+      "archived_attempt_records": 0
+    },
+    {
+      "model_family": "Claude",
+      "interface": "Agent",
+      "protocol_id": "drop_seq",
+      "result_path": "runs/library_structure/round2/coding_agent/task1-round2-claude-code-high/drop_seq__w3g4ChD/result.json",
+      "result_sha256": "6a6b90968bf6407dc956386b8b695fc1bbe34502906f2140aa8dcc76270f3d71",
+      "agent": "claude-code",
+      "agent_model": "claude-opus-5",
+      "agent_version": "2.1.233",
+      "reasoning_effort": "high"
+    },
+    {
+      "model_family": "Claude",
+      "interface": "API",
+      "protocol_id": "seq_well_s3",
+      "request_sha256": "ce7a42089174edc483aa6878e4da7c95f905ee1e188e9f9eca59d88651cd542e",
+      "response_sha256": "997ef0264ae1630c8ebe877e6cd739a316b45082ae1b57d8674aa3d83aeb2569",
+      "input_files_sha256": "c02e0cb961c6b482f7741d9e7d547234c9c3da0d17fe7005a14720460e09c435",
+      "reasoning_effort": "high",
+      "max_completion_tokens": 64000,
+      "response_model": "anthropic/claude-opus-5",
+      "finish_reason": "stop",
+      "archived_attempt_records": 2
+    },
+    {
+      "model_family": "Claude",
+      "interface": "Agent",
+      "protocol_id": "seq_well_s3",
+      "result_path": "runs/library_structure/round2/coding_agent/task1-round2-claude-code-high/seq_well_s3__h9ErUtG/result.json",
+      "result_sha256": "cea012a00302b40f31de2007b01e33733931778f68e332a94299c9a4f58ab1d6",
+      "agent": "claude-code",
+      "agent_model": "claude-opus-5",
+      "agent_version": "2.1.233",
+      "reasoning_effort": "high"
+    },
+    {
+      "model_family": "Claude",
+      "interface": "API",
+      "protocol_id": "indrop_v1",
+      "request_sha256": "0c1bece15ded6dcf32db31324634222ffc69d6744d299b920cb70e5eef3951bf",
+      "response_sha256": "9df8c34f63335c3ead90355ac532b36026c4375def025854a5f7e87c4f416152",
+      "input_files_sha256": "3efb43bcdfcf3fdb5f1caeef7cd8b12435e5abd13c062fe074f82965c59ad011",
+      "reasoning_effort": "high",
+      "max_completion_tokens": 64000,
+      "response_model": "anthropic/claude-opus-5",
+      "finish_reason": "stop",
+      "archived_attempt_records": 0
+    },
+    {
+      "model_family": "Claude",
+      "interface": "Agent",
+      "protocol_id": "indrop_v1",
+      "result_path": "runs/library_structure/round2/coding_agent/task1-round2-claude-code-high/indrop_v1__75gJwbY/result.json",
+      "result_sha256": "8cef1de3a7ef5bd2c71c367dd1fddde1d890021cbe2c4743a4fe85c8b50d66d6",
+      "agent": "claude-code",
+      "agent_model": "claude-opus-5",
+      "agent_version": "2.1.233",
+      "reasoning_effort": "high"
+    },
+    {
+      "model_family": "Claude",
+      "interface": "API",
+      "protocol_id": "s3_atac",
+      "request_sha256": "0e60358f78caa8ca78c4c24e6783280bd54f072f23c68bf897c140c1d872046d",
+      "response_sha256": "8d06a0fefeea3d7be406c1fb64966c976902ce9f8720a0d3655937b4f82464c0",
+      "input_files_sha256": "c8979acbc2c944a4052e2953777e3e59dc799fdadc4cc0961aaf621eea0e1236",
+      "reasoning_effort": "high",
+      "max_completion_tokens": 64000,
+      "response_model": "anthropic/claude-opus-5",
+      "finish_reason": "stop",
+      "archived_attempt_records": 0
+    },
+    {
+      "model_family": "Claude",
+      "interface": "Agent",
+      "protocol_id": "s3_atac",
+      "result_path": "runs/library_structure/round2/coding_agent/task1-round2-claude-code-high/s3_atac__CxLYUgf/result.json",
+      "result_sha256": "fc905ca9ace5643de32e91b9c3b824216604c6685e3fc3a3cadf78450115f714",
+      "agent": "claude-code",
+      "agent_model": "claude-opus-5",
+      "agent_version": "2.1.233",
+      "reasoning_effort": "high"
+    },
+    {
+      "model_family": "Claude",
+      "interface": "API",
+      "protocol_id": "cel_seq",
+      "request_sha256": "e0aa93f3c8c64708e6ab031ca7f54db563e3bcdf2192877139446c6eba0c20c5",
+      "response_sha256": "4668dea8219e007b81f0b8356e16940df7ec86e1a3b97af848b7ad5d9e5c9ee8",
+      "input_files_sha256": "7cf99a0b77cdd2b6bda5092a230e8e55aeb93097cad331efd3a54ba588aba913",
+      "reasoning_effort": "high",
+      "max_completion_tokens": 64000,
+      "response_model": "anthropic/claude-opus-5",
+      "finish_reason": "stop",
+      "archived_attempt_records": 0
+    },
+    {
+      "model_family": "Claude",
+      "interface": "Agent",
+      "protocol_id": "cel_seq",
+      "result_path": "runs/library_structure/round2/coding_agent/task1-round2-claude-code-high/cel_seq__QxPoTRC/result.json",
+      "result_sha256": "f130a4e325b732f417302ad68c45361a5500c7223acae67fec23298e80ba066e",
+      "agent": "claude-code",
+      "agent_model": "claude-opus-5",
+      "agent_version": "2.1.233",
+      "reasoning_effort": "high"
+    },
+    {
+      "model_family": "Claude",
+      "interface": "API",
+      "protocol_id": "split_seq",
+      "request_sha256": "9aa0b560cdb3c57b9458088f6d20a35702148bcb94003c602f1f51d7e2ada86f",
+      "response_sha256": "66129aefd4917851b3e3156e3edc3ed6e297b6e2c59a7ea4407f89147fe6102d",
+      "input_files_sha256": "60d99f783bc9df1f679b79e26cbf5946aeeb10ac944af94b719ec86fd9924927",
+      "reasoning_effort": "high",
+      "max_completion_tokens": 64000,
+      "response_model": "anthropic/claude-opus-5",
+      "finish_reason": "stop",
+      "archived_attempt_records": 0
+    },
+    {
+      "model_family": "Claude",
+      "interface": "Agent",
+      "protocol_id": "split_seq",
+      "result_path": "runs/library_structure/round2/coding_agent/task1-round2-claude-code-high/split_seq__EkdsN5z/result.json",
+      "result_sha256": "cdf87b925790e928c125922ef6f4e4ba1fd1c400ce10d5f4773275816e76e409",
+      "agent": "claude-code",
+      "agent_model": "claude-opus-5",
+      "agent_version": "2.1.233",
+      "reasoning_effort": "high"
+    },
+    {
+      "model_family": "Claude",
+      "interface": "API",
+      "protocol_id": "sci_rna_seq",
+      "request_sha256": "a04454f3ac275e350d9929c64156602e849b532302337d17daa88e0389e3194b",
+      "response_sha256": "4f50e29a6cc00e36f0ab72559a5e017b819d2847494e05b5835b2cd63eda7f1a",
+      "input_files_sha256": "b2a706a6c72ff45243761c9ade3ea101f412573563d2458720c42045da8ed098",
+      "reasoning_effort": "high",
+      "max_completion_tokens": 64000,
+      "response_model": "anthropic/claude-opus-5",
+      "finish_reason": "stop",
+      "archived_attempt_records": 0
+    },
+    {
+      "model_family": "Claude",
+      "interface": "Agent",
+      "protocol_id": "sci_rna_seq",
+      "result_path": "runs/library_structure/round2/coding_agent/task1-round2-claude-code-high/sci_rna_seq__pYPeQrF/result.json",
+      "result_sha256": "55d149d2171ff0c857a369016f2d48163493f6cb5206688cf5982a20ce01b293",
+      "agent": "claude-code",
+      "agent_model": "claude-opus-5",
+      "agent_version": "2.1.233",
+      "reasoning_effort": "high"
+    },
+    {
+      "model_family": "Claude",
+      "interface": "API",
+      "protocol_id": "sci_atac_seq",
+      "request_sha256": "615083e3a07c9099d0c3802d9ef45162a16455d3339806d51354c92d94cd6a6b",
+      "response_sha256": "3f60884f904a483fe28cbcb471aa09cf205d904252c5865ec72b1efab79fe2e5",
+      "input_files_sha256": "eae7839de7050377c2d3da165eaeb9fd1605aa18c1ceef63049c3a6a51dec92b",
+      "reasoning_effort": "high",
+      "max_completion_tokens": 64000,
+      "response_model": "anthropic/claude-opus-5",
+      "finish_reason": "stop",
+      "archived_attempt_records": 0
+    },
+    {
+      "model_family": "Claude",
+      "interface": "Agent",
+      "protocol_id": "sci_atac_seq",
+      "result_path": "runs/library_structure/round2/coding_agent/task1-round2-claude-code-high/sci_atac_seq__LRCJnPZ/result.json",
+      "result_sha256": "6bcefc8dd18f476fd258e224fe37f0d628eb44e026a04df32a2ae9a1ff0b3fd9",
+      "agent": "claude-code",
+      "agent_model": "claude-opus-5",
+      "agent_version": "2.1.233",
+      "reasoning_effort": "high"
+    },
+    {
+      "model_family": "Claude",
+      "interface": "API",
+      "protocol_id": "microwell_seq",
+      "request_sha256": "2c526a05a74a41cd9834ab5a997fd876038fe2aad1fc62e5cd2a7b6cc9cb27e4",
+      "response_sha256": "d0a3aabebe7e34651731a3d8ec311371d70ac8f80c81fcf2606a6d31b107c81f",
+      "input_files_sha256": "437da81c0b50ae9b842ef47a264efd867b90546e80d69b5f010ffeb93b687528",
+      "reasoning_effort": "high",
+      "max_completion_tokens": 64000,
+      "response_model": "anthropic/claude-opus-5",
+      "finish_reason": "stop",
+      "archived_attempt_records": 0
+    },
+    {
+      "model_family": "Claude",
+      "interface": "Agent",
+      "protocol_id": "microwell_seq",
+      "result_path": "runs/library_structure/round2/coding_agent/task1-round2-claude-code-high/microwell_seq__AAQhn6j/result.json",
+      "result_sha256": "9e666eb473e185f21c18d3aa822674d81735fe53a0f89bb91d44571993b4e028",
+      "agent": "claude-code",
+      "agent_model": "claude-opus-5",
+      "agent_version": "2.1.233",
+      "reasoning_effort": "high"
+    },
+    {
+      "model_family": "Claude",
+      "interface": "API",
+      "protocol_id": "scrrbs",
+      "request_sha256": "7b30cb46f2e5f85ab93ab3f9855e48ba50bc2c9715e8f975d5fe0ab450a3f60a",
+      "response_sha256": "069be4d35a9e7c22e5b480a0c581ee103b7ebe31ce6237afa86d7e99dceb1aa0",
+      "input_files_sha256": "3b5c40ddce61c5ec86ca2d9cd5aadef103eb6e2ed27d2463bfd763a11324adf8",
+      "reasoning_effort": "high",
+      "max_completion_tokens": 64000,
+      "response_model": "anthropic/claude-opus-5",
+      "finish_reason": "stop",
+      "archived_attempt_records": 0
+    },
+    {
+      "model_family": "Claude",
+      "interface": "Agent",
+      "protocol_id": "scrrbs",
+      "result_path": "runs/library_structure/round2/coding_agent/task1-round2-claude-code-high/scrrbs__xhoS42h/result.json",
+      "result_sha256": "f5bd6f05403d23d4bd553a3c8fc6ddccc1d9bff9421ef4599f270ef3c6bb207d",
+      "agent": "claude-code",
+      "agent_model": "claude-opus-5",
+      "agent_version": "2.1.233",
+      "reasoning_effort": "high"
+    },
+    {
+      "model_family": "Claude",
+      "interface": "API",
+      "protocol_id": "pip_seq_v4",
+      "request_sha256": "43f1e502ed8acaae58d54537e6a0376c3c8d1867d79482d80b0708bbcd438f15",
+      "response_sha256": "83e0352d695d444ebbfaaede71d6deffb3b2bb10dda2a84d692792a644885fdc",
+      "input_files_sha256": "17534cc023aae50c72d0ca82d74f05c54900e6d1e3800ca14e47dd553af95677",
+      "reasoning_effort": "high",
+      "max_completion_tokens": 64000,
+      "response_model": "anthropic/claude-opus-5",
+      "finish_reason": "stop",
+      "archived_attempt_records": 0
+    },
+    {
+      "model_family": "Claude",
+      "interface": "Agent",
+      "protocol_id": "pip_seq_v4",
+      "result_path": "runs/library_structure/round2/coding_agent/task1-round2-claude-code-high/pip_seq_v4__Ew8H7u5/result.json",
+      "result_sha256": "81454e0fd7a0b2e1d1e9a9da05b96727e1dd4c2c14032de9c212ea9516371a04",
+      "agent": "claude-code",
+      "agent_model": "claude-opus-5",
+      "agent_version": "2.1.233",
+      "reasoning_effort": "high"
+    },
+    {
+      "model_family": "Claude",
+      "interface": "API",
+      "protocol_id": "scdamid",
+      "request_sha256": "2c1e1f3ebc5470e1755a22785d27018fae6a7355e42369c991ea3f10a6625619",
+      "response_sha256": "b309308bdaac9d4964a069be57946ccbc8b9a385005685ee997ef49e90b5b196",
+      "input_files_sha256": "f51d5b5fd81a91a2b78d2279b9a1afd4bc5b1cf939d1ed443fe4d8b16e67692c",
+      "reasoning_effort": "high",
+      "max_completion_tokens": 64000,
+      "response_model": "anthropic/claude-opus-5",
+      "finish_reason": "stop",
+      "archived_attempt_records": 0
+    },
+    {
+      "model_family": "Claude",
+      "interface": "Agent",
+      "protocol_id": "scdamid",
+      "result_path": "runs/library_structure/round2/coding_agent/task1-round2-claude-code-high/scdamid__eLDXeLY/result.json",
+      "result_sha256": "05170cbbf097f02eb123b32cd1879a34627d567d67b09a20b780c946a4f2d93c",
+      "agent": "claude-code",
+      "agent_model": "claude-opus-5",
+      "agent_version": "2.1.233",
+      "reasoning_effort": "high"
+    },
+    {
+      "model_family": "Claude",
+      "interface": "API",
+      "protocol_id": "ddseq_single_cell_3_rna_seq_kit",
+      "request_sha256": "d7736bf057668e3d39a182a744d40ccbf27fb30d26fa7003af25cc500b31ecb1",
+      "response_sha256": "b2a6dc719c58ee6ba01ea0b3c2d0da95c885b9402107f3a26f093e6f30bbd44b",
+      "input_files_sha256": "cde82b8f9e727f54148e3b7d7514a8947ed7171660fa6d0cede2811940f1f0f5",
+      "reasoning_effort": "high",
+      "max_completion_tokens": 64000,
+      "response_model": "anthropic/claude-opus-5",
+      "finish_reason": "stop",
+      "archived_attempt_records": 0
+    },
+    {
+      "model_family": "Claude",
+      "interface": "Agent",
+      "protocol_id": "ddseq_single_cell_3_rna_seq_kit",
+      "result_path": "runs/library_structure/round2/coding_agent/task1-round2-claude-code-high/ddseq_single_cell_3_rna_seq_kit__8qvyHSn/result.json",
+      "result_sha256": "7fdd15035f1e15f532e9893cac2be996f27da675cb67e45315bae048a37080b1",
+      "agent": "claude-code",
+      "agent_model": "claude-opus-5",
+      "agent_version": "2.1.233",
+      "reasoning_effort": "high"
+    },
+    {
+      "model_family": "Claude",
+      "interface": "API",
+      "protocol_id": "smart_seq",
+      "request_sha256": "5e7887f71fa8a6a45ed4c16ef549bf571834f99a8d515798c8044559740e4a9b",
+      "response_sha256": "23c94d8cadb05119feec0191b9cfc5b61d8506cbc9df40bc1420cc7fcba6147b",
+      "input_files_sha256": "d740a45ca695d3a96b2ff8e43d34be874768c10cca2ccfc1318e74bb6ae4abaf",
+      "reasoning_effort": "high",
+      "max_completion_tokens": 64000,
+      "response_model": "anthropic/claude-opus-5",
+      "finish_reason": "stop",
+      "archived_attempt_records": 0
+    },
+    {
+      "model_family": "Claude",
+      "interface": "Agent",
+      "protocol_id": "smart_seq",
+      "result_path": "runs/library_structure/round2/coding_agent/task1-round2-claude-code-high/smart_seq__cjbhn4w/result.json",
+      "result_sha256": "0d73d110efd14236ba5874fc6ccc5ae6406980332f37c514962b4ad012953b21",
+      "agent": "claude-code",
+      "agent_model": "claude-opus-5",
+      "agent_version": "2.1.233",
+      "reasoning_effort": "high"
+    },
+    {
+      "model_family": "Claude",
+      "interface": "API",
+      "protocol_id": "share_seq",
+      "request_sha256": "6f533155c05c48a18f5c6ce13b00895068cdf9b3d048da059f85aa9901d05ced",
+      "response_sha256": "e6054065d501ca1467d1788584f91be25e29badf9ef5ecdd047b16a2a8388283",
+      "input_files_sha256": "b3ad7c7c87d780c4537eb00f54730cb11ce3009b772a0a09313516bb90f8c56e",
+      "reasoning_effort": "high",
+      "max_completion_tokens": 64000,
+      "response_model": "anthropic/claude-opus-5",
+      "finish_reason": "stop",
+      "archived_attempt_records": 0
+    },
+    {
+      "model_family": "Claude",
+      "interface": "Agent",
+      "protocol_id": "share_seq",
+      "result_path": "runs/library_structure/round2/coding_agent/task1-round2-claude-code-high/share_seq__YtQzG7H/result.json",
+      "result_sha256": "8349c63d5cd60476f4ab57d315586323b7e9cec334de8947c5301197a9e22acc",
+      "agent": "claude-code",
+      "agent_model": "claude-opus-5",
+      "agent_version": "2.1.233",
+      "reasoning_effort": "high"
+    },
+    {
+      "model_family": "Claude",
+      "interface": "API",
+      "protocol_id": "dr_seq",
+      "request_sha256": "4ee902cb3068bc7dcdff0f5f4453206443ce44a8e942a2a9542d12c36c483446",
+      "response_sha256": "8d18c8f8993198dd2587c7b10fd56e1051b2c624bed84495d60328cee8297de8",
+      "input_files_sha256": "a37a6f4817da3323097cbe0b782ab852cae83958789ab56b40548ffd84503eea",
+      "reasoning_effort": "high",
+      "max_completion_tokens": 64000,
+      "response_model": "anthropic/claude-opus-5",
+      "finish_reason": "stop",
+      "archived_attempt_records": 0
+    },
+    {
+      "model_family": "Claude",
+      "interface": "Agent",
+      "protocol_id": "dr_seq",
+      "result_path": "runs/library_structure/round2/coding_agent/task1-round2-claude-code-high/dr_seq__pMMLYDq/result.json",
+      "result_sha256": "687c7916e799583d6c40d6a238401dfec753775a15b64d53ac95b9bda9d5b387",
+      "agent": "claude-code",
+      "agent_model": "claude-opus-5",
+      "agent_version": "2.1.233",
+      "reasoning_effort": "high"
+    },
+    {
+      "model_family": "Claude",
+      "interface": "API",
+      "protocol_id": "petri_seq",
+      "request_sha256": "f52373aa8ddeb8831b3365a935f42ea6a934754aee021e74192d5fe79e770a01",
+      "response_sha256": "3e5faa721f3639ab98945cd104f094a241ce4c74beb67b939379420fdfd2d336",
+      "input_files_sha256": "4b81ced50d07715069b73ee8c907f1d58d450b66c8859b5aa06a46180f8a780c",
+      "reasoning_effort": "high",
+      "max_completion_tokens": 64000,
+      "response_model": "anthropic/claude-opus-5",
+      "finish_reason": "stop",
+      "archived_attempt_records": 0
+    },
+    {
+      "model_family": "Claude",
+      "interface": "Agent",
+      "protocol_id": "petri_seq",
+      "result_path": "runs/library_structure/round2/coding_agent/task1-round2-claude-code-high/petri_seq__GekDQZz/result.json",
+      "result_sha256": "2812eaee6b8b7a3bb1471f656e6bb216a07ea29acf751d5fa5f73537f9b29a5c",
+      "agent": "claude-code",
+      "agent_model": "claude-opus-5",
+      "agent_version": "2.1.233",
+      "reasoning_effort": "high"
+    },
+    {
+      "model_family": "GPT",
+      "interface": "API",
+      "protocol_id": "10x_chromium_single_cell_atac_v2",
+      "request_sha256": "817f460a6aeb2067d6a975b993b8f83707655e01952df64c0e135e7a34619d3c",
+      "response_sha256": "60ba991b9079cab5ea69e649f26767f9e14d76b34b3ca7e1d794f3e944781c76",
+      "input_files_sha256": "666031e1dc30c0bc9418bc050a932b8f150352f6326d8941d5538fe062a9e1db",
+      "reasoning_effort": "high",
+      "max_completion_tokens": 64000,
+      "response_model": "openai/gpt-5.6-sol",
+      "finish_reason": "stop",
+      "archived_attempt_records": 0
+    },
+    {
+      "model_family": "GPT",
+      "interface": "Agent",
+      "protocol_id": "10x_chromium_single_cell_atac_v2",
+      "result_path": "runs/library_structure/round2/coding_agent/task1-round2-codex-high/10x_chromium_single_cell_atac_v2__Y34hoCc/result.json",
+      "result_sha256": "80c980b21a683d4af21fc7d512205adf546992f4a3ba87f2b0b832bee09d99dc",
+      "agent": "codex",
+      "agent_model": "gpt-5.6-sol",
+      "agent_version": "0.147.0",
+      "reasoning_effort": "high"
+    },
+    {
+      "model_family": "GPT",
+      "interface": "API",
+      "protocol_id": "10x_chromium_3_gene_expression_v4",
+      "request_sha256": "136472bdb7295cc44493726378f255c145bef8e9a3d107e401c45d2bfb9484d0",
+      "response_sha256": "b699d64814d78059cf9aeec6fc6d1510a3d14758711f8b91a732ae1351c8a95f",
+      "input_files_sha256": "a8a8de7351c2cd08920f97e5ce3a090240798316e2f785c642da6a4ddcab08ab",
+      "reasoning_effort": "high",
+      "max_completion_tokens": 64000,
+      "response_model": "openai/gpt-5.6-sol",
+      "finish_reason": "stop",
+      "archived_attempt_records": 0
+    },
+    {
+      "model_family": "GPT",
+      "interface": "Agent",
+      "protocol_id": "10x_chromium_3_gene_expression_v4",
+      "result_path": "runs/library_structure/round2/coding_agent/task1-round2-codex-high/10x_chromium_3_gene_expression_v__wezQzNu/result.json",
+      "result_sha256": "7d7c609afd53621295d7489c94a1ccfeebd13235ea6bb2523c0a207685a89def",
+      "agent": "codex",
+      "agent_model": "gpt-5.6-sol",
+      "agent_version": "0.147.0",
+      "reasoning_effort": "high"
+    },
+    {
+      "model_family": "GPT",
+      "interface": "API",
+      "protocol_id": "10x_chromium_3_feature_barcoding",
+      "request_sha256": "04b08ebfc87ea72114a1069636c3e563e164b43975ffbf499b6d51908572cd20",
+      "response_sha256": "b9ad978676d74e16a50e848cb7de8b8011323c7bd50dd01b32710e5760e5b1b2",
+      "input_files_sha256": "1ba02c0a459a1befab49701f2b552f07fec230777258c0f3042b70a87bdf186b",
+      "reasoning_effort": "high",
+      "max_completion_tokens": 64000,
+      "response_model": "openai/gpt-5.6-sol",
+      "finish_reason": "stop",
+      "archived_attempt_records": 0
+    },
+    {
+      "model_family": "GPT",
+      "interface": "Agent",
+      "protocol_id": "10x_chromium_3_feature_barcoding",
+      "result_path": "runs/library_structure/round2/coding_agent/task1-round2-codex-high/10x_chromium_3_feature_barcoding__Jr5EkxE/result.json",
+      "result_sha256": "b591e3305e172525c034173c0af33c09e155fe17b174cc43525e37b08a30f31f",
+      "agent": "codex",
+      "agent_model": "gpt-5.6-sol",
+      "agent_version": "0.147.0",
+      "reasoning_effort": "high"
+    },
+    {
+      "model_family": "GPT",
+      "interface": "API",
+      "protocol_id": "drop_seq",
+      "request_sha256": "ff3a7f8ddc4a929743c8a163b6e395e48c3f24361ab1dc205c4a872b9c3a36cc",
+      "response_sha256": "ca92add9251a5b9ce7c8d021327b4930cc78dbd5346da11a3d4631b29646e32b",
+      "input_files_sha256": "573677d93055fa32951c05be2ff95b6baf53b272c225afe68dcfd4c6fb3c6f28",
+      "reasoning_effort": "high",
+      "max_completion_tokens": 64000,
+      "response_model": "openai/gpt-5.6-sol",
+      "finish_reason": "stop",
+      "archived_attempt_records": 0
+    },
+    {
+      "model_family": "GPT",
+      "interface": "Agent",
+      "protocol_id": "drop_seq",
+      "result_path": "runs/library_structure/round2/coding_agent/task1-round2-codex-high/drop_seq__A24RCP7/result.json",
+      "result_sha256": "c820cd009d6501b6b63d6f2f0dd013a261c28c0a7c59253ecf4c0b5d468299c2",
+      "agent": "codex",
+      "agent_model": "gpt-5.6-sol",
+      "agent_version": "0.147.0",
+      "reasoning_effort": "high"
+    },
+    {
+      "model_family": "GPT",
+      "interface": "API",
+      "protocol_id": "seq_well_s3",
+      "request_sha256": "a23a358e1e87ca0d71cd186b0f9d099187558965a9fed481fcaefa94255655d8",
+      "response_sha256": "8d204516e0472d3c1192f2427106075f8f94a4cae01f68a4153d61f71764e9dd",
+      "input_files_sha256": "77393f21c2392064241c843c2f553a1f395873f05d2db1f3e653f90ac98b0179",
+      "reasoning_effort": "high",
+      "max_completion_tokens": 64000,
+      "response_model": "openai/gpt-5.6-sol",
+      "finish_reason": "stop",
+      "archived_attempt_records": 0
+    },
+    {
+      "model_family": "GPT",
+      "interface": "Agent",
+      "protocol_id": "seq_well_s3",
+      "result_path": "runs/library_structure/round2/coding_agent/task1-round2-codex-high/seq_well_s3__LMZ7Ym4/result.json",
+      "result_sha256": "9fbf109e324e91568d229cfceeba7b00b12372f39eb276649d6d4e7e3b8bc5a3",
+      "agent": "codex",
+      "agent_model": "gpt-5.6-sol",
+      "agent_version": "0.147.0",
+      "reasoning_effort": "high"
+    },
+    {
+      "model_family": "GPT",
+      "interface": "API",
+      "protocol_id": "indrop_v1",
+      "request_sha256": "7f5a8efe9b8c940f6c5509c5c0b1e8a1928a806c634ab00d63e37ad3b89559a2",
+      "response_sha256": "68a68d77afef8c4d980e05578e9e5b266596ed1025e1e0e2ec2d92d18cbf5943",
+      "input_files_sha256": "3efb43bcdfcf3fdb5f1caeef7cd8b12435e5abd13c062fe074f82965c59ad011",
+      "reasoning_effort": "high",
+      "max_completion_tokens": 64000,
+      "response_model": "openai/gpt-5.6-sol",
+      "finish_reason": "stop",
+      "archived_attempt_records": 0
+    },
+    {
+      "model_family": "GPT",
+      "interface": "Agent",
+      "protocol_id": "indrop_v1",
+      "result_path": "runs/library_structure/round2/coding_agent/task1-round2-codex-high/indrop_v1__7E3DRZ3/result.json",
+      "result_sha256": "3b464ffe234d80514f1f9acadf1091fb961c964c6116a7cc0e1a48650b5d1b8c",
+      "agent": "codex",
+      "agent_model": "gpt-5.6-sol",
+      "agent_version": "0.147.0",
+      "reasoning_effort": "high"
+    },
+    {
+      "model_family": "GPT",
+      "interface": "API",
+      "protocol_id": "s3_atac",
+      "request_sha256": "06a2b9110f6e2ad4a9c1babc32ddd271400d3411ec8fb000e3282c27c43fe121",
+      "response_sha256": "e82acdb0372c75c45412a059432626780b0f64cc090fc10c84fe8a22ec1899b4",
+      "input_files_sha256": "c8979acbc2c944a4052e2953777e3e59dc799fdadc4cc0961aaf621eea0e1236",
+      "reasoning_effort": "high",
+      "max_completion_tokens": 64000,
+      "response_model": "openai/gpt-5.6-sol",
+      "finish_reason": "stop",
+      "archived_attempt_records": 0
+    },
+    {
+      "model_family": "GPT",
+      "interface": "Agent",
+      "protocol_id": "s3_atac",
+      "result_path": "runs/library_structure/round2/coding_agent/task1-round2-codex-high/s3_atac__YLvqXzK/result.json",
+      "result_sha256": "2f16c790ac883906e5913abf765565eeeef008b4e6b54fdd369a3ce8bafa10a8",
+      "agent": "codex",
+      "agent_model": "gpt-5.6-sol",
+      "agent_version": "0.147.0",
+      "reasoning_effort": "high"
+    },
+    {
+      "model_family": "GPT",
+      "interface": "API",
+      "protocol_id": "cel_seq",
+      "request_sha256": "c746acbc51256e964326c731637a3abcdc5e66bfb4769fd1fb83e9a9ec5e6d87",
+      "response_sha256": "3b605d564c2c296e7357b5dfab3798147322802b7b8353c8d3162a6b38849084",
+      "input_files_sha256": "7cf99a0b77cdd2b6bda5092a230e8e55aeb93097cad331efd3a54ba588aba913",
+      "reasoning_effort": "high",
+      "max_completion_tokens": 64000,
+      "response_model": "openai/gpt-5.6-sol",
+      "finish_reason": "stop",
+      "archived_attempt_records": 0
+    },
+    {
+      "model_family": "GPT",
+      "interface": "Agent",
+      "protocol_id": "cel_seq",
+      "result_path": "runs/library_structure/round2/coding_agent/task1-round2-codex-high/cel_seq__bBh6jrv/result.json",
+      "result_sha256": "3fc1dd6abd86305f90ba2198f5c371634532ee6b3c76ac32df5cd9f24e09ad9e",
+      "agent": "codex",
+      "agent_model": "gpt-5.6-sol",
+      "agent_version": "0.147.0",
+      "reasoning_effort": "high"
+    },
+    {
+      "model_family": "GPT",
+      "interface": "API",
+      "protocol_id": "split_seq",
+      "request_sha256": "5438cd15ac5b372377d5431db73641e94279b65a4bc4c2fb695f31fea2bf3047",
+      "response_sha256": "c1af5214564c17d933b33cf1791856e125f792a3076a9d8bc50e5aeef7aac4b0",
+      "input_files_sha256": "60d99f783bc9df1f679b79e26cbf5946aeeb10ac944af94b719ec86fd9924927",
+      "reasoning_effort": "high",
+      "max_completion_tokens": 64000,
+      "response_model": "openai/gpt-5.6-sol",
+      "finish_reason": "stop",
+      "archived_attempt_records": 0
+    },
+    {
+      "model_family": "GPT",
+      "interface": "Agent",
+      "protocol_id": "split_seq",
+      "result_path": "runs/library_structure/round2/coding_agent/task1-round2-codex-high/split_seq__xDG9aiM/result.json",
+      "result_sha256": "a3ba0907a9a2290fb42b8cda79b3c72da4e2efa9f2940a9d6f1a53fe528a5b45",
+      "agent": "codex",
+      "agent_model": "gpt-5.6-sol",
+      "agent_version": "0.147.0",
+      "reasoning_effort": "high"
+    },
+    {
+      "model_family": "GPT",
+      "interface": "API",
+      "protocol_id": "sci_rna_seq",
+      "request_sha256": "0a4c2265d8666bafdbb171ee6c93004cce1c9654f4d9150b98093aa4279d878c",
+      "response_sha256": "f4bc0c9ba369739fb4ce4f4eb4c40ed26c89691c9a7bde2c20de949cb06d6423",
+      "input_files_sha256": "b2a706a6c72ff45243761c9ade3ea101f412573563d2458720c42045da8ed098",
+      "reasoning_effort": "high",
+      "max_completion_tokens": 64000,
+      "response_model": "openai/gpt-5.6-sol",
+      "finish_reason": "stop",
+      "archived_attempt_records": 0
+    },
+    {
+      "model_family": "GPT",
+      "interface": "Agent",
+      "protocol_id": "sci_rna_seq",
+      "result_path": "runs/library_structure/round2/coding_agent/task1-round2-codex-high/sci_rna_seq__RfYTrD2/result.json",
+      "result_sha256": "588dd091e88f54a00e237144130efa1857af4cb2842f145690f0ef5ae13000c9",
+      "agent": "codex",
+      "agent_model": "gpt-5.6-sol",
+      "agent_version": "0.147.0",
+      "reasoning_effort": "high"
+    },
+    {
+      "model_family": "GPT",
+      "interface": "API",
+      "protocol_id": "sci_atac_seq",
+      "request_sha256": "34b5afb9dceca4ca30ed07fa902e6bda76c220abd1ea6f20bd09d184f7c9e381",
+      "response_sha256": "1715cc2ffe67c5bc43e6405e41bbf3a33089a34dea14f3829591caed0bd8c9f4",
+      "input_files_sha256": "eae7839de7050377c2d3da165eaeb9fd1605aa18c1ceef63049c3a6a51dec92b",
+      "reasoning_effort": "high",
+      "max_completion_tokens": 64000,
+      "response_model": "openai/gpt-5.6-sol",
+      "finish_reason": "stop",
+      "archived_attempt_records": 0
+    },
+    {
+      "model_family": "GPT",
+      "interface": "Agent",
+      "protocol_id": "sci_atac_seq",
+      "result_path": "runs/library_structure/round2/coding_agent/task1-round2-codex-high/sci_atac_seq__Ft7sGES/result.json",
+      "result_sha256": "08084f799aa99610b43b3c8544d8ce6d8515cac276d7b31846b8c9347b84a969",
+      "agent": "codex",
+      "agent_model": "gpt-5.6-sol",
+      "agent_version": "0.147.0",
+      "reasoning_effort": "high"
+    },
+    {
+      "model_family": "GPT",
+      "interface": "API",
+      "protocol_id": "microwell_seq",
+      "request_sha256": "3410d7c788858bd45a6a7149cdf5b8bb72a3ad98d5a2e300df0b5a1a470b6c8b",
+      "response_sha256": "cf4e4cd9f96802578cf4a7af9327800e6dc2b4d641167f885a48dac50988fd9f",
+      "input_files_sha256": "437da81c0b50ae9b842ef47a264efd867b90546e80d69b5f010ffeb93b687528",
+      "reasoning_effort": "high",
+      "max_completion_tokens": 64000,
+      "response_model": "openai/gpt-5.6-sol",
+      "finish_reason": "stop",
+      "archived_attempt_records": 0
+    },
+    {
+      "model_family": "GPT",
+      "interface": "Agent",
+      "protocol_id": "microwell_seq",
+      "result_path": "runs/library_structure/round2/coding_agent/task1-round2-codex-high/microwell_seq__vNmAzMa/result.json",
+      "result_sha256": "f336fbfb9c5330433f1aceef64a0ed87405ac0143e6c32939bc6d9d76fa2b1dc",
+      "agent": "codex",
+      "agent_model": "gpt-5.6-sol",
+      "agent_version": "0.147.0",
+      "reasoning_effort": "high"
+    },
+    {
+      "model_family": "GPT",
+      "interface": "API",
+      "protocol_id": "scrrbs",
+      "request_sha256": "1f88c601063929c37848db43a2114aa78ac86bf8250de95730247b47941a5e1a",
+      "response_sha256": "466dca304e4a6cd2ae1e94492507c4f8e8233bc497d41946ba8fd852a06d64c8",
+      "input_files_sha256": "3b5c40ddce61c5ec86ca2d9cd5aadef103eb6e2ed27d2463bfd763a11324adf8",
+      "reasoning_effort": "high",
+      "max_completion_tokens": 64000,
+      "response_model": "openai/gpt-5.6-sol",
+      "finish_reason": "stop",
+      "archived_attempt_records": 0
+    },
+    {
+      "model_family": "GPT",
+      "interface": "Agent",
+      "protocol_id": "scrrbs",
+      "result_path": "runs/library_structure/round2/coding_agent/task1-round2-codex-high/scrrbs__A2Cacye/result.json",
+      "result_sha256": "d967204a95c7bacc403d9ea058e66a599d889b622d2be003ea54e667d1737657",
+      "agent": "codex",
+      "agent_model": "gpt-5.6-sol",
+      "agent_version": "0.147.0",
+      "reasoning_effort": "high"
+    },
+    {
+      "model_family": "GPT",
+      "interface": "API",
+      "protocol_id": "pip_seq_v4",
+      "request_sha256": "e9e265a3e5517fec666e049ec9a8d7c196c0baaf1e9943c0d8cad93045416da5",
+      "response_sha256": "bcabef133eed051247320df35ad4e1016950c0154a7e3be151245563f37422c7",
+      "input_files_sha256": "17534cc023aae50c72d0ca82d74f05c54900e6d1e3800ca14e47dd553af95677",
+      "reasoning_effort": "high",
+      "max_completion_tokens": 64000,
+      "response_model": "openai/gpt-5.6-sol",
+      "finish_reason": "stop",
+      "archived_attempt_records": 0
+    },
+    {
+      "model_family": "GPT",
+      "interface": "Agent",
+      "protocol_id": "pip_seq_v4",
+      "result_path": "runs/library_structure/round2/coding_agent/task1-round2-codex-high/pip_seq_v4__7zUvd7H/result.json",
+      "result_sha256": "8cadf9ccc6cb2373cd16a115c6363efa01fb5a4a65fd3359881e834980ae58ff",
+      "agent": "codex",
+      "agent_model": "gpt-5.6-sol",
+      "agent_version": "0.147.0",
+      "reasoning_effort": "high"
+    },
+    {
+      "model_family": "GPT",
+      "interface": "API",
+      "protocol_id": "scdamid",
+      "request_sha256": "f5d98272f728367c9130e3cffefe62702287c754ebc8090304ff58e241a73323",
+      "response_sha256": "3311ee7c4def3d429903774b49f0e081e28e57981e6c01d37945bfd1da271c24",
+      "input_files_sha256": "f51d5b5fd81a91a2b78d2279b9a1afd4bc5b1cf939d1ed443fe4d8b16e67692c",
+      "reasoning_effort": "high",
+      "max_completion_tokens": 64000,
+      "response_model": "openai/gpt-5.6-sol",
+      "finish_reason": "stop",
+      "archived_attempt_records": 0
+    },
+    {
+      "model_family": "GPT",
+      "interface": "Agent",
+      "protocol_id": "scdamid",
+      "result_path": "runs/library_structure/round2/coding_agent/task1-round2-codex-high/scdamid__ZtUJc3M/result.json",
+      "result_sha256": "dc2bb367d6f4bea7b8e0a768cb60fc21fd9ad24d9a53fabe0d879657f2b7e343",
+      "agent": "codex",
+      "agent_model": "gpt-5.6-sol",
+      "agent_version": "0.147.0",
+      "reasoning_effort": "high"
+    },
+    {
+      "model_family": "GPT",
+      "interface": "API",
+      "protocol_id": "ddseq_single_cell_3_rna_seq_kit",
+      "request_sha256": "163224f5b090a3577cac6c19778edbfd3ae532172cca2795141d89989e399ba4",
+      "response_sha256": "4cdf9e2f20b952638df685f4c58a1bc7aebd87a42cba9a15c79a1d0411440fd5",
+      "input_files_sha256": "cde82b8f9e727f54148e3b7d7514a8947ed7171660fa6d0cede2811940f1f0f5",
+      "reasoning_effort": "high",
+      "max_completion_tokens": 64000,
+      "response_model": "openai/gpt-5.6-sol",
+      "finish_reason": "stop",
+      "archived_attempt_records": 0
+    },
+    {
+      "model_family": "GPT",
+      "interface": "Agent",
+      "protocol_id": "ddseq_single_cell_3_rna_seq_kit",
+      "result_path": "runs/library_structure/round2/coding_agent/task1-round2-codex-high/ddseq_single_cell_3_rna_seq_kit__5RongZp/result.json",
+      "result_sha256": "72a5c3eb1768e2ed00d063435b53cfeb0753e19a29d631b69766bbd786c9840c",
+      "agent": "codex",
+      "agent_model": "gpt-5.6-sol",
+      "agent_version": "0.147.0",
+      "reasoning_effort": "high"
+    },
+    {
+      "model_family": "GPT",
+      "interface": "API",
+      "protocol_id": "smart_seq",
+      "request_sha256": "362cd091d575ff3fc4a2ad515239c30e22f477dab5333e4a3391b9c26c620138",
+      "response_sha256": "0e387dd5cecc943ede834a923f50e976526c2191f9bf6a895d68b599bd76a7a2",
+      "input_files_sha256": "d740a45ca695d3a96b2ff8e43d34be874768c10cca2ccfc1318e74bb6ae4abaf",
+      "reasoning_effort": "high",
+      "max_completion_tokens": 64000,
+      "response_model": "openai/gpt-5.6-sol",
+      "finish_reason": "stop",
+      "archived_attempt_records": 0
+    },
+    {
+      "model_family": "GPT",
+      "interface": "Agent",
+      "protocol_id": "smart_seq",
+      "result_path": "runs/library_structure/round2/coding_agent/task1-round2-codex-high/smart_seq__cfEUdwn/result.json",
+      "result_sha256": "a482d57d30dcc6093b2a8628a23825693f9e9e02651e8aeb08caf6e002117a45",
+      "agent": "codex",
+      "agent_model": "gpt-5.6-sol",
+      "agent_version": "0.147.0",
+      "reasoning_effort": "high"
+    },
+    {
+      "model_family": "GPT",
+      "interface": "API",
+      "protocol_id": "share_seq",
+      "request_sha256": "b750fa11d9b5dcd6d8987f4e6a8474bd97fb953dceb8ed94087b92d7efa17830",
+      "response_sha256": "4e113f10d120bbdb2846f4ff40f5c2fe4896cd5b9172b2d253c1b4c62056dcfa",
+      "input_files_sha256": "b3ad7c7c87d780c4537eb00f54730cb11ce3009b772a0a09313516bb90f8c56e",
+      "reasoning_effort": "high",
+      "max_completion_tokens": 64000,
+      "response_model": "openai/gpt-5.6-sol",
+      "finish_reason": "stop",
+      "archived_attempt_records": 0
+    },
+    {
+      "model_family": "GPT",
+      "interface": "Agent",
+      "protocol_id": "share_seq",
+      "result_path": "runs/library_structure/round2/coding_agent/task1-round2-codex-high/share_seq__xFfTVeh/result.json",
+      "result_sha256": "edc28c80ca573ee2fbd7b1e68a086dee7aab117836ea57566721ec2b966c25eb",
+      "agent": "codex",
+      "agent_model": "gpt-5.6-sol",
+      "agent_version": "0.147.0",
+      "reasoning_effort": "high"
+    },
+    {
+      "model_family": "GPT",
+      "interface": "API",
+      "protocol_id": "dr_seq",
+      "request_sha256": "2900c9d51890f4f579f49bdd789129106294e95a0ab608430e150c7cd89cbf2d",
+      "response_sha256": "9fdb7844fbdc48a84ce0ba2281a1aa44104094a6df19a0c8367e59a161871d25",
+      "input_files_sha256": "a37a6f4817da3323097cbe0b782ab852cae83958789ab56b40548ffd84503eea",
+      "reasoning_effort": "high",
+      "max_completion_tokens": 64000,
+      "response_model": "openai/gpt-5.6-sol",
+      "finish_reason": "stop",
+      "archived_attempt_records": 0
+    },
+    {
+      "model_family": "GPT",
+      "interface": "Agent",
+      "protocol_id": "dr_seq",
+      "result_path": "runs/library_structure/round2/coding_agent/task1-round2-codex-high/dr_seq__vKpxErG/result.json",
+      "result_sha256": "1e35225cb2ba2116b8f1f066573588135e6212d7e20a4de9114225502748f826",
+      "agent": "codex",
+      "agent_model": "gpt-5.6-sol",
+      "agent_version": "0.147.0",
+      "reasoning_effort": "high"
+    },
+    {
+      "model_family": "GPT",
+      "interface": "API",
+      "protocol_id": "petri_seq",
+      "request_sha256": "e29474929f40c02f526535ed372e4590222338e0564097d49708b775fef41297",
+      "response_sha256": "c93ed6279a63161ef02908f00d60c35446ad6495349c8f9f971ebf8108767ce2",
+      "input_files_sha256": "4b81ced50d07715069b73ee8c907f1d58d450b66c8859b5aa06a46180f8a780c",
+      "reasoning_effort": "high",
+      "max_completion_tokens": 64000,
+      "response_model": "openai/gpt-5.6-sol",
+      "finish_reason": "stop",
+      "archived_attempt_records": 0
+    },
+    {
+      "model_family": "GPT",
+      "interface": "Agent",
+      "protocol_id": "petri_seq",
+      "result_path": "runs/library_structure/round2/coding_agent/task1-round2-codex-high/petri_seq__UJJwquN/result.json",
+      "result_sha256": "2af8f16e058da7a655cddb05a1979f92abf8a27c4b4c5e7a4100281e8595203b",
+      "agent": "codex",
+      "agent_model": "gpt-5.6-sol",
+      "agent_version": "0.147.0",
+      "reasoning_effort": "high"
+    },
+    {
+      "model_family": "Gemini",
+      "interface": "API",
+      "protocol_id": "10x_chromium_single_cell_atac_v2",
+      "request_sha256": "ee52db9269fc1c98f19b521ae937a02f07e0ff037bd692a99420a6b69f9da25a",
+      "response_sha256": "d5977da755acc9300fd5d8ffd4f5821143f855b9f033db0244394e2b1da8fa23",
+      "input_files_sha256": "666031e1dc30c0bc9418bc050a932b8f150352f6326d8941d5538fe062a9e1db",
+      "reasoning_effort": "high",
+      "max_completion_tokens": 64000,
+      "response_model": "google/gemini-3.7-flash",
+      "finish_reason": "stop",
+      "archived_attempt_records": 0
+    },
+    {
+      "model_family": "Gemini",
+      "interface": "Agent",
+      "protocol_id": "10x_chromium_single_cell_atac_v2",
+      "result_path": "runs/library_structure/round2/coding_agent/task1-round2-antigravity-cli-high/10x_chromium_single_cell_atac_v2__QFT5Wwe/result.json",
+      "result_sha256": "c3e0d837c18ea3281717efa31f8ea2a93996cdbd4408bdd952e750023eb72012",
+      "agent": "antigravity-cli",
+      "agent_model": "gemini-3.7-flash-high",
+      "agent_version": "1.3.2",
+      "reasoning_effort": "high"
+    },
+    {
+      "model_family": "Gemini",
+      "interface": "API",
+      "protocol_id": "10x_chromium_3_gene_expression_v4",
+      "request_sha256": "dbda310877f0ce68c5850a2d5aaf660126a5bc1b0f5a8566db14f6bdea6cfc26",
+      "response_sha256": "afd580529a3aa1fddc19e2958cde4d242b7599cb97249e2be5ead74ee25dd871",
+      "input_files_sha256": "a8a8de7351c2cd08920f97e5ce3a090240798316e2f785c642da6a4ddcab08ab",
+      "reasoning_effort": "high",
+      "max_completion_tokens": 64000,
+      "response_model": "google/gemini-3.7-flash",
+      "finish_reason": "stop",
+      "archived_attempt_records": 0
+    },
+    {
+      "model_family": "Gemini",
+      "interface": "Agent",
+      "protocol_id": "10x_chromium_3_gene_expression_v4",
+      "result_path": "runs/library_structure/round2/coding_agent/task1-round2-antigravity-cli-high/10x_chromium_3_gene_expression_v__w8eWTp5/result.json",
+      "result_sha256": "08505448c47894d1e8ceb5d2a2277afd4ff1bb0711b0a01bea2dd6e13de9ba46",
+      "agent": "antigravity-cli",
+      "agent_model": "gemini-3.7-flash-high",
+      "agent_version": "1.3.2",
+      "reasoning_effort": "high"
+    },
+    {
+      "model_family": "Gemini",
+      "interface": "API",
+      "protocol_id": "10x_chromium_3_feature_barcoding",
+      "request_sha256": "ab0406c8e13551339e30d675ab7f1579ce717dcef5f17dd49086169f51fd67a4",
+      "response_sha256": "8eb220eb0b9b86175fa6d6856dc27da457b22823c3dda069f390604a96b155ed",
+      "input_files_sha256": "1ba02c0a459a1befab49701f2b552f07fec230777258c0f3042b70a87bdf186b",
+      "reasoning_effort": "high",
+      "max_completion_tokens": 64000,
+      "response_model": "google/gemini-3.7-flash",
+      "finish_reason": "stop",
+      "archived_attempt_records": 0
+    },
+    {
+      "model_family": "Gemini",
+      "interface": "Agent",
+      "protocol_id": "10x_chromium_3_feature_barcoding",
+      "result_path": "runs/library_structure/round2/coding_agent/task1-round2-antigravity-cli-high/10x_chromium_3_feature_barcoding__VFHVtNb/result.json",
+      "result_sha256": "11f024a429343d9e3724f32d4ed874c965ef0a3562bb142d4e1ec5c8a6ee4bf8",
+      "agent": "antigravity-cli",
+      "agent_model": "gemini-3.7-flash-high",
+      "agent_version": "1.3.2",
+      "reasoning_effort": "high"
+    },
+    {
+      "model_family": "Gemini",
+      "interface": "API",
+      "protocol_id": "drop_seq",
+      "request_sha256": "319012db6777aa9cd9badbeafecbacce2c680e4dd4303381d65bf71a6b834cae",
+      "response_sha256": "5667921e3a386c84e9c4b7d1a17b469bd476bbbe42721af8cd87fbe7c7a200aa",
+      "input_files_sha256": "573677d93055fa32951c05be2ff95b6baf53b272c225afe68dcfd4c6fb3c6f28",
+      "reasoning_effort": "high",
+      "max_completion_tokens": 64000,
+      "response_model": "google/gemini-3.7-flash",
+      "finish_reason": "stop",
+      "archived_attempt_records": 0
+    },
+    {
+      "model_family": "Gemini",
+      "interface": "Agent",
+      "protocol_id": "drop_seq",
+      "result_path": "runs/library_structure/round2/coding_agent/task1-round2-antigravity-cli-high/drop_seq__c7Z6Y6b/result.json",
+      "result_sha256": "8451f4f8258407ad356ee6b641a29c4b7b0ef1b54dd28232c0bfcb6ff1401f20",
+      "agent": "antigravity-cli",
+      "agent_model": "gemini-3.7-flash-high",
+      "agent_version": "1.3.2",
+      "reasoning_effort": "high"
+    },
+    {
+      "model_family": "Gemini",
+      "interface": "API",
+      "protocol_id": "seq_well_s3",
+      "request_sha256": "a22cbf5c0b9100e30dd255f553930430d64d1699b7f9d047a426d97183818d03",
+      "response_sha256": "8ad5b737a1237e966197510886367abf13ede9fa12420275ef8d4bb06374de08",
+      "input_files_sha256": "591c06f3e35b9d554858e612e24601c03c8d842cff5ba3c408f82d426175d58d",
+      "reasoning_effort": "high",
+      "max_completion_tokens": 64000,
+      "response_model": "google/gemini-3.7-flash",
+      "finish_reason": "stop",
+      "archived_attempt_records": 1
+    },
+    {
+      "model_family": "Gemini",
+      "interface": "Agent",
+      "protocol_id": "seq_well_s3",
+      "result_path": "runs/library_structure/round2/coding_agent/task1-round2-antigravity-cli-high/seq_well_s3__Zyf8G6M/result.json",
+      "result_sha256": "18c8b292597752091ce52f2b1af6213886229b6c1cc00b8edc8195d182b74574",
+      "agent": "antigravity-cli",
+      "agent_model": "gemini-3.7-flash-high",
+      "agent_version": "1.3.2",
+      "reasoning_effort": "high"
+    },
+    {
+      "model_family": "Gemini",
+      "interface": "API",
+      "protocol_id": "indrop_v1",
+      "request_sha256": "a774a00dbc8438850e1569fa9fe961c6cb46eb687de247b7d95ef8dc08c32a31",
+      "response_sha256": "f5daaad03a39ceb276189ab89c7218c2ad3f4f4e1341d401050f9b3d168f62e7",
+      "input_files_sha256": "e06408bfb8264db154260ffa3f237208a284cafe6c2be0fc95bfe397141959bc",
+      "reasoning_effort": "high",
+      "max_completion_tokens": 64000,
+      "response_model": "google/gemini-3.7-flash",
+      "finish_reason": "stop",
+      "archived_attempt_records": 1
+    },
+    {
+      "model_family": "Gemini",
+      "interface": "Agent",
+      "protocol_id": "indrop_v1",
+      "result_path": "runs/library_structure/round2/coding_agent/task1-round2-antigravity-cli-high/indrop_v1__gsneXrM/result.json",
+      "result_sha256": "8a4b31277180f62d57926e8b8779f2da2ee45aaa8a80639d01d4e0dad99ff7e5",
+      "agent": "antigravity-cli",
+      "agent_model": "gemini-3.7-flash-high",
+      "agent_version": "1.3.2",
+      "reasoning_effort": "high"
+    },
+    {
+      "model_family": "Gemini",
+      "interface": "API",
+      "protocol_id": "s3_atac",
+      "request_sha256": "24a3edb417f9c1874408e044d648304bde491fe10f538c99810f145316f9f918",
+      "response_sha256": "2f12a84352538a7d098e7f7d2dc590a2b1ec680a31566447037fe0900c0a6813",
+      "input_files_sha256": "c8979acbc2c944a4052e2953777e3e59dc799fdadc4cc0961aaf621eea0e1236",
+      "reasoning_effort": "high",
+      "max_completion_tokens": 64000,
+      "response_model": "google/gemini-3.7-flash",
+      "finish_reason": "stop",
+      "archived_attempt_records": 0
+    },
+    {
+      "model_family": "Gemini",
+      "interface": "Agent",
+      "protocol_id": "s3_atac",
+      "result_path": "runs/library_structure/round2/coding_agent/task1-round2-antigravity-cli-high/s3_atac__vNxGWbk/result.json",
+      "result_sha256": "c99767c346cf3bdef7f5b6ce2611ff73e27946b7c76b2c5b86b12a5c5c83b4a9",
+      "agent": "antigravity-cli",
+      "agent_model": "gemini-3.7-flash-high",
+      "agent_version": "1.3.2",
+      "reasoning_effort": "high"
+    },
+    {
+      "model_family": "Gemini",
+      "interface": "API",
+      "protocol_id": "cel_seq",
+      "request_sha256": "0e6274a5c6809f1ffc276602827c1091680f2fe1e0c152870d12fbe2928c7b2e",
+      "response_sha256": "9a4c079407f1e7550caac2c64a0b706cc6d31f5392bb7f96eae938b4a40e1887",
+      "input_files_sha256": "7cf99a0b77cdd2b6bda5092a230e8e55aeb93097cad331efd3a54ba588aba913",
+      "reasoning_effort": "high",
+      "max_completion_tokens": 64000,
+      "response_model": "google/gemini-3.7-flash",
+      "finish_reason": "stop",
+      "archived_attempt_records": 0
+    },
+    {
+      "model_family": "Gemini",
+      "interface": "Agent",
+      "protocol_id": "cel_seq",
+      "result_path": "runs/library_structure/round2/coding_agent/task1-round2-antigravity-cli-high/cel_seq__StMbu2h/result.json",
+      "result_sha256": "8a844d4a6e83590e4a2574a41589b9b491f5d3f15b32e988c12a7c15af78c078",
+      "agent": "antigravity-cli",
+      "agent_model": "gemini-3.7-flash-high",
+      "agent_version": "1.3.2",
+      "reasoning_effort": "high"
+    },
+    {
+      "model_family": "Gemini",
+      "interface": "API",
+      "protocol_id": "split_seq",
+      "request_sha256": "6bbd62e58b9157aeb04aea30afe2fd3f2990896c815963e096adc0e0a0ddb0ec",
+      "response_sha256": "191dc97592820dfaa354c85d0ba8cb34e3eb470b88b473a915e27cd1a663cf6f",
+      "input_files_sha256": "60d99f783bc9df1f679b79e26cbf5946aeeb10ac944af94b719ec86fd9924927",
+      "reasoning_effort": "high",
+      "max_completion_tokens": 64000,
+      "response_model": "google/gemini-3.7-flash",
+      "finish_reason": "stop",
+      "archived_attempt_records": 0
+    },
+    {
+      "model_family": "Gemini",
+      "interface": "Agent",
+      "protocol_id": "split_seq",
+      "result_path": "runs/library_structure/round2/coding_agent/task1-round2-antigravity-cli-high/split_seq__8UDX46e/result.json",
+      "result_sha256": "1d04456c576517e92c658741ee2d2bed0e22a806f35a09eb81ca9e97d2a5ef35",
+      "agent": "antigravity-cli",
+      "agent_model": "gemini-3.7-flash-high",
+      "agent_version": "1.3.2",
+      "reasoning_effort": "high"
+    },
+    {
+      "model_family": "Gemini",
+      "interface": "API",
+      "protocol_id": "sci_rna_seq",
+      "request_sha256": "b63d98f0e28c422c6501d9aa363fdc734e29e9df0fbadc6da3c4a7ecea5fee03",
+      "response_sha256": "ecc0c8ba7006db608366353de1285831d6d4bf0fb05a5d63279a1d8949f9dff1",
+      "input_files_sha256": "b2a706a6c72ff45243761c9ade3ea101f412573563d2458720c42045da8ed098",
+      "reasoning_effort": "high",
+      "max_completion_tokens": 64000,
+      "response_model": "google/gemini-3.7-flash",
+      "finish_reason": "stop",
+      "archived_attempt_records": 0
+    },
+    {
+      "model_family": "Gemini",
+      "interface": "Agent",
+      "protocol_id": "sci_rna_seq",
+      "result_path": "runs/library_structure/round2/coding_agent/task1-round2-antigravity-cli-high/sci_rna_seq__tcUz7oB/result.json",
+      "result_sha256": "f84dc65dd6e69ca06b768eec92647d02971c61c82a6e3734946854deb8d42798",
+      "agent": "antigravity-cli",
+      "agent_model": "gemini-3.7-flash-high",
+      "agent_version": "1.3.2",
+      "reasoning_effort": "high"
+    },
+    {
+      "model_family": "Gemini",
+      "interface": "API",
+      "protocol_id": "sci_atac_seq",
+      "request_sha256": "0da13aa52b8502d065c3907c5cc721bb40c94c6f90c5035b0b54915462daa188",
+      "response_sha256": "4fbd893b42d36ea1fe1b04b764e788dfbbfba165ca7a9b944a2517b3aec89d15",
+      "input_files_sha256": "eae7839de7050377c2d3da165eaeb9fd1605aa18c1ceef63049c3a6a51dec92b",
+      "reasoning_effort": "high",
+      "max_completion_tokens": 64000,
+      "response_model": "google/gemini-3.7-flash",
+      "finish_reason": "stop",
+      "archived_attempt_records": 0
+    },
+    {
+      "model_family": "Gemini",
+      "interface": "Agent",
+      "protocol_id": "sci_atac_seq",
+      "result_path": "runs/library_structure/round2/coding_agent/task1-round2-antigravity-cli-high/sci_atac_seq__Khy5A6w/result.json",
+      "result_sha256": "981735d4889bd07dd53d68b45aa9e922057eff27ac37540965ae84bb518f1aae",
+      "agent": "antigravity-cli",
+      "agent_model": "gemini-3.7-flash-high",
+      "agent_version": "1.3.2",
+      "reasoning_effort": "high"
+    },
+    {
+      "model_family": "Gemini",
+      "interface": "API",
+      "protocol_id": "microwell_seq",
+      "request_sha256": "896436408cafaf7e0d1e65187a5d6b08167720f0d691fd554b6b243712b3e955",
+      "response_sha256": "26cb30d297b4c34e1b2f695228b26beecc3ec94da71d87d02abea8f0412fb174",
+      "input_files_sha256": "0d1fa9ba683ba3c3a0bc200c470f7920aeb053c2d85a18196053cbeae22fe44e",
+      "reasoning_effort": "high",
+      "max_completion_tokens": 64000,
+      "response_model": "google/gemini-3.7-flash",
+      "finish_reason": "stop",
+      "archived_attempt_records": 1
+    },
+    {
+      "model_family": "Gemini",
+      "interface": "Agent",
+      "protocol_id": "microwell_seq",
+      "result_path": "runs/library_structure/round2/coding_agent/task1-round2-antigravity-cli-high/microwell_seq__JNAuDgw/result.json",
+      "result_sha256": "72b1412c68878ac591bb6f1552d055d2196c81b1df9db12fe4772046f18d977f",
+      "agent": "antigravity-cli",
+      "agent_model": "gemini-3.7-flash-high",
+      "agent_version": "1.3.2",
+      "reasoning_effort": "high"
+    },
+    {
+      "model_family": "Gemini",
+      "interface": "API",
+      "protocol_id": "scrrbs",
+      "request_sha256": "602e834e7e2fc5f980abde08b730c93b4d6e9198246638b89fc78f3acbaaf3db",
+      "response_sha256": "46c90bc68b1e1ca2bf21a964d44cc85533c7091a92178d197ad4fb462c73db74",
+      "input_files_sha256": "3b5c40ddce61c5ec86ca2d9cd5aadef103eb6e2ed27d2463bfd763a11324adf8",
+      "reasoning_effort": "high",
+      "max_completion_tokens": 64000,
+      "response_model": "google/gemini-3.7-flash",
+      "finish_reason": "stop",
+      "archived_attempt_records": 0
+    },
+    {
+      "model_family": "Gemini",
+      "interface": "Agent",
+      "protocol_id": "scrrbs",
+      "result_path": "runs/library_structure/round2/coding_agent/task1-round2-antigravity-cli-high/scrrbs__n7mJkca/result.json",
+      "result_sha256": "35c0852f71aaa5a1e6267c20dd698b9d74a4188a0cf12633d30aba5d93eee6e8",
+      "agent": "antigravity-cli",
+      "agent_model": "gemini-3.7-flash-high",
+      "agent_version": "1.3.2",
+      "reasoning_effort": "high"
+    },
+    {
+      "model_family": "Gemini",
+      "interface": "API",
+      "protocol_id": "pip_seq_v4",
+      "request_sha256": "d8b63f36f363c5f912005993e9e25bc6ddb15e21515a50fc73c409412c734a83",
+      "response_sha256": "2078664d1907937000476bd51b82f1d2efb9121d1773c0194fd398c17a636f0b",
+      "input_files_sha256": "17534cc023aae50c72d0ca82d74f05c54900e6d1e3800ca14e47dd553af95677",
+      "reasoning_effort": "high",
+      "max_completion_tokens": 64000,
+      "response_model": "google/gemini-3.7-flash",
+      "finish_reason": "stop",
+      "archived_attempt_records": 0
+    },
+    {
+      "model_family": "Gemini",
+      "interface": "Agent",
+      "protocol_id": "pip_seq_v4",
+      "result_path": "runs/library_structure/round2/coding_agent/task1-round2-antigravity-cli-high/pip_seq_v4__DHtvEKX/result.json",
+      "result_sha256": "2fd4b4c30870c923f68b6116d25f05e41273bfa7fdc14d30e43a27b18798e64c",
+      "agent": "antigravity-cli",
+      "agent_model": "gemini-3.7-flash-high",
+      "agent_version": "1.3.2",
+      "reasoning_effort": "high"
+    },
+    {
+      "model_family": "Gemini",
+      "interface": "API",
+      "protocol_id": "scdamid",
+      "request_sha256": "ae741fc5b9dd7462beabd29a092cc7695dcdc9d69ceb46209d398a4fd04baca1",
+      "response_sha256": "eb95a0287396e3762232de2c3f3ae505f8674c6f494d59548d6069e0b8bee0ce",
+      "input_files_sha256": "c7172f988d9ae2bcf53a171282cfd54dc79630307c6fb689a544b246e418739a",
+      "reasoning_effort": "high",
+      "max_completion_tokens": 64000,
+      "response_model": "google/gemini-3.7-flash",
+      "finish_reason": "stop",
+      "archived_attempt_records": 1
+    },
+    {
+      "model_family": "Gemini",
+      "interface": "Agent",
+      "protocol_id": "scdamid",
+      "result_path": "runs/library_structure/round2/coding_agent/task1-round2-antigravity-cli-high/scdamid__FPcD3pH/result.json",
+      "result_sha256": "1b628edf0661318f1a89ad4da88c774a353a59c1d35c9ecb782b8a198a49f2f0",
+      "agent": "antigravity-cli",
+      "agent_model": "gemini-3.7-flash-high",
+      "agent_version": "1.3.2",
+      "reasoning_effort": "high"
+    },
+    {
+      "model_family": "Gemini",
+      "interface": "API",
+      "protocol_id": "ddseq_single_cell_3_rna_seq_kit",
+      "request_sha256": "99d331fb4cd875353c86a3e6266a689650481e7cd1c9e79927159371341ac46f",
+      "response_sha256": "51dc7f1e9dff95095a8c5c90bf15eee3f4197f1609f2cbfdfc06a4cbdd68289e",
+      "input_files_sha256": "cde82b8f9e727f54148e3b7d7514a8947ed7171660fa6d0cede2811940f1f0f5",
+      "reasoning_effort": "high",
+      "max_completion_tokens": 64000,
+      "response_model": "google/gemini-3.7-flash",
+      "finish_reason": "stop",
+      "archived_attempt_records": 0
+    },
+    {
+      "model_family": "Gemini",
+      "interface": "Agent",
+      "protocol_id": "ddseq_single_cell_3_rna_seq_kit",
+      "result_path": "runs/library_structure/round2/coding_agent/task1-round2-antigravity-cli-high/ddseq_single_cell_3_rna_seq_kit__q3LSQrL/result.json",
+      "result_sha256": "de2a04c215e9dc32139825c57978f6f23204af77491354072b8da34bc8ff26a5",
+      "agent": "antigravity-cli",
+      "agent_model": "gemini-3.7-flash-high",
+      "agent_version": "1.3.2",
+      "reasoning_effort": "high"
+    },
+    {
+      "model_family": "Gemini",
+      "interface": "API",
+      "protocol_id": "smart_seq",
+      "request_sha256": "9489c85234d1eaf305f7160bd51ac645f30cbb2d64407b5c8ba84c3ed4ac3552",
+      "response_sha256": "8a14959ada5aa8a3e414128ab482ccbd178773ba8d8de39be10d45b6537be697",
+      "input_files_sha256": "d740a45ca695d3a96b2ff8e43d34be874768c10cca2ccfc1318e74bb6ae4abaf",
+      "reasoning_effort": "high",
+      "max_completion_tokens": 64000,
+      "response_model": "google/gemini-3.7-flash",
+      "finish_reason": "stop",
+      "archived_attempt_records": 0
+    },
+    {
+      "model_family": "Gemini",
+      "interface": "Agent",
+      "protocol_id": "smart_seq",
+      "result_path": "runs/library_structure/round2/coding_agent/task1-round2-antigravity-cli-high/smart_seq__t5wFpNF/result.json",
+      "result_sha256": "4a42351a11d9c54dd03e3b811dbe49dafff1c897e059ad81a4552fee9a2ba862",
+      "agent": "antigravity-cli",
+      "agent_model": "gemini-3.7-flash-high",
+      "agent_version": "1.3.2",
+      "reasoning_effort": "high"
+    },
+    {
+      "model_family": "Gemini",
+      "interface": "API",
+      "protocol_id": "share_seq",
+      "request_sha256": "6688cffdcd3bbeee23a11384b701b633c7579765ee8263c18791aedfb8d3ca7b",
+      "response_sha256": "f14a57340e3a40bccca3878704bdc9e1d142e0c7bd627c15b73ba8cc714e2652",
+      "input_files_sha256": "b3ad7c7c87d780c4537eb00f54730cb11ce3009b772a0a09313516bb90f8c56e",
+      "reasoning_effort": "high",
+      "max_completion_tokens": 64000,
+      "response_model": "google/gemini-3.7-flash",
+      "finish_reason": "stop",
+      "archived_attempt_records": 0
+    },
+    {
+      "model_family": "Gemini",
+      "interface": "Agent",
+      "protocol_id": "share_seq",
+      "result_path": "runs/library_structure/round2/coding_agent/task1-round2-antigravity-cli-high/share_seq__CXADsGL/result.json",
+      "result_sha256": "9cc25886390fd4eb3b4cce3391153a85ac178c04b0099321118c11f0846d5f9c",
+      "agent": "antigravity-cli",
+      "agent_model": "gemini-3.7-flash-high",
+      "agent_version": "1.3.2",
+      "reasoning_effort": "high"
+    },
+    {
+      "model_family": "Gemini",
+      "interface": "API",
+      "protocol_id": "dr_seq",
+      "request_sha256": "bfccf8b6135af7f129bc4f5e5e2b6ff7e6f260a018b9ef8d321be7f1f91cdd79",
+      "response_sha256": "2124c008b21523295086ee2b117f732daf46cd72d41c953dc784e3237ad2e2a3",
+      "input_files_sha256": "7dfa0e1af70ddc5d73f9f93d9dd6155ced086d487903795035571975976e837f",
+      "reasoning_effort": "high",
+      "max_completion_tokens": 64000,
+      "response_model": "google/gemini-3.7-flash",
+      "finish_reason": "stop",
+      "archived_attempt_records": 1
+    },
+    {
+      "model_family": "Gemini",
+      "interface": "Agent",
+      "protocol_id": "dr_seq",
+      "result_path": "runs/library_structure/round2/coding_agent/task1-round2-antigravity-cli-high/dr_seq__oQxh4Xg/result.json",
+      "result_sha256": "7e71fef84ac0552449ff3db77d1d1d1d84a6641fd8a820ebbe0cacabf8e54431",
+      "agent": "antigravity-cli",
+      "agent_model": "gemini-3.7-flash-high",
+      "agent_version": "1.3.2",
+      "reasoning_effort": "high"
+    },
+    {
+      "model_family": "Gemini",
+      "interface": "API",
+      "protocol_id": "petri_seq",
+      "request_sha256": "cbc04b874c89301cad0ec0e67c9ff2cef0946fe48dcdcebd2b1700072bc253b5",
+      "response_sha256": "ccf34a29e24a366646e45b7dd90d4f549548fd965e7718c77fb174dd4a3666fb",
+      "input_files_sha256": "4b81ced50d07715069b73ee8c907f1d58d450b66c8859b5aa06a46180f8a780c",
+      "reasoning_effort": "high",
+      "max_completion_tokens": 64000,
+      "response_model": "google/gemini-3.7-flash",
+      "finish_reason": "stop",
+      "archived_attempt_records": 0
+    },
+    {
+      "model_family": "Gemini",
+      "interface": "Agent",
+      "protocol_id": "petri_seq",
+      "result_path": "runs/library_structure/round2/coding_agent/task1-round2-antigravity-cli-high/petri_seq__Avvbboi/result.json",
+      "result_sha256": "ef5af7b4e9940e8bf46444a9aba5c95b8d045a533f2f7b75b7cfddb4208069be",
+      "agent": "antigravity-cli",
+      "agent_model": "gemini-3.7-flash-high",
+      "agent_version": "1.3.2",
+      "reasoning_effort": "high"
+    }
+  ],
+  "bootstrap": {
+    "method": "paired percentile",
+    "resamples": 100000,
+    "seed": 20261010
+  },
+  "wilcoxon": {
+    "alternative": "two-sided",
+    "zero_method": "wilcox",
+    "method": "exhaustive sign permutation of nonzero differences",
+    "difference_rounding_decimals": 12,
+    "multiplicity": "Holm across three models"
+  },
+  "versions": {
+    "numpy": "2.4.4",
+    "scipy": "1.17.1",
+    "matplotlib": "3.10.8"
+  },
+  "analysis_script_sha256": "8ea70838e21fce13bf6c3a631793961b766f4eed489dddff97011866103dac9a"
+}

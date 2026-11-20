@@ -1,0 +1,163 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "experiments": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "project": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "_id",
+        "project"
+      ]
+    },
+    "runs": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "experiment_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "_id",
+        "experiment_id"
+      ]
+    },
+    "trials": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "execution_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "experiment_id": {
+          "type": "string"
+        },
+        "protocol_id": {
+          "type": "string"
+        },
+        "run_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "_id",
+        "experiment_id",
+        "run_id",
+        "protocol_id",
+        "execution_id"
+      ]
+    },
+    "source_bundles": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "documents": {
+          "type": "array"
+        },
+        "key": {
+          "type": "string"
+        },
+        "location": {
+          "type": "string"
+        },
+        "protocol_id": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "_id",
+        "protocol_id",
+        "key",
+        "status",
+        "documents",
+        "location"
+      ]
+    },
+    "snapshots": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "archive_status": {
+          "type": "string"
+        },
+        "executor": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "experiment_id": {
+          "type": "string"
+        },
+        "key": {
+          "type": "string"
+        },
+        "locations": {
+          "type": "object"
+        },
+        "metrics": {
+          "type": "object"
+        },
+        "model": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "protocol_id": {
+          "type": "string"
+        },
+        "run_id": {
+          "type": "string"
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "status": {
+          "type": "string"
+        },
+        "trial_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "usage": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "_id",
+        "experiment_id",
+        "run_id",
+        "trial_id",
+        "key",
+        "sha256",
+        "archive_status",
+        "status"
+      ]
+    }
+  }
+}

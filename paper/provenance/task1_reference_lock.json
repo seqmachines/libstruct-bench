@@ -1,0 +1,222 @@
+{
+  "repository": "sequencing/scg-oligo-groundtruth-v1",
+  "revision": "5a81714daaa87d568a0c5b62320679d34219ebf7",
+  "canonical_root": "external/audit-data/ground_truth",
+  "files": [
+    {
+      "protocol_id": "10x_chromium_single_cell_atac_v2",
+      "sha256": "09c2db4c42c7e603530542a722583b7ef919f345f3bf75e172287c3d17094c38",
+      "hf_base_sha256": "09c2db4c42c7e603530542a722583b7ef919f345f3bf75e172287c3d17094c38",
+      "matches_hf_base": true
+    },
+    {
+      "protocol_id": "10x_chromium_3_gene_expression_v4",
+      "sha256": "81daf52f0d6eb144700504e7ee5748daf22026ebace63a62d61df71078b0d3b6",
+      "hf_base_sha256": "81daf52f0d6eb144700504e7ee5748daf22026ebace63a62d61df71078b0d3b6",
+      "matches_hf_base": true
+    },
+    {
+      "protocol_id": "10x_chromium_3_feature_barcoding",
+      "sha256": "9be2830359ced3cc50fb8df21b3d73e002cbae9cd36f65e26632c0201e9258ba",
+      "hf_base_sha256": "c1919175f0064f7d7e629f825923d53ad2f1e0247f40060520924f528338c32b",
+      "matches_hf_base": false
+    },
+    {
+      "protocol_id": "drop_seq",
+      "sha256": "bfa9062ae9364b9fb066ecc1da9eaacb2d21f5a170e9cb46d88124c9116ed731",
+      "hf_base_sha256": "bfa9062ae9364b9fb066ecc1da9eaacb2d21f5a170e9cb46d88124c9116ed731",
+      "matches_hf_base": true
+    },
+    {
+      "protocol_id": "seq_well_s3",
+      "sha256": "e7c4337b39440b29c6261eda7c84a215fff028317434ceaa432f66bfdfdcf44d",
+      "hf_base_sha256": "e7c4337b39440b29c6261eda7c84a215fff028317434ceaa432f66bfdfdcf44d",
+      "matches_hf_base": true
+    },
+    {
+      "protocol_id": "indrop_v1",
+      "sha256": "703ae4df9c1e5cdd979422b6a0feff921d5208f46e54080a50f542093c86d48b",
+      "hf_base_sha256": "5574669e9b4be46466c0307addd75c7c6e120c72e2fb4fe081cd1ce268fcb1d6",
+      "matches_hf_base": false
+    },
+    {
+      "protocol_id": "s3_atac",
+      "sha256": "2174de743cab769296495a96d02ccda69e66a6d639d6a3416e1aa9ed72dc92de",
+      "hf_base_sha256": "2174de743cab769296495a96d02ccda69e66a6d639d6a3416e1aa9ed72dc92de",
+      "matches_hf_base": true
+    },
+    {
+      "protocol_id": "cel_seq",
+      "sha256": "08fd6f2f85dad5fbe1f2457323dc9676d47236a812291afb0c3f76c5289f43de",
+      "hf_base_sha256": "08fd6f2f85dad5fbe1f2457323dc9676d47236a812291afb0c3f76c5289f43de",
+      "matches_hf_base": true
+    },
+    {
+      "protocol_id": "split_seq",
+      "sha256": "6d0baddb4bbfaea0f2115806c1d8de58dcd9322d203e9cb5dc4bcb814b9ba5c3",
+      "hf_base_sha256": "6d0baddb4bbfaea0f2115806c1d8de58dcd9322d203e9cb5dc4bcb814b9ba5c3",
+      "matches_hf_base": true
+    },
+    {
+      "protocol_id": "sci_rna_seq",
+      "sha256": "ed6247b96fdd336e4ef65471544c7cb48c913a39c3f1a5d6bbaf75a81668051a",
+      "hf_base_sha256": "ed6247b96fdd336e4ef65471544c7cb48c913a39c3f1a5d6bbaf75a81668051a",
+      "matches_hf_base": true
+    },
+    {
+      "protocol_id": "sci_atac_seq",
+      "sha256": "79803b7d4d9e9d76b8df4d057eedf3fb4a9eeb2b9da354a5e5caec419c3130a0",
+      "hf_base_sha256": "79803b7d4d9e9d76b8df4d057eedf3fb4a9eeb2b9da354a5e5caec419c3130a0",
+      "matches_hf_base": true
+    },
+    {
+      "protocol_id": "microwell_seq",
+      "sha256": "f72f981b9cdfcaacac9dab1136166ae364f2bcb28ec2ae15825c30be4a82b6ea",
+      "hf_base_sha256": "f72f981b9cdfcaacac9dab1136166ae364f2bcb28ec2ae15825c30be4a82b6ea",
+      "matches_hf_base": true
+    },
+    {
+      "protocol_id": "scrrbs",
+      "sha256": "3878b1e370dcf69d6c0c188ec7650ebcd50ff0bcbad410e7340e844946165d32",
+      "hf_base_sha256": "3878b1e370dcf69d6c0c188ec7650ebcd50ff0bcbad410e7340e844946165d32",
+      "matches_hf_base": true
+    },
+    {
+      "protocol_id": "pip_seq_v4",
+      "sha256": "574b959865e47c45f8c1a5706bf9d697d7c51ef9122dd67e76700ae43e7aabc4",
+      "hf_base_sha256": "574b959865e47c45f8c1a5706bf9d697d7c51ef9122dd67e76700ae43e7aabc4",
+      "matches_hf_base": true
+    },
+    {
+      "protocol_id": "scdamid",
+      "sha256": "2ce9ba550e3f913e5c31624cfd45d00c283b0fe2b28d7d8e87442373c381343e",
+      "hf_base_sha256": "2ce9ba550e3f913e5c31624cfd45d00c283b0fe2b28d7d8e87442373c381343e",
+      "matches_hf_base": true
+    },
+    {
+      "protocol_id": "ddseq_single_cell_3_rna_seq_kit",
+      "sha256": "4f93de000b9d2fe1414dc4c85fe3947be2b1b87c371c0067bada4784cf33c1af",
+      "hf_base_sha256": "4f93de000b9d2fe1414dc4c85fe3947be2b1b87c371c0067bada4784cf33c1af",
+      "matches_hf_base": true
+    },
+    {
+      "protocol_id": "smart_seq",
+      "sha256": "0ad148063002361dc5b70f6d040a6aeeaabb142cf1c82840bafab987e71c8ac2",
+      "hf_base_sha256": "0ad148063002361dc5b70f6d040a6aeeaabb142cf1c82840bafab987e71c8ac2",
+      "matches_hf_base": true
+    },
+    {
+      "protocol_id": "share_seq",
+      "sha256": "191d0cc53332fb9270f9d31ba3121225b8e3747281688da72120a84cbc9af77c",
+      "hf_base_sha256": "191d0cc53332fb9270f9d31ba3121225b8e3747281688da72120a84cbc9af77c",
+      "matches_hf_base": true
+    },
+    {
+      "protocol_id": "dr_seq",
+      "sha256": "1c91ac81aa89b0bc580ca61f61a3225e45b75781380087bd70884a39374ddc7d",
+      "hf_base_sha256": "1c91ac81aa89b0bc580ca61f61a3225e45b75781380087bd70884a39374ddc7d",
+      "matches_hf_base": true
+    },
+    {
+      "protocol_id": "petri_seq",
+      "sha256": "cda645afb172abe0d9cde92cdde711ba364934861cb9834518adb9dad8c57be6",
+      "hf_base_sha256": "cda645afb172abe0d9cde92cdde711ba364934861cb9834518adb9dad8c57be6",
+      "matches_hf_base": true
+    }
+  ],
+  "snapshot": "5a81714+human-vn-w1-barcode-range-2026-10-10",
+  "notes": "The HF revision is the base snapshot. Two T1 files are superseded locally by human-approved VN and W1 corrections; no remote upload was performed.",
+  "amendments": [
+    {
+      "protocol_id": "10x_chromium_3_feature_barcoding",
+      "description": "Explicit T(30)VN[CDNA] human correction",
+      "artifacts": {
+        "proposal.json": {
+          "path": "external/audit-data/ground_truth_audit/applications/10x_chromium_3_feature_barcoding/vn-anchor-2026-10-10/proposal.json",
+          "sha256": "3d353ae3ee1e3fe2d6f1e136ca867f3c72b0ec92ad21c467787e3c933bcc2825"
+        },
+        "decision.json": {
+          "path": "external/audit-data/ground_truth_audit/applications/10x_chromium_3_feature_barcoding/vn-anchor-2026-10-10/decision.json",
+          "sha256": "99d69bfd829b0722e1ac76d7eab21b3d938d82838b94d9ac57f58c84a2bcf42d"
+        },
+        "application/application-log.json": {
+          "path": "external/audit-data/ground_truth_audit/applications/10x_chromium_3_feature_barcoding/vn-anchor-2026-10-10/application/application-log.json",
+          "sha256": "2c89b81fe6ce9bbbcc3a153280d317096ef3cf2ef75a8f1046e67ff2eb7d3e8c"
+        },
+        "installation-receipt.json": {
+          "path": "external/audit-data/ground_truth_audit/applications/10x_chromium_3_feature_barcoding/vn-anchor-2026-10-10/installation-receipt.json",
+          "sha256": "2c7f05867062542bfb9f0cc04c9664685fe2749187a1851a46d315e4b90254b2"
+        }
+      },
+      "remote_published": false
+    },
+    {
+      "protocol_id": "indrop_v1",
+      "description": "Restore Table S5 W1 orientation in the final-library strand and linked T2/T3 records",
+      "artifacts": {
+        "proposal.json": {
+          "path": "external/audit-data/ground_truth_audit/applications/indrop_v1/w1-orientation-2026-10-10/proposal.json",
+          "sha256": "a1b07fa4f4a80726a38a506594c57b7479467655b1a125560eb9af2802808fef"
+        },
+        "decision.json": {
+          "path": "external/audit-data/ground_truth_audit/applications/indrop_v1/w1-orientation-2026-10-10/decision.json",
+          "sha256": "33e0d3047a5bb340337bb7ccda0610f006c9b8d0f0fb78f29d206a0158b9c4d3"
+        },
+        "application/application-log.json": {
+          "path": "external/audit-data/ground_truth_audit/applications/indrop_v1/w1-orientation-2026-10-10/application/application-log.json",
+          "sha256": "8de35d20ee45f2ea6d417d2476911f639e7b964401d09ea926fe0c8fd83d212e"
+        },
+        "installation-receipt.json": {
+          "path": "external/audit-data/ground_truth_audit/applications/indrop_v1/w1-orientation-2026-10-10/installation-receipt.json",
+          "sha256": "6f32008305464cc0018db66eed37b9e0b36a7ab8308123018ee7f578f4e5749e"
+        }
+      },
+      "remote_published": false
+    },
+    {
+      "protocol_id": "indrop_v1",
+      "description": "Approved barcode1 lengths 8, 9, 10, or 11 nt; T(19)V segment metadata length 20. W1 unchanged.",
+      "artifacts": {
+        "proposal": {
+          "path": "external/audit-data/ground_truth_audit/applications/indrop_v1/barcode-range-polyt-length-2026-10-10/proposal.json",
+          "sha256": "621c577d3cca8d08a1b69707b939ddbb83c05813a15f30981d5a241130496cfa"
+        },
+        "decision": {
+          "path": "external/audit-data/ground_truth_audit/applications/indrop_v1/barcode-range-polyt-length-2026-10-10/decision.json",
+          "sha256": "b7d4ce5a1dcb39351c9ff8be2c30d763fe6589a31ef5d3805a5e440d5542beab"
+        },
+        "application_log": {
+          "path": "external/audit-data/ground_truth_audit/applications/indrop_v1/barcode-range-polyt-length-2026-10-10/application/application-log.json",
+          "sha256": "e823b196090cc714922dd8f5cb30736d88750b1f777727e016a00c3ed9b490c8"
+        },
+        "installation_receipt": {
+          "path": "external/audit-data/ground_truth_audit/applications/indrop_v1/barcode-range-polyt-length-2026-10-10/installation-receipt.json",
+          "sha256": "479e302d656bf713fccc9135eb62550b3ad6808fe210fa97dc65cc4e467efaf5"
+        },
+        "evidence_check": {
+          "path": "external/audit-data/ground_truth_audit/applications/indrop_v1/barcode-range-polyt-length-2026-10-10/evidence-check.json",
+          "sha256": "f902232aa2ffef36652d5ad660d46b3e59576fb9d377cbf0533a545defd72a81"
+        },
+        "input_manifest": {
+          "path": "external/audit-data/ground_truth_audit/applications/indrop_v1/barcode-range-polyt-length-2026-10-10/input-manifest.json",
+          "sha256": "927420415a42ac7a006869bd59a0e18e75f6271a69527d638096d9f1f95d2c2e"
+        }
+      }
+    }
+  ],
+  "length_alternatives": [
+    {
+      "protocol_id": "indrop_v1",
+      "library_index": 0,
+      "segment_id": "seg_cell_barcode_1",
+      "placeholder": "[CELL_BARCODE1]",
+      "lengths": [
+        8,
+        9,
+        10,
+        11
+      ]
+    }
+  ],
+  "length_alternative_policy": "Generate all declared reference alternatives before reading predictions. Apply the unchanged v0 scorer to each complete alternative and retain maximum protocol sequence similarity; ties use declaration order. Alternatives are not extra libraries or observations. Applied to both interfaces and all models."
+}

@@ -1,0 +1,209 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/improvement/checkpoint_runtime.schema.json",
+  "title": "Framework-neutral LibGen capability checkpoint runtime contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "checkpoint_id",
+    "pack_digest",
+    "exemplar_memory",
+    "format",
+    "content",
+    "interfaces",
+    "consumer_contract",
+    "runtime_digest"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "libstruct.libgen_capability_runtime.v1"
+    },
+    "checkpoint_id": {
+      "type": "string",
+      "enum": ["C0", "C5", "C10", "C15", "C20", "C25"]
+    },
+    "pack_digest": {
+      "$ref": "#/$defs/sha256"
+    },
+    "exemplar_memory": {"$ref": "#/$defs/exemplar_memory"},
+    "format": {
+      "const": "model_neutral_filesystem_pack"
+    },
+    "content": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "pack_path",
+        "manifest_path",
+        "entrypoint",
+        "required_read_order",
+        "resource_roots"
+      ],
+      "properties": {
+        "pack_path": {
+          "const": "pack"
+        },
+        "manifest_path": {
+          "const": "pack/manifest.json"
+        },
+        "entrypoint": {
+          "const": "pack/PLAYBOOK.md"
+        },
+        "required_read_order": {
+          "const": [
+            "pack/PLAYBOOK.md",
+            "pack/checklists/evidence_ledger.md",
+            "pack/checklists/state_conservation.md",
+            "pack/checklists/transition_accounting.md",
+            "pack/checklists/final_graph_audit.md"
+          ]
+        },
+        "resource_roots": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["checklists", "schemas", "tools", "synthetic_tests", "adapters"],
+          "properties": {
+            "checklists": {
+              "const": "pack/checklists"
+            },
+            "schemas": {
+              "const": "pack/schemas"
+            },
+            "tools": {
+              "const": "pack/tools"
+            },
+            "synthetic_tests": {
+              "const": "pack/synthetic_tests"
+            },
+            "adapters": {
+              "const": "pack/adapters"
+            }
+          }
+        }
+      }
+    },
+    "interfaces": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "work_record_schema",
+        "audit_report_schema",
+        "control_index",
+        "compiler",
+        "audit",
+        "synthetic_suite",
+        "exemplar_query_schema",
+        "exemplar_retrieval_schema",
+        "exemplar_usage_schema",
+        "target_evidence_guard_report_schema",
+        "exemplar_query",
+        "target_evidence_guard",
+        "output_contract"
+      ],
+      "properties": {
+        "work_record_schema": {"const": "pack/schemas/work_record.schema.json"},
+        "audit_report_schema": {"const": "pack/schemas/audit_report.schema.json"},
+        "control_index": {"const": "pack/tools/control_index.json"},
+        "compiler": {"$ref": "#/$defs/interface_command"},
+        "audit": {"$ref": "#/$defs/interface_command"},
+        "synthetic_suite": {"const": "pack/synthetic_tests/suite.json"},
+        "exemplar_query_schema": {"const": "memory/runtime/schemas/exemplar_query.schema.json"},
+        "exemplar_retrieval_schema": {"const": "memory/runtime/schemas/exemplar_retrieval.schema.json"},
+        "exemplar_usage_schema": {"const": "memory/runtime/schemas/exemplar_usage.schema.json"},
+        "target_evidence_guard_report_schema": {"const": "memory/runtime/schemas/target_evidence_guard_report.schema.json"},
+        "exemplar_query": {"$ref": "#/$defs/interface_command"},
+        "target_evidence_guard": {"$ref": "#/$defs/interface_command"},
+        "output_contract": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["format", "success_exit", "findings_exit", "input_error_exit"],
+          "properties": {
+            "format": {"const": "json"},
+            "success_exit": {"const": 0},
+            "findings_exit": {"const": 1},
+            "input_error_exit": {"const": 2}
+          }
+        }
+      }
+    },
+    "consumer_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "agent_compatibility",
+        "framework_compatibility",
+        "delivery",
+        "adapter_policy",
+        "target_evidence_authority",
+        "exemplar_access",
+        "target_evidence_guard"
+      ],
+      "properties": {
+        "agent_compatibility": {
+          "const": "any"
+        },
+        "framework_compatibility": {
+          "const": "any"
+        },
+        "delivery": {
+          "const": "read_only_mount_or_copy"
+        },
+        "adapter_policy": {
+          "const": "optional_framework_specific"
+        },
+        "target_evidence_authority": {
+          "const": "target_sources_authoritative_pack_is_not_target_evidence"
+        },
+        "exemplar_access": {
+          "enum": [
+            "query_only_maximum_one_retrieved_exemplar",
+            "query_only_maximum_two_retrieved_exemplars",
+            "query_only_maximum_three_retrieved_exemplars"
+          ]
+        },
+        "target_evidence_guard": {
+          "const": "required_before_finalization"
+        }
+      }
+    },
+    "runtime_digest": {
+      "$ref": "#/$defs/sha256"
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "interface_command": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "argv_template"],
+      "properties": {
+        "path": {"type": "string", "pattern": "^(?:pack|memory)/"},
+        "argv_template": {
+          "type": "array",
+          "minItems": 2,
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "exemplar_memory": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "manifest_path", "catalog_path", "exemplar_count", "memory_digest", "memory_manifest_sha256", "catalog_digest", "catalog_sha256", "identity_map_commitment"],
+      "properties": {
+        "path": {"const": "memory"},
+        "manifest_path": {"const": "memory/manifest.json"},
+        "catalog_path": {"const": "memory/catalog.json"},
+        "exemplar_count": {"type": "integer", "enum": [0, 5, 10, 15, 20, 25]},
+        "memory_digest": {"$ref": "#/$defs/sha256"},
+        "memory_manifest_sha256": {"$ref": "#/$defs/sha256"},
+        "catalog_digest": {"$ref": "#/$defs/sha256"},
+        "catalog_sha256": {"$ref": "#/$defs/sha256"},
+        "identity_map_commitment": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/improvement/kb_catalog.schema.json",
+  "title": "Cumulative LibGen knowledge-card catalog",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "design_digest", "identity_map_digest", "training_count", "entries", "catalog_digest"],
+  "properties": {
+    "schema_version": {"const": "libstruct.libgen_kb_catalog.v1"},
+    "design_digest": {"$ref": "#/$defs/sha256"},
+    "identity_map_digest": {"$ref": "#/$defs/sha256"},
+    "training_count": {"type": "integer", "minimum": 0},
+    "entries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["exemplar_id", "training_ordinal", "oligo_card", "graph_card", "mechanism_summary"],
+        "properties": {
+          "exemplar_id": {"type": "string", "pattern": "^exm-[a-f0-9]{32}$"},
+          "training_ordinal": {"type": "integer", "minimum": 1},
+          "oligo_card": {"$ref": "#/$defs/artifact"},
+          "graph_card": {"$ref": "#/$defs/artifact"},
+          "mechanism_summary": {"$ref": "#/$defs/artifact"}
+        }
+      }
+    },
+    "catalog_digest": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "digest"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "digest": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  }
+}

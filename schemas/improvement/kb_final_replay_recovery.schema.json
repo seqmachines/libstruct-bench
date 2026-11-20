@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/improvement/kb_final_replay_recovery.schema.json",
+  "title": "Final replay recovery after a test-only infrastructure failure",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "design_digest",
+    "selected_checkpoint",
+    "original_final_receipt",
+    "test_recovery",
+    "recovered_test_aggregate",
+    "created_at",
+    "recovery_digest"
+  ],
+  "properties": {
+    "schema_version": {"const": "libstruct.libgen_kb_final_replay_recovery.v1"},
+    "design_digest": {"$ref": "#/$defs/sha256"},
+    "selected_checkpoint": {"type": "string", "pattern": "^C[1-9][0-9]*$"},
+    "original_final_receipt": {"$ref": "#/$defs/artifact_ref"},
+    "test_recovery": {"$ref": "#/$defs/artifact_ref"},
+    "recovered_test_aggregate": {"$ref": "#/$defs/artifact_ref"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "recovery_digest": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "artifact_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "digest"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "digest": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  }
+}

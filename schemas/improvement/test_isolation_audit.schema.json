@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/improvement/test_isolation_audit.schema.json",
+  "title": "Final-test capability-learning isolation audit",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "audit_id",
+    "audited_at",
+    "protocol_ids",
+    "inspection_scope",
+    "test_groundtruth_content_opened",
+    "test_score_values_opened",
+    "checks",
+    "learning_isolation",
+    "development_access_isolation",
+    "audit_digest"
+  ],
+  "properties": {
+    "schema_version": {"const": "libstruct.libgen_capability_test_isolation_audit.v1"},
+    "audit_id": {"$ref": "#/$defs/id"},
+    "audited_at": {"type": "string", "format": "date-time"},
+    "protocol_ids": {"type": "array", "minItems": 10, "maxItems": 10, "uniqueItems": true, "items": {"$ref": "#/$defs/id"}},
+    "inspection_scope": {"const": "protocol_identifiers_artifact_roles_paths_and_hashes_only"},
+    "test_groundtruth_content_opened": {"const": false},
+    "test_score_values_opened": {"const": false},
+    "checks": {"type": "array", "minItems": 8, "items": {"$ref": "#/$defs/check"}},
+    "learning_isolation": {"type": "string", "enum": ["pass", "fail"]},
+    "development_access_isolation": {"type": "string", "enum": ["pass", "migration_required", "fail"]},
+    "audit_digest": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "id": {"type": "string", "minLength": 1, "maxLength": 240, "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"},
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "finding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["protocol_id", "path", "sha256"],
+      "properties": {
+        "protocol_id": {"$ref": "#/$defs/id"},
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "check": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["category", "status", "findings"],
+      "properties": {
+        "category": {"type": "string", "enum": ["groundtruth_learning_contribution", "verifier_error_learning_contribution", "proposal_contribution", "human_decision_contribution", "synthetic_test_design_contribution", "capability_update_contribution", "development_access_paths", "harbor_or_replay_exposure"]},
+        "status": {"type": "string", "enum": ["pass", "fail", "migration_required"]},
+        "findings": {"type": "array", "items": {"$ref": "#/$defs/finding"}}
+      }
+    }
+  }
+}

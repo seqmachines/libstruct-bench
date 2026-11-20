@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/improvement/validation_isolation_audit.schema.json",
+  "title": "Fixed validation-panel cumulative-learning isolation audit",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "audit_id",
+    "validation_panel_commitment_sha256",
+    "access_policy_digest",
+    "protocol_count",
+    "active_learning_roots",
+    "superseded_history_policy",
+    "checks",
+    "learning_isolation",
+    "audited_at",
+    "audit_digest"
+  ],
+  "properties": {
+    "schema_version": {"const": "libstruct.libgen_validation_isolation_audit.v1"},
+    "audit_id": {"const": "fixed-validation-learning-isolation-v1"},
+    "validation_panel_commitment_sha256": {"$ref": "#/$defs/sha256"},
+    "access_policy_digest": {"$ref": "#/$defs/sha256"},
+    "protocol_count": {"const": 5},
+    "active_learning_roots": {
+      "const": ["packs", "checkpoints", "rounds", "final", "validation"]
+    },
+    "superseded_history_policy": {"const": "preserved_immutable_but_never_staged_or_used_for_active_learning"},
+    "checks": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "items": {"$ref": "#/$defs/check"}
+    },
+    "learning_isolation": {"type": "string", "enum": ["pass", "fail"]},
+    "audited_at": {"type": "string", "format": "date-time"},
+    "audit_digest": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "finding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "detail_sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "detail_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "check": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["category", "status", "findings"],
+      "properties": {
+        "category": {
+          "type": "string",
+          "enum": [
+            "validation_protocol_identifier",
+            "validation_artifact_copy",
+            "validation_exact_sequence",
+            "validation_scaffold",
+            "validation_raw_result_or_error_detail"
+          ]
+        },
+        "status": {"type": "string", "enum": ["pass", "fail"]},
+        "findings": {"type": "array", "items": {"$ref": "#/$defs/finding"}}
+      }
+    }
+  }
+}

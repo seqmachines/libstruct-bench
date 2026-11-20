@@ -1,0 +1,128 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/improvement/kb_final_replay_receipt.schema.json",
+  "title": "Durable sealed-test replay supervisor receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "design_digest",
+    "experiment_root",
+    "base_config",
+    "status",
+    "pid",
+    "checkpoint_labels",
+    "completed_checkpoints",
+    "current_checkpoint",
+    "expected_test_cells",
+    "poll_interval_seconds",
+    "wait_timeout_seconds",
+    "result",
+    "error",
+    "started_at",
+    "finished_at",
+    "log_path",
+    "receipt_digest"
+  ],
+  "properties": {
+    "schema_version": {"const": "libstruct.libgen_kb_final_replay_receipt.v1"},
+    "design_digest": {"$ref": "#/$defs/sha256"},
+    "experiment_root": {"type": "string", "minLength": 1},
+    "base_config": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "endpoint_policy": {
+      "enum": [
+        "coupled_validation_selected_checkpoint_v1",
+        "validation_selected_coherent_pact_with_c58_kb_confirmed_v1"
+      ]
+    },
+    "status": {"enum": ["waiting", "running", "succeeded", "failed"]},
+    "pid": {"type": "integer", "minimum": 1},
+    "checkpoint_labels": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^C[0-9]+$"}
+    },
+    "completed_checkpoints": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^C[0-9]+$"}
+    },
+    "current_checkpoint": {
+      "oneOf": [
+        {"type": "null"},
+        {"type": "string", "pattern": "^C[0-9]+$"}
+      ]
+    },
+    "expected_test_cells": {"type": "integer", "minimum": 1},
+    "poll_interval_seconds": {"type": "integer", "minimum": 1, "maximum": 300},
+    "wait_timeout_seconds": {"type": "integer", "minimum": 1},
+    "result": {
+      "oneOf": [
+        {"type": "null"},
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "validation_selection_digest",
+            "selected_checkpoint",
+            "final_lock_digest",
+            "checkpoint_count",
+            "protocol_count",
+            "completed_test_cells",
+            "aggregate_paths"
+          ],
+          "properties": {
+            "validation_selection_digest": {"$ref": "#/$defs/sha256"},
+            "selected_checkpoint": {"type": "string", "pattern": "^C[0-9]+$"},
+            "final_lock_digest": {"$ref": "#/$defs/sha256"},
+            "checkpoint_count": {"type": "integer", "minimum": 1},
+            "protocol_count": {"type": "integer", "minimum": 1},
+            "completed_test_cells": {"type": "integer", "minimum": 1},
+            "aggregate_paths": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {"type": "string", "minLength": 1}
+            },
+            "effective_endpoint_mode": {
+              "enum": ["coupled_checkpoint", "composite", "coupled_checkpoint_fallback"]
+            },
+            "effective_endpoint_id": {"type": "string", "minLength": 1},
+            "pact_checkpoint": {"type": "string", "pattern": "^C[0-9]+$"},
+            "knowledge_checkpoint": {"type": "string", "pattern": "^C[0-9]+$"},
+            "composite_endpoint": {"$ref": "#/$defs/artifact_ref"},
+            "composite_confirmation": {"$ref": "#/$defs/artifact_ref"},
+            "infrastructure_recovery": {"$ref": "#/$defs/artifact_ref"}
+          }
+        }
+      ]
+    },
+    "error": {"type": ["string", "null"]},
+    "started_at": {"type": "string", "format": "date-time"},
+    "finished_at": {"type": ["string", "null"], "format": "date-time"},
+    "log_path": {"type": "string", "minLength": 1},
+    "receipt_digest": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "artifact_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "digest"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "digest": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  }
+}

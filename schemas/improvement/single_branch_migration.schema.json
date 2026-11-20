@@ -1,0 +1,194 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/improvement/single_branch_migration.schema.json",
+  "title": "In-place migration to the single cumulative 25/5/10 experiment",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "migration_id",
+    "migrated_at",
+    "reason",
+    "prior_experiment_digest",
+    "prior_experiment_manifest_sha256",
+    "prior_supersession_digest",
+    "prior_split_digest",
+    "new_split_digest",
+    "archived_root",
+    "archived_trees",
+    "preserved_prior_history",
+    "prior_active_checkpoint_ids",
+    "validation_contamination_disposition",
+    "source_s0",
+    "new_active_start",
+    "validation_panel_commitment_sha256",
+    "validation_access_policy_digest",
+    "validation_isolation_audit_digest",
+    "final_test_panel_commitment_sha256",
+    "external_root_bindings",
+    "history_eligibility",
+    "harbor_run_started",
+    "migration_digest"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "libstruct.libgen_capability_single_branch_migration.v1"
+    },
+    "migration_id": {"$ref": "#/$defs/id"},
+    "migrated_at": {"type": "string", "format": "date-time"},
+    "reason": {
+      "const": "replace_superseded_30_10_two_branch_design_with_clean_single_branch_25_5_10_design"
+    },
+    "prior_experiment_digest": {"$ref": "#/$defs/sha256"},
+    "prior_experiment_manifest_sha256": {"$ref": "#/$defs/sha256"},
+    "prior_supersession_digest": {"$ref": "#/$defs/sha256"},
+    "prior_split_digest": {"$ref": "#/$defs/sha256"},
+    "new_split_digest": {"$ref": "#/$defs/sha256"},
+    "archived_root": {"$ref": "#/$defs/path"},
+    "archived_trees": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "items": {"$ref": "#/$defs/tree"}
+    },
+    "preserved_prior_history": {"$ref": "#/$defs/prior_history"},
+    "prior_active_checkpoint_ids": {
+      "type": "array",
+      "const": ["A5", "A10"]
+    },
+    "validation_contamination_disposition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contaminated_checkpoint_ids",
+        "disposition",
+        "eligible_for_c_lineage",
+        "eligible_as_validation_baseline"
+      ],
+      "properties": {
+        "contaminated_checkpoint_ids": {
+          "type": "array",
+          "const": ["A10"]
+        },
+        "disposition": {"const": "superseded_history_only"},
+        "eligible_for_c_lineage": {"const": false},
+        "eligible_as_validation_baseline": {"const": false}
+      }
+    },
+    "source_s0": {"$ref": "#/$defs/pack"},
+    "new_active_start": {"$ref": "#/$defs/active_pack"},
+    "validation_panel_commitment_sha256": {"$ref": "#/$defs/sha256"},
+    "validation_access_policy_digest": {"$ref": "#/$defs/sha256"},
+    "validation_isolation_audit_digest": {"$ref": "#/$defs/sha256"},
+    "final_test_panel_commitment_sha256": {"$ref": "#/$defs/sha256"},
+    "external_root_bindings": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_root",
+        "groundtruth_root",
+        "final_test_transfer_policy_digest",
+        "validation_packet_prior_relative_path",
+        "validation_packet_sha256",
+        "validation_packet_digest",
+        "validation_artifact_count"
+      ],
+      "properties": {
+        "source_root": {"$ref": "#/$defs/absolute_path"},
+        "groundtruth_root": {"$ref": "#/$defs/absolute_path"},
+        "final_test_transfer_policy_digest": {"$ref": "#/$defs/sha256"},
+        "validation_packet_prior_relative_path": {"$ref": "#/$defs/path"},
+        "validation_packet_sha256": {"$ref": "#/$defs/sha256"},
+        "validation_packet_digest": {"$ref": "#/$defs/sha256"},
+        "validation_artifact_count": {"type": "integer", "minimum": 1}
+      }
+    },
+    "history_eligibility": {"const": "immutable_superseded_history_only"},
+    "harbor_run_started": {"const": false},
+    "migration_digest": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 240,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+    },
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "path": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[^\\u0000]+$"
+    },
+    "absolute_path": {
+      "type": "string",
+      "minLength": 2,
+      "pattern": "^/[^\\u0000]+$"
+    },
+    "tree": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["role", "path", "tree_digest", "file_count"],
+      "properties": {
+        "role": {"type": "string", "enum": ["design", "checkpoints", "packs", "rounds"]},
+        "path": {"$ref": "#/$defs/path"},
+        "tree_digest": {"$ref": "#/$defs/sha256"},
+        "file_count": {"type": "integer", "minimum": 1}
+      }
+    },
+    "prior_history": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "tree_digest", "file_count", "appended_archive"],
+      "properties": {
+        "path": {"const": "history"},
+        "tree_digest": {"$ref": "#/$defs/sha256"},
+        "file_count": {"type": "integer", "minimum": 1},
+        "appended_archive": {
+          "type": "string",
+          "pattern": "^history/superseded/[^/]+$"
+        }
+      }
+    },
+    "pack": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "pack_digest",
+        "manifest_sha256",
+        "tree_digest",
+        "file_count"
+      ],
+      "properties": {
+        "path": {"$ref": "#/$defs/path"},
+        "pack_digest": {"$ref": "#/$defs/sha256"},
+        "manifest_sha256": {"$ref": "#/$defs/sha256"},
+        "tree_digest": {"$ref": "#/$defs/sha256"},
+        "file_count": {"type": "integer", "minimum": 1}
+      }
+    },
+    "active_pack": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "pack_digest",
+        "manifest_sha256",
+        "tree_digest",
+        "file_count",
+        "checkpoint_id",
+        "byte_identical_to_source_s0"
+      ],
+      "properties": {
+        "path": {"const": "checkpoints/C0/pack"},
+        "pack_digest": {"$ref": "#/$defs/sha256"},
+        "manifest_sha256": {"$ref": "#/$defs/sha256"},
+        "tree_digest": {"$ref": "#/$defs/sha256"},
+        "file_count": {"type": "integer", "minimum": 1},
+        "checkpoint_id": {"const": "C0"},
+        "byte_identical_to_source_s0": {"const": true}
+      }
+    }
+  }
+}

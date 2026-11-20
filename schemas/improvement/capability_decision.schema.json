@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/improvement/capability_decision.schema.json",
+  "title": "Cumulative capability-proposal decision",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "decision_id", "proposal_digest", "proposal_sha256", "branch", "batch_id", "reviewer_kind", "reviewer", "revision_round", "review_state", "started_at", "completed_at", "change_decisions", "decision_digest"],
+  "properties": {
+    "schema_version": {"const": "libstruct.libgen_capability_decision.v1"},
+    "decision_id": {"$ref": "#/$defs/id"},
+    "proposal_digest": {"$ref": "#/$defs/sha256"},
+    "proposal_sha256": {"$ref": "#/$defs/sha256"},
+    "branch": {"const": "cumulative"},
+    "batch_id": {"type": "string", "enum": ["B1", "B2", "B3", "B4", "B5"]},
+    "reviewer_kind": {"type": "string", "enum": ["independent_codex", "human"]},
+    "reviewer": {"type": "object", "additionalProperties": false, "required": ["reviewer_id"], "properties": {"reviewer_id": {"$ref": "#/$defs/id"}, "model": {"type": ["string", "null"]}, "version": {"type": ["string", "null"]}, "transcript_sha256": {"oneOf": [{"$ref": "#/$defs/sha256"}, {"type": "null"}]}}},
+    "revision_round": {"type": "integer", "minimum": 0, "maximum": 1},
+    "review_state": {"type": "string", "enum": ["in_progress", "revision_requested", "final"]},
+    "started_at": {"type": "string", "format": "date-time"},
+    "completed_at": {"type": ["string", "null"], "format": "date-time"},
+    "change_decisions": {"type": "array", "maxItems": 2, "items": {"$ref": "#/$defs/change_decision"}},
+    "decision_digest": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "id": {"type": "string", "minLength": 1, "maxLength": 240, "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"},
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "change_decision": {"type": "object", "additionalProperties": false, "required": ["change_id", "mutation_paths", "atomicity_verified", "disposition", "rationale"], "properties": {"change_id": {"$ref": "#/$defs/id"}, "mutation_paths": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}}, "atomicity_verified": {"const": true}, "disposition": {"type": "string", "enum": ["accept", "reject", "modify", "unresolved"]}, "rationale": {"type": "string", "minLength": 1}, "revision_instruction": {"type": ["string", "null"], "minLength": 1}}}
+  }
+}

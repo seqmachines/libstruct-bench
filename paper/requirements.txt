@@ -1,0 +1,9 @@
+# Versions recorded in the paper analysis environment (Python 3.13).
+# The lightweight checksum/mean check needs only the Python standard library.
+# Paired tests and bootstrap reproduction need NumPy; other packages support
+# the retained historical analysis/plotting programs.
+numpy==2.4.4
+pandas==3.0.1
+scipy==1.17.1
+matplotlib==3.10.8
+jsonschema==4.26.0

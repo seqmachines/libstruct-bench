@@ -1,0 +1,10 @@
+{
+  "source": "analysis/paper_results/reviewer_uWrU16_audit_20261026/source_rights_inventory.csv",
+  "source_sha256": "a71fa408cfdfd43829485739bca8a1e8d51ec989da87115c4c826d6f5979ae83",
+  "public_sha256": "383b7e881f58df601eccac9d1feaf686e7879b953c0f27cde97130f6a839e17e",
+  "omitted_columns": [
+    "local_path",
+    "evidence_excerpt"
+  ],
+  "note": "Existing audit metadata; no new rights determination. No source text or documents distributed."
+}

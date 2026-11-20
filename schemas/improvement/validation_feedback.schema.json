@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/improvement/validation_feedback.schema.json",
+  "title": "Agent-visible fixed-validation macro feedback projection",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "checkpoint_label",
+    "planned_trials",
+    "scored_trials",
+    "unscored_trials",
+    "metric_counts",
+    "macro_means",
+    "feedback_scope",
+    "guidance_target_batch",
+    "aggregate_digest"
+  ],
+  "properties": {
+    "schema_version": {"const": "libstruct.libgen_validation_feedback.v1"},
+    "checkpoint_label": {"type": "string", "enum": ["C0", "C5", "C10", "C15", "C20", "C25"]},
+    "planned_trials": {"const": 5},
+    "scored_trials": {"const": 5},
+    "unscored_trials": {"const": 0},
+    "metric_counts": {"$ref": "#/$defs/counts"},
+    "macro_means": {"$ref": "#/$defs/metrics"},
+    "feedback_scope": {"const": "five_protocol_macro_aggregate_only_no_example_memory"},
+    "guidance_target_batch": {"type": ["string", "null"], "enum": ["B1", "B2", "B3", "B4", "B5", null]},
+    "aggregate_digest": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "counts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["reward", "t2_exact_required_family_recall", "t2_required_family_f1", "t3_molecular_transition_f1", "t3_state_f1", "t3_typed_edge_f1"],
+      "properties": {
+        "reward": {"const": 5},
+        "t2_exact_required_family_recall": {"const": 5},
+        "t2_required_family_f1": {"const": 5},
+        "t3_molecular_transition_f1": {"const": 5},
+        "t3_state_f1": {"const": 5},
+        "t3_typed_edge_f1": {"const": 5}
+      }
+    },
+    "metrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["reward", "t2_exact_required_family_recall", "t2_required_family_f1", "t3_molecular_transition_f1", "t3_state_f1", "t3_typed_edge_f1"],
+      "properties": {
+        "reward": {"type": "number", "minimum": 0, "maximum": 1},
+        "t2_exact_required_family_recall": {"type": "number", "minimum": 0, "maximum": 1},
+        "t2_required_family_f1": {"type": "number", "minimum": 0, "maximum": 1},
+        "t3_molecular_transition_f1": {"type": "number", "minimum": 0, "maximum": 1},
+        "t3_state_f1": {"type": "number", "minimum": 0, "maximum": 1},
+        "t3_typed_edge_f1": {"type": "number", "minimum": 0, "maximum": 1}
+      }
+    }
+  }
+}

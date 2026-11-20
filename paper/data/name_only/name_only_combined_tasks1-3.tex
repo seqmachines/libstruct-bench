@@ -1,0 +1,133 @@
+% Single portrait longtable, standard NeurIPS text block (no landscape).
+% Requires \usepackage{booktabs,longtable,array} in the preamble.
+% Use with \input{tables/name_only_combined_tasks1-3.tex}; do not wrap in table.
+\begingroup
+\fontsize{8.1pt}{9.4pt}\selectfont
+\setlength{\tabcolsep}{1.65pt}
+\renewcommand{\arraystretch}{1.01}
+\setlength{\LTcapwidth}{\linewidth}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.235\linewidth}l*{10}{r}@{}}
+\caption{%
+\textbf{Protocol-name-only reconstruction across Tasks~1--3.}
+Task~1 reports API sequence similarity (PDF versus Name);
+Tasks~2--3 report native-agent F1 (Bundle versus Name),
+with one selected execution per condition; Bundle is the Figure~3a execution.
+Bold indicates the higher score within a pair at displayed precision; ties are unbolded.
+Macro means use valid pairs; $\Delta$ is Name minus PDF/Bundle.
+-- indicates excluded ddSEQ oligo scores. Claude SHARE-seq uses a successful name-only retry.}
+\label{tab:name-only-all-tasks}\\
+\toprule
+ & & \multicolumn{2}{c}{\textbf{Task~1}} & \multicolumn{2}{c}{\textbf{Task~2}} & \multicolumn{6}{c}{\textbf{Task~3}} \\
+\cmidrule(lr){3-4}\cmidrule(lr){5-6}\cmidrule(l){7-12}
+ & & \multicolumn{2}{c}{Similarity} & \multicolumn{2}{c}{Oligo F1} & \multicolumn{2}{c}{Transition F1} & \multicolumn{2}{c}{State F1} & \multicolumn{2}{c}{Edge F1} \\
+\cmidrule(lr){3-4}\cmidrule(lr){5-6}\cmidrule(lr){7-8}\cmidrule(lr){9-10}\cmidrule(l){11-12}
+Protocol & Model & PDF & Name & Bundle & Name & Bundle & Name & Bundle & Name & Bundle & Name \\
+\midrule
+\endfirsthead
+\multicolumn{12}{@{}l}{\textit{Table~\thetable\ (continued)}}\\[2pt]
+\toprule
+ & & \multicolumn{2}{c}{\textbf{Task~1}} & \multicolumn{2}{c}{\textbf{Task~2}} & \multicolumn{6}{c}{\textbf{Task~3}} \\
+\cmidrule(lr){3-4}\cmidrule(lr){5-6}\cmidrule(l){7-12}
+ & & \multicolumn{2}{c}{Similarity} & \multicolumn{2}{c}{Oligo F1} & \multicolumn{2}{c}{Transition F1} & \multicolumn{2}{c}{State F1} & \multicolumn{2}{c}{Edge F1} \\
+\cmidrule(lr){3-4}\cmidrule(lr){5-6}\cmidrule(lr){7-8}\cmidrule(lr){9-10}\cmidrule(l){11-12}
+Protocol & Model & PDF & Name & Bundle & Name & Bundle & Name & Bundle & Name & Bundle & Name \\
+\midrule
+\endhead
+\midrule
+\multicolumn{12}{r@{}}{\textit{Continued on next page}}\\
+\endfoot
+\bottomrule
+\endlastfoot
+\textbf{10x ATAC v2} & GPT & \textbf{1.000} & 0.947 & \textbf{0.791} & 0.673 & 0.782 & \textbf{0.848} & \textbf{0.875} & 0.863 & 0.714 & \textbf{1.000} \\*
+ & Claude & 1.000 & 1.000 & \textbf{0.713} & 0.687 & \textbf{0.777} & 0.761 & 0.776 & \textbf{0.812} & 0.714 & 0.714 \\*
+ & Gemini & 1.000 & 1.000 & \textbf{0.701} & 0.673 & \textbf{0.956} & 0.707 & \textbf{0.720} & 0.396 & \textbf{1.000} & 0.667 \\
+\addlinespace[1.7pt]
+\textbf{10x 3' GEX v4} & GPT & 1.000 & 1.000 & 0.724 & \textbf{0.867} & 0.881 & \textbf{0.950} & 0.868 & \textbf{0.874} & 0.846 & \textbf{1.000} \\*
+ & Claude & \textbf{1.000} & 0.970 & 0.658 & \textbf{0.849} & 0.881 & \textbf{0.999} & 0.847 & \textbf{0.875} & 0.846 & \textbf{1.000} \\*
+ & Gemini & 1.000 & 1.000 & 0.811 & \textbf{0.845} & 0.858 & \textbf{0.869} & \textbf{0.578} & 0.462 & 0.667 & \textbf{0.818} \\
+\addlinespace[1.7pt]
+\textbf{10x 3' Feature Barcoding} & GPT & \textbf{1.000} & 0.853 & \textbf{0.865} & 0.703 & 0.695 & \textbf{0.751} & \textbf{0.720} & 0.550 & \textbf{0.650} & 0.600 \\*
+ & Claude & \textbf{1.000} & 0.881 & \textbf{0.852} & 0.704 & \textbf{0.770} & 0.752 & \textbf{0.717} & 0.666 & 0.650 & 0.650 \\*
+ & Gemini & \textbf{0.995} & 0.903 & \textbf{0.817} & 0.712 & \textbf{0.759} & 0.650 & \textbf{0.513} & 0.469 & 0.684 & 0.684 \\
+\addlinespace[1.7pt]
+\textbf{Drop-seq} & GPT & 0.897 & \textbf{0.989} & 0.675 & \textbf{0.733} & 0.766 & \textbf{0.918} & 0.534 & \textbf{0.739} & 0.750 & \textbf{0.960} \\*
+ & Claude & 0.886 & \textbf{0.989} & 0.528 & \textbf{0.746} & 0.853 & \textbf{0.942} & 0.770 & \textbf{0.800} & 0.889 & \textbf{1.000} \\*
+ & Gemini & 0.886 & \textbf{0.989} & 0.511 & \textbf{0.735} & \textbf{0.820} & 0.617 & \textbf{0.558} & 0.329 & \textbf{0.750} & 0.364 \\
+\addlinespace[1.7pt]
+\textbf{Seq-Well S3} & GPT & 0.681 & \textbf{1.000} & \textbf{0.834} & 0.733 & \textbf{0.829} & 0.676 & \textbf{0.801} & 0.643 & \textbf{0.778} & 0.643 \\*
+ & Claude & 0.681 & \textbf{1.000} & \textbf{0.767} & 0.723 & 0.850 & \textbf{0.909} & \textbf{0.805} & 0.750 & 0.824 & \textbf{0.848} \\*
+ & Gemini & 1.000 & 1.000 & \textbf{0.855} & 0.698 & 0.564 & \textbf{0.874} & 0.321 & \textbf{0.511} & 0.133 & \textbf{0.848} \\
+\addlinespace[1.7pt]
+\textbf{inDrop v1} & GPT & \textbf{1.000} & 0.586 & \textbf{0.672} & 0.448 & \textbf{0.895} & 0.766 & \textbf{0.706} & 0.505 & \textbf{0.846} & 0.720 \\*
+ & Claude & \textbf{1.000} & 0.871 & \textbf{0.675} & 0.477 & 0.641 & \textbf{0.656} & 0.491 & \textbf{0.512} & \textbf{0.595} & 0.500 \\*
+ & Gemini & \textbf{1.000} & 0.860 & \textbf{0.655} & 0.490 & 0.721 & \textbf{0.778} & 0.231 & \textbf{0.479} & 0.462 & \textbf{0.692} \\
+\addlinespace[1.7pt]
+\textbf{s3-ATAC} & GPT & 0.104 & \textbf{0.768} & \textbf{0.927} & 0.632 & \textbf{0.938} & 0.489 & \textbf{0.909} & 0.529 & \textbf{0.941} & 0.400 \\*
+ & Claude & 0.098 & \textbf{0.793} & \textbf{0.897} & 0.618 & \textbf{0.988} & 0.486 & \textbf{0.840} & 0.553 & \textbf{0.941} & 0.400 \\*
+ & Gemini & 0.000 & \textbf{0.817} & \textbf{0.884} & 0.611 & \textbf{0.986} & 0.488 & \textbf{0.474} & 0.239 & \textbf{0.941} & 0.400 \\
+\addlinespace[1.7pt]
+\textbf{CEL-seq} & GPT & 0.391 & \textbf{0.938} & 0.600 & \textbf{0.658} & 0.878 & \textbf{0.896} & 0.544 & \textbf{0.673} & 0.815 & \textbf{0.846} \\*
+ & Claude & 0.391 & \textbf{0.993} & \textbf{0.600} & 0.518 & \textbf{0.900} & 0.876 & 0.718 & \textbf{0.751} & 0.815 & \textbf{0.846} \\*
+ & Gemini & 0.384 & \textbf{0.968} & 0.353 & \textbf{0.683} & \textbf{0.835} & 0.832 & 0.315 & \textbf{0.333} & 0.692 & 0.692 \\
+\addlinespace[1.7pt]
+\textbf{SPLiT-seq} & GPT & 0.026 & \textbf{0.627} & \textbf{0.897} & 0.589 & \textbf{0.900} & 0.692 & \textbf{0.636} & 0.462 & \textbf{0.867} & 0.643 \\*
+ & Claude & 0.132 & \textbf{0.756} & \textbf{0.901} & 0.731 & \textbf{0.771} & 0.752 & \textbf{0.816} & 0.791 & 0.714 & \textbf{0.857} \\*
+ & Gemini & 0.170 & \textbf{0.667} & \textbf{0.878} & 0.546 & \textbf{0.800} & 0.785 & 0.406 & \textbf{0.417} & 0.714 & \textbf{0.846} \\
+\addlinespace[1.7pt]
+\textbf{sci-RNA-seq} & GPT & \textbf{0.900} & 0.874 & \textbf{0.771} & 0.754 & 0.664 & \textbf{0.824} & 0.825 & \textbf{0.829} & 0.636 & \textbf{0.778} \\*
+ & Claude & 1.000 & 1.000 & \textbf{0.797} & 0.730 & 0.698 & \textbf{0.825} & \textbf{0.818} & 0.727 & 0.636 & \textbf{0.778} \\*
+ & Gemini & \textbf{0.900} & 0.542 & 0.743 & \textbf{0.760} & 0.811 & \textbf{0.824} & \textbf{0.466} & 0.461 & 0.778 & 0.778 \\
+\addlinespace[1.7pt]
+\textbf{sci-ATAC-seq} & GPT & 0.049 & \textbf{0.663} & 0.661 & \textbf{0.675} & 0.564 & \textbf{0.677} & \textbf{0.373} & 0.329 & 0.235 & \textbf{0.471} \\*
+ & Claude & 0.098 & \textbf{0.741} & \textbf{0.804} & 0.647 & \textbf{0.694} & 0.492 & \textbf{0.463} & 0.402 & \textbf{0.316} & 0.211 \\*
+ & Gemini & 0.000 & \textbf{0.741} & \textbf{0.729} & 0.662 & \textbf{0.694} & 0.590 & 0.179 & \textbf{0.188} & \textbf{0.471} & 0.235 \\
+\addlinespace[1.7pt]
+\textbf{Microwell-seq} & GPT & 0.578 & \textbf{0.826} & 0.527 & \textbf{0.739} & 0.900 & \textbf{0.944} & 0.648 & \textbf{0.714} & 0.909 & \textbf{1.000} \\*
+ & Claude & 0.578 & \textbf{0.853} & \textbf{0.516} & 0.475 & \textbf{0.808} & 0.544 & \textbf{0.732} & 0.240 & \textbf{0.783} & 0.182 \\*
+ & Gemini & 0.509 & \textbf{0.812} & 0.545 & \textbf{0.661} & \textbf{0.940} & 0.666 & \textbf{0.734} & 0.362 & \textbf{1.000} & 0.600 \\
+\addlinespace[1.7pt]
+\textbf{scRRBS} & GPT & 0.953 & 0.953 & \textbf{0.838} & 0.710 & \textbf{0.949} & 0.926 & \textbf{0.741} & 0.645 & 0.909 & 0.909 \\*
+ & Claude & 0.953 & 0.953 & \textbf{0.790} & 0.418 & 0.813 & \textbf{0.925} & \textbf{0.845} & 0.754 & 0.750 & \textbf{0.909} \\*
+ & Gemini & 0.945 & \textbf{0.953} & \textbf{0.816} & 0.528 & 0.809 & \textbf{0.915} & \textbf{0.718} & 0.371 & 0.833 & \textbf{0.909} \\
+\addlinespace[1.7pt]
+\textbf{PIP-seq v4} & GPT & 0.829 & \textbf{0.842} & 0.575 & \textbf{0.713} & 0.765 & \textbf{0.888} & 0.316 & \textbf{0.637} & 0.750 & \textbf{0.960} \\*
+ & Claude & 0.829 & \textbf{0.838} & 0.697 & \textbf{0.731} & \textbf{0.771} & 0.747 & 0.589 & \textbf{0.658} & 0.686 & \textbf{0.720} \\*
+ & Gemini & \textbf{0.829} & 0.820 & \textbf{0.767} & 0.635 & \textbf{0.775} & 0.682 & 0.363 & \textbf{0.382} & \textbf{0.783} & 0.720 \\
+\addlinespace[1.7pt]
+\textbf{scDamID} & GPT & \textbf{0.994} & 0.595 & \textbf{0.643} & 0.496 & \textbf{0.783} & 0.547 & \textbf{0.644} & 0.546 & \textbf{0.692} & 0.480 \\*
+ & Claude & \textbf{0.994} & 0.637 & 0.629 & \textbf{0.728} & \textbf{0.881} & 0.789 & \textbf{0.672} & 0.627 & \textbf{0.846} & 0.750 \\*
+ & Gemini & \textbf{0.994} & 0.619 & \textbf{0.661} & 0.607 & \textbf{0.992} & 0.490 & \textbf{0.452} & 0.255 & \textbf{1.000} & 0.364 \\
+\addlinespace[1.7pt]
+\textbf{ddSEQ} & GPT & 0.063 & \textbf{0.401} & \multicolumn{1}{c}{--} & \multicolumn{1}{c}{--} & \textbf{0.936} & 0.701 & \textbf{0.898} & 0.669 & \textbf{0.938} & 0.519 \\*
+ & Claude & 0.181 & \textbf{0.382} & \multicolumn{1}{c}{--} & \multicolumn{1}{c}{--} & \textbf{0.971} & 0.700 & \textbf{0.914} & 0.649 & \textbf{1.000} & 0.583 \\*
+ & Gemini & 0.063 & \textbf{0.384} & \multicolumn{1}{c}{--} & \multicolumn{1}{c}{--} & 0.664 & \textbf{0.700} & \textbf{0.648} & 0.490 & 0.519 & \textbf{0.583} \\
+\addlinespace[1.7pt]
+\textbf{SMART-seq} & GPT & 0.000 & \textbf{0.342} & \textbf{0.859} & 0.811 & \textbf{0.791} & 0.604 & \textbf{0.573} & 0.499 & \textbf{0.722} & 0.643 \\*
+ & Claude & 0.240 & \textbf{0.500} & 0.662 & \textbf{0.833} & \textbf{0.879} & 0.800 & 0.630 & \textbf{0.631} & \textbf{0.833} & 0.800 \\*
+ & Gemini & 0.000 & \textbf{0.500} & 0.757 & \textbf{0.866} & \textbf{0.803} & 0.557 & \textbf{0.501} & 0.276 & \textbf{0.765} & 0.462 \\
+\addlinespace[1.7pt]
+\textbf{SHARE-seq} & GPT & 0.083 & \textbf{0.457} & \textbf{0.948} & 0.542 & \textbf{0.760} & 0.674 & \textbf{0.596} & 0.399 & \textbf{0.562} & 0.536 \\*
+ & Claude & 0.083 & \textbf{0.770} & \textbf{0.955} & 0.653 & \textbf{0.821} & 0.789 & \textbf{0.754} & 0.598 & \textbf{0.812} & 0.714 \\*
+ & Gemini & 0.167 & \textbf{0.609} & \textbf{0.950} & 0.534 & \textbf{0.784} & 0.349 & \textbf{0.591} & 0.243 & \textbf{0.583} & 0.231 \\
+\addlinespace[1.7pt]
+\textbf{DR-seq} & GPT & 0.109 & \textbf{0.630} & \textbf{0.850} & 0.425 & \textbf{0.565} & 0.323 & 0.435 & \textbf{0.465} & \textbf{0.511} & 0.300 \\*
+ & Claude & 0.109 & \textbf{0.771} & \textbf{0.497} & 0.338 & \textbf{0.482} & 0.422 & 0.472 & \textbf{0.484} & \textbf{0.226} & 0.213 \\*
+ & Gemini & 0.109 & \textbf{0.882} & \textbf{0.600} & 0.444 & \textbf{0.722} & 0.483 & 0.329 & \textbf{0.336} & \textbf{0.643} & 0.426 \\
+\addlinespace[1.7pt]
+\textbf{PETRI-seq} & GPT & 0.568 & \textbf{0.668} & \textbf{0.782} & 0.424 & \textbf{0.939} & 0.765 & \textbf{0.793} & 0.638 & \textbf{1.000} & 0.818 \\*
+ & Claude & 0.563 & \textbf{0.569} & \textbf{0.814} & 0.525 & \textbf{0.869} & 0.687 & \textbf{0.796} & 0.589 & \textbf{0.846} & 0.667 \\*
+ & Gemini & \textbf{0.985} & 0.596 & \textbf{0.897} & 0.092 & \textbf{0.983} & 0.844 & \textbf{0.811} & 0.523 & 1.000 & 1.000 \\
+\midrule
+\textbf{Macro mean} & GPT & 0.561 & \textbf{0.748} & \textbf{0.760} & 0.649 & \textbf{0.809} & 0.743 & \textbf{0.672} & 0.610 & \textbf{0.754} & 0.711 \\*
+ & Claude & 0.591 & \textbf{0.813} & \textbf{0.724} & 0.638 & \textbf{0.806} & 0.743 & \textbf{0.723} & 0.644 & \textbf{0.736} & 0.667 \\*
+ & Gemini & 0.597 & \textbf{0.783} & \textbf{0.733} & 0.620 & \textbf{0.814} & 0.685 & \textbf{0.495} & 0.376 & \textbf{0.721} & 0.616 \\
+\addlinespace[2pt]
+\textbf{$\Delta$ (Name$-$source)} & GPT & \multicolumn{2}{c}{$+0.187$} & \multicolumn{2}{c}{$-0.111$} & \multicolumn{2}{c}{$-0.066$} & \multicolumn{2}{c}{$-0.061$} & \multicolumn{2}{c}{$-0.042$} \\*
+ & Claude & \multicolumn{2}{c}{$+0.223$} & \multicolumn{2}{c}{$-0.085$} & \multicolumn{2}{c}{$-0.063$} & \multicolumn{2}{c}{$-0.080$} & \multicolumn{2}{c}{$-0.069$} \\*
+ & Gemini & \multicolumn{2}{c}{$+0.186$} & \multicolumn{2}{c}{$-0.113$} & \multicolumn{2}{c}{$-0.129$} & \multicolumn{2}{c}{$-0.119$} & \multicolumn{2}{c}{$-0.105$} \\
+\addlinespace[2pt]
+\textbf{Task~1 exact} & GPT & \textbf{4/20} & 2/20 & \multicolumn{8}{c}{} \\*
+ & Claude & \textbf{5/20} & 3/20 & \multicolumn{8}{c}{} \\*
+ & Gemini & \textbf{4/20} & 3/20 & \multicolumn{8}{c}{} \\
+\end{longtable}
+\endgroup

@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/improvement/kb_final_lock.schema.json",
+  "title": "Final lock authorizing the frozen 120-cell test replay",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "design_digest", "final_checkpoint", "primary_checkpoint", "validation_selection", "checkpoint_digests", "evaluation_matrix_digest", "training_complete", "test_cells_authorized", "created_at", "lock_digest"],
+  "properties": {
+    "schema_version": {"const": "libstruct.libgen_kb_final_lock.v1"},
+    "design_digest": {"$ref": "#/$defs/sha256"},
+    "final_checkpoint": {"const": "C58"},
+    "primary_checkpoint": {"type": "string", "pattern": "^C[1-9][0-9]*$"},
+    "primary_endpoint_mode": {
+      "enum": ["coupled_checkpoint", "composite", "coupled_checkpoint_fallback"]
+    },
+    "endpoint_selection": {"$ref": "#/$defs/endpoint_selection"},
+    "validation_selection": {"$ref": "#/$defs/selection_ref"},
+    "checkpoint_digests": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/checkpoint"}},
+    "evaluation_matrix_digest": {"$ref": "#/$defs/sha256"},
+    "training_complete": {"const": true},
+    "test_cells_authorized": {"const": 120},
+    "created_at": {"type": "string", "format": "date-time"},
+    "lock_digest": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "checkpoint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["label", "digest", "sha256"],
+      "properties": {
+        "label": {"type": "string", "pattern": "^C[1-9][0-9]*$"},
+        "digest": {"$ref": "#/$defs/sha256"},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "selection_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "digest"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "digest": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "endpoint_selection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "effective_endpoint_id",
+        "pact_checkpoint",
+        "knowledge_checkpoint",
+        "composite_endpoint",
+        "composite_confirmation"
+      ],
+      "properties": {
+        "effective_endpoint_id": {"type": "string", "minLength": 1},
+        "pact_checkpoint": {"type": "string", "pattern": "^C[1-9][0-9]*$"},
+        "knowledge_checkpoint": {"type": "string", "pattern": "^C[1-9][0-9]*$"},
+        "composite_endpoint": {"$ref": "#/$defs/selection_ref"},
+        "composite_confirmation": {"$ref": "#/$defs/selection_ref"}
+      }
+    }
+  }
+}

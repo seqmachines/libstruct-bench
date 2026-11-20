@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/improvement/kb_exposure_catalog.schema.json",
+  "title": "Agent-visible ground-truth-only knowledge-card catalog",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "source_catalog_digest", "training_count", "entries", "catalog_digest"],
+  "properties": {
+    "schema_version": {"const": "libstruct.libgen_kb_exposure_catalog.v1"},
+    "source_catalog_digest": {"$ref": "#/$defs/sha256"},
+    "training_count": {"type": "integer", "minimum": 0},
+    "entries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["exemplar_id", "oligo_card", "graph_card"],
+        "properties": {
+          "exemplar_id": {"type": "string", "pattern": "^exm-[a-f0-9]{32}$"},
+          "oligo_card": {"$ref": "#/$defs/artifact"},
+          "graph_card": {"$ref": "#/$defs/artifact"}
+        }
+      }
+    },
+    "catalog_digest": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "digest"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "digest": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  }
+}

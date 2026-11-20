@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/improvement/kb_experiment_state.schema.json",
+  "title": "Initialized LibGen knowledge-base experiment",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "experiment_id", "created_at", "design", "repository", "private_roots", "universe", "identity_map", "c0_registry", "evaluation_matrix", "current_microstate", "final_lock", "experiment_digest"],
+  "properties": {
+    "schema_version": {"const": "libstruct.libgen_kb_experiment.v1"},
+    "experiment_id": {"type": "string"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "design": {"$ref": "#/$defs/artifact_digest"},
+    "repository": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "git_commit", "dirty", "verifier_source_digest"],
+      "properties": {
+        "path": {"type": "string"},
+        "git_commit": {"type": "string", "minLength": 7},
+        "dirty": {"type": "boolean"},
+        "verifier_source_digest": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "private_roots": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["groundtruth_root", "source_manifest_search_root", "baseline_root", "run_root"],
+      "properties": {
+        "groundtruth_root": {"type": "string"},
+        "source_manifest_search_root": {"type": "string"},
+        "baseline_root": {"type": "string"},
+        "run_root": {"type": "string"}
+      }
+    },
+    "universe": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["protocol_count", "source_manifest_digest", "groundtruth_digest", "entries"],
+      "properties": {
+        "protocol_count": {"type": "integer", "minimum": 1},
+        "source_manifest_digest": {"$ref": "#/$defs/sha256"},
+        "groundtruth_digest": {"$ref": "#/$defs/sha256"},
+        "entries": {"type": "array", "items": {"type": "object"}}
+      }
+    },
+    "identity_map": {"$ref": "#/$defs/artifact_digest"},
+    "c0_registry": {"$ref": "#/$defs/artifact_digest"},
+    "evaluation_matrix": {"$ref": "#/$defs/artifact_digest"},
+    "current_microstate": {"$ref": "#/$defs/artifact_digest"},
+    "final_lock": {"type": "boolean"},
+    "experiment_digest": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "artifact_digest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "digest"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "digest": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  }
+}

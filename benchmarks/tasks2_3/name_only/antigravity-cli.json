@@ -1,0 +1,30 @@
+{
+  "agents": [
+    {
+      "import_path": "libstruct_bench.harbor_agents.name_only:AntigravityNameOnly",
+      "kwargs": {
+        "experiment_lock": "benchmarks/tasks2_3/name_only/experiment.json",
+        "gcp_location": "global",
+        "gcp_project": "gen-lang-client-0325887617",
+        "reasoning_effort": "high",
+        "version": "1.3.2"
+      },
+      "model_name": "google/gemini-3.7-flash-high"
+    }
+  ],
+  "datasets": [
+    {
+      "path": "benchmarks/tasks2_3/name_only/tasks"
+    }
+  ],
+  "environment": {
+    "type": "docker"
+  },
+  "job_name": "libgen-gemini-3-7-flash-gcp-name-only-profilefix",
+  "jobs_dir": "runs/libgen/antigravity-cli",
+  "n_attempts": 1,
+  "n_concurrent_trials": 4,
+  "retry": {
+    "max_retries": 0
+  }
+}

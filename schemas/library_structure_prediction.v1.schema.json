@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/library_structure_prediction.v1.schema.json",
+  "title": "Audited final-library structure prediction v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "protocol_id", "libraries"],
+  "properties": {
+    "schema_version": {"const": "libstruct.library_structure.v1"},
+    "protocol_id": {"$ref": "#/$defs/stable_id"},
+    "libraries": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/library"}},
+    "notes": {"type": ["string", "null"]}
+  },
+  "$defs": {
+    "stable_id": {"type": "string", "minLength": 1, "maxLength": 240, "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"},
+    "library": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["library_id", "modality", "library_sequence"],
+      "properties": {
+        "library_id": {"$ref": "#/$defs/stable_id"},
+        "modality": {"type": "string", "minLength": 1},
+        "library_sequence": {"type": "string", "minLength": 1},
+        "annotated_library_sequence": {"type": ["string", "null"]},
+        "notes": {"type": ["string", "null"]}
+      }
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/improvement/kb_evaluation_matrix.schema.json",
+  "title": "Frozen checkpoint-by-protocol evaluation matrix",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "design_digest", "validation_cells", "test_cells", "test_access", "matrix_digest"],
+  "properties": {
+    "schema_version": {"const": "libstruct.libgen_kb_evaluation_matrix.v1"},
+    "design_digest": {"$ref": "#/$defs/sha256"},
+    "validation_cells": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/cell"}},
+    "test_cells": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/cell"}},
+    "test_access": {"const": "sealed_until_final_lock"},
+    "matrix_digest": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "protocol_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9_]*$"},
+    "cell": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["cell_id", "checkpoint", "protocol_id", "panel"],
+      "properties": {
+        "cell_id": {"type": "string", "pattern": "^(validation|test)-C[0-9]+-[a-z0-9_]+$"},
+        "checkpoint": {"type": "string", "pattern": "^C[1-9][0-9]*$"},
+        "protocol_id": {"$ref": "#/$defs/protocol_id"},
+        "panel": {"enum": ["validation", "test"]}
+      }
+    }
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/improvement/kb_behavioral_lineage.schema.json",
+  "title": "C5-seeded behavioral-feedback KB lineage",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "design_digest",
+    "source_experiment",
+    "parent_checkpoint",
+    "parent_checkpoint_digest",
+    "parent_state_id",
+    "parent_microstate_digest",
+    "retrieval_policy",
+    "training_generation",
+    "knowledge_admission",
+    "pact_update",
+    "validation_feedback",
+    "test_evaluation",
+    "task_registry",
+    "created_at",
+    "lineage_digest"
+  ],
+  "properties": {
+    "schema_version": {"const": "libstruct.libgen_kb_behavioral_lineage.v2"},
+    "design_digest": {"$ref": "#/$defs/sha256"},
+    "source_experiment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "experiment_digest"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "experiment_digest": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "parent_checkpoint": {"const": "C5"},
+    "parent_checkpoint_digest": {"$ref": "#/$defs/sha256"},
+    "parent_state_id": {"const": "S005"},
+    "parent_microstate_digest": {"$ref": "#/$defs/sha256"},
+    "retrieval_policy": {"const": "source_evidenced_full_similarity_ranking_agent_selected_unbounded_v3"},
+    "training_generation": {"const": "harbor_previous_checkpoint_pact_prior_only_kb"},
+    "knowledge_admission": {"const": "canonical_groundtruth_cards_after_whole_batch"},
+    "pact_update": {"const": "one_cumulative_update_after_whole_batch"},
+    "validation_feedback": {"const": "aggregate_evaluation_only_no_rule_learning"},
+    "test_evaluation": {
+      "const": "validation_selected_checkpoint_only_after_all_validation"
+    },
+    "task_registry": {"$ref": "#/$defs/artifact_digest"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "lineage_digest": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "artifact_digest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "digest"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "digest": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  }
+}

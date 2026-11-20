@@ -1,0 +1,4 @@
+interface:
+  display_name: "Library Ground-Truth Audit"
+  short_description: "Review sequencing-library ground truth"
+  default_prompt: "Use $libstruct-audit to independently audit one protocol packet and report schema-compliant findings."

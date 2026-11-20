@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/improvement/kb_training_batch_run_plan.schema.json",
+  "title": "One checkpoint-bounded concurrent behavioral-training Harbor plan",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "design_digest",
+    "lineage_digest",
+    "parent_state_id",
+    "parent_microstate_digest",
+    "parent_checkpoint",
+    "next_checkpoint",
+    "training_ordinals",
+    "protocol_ids",
+    "task_tree_digests",
+    "pact_digest",
+    "catalog_digest",
+    "retrieval_policy",
+    "knowledge_runtime",
+    "concurrency",
+    "timeout_seconds",
+    "config",
+    "created_at",
+    "plan_digest"
+  ],
+  "properties": {
+    "schema_version": {"const": "libstruct.libgen_kb_training_batch_run_plan.v1"},
+    "design_digest": {"$ref": "#/$defs/sha256"},
+    "lineage_digest": {"$ref": "#/$defs/sha256"},
+    "parent_state_id": {"type": "string", "pattern": "^S[0-9]{3}$"},
+    "parent_microstate_digest": {"$ref": "#/$defs/sha256"},
+    "parent_checkpoint": {"type": "string", "pattern": "^C[0-9]+$"},
+    "next_checkpoint": {"type": "string", "pattern": "^C[1-9][0-9]*$"},
+    "training_ordinals": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 5,
+      "uniqueItems": true,
+      "items": {"type": "integer", "minimum": 1, "maximum": 58}
+    },
+    "protocol_ids": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 5,
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^[a-z0-9][a-z0-9_]*$"}
+    },
+    "task_tree_digests": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 5,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["protocol_id", "tree_digest"],
+        "properties": {
+          "protocol_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9_]*$"},
+          "tree_digest": {"$ref": "#/$defs/sha256"}
+        }
+      }
+    },
+    "pact_digest": {"$ref": "#/$defs/sha256"},
+    "catalog_digest": {"$ref": "#/$defs/sha256"},
+    "retrieval_policy": {"const": "source_evidenced_full_similarity_ranking_agent_selected_unbounded_v3"},
+    "knowledge_runtime": {"$ref": "#/$defs/knowledge_runtime"},
+    "concurrency": {"type": "integer", "minimum": 1, "maximum": 5},
+    "timeout_seconds": {"type": "integer", "minimum": 900},
+    "config": {"$ref": "#/$defs/artifact"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "plan_digest": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "knowledge_runtime": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["retrieval_policy", "query_tool_sha256", "catalog_sha256", "ranking_index_sha256", "family_priorities_sha256", "instruction_sha256", "runtime_digest"],
+      "properties": {
+        "retrieval_policy": {"const": "source_evidenced_full_similarity_ranking_agent_selected_unbounded_v3"},
+        "query_tool_sha256": {"$ref": "#/$defs/sha256"},
+        "catalog_sha256": {"$ref": "#/$defs/sha256"},
+        "ranking_index_sha256": {"$ref": "#/$defs/sha256"},
+        "family_priorities_sha256": {"$ref": "#/$defs/sha256"},
+        "instruction_sha256": {"$ref": "#/$defs/sha256"},
+        "runtime_digest": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  }
+}

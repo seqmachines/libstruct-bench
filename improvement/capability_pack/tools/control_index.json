@@ -1,0 +1,93 @@
+{
+  "schema_version": "libstruct.libgen_capability_control_index.v1",
+  "work_record_schema": "schemas/work_record.schema.json",
+  "compiler": {
+    "path": "tools/compile_work_record.py",
+    "argv_template": [
+      "python3",
+      "{pack}/tools/compile_work_record.py",
+      "--work-record",
+      "{work_record}",
+      "--t2-out",
+      "{t2_output}",
+      "--t3-out",
+      "{t3_output}"
+    ]
+  },
+  "audit": {
+    "path": "tools/audit_predictions.py",
+    "argv_template": [
+      "python3",
+      "{pack}/tools/audit_predictions.py",
+      "--work-record",
+      "{work_record}",
+      "--t2",
+      "{t2_output}",
+      "--t3",
+      "{t3_output}"
+    ]
+  },
+  "synthetic_suite": "synthetic_tests/suite.json",
+  "output_contract": {
+    "format": "json",
+    "success_exit": 0,
+    "findings_exit": 1,
+    "input_error_exit": 2
+  },
+  "controls": [
+    {
+      "control_id": "evidence_support",
+      "implementation": "tools/check_unsupported_completion.py",
+      "finding_codes": ["missing_evidence_claim", "missing_source_locator", "unsupported_completion"],
+      "required_polarities": ["positive", "negative"]
+    },
+    {
+      "control_id": "physical_oligo_linkage",
+      "implementation": "tools/audit_predictions.py",
+      "finding_codes": ["unknown_derivation_oligo", "unused_t2_oligo"],
+      "required_polarities": ["positive", "negative"]
+    },
+    {
+      "control_id": "product_conservation",
+      "implementation": "tools/check_product_conservation.py",
+      "finding_codes": ["discarded_product_reused", "dual_product_classification", "incomplete_product_classification", "unknown_state", "unproduced_substrate", "unused_carried_product"],
+      "required_polarities": ["positive", "negative"]
+    },
+    {
+      "control_id": "source_reconciliation",
+      "implementation": "tools/audit_predictions.py",
+      "finding_codes": ["inventory_active_without_support", "inventory_target_missing", "inventory_unresolved", "out_of_scope_oligo_modeled", "source_coverage_incomplete", "unreconciled_t2_entity", "unreconciled_t3_entity"],
+      "required_polarities": ["positive", "negative"]
+    },
+    {
+      "control_id": "state_event_projection",
+      "implementation": "tools/audit_predictions.py",
+      "finding_codes": ["missing_event_record", "missing_state_signature", "orphan_event_record", "orphan_state_signature", "state_signature_mismatch", "event_record_mismatch"],
+      "required_polarities": ["positive", "negative"]
+    },
+    {
+      "control_id": "strand_pairing",
+      "implementation": "tools/check_strand_pairing.py",
+      "finding_codes": ["duplex_architecture", "incomplete_duplex_pairing", "invalid_discontinuity", "noncontiguous_pairing", "paired_segment_reference", "paired_side_invalid", "paired_side_reference", "pairing_not_reverse_complementary", "segment_id_invalid", "segment_paired_twice", "single_strand_architecture", "unknown_reference_strand"],
+      "required_polarities": ["positive", "negative"]
+    },
+    {
+      "control_id": "terminal_reachability",
+      "implementation": "tools/audit_predictions.py",
+      "finding_codes": ["discarded_terminal", "duplicate_terminal", "unknown_terminal", "unreachable_final"],
+      "required_polarities": ["positive", "negative"]
+    },
+    {
+      "control_id": "typed_edges",
+      "implementation": "tools/check_typed_edges.py",
+      "finding_codes": ["operation_missing", "transition_id_invalid", "unknown_edge_state", "unknown_oligo", "unreachable_final"],
+      "required_polarities": ["positive", "negative"]
+    },
+    {
+      "control_id": "work_record_compile",
+      "implementation": "tools/compile_work_record.py",
+      "finding_codes": ["compiled_t2_mismatch", "compiled_t3_mismatch", "invalid_work_record"],
+      "required_polarities": ["positive", "negative"]
+    }
+  ]
+}

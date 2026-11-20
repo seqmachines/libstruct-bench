@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/improvement/kb_batch_execution_amendment.schema.json",
+  "title": "Checkpoint-bounded parallel adjudication amendment",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "design_digest",
+    "parent_checkpoint",
+    "parent_state_id",
+    "parent_microstate_digest",
+    "applies_from_training_ordinal",
+    "analysis_concurrency",
+    "analysis_visibility",
+    "pact_update_policy",
+    "admission_order",
+    "authorized_by",
+    "created_at",
+    "amendment_digest"
+  ],
+  "properties": {
+    "schema_version": {"enum": ["libstruct.libgen_kb_batch_execution_amendment.v1", "libstruct.libgen_kb_batch_execution_amendment.v2"]},
+    "design_digest": {"$ref": "#/$defs/sha256"},
+    "parent_checkpoint": {"type": "string", "pattern": "^C[0-9]+$"},
+    "parent_state_id": {"type": "string", "pattern": "^S[0-9]{3}$"},
+    "parent_microstate_digest": {"$ref": "#/$defs/sha256"},
+    "applies_from_training_ordinal": {"type": "integer", "minimum": 1, "maximum": 58},
+    "analysis_concurrency": {"type": "integer", "minimum": 2, "maximum": 8},
+    "analysis_visibility": {"const": "batch_start_pact"},
+    "pact_update_policy": {"const": "after_all_batch_adjudications_then_ordinal_reconciliation"},
+    "admission_order": {"const": "frozen_training_order"},
+    "authorized_by": {"const": "user_delegated"},
+    "training_generation": {"enum": ["preserved_c0_reuse", "harbor_previous_checkpoint_snapshot"]},
+    "retrieval_policy": {"const": "source_evidenced_full_similarity_ranking_agent_selected_unbounded_v3"},
+    "knowledge_admission": {"const": "canonical_groundtruth_cards_after_whole_batch"},
+    "validation_feedback": {"const": "aggregate_evaluation_only_no_rule_learning"},
+    "test_policy": {"enum": ["sealed_until_final_lock", "deferred_by_user"]},
+    "created_at": {"type": "string", "format": "date-time"},
+    "amendment_digest": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+  }
+}

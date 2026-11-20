@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/improvement/kb_repair_manifest.schema.json",
+  "title": "Bounded linked-prediction repair manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "protocol_id", "original_trial_root", "original_predictions", "attempts", "final_status", "final_predictions", "created_at", "repair_digest"],
+  "properties": {
+    "schema_version": {"const": "libstruct.libgen_kb_repair_manifest.v1"},
+    "protocol_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9_]*$"},
+    "original_trial_root": {"type": "string", "minLength": 1},
+    "original_predictions": {"$ref": "#/$defs/pair"},
+    "attempts": {
+      "type": "array",
+      "maxItems": 2,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["attempt", "input_errors", "output", "events", "validation_errors"],
+        "properties": {
+          "attempt": {"type": "integer", "minimum": 1, "maximum": 2},
+          "input_errors": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+          "output": {"$ref": "#/$defs/artifact"},
+          "events": {"$ref": "#/$defs/artifact"},
+          "validation_errors": {"type": "array", "items": {"type": "string"}}
+        }
+      }
+    },
+    "final_status": {"enum": ["valid", "invalid"]},
+    "final_predictions": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/pair"}]},
+    "created_at": {"type": "string", "format": "date-time"},
+    "repair_digest": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {"path": {"type": "string"}, "sha256": {"$ref": "#/$defs/sha256"}}
+    },
+    "pair": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["t2", "t3"],
+      "properties": {"t2": {"$ref": "#/$defs/artifact"}, "t3": {"$ref": "#/$defs/artifact"}}
+    }
+  }
+}

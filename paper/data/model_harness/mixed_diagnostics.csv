@@ -1,0 +1,5 @@
+"metric","n_protocols","n_observations","method","random_intercept_variance","residual_variance","log_likelihood","iterations","warnings","min_fixed_prediction","max_fixed_prediction"
+"t2_required_family_f1",9,54,"REML",0.007335283,0.005994081,35.3447325680104,,"",0.731443681003032,0.767532052494672
+"t3_molecular_transition_f1",10,60,"REML",0.01494484,0.01055496,24.945538529678,,"",0.713804156513135,0.772317254025482
+"t3_state_f1",10,60,"REML",0.020221161,0.009231468,26.7701886306626,,"",0.421881311253478,0.659023649798168
+"t3_typed_edge_f1",10,60,"REML",0.0348676,0.02314612,3.49404859778318,,"",0.605291101055807,0.700727560232304

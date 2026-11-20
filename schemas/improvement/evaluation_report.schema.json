@@ -1,0 +1,318 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/improvement/evaluation_report.schema.json",
+  "title": "Post-lock fixed-panel LibGen learning-curve report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "experiment_digest",
+    "replay_digest",
+    "replay_manifest_sha256",
+    "final_lock_digest",
+    "transfer_panel_authorization_digest",
+    "panel_digest",
+    "panel_classification",
+    "protocol_ids",
+    "metrics",
+    "analysis_policy",
+    "conditions",
+    "paired_changes_from_c0",
+    "created_at",
+    "report_digest"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "libstruct.libgen_capability_evaluation_report.v1"
+    },
+    "experiment_digest": {"$ref": "#/$defs/sha256"},
+    "replay_digest": {"$ref": "#/$defs/sha256"},
+    "replay_manifest_sha256": {"$ref": "#/$defs/sha256"},
+    "final_lock_digest": {"$ref": "#/$defs/sha256"},
+    "transfer_panel_authorization_digest": {"$ref": "#/$defs/sha256"},
+    "panel_digest": {"$ref": "#/$defs/sha256"},
+    "panel_classification": {"const": "frozen_retrospective_transfer_panel"},
+    "protocol_ids": {
+      "type": "array",
+      "minItems": 10,
+      "maxItems": 10,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/id"}
+    },
+    "metrics": {
+      "const": [
+        "reward",
+        "t2_exact_required_family_recall",
+        "t2_required_family_f1",
+        "t3_molecular_transition_f1",
+        "t3_state_f1",
+        "t3_typed_edge_f1"
+      ]
+    },
+    "analysis_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "paired_baseline",
+        "bootstrap_method",
+        "bootstrap_confidence_level",
+        "bootstrap_resamples",
+        "checkpoint_selection",
+        "predefined_endpoints",
+        "rolling_development_diagnostics",
+        "unscored_failure_policy"
+      ],
+      "properties": {
+        "paired_baseline": {"const": "C0"},
+        "bootstrap_method": {
+          "const": "paired_protocol_resampling_with_replacement"
+        },
+        "bootstrap_confidence_level": {"const": 0.95},
+        "bootstrap_resamples": {"const": 10000},
+        "checkpoint_selection": {
+          "const": "prohibited_from_replay_performance"
+        },
+        "predefined_endpoints": {"const": ["C25"]},
+        "rolling_development_diagnostics": {
+          "const": "B4_and_B5_not_the_final_learning_curve"
+        },
+        "unscored_failure_policy": {
+          "const": "missing_not_zero_report_separately"
+        }
+      }
+    },
+    "conditions": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 6,
+      "items": {"$ref": "#/$defs/condition"}
+    },
+    "paired_changes_from_c0": {
+      "type": "array",
+      "minItems": 30,
+      "maxItems": 30,
+      "items": {"$ref": "#/$defs/paired_change"}
+    },
+    "created_at": {"type": "string", "format": "date-time"},
+    "report_digest": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 240,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "label": {
+      "type": "string",
+      "enum": ["C0", "C5", "C10", "C15", "C20", "C25"]
+    },
+    "learned_label": {
+      "type": "string",
+      "enum": ["C5", "C10", "C15", "C20", "C25"]
+    },
+    "nullable_score": {
+      "type": ["number", "null"],
+      "minimum": 0,
+      "maximum": 1
+    },
+    "nullable_change": {
+      "type": ["number", "null"],
+      "minimum": -1,
+      "maximum": 1
+    },
+    "metrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "reward",
+        "t2_exact_required_family_recall",
+        "t2_required_family_f1",
+        "t3_molecular_transition_f1",
+        "t3_state_f1",
+        "t3_typed_edge_f1"
+      ],
+      "properties": {
+        "reward": {"$ref": "#/$defs/nullable_score"},
+        "t2_exact_required_family_recall": {"$ref": "#/$defs/nullable_score"},
+        "t2_required_family_f1": {"$ref": "#/$defs/nullable_score"},
+        "t3_molecular_transition_f1": {"$ref": "#/$defs/nullable_score"},
+        "t3_state_f1": {"$ref": "#/$defs/nullable_score"},
+        "t3_typed_edge_f1": {"$ref": "#/$defs/nullable_score"}
+      }
+    },
+    "metric_counts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "reward",
+        "t2_exact_required_family_recall",
+        "t2_required_family_f1",
+        "t3_molecular_transition_f1",
+        "t3_state_f1",
+        "t3_typed_edge_f1"
+      ],
+      "properties": {
+        "reward": {"type": "integer", "minimum": 0, "maximum": 10},
+        "t2_exact_required_family_recall": {"type": "integer", "minimum": 0, "maximum": 10},
+        "t2_required_family_f1": {"type": "integer", "minimum": 0, "maximum": 10},
+        "t3_molecular_transition_f1": {"type": "integer", "minimum": 0, "maximum": 10},
+        "t3_state_f1": {"type": "integer", "minimum": 0, "maximum": 10},
+        "t3_typed_edge_f1": {"type": "integer", "minimum": 0, "maximum": 10}
+      }
+    },
+    "protocol_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "protocol_id",
+        "trial_name",
+        "result_sha256",
+        "status",
+        "exception_type",
+        "metrics"
+      ],
+      "properties": {
+        "protocol_id": {"$ref": "#/$defs/id"},
+        "trial_name": {"type": "string", "minLength": 1},
+        "result_sha256": {"$ref": "#/$defs/sha256"},
+        "status": {
+          "type": "string",
+          "enum": ["scored", "scored_with_exception", "unscored_failure"]
+        },
+        "exception_type": {"type": ["string", "null"]},
+        "metrics": {"$ref": "#/$defs/metrics"}
+      }
+    },
+    "condition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "label",
+        "pack_digest",
+        "execution_mode",
+        "result_root",
+        "result_sha256",
+        "planned_trials",
+        "scored_trials",
+        "unscored_trials",
+        "scored_with_exception_trials",
+        "exception_counts",
+        "metric_counts",
+        "macro_means",
+        "protocol_results"
+      ],
+      "properties": {
+        "label": {"$ref": "#/$defs/label"},
+        "pack_digest": {"$ref": "#/$defs/sha256"},
+        "execution_mode": {"const": "new_harbor_run"},
+        "result_root": {"type": "string", "minLength": 1},
+        "result_sha256": {"$ref": "#/$defs/sha256"},
+        "planned_trials": {"const": 10},
+        "scored_trials": {"type": "integer", "minimum": 0, "maximum": 10},
+        "unscored_trials": {"type": "integer", "minimum": 0, "maximum": 10},
+        "scored_with_exception_trials": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 10
+        },
+        "exception_counts": {
+          "type": "object",
+          "additionalProperties": {"type": "integer", "minimum": 1}
+        },
+        "metric_counts": {"$ref": "#/$defs/metric_counts"},
+        "macro_means": {"$ref": "#/$defs/metrics"},
+        "protocol_results": {
+          "type": "array",
+          "minItems": 10,
+          "maxItems": 10,
+          "items": {"$ref": "#/$defs/protocol_result"}
+        }
+      }
+    },
+    "bootstrap_interval": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "method",
+        "confidence_level",
+        "resamples",
+        "seed_sha256",
+        "lower",
+        "upper"
+      ],
+      "properties": {
+        "method": {"const": "paired_protocol_resampling_with_replacement"},
+        "confidence_level": {"const": 0.95},
+        "resamples": {"const": 10000},
+        "seed_sha256": {"$ref": "#/$defs/sha256"},
+        "lower": {"$ref": "#/$defs/nullable_change"},
+        "upper": {"$ref": "#/$defs/nullable_change"}
+      }
+    },
+    "paired_change": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "label",
+        "baseline_label",
+        "metric",
+        "paired_protocol_count",
+        "mean_change",
+        "per_protocol_changes"
+      ],
+      "properties": {
+        "label": {"$ref": "#/$defs/learned_label"},
+        "baseline_label": {"const": "C0"},
+        "metric": {
+          "type": "string",
+          "enum": [
+            "reward",
+            "t2_exact_required_family_recall",
+            "t2_required_family_f1",
+            "t3_molecular_transition_f1",
+            "t3_state_f1",
+            "t3_typed_edge_f1"
+          ]
+        },
+        "paired_protocol_count": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 10
+        },
+        "mean_change": {"$ref": "#/$defs/nullable_change"},
+        "per_protocol_changes": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "number",
+            "minimum": -1,
+            "maximum": 1
+          }
+        },
+        "bootstrap_interval": {"$ref": "#/$defs/bootstrap_interval"}
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "metric": {
+                "enum": [
+                  "t3_molecular_transition_f1",
+                  "t3_state_f1",
+                  "t3_typed_edge_f1"
+                ]
+              }
+            },
+            "required": ["metric"]
+          },
+          "then": {"required": ["bootstrap_interval"]},
+          "else": {"not": {"required": ["bootstrap_interval"]}}
+        }
+      ]
+    }
+  }
+}

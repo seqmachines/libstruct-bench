@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/improvement/kb_evaluation_aggregate.schema.json",
+  "title": "Checkpoint evaluation aggregate",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "design_digest", "checkpoint", "panel", "benchmark_version", "protocol_count", "valid_count", "invalid_or_missing_count", "mean_metrics", "trials", "created_at", "aggregate_digest"],
+  "properties": {
+    "schema_version": {"const": "libstruct.libgen_kb_evaluation_aggregate.v1"},
+    "design_digest": {"$ref": "#/$defs/sha256"},
+    "checkpoint": {"type": "string", "pattern": "^C[1-9][0-9]*$"},
+    "composite_endpoint": {"$ref": "#/$defs/composite_endpoint_ref"},
+    "panel": {"enum": ["validation", "test"]},
+    "benchmark_version": {"type": "string", "minLength": 1},
+    "protocol_count": {"type": "integer", "minimum": 1},
+    "valid_count": {"type": "integer", "minimum": 0},
+    "invalid_or_missing_count": {"type": "integer", "minimum": 0},
+    "mean_metrics": {"type": "object", "additionalProperties": {"type": "number"}},
+    "trials": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["protocol_id", "status", "trial_root", "metrics"],
+        "properties": {
+          "protocol_id": {"type": "string"},
+          "status": {"enum": ["valid", "invalid", "missing"]},
+          "trial_root": {"type": ["string", "null"]},
+          "metrics": {"type": "object", "additionalProperties": {"type": "number"}}
+        }
+      }
+    },
+    "created_at": {"type": "string", "format": "date-time"},
+    "aggregate_digest": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "composite_endpoint_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["endpoint_id", "path", "sha256", "digest", "pact_checkpoint", "knowledge_checkpoint"],
+      "properties": {
+        "endpoint_id": {"type": "string", "pattern": "^pact-C[1-9][0-9]*__kb-C[1-9][0-9]*$"},
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "digest": {"$ref": "#/$defs/sha256"},
+        "pact_checkpoint": {"type": "string", "pattern": "^C[1-9][0-9]*$"},
+        "knowledge_checkpoint": {"type": "string", "pattern": "^C[1-9][0-9]*$"}
+      }
+    }
+  }
+}

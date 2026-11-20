@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/improvement/exemplar_memory_adoption.schema.json",
+  "title": "Immutable adoption of exemplar memory into the cumulative experiment",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "adoption_id",
+    "adopted_at",
+    "mode",
+    "reason",
+    "prior_experiment_digest",
+    "prior_experiment_manifest_sha256",
+    "archive_root",
+    "archived_artifacts",
+    "policy_digest",
+    "identity_map_digest",
+    "identity_map_sha256",
+    "identity_map_public_commitment_sha256",
+    "c0_memory_digest",
+    "c0_exemplar_count",
+    "prior_c0_pack_digest",
+    "new_c0_pack_digest",
+    "procedural_pack_unchanged",
+    "training_batch_processed",
+    "harbor_run_started",
+    "history_eligibility",
+    "adoption_digest"
+  ],
+  "properties": {
+    "schema_version": {"const": "libstruct.libgen_exemplar_memory_adoption.v1"},
+    "adoption_id": {"$ref": "#/$defs/id"},
+    "adopted_at": {"type": "string", "format": "date-time"},
+    "mode": {
+      "type": "string",
+      "enum": ["initialized_during_single_branch_migration", "adopted_into_clean_c0"]
+    },
+    "reason": {"const": "add_separate_cumulative_prediction_shaped_exemplar_memory"},
+    "prior_experiment_digest": {"$ref": "#/$defs/sha256"},
+    "prior_experiment_manifest_sha256": {"$ref": "#/$defs/sha256"},
+    "archive_root": {"type": "string", "minLength": 1},
+    "archived_artifacts": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/artifact"}
+    },
+    "policy_digest": {"$ref": "#/$defs/sha256"},
+    "identity_map_digest": {"$ref": "#/$defs/sha256"},
+    "identity_map_sha256": {"$ref": "#/$defs/sha256"},
+    "identity_map_public_commitment_sha256": {"$ref": "#/$defs/sha256"},
+    "c0_memory_digest": {"$ref": "#/$defs/sha256"},
+    "c0_exemplar_count": {"const": 0},
+    "prior_c0_pack_digest": {"$ref": "#/$defs/sha256"},
+    "new_c0_pack_digest": {"$ref": "#/$defs/sha256"},
+    "procedural_pack_unchanged": {"const": true},
+    "training_batch_processed": {"const": false},
+    "harbor_run_started": {"const": false},
+    "history_eligibility": {"const": "immutable_superseded_manifest_history_only"},
+    "adoption_digest": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 240,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+    },
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  }
+}

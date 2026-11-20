@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/improvement/capability_control_index.schema.json",
+  "title": "Model-neutral LibGen capability control index",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "work_record_schema",
+    "compiler",
+    "audit",
+    "synthetic_suite",
+    "output_contract",
+    "controls"
+  ],
+  "properties": {
+    "schema_version": {"const": "libstruct.libgen_capability_control_index.v1"},
+    "work_record_schema": {"$ref": "#/$defs/path"},
+    "compiler": {"$ref": "#/$defs/command"},
+    "audit": {"$ref": "#/$defs/command"},
+    "synthetic_suite": {"$ref": "#/$defs/path"},
+    "output_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["format", "success_exit", "findings_exit", "input_error_exit"],
+      "properties": {
+        "format": {"const": "json"},
+        "success_exit": {"const": 0},
+        "findings_exit": {"const": 1},
+        "input_error_exit": {"const": 2}
+      }
+    },
+    "controls": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/control"}
+    }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+    },
+    "path": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[^\\u0000]+$"
+    },
+    "command": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "argv_template"],
+      "properties": {
+        "path": {"$ref": "#/$defs/path"},
+        "argv_template": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "control": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "control_id",
+        "implementation",
+        "finding_codes",
+        "required_polarities"
+      ],
+      "properties": {
+        "control_id": {"$ref": "#/$defs/id"},
+        "implementation": {"$ref": "#/$defs/path"},
+        "finding_codes": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/id"}
+        },
+        "required_polarities": {
+          "type": "array",
+          "const": ["positive", "negative"]
+        }
+      }
+    }
+  }
+}

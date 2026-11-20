@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/improvement/kb_training_loop_receipt.schema.json",
+  "title": "Durable agent-guided KB training-loop receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "design_digest",
+    "experiment_root",
+    "base_config",
+    "status",
+    "pid",
+    "max_protocols",
+    "initial_training_count",
+    "result",
+    "error",
+    "started_at",
+    "finished_at",
+    "log_path",
+    "receipt_digest"
+  ],
+  "properties": {
+    "schema_version": {"const": "libstruct.libgen_kb_training_loop_receipt.v1"},
+    "design_digest": {"$ref": "#/$defs/sha256"},
+    "experiment_root": {"type": "string", "minLength": 1},
+    "base_config": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "status": {"enum": ["running", "succeeded", "failed"]},
+    "pid": {"type": "integer", "minimum": 1},
+    "max_protocols": {"type": "integer", "minimum": 1, "maximum": 58},
+    "initial_training_count": {"type": "integer", "minimum": 0, "maximum": 58},
+    "result": {
+      "oneOf": [
+        {"type": "null"},
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["completed_this_invocation", "training_count", "last_state"],
+          "properties": {
+            "completed_this_invocation": {"type": "integer", "minimum": 0, "maximum": 58},
+            "training_count": {"type": "integer", "minimum": 0, "maximum": 58},
+            "last_state": {"type": "string", "pattern": "^S[0-9]{3}$"}
+          }
+        }
+      ]
+    },
+    "error": {"type": ["string", "null"]},
+    "started_at": {"type": "string", "format": "date-time"},
+    "finished_at": {"type": ["string", "null"], "format": "date-time"},
+    "log_path": {"type": "string", "minLength": 1},
+    "receipt_digest": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+  }
+}

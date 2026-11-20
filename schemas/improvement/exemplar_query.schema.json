@@ -1,0 +1,231 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/improvement/exemplar_query.schema.json",
+  "title": "Target-source-derived exemplar retrieval query",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "modalities",
+    "operations",
+    "barcoding_partitioning",
+    "architectures",
+    "selection_branching",
+    "chemistries",
+    "feature_evidence"
+  ],
+  "properties": {
+    "schema_version": {"const": "libstruct.libgen_exemplar_query.v1"},
+    "modalities": {"$ref": "#/$defs/modalities"},
+    "operations": {"$ref": "#/$defs/operations"},
+    "barcoding_partitioning": {"$ref": "#/$defs/barcoding_partitioning"},
+    "architectures": {"$ref": "#/$defs/architectures"},
+    "selection_branching": {"$ref": "#/$defs/selection_branching"},
+    "chemistries": {"$ref": "#/$defs/chemistries"},
+    "feature_evidence": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/feature_evidence"}
+    }
+  },
+  "anyOf": [
+    {"properties": {"modalities": {"minItems": 1}}},
+    {"properties": {"operations": {"minItems": 1}}},
+    {"properties": {"barcoding_partitioning": {"minItems": 1}}},
+    {"properties": {"architectures": {"minItems": 1}}},
+    {"properties": {"selection_branching": {"minItems": 1}}},
+    {"properties": {"chemistries": {"minItems": 1}}}
+  ],
+  "$defs": {
+    "modalities": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "gene expression",
+          "genomic DNA",
+          "feature barcode",
+          "sgRNA",
+          "chromatin accessibility"
+        ]
+      }
+    },
+    "operations": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "reverse_transcription",
+          "ligation",
+          "tagmentation",
+          "extension",
+          "pcr",
+          "amplification",
+          "fragmentation",
+          "denaturation",
+          "strand_synthesis",
+          "cleanup",
+          "size_selection",
+          "affinity_selection",
+          "sample_split",
+          "pooling",
+          "indexing",
+          "circularization",
+          "capture",
+          "other"
+        ]
+      }
+    },
+    "barcoding_partitioning": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "cell_barcode",
+          "molecular_barcode",
+          "sample_index",
+          "round_barcode",
+          "droplet_partitioning",
+          "microwell_partitioning",
+          "plate_partitioning",
+          "bead_partitioning",
+          "split_pool_partitioning",
+          "combinatorial_indexing"
+        ]
+      }
+    },
+    "architectures": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "single_stranded",
+          "double_stranded",
+          "partially_duplex",
+          "rna_dna_hybrid",
+          "y_shaped_duplex",
+          "mixed_population",
+          "unknown"
+        ]
+      }
+    },
+    "selection_branching": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "affinity_selection",
+          "size_selection",
+          "capture",
+          "sample_split",
+          "modality_branching",
+          "alternative_branching",
+          "discard_branching"
+        ]
+      }
+    },
+    "chemistries": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "reverse_transcription",
+          "template_switching",
+          "ligation",
+          "tagmentation",
+          "pcr",
+          "restriction",
+          "conversion"
+        ]
+      }
+    },
+    "evidence_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["record_kind", "record_id"],
+      "properties": {
+        "record_kind": {"enum": ["claim", "inventory"]},
+        "record_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 240,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+        }
+      }
+    },
+    "feature_evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["feature_group", "feature_value", "evidence_refs"],
+      "properties": {
+        "feature_group": {
+          "enum": [
+            "modalities",
+            "operations",
+            "barcoding_partitioning",
+            "architectures",
+            "selection_branching",
+            "chemistries"
+          ]
+        },
+        "feature_value": {
+          "enum": [
+            "gene expression",
+            "genomic DNA",
+            "feature barcode",
+            "sgRNA",
+            "chromatin accessibility",
+            "reverse_transcription",
+            "ligation",
+            "tagmentation",
+            "extension",
+            "pcr",
+            "amplification",
+            "fragmentation",
+            "denaturation",
+            "strand_synthesis",
+            "cleanup",
+            "size_selection",
+            "affinity_selection",
+            "sample_split",
+            "pooling",
+            "indexing",
+            "circularization",
+            "capture",
+            "other",
+            "cell_barcode",
+            "molecular_barcode",
+            "sample_index",
+            "round_barcode",
+            "droplet_partitioning",
+            "microwell_partitioning",
+            "plate_partitioning",
+            "bead_partitioning",
+            "split_pool_partitioning",
+            "combinatorial_indexing",
+            "single_stranded",
+            "double_stranded",
+            "partially_duplex",
+            "rna_dna_hybrid",
+            "y_shaped_duplex",
+            "mixed_population",
+            "unknown",
+            "modality_branching",
+            "alternative_branching",
+            "discard_branching",
+            "template_switching",
+            "restriction",
+            "conversion"
+          ]
+        },
+        "evidence_refs": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/evidence_ref"}
+        }
+      }
+    }
+  }
+}

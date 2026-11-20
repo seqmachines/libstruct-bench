@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/oligo_extraction_prediction.v2.schema.json",
+  "title": "Audited oligo extraction prediction v2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "protocol_id", "oligos"],
+  "properties": {
+    "schema_version": {"const": "libstruct.oligo_extraction.v2"},
+    "protocol_id": {"$ref": "#/$defs/stable_id"},
+    "oligos": {"type": "array", "items": {"$ref": "#/$defs/oligo"}},
+    "notes": {"type": ["string", "null"]}
+  },
+  "$defs": {
+    "stable_id": {"type": "string", "minLength": 1, "maxLength": 240, "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"},
+    "direction": {"type": "string", "enum": ["5_to_3", "3_to_5", "unknown"]},
+    "component": {
+      "type": "object", "additionalProperties": false, "required": ["name", "role", "sequence", "direction"],
+      "properties": {"name": {"type": "string", "minLength": 1}, "role": {"type": "string", "minLength": 1}, "sequence": {"type": "string", "minLength": 1}, "direction": {"$ref": "#/$defs/direction"}, "modifications": {"type": "array", "items": {"type": "string", "minLength": 1}}}
+    },
+    "oligo": {
+      "type": "object", "additionalProperties": false, "required": ["name", "direction"],
+      "properties": {"oligo_id": {"$ref": "#/$defs/stable_id"}, "name": {"type": "string", "minLength": 1}, "sequence": {"type": ["string", "null"], "minLength": 1}, "kind": {"type": "string", "enum": ["single", "assembled", "double_stranded", "hairpin", "unknown"]}, "direction": {"$ref": "#/$defs/direction"}, "components": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/component"}}, "modifications": {"type": "array", "items": {"type": "string", "minLength": 1}}, "notes": {"type": ["string", "null"]}},
+      "anyOf": [{"required": ["sequence"], "properties": {"sequence": {"type": "string", "minLength": 1}}}, {"required": ["components"]}]
+    }
+  }
+}

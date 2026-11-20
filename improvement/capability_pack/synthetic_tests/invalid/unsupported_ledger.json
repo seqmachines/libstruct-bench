@@ -1,0 +1,12 @@
+{
+  "claims": [
+    {
+      "claim_id": "unsupported-sequence",
+      "json_pointer": "/oligos/0/sequence",
+      "source_locators": [],
+      "support": "unsupported",
+      "target": "t2"
+    }
+  ],
+  "schema_version": "libstruct.evidence_ledger.v1"
+}

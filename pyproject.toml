@@ -1,0 +1,82 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "libstruct-bench"
+version = "0.1.0"
+description = "Harbor benchmark utilities for sequencing information extraction."
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "dirhash>=0.5,<1",
+    "jsonschema>=4.20,<5",
+]
+
+[project.optional-dependencies]
+audit-docs = [
+    "openpyxl>=3.1,<4",
+    "pymupdf>=1.24,<2",
+]
+archive = ["botocore>=1.43,<2", "pymongo>=4.9,<5", "tomli>=2; python_version < '3.11'"]
+archive-test = ["moto[s3]>=5,<6", "mongomock>=4,<5"]
+test = [
+    "pytest>=8,<10",
+]
+
+[project.scripts]
+libstruct-archive = "libstruct_bench.archive.cli:main"
+libstruct-grade = "libstruct_bench.cli.grade:main"
+libstruct-grade-oligos = "libstruct_bench.cli.grade_oligos:main"
+libstruct-generate-harbor-tasks = "libstruct_bench.cli.generate_harbor_tasks:main"
+libstruct-grade-library-v0 = "libstruct_bench.cli.grade_library_v0:main"
+libstruct-grade-library = "libstruct_bench.cli.grade_library:main"
+libstruct-generate-library-v0-tasks = "libstruct_bench.cli.generate_library_v0_tasks:main"
+libstruct-run-openrouter-library-v0 = "libstruct_bench.cli.run_openrouter_library_v0:main"
+libstruct-build-audit-source-catalog = "libstruct_bench.cli.build_audit_source_catalog:main"
+libstruct-build-audit-manifests = "libstruct_bench.cli.build_audit_manifests:main"
+libstruct-build-audit-renditions = "libstruct_bench.cli.build_audit_renditions:main"
+libstruct-prepare-audit-phase-packet = "libstruct_bench.cli.prepare_audit_phase_packet:main"
+libstruct-run-claude-audit = "libstruct_bench.cli.run_claude_audit:main"
+libstruct-revalidate-claude-audit = "libstruct_bench.cli.revalidate_claude_audit:main"
+libstruct-render-audit-review = "libstruct_bench.cli.render_audit_review:main"
+libstruct-validate-audit-review = "libstruct_bench.cli.validate_audit_review:main"
+libstruct-apply-audit-decision = "libstruct_bench.cli.apply_audit_decision:main"
+libstruct-promote-audit-groundtruth = "libstruct_bench.cli.promote_audit_groundtruth:main"
+libstruct-run-audit-regressions = "libstruct_bench.cli.run_audit_regressions:main"
+libstruct-report-audit-checkpoint = "libstruct_bench.cli.report_audit_checkpoint:main"
+libstruct-build-audit-release = "libstruct_bench.cli.build_audit_release:main"
+libstruct-build-audited-oligos = "libstruct_bench.cli.build_audited_oligos:main"
+libstruct-grade-libgen = "libstruct_bench.cli.grade_libgen:main"
+libstruct-validate-libgen-predictions = "libstruct_bench.cli.validate_libgen_predictions:main"
+libstruct-smoke-libgen-docker-network = "libstruct_bench.cli.smoke_libgen_docker_network:main"
+libstruct-generate-libgen-tasks = "libstruct_bench.cli.generate_libgen_tasks:main"
+libstruct-check-libgen-staging = "libstruct_bench.cli.check_libgen_staging:main"
+libstruct-prepare-libgen-hf-export = "libstruct_bench.cli.prepare_libgen_hf_export:main"
+libstruct-plan-libgen-matrix = "libstruct_bench.cli.plan_libgen_matrix:main"
+libstruct-summarize-libgen-runs = "libstruct_bench.cli.summarize_libgen_runs:main"
+libstruct-resume-libgen-job = "libstruct_bench.cli.resume_libgen_job:main"
+libstruct-prepare-libgen-error-review = "libstruct_bench.cli.prepare_libgen_error_review:main"
+libstruct-validate-libgen-error-review = "libstruct_bench.cli.validate_libgen_error_review:main"
+libstruct-build-libgen-external-knowledge-assets = "libstruct_bench.cli.build_libgen_external_knowledge_assets:main"
+libstruct-build-libgen-external-knowledge-review-candidate = "libstruct_bench.cli.build_libgen_external_knowledge_review_candidate:main"
+libstruct-approve-libgen-external-knowledge = "libstruct_bench.cli.approve_libgen_external_knowledge:main"
+libstruct-prepare-libgen-external-knowledge-harbor = "libstruct_bench.cli.prepare_libgen_external_knowledge_harbor:main"
+libstruct-plan-libgen-external-knowledge-harbor = "libstruct_bench.cli.plan_libgen_external_knowledge_harbor:main"
+libstruct-validate-libgen-external-knowledge-harbor = "libstruct_bench.cli.validate_libgen_external_knowledge_harbor:main"
+libstruct-compile-connected-process-preview = "libstruct_bench.cli.compile_connected_process_preview:main"
+libstruct-libgen-capability-improvement = "libstruct_bench.cli.libgen_capability_improvement:main"
+libstruct-learn-capability = "libstruct_bench.cli.libgen_capability_improvement:learn_main"
+libstruct-complete-capability = "libstruct_bench.cli.libgen_capability_improvement:complete_main"
+libstruct-record-validation = "libstruct_bench.cli.libgen_capability_improvement:record_validation_main"
+libstruct-adopt-exemplar-memory = "libstruct_bench.cli.libgen_capability_improvement:adopt_exemplar_memory_main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"libstruct_bench.archive" = ["*.schema.json"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]

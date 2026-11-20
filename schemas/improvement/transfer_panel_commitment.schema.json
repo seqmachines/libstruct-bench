@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/improvement/transfer_panel_commitment.schema.json",
+  "title": "Frozen LibGen transfer-panel commitment",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "set_id",
+    "classification",
+    "protocol_count",
+    "protocol_ids",
+    "transfer_strata",
+    "transfer_annotations",
+    "purposes",
+    "commitment_sha256",
+    "selection_timing",
+    "capability_updates_before_selection",
+    "selected_before_any_capability_update",
+    "selected_after_baseline_inspection",
+    "selection_basis",
+    "test_scores_inspected",
+    "baseline_mode",
+    "unseen_or_sealed_claim",
+    "commitment_manifest_digest"
+  ],
+  "properties": {
+    "schema_version": {"const": "libstruct.libgen_transfer_panel_commitment.v1"},
+    "set_id": {"const": "frozen-retrospective-transfer-panel-v1"},
+    "classification": {"const": "frozen_retrospective_transfer_panel"},
+    "protocol_count": {"const": 10},
+    "protocol_ids": {"type": "array", "minItems": 10, "maxItems": 10, "uniqueItems": true, "items": {"$ref": "#/$defs/id"}},
+    "transfer_strata": {
+      "type": "array",
+      "prefixItems": [
+        {"$ref": "#/$defs/direct_stratum"},
+        {"$ref": "#/$defs/related_stratum"},
+        {"$ref": "#/$defs/broader_stratum"}
+      ],
+      "items": false,
+      "minItems": 3,
+      "maxItems": 3
+    },
+    "transfer_annotations": {"type": "array", "minItems": 10, "maxItems": 10, "items": {"$ref": "#/$defs/annotation"}},
+    "purposes": {"type": "array", "const": ["transfer_within_related_protocol_or_platform_families", "transfer_to_distinct_molecular_architectures"]},
+    "commitment_sha256": {"$ref": "#/$defs/sha256"},
+    "selection_timing": {"const": "preserved_from_superseded_30_10_split_before_clean_C0_restart"},
+    "capability_updates_before_selection": {"const": 2},
+    "selected_before_any_capability_update": {"const": false},
+    "selected_after_baseline_inspection": {"const": true},
+    "selection_basis": {"const": "protocol_identity_and_predeclared_transfer_structure_without_test_groundtruth_or_scores"},
+    "test_scores_inspected": {"const": false},
+    "baseline_mode": {"const": "post_lock_c0_replay"},
+    "unseen_or_sealed_claim": {"const": true},
+    "commitment_manifest_digest": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "id": {"type": "string", "minLength": 1, "maxLength": 240, "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"},
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "direct_stratum": {"type": "object", "additionalProperties": false, "required": ["name", "protocol_ids"], "properties": {"name": {"const": "direct_related_family"}, "protocol_ids": {"type": "array", "minItems": 3, "maxItems": 3, "uniqueItems": true, "items": {"$ref": "#/$defs/id"}}}},
+    "related_stratum": {"type": "object", "additionalProperties": false, "required": ["name", "protocol_ids"], "properties": {"name": {"const": "related_platform_or_mechanism"}, "protocol_ids": {"type": "array", "minItems": 2, "maxItems": 2, "uniqueItems": true, "items": {"$ref": "#/$defs/id"}}}},
+    "broader_stratum": {"type": "object", "additionalProperties": false, "required": ["name", "protocol_ids"], "properties": {"name": {"const": "broader_architectural_transfer"}, "protocol_ids": {"type": "array", "minItems": 5, "maxItems": 5, "uniqueItems": true, "items": {"$ref": "#/$defs/id"}}}},
+    "annotation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["protocol_id", "stratum", "rationale"],
+      "properties": {
+        "protocol_id": {"$ref": "#/$defs/id"},
+        "stratum": {"type": "string", "enum": ["direct_related_family", "related_platform_or_mechanism", "broader_architectural_transfer"]},
+        "rationale": {"type": "string", "minLength": 1}
+      }
+    }
+  }
+}

@@ -1,0 +1,7 @@
+system,condition,selected_executions,valid_completions,failed_completions
+codex,Bundle,20,20,0
+codex,Name,20,20,0
+claude-code,Bundle,20,20,0
+claude-code,Name,20,20,0
+antigravity-cli,Bundle,20,20,0
+antigravity-cli,Name,20,20,0

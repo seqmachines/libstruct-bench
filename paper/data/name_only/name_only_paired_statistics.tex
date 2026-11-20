@@ -1,0 +1,34 @@
+\begin{table}[htbp]
+\centering
+\small
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.1}
+\begin{tabular}{@{}llrrcrr@{}}
+\toprule
+Model & Metric & Protocols & $\Delta$ & Pointwise 95\% CI & $p$ & $p_{\mathrm{Bonf.}}$ \\
+\midrule
+\multicolumn{7}{@{}l}{\textit{Tasks~2--3: native agents, Bundle versus Name (12 comparisons)}}\\[2pt]
+GPT & Oligo & 19 & -0.111 & [-0.195, -0.029] & 0.0211 & 0.2535 \\
+ & Transition & 20 & -0.066 & [-0.139, +0.004] & 0.0934 & 1.0000 \\
+ & State & 20 & -0.061 & [-0.129, +0.010] & 0.1085 & 1.0000 \\
+ & Typed edge & 20 & -0.042 & [-0.139, +0.050] & 0.4035 & 1.0000 \\
+\addlinespace[2pt]
+Claude & Oligo & 19 & -0.085 & [-0.159, -0.009] & 0.0454 & 0.5449 \\
+ & Transition & 20 & -0.063 & [-0.134, -0.001] & 0.0824 & 0.9889 \\
+ & State & 20 & -0.080 & [-0.144, -0.025] & 0.0111 & 0.1331 \\
+ & Typed edge & 20 & -0.069 & [-0.168, +0.017] & 0.1851 & 1.0000 \\
+\addlinespace[2pt]
+Gemini & Oligo & 19 & -0.113 & [-0.229, -0.008] & 0.0605 & 0.7261 \\
+ & Transition & 20 & -0.129 & [-0.218, -0.040] & 0.0118 & 0.1420 \\
+ & State & 20 & -0.119 & [-0.195, -0.041] & 0.0094 & 0.1123 \\
+ & Typed edge & 20 & -0.105 & [-0.233, +0.032] & 0.1478 & 1.0000 \\
+\midrule
+\multicolumn{7}{@{}l}{\textit{Task~1: separate API executions, PDF versus Name (3 comparisons)}}\\[2pt]
+GPT & Similarity & 20 & +0.187 & [+0.048, +0.323] & 0.0189 & 0.0566 \\
+Claude & Similarity & 20 & +0.223 & [+0.086, +0.363] & 0.0072 & 0.0215 \\
+Gemini & Similarity & 20 & +0.186 & [+0.024, +0.352] & 0.0443 & 0.1329 \\
+\bottomrule
+\end{tabular}
+\caption{\textbf{Paired document-supplied versus name-only comparisons.} $\Delta$ is Name minus Bundle/PDF, averaged across protocols. Each condition contributes one selected execution per protocol; the native Bundle executions are those used in Figure~3a. Intervals are pointwise percentile intervals from 100,000 paired protocol-bootstrap resamples. Two-sided mean-difference tests enumerate all $2^n$ sign assignments, where $n$ is the number of protocol pairs. Bonferroni correction is applied separately to 12 native-agent comparisons and three API comparisons. Pointwise intervals are not multiplicity-adjusted. ddSEQ is excluded only from oligo F1; Claude SHARE-seq uses its successful retry. Exact-reconstruction counts are descriptive and are not tested.}
+\label{tab:name-only-paired-statistics}
+\end{table}

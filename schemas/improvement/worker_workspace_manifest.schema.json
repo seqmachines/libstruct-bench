@@ -1,0 +1,127 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/improvement/worker_workspace_manifest.schema.json",
+  "title": "Isolated capability worker/reviewer workspace",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "mode", "experiment_digest", "packet_digest",
+    "access_policy_digest", "staged_protocol_ids", "staged_files",
+    "exemplar_memory", "review_materials_staged", "validation_feedback", "agent_contract", "host_paths_exposed",
+    "network_policy", "workspace_digest"
+  ],
+  "properties": {
+    "schema_version": {"const": "libstruct.libgen_worker_workspace.v1"},
+    "mode": {
+      "enum": [
+        "improvement_worker", "revision_worker", "independent_critic",
+        "human_review_console", "agent_protocol_proposer",
+        "agent_protocol_compile_repair", "agent_protocol_revision",
+        "agent_protocol_critic"
+      ]
+    },
+    "experiment_digest": {"$ref": "#/$defs/sha256"},
+    "packet_digest": {"$ref": "#/$defs/sha256"},
+    "access_policy_digest": {"$ref": "#/$defs/sha256"},
+    "staged_protocol_ids": {
+      "type": "array", "minItems": 1, "maxItems": 5,
+      "uniqueItems": true, "items": {"$ref": "#/$defs/id"}
+    },
+    "staged_files": {
+      "type": "array",
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["path", "sha256", "role"],
+        "properties": {
+          "path": {"type": "string", "minLength": 1},
+          "sha256": {"$ref": "#/$defs/sha256"},
+          "role": {"type": "string"}
+        }
+      }
+    },
+    "exemplar_memory": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path", "manifest_path", "catalog_path", "exemplar_count",
+        "memory_digest", "memory_manifest_sha256", "catalog_digest",
+        "catalog_sha256", "identity_map_commitment", "source_checkpoint",
+        "private_identity_map_staged"
+      ],
+      "properties": {
+        "path": {"const": "inputs/exemplar_memory"},
+        "manifest_path": {"const": "inputs/exemplar_memory/manifest.json"},
+        "catalog_path": {"const": "inputs/exemplar_memory/catalog.json"},
+        "exemplar_count": {
+          "type": "integer", "enum": [0, 5, 10, 15, 20, 25]
+        },
+        "memory_digest": {"$ref": "#/$defs/sha256"},
+        "memory_manifest_sha256": {"$ref": "#/$defs/sha256"},
+        "catalog_digest": {"$ref": "#/$defs/sha256"},
+        "catalog_sha256": {"$ref": "#/$defs/sha256"},
+        "identity_map_commitment": {"$ref": "#/$defs/sha256"},
+        "source_checkpoint": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "checkpoint_id", "checkpoint_digest", "checkpoint_sha256",
+            "runtime_digest", "runtime_sha256"
+          ],
+          "properties": {
+            "checkpoint_id": {
+              "type": "string",
+              "enum": ["C0", "C5", "C10", "C15", "C20", "C25"]
+            },
+            "checkpoint_digest": {"$ref": "#/$defs/sha256"},
+            "checkpoint_sha256": {"$ref": "#/$defs/sha256"},
+            "runtime_digest": {"$ref": "#/$defs/sha256"},
+            "runtime_sha256": {"$ref": "#/$defs/sha256"}
+          }
+        },
+        "private_identity_map_staged": {"const": false}
+      }
+    },
+    "review_materials_staged": {"type": "boolean"},
+    "validation_feedback": {
+      "oneOf": [
+        {"type": "null"},
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["checkpoint_label", "aggregate_digest", "aggregate_sha256", "projection_sha256"],
+          "properties": {
+            "checkpoint_label": {
+              "type": "string",
+              "enum": ["C0", "C5", "C10", "C15", "C20", "C25"]
+            },
+            "aggregate_digest": {"$ref": "#/$defs/sha256"},
+            "aggregate_sha256": {"$ref": "#/$defs/sha256"},
+            "projection_sha256": {"$ref": "#/$defs/sha256"}
+          }
+        }
+      ]
+    },
+    "agent_contract": {
+      "type": "object", "additionalProperties": false,
+      "required": [
+        "prompt_path", "output_schema_path", "draft_output_path", "event_log_path"
+      ],
+      "properties": {
+        "prompt_path": {"type": ["string", "null"]},
+        "output_schema_path": {"type": ["string", "null"]},
+        "draft_output_path": {"type": ["string", "null"]},
+        "event_log_path": {"type": ["string", "null"]}
+      }
+    },
+    "host_paths_exposed": {"const": false},
+    "network_policy": {"const": "provider_api_only_no_web"},
+    "workspace_digest": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "id": {
+      "type": "string", "minLength": 1, "maxLength": 240,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+    },
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+  }
+}

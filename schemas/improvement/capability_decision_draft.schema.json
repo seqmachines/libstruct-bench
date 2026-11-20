@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/improvement/capability_decision_draft.schema.json",
+  "title": "Agent-authored independent capability review draft",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "change_decisions"],
+  "properties": {
+    "schema_version": {"const": "libstruct.libgen_capability_decision_draft.v1"},
+    "change_decisions": {"type": "array", "maxItems": 2, "items": {"$ref": "#/$defs/change_decision"}}
+  },
+  "$defs": {
+    "id": {"type": "string", "minLength": 1, "maxLength": 240, "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"},
+    "change_decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["change_id", "disposition", "rationale", "atomicity_verified"],
+      "properties": {
+        "change_id": {"$ref": "#/$defs/id"},
+        "disposition": {"type": "string", "enum": ["accept", "reject", "modify", "unresolved"]},
+        "rationale": {"type": "string", "minLength": 1},
+        "atomicity_verified": {"const": true},
+        "revision_instruction": {"type": ["string", "null"], "minLength": 1}
+      }
+    }
+  }
+}

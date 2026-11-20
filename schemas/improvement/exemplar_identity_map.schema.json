@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/improvement/exemplar_identity_map.schema.json",
+  "title": "Private pseudonymous exemplar identity map",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "lineage_id",
+    "split_digest",
+    "mapping_nonce",
+    "protocol_count",
+    "entries",
+    "identity_map_digest"
+  ],
+  "properties": {
+    "schema_version": {"const": "libstruct.libgen_exemplar_identity_map.v1"},
+    "lineage_id": {"const": "cumulative-C0-C25-v1"},
+    "split_digest": {"$ref": "#/$defs/sha256"},
+    "mapping_nonce": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "protocol_count": {"const": 25},
+    "entries": {
+      "type": "array",
+      "minItems": 25,
+      "maxItems": 25,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["protocol_id", "exemplar_id"],
+        "properties": {
+          "protocol_id": {"$ref": "#/$defs/id"},
+          "exemplar_id": {"type": "string", "pattern": "^exm-[a-f0-9]{32}$"}
+        }
+      }
+    },
+    "identity_map_digest": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "id": {"type": "string", "minLength": 1, "maxLength": 240, "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"}
+  }
+}

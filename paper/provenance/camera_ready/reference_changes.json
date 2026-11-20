@@ -1,0 +1,135 @@
+[
+  {
+    "changed_json_paths": [
+      "/libraries/0/library_sequence",
+      "/libraries/0/segments"
+    ],
+    "decisions": [
+      "10xfb-vn-human-amendment-2026-10-10:human-decision"
+    ],
+    "protocol_id": "10x_chromium_3_feature_barcoding",
+    "task": "T1"
+  },
+  {
+    "changed_json_paths": [
+      "/oligos/0/components",
+      "/oligos/0/sequence"
+    ],
+    "decisions": [
+      "10xfb-vn-human-amendment-2026-10-10:human-decision"
+    ],
+    "protocol_id": "10x_chromium_3_feature_barcoding",
+    "task": "T2"
+  },
+  {
+    "changed_json_paths": [
+      "/workflows/0/states/0/paired_regions/0/side_1/segment_ids",
+      "/workflows/0/states/0/paired_regions/0/side_2/segment_ids",
+      "/workflows/0/states/0/strands/0/segments",
+      "/workflows/0/states/0/strands/1/segments",
+      "/workflows/0/states/1/paired_regions/0/side_1/segment_ids",
+      "/workflows/0/states/1/paired_regions/0/side_2/segment_ids",
+      "/workflows/0/states/1/strands/0/segments",
+      "/workflows/0/states/1/strands/1/segments",
+      "/workflows/0/states/2/strands/0/segments",
+      "/workflows/0/states/3/paired_regions/0/side_1/segment_ids",
+      "/workflows/0/states/3/paired_regions/0/side_2/segment_ids",
+      "/workflows/0/states/3/strands/0/segments",
+      "/workflows/0/states/3/strands/1/segments",
+      "/workflows/0/states/4/paired_regions/0/side_1/segment_ids",
+      "/workflows/0/states/4/paired_regions/0/side_2/segment_ids",
+      "/workflows/0/states/4/strands/0/segments",
+      "/workflows/0/states/4/strands/1/segments",
+      "/workflows/0/states/5/paired_regions/0/side_1/segment_ids",
+      "/workflows/0/states/5/paired_regions/0/side_2/segment_ids",
+      "/workflows/0/states/5/strands/0/segments",
+      "/workflows/0/states/5/strands/1/segments",
+      "/workflows/0/states/6/paired_regions/0/side_1/segment_ids",
+      "/workflows/0/states/6/paired_regions/0/side_2/segment_ids",
+      "/workflows/0/states/6/strands/0/segments",
+      "/workflows/0/states/6/strands/0/sequence_architecture",
+      "/workflows/0/states/6/strands/1/segments",
+      "/workflows/0/states/11/paired_regions/0/side_1/segment_ids",
+      "/workflows/0/states/11/paired_regions/0/side_2/segment_ids",
+      "/workflows/0/states/11/strands/0/segments",
+      "/workflows/0/states/11/strands/1/segments"
+    ],
+    "decisions": [
+      "10xfb-vn-human-amendment-2026-10-10:human-decision"
+    ],
+    "protocol_id": "10x_chromium_3_feature_barcoding",
+    "task": "T3"
+  },
+  {
+    "changed_json_paths": [
+      "/libraries/0/library_sequence",
+      "/libraries/0/segments/2/notes",
+      "/libraries/0/segments/2/placeholder",
+      "/libraries/0/segments/2/role",
+      "/libraries/0/segments/3/sequence",
+      "/libraries/0/segments/6/length"
+    ],
+    "decisions": [
+      "indrop-v1-w1-human-correction-2026-10-10",
+      "indrop-v1-range-length-human-correction-2026-10-10"
+    ],
+    "protocol_id": "indrop_v1",
+    "task": "T1"
+  },
+  {
+    "changed_json_paths": [
+      "/oligos/3/components/0/sequence",
+      "/oligos/3/components/1/placeholder",
+      "/oligos/3/components/1/role",
+      "/oligos/3/sequence",
+      "/oligos/4/components/3/sequence",
+      "/oligos/4/sequence",
+      "/oligos/5/components/5/placeholder",
+      "/oligos/5/components/5/role",
+      "/oligos/5/components/6/sequence",
+      "/oligos/5/sequence",
+      "/oligos/8/components/0/sequence",
+      "/oligos/8/sequence",
+      "/oligos/17/sequence"
+    ],
+    "decisions": [
+      "indrop-v1-w1-human-correction-2026-10-10",
+      "indrop-v1-range-length-human-correction-2026-10-10"
+    ],
+    "protocol_id": "indrop_v1",
+    "task": "T2"
+  },
+  {
+    "changed_json_paths": [
+      "/workflows/0/states/1/strands/0/segments/5/placeholder",
+      "/workflows/0/states/1/strands/0/segments/5/role",
+      "/workflows/0/states/1/strands/0/segments/6/sequence",
+      "/workflows/0/states/2/strands/0/segments/5/placeholder",
+      "/workflows/0/states/2/strands/0/segments/5/role",
+      "/workflows/0/states/2/strands/0/segments/6/sequence",
+      "/workflows/0/states/2/strands/1/segments/5/sequence",
+      "/workflows/0/states/2/strands/1/segments/6/placeholder",
+      "/workflows/0/states/2/strands/1/segments/6/role",
+      "/workflows/0/states/3/strands/0/segments/4/placeholder",
+      "/workflows/0/states/3/strands/0/segments/4/role",
+      "/workflows/0/states/4/strands/0/segments/4/placeholder",
+      "/workflows/0/states/4/strands/0/segments/4/role",
+      "/workflows/0/states/5/strands/0/segments/7/sequence",
+      "/workflows/0/states/5/strands/0/segments/8/placeholder",
+      "/workflows/0/states/5/strands/0/segments/8/role",
+      "/workflows/0/states/6/strands/0/segments/2/placeholder",
+      "/workflows/0/states/6/strands/0/segments/2/role",
+      "/workflows/0/states/6/strands/0/segments/3/sequence",
+      "/workflows/0/states/6/strands/0/sequence_architecture",
+      "/workflows/0/states/6/strands/1/segments/8/sequence",
+      "/workflows/0/states/6/strands/1/segments/9/placeholder",
+      "/workflows/0/states/6/strands/1/segments/9/role"
+    ],
+    "decisions": [
+      "indrop-v1-w1-human-correction-2026-10-10",
+      "indrop-v1-range-length-human-correction-2026-10-10"
+    ],
+    "protocol_id": "indrop_v1",
+    "task": "T3"
+  }
+]

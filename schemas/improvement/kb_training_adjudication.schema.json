@@ -1,0 +1,117 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/improvement/kb_training_adjudication.schema.json",
+  "title": "Hash-pinned autonomous adjudication for one online training protocol",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "design_digest",
+    "protocol_id",
+    "training_ordinal",
+    "reviewer",
+    "provenance",
+    "artifacts",
+    "findings",
+    "summary",
+    "pact_decision",
+    "completed_at",
+    "decision_digest"
+  ],
+  "properties": {
+    "schema_version": {"const": "libstruct.libgen_kb_training_adjudication.v1"},
+    "design_digest": {"$ref": "#/$defs/sha256"},
+    "protocol_id": {"$ref": "#/$defs/protocol_id"},
+    "training_ordinal": {"type": "integer", "minimum": 1, "maximum": 999},
+    "reviewer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "model", "version", "reasoning_effort"],
+      "properties": {
+        "name": {"const": "codex"},
+        "model": {"const": "gpt-5.6-sol"},
+        "version": {"type": "string", "minLength": 1},
+        "reasoning_effort": {"const": "max"}
+      }
+    },
+    "provenance": {"const": "codex_adjudicated_user_delegated"},
+    "artifacts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["result", "t2_prediction", "t3_prediction", "trajectory", "verifier_details", "error_analysis", "comparison", "adjudicator_output", "adjudicator_transcript", "critic_output", "critic_transcript", "candidate_pact_synthetic_report"],
+      "properties": {
+        "result": {"$ref": "#/$defs/artifact"},
+        "t2_prediction": {"$ref": "#/$defs/artifact"},
+        "t3_prediction": {"$ref": "#/$defs/artifact"},
+        "trajectory": {"$ref": "#/$defs/artifact"},
+        "verifier_details": {"$ref": "#/$defs/artifact"},
+        "error_analysis": {"$ref": "#/$defs/artifact"},
+        "comparison": {"$ref": "#/$defs/artifact"},
+        "adjudicator_output": {"$ref": "#/$defs/artifact"},
+        "adjudicator_transcript": {"$ref": "#/$defs/artifact"},
+        "critic_output": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/artifact"}]},
+        "critic_transcript": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/artifact"}]},
+        "candidate_pact_synthetic_report": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/artifact"}]}
+      }
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["finding_id", "observation_ids", "summary", "benchmark_validity", "attribution", "source_recoverability", "consolidated_root_event", "process_cause", "evidence_locators", "trajectory_locators", "learning_eligible", "recommended_action"],
+        "properties": {
+          "finding_id": {"type": "string", "pattern": "^F[0-9]{3}$"},
+          "observation_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "^err_[0-9]{4,}$"}},
+          "summary": {"type": "string", "minLength": 1},
+          "benchmark_validity": {"enum": ["valid", "invalid", "uncertain"]},
+          "attribution": {"enum": ["agent", "evaluator", "ground_truth", "policy", "ambiguous"]},
+          "source_recoverability": {"enum": ["recoverable", "not_recoverable", "uncertain"]},
+          "consolidated_root_event": {"type": "boolean"},
+          "process_cause": {"enum": ["evidence_not_retrieved", "extraction_failure", "evidence_misinterpreted", "molecular_reasoning", "graph_abstraction", "output_bookkeeping", "benchmark_or_policy", "not_applicable"]},
+          "evidence_locators": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+          "trajectory_locators": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+          "learning_eligible": {"type": "boolean"},
+          "recommended_action": {"enum": ["none", "knowledge_card_only", "prompt_rule", "deterministic_checker", "prompt_and_checker"]}
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["raw_findings", "eligible_root_events", "excluded_findings", "unresolved_findings"],
+      "properties": {
+        "raw_findings": {"type": "integer", "minimum": 0},
+        "eligible_root_events": {"type": "integer", "minimum": 0},
+        "excluded_findings": {"type": "integer", "minimum": 0},
+        "unresolved_findings": {"type": "integer", "minimum": 0}
+      }
+    },
+    "pact_decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["action", "rationale", "critic_required", "candidate_pact_digest"],
+      "properties": {
+        "action": {"enum": ["no_change", "accept_change", "reject_change"]},
+        "rationale": {"type": "string", "minLength": 1},
+        "critic_required": {"type": "boolean"},
+        "candidate_pact_digest": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/sha256"}]}
+      }
+    },
+    "completed_at": {"type": "string", "format": "date-time"},
+    "decision_digest": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "protocol_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9_]*$"},
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  }
+}

@@ -1,0 +1,320 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/improvement/experiment_manifest.schema.json",
+  "title": "Frozen cumulative 25/5/10 LibGen capability-improvement experiment",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "experiment_id", "created_at", "benchmark_version", "anchor", "initial_pack", "memory_model", "batches", "prospective_groundtruth", "validation_panel", "frozen_retrospective_transfer_panel", "transfer_panel_commitment", "frozen_split", "test_isolation_audit", "validation_isolation_audit", "single_branch_migration", "supersession", "policies", "experiment_digest"],
+  "properties": {
+    "schema_version": {"const": "libstruct.libgen_capability_experiment.v1"},
+    "experiment_id": {"$ref": "#/$defs/id"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "benchmark_version": {"type": "string", "minLength": 1},
+    "anchor": {"$ref": "#/$defs/anchor"},
+    "initial_pack": {"$ref": "#/$defs/cumulative_pack_ref"},
+    "memory_model": {"$ref": "#/$defs/memory_model"},
+    "batches": {"type": "array", "minItems": 5, "maxItems": 5, "items": {"$ref": "#/$defs/batch"}},
+    "prospective_groundtruth": {"$ref": "#/$defs/truth_commitment"},
+    "frozen_retrospective_transfer_panel": {"$ref": "#/$defs/transfer_panel"},
+    "transfer_panel_commitment": {"$ref": "#/$defs/commitment_ref"},
+    "frozen_split": {"$ref": "#/$defs/frozen_split_ref"},
+    "test_isolation_audit": {"$ref": "#/$defs/isolation_ref"},
+    "validation_panel": {"$ref": "#/$defs/validation_panel"},
+    "validation_isolation_audit": {"$ref": "#/$defs/validation_isolation_ref"},
+    "single_branch_migration": {"$ref": "#/$defs/migration_ref"},
+    "supersession": {"$ref": "#/$defs/ref"},
+    "policies": {"$ref": "#/$defs/policies"},
+    "experiment_digest": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "id": {"type": "string", "minLength": 1, "maxLength": 240, "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"},
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "artifact": {"type": "object", "additionalProperties": false, "required": ["path", "sha256"], "properties": {"path": {"type": "string", "minLength": 1}, "sha256": {"$ref": "#/$defs/sha256"}}},
+    "ref": {"type": "object", "additionalProperties": false, "required": ["path", "sha256", "digest"], "properties": {"path": {"type": "string", "minLength": 1}, "sha256": {"$ref": "#/$defs/sha256"}, "digest": {"$ref": "#/$defs/sha256"}}},
+    "restart_ref": {"type": "object", "additionalProperties": false, "required": ["path", "sha256", "digest"], "properties": {"path": {"const": "design/lineage_restart.json"}, "sha256": {"$ref": "#/$defs/sha256"}, "digest": {"$ref": "#/$defs/sha256"}}},
+    "frozen_split_ref": {"type": "object", "additionalProperties": false, "required": ["path", "sha256", "digest"], "properties": {"path": {"const": "design/frozen_split.json"}, "sha256": {"$ref": "#/$defs/sha256"}, "digest": {"$ref": "#/$defs/sha256"}}},
+    "isolation_ref": {"type": "object", "additionalProperties": false, "required": ["path", "sha256", "digest"], "properties": {"path": {"const": "design/test_isolation_audit.json"}, "sha256": {"$ref": "#/$defs/sha256"}, "digest": {"$ref": "#/$defs/sha256"}}},
+    "reattestation_ref": {"type": "object", "additionalProperties": false, "required": ["path", "sha256", "digest"], "properties": {"path": {"const": "design/checkpoint_reattestation.json"}, "sha256": {"$ref": "#/$defs/sha256"}, "digest": {"$ref": "#/$defs/sha256"}}},
+    "commitment_ref": {"type": "object", "additionalProperties": false, "required": ["path", "sha256", "digest"], "properties": {"path": {"const": "design/transfer_panel_commitment.json"}, "sha256": {"$ref": "#/$defs/sha256"}, "digest": {"$ref": "#/$defs/sha256"}}},
+    "validation_policy_ref": {"type": "object", "additionalProperties": false, "required": ["path", "sha256", "digest"], "properties": {"path": {"const": "design/validation_access_policy.json"}, "sha256": {"$ref": "#/$defs/sha256"}, "digest": {"$ref": "#/$defs/sha256"}}},
+    "validation_isolation_ref": {"type": "object", "additionalProperties": false, "required": ["path", "sha256", "digest"], "properties": {"path": {"const": "design/validation_isolation_audit.json"}, "sha256": {"$ref": "#/$defs/sha256"}, "digest": {"$ref": "#/$defs/sha256"}}},
+    "exemplar_policy_ref": {"type": "object", "additionalProperties": false, "required": ["path", "sha256", "digest"], "properties": {"path": {"const": "design/exemplar_projection_policy.json"}, "sha256": {"$ref": "#/$defs/sha256"}, "digest": {"$ref": "#/$defs/sha256"}}},
+    "exemplar_adoption_ref": {"type": "object", "additionalProperties": false, "required": ["path", "sha256", "digest"], "properties": {"path": {"const": "design/exemplar_memory_adoption.json"}, "sha256": {"$ref": "#/$defs/sha256"}, "digest": {"$ref": "#/$defs/sha256"}}},
+    "migration_ref": {"type": "object", "additionalProperties": false, "required": ["path", "sha256", "digest"], "properties": {"path": {"const": "design/single_branch_migration.json"}, "sha256": {"$ref": "#/$defs/sha256"}, "digest": {"$ref": "#/$defs/sha256"}}},
+    "anchor": {
+      "type": "object", "additionalProperties": false,
+      "required": ["agent", "harness", "model", "agent_version", "reasoning_effort", "concurrency"],
+      "properties": {"agent": {"const": "codex"}, "harness": {"const": "native"}, "model": {"const": "gpt-5.6-sol"}, "agent_version": {"type": "string", "minLength": 1}, "reasoning_effort": {"const": "max"}, "concurrency": {"const": 1}}
+    },
+    "legacy_pack_ref": {
+      "type": "object", "additionalProperties": false,
+      "required": ["pack_digest", "manifest_sha256", "references", "provenance_audit"],
+      "properties": {
+        "pack_digest": {"$ref": "#/$defs/sha256"}, "manifest_sha256": {"$ref": "#/$defs/sha256"}, "provenance_audit": {"$ref": "#/$defs/ref"},
+        "references": {"type": "object", "additionalProperties": false, "required": ["S0", "A0", "H0"], "properties": {"S0": {"type": "string", "minLength": 1}, "A0": {"type": "string", "minLength": 1}, "H0": {"type": "string", "minLength": 1}}}
+      }
+    },
+    "cumulative_pack_ref": {
+      "type": "object", "additionalProperties": false,
+      "required": ["pack_digest", "manifest_sha256", "references", "provenance_audit"],
+      "properties": {
+        "pack_digest": {"$ref": "#/$defs/sha256"}, "manifest_sha256": {"$ref": "#/$defs/sha256"}, "provenance_audit": {"$ref": "#/$defs/ref"},
+        "references": {"type": "object", "additionalProperties": false, "required": ["C0"], "properties": {"C0": {"const": "checkpoints/C0/pack"}}}
+      }
+    },
+    "memory_model": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["procedural", "exemplar", "public_statement"],
+      "properties": {
+        "procedural": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["checkpoint_path_template", "contents", "cumulative", "maximum_proposed_per_batch", "maximum_accepted_per_batch", "synthetic_regression_required"],
+          "properties": {
+            "checkpoint_path_template": {"const": "checkpoints/{checkpoint_id}/pack"},
+            "contents": {"const": ["instructions", "deterministic_scripts", "synthetic_tests"]},
+            "cumulative": {"const": true},
+            "maximum_proposed_per_batch": {"const": 2},
+            "maximum_accepted_per_batch": {"const": 1},
+            "synthetic_regression_required": {"const": true}
+          }
+        },
+        "exemplar": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["checkpoint_path_template", "classification", "cumulative", "policy", "adoption", "identity_map_public_commitment_sha256", "checkpoint_exemplar_counts", "agent_access"],
+          "properties": {
+            "checkpoint_path_template": {"const": "checkpoints/{checkpoint_id}/memory"},
+            "classification": {"const": "prediction_shaped_approved_training_exemplars"},
+            "cumulative": {"const": true},
+            "policy": {"$ref": "#/$defs/exemplar_policy_ref"},
+            "adoption": {"$ref": "#/$defs/exemplar_adoption_ref"},
+            "identity_map_public_commitment_sha256": {"$ref": "#/$defs/sha256"},
+            "checkpoint_exemplar_counts": {
+              "const": {"C0": 0, "C5": 5, "C10": 10, "C15": 15, "C20": 20, "C25": 25}
+            },
+            "agent_access": {"const": "deterministic_query_returns_at_most_three_relevant_subgraphs"}
+          }
+        },
+        "public_statement": {
+          "const": "Raw GT and audit records are not exposed. Approved training GT is projected into prediction-shaped exemplars and retained as cumulative memory."
+        }
+      }
+    },
+    "baseline": {
+      "type": "object", "additionalProperties": false,
+      "required": ["job_root", "artifacts", "development_trial_count", "valid_development_trial_count", "trial_records", "agent_visibility"],
+      "properties": {
+        "job_root": {"type": "string", "minLength": 1}, "artifacts": {"type": "array", "minItems": 3, "items": {"$ref": "#/$defs/artifact"}},
+        "development_trial_count": {"const": 10}, "valid_development_trial_count": {"const": 10},
+        "trial_records": {"type": "array", "minItems": 10, "maxItems": 10, "items": {"type": "object", "additionalProperties": false, "required": ["protocol_id", "trial_name", "result_sha256", "task_checksum"], "properties": {"protocol_id": {"$ref": "#/$defs/id"}, "trial_name": {"$ref": "#/$defs/id"}, "result_sha256": {"$ref": "#/$defs/sha256"}, "task_checksum": {"$ref": "#/$defs/sha256"}}}},
+        "agent_visibility": {"const": "development_trial_artifacts_only_via_eligible_packet"}
+      }
+    },
+    "batch": {
+      "type": "object", "additionalProperties": false,
+      "required": ["batch_id", "phase", "checkpoint_size", "protocol_ids", "groundtruth_commitment_sha256"],
+      "properties": {"batch_id": {"type": "string", "enum": ["B1", "B2", "B3", "B4", "B5"]}, "phase": {"type": "string", "enum": ["retrospective", "prospective"]}, "checkpoint_size": {"type": "integer", "enum": [5, 10, 15, 20, 25]}, "protocol_ids": {"type": "array", "minItems": 5, "maxItems": 5, "uniqueItems": true, "items": {"$ref": "#/$defs/id"}}, "groundtruth_commitment_sha256": {"oneOf": [{"$ref": "#/$defs/sha256"}, {"type": "null"}]}}
+    },
+    "truth_commitment": {"$ref": "#/$defs/cumulative_truth_commitment"},
+    "legacy_truth_commitment": {
+      "type": "object", "additionalProperties": false,
+      "required": ["set_id", "protocol_count", "commitment_sha256", "current_schema_valid_count", "compatibility_status", "agent_visibility"],
+      "properties": {"set_id": {"$ref": "#/$defs/id"}, "protocol_count": {"const": 20}, "commitment_sha256": {"$ref": "#/$defs/sha256"}, "current_schema_valid_count": {"type": "integer", "minimum": 0, "maximum": 20}, "compatibility_status": {"type": "string", "enum": ["current_schema_valid", "hash_pinned_schema_migration_required"]}, "agent_visibility": {"const": "none_until_s0_and_both_active_branches_terminal"}}
+    },
+    "cumulative_truth_commitment": {
+      "type": "object", "additionalProperties": false,
+      "required": ["set_id", "protocol_count", "commitment_sha256", "current_schema_valid_count", "compatibility_status", "agent_visibility"],
+      "properties": {"set_id": {"$ref": "#/$defs/id"}, "protocol_count": {"const": 10}, "commitment_sha256": {"$ref": "#/$defs/sha256"}, "current_schema_valid_count": {"type": "integer", "minimum": 0, "maximum": 10}, "compatibility_status": {"type": "string", "enum": ["current_schema_valid", "hash_pinned_schema_migration_required"]}, "agent_visibility": {"const": "none_until_c0_and_current_cumulative_runs_are_terminal"}}
+    },
+    "transfer_panel": {"$ref": "#/$defs/cumulative_transfer_panel"},
+    "legacy_transfer_panel": {
+      "type": "object", "additionalProperties": false,
+      "required": ["set_id", "classification", "protocol_count", "protocol_ids", "commitment_sha256", "selection_timing", "capability_updates_before_selection", "selected_before_any_capability_update", "selected_after_baseline_inspection", "unseen_or_sealed_claim", "improvement_visibility", "endpoint_labels", "access_policy", "baseline_registry"],
+      "properties": {
+        "set_id": {"const": "frozen-retrospective-transfer-panel-v1"}, "classification": {"const": "frozen_retrospective_transfer_panel"},
+        "protocol_count": {"const": 10}, "protocol_ids": {"type": "array", "minItems": 10, "maxItems": 10, "uniqueItems": true, "items": {"$ref": "#/$defs/id"}},
+        "commitment_sha256": {"$ref": "#/$defs/sha256"}, "selection_timing": {"const": "after_baseline_inspection_before_A5_H5_and_any_later_update"}, "capability_updates_before_selection": {"const": 0}, "selected_before_any_capability_update": {"const": true}, "selected_after_baseline_inspection": {"const": true},
+        "unseen_or_sealed_claim": {"const": false}, "improvement_visibility": {"const": "blocked_for_worker_critic_and_human_review_console"},
+        "endpoint_labels": {"type": "array", "const": ["S0", "A30", "H30"]}, "access_policy": {"$ref": "#/$defs/ref"}, "baseline_registry": {"$ref": "#/$defs/ref"}
+      }
+    },
+    "post_lock_transfer_panel": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "set_id",
+        "classification",
+        "protocol_count",
+        "protocol_ids",
+        "transfer_strata",
+        "transfer_annotations",
+        "purposes",
+        "commitment_sha256",
+        "selection_timing",
+        "capability_updates_before_selection",
+        "selected_before_any_capability_update",
+        "selected_after_baseline_inspection",
+        "selection_basis",
+        "test_scores_inspected",
+        "unseen_or_sealed_claim",
+        "improvement_visibility",
+        "endpoint_labels",
+        "baseline_mode",
+        "access_policy"
+      ],
+      "properties": {
+        "set_id": {"const": "frozen-retrospective-transfer-panel-v1"},
+        "classification": {"const": "frozen_retrospective_transfer_panel"},
+        "protocol_count": {"const": 10},
+        "protocol_ids": {"type": "array", "minItems": 10, "maxItems": 10, "uniqueItems": true, "items": {"$ref": "#/$defs/id"}},
+        "transfer_strata": {
+          "type": "array",
+          "prefixItems": [
+            {"type": "object", "additionalProperties": false, "required": ["name", "protocol_ids"], "properties": {"name": {"const": "direct_related_family"}, "protocol_ids": {"type": "array", "minItems": 3, "maxItems": 3, "uniqueItems": true, "items": {"$ref": "#/$defs/id"}}}},
+            {"type": "object", "additionalProperties": false, "required": ["name", "protocol_ids"], "properties": {"name": {"const": "related_platform_or_mechanism"}, "protocol_ids": {"type": "array", "minItems": 2, "maxItems": 2, "uniqueItems": true, "items": {"$ref": "#/$defs/id"}}}},
+            {"type": "object", "additionalProperties": false, "required": ["name", "protocol_ids"], "properties": {"name": {"const": "broader_architectural_transfer"}, "protocol_ids": {"type": "array", "minItems": 5, "maxItems": 5, "uniqueItems": true, "items": {"$ref": "#/$defs/id"}}}}
+          ],
+          "items": false,
+          "minItems": 3,
+          "maxItems": 3
+        },
+        "transfer_annotations": {
+          "type": "array",
+          "minItems": 10,
+          "maxItems": 10,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["protocol_id", "stratum", "rationale"],
+            "properties": {
+              "protocol_id": {"$ref": "#/$defs/id"},
+              "stratum": {"type": "string", "enum": ["direct_related_family", "related_platform_or_mechanism", "broader_architectural_transfer"]},
+              "rationale": {"type": "string", "minLength": 1}
+            }
+          }
+        },
+        "purposes": {"type": "array", "const": ["transfer_within_related_protocol_or_platform_families", "transfer_to_distinct_molecular_architectures"]},
+        "commitment_sha256": {"$ref": "#/$defs/sha256"},
+        "selection_timing": {"const": "after_A10_before_B3_and_final_development_lock"},
+        "capability_updates_before_selection": {"const": 2},
+        "selected_before_any_capability_update": {"const": false},
+        "selected_after_baseline_inspection": {"const": true},
+        "selection_basis": {"const": "protocol_identity_and_predeclared_transfer_structure_without_test_groundtruth_or_scores"},
+        "test_scores_inspected": {"const": false},
+        "unseen_or_sealed_claim": {"const": true},
+        "improvement_visibility": {"const": "blocked_for_worker_critic_and_human_review_console"},
+        "endpoint_labels": {"type": "array", "const": ["S0", "A30", "H30"]},
+        "baseline_mode": {"const": "post_lock_s0_replay"},
+        "access_policy": {"$ref": "#/$defs/ref"}
+      }
+    },
+    "cumulative_transfer_panel": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "set_id",
+        "classification",
+        "protocol_count",
+        "protocol_ids",
+        "transfer_strata",
+        "transfer_annotations",
+        "purposes",
+        "commitment_sha256",
+        "selection_timing",
+        "capability_updates_before_selection",
+        "selected_before_any_capability_update",
+        "selected_after_baseline_inspection",
+        "selection_basis",
+        "test_scores_inspected",
+        "unseen_or_sealed_claim",
+        "improvement_visibility",
+        "endpoint_labels",
+        "baseline_mode",
+        "access_policy"
+      ],
+      "properties": {
+        "set_id": {"const": "frozen-retrospective-transfer-panel-v1"},
+        "classification": {"const": "frozen_retrospective_transfer_panel"},
+        "protocol_count": {"const": 10},
+        "protocol_ids": {"type": "array", "minItems": 10, "maxItems": 10, "uniqueItems": true, "items": {"$ref": "#/$defs/id"}},
+        "transfer_strata": {
+          "type": "array",
+          "prefixItems": [
+            {"type": "object", "additionalProperties": false, "required": ["name", "protocol_ids"], "properties": {"name": {"const": "direct_related_family"}, "protocol_ids": {"type": "array", "minItems": 3, "maxItems": 3, "uniqueItems": true, "items": {"$ref": "#/$defs/id"}}}},
+            {"type": "object", "additionalProperties": false, "required": ["name", "protocol_ids"], "properties": {"name": {"const": "related_platform_or_mechanism"}, "protocol_ids": {"type": "array", "minItems": 2, "maxItems": 2, "uniqueItems": true, "items": {"$ref": "#/$defs/id"}}}},
+            {"type": "object", "additionalProperties": false, "required": ["name", "protocol_ids"], "properties": {"name": {"const": "broader_architectural_transfer"}, "protocol_ids": {"type": "array", "minItems": 5, "maxItems": 5, "uniqueItems": true, "items": {"$ref": "#/$defs/id"}}}}
+          ],
+          "items": false,
+          "minItems": 3,
+          "maxItems": 3
+        },
+        "transfer_annotations": {
+          "type": "array",
+          "minItems": 10,
+          "maxItems": 10,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["protocol_id", "stratum", "rationale"],
+            "properties": {
+              "protocol_id": {"$ref": "#/$defs/id"},
+              "stratum": {"type": "string", "enum": ["direct_related_family", "related_platform_or_mechanism", "broader_architectural_transfer"]},
+              "rationale": {"type": "string", "minLength": 1}
+            }
+          }
+        },
+        "purposes": {"type": "array", "const": ["transfer_within_related_protocol_or_platform_families", "transfer_to_distinct_molecular_architectures"]},
+        "commitment_sha256": {"$ref": "#/$defs/sha256"},
+        "selection_timing": {"const": "preserved_from_superseded_30_10_split_before_clean_C0_restart"},
+        "capability_updates_before_selection": {"const": 2},
+        "selected_before_any_capability_update": {"const": false},
+        "selected_after_baseline_inspection": {"const": true},
+        "selection_basis": {"const": "protocol_identity_and_predeclared_transfer_structure_without_test_groundtruth_or_scores"},
+        "test_scores_inspected": {"const": false},
+        "unseen_or_sealed_claim": {"const": true},
+        "improvement_visibility": {"const": "blocked_for_improvement_worker_independent_critic_and_human_review_console"},
+        "endpoint_labels": {"type": "array", "const": ["C25"]},
+        "baseline_mode": {"const": "post_lock_c0_replay"},
+        "access_policy": {"$ref": "#/$defs/ref"}
+      }
+    },
+    "validation_panel": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["set_id", "classification", "protocol_count", "protocol_ids", "commitment_sha256", "evaluation_checkpoints", "learning_visibility", "access_policy"],
+      "properties": {
+        "set_id": {"const": "fixed-validation-panel-v1"},
+        "classification": {"const": "fixed_validation_panel"},
+        "protocol_count": {"const": 5},
+        "protocol_ids": {"const": ["sci_atac_seq", "scrrbs", "smart_seq", "share_seq", "ddseq_single_cell_3_rna_seq_kit"]},
+        "commitment_sha256": {"$ref": "#/$defs/sha256"},
+        "evaluation_checkpoints": {"const": ["C0", "C5", "C10", "C15", "C20", "C25"]},
+        "learning_visibility": {"const": "five_protocol_macro_aggregate_only_no_example_memory"},
+        "access_policy": {"$ref": "#/$defs/validation_policy_ref"}
+      }
+    },
+    "policies": {"$ref": "#/$defs/cumulative_policies"},
+    "legacy_policies": {
+      "type": "object", "additionalProperties": false,
+      "required": ["revision_rounds", "editable_scope", "autonomous_review", "human_review", "primary_outcome", "checkpoint_labels", "endpoint_labels", "infrastructure_retries", "semantic_retries"],
+      "properties": {"revision_rounds": {"const": 1}, "editable_scope": {"const": "neutral_core_only"}, "autonomous_review": {"const": "independent_self_review"}, "human_review": {"const": "resumable_human_decisions"}, "primary_outcome": {"const": "t3_molecular_transition_f1"}, "checkpoint_labels": {"type": "array", "minItems": 13, "maxItems": 13, "uniqueItems": true, "items": {"type": "string"}}, "endpoint_labels": {"type": "array", "const": ["S0", "A30", "H30"]}, "infrastructure_retries": {"const": 2}, "semantic_retries": {"const": 0}}
+    },
+    "cumulative_policies": {
+      "type": "object", "additionalProperties": false,
+      "required": ["revision_rounds", "editable_scope", "review_modes", "active_branch", "primary_outcome", "checkpoint_labels", "endpoint_labels", "infrastructure_retries", "semantic_retries"],
+      "properties": {
+        "revision_rounds": {"const": 1},
+        "editable_scope": {"const": "neutral_core_only"},
+        "review_modes": {"const": ["independent_codex", "human"]},
+        "active_branch": {"const": "cumulative"},
+        "primary_outcome": {"const": "t3_molecular_transition_f1"},
+        "checkpoint_labels": {"const": ["C0", "C5", "C10", "C15", "C20", "C25"]},
+        "endpoint_labels": {"const": ["C25"]},
+        "infrastructure_retries": {"const": 2},
+        "semantic_retries": {"const": 0}
+      }
+    }
+  }
+}

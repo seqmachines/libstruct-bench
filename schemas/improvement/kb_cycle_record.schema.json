@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/improvement/kb_cycle_record.schema.json",
+  "title": "Completed online training cycle record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "design_digest", "state_id", "protocol_id", "run_source", "trial_root", "plan_digest", "comparison_digest", "adjudication_digest", "repair_attempts", "repair_status", "checkpoint", "validation_launch", "completed_at", "cycle_digest"],
+  "properties": {
+    "schema_version": {"const": "libstruct.libgen_kb_cycle_record.v1"},
+    "design_digest": {"$ref": "#/$defs/sha256"},
+    "state_id": {"type": "string", "pattern": "^S[0-9]{3}$"},
+    "protocol_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9_]*$"},
+    "run_source": {"enum": ["reused_c0", "harbor"]},
+    "trial_root": {"type": "string", "minLength": 1},
+    "plan_digest": {"$ref": "#/$defs/sha256"},
+    "comparison_digest": {"$ref": "#/$defs/sha256"},
+    "adjudication_digest": {"$ref": "#/$defs/sha256"},
+    "repair_attempts": {"type": "integer", "minimum": 0, "maximum": 2},
+    "repair_status": {"type": "string", "minLength": 1},
+    "checkpoint": {"type": ["string", "null"]},
+    "validation_launch": {"type": ["object", "null"]},
+    "completed_at": {"type": "string", "format": "date-time"},
+    "cycle_digest": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {"sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}}
+}

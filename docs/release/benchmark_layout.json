@@ -1,0 +1,254 @@
+{
+  "purpose": "Public benchmark path relocation; historical input and result manifests are not rewritten.",
+  "local_archive_root": ".release-archive/20261027/benchmark-layout",
+  "files": [
+    {
+      "original_path": "benchmarks/libgen/README.md",
+      "disposition": "relocated",
+      "sha256_before": "0758941bd611e7738e850a6822bb1b3372d43966eae46d6f41b165bfcf5973d8",
+      "current_path": "benchmarks/tasks2_3/README.md",
+      "sha256_after": "6d76640779f7aa17b48d690be3b300a6dd41683aa92622b34c2fa109de370dee",
+      "content_unchanged": false
+    },
+    {
+      "original_path": "benchmarks/libgen/antigravity-gcp.compose.yaml",
+      "disposition": "relocated",
+      "sha256_before": "fa52658befb0f45010dd3677c348a9c5ec6d781cad7fa390c9e7e59823ccba9c",
+      "current_path": "benchmarks/tasks2_3/antigravity-gcp.compose.yaml",
+      "sha256_after": "fa52658befb0f45010dd3677c348a9c5ec6d781cad7fa390c9e7e59823ccba9c",
+      "content_unchanged": true
+    },
+    {
+      "original_path": "benchmarks/libgen/capability-training-protocols.json",
+      "disposition": "relocated",
+      "sha256_before": "c47b9dcb1a1f7ee6a5ea7b24e504fd7df2fdc305dca79c30b28aa0bdb5ffa2ca",
+      "current_path": "benchmarks/tasks2_3/provenance/capability-training-protocols.json",
+      "sha256_after": "c47b9dcb1a1f7ee6a5ea7b24e504fd7df2fdc305dca79c30b28aa0bdb5ffa2ca",
+      "content_unchanged": true
+    },
+    {
+      "original_path": "benchmarks/libgen/docker_network/ProviderProxy.Dockerfile",
+      "disposition": "relocated",
+      "sha256_before": "06b3228cbb9c49cbedbd4ccd708a93966df27e249a454cf46b2870115727c38e",
+      "current_path": "benchmarks/tasks2_3/docker_network/ProviderProxy.Dockerfile",
+      "sha256_after": "06b3228cbb9c49cbedbd4ccd708a93966df27e249a454cf46b2870115727c38e",
+      "content_unchanged": true
+    },
+    {
+      "original_path": "benchmarks/libgen/docker_network/docker-compose.yaml",
+      "disposition": "relocated",
+      "sha256_before": "43cff776a11edb5b8e4f2c7209d8a85cb4914fbdd5ede200ae9240b4443897cd",
+      "current_path": "benchmarks/tasks2_3/docker_network/docker-compose.yaml",
+      "sha256_after": "43cff776a11edb5b8e4f2c7209d8a85cb4914fbdd5ede200ae9240b4443897cd",
+      "content_unchanged": true
+    },
+    {
+      "original_path": "benchmarks/libgen/docker_network/network_smoke.py",
+      "disposition": "relocated",
+      "sha256_before": "5ba91a5633da7af1f00d79f5297913ae843aa49a66fd9841e8e8923522110b12",
+      "current_path": "benchmarks/tasks2_3/docker_network/network_smoke.py",
+      "sha256_after": "5ba91a5633da7af1f00d79f5297913ae843aa49a66fd9841e8e8923522110b12",
+      "content_unchanged": true
+    },
+    {
+      "original_path": "benchmarks/libgen/docker_network/provider_egress_proxy.py",
+      "disposition": "relocated",
+      "sha256_before": "777d3e19ae112d5097536ac3f5e0df51df044f85745797863386b19538fb684c",
+      "current_path": "benchmarks/tasks2_3/docker_network/provider_egress_proxy.py",
+      "sha256_after": "777d3e19ae112d5097536ac3f5e0df51df044f85745797863386b19538fb684c",
+      "content_unchanged": true
+    },
+    {
+      "original_path": "benchmarks/libgen/error-analysis.md",
+      "disposition": "relocated",
+      "sha256_before": "8c139333b358028e435ec4a63596869fb228d7cbf0a6264238481baf5418d632",
+      "current_path": "benchmarks/tasks2_3/error-analysis.md",
+      "sha256_after": "c3d2a589b277b53357ef97984779158e6d2077afb5e77e4eeefa4d76983153d5",
+      "content_unchanged": false
+    },
+    {
+      "original_path": "benchmarks/libgen/groundtruth-migration-and-scoring-impact.md",
+      "disposition": "relocated",
+      "sha256_before": "89d6d841953fd37a658fe95378ba055b218a7954a969610b094e27c40aac073c",
+      "current_path": "docs/evaluation/groundtruth-migration-and-scoring-impact.md",
+      "sha256_after": "89d6d841953fd37a658fe95378ba055b218a7954a969610b094e27c40aac073c",
+      "content_unchanged": true
+    },
+    {
+      "original_path": "benchmarks/libgen/matrix.json",
+      "disposition": "relocated",
+      "sha256_before": "0112384d2ba379f8839a59de51a7c46f34cbb043e03f168b02e3c06fdb3df9ed",
+      "current_path": "benchmarks/tasks2_3/provenance/planning_matrix.json",
+      "sha256_after": "1faf60139bf9813fe2d0291f532adecc5712db87e0e29b14ff857b95f01b5494",
+      "content_unchanged": false
+    },
+    {
+      "original_path": "benchmarks/libgen/name_only/antigravity-cli.json",
+      "disposition": "relocated",
+      "sha256_before": "b54378f20cc33d7f08e19dd5e39ba5805d4cdac4b1e8ecbfe8141221b76c018e",
+      "current_path": "benchmarks/tasks2_3/name_only/antigravity-cli.json",
+      "sha256_after": "ff56f3a2889300c170d58482562874134c24c8c82c6ce057b52ff6ccd1b74d49",
+      "content_unchanged": false
+    },
+    {
+      "original_path": "benchmarks/libgen/name_only/claude-code.json",
+      "disposition": "relocated",
+      "sha256_before": "18300601417e211d0a4dca4722f974a97740e2d3ca446cdca32dadba20ca89a8",
+      "current_path": "benchmarks/tasks2_3/name_only/claude-code.json",
+      "sha256_after": "95c9d3e2e0877215afaac0f683b2140bda1f4953f4595f9b2283541c87925e80",
+      "content_unchanged": false
+    },
+    {
+      "original_path": "benchmarks/libgen/name_only/codex.json",
+      "disposition": "relocated",
+      "sha256_before": "a5782c1594fbda744785cb7d0af6b7e0c1e076516897ab4612f18271aff28cb2",
+      "current_path": "benchmarks/tasks2_3/name_only/codex.json",
+      "sha256_after": "5c840f06aaae8cfae14e29cf534abd5aabe7f4a823ccdb0b6ac30dfc71679dfc",
+      "content_unchanged": false
+    },
+    {
+      "original_path": "benchmarks/libgen/network-policy.json",
+      "disposition": "relocated",
+      "sha256_before": "00187a3c17b392ff8c812b07a63f6ce7da0a338dfc8aa09ed7fc8299e6507532",
+      "current_path": "benchmarks/tasks2_3/network-policy.json",
+      "sha256_after": "00187a3c17b392ff8c812b07a63f6ce7da0a338dfc8aa09ed7fc8299e6507532",
+      "content_unchanged": true
+    },
+    {
+      "original_path": "benchmarks/libgen/pricing-2026-08-15.json",
+      "disposition": "relocated",
+      "sha256_before": "e41ebada6efbdedbffcfbc0037c81a9c44396a21e9f1f18a44ce1edf74394cde",
+      "current_path": "benchmarks/tasks2_3/pricing-2026-08-15.json",
+      "sha256_after": "e41ebada6efbdedbffcfbc0037c81a9c44396a21e9f1f18a44ce1edf74394cde",
+      "content_unchanged": true
+    },
+    {
+      "original_path": "benchmarks/libgen/protocols.json",
+      "disposition": "relocated",
+      "sha256_before": "4e9edd4edb0919f2149b2dd608bc9d52b6bf2843f0154577b48382784fee5a8b",
+      "current_path": "benchmarks/tasks2_3/protocols.json",
+      "sha256_after": "4e9edd4edb0919f2149b2dd608bc9d52b6bf2843f0154577b48382784fee5a8b",
+      "content_unchanged": true
+    },
+    {
+      "original_path": "benchmarks/libgen/rules.md",
+      "disposition": "relocated",
+      "sha256_before": "2f65030b66a21923fec9c2f9f5254adba9604c2dbfffdb01c146fb1f146a6e74",
+      "current_path": "benchmarks/tasks2_3/rules.md",
+      "sha256_after": "2f65030b66a21923fec9c2f9f5254adba9604c2dbfffdb01c146fb1f146a6e74",
+      "content_unchanged": true
+    },
+    {
+      "original_path": "benchmarks/library_structure/README.md",
+      "disposition": "local_archive",
+      "sha256_before": "e31c2308b88b962d1031a0483d6b99c08e75fd1a6f68870e84b1ff802985d633",
+      "current_path": null,
+      "sha256_after": "e31c2308b88b962d1031a0483d6b99c08e75fd1a6f68870e84b1ff802985d633",
+      "content_unchanged": true
+    },
+    {
+      "original_path": "benchmarks/library_structure/models.json",
+      "disposition": "local_archive",
+      "sha256_before": "bf99641a216ff93cdab11c774965c16b1bb6d093e8c4c3ff44fc3d7ae5323e45",
+      "current_path": null,
+      "sha256_after": "bf99641a216ff93cdab11c774965c16b1bb6d093e8c4c3ff44fc3d7ae5323e45",
+      "content_unchanged": true
+    },
+    {
+      "original_path": "benchmarks/library_structure/protocols.json",
+      "disposition": "relocated",
+      "sha256_before": "21272ab1c0bfc8997707cf41b1d22bf25b2350792f858c86f28867f433df9ab9",
+      "current_path": "benchmarks/task1/provenance/original_protocols.json",
+      "sha256_after": "21272ab1c0bfc8997707cf41b1d22bf25b2350792f858c86f28867f433df9ab9",
+      "content_unchanged": true
+    },
+    {
+      "original_path": "benchmarks/library_structure/round2/README.md",
+      "disposition": "local_archive",
+      "sha256_before": "11ae25721ee850cf00d63735725ea33eedf4eb97c43f69a730ab322977f96fb6",
+      "current_path": null,
+      "sha256_after": "11ae25721ee850cf00d63735725ea33eedf4eb97c43f69a730ab322977f96fb6",
+      "content_unchanged": true
+    },
+    {
+      "original_path": "benchmarks/library_structure/round2/antigravity-cli.json",
+      "disposition": "relocated",
+      "sha256_before": "8243ed45f292692748249c851422884307f560990242c81107bcd79382dc0d64",
+      "current_path": "benchmarks/task1/antigravity-cli.json",
+      "sha256_after": "8243ed45f292692748249c851422884307f560990242c81107bcd79382dc0d64",
+      "content_unchanged": true
+    },
+    {
+      "original_path": "benchmarks/library_structure/round2/claude-code.json",
+      "disposition": "relocated",
+      "sha256_before": "c985859c5d351103210c8f9a5ea670e0cfa19946fe22c1e2bbfeabf1e4c2b1f3",
+      "current_path": "benchmarks/task1/claude-code.json",
+      "sha256_after": "c985859c5d351103210c8f9a5ea670e0cfa19946fe22c1e2bbfeabf1e4c2b1f3",
+      "content_unchanged": true
+    },
+    {
+      "original_path": "benchmarks/library_structure/round2/codex.json",
+      "disposition": "relocated",
+      "sha256_before": "7999dfd30442607afe8df2b01cc10456474b11b6d12b45f61fbb790e55601c1e",
+      "current_path": "benchmarks/task1/codex.json",
+      "sha256_after": "7999dfd30442607afe8df2b01cc10456474b11b6d12b45f61fbb790e55601c1e",
+      "content_unchanged": true
+    },
+    {
+      "original_path": "benchmarks/library_structure/round2/name_only.json",
+      "disposition": "relocated",
+      "sha256_before": "87e07df70fcab31882f65c59d107deb4943db86faffb2af1b1126ab0f8c4a4ee",
+      "current_path": "benchmarks/task1/name_only.json",
+      "sha256_after": "823a23d597edde8b1b29f1e62eec7c7180423f6ca4974f8d2174b88384ce2b50",
+      "content_unchanged": false
+    },
+    {
+      "original_path": "benchmarks/library_structure/round2/protocols.json",
+      "disposition": "relocated",
+      "sha256_before": "05305d5f2e14b9028236a9e48a2f0624d4e94b0d56c076629aa8818ff840f6e8",
+      "current_path": "benchmarks/task1/protocols.json",
+      "sha256_after": "05305d5f2e14b9028236a9e48a2f0624d4e94b0d56c076629aa8818ff840f6e8",
+      "content_unchanged": true
+    },
+    {
+      "original_path": "benchmarks/oligo_extraction/README.md",
+      "disposition": "local_archive",
+      "sha256_before": "5b9c20d32b25a5de620102d8035d547eb6a8ce891b0d3edea1506b731d59b202",
+      "current_path": null,
+      "sha256_after": "5b9c20d32b25a5de620102d8035d547eb6a8ce891b0d3edea1506b731d59b202",
+      "content_unchanged": true
+    },
+    {
+      "original_path": "benchmarks/oligo_extraction/dataset.toml",
+      "disposition": "local_archive",
+      "sha256_before": "83f49121050c32fb548c882bb1561d869031e23c2fb5d6fc9b684ff559e428fe",
+      "current_path": null,
+      "sha256_after": "83f49121050c32fb548c882bb1561d869031e23c2fb5d6fc9b684ff559e428fe",
+      "content_unchanged": true
+    },
+    {
+      "original_path": "benchmarks/oligo_extraction/protocols.example.json",
+      "disposition": "local_archive",
+      "sha256_before": "dbf7aa7eabecd868ef3e81a09f34c5322a06b9954e36845b5f0f90e0d7053c8e",
+      "current_path": null,
+      "sha256_after": "dbf7aa7eabecd868ef3e81a09f34c5322a06b9954e36845b5f0f90e0d7053c8e",
+      "content_unchanged": true
+    },
+    {
+      "original_path": "benchmarks/oligo_extraction/protocols.json",
+      "disposition": "local_archive",
+      "sha256_before": "0263be893798c5c5e1ab05f00e93616bab66a39a630fc6eefcef8ed652b20a6b",
+      "current_path": null,
+      "sha256_after": "0263be893798c5c5e1ab05f00e93616bab66a39a630fc6eefcef8ed652b20a6b",
+      "content_unchanged": true
+    },
+    {
+      "original_path": "benchmarks/protocol_processing/shared/protocol_processing_rules.md",
+      "disposition": "relocated",
+      "sha256_before": "69baf43543d98bbddf7abdaf88170c48a3d61b81d9e3dadeba94d3e20d984c72",
+      "current_path": "benchmarks/shared/protocol_processing_rules.md",
+      "sha256_after": "69baf43543d98bbddf7abdaf88170c48a3d61b81d9e3dadeba94d3e20d984c72",
+      "content_unchanged": true
+    }
+  ]
+}

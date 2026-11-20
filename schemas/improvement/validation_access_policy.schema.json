@@ -1,0 +1,275 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/improvement/validation_access_policy.schema.json",
+  "title": "Fixed validation-panel aggregate-only access policy",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "policy_id",
+    "created_at",
+    "validation_set",
+    "validation_panel_commitment_sha256",
+    "protected_trees",
+    "protected_files",
+    "blocked_artifact_roles",
+    "blocked_learning_contexts",
+    "forbidden_terms",
+    "forbidden_sequences",
+    "forbidden_scaffolds",
+    "allowlist_provenance",
+    "sensitive_extraction",
+    "evaluation_access",
+    "aggregate_feedback_contract",
+    "agent_visibility",
+    "policy_digest"
+  ],
+  "properties": {
+    "schema_version": {"const": "libstruct.libgen_validation_access_policy.v1"},
+    "policy_id": {"const": "fixed-validation-aggregate-only-access-v1"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "validation_set": {"$ref": "#/$defs/validation_set"},
+    "validation_panel_commitment_sha256": {"$ref": "#/$defs/sha256"},
+    "protected_trees": {
+      "type": "array",
+      "minItems": 10,
+      "maxItems": 10,
+      "items": {"$ref": "#/$defs/tree"}
+    },
+    "protected_files": {
+      "type": "array",
+      "minItems": 10,
+      "items": {"$ref": "#/$defs/file"}
+    },
+    "blocked_artifact_roles": {
+      "const": [
+        "target_source",
+        "approved_groundtruth",
+        "solved_t2",
+        "solved_t3",
+        "trial_result",
+        "prediction",
+        "trajectory",
+        "verifier_reward",
+        "verifier_details",
+        "verifier_error_analysis",
+        "verifier_error"
+      ]
+    },
+    "blocked_learning_contexts": {
+      "const": [
+        "learning_packet",
+        "learning_ledger",
+        "capability_proposal",
+        "capability_candidate",
+        "synthetic_fixture",
+        "capability_pack",
+        "cumulative_memory",
+        "independent_critic",
+        "human_review_console"
+      ]
+    },
+    "forbidden_terms": {
+      "type": "array",
+      "minItems": 5,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "forbidden_sequences": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^[ACGTRYSWKMBDHVN]{8,}$"}
+    },
+    "forbidden_scaffolds": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "allowlist_provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "training_protocol_ids",
+        "training_tree_fingerprints",
+        "initial_pack_digest",
+        "validation_alias_count_before_filter",
+        "shared_alias_count_removed",
+        "validation_sequence_count_before_filter",
+        "shared_sequence_count_removed",
+        "validation_scaffold_count_before_filter",
+        "shared_scaffold_count_removed",
+        "filtering_policy"
+      ],
+      "properties": {
+        "training_protocol_ids": {
+          "type": "array",
+          "minItems": 25,
+          "maxItems": 25,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/id"}
+        },
+        "training_tree_fingerprints": {
+          "type": "array",
+          "minItems": 50,
+          "maxItems": 50,
+          "items": {"$ref": "#/$defs/tree_fingerprint"}
+        },
+        "initial_pack_digest": {"$ref": "#/$defs/sha256"},
+        "validation_alias_count_before_filter": {"type": "integer", "minimum": 0},
+        "shared_alias_count_removed": {"type": "integer", "minimum": 0},
+        "validation_sequence_count_before_filter": {"type": "integer", "minimum": 0},
+        "shared_sequence_count_removed": {"type": "integer", "minimum": 0},
+        "validation_scaffold_count_before_filter": {"type": "integer", "minimum": 0},
+        "shared_scaffold_count_removed": {"type": "integer", "minimum": 0},
+        "filtering_policy": {"const": "always_block_exact_validation_ids_and_block_only_validation_aliases_sequences_and_scaffolds_not_independently_present_in_training_sources_training_groundtruth_or_C0"}
+      }
+    },
+    "sensitive_extraction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["formats", "unreadable_supported_document_policy"],
+      "properties": {
+        "formats": {"const": ["utf8_text", "pdf_native_text_no_ocr", "xlsx_cell_values", "docx_xml_text"]},
+        "unreadable_supported_document_policy": {"const": "fail_closed"}
+      }
+    },
+    "evaluation_access": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["agent", "verifier", "orchestrator", "improvement"],
+      "properties": {
+        "agent": {"const": "target_sources_and_read_only_capability_pack_only"},
+        "verifier": {"const": "approved_groundtruth_in_separate_environment_only"},
+        "orchestrator": {"const": "raw_results_private_deterministic_aggregation_only"},
+        "improvement": {"const": "five_protocol_macro_aggregate_only_no_example_memory"}
+      }
+    },
+    "aggregate_feedback_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "allowed_fields",
+        "prohibited_fields",
+        "may_guide_next_update",
+        "may_support_change_evidence",
+        "may_enter_cumulative_memory",
+        "may_enter_synthetic_fixtures",
+        "may_enter_capability_pack"
+      ],
+      "properties": {
+        "allowed_fields": {
+          "const": [
+            "schema_version",
+            "checkpoint_label",
+            "planned_trials",
+            "scored_trials",
+            "unscored_trials",
+            "metric_counts",
+            "macro_means",
+            "feedback_scope",
+            "guidance_target_batch",
+            "aggregate_digest"
+          ]
+        },
+        "prohibited_fields": {
+          "const": [
+            "protocol_ids",
+            "protocol_results",
+            "trial_results",
+            "result_path",
+            "result_root",
+            "prediction",
+            "trajectory",
+            "groundtruth",
+            "t2",
+            "t3",
+            "sequence",
+            "sequences",
+            "observations",
+            "error_analysis",
+            "error_categories",
+            "error_specific_answers",
+            "source_locators",
+            "raw_artifacts"
+          ]
+        },
+        "may_guide_next_update": {"const": true},
+        "may_support_change_evidence": {"const": false},
+        "may_enter_cumulative_memory": {"const": false},
+        "may_enter_synthetic_fixtures": {"const": false},
+        "may_enter_capability_pack": {"const": false}
+      }
+    },
+    "agent_visibility": {"const": "none_orchestrator_only_except_sanitized_aggregate"},
+    "policy_digest": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 240,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+    },
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "validation_set": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "set_id",
+        "protocol_count",
+        "protocol_ids",
+        "evaluation_checkpoints",
+        "learning_visibility"
+      ],
+      "properties": {
+        "set_id": {"const": "fixed-validation-panel-v1"},
+        "protocol_count": {"const": 5},
+        "protocol_ids": {
+          "const": [
+            "sci_atac_seq",
+            "scrrbs",
+            "smart_seq",
+            "share_seq",
+            "ddseq_single_cell_3_rna_seq_kit"
+          ]
+        },
+        "evaluation_checkpoints": {"const": ["C0", "C5", "C10", "C15", "C20", "C25"]},
+        "learning_visibility": {"const": "five_protocol_macro_aggregate_only_no_example_memory"}
+      }
+    },
+    "tree": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["protocol_id", "role", "path", "file_count", "tree_digest"],
+      "properties": {
+        "protocol_id": {"$ref": "#/$defs/id"},
+        "role": {"type": "string", "enum": ["target_source", "approved_groundtruth"]},
+        "path": {"type": "string", "minLength": 1},
+        "file_count": {"type": "integer", "minimum": 1},
+        "tree_digest": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "file": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["protocol_id", "role", "relative_path", "sha256"],
+      "properties": {
+        "protocol_id": {"$ref": "#/$defs/id"},
+        "role": {"type": "string", "enum": ["target_source", "approved_groundtruth"]},
+        "relative_path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "tree_fingerprint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["protocol_id", "role", "file_count", "tree_digest"],
+      "properties": {
+        "protocol_id": {"$ref": "#/$defs/id"},
+        "role": {"type": "string", "enum": ["target_source", "approved_groundtruth"]},
+        "file_count": {"type": "integer", "minimum": 1},
+        "tree_digest": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  }
+}

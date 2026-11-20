@@ -1,0 +1,27 @@
+{
+  "job_name": "task1-round2-claude-code-high",
+  "jobs_dir": "runs/library_structure/round2/coding_agent",
+  "n_attempts": 1,
+  "environment": {
+    "type": "docker"
+  },
+  "agents": [
+    {
+      "name": "claude-code",
+      "model_name": "claude-opus-5",
+      "kwargs": {
+        "version": "2.1.233",
+        "reasoning_effort": "high"
+      },
+      "env": {
+        "CLAUDE_CODE_OAUTH_TOKEN": "${CLAUDE_CODE_OAUTH_TOKEN}"
+      }
+    }
+  ],
+  "datasets": [
+    {
+      "path": "runs/library_structure/round2/tasks"
+    }
+  ],
+  "n_concurrent_trials": 4
+}

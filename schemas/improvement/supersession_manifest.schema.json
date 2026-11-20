@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema", "$id": "https://seqmachines.org/schemas/libstruct/improvement/supersession_manifest.schema.json",
+  "title": "Capability-experiment in-place split supersession", "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "supersession_id", "recorded_at", "reason", "original_experiment_digest", "original_artifacts", "superseded_packets", "capability_updates_before_supersession", "new_split_name", "supersession_digest"],
+  "properties": {
+    "schema_version": {"const": "libstruct.libgen_experiment_supersession.v1"}, "supersession_id": {"$ref": "#/$defs/id"}, "recorded_at": {"type": "string", "format": "date-time"}, "reason": {"type": "string", "minLength": 1}, "original_experiment_digest": {"$ref": "#/$defs/sha256"},
+    "original_artifacts": {"type": "array", "minItems": 1, "items": {"type": "object", "additionalProperties": false, "required": ["historical_path", "sha256"], "properties": {"historical_path": {"type": "string", "minLength": 1}, "sha256": {"$ref": "#/$defs/sha256"}}}},
+    "superseded_packets": {"type": "array", "items": {"type": "object", "additionalProperties": false, "required": ["historical_path", "file_sha256", "packet_digest", "contains_transfer_panel_protocols", "eligibility"], "properties": {"historical_path": {"type": "string", "minLength": 1}, "file_sha256": {"$ref": "#/$defs/sha256"}, "packet_digest": {"$ref": "#/$defs/sha256"}, "contains_transfer_panel_protocols": {"const": true}, "eligibility": {"const": "superseded_ineligible"}}}},
+    "capability_updates_before_supersession": {"const": 0}, "new_split_name": {"const": "frozen_retrospective_transfer_panel"}, "supersession_digest": {"$ref": "#/$defs/sha256"}
+  }, "$defs": {"id": {"type": "string", "minLength": 1, "maxLength": 240, "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"}, "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}}
+}

@@ -1,0 +1,28 @@
+{
+  "agents": [
+    {
+      "import_path": "libstruct_bench.harbor_agents.name_only:ClaudeNameOnly",
+      "kwargs": {
+        "experiment_lock": "benchmarks/tasks2_3/name_only/experiment.json",
+        "reasoning_effort": "max",
+        "version": "2.1.233"
+      },
+      "model_name": "claude-opus-5"
+    }
+  ],
+  "datasets": [
+    {
+      "path": "benchmarks/tasks2_3/name_only/tasks"
+    }
+  ],
+  "environment": {
+    "type": "docker"
+  },
+  "job_name": "libgen-claude-code-opus-5-name-only",
+  "jobs_dir": "runs/libgen/claude-code",
+  "n_attempts": 1,
+  "n_concurrent_trials": 4,
+  "retry": {
+    "max_retries": 0
+  }
+}

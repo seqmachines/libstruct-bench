@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/improvement/kb_validator_review_comparison.schema.json",
+  "title": "Paired C0/C30 validator review comparison",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "review_manifest_digest", "position", "panel", "protocol_id", "benchmark_version", "conditions", "metric_delta_c30_minus_c0", "adjudicated_observation_scope", "source_manifest", "groundtruth", "created_at", "comparison_digest"],
+  "properties": {
+    "schema_version": {"const": "libstruct.libgen_kb_validator_review_comparison.v1"},
+    "review_manifest_digest": {"$ref": "#/$defs/sha256"},
+    "position": {"type": "integer", "minimum": 1, "maximum": 15},
+    "panel": {"type": "string", "enum": ["validation", "test"]},
+    "protocol_id": {"$ref": "#/$defs/id"},
+    "benchmark_version": {"const": "4.5.0"},
+    "conditions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["C0", "C30"],
+      "properties": {
+        "C0": {"$ref": "#/$defs/condition"},
+        "C30": {"$ref": "#/$defs/condition"}
+      }
+    },
+    "metric_delta_c30_minus_c0": {"$ref": "#/$defs/metrics"},
+    "adjudicated_observation_scope": {"const": "C30_substantive_only"},
+    "source_manifest": {"$ref": "#/$defs/artifact"},
+    "groundtruth": {"$ref": "#/$defs/groundtruth"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "comparison_digest": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "id": {"type": "string", "minLength": 1, "maxLength": 240, "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"},
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "metrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["reward", "t2_exact_required_family_recall", "t2_required_family_f1", "t3_molecular_transition_f1", "t3_state_f1", "t3_typed_edge_f1"],
+      "properties": {
+        "reward": {"type": "number"},
+        "t2_exact_required_family_recall": {"type": "number"},
+        "t2_required_family_f1": {"type": "number"},
+        "t3_molecular_transition_f1": {"type": "number"},
+        "t3_state_f1": {"type": "number"},
+        "t3_typed_edge_f1": {"type": "number"}
+      }
+    },
+    "condition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["trial_root", "trial_digest", "status", "metrics", "substantive_observation_count", "observation_category_counts", "artifacts"],
+      "properties": {
+        "trial_root": {"type": "string", "minLength": 1},
+        "trial_digest": {"type": ["string", "null"], "pattern": "^[a-f0-9]{64}$"},
+        "status": {"const": "valid"},
+        "metrics": {"$ref": "#/$defs/metrics"},
+        "substantive_observation_count": {"type": "integer", "minimum": 0},
+        "observation_category_counts": {"type": "object", "additionalProperties": {"type": "integer", "minimum": 0}},
+        "artifacts": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["result", "t2_prediction", "t3_prediction", "trajectory", "reward", "verifier_details", "error_analysis"],
+          "properties": {
+            "result": {"$ref": "#/$defs/artifact"},
+            "t2_prediction": {"$ref": "#/$defs/artifact"},
+            "t3_prediction": {"$ref": "#/$defs/artifact"},
+            "trajectory": {"$ref": "#/$defs/artifact"},
+            "reward": {"$ref": "#/$defs/artifact"},
+            "verifier_details": {"$ref": "#/$defs/artifact"},
+            "error_analysis": {"$ref": "#/$defs/artifact"}
+          }
+        }
+      }
+    },
+    "groundtruth": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["T1", "T2", "T3"],
+      "properties": {
+        "T1": {"$ref": "#/$defs/artifact"},
+        "T2": {"$ref": "#/$defs/artifact"},
+        "T3": {"$ref": "#/$defs/artifact"}
+      }
+    }
+  }
+}

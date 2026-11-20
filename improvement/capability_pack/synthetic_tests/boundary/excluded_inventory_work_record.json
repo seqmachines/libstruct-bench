@@ -1,0 +1,45 @@
+{
+  "schema_version": "libstruct.libgen_capability_work_record.v1",
+  "protocol_id": "synthetic_boundary",
+  "source_coverage": [
+    {
+      "source_id": "synthetic-source",
+      "artifact": "synthetic boundary fixture",
+      "coverage_status": "inspected",
+      "locators": ["complete fixture"],
+      "notes": "An explicitly out-of-scope item is reconciled without entering T2 or T3."
+    }
+  ],
+  "inventory": [
+    {
+      "inventory_id": "inv-sequencing-primer",
+      "item_kind": "oligo",
+      "name": "Synthetic sequencing-only primer",
+      "support": "explicit",
+      "derivation": null,
+      "source_locators": [
+        {
+          "source_id": "synthetic-source",
+          "locator": "sequencing-only row"
+        }
+      ],
+      "usage_scope": "sequencing_only",
+      "disposition": "excluded",
+      "disposition_reason": "Not physically used during library generation.",
+      "target_pointers": []
+    }
+  ],
+  "claims": [],
+  "state_signatures": [],
+  "event_records": [],
+  "drafts": {
+    "t2": {
+      "oligos": [],
+      "protocol_id": "synthetic_boundary"
+    },
+    "t3": {
+      "protocol_id": "synthetic_boundary",
+      "workflows": []
+    }
+  }
+}

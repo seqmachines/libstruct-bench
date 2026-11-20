@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/improvement/kb_training_run_plan.schema.json",
+  "title": "One immutable online-training Harbor run plan",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "design_digest", "state_id", "training_ordinal", "protocol_id", "task_tree_digest", "pact_digest", "retrieval_policy", "preselected_exemplar_ids", "timeout_seconds", "config", "created_at", "plan_digest"],
+  "properties": {
+    "schema_version": {"const": "libstruct.libgen_kb_training_run_plan.v1"},
+    "design_digest": {"$ref": "#/$defs/sha256"},
+    "state_id": {"type": "string", "pattern": "^S[0-9]{3}$"},
+    "training_ordinal": {"type": "integer", "minimum": 1},
+    "protocol_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9_]*$"},
+    "task_tree_digest": {"$ref": "#/$defs/sha256"},
+    "pact_digest": {"$ref": "#/$defs/sha256"},
+    "retrieval_policy": {"enum": ["source_evidenced_same_family_priority_then_weighted_jaccard_v1", "source_evidenced_full_similarity_ranking_agent_selected_v2", "source_evidenced_full_similarity_ranking_agent_selected_unbounded_v3"]},
+    "preselected_exemplar_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "pattern": "^exm-[a-f0-9]{32}$"}},
+    "knowledge_runtime": {"$ref": "#/$defs/knowledge_runtime"},
+    "timeout_seconds": {"type": "integer", "minimum": 900},
+    "config": {"$ref": "#/$defs/artifact"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "plan_digest": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "knowledge_runtime": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["retrieval_policy", "query_tool_sha256", "catalog_sha256", "ranking_index_sha256", "family_priorities_sha256", "instruction_sha256", "runtime_digest"],
+      "properties": {
+        "retrieval_policy": {"enum": ["source_evidenced_full_similarity_ranking_agent_selected_v2", "source_evidenced_full_similarity_ranking_agent_selected_unbounded_v3"]},
+        "query_tool_sha256": {"$ref": "#/$defs/sha256"},
+        "catalog_sha256": {"$ref": "#/$defs/sha256"},
+        "ranking_index_sha256": {"$ref": "#/$defs/sha256"},
+        "family_priorities_sha256": {"$ref": "#/$defs/sha256"},
+        "instruction_sha256": {"$ref": "#/$defs/sha256"},
+        "runtime_digest": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  }
+}

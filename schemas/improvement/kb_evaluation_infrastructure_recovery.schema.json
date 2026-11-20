@@ -1,0 +1,151 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/improvement/kb_evaluation_infrastructure_recovery.schema.json",
+  "title": "Targeted checkpoint-evaluation infrastructure recovery",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "design_digest",
+    "checkpoint",
+    "panel",
+    "plan_digest",
+    "original_receipt",
+    "original_aggregate",
+    "infrastructure_failures",
+    "recovery_config",
+    "recovery_result_root",
+    "recovery_command",
+    "recovery_returncode",
+    "recovery_stdout_path",
+    "recovery_stderr_path",
+    "replacements",
+    "recovered_aggregate",
+    "recovered_receipt_digest",
+    "created_at",
+    "recovery_digest"
+  ],
+  "properties": {
+    "schema_version": {"const": "libstruct.libgen_kb_evaluation_infrastructure_recovery.v1"},
+    "design_digest": {"$ref": "#/$defs/sha256"},
+    "checkpoint": {"type": "string", "pattern": "^C[1-9][0-9]*$"},
+    "panel": {"enum": ["validation", "test"]},
+    "plan_digest": {"$ref": "#/$defs/sha256"},
+    "original_receipt": {"$ref": "#/$defs/digested_artifact"},
+    "original_aggregate": {"$ref": "#/$defs/digested_artifact"},
+    "infrastructure_failures": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["protocol_id", "reason", "exception_type", "trial_root", "result_sha256"],
+        "properties": {
+          "protocol_id": {"type": "string", "minLength": 1},
+          "reason": {"enum": ["docker_address_pool_exhausted", "local_model_capacity", "provider_transport_policy_false_positive"]},
+          "exception_type": {"type": "string", "minLength": 1},
+          "trial_root": {"type": "string", "minLength": 1},
+          "result_sha256": {"$ref": "#/$defs/sha256"}
+        }
+      }
+    },
+    "recovery_config": {"$ref": "#/$defs/artifact"},
+    "recovery_result_root": {"type": "string", "minLength": 1},
+    "recovery_command": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "recovery_returncode": {"const": 0},
+    "recovery_stdout_path": {"type": "string", "minLength": 1},
+    "recovery_stderr_path": {"type": "string", "minLength": 1},
+    "recovery_attempts": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "attempt_id",
+          "config",
+          "result_root",
+          "command",
+          "returncode",
+          "stdout_path",
+          "stderr_path",
+          "agent_timeout_multiplier",
+          "protocol_ids",
+          "trial_outcomes"
+        ],
+        "properties": {
+          "attempt_id": {"type": "string", "minLength": 1},
+          "config": {"$ref": "#/$defs/artifact"},
+          "result_root": {"type": "string", "minLength": 1},
+          "command": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+          "returncode": {"type": "integer"},
+          "stdout_path": {"type": "string", "minLength": 1},
+          "stderr_path": {"type": "string", "minLength": 1},
+          "agent_timeout_multiplier": {"type": "number", "minimum": 1},
+          "protocol_ids": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {"type": "string", "minLength": 1}
+          },
+          "trial_outcomes": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["protocol_id", "trial_root", "result_sha256", "exception_type"],
+              "properties": {
+                "protocol_id": {"type": "string", "minLength": 1},
+                "trial_root": {"type": "string", "minLength": 1},
+                "result_sha256": {"$ref": "#/$defs/sha256"},
+                "exception_type": {"type": ["string", "null"]}
+              }
+            }
+          }
+        }
+      }
+    },
+    "replacements": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["protocol_id", "original_trial_root", "recovered_trial_root", "recovered_result_sha256"],
+        "properties": {
+          "protocol_id": {"type": "string", "minLength": 1},
+          "original_trial_root": {"type": "string", "minLength": 1},
+          "recovered_trial_root": {"type": "string", "minLength": 1},
+          "recovered_result_sha256": {"$ref": "#/$defs/sha256"}
+        }
+      }
+    },
+    "recovered_aggregate": {"$ref": "#/$defs/digested_artifact"},
+    "recovered_receipt_digest": {"$ref": "#/$defs/sha256"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "recovery_digest": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "digested_artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "digest"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "digest": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  }
+}

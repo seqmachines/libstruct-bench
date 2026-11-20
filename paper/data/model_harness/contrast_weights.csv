@@ -1,0 +1,23 @@
+contrast,kind,w0,w1,w2,w3,w4,w5
+GPT | Pi,cell_mean,1,0,0,0,0,0
+GPT | mini-SWE,cell_mean,0,1,0,0,0,0
+GPT,model_marginal_mean,0.5,0.5,0,0,0,0
+Claude | Pi,cell_mean,0,0,1,0,0,0
+Claude | mini-SWE,cell_mean,0,0,0,1,0,0
+Claude,model_marginal_mean,0,0,0.5,0.5,0,0
+Gemini | Pi,cell_mean,0,0,0,0,1,0
+Gemini | mini-SWE,cell_mean,0,0,0,0,0,1
+Gemini,model_marginal_mean,0,0,0,0,0.5,0.5
+Pi,harness_marginal_mean,0.33333333333333331,0,0.33333333333333331,0,0.33333333333333331,0
+mini-SWE,harness_marginal_mean,0,0.33333333333333331,0,0.33333333333333331,0,0.33333333333333331
+Grand mean,grand_mean,0.16666666666666666,0.16666666666666666,0.16666666666666666,0.16666666666666666,0.16666666666666666,0.16666666666666666
+Claude - GPT,model_main_contrast,-0.5,-0.5,0.5,0.5,0,0
+Gemini - GPT,model_main_contrast,-0.5,-0.5,0,0,0.5,0.5
+Gemini - Claude,model_main_contrast,0,0,-0.5,-0.5,0.5,0.5
+mini-SWE - Pi (averaged models),harness_main_contrast,-0.33333333333333331,0.33333333333333331,-0.33333333333333331,0.33333333333333331,-0.33333333333333331,0.33333333333333331
+GPT: mini-SWE - Pi,model_specific_harness,-1,1,0,0,0,0
+Claude: mini-SWE - Pi,model_specific_harness,0,0,-1,1,0,0
+Gemini: mini-SWE - Pi,model_specific_harness,0,0,0,0,-1,1
+(Claude - GPT) x (mini-SWE - Pi),interaction,1,-1,-1,1,0,0
+(Gemini - GPT) x (mini-SWE - Pi),interaction,1,-1,0,0,-1,1
+(Gemini - Claude) x (mini-SWE - Pi),interaction,0,0,1,-1,-1,1

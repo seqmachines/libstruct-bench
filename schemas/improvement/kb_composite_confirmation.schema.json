@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/improvement/kb_composite_confirmation.schema.json",
+  "title": "Pre-test confirmation of the composite pact and final knowledge-base endpoint",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "design_digest",
+    "composite_endpoint",
+    "coupled_validation_aggregate",
+    "composite_validation_aggregate",
+    "gate_policy",
+    "coupled_score",
+    "composite_score",
+    "all_predictions_valid",
+    "composite_not_worse",
+    "passed",
+    "effective_endpoint_mode",
+    "effective_endpoint_id",
+    "pact_checkpoint",
+    "knowledge_checkpoint",
+    "created_at",
+    "confirmation_digest"
+  ],
+  "properties": {
+    "schema_version": {"const": "libstruct.libgen_kb_composite_confirmation.v1"},
+    "design_digest": {"$ref": "#/$defs/sha256"},
+    "composite_endpoint": {"$ref": "#/$defs/artifact_ref"},
+    "coupled_validation_aggregate": {"$ref": "#/$defs/artifact_ref"},
+    "composite_validation_aggregate": {"$ref": "#/$defs/artifact_ref"},
+    "gate_policy": {"const": "all_valid_and_same_selection_order_not_worse_v1"},
+    "coupled_score": {"$ref": "#/$defs/score"},
+    "composite_score": {"$ref": "#/$defs/score"},
+    "all_predictions_valid": {"type": "boolean"},
+    "composite_not_worse": {"type": "boolean"},
+    "passed": {"type": "boolean"},
+    "effective_endpoint_mode": {"enum": ["composite", "coupled_checkpoint_fallback"]},
+    "effective_endpoint_id": {"type": "string", "minLength": 1},
+    "pact_checkpoint": {"type": "string", "pattern": "^C[1-9][0-9]*$"},
+    "knowledge_checkpoint": {"type": "string", "pattern": "^C[1-9][0-9]*$"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "confirmation_digest": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "artifact_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "digest"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "digest": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "metric_map": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "t2_required_family_f1",
+        "t3_molecular_transition_f1",
+        "t3_state_f1",
+        "t3_typed_edge_f1"
+      ],
+      "properties": {
+        "t2_required_family_f1": {"type": "number", "minimum": 0, "maximum": 1},
+        "t3_molecular_transition_f1": {"type": "number", "minimum": 0, "maximum": 1},
+        "t3_state_f1": {"type": "number", "minimum": 0, "maximum": 1},
+        "t3_typed_edge_f1": {"type": "number", "minimum": 0, "maximum": 1}
+      }
+    },
+    "score": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "balanced_core_mean",
+        "invalid_or_missing_count",
+        "component_minimum",
+        "reward",
+        "training_count",
+        "component_metrics"
+      ],
+      "properties": {
+        "balanced_core_mean": {"type": "number", "minimum": 0, "maximum": 1},
+        "invalid_or_missing_count": {"type": "integer", "minimum": 0},
+        "component_minimum": {"type": "number", "minimum": 0, "maximum": 1},
+        "reward": {"type": "number", "minimum": 0, "maximum": 1},
+        "training_count": {"type": "integer", "minimum": 1},
+        "component_metrics": {"$ref": "#/$defs/metric_map"}
+      }
+    }
+  }
+}

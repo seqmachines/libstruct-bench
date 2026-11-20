@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema", "$id": "https://seqmachines.org/schemas/libstruct/improvement/transfer_access_policy.schema.json",
+  "title": "Frozen retrospective transfer-panel access policy", "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "panel_id", "panel_commitment_sha256", "blocked_protocol_ids", "blocked_artifact_roles", "blocked_trees", "blocked_files", "blocked_contexts", "staging_policy", "endpoint_exception", "agent_visibility", "policy_digest"],
+  "properties": {
+    "schema_version": {"const": "libstruct.libgen_transfer_access_policy.v1"}, "panel_id": {"const": "frozen-retrospective-transfer-panel-v1"}, "panel_commitment_sha256": {"$ref": "#/$defs/sha256"},
+    "blocked_protocol_ids": {"type": "array", "minItems": 10, "maxItems": 10, "uniqueItems": true, "items": {"$ref": "#/$defs/id"}},
+    "blocked_artifact_roles": {"type": "array", "minItems": 7, "uniqueItems": true, "items": {"type": "string"}},
+    "blocked_trees": {"type": "array", "items": {"type": "object", "additionalProperties": false, "required": ["protocol_id", "role", "path", "file_count", "tree_digest"], "properties": {"protocol_id": {"$ref": "#/$defs/id"}, "role": {"type": "string"}, "path": {"type": "string", "minLength": 1}, "file_count": {"type": "integer", "minimum": 1}, "tree_digest": {"$ref": "#/$defs/sha256"}}}},
+    "blocked_files": {"type": "array", "items": {"type": "object", "additionalProperties": false, "required": ["role", "path", "sha256"], "properties": {"role": {"type": "string"}, "path": {"type": "string", "minLength": 1}, "sha256": {"$ref": "#/$defs/sha256"}}}},
+    "blocked_contexts": {"type": "array", "const": ["improvement_worker", "independent_critic", "human_review_console"]}, "staging_policy": {"const": "copy_only_packet_allowlist_into_isolated_workspace"},
+    "endpoint_exception": {"const": "after_final_lock_target_sources_only_to_endpoint_agent_groundtruth_only_to_separate_verifier"}, "agent_visibility": {"const": "none_orchestrator_only"}, "policy_digest": {"$ref": "#/$defs/sha256"}
+  }, "$defs": {"id": {"type": "string", "minLength": 1, "maxLength": 240, "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"}, "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}}
+}

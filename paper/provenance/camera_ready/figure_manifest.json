@@ -1,0 +1,255 @@
+{
+  "authoritative_table_sha256": "919871c29ba8d47a6847e5550cac646876bb224f7246e6645968b70eb834609a",
+  "figures": [
+    {
+      "path": "figures/fig3a_native_metrics.pdf",
+      "sha256": "dab6ed51444f16cf6ee4ead1c279794a6d1cffaeca705d66857fbc290f28f870",
+      "source": "aggregates.csv panel=fig3a, policy=primary; original R design; Task2 n=19, Task3 n=20; paired protocol-bootstrap 95% intervals"
+    },
+    {
+      "path": "figures/fig3a_native_metrics.svg",
+      "sha256": "e2e2b6dc482b51ea5c59d92c7465a5e1a88d1679ed8036cfa6de44a678a6545f",
+      "source": "aggregates.csv panel=fig3a, policy=primary; original R design; Task2 n=19, Task3 n=20; paired protocol-bootstrap 95% intervals"
+    },
+    {
+      "path": "figures/fig3a_native_metrics.png",
+      "sha256": "1588ca51262ae29ca8ee92edd6eb9b71bab4a625058da236107f2948cea84fe5",
+      "source": "aggregates.csv panel=fig3a, policy=primary; original R design; Task2 n=19, Task3 n=20; paired protocol-bootstrap 95% intervals"
+    },
+    {
+      "path": "figures/fig3b_t2_heatmap.pdf",
+      "sha256": "111132548d2ba420830a242519d93fc09f2d11745e2d8417d66e4a144c17271d",
+      "source": "results.csv panel=fig3b, config_id=original, metric=t2_required_family_f1, required_families>0; 9 protocols"
+    },
+    {
+      "path": "figures/fig3b_t2_heatmap.svg",
+      "sha256": "aaccaea46f5197c569510f61e1af235cbe20cf7bc8b5fb1d3abca7567cb6dcef",
+      "source": "results.csv panel=fig3b, config_id=original, metric=t2_required_family_f1, required_families>0; 9 protocols"
+    },
+    {
+      "path": "figures/fig3b_t2_heatmap.png",
+      "sha256": "aa75744687746dc11f897d0c1eebd626cd73cc4a1467d9dabdc4d4a3167b0774",
+      "source": "results.csv panel=fig3b, config_id=original, metric=t2_required_family_f1, required_families>0; 9 protocols"
+    },
+    {
+      "path": "figures/fig3b_t3_heatmap.pdf",
+      "sha256": "18ce030acd9c77f0f3000f7181ffddd7374d9b9162ec2300dfca8fbbdada74fa",
+      "source": "results.csv panel=fig3b, config_id=original, metric=t3_molecular_transition_f1; all 10 protocols"
+    },
+    {
+      "path": "figures/fig3b_t3_heatmap.svg",
+      "sha256": "2765e4e5654b4221884485f352139188a4e07473be544dea938a7f774e6bd0d3",
+      "source": "results.csv panel=fig3b, config_id=original, metric=t3_molecular_transition_f1; all 10 protocols"
+    },
+    {
+      "path": "figures/fig3b_t3_heatmap.png",
+      "sha256": "44ebf54d1b01c5f8e31433e09e153a9ed1c33f7b35cbf23fb9aeafc30fb1cb9b",
+      "source": "results.csv panel=fig3b, config_id=original, metric=t3_molecular_transition_f1; all 10 protocols"
+    },
+    {
+      "path": "figures/fig3b_t3_state_heatmap.pdf",
+      "sha256": "617d85a6b767aa7ff35398ce6158f0d050643ce920f027a3736b71ccc13ca00f",
+      "source": "results.csv panel=fig3b, config_id=original, metric=t3_state_f1; all 10 protocols"
+    },
+    {
+      "path": "figures/fig3b_t3_state_heatmap.svg",
+      "sha256": "e4e4b39f84cb5bb8a37b3df1a018b4b6fdab0cd59b85a4736283748309b71142",
+      "source": "results.csv panel=fig3b, config_id=original, metric=t3_state_f1; all 10 protocols"
+    },
+    {
+      "path": "figures/fig3b_t3_state_heatmap.png",
+      "sha256": "76a69362ac4541ed152d11ffcdde61fd4d632d05338bf8e61e496dd6594cf606",
+      "source": "results.csv panel=fig3b, config_id=original, metric=t3_state_f1; all 10 protocols"
+    },
+    {
+      "path": "figures/fig3b_t3_typed_edge_heatmap.pdf",
+      "sha256": "5faa1a87cc571c691de14324399bf15efd329ae4ff71baf9b62f06b69ba7b427",
+      "source": "results.csv panel=fig3b, config_id=original, metric=t3_typed_edge_f1; all 10 protocols"
+    },
+    {
+      "path": "figures/fig3b_t3_typed_edge_heatmap.svg",
+      "sha256": "21f1cad09b46c7ecb47bf600fb3ea61b7990333786a38c1a014b6ac1caf642f1",
+      "source": "results.csv panel=fig3b, config_id=original, metric=t3_typed_edge_f1; all 10 protocols"
+    },
+    {
+      "path": "figures/fig3b_t3_typed_edge_heatmap.png",
+      "sha256": "e5c81304478b4f2c2bee40af530164ec871d845d2c070b99c428414b28903ab7",
+      "source": "results.csv panel=fig3b, config_id=original, metric=t3_typed_edge_f1; all 10 protocols"
+    },
+    {
+      "path": "figures/fig4a_external_knowledge_pilot.pdf",
+      "sha256": "e0df54abc83b9c68bc896134279cc107c3364bdfc6d44609324890c4ca3ef49f",
+      "source": "aggregates.csv panel=fig4a, policy=primary; original condition-grouped style; Task2 n=4, Task3 n=5; protocol-bootstrap intervals"
+    },
+    {
+      "path": "figures/fig4a_external_knowledge_pilot.svg",
+      "sha256": "3b02f004f1dba054f9ed6e103915858a420aab6f481b92c5eb5a822e7a5b90fd",
+      "source": "aggregates.csv panel=fig4a, policy=primary; original condition-grouped style; Task2 n=4, Task3 n=5; protocol-bootstrap intervals"
+    },
+    {
+      "path": "figures/fig4a_external_knowledge_pilot.png",
+      "sha256": "fb6de890dfc701bb87e26f568eb44d8f54a8e8c43e7455fde60eb7e4cc13e950",
+      "source": "aggregates.csv panel=fig4a, policy=primary; original condition-grouped style; Task2 n=4, Task3 n=5; protocol-bootstrap intervals"
+    },
+    {
+      "path": "figures/fig4c_agent_learning_curve.pdf",
+      "sha256": "21f635d4ec81f900ba5cc253c6e5350b9ad7582deeb96163b530da757dba98b9",
+      "source": "aggregates.csv panel=fig4c, policy=primary; original line/marker style without shading; all intervals retained in table; historical C30 unchanged"
+    },
+    {
+      "path": "figures/fig4c_agent_learning_curve.svg",
+      "sha256": "616e1b640b042f6e5c4ce815ccfeef9c2a33312b73f33e40a9092dabe0fe1f96",
+      "source": "aggregates.csv panel=fig4c, policy=primary; original line/marker style without shading; all intervals retained in table; historical C30 unchanged"
+    },
+    {
+      "path": "figures/fig4c_agent_learning_curve.png",
+      "sha256": "6a6ca95bb6d221169fc4118b3cdc249e974df28eda18ecef92156f2d89d534b7",
+      "source": "aggregates.csv panel=fig4c, policy=primary; original line/marker style without shading; all intervals retained in table; historical C30 unchanged"
+    },
+    {
+      "path": "figures/fig4d_test_comparison.pdf",
+      "sha256": "300fb872af979b590270c5dc92eaf918aaa9b755b54fc921ca27ee1bdf9d10f7",
+      "source": "aggregates.csv panel=fig4d, policy=primary; original condition-grouped style; all metrics n=10; protocol-bootstrap intervals"
+    },
+    {
+      "path": "figures/fig4d_test_comparison.svg",
+      "sha256": "b49e54be34dbfed4edca7c962ed9569496421a78536db7866f20dd3a442856ba",
+      "source": "aggregates.csv panel=fig4d, policy=primary; original condition-grouped style; all metrics n=10; protocol-bootstrap intervals"
+    },
+    {
+      "path": "figures/fig4d_test_comparison.png",
+      "sha256": "b8c648d754c12868775b32823dbbd720fbd1e0ebb4422b6526c3c2ced0cc3f8c",
+      "source": "aggregates.csv panel=fig4d, policy=primary; original condition-grouped style; all metrics n=10; protocol-bootstrap intervals"
+    },
+    {
+      "path": "figures/fig3c_error_profiles.pdf",
+      "sha256": "a3a09ed5d3fc087e1925a83a9fb25a5b9776719fe6e554663c2e4dfbcc0022c6",
+      "source": "error_profiles.csv scope=system"
+    },
+    {
+      "path": "figures/fig3c_error_profiles.svg",
+      "sha256": "f0213fdf69f92e705781db17915ec2482ba7cfcc37795ffdeac5a0201748c45c",
+      "source": "error_profiles.csv scope=system"
+    },
+    {
+      "path": "figures/fig3c_error_profiles.png",
+      "sha256": "cfb3413d3fb55fb7fb1ecf065a8bdc135815ca1bc6c13233fa256eb52463871b",
+      "source": "error_profiles.csv scope=system"
+    },
+    {
+      "path": "figures/fig3c_protocol_error_profiles.pdf",
+      "sha256": "dcd0dddbe041f7976aa98fb55bcb02d0f5854d92d8b5cae95a60d37bfb74cceb",
+      "source": "error_profiles.csv scope=protocol"
+    },
+    {
+      "path": "figures/fig3c_protocol_error_profiles.svg",
+      "sha256": "ecfef68f732377952cecb2dc0282c86acefc9cb0440f2d7fdeeb47cccc8e2e29",
+      "source": "error_profiles.csv scope=protocol"
+    },
+    {
+      "path": "figures/fig3c_protocol_error_profiles.png",
+      "sha256": "eb20d51dae4b3c8d7055bed54af8e1ed0c98622195b4e6dd277ed57d97b9ad4d",
+      "source": "error_profiles.csv scope=protocol"
+    },
+    {
+      "path": "figures/fig3d_cost_comparison.pdf",
+      "sha256": "df6435fea4715a66690ebbba0bbb9a0060dabd565eaac9aef026fdc420dafe60",
+      "source": "cost_performance.csv, costs preserved from locked historical trials/prices"
+    },
+    {
+      "path": "figures/fig3d_cost_comparison.svg",
+      "sha256": "0c33aacf342072720716412e547f420d75f7a0d6a3b3250a52035414f93f62bc",
+      "source": "cost_performance.csv, costs preserved from locked historical trials/prices"
+    },
+    {
+      "path": "figures/fig3d_cost_comparison.png",
+      "sha256": "a9a1858ce348f958b2b68debfe3090e7b05a85c1288900973159eff3a4ed8aba",
+      "source": "cost_performance.csv, costs preserved from locked historical trials/prices"
+    },
+    {
+      "path": "figures/fig3e_cost_performance.pdf",
+      "sha256": "c43f4778420ee1c3cc809044ba4e593b8f10c4f119b12a2f73d7fbc24a93f09d",
+      "source": "cost_performance.csv; Task2 n=9, Task3 n=10; paired protocol resampling"
+    },
+    {
+      "path": "figures/fig3e_cost_performance.svg",
+      "sha256": "90a0348af36bd5e2ad30f2883f6f817489f655af6817a99826daa6dd6e105a8f",
+      "source": "cost_performance.csv; Task2 n=9, Task3 n=10; paired protocol resampling"
+    },
+    {
+      "path": "figures/fig3e_cost_performance.png",
+      "sha256": "ccd54f70c80c909af3adbac7804e8aaacf2ce2dca0ff36256d118457c92776c9",
+      "source": "cost_performance.csv; Task2 n=9, Task3 n=10; paired protocol resampling"
+    },
+    {
+      "path": "figures/fig2_task1_api_vs_coding_agent.pdf",
+      "sha256": "580869856127d24b9c2138ff761f22479f158240f3ee6e56e392b514d01ccd1e",
+      "source": "results.csv panel=task1; task1_paired_contrasts.csv other=Agent"
+    },
+    {
+      "path": "figures/fig2_task1_api_vs_coding_agent.svg",
+      "sha256": "fe63db39734b1a1720f888cba4972fd8c52ce8c8185efb0d5d78969765151ee2",
+      "source": "results.csv panel=task1; task1_paired_contrasts.csv other=Agent"
+    },
+    {
+      "path": "figures/fig2_task1_api_vs_coding_agent.png",
+      "sha256": "7a5b87748bbfb333024ceb9ebf90914c654af6360149744103f32779456ab28d",
+      "source": "results.csv panel=task1; task1_paired_contrasts.csv other=Agent"
+    },
+    {
+      "path": "figures/figS_task1_name_only.pdf",
+      "sha256": "75ef08d5c7dd2b3c7f7cfda88da92673b00f60ca1d8d2c6fd43761f787ec51b6",
+      "source": "results.csv panel=task1; task1_paired_contrasts.csv other=NameOnly"
+    },
+    {
+      "path": "figures/figS_task1_name_only.svg",
+      "sha256": "c18804b3d70da001d98b082fe4ae21ad693dfa3b0b1ad29b25e9dae944a112bf",
+      "source": "results.csv panel=task1; task1_paired_contrasts.csv other=NameOnly"
+    },
+    {
+      "path": "figures/figS_task1_name_only.png",
+      "sha256": "02242b1630c82901299411ba07ef06faefa062846a4fec99cc0445477cc63fd0",
+      "source": "results.csv panel=task1; task1_paired_contrasts.csv other=NameOnly"
+    },
+    {
+      "path": "figures/figS_codex_repeated_runs.pdf",
+      "sha256": "853d9f59d4da1a32febb4a77a56a6d77edad7c63695a65356de10dc9070ad49d",
+      "source": "repeated_run_summary.csv policy=primary; all 60 saved attempts, no best-of-three"
+    },
+    {
+      "path": "figures/figS_codex_repeated_runs.svg",
+      "sha256": "d946da160a3a98c0f3201d5e2b2e872f6e26430dc6fce827ee054a49ede0d7e3",
+      "source": "repeated_run_summary.csv policy=primary; all 60 saved attempts, no best-of-three"
+    },
+    {
+      "path": "figures/figS_codex_repeated_runs.png",
+      "sha256": "9242f38050c987724a4f95f4a790d2b8ff0ab082c2b9865cb4a63ada15d2ecee",
+      "source": "repeated_run_summary.csv policy=primary; all 60 saved attempts, no best-of-three"
+    },
+    {
+      "path": "figures/figS_zero_required.pdf",
+      "sha256": "c451dfced9867c2cd9e5d7d09a1103e9931ee9af740439a3c3424cdf94c88894",
+      "source": "zero_required.csv panels=fig3a,fig4a,fig4c"
+    },
+    {
+      "path": "figures/figS_zero_required.svg",
+      "sha256": "1171fd1845c50adef446185d995370b9e083b0384c32d825722c91c96b259358",
+      "source": "zero_required.csv panels=fig3a,fig4a,fig4c"
+    },
+    {
+      "path": "figures/figS_zero_required.png",
+      "sha256": "bd766ab64fc8cf6abb7e09e563ae3ccc28f68015a6bff3008bbb738a2e87d7a1",
+      "source": "zero_required.csv panels=fig3a,fig4a,fig4c"
+    }
+  ],
+  "heatmap_fig4_style_script_sha256": "904820a0f28fd1c220a881f8deeef1ec9dc49c9dff8d180c818f109d68f0cf95",
+  "native_style_script_sha256": "4be90b78343f24401fa75ee1ece45a47fd12850207afcc81ddddc98915c8aa2b",
+  "native_style_source": "repo/analysis/paper_results/plot_fig3_baselines.R",
+  "native_style_source_sha256": "3c46c3a3e54f15fb31ca18551b6541804d683b7ffb711fa3f112dcffb189e468",
+  "script_sha256": "439a34ab2b573477d3fa6e75437fefa9b0ed40045b34794921b5869dd9a04b0d",
+  "style_sources": {
+    "plot_fig3_baselines.R": "3c46c3a3e54f15fb31ca18551b6541804d683b7ffb711fa3f112dcffb189e468",
+    "plot_fig4_external_knowledge.R": "4d05f49c96151cc840b70e8e8ddb92e2128f363958e32c5273cb2283cd71dcd9",
+    "plot_fig4cd_autonomous_improvement.R": "11ccfcf64db338902992fc1337862a4529de3940cb6e833236e2c16d0fd7aa53"
+  }
+}

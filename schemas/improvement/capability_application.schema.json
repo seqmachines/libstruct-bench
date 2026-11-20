@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/improvement/capability_application.schema.json",
+  "title": "Deterministic capability-pack application record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "application_id", "proposal_digest", "decision_digest", "parent_pack_digest", "validation_guidance", "status", "accepted_change_ids", "skipped_change_ids", "output_pack", "validation", "created_at", "application_digest"],
+  "properties": {
+    "schema_version": {"const": "libstruct.libgen_capability_application.v1"},
+    "application_id": {"$ref": "#/$defs/id"},
+    "proposal_digest": {"$ref": "#/$defs/sha256"},
+    "decision_digest": {"$ref": "#/$defs/sha256"},
+    "parent_pack_digest": {"$ref": "#/$defs/sha256"},
+    "validation_guidance": {"$ref": "#/$defs/validation_guidance"},
+    "status": {"type": "string", "enum": ["applied", "no_op", "no_op_validation_failed"]},
+    "accepted_change_ids": {"type": "array", "maxItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/id"}},
+    "skipped_change_ids": {"type": "array", "maxItems": 2, "uniqueItems": true, "items": {"$ref": "#/$defs/id"}},
+    "output_pack": {"type": "object", "additionalProperties": false, "required": ["path", "pack_digest", "manifest_sha256"], "properties": {"path": {"type": "string", "minLength": 1}, "pack_digest": {"$ref": "#/$defs/sha256"}, "manifest_sha256": {"$ref": "#/$defs/sha256"}}},
+    "validation": {"type": "object", "additionalProperties": false, "required": ["static", "leakage", "synthetic", "issues"], "properties": {"static": {"type": "string", "enum": ["pass", "fail"]}, "leakage": {"type": "string", "enum": ["pass", "fail", "not_configured"]}, "synthetic": {"type": "string", "enum": ["pass", "fail", "not_run"]}, "issues": {"type": "array", "items": {"type": "string"}}}},
+    "created_at": {"type": "string", "format": "date-time"},
+    "application_digest": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {"id": {"type": "string", "minLength": 1, "maxLength": 240, "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"}, "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}, "validation_guidance": {"type": "object", "additionalProperties": false, "required": ["checkpoint_label", "aggregate_digest", "aggregate_sha256", "workspace_digest", "workspace_manifest_sha256"], "properties": {"checkpoint_label": {"type": "string", "enum": ["C0", "C5", "C10", "C15", "C20"]}, "aggregate_digest": {"$ref": "#/$defs/sha256"}, "aggregate_sha256": {"$ref": "#/$defs/sha256"}, "workspace_digest": {"$ref": "#/$defs/sha256"}, "workspace_manifest_sha256": {"$ref": "#/$defs/sha256"}}}}
+}

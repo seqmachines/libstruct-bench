@@ -1,0 +1,27 @@
+{
+  "job_name": "task1-round2-antigravity-cli-high",
+  "jobs_dir": "runs/library_structure/round2/coding_agent",
+  "n_attempts": 1,
+  "environment": {
+    "type": "docker"
+  },
+  "agents": [
+    {
+      "import_path": "libstruct_bench.harbor_agents.antigravity_gcp:AntigravityGcp",
+      "model_name": "google/gemini-3.7-flash-high",
+      "kwargs": {
+        "version": "1.3.2",
+        "reasoning_effort": "high",
+        "print_timeout": "29m",
+        "gcp_project": "gen-lang-client-0325887617",
+        "gcp_location": "global"
+      }
+    }
+  ],
+  "datasets": [
+    {
+      "path": "runs/library_structure/round2/tasks"
+    }
+  ],
+  "n_concurrent_trials": 4
+}

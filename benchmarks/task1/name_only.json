@@ -1,0 +1,184 @@
+{
+  "schema_version": "libstruct.task1_name_only_experiment.v1",
+  "condition": "protocol-name-only (parametric-knowledge control)",
+  "api_defaults": {
+    "models": [
+      "anthropic/claude-opus-5",
+      "openai/gpt-5.6-sol",
+      "google/gemini-3.7-flash"
+    ],
+    "reasoning_effort": "high",
+    "max_completion_tokens": 64000
+  },
+  "round2_manifest": "benchmarks/task1/protocols.json",
+  "reference_lock": "analysis/paper_results/task1_reference_lock.json",
+  "pdf_provenance": "analysis/paper_results/task1_provenance.json",
+  "pdf_scores": "analysis/paper_results/task1_grades_long.csv",
+  "reference_snapshot": "5a81714+human-vn-w1-barcode-range-2026-10-10",
+  "name_version_source": "Canonical protocol_name and protocol_scope.protocol_version fields in the hash-locked Task 1 records; null means not separately specified. Only those two fields enter the user message.",
+  "group_definition": "Exploratory: explicitly branded kit/platform protocols (three 10x, PIP-seq v4, ddSEQ) versus named academic research protocols. inDrop and SMART-seq refer to the original named methods, not later commercial implementations. Group labels are never sent to the model. This is not a classification of all subsequent commercialization.",
+  "locked_files": [
+    {
+      "path": "benchmarks/task1/protocols.json",
+      "sha256": "05305d5f2e14b9028236a9e48a2f0624d4e94b0d56c076629aa8818ff840f6e8"
+    },
+    {
+      "path": "analysis/paper_results/task1_reference_lock.json",
+      "sha256": "7694a38ab5495fa4c4d38b5e3af5558ab216ef4ac4b9e3caabb17934adb1f894"
+    },
+    {
+      "path": "analysis/paper_results/task1_reference.py",
+      "sha256": "7952fd2f1497e7fd20599bd255f58fde34c914c16439d4e2c04af52fad4f4a2c"
+    },
+    {
+      "path": "analysis/paper_results/task1_provenance.json",
+      "sha256": "e25f579d3b55f6630c133c1cacc91cab5616f30fd0a7826be77e3b218c6b3a9e"
+    },
+    {
+      "path": "analysis/paper_results/task1_grades_long.csv",
+      "sha256": "db349e0bcbdf2ebb4b2833f61469a90b571b499ac4e9fc443d26e7aaa9805e1e"
+    },
+    {
+      "path": "src/libstruct_bench/library_structure.py",
+      "sha256": "b9960ab9ec3a6ca8ce00d39ce42bc6485f83940d5bf3160af8e32d619b4519e6"
+    },
+    {
+      "path": "src/libstruct_bench/matching.py",
+      "sha256": "7e17e2badf2608a942cb206dc03df4bc01a861ed6e66680173d26fb7c7f35f21"
+    },
+    {
+      "path": "src/libstruct_bench/normalization.py",
+      "sha256": "830678dc65731b6aa3da0c6a4ef7ff6916a298cd3ca546c163e66ba037577a66"
+    },
+    {
+      "path": "src/libstruct_bench/cli/grade_library_v0.py",
+      "sha256": "952d0e7a398a81adc140cfb3af9400ae9bd39917d825ec2cb12fd5258056bd99"
+    },
+    {
+      "path": "analysis/paper_results/prepare_task1_paper_data.py",
+      "sha256": "8ea70838e21fce13bf6c3a631793961b766f4eed489dddff97011866103dac9a"
+    }
+  ],
+  "protocols": [
+    {
+      "protocol_id": "10x_chromium_single_cell_atac_v2",
+      "canonical_name": "10x Chromium Single Cell ATAC v2",
+      "version": "v2",
+      "method_group": "commercial"
+    },
+    {
+      "protocol_id": "10x_chromium_3_gene_expression_v4",
+      "canonical_name": "10x Chromium 3' Gene Expression v4",
+      "version": "v4",
+      "method_group": "commercial"
+    },
+    {
+      "protocol_id": "10x_chromium_3_feature_barcoding",
+      "canonical_name": "10x Chromium 3' Feature Barcoding",
+      "version": "Single Cell 3' v3 & v3.1 with Feature Barcode technology for Cell Surface Protein (CG000185)",
+      "method_group": "commercial"
+    },
+    {
+      "protocol_id": "drop_seq",
+      "canonical_name": "Drop-seq",
+      "version": "Drop-seq laboratory protocol v1.1 (2015-08-06) / Macosko et al. Cell 2015",
+      "method_group": "academic"
+    },
+    {
+      "protocol_id": "seq_well_s3",
+      "canonical_name": "Seq-Well S3",
+      "version": null,
+      "method_group": "academic"
+    },
+    {
+      "protocol_id": "indrop_v1",
+      "canonical_name": "inDrop v1",
+      "version": "v1",
+      "method_group": "academic"
+    },
+    {
+      "protocol_id": "s3_atac",
+      "canonical_name": "s3-ATAC",
+      "version": null,
+      "method_group": "academic"
+    },
+    {
+      "protocol_id": "cel_seq",
+      "canonical_name": "CEL-seq",
+      "version": null,
+      "method_group": "academic"
+    },
+    {
+      "protocol_id": "split_seq",
+      "canonical_name": "SPLiT-seq",
+      "version": "Science 2018 published version (Rosenberg et al., Science 360:176-182)",
+      "method_group": "academic"
+    },
+    {
+      "protocol_id": "sci_rna_seq",
+      "canonical_name": "sci-RNA-seq",
+      "version": null,
+      "method_group": "academic"
+    },
+    {
+      "protocol_id": "sci_atac_seq",
+      "canonical_name": "sci-ATAC-seq",
+      "version": "sci-ATAC-seq (Cusanovich et al. 2015)",
+      "method_group": "academic"
+    },
+    {
+      "protocol_id": "microwell_seq",
+      "canonical_name": "Microwell-seq",
+      "version": null,
+      "method_group": "academic"
+    },
+    {
+      "protocol_id": "scrrbs",
+      "canonical_name": "scRRBS",
+      "version": "Nature Protocols 2015 (Guo et al., Nat Protoc 10:645-659)",
+      "method_group": "academic"
+    },
+    {
+      "protocol_id": "pip_seq_v4",
+      "canonical_name": "PIP-seq v4",
+      "version": "FluentBio PIPseq V4.0",
+      "method_group": "commercial"
+    },
+    {
+      "protocol_id": "scdamid",
+      "canonical_name": "scDamID",
+      "version": null,
+      "method_group": "academic"
+    },
+    {
+      "protocol_id": "ddseq_single_cell_3_rna_seq_kit",
+      "canonical_name": "ddSEQ Single-Cell 3' RNA-Seq Kit",
+      "version": "User Guide Version 1.0 (DIR No. 10000167449, Ver B)",
+      "method_group": "commercial"
+    },
+    {
+      "protocol_id": "smart_seq",
+      "canonical_name": "SMART-seq",
+      "version": "SMART-seq",
+      "method_group": "academic"
+    },
+    {
+      "protocol_id": "share_seq",
+      "canonical_name": "SHARE-seq",
+      "version": null,
+      "method_group": "academic"
+    },
+    {
+      "protocol_id": "dr_seq",
+      "canonical_name": "DR-seq",
+      "version": null,
+      "method_group": "academic"
+    },
+    {
+      "protocol_id": "petri_seq",
+      "canonical_name": "PETRI-seq",
+      "version": null,
+      "method_group": "academic"
+    }
+  ]
+}

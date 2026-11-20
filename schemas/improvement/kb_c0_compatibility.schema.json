@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/improvement/kb_c0_compatibility.schema.json",
+  "title": "C0 baseline reuse compatibility registry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "design_digest", "baseline_root", "expected_agent", "entries", "summary", "registry_digest"],
+  "properties": {
+    "schema_version": {"enum": ["libstruct.libgen_kb_c0_compatibility.v1", "libstruct.libgen_kb_c0_compatibility.v2"]},
+    "design_digest": {"$ref": "#/$defs/sha256"},
+    "baseline_root": {"type": "string", "minLength": 1},
+    "expected_agent": {"type": "object"},
+    "entries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["protocol_id", "panel", "status", "reasons"],
+        "properties": {
+          "protocol_id": {"type": "string"},
+          "panel": {"enum": ["training", "validation", "test"]},
+          "status": {"enum": ["compatible", "missing", "incompatible"]},
+          "reasons": {"type": "array", "items": {"type": "string"}},
+          "trial_root": {"type": "string"},
+          "result_sha256": {"$ref": "#/$defs/sha256"},
+          "prediction_sha256": {"$ref": "#/$defs/sha256"},
+          "agent_visible_fingerprint": {"$ref": "#/$defs/sha256"},
+          "baseline_condition": {"enum": ["raw_codex", "codex_c0_empty_memory_base_pack"]},
+          "baseline_trial": {"$ref": "#/$defs/trial"}
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["compatible", "missing", "incompatible", "backfill_protocol_ids"],
+      "properties": {
+        "compatible": {"type": "integer", "minimum": 0},
+        "missing": {"type": "integer", "minimum": 0},
+        "incompatible": {"type": "integer", "minimum": 0},
+        "backfill_protocol_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string"}}
+      }
+    },
+    "registry_digest": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "trial": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["trial_root", "artifacts", "runtime_artifacts", "trial_digest"],
+      "properties": {
+        "trial_root": {"type": "string", "minLength": 1},
+        "artifacts": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["config", "result", "t2_prediction", "t3_prediction", "trajectory", "reward", "verifier_details", "error_analysis"],
+          "properties": {
+            "config": {"$ref": "#/$defs/artifact"},
+            "result": {"$ref": "#/$defs/artifact"},
+            "t2_prediction": {"$ref": "#/$defs/artifact"},
+            "t3_prediction": {"$ref": "#/$defs/artifact"},
+            "trajectory": {"$ref": "#/$defs/artifact"},
+            "reward": {"$ref": "#/$defs/artifact"},
+            "verifier_details": {"$ref": "#/$defs/artifact"},
+            "error_analysis": {"$ref": "#/$defs/artifact"}
+          }
+        },
+        "runtime_artifacts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["label", "path", "sha256"],
+            "properties": {
+              "label": {"type": "string", "pattern": "^[a-z0-9_]+$"},
+              "path": {"type": "string", "minLength": 1},
+              "sha256": {"$ref": "#/$defs/sha256"}
+            }
+          }
+        },
+        "trial_digest": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  }
+}

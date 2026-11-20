@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/improvement/kb_validator_review_proposal_draft.schema.json",
+  "title": "Codex validator diagnostic proposal draft",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "protocol_id", "comparison_digest", "revision_round", "summary", "findings", "no_validator_issue_rationale"],
+  "properties": {
+    "schema_version": {"type": "string", "const": "libstruct.libgen_kb_validator_review_proposal_draft.v1"},
+    "protocol_id": {"$ref": "#/$defs/id"},
+    "comparison_digest": {"$ref": "#/$defs/sha256"},
+    "revision_round": {"type": "integer", "minimum": 0, "maximum": 1},
+    "summary": {"type": "string", "minLength": 1},
+    "findings": {"type": "array", "items": {"$ref": "#/$defs/finding"}},
+    "no_validator_issue_rationale": {"type": ["string", "null"], "minLength": 1}
+  },
+  "$defs": {
+    "id": {"type": "string", "minLength": 1, "maxLength": 240, "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"},
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "observation_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["condition", "error_id"],
+      "properties": {
+        "condition": {"type": "string", "const": "C30"},
+        "error_id": {"type": "string", "pattern": "^err_[0-9]{4,}$"}
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["artifact_path", "locator", "summary"],
+      "properties": {
+        "artifact_path": {"type": "string", "minLength": 1},
+        "locator": {"type": "string", "minLength": 1},
+        "summary": {"type": "string", "minLength": 1}
+      }
+    },
+    "finding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["finding_id", "observation_refs", "tasks", "classification", "validator_issue_candidate", "diagnosis", "conditions_affected", "source_evidence", "verifier_evidence", "trajectory_evidence", "score_effect", "confidence"],
+      "properties": {
+        "finding_id": {"type": "string", "pattern": "^F[0-9]{3}$"},
+        "observation_refs": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/observation_ref"}},
+        "tasks": {"type": "array", "minItems": 1, "items": {"type": "string", "enum": ["T1", "T2", "T3", "cross_task"]}},
+        "classification": {"type": "string", "enum": ["valid_agent_difference", "evaluator_defect", "ground_truth_defect", "source_scope_mismatch", "representation_policy_ambiguity", "source_conflict", "infrastructure", "unresolved"]},
+        "validator_issue_candidate": {"type": "boolean"},
+        "diagnosis": {"type": "string", "minLength": 1},
+        "conditions_affected": {"type": "array", "minItems": 1, "items": {"type": "string", "enum": ["C0", "C30"]}},
+        "source_evidence": {"type": "array", "items": {"$ref": "#/$defs/evidence"}},
+        "verifier_evidence": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/evidence"}},
+        "trajectory_evidence": {"type": "array", "items": {"$ref": "#/$defs/evidence"}},
+        "score_effect": {"type": "string", "enum": ["false_penalty", "false_credit", "mixed", "neutral", "uncertain"]},
+        "confidence": {"type": "string", "enum": ["high", "medium", "low"]}
+      }
+    }
+  }
+}

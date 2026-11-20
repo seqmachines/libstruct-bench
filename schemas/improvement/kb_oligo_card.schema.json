@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/improvement/kb_oligo_card.schema.json",
+  "title": "Pseudonymous source-tiered LibGen oligo card",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "exemplar_id", "training_ordinal", "oligos", "card_digest"],
+  "properties": {
+    "schema_version": {"const": "libstruct.libgen_kb_oligo_card.v1"},
+    "exemplar_id": {"$ref": "#/$defs/exemplar_id"},
+    "training_ordinal": {"type": "integer", "minimum": 1},
+    "oligos": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/oligo"}
+    },
+    "card_digest": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "exemplar_id": {"type": "string", "pattern": "^exm-[a-f0-9]{32}$"},
+    "support": {"enum": ["explicit", "derivable", "externally_completed", "ambiguous", "unsupported"]},
+    "component": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "role", "orientation", "modifications", "support_status", "retrieval_eligible"],
+      "properties": {
+        "name": {"type": "string"},
+        "role": {"type": "string"},
+        "orientation": {"type": "string"},
+        "modifications": {"type": "array", "items": {"type": "string"}},
+        "support_status": {"$ref": "#/$defs/support"},
+        "retrieval_eligible": {"type": "boolean"},
+        "sequence": {"type": "string"},
+        "placeholder": {"type": "string"},
+        "length": {"type": "integer", "minimum": 0}
+      }
+    },
+    "oligo": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["oligo_id", "name", "aliases", "role", "kind", "orientation", "components", "modifications", "support_status", "retrieval_eligible"],
+      "properties": {
+        "oligo_id": {"type": "string", "pattern": "^oligo-[0-9]{3}$"},
+        "name": {"type": "string"},
+        "aliases": {"type": "array", "items": {"type": "string"}},
+        "role": {"type": "string"},
+        "kind": {"type": "string"},
+        "orientation": {"type": "string"},
+        "sequence": {"type": "string"},
+        "components": {"type": "array", "items": {"$ref": "#/$defs/component"}},
+        "modifications": {"type": "array", "items": {"type": "string"}},
+        "support_status": {"$ref": "#/$defs/support"},
+        "retrieval_eligible": {"type": "boolean"}
+      }
+    }
+  }
+}

@@ -1,0 +1,25 @@
+method,metric,term,F,numerator_df,denominator_df,raw_p,bonferroni_p,family_size,source
+Mixed model (REML),t2_required_family_f1,model,0.467559693299684,2.0,40.0,0.629910140407171,1.0,12,mixed_omnibus.csv
+Mixed model (REML),t2_required_family_f1,harness,0.000694664773210015,1.0,40.0,0.979104050705835,1.0,12,mixed_omnibus.csv
+Mixed model (REML),t2_required_family_f1,model:harness,0.326205264108433,2.0,40.0,0.723558706255213,1.0,12,mixed_omnibus.csv
+Mixed model (REML),t3_molecular_transition_f1,model,0.961317386582859,2.0,45.0,0.390101640150135,1.0,12,mixed_omnibus.csv
+Mixed model (REML),t3_molecular_transition_f1,harness,0.207163223239056,1.0,45.0,0.651188446164604,1.0,12,mixed_omnibus.csv
+Mixed model (REML),t3_molecular_transition_f1,model:harness,0.229399517489694,2.0,45.0,0.795934820321515,1.0,12,mixed_omnibus.csv
+Mixed model (REML),t3_state_f1,model,23.1047612223567,2.0,45.0,1.24846815219293e-07,1.498161782631516e-06,12,mixed_omnibus.csv
+Mixed model (REML),t3_state_f1,harness,0.31875113903704,1.0,45.0,0.57516278501286,1.0,12,mixed_omnibus.csv
+Mixed model (REML),t3_state_f1,model:harness,1.46905929239998,2.0,45.0,0.240968008688428,1.0,12,mixed_omnibus.csv
+Mixed model (REML),t3_typed_edge_f1,model,0.645157604209795,2.0,45.0,0.529362842158339,1.0,12,mixed_omnibus.csv
+Mixed model (REML),t3_typed_edge_f1,harness,0.950044005178418,1.0,45.0,0.334918813085392,1.0,12,mixed_omnibus.csv
+Mixed model (REML),t3_typed_edge_f1,model:harness,0.269125905085382,2.0,45.0,0.765268062730021,1.0,12,mixed_omnibus.csv
+Protocol-blocked ANOVA (GG),t2_required_family_f1,model,0.236735176606772,1.35257980660501,10.8206384528401,0.70740860746402,1.0,12,blocked_factorial.csv
+Protocol-blocked ANOVA (GG),t2_required_family_f1,harness,0.00277944493379897,1.0,8.0,0.959247350877605,1.0,12,blocked_factorial.csv
+Protocol-blocked ANOVA (GG),t2_required_family_f1,model:harness,0.815507587390766,1.75868468478651,14.0694774782921,0.447792345018565,1.0,12,blocked_factorial.csv
+Protocol-blocked ANOVA (GG),t3_molecular_transition_f1,model,0.573970101131324,1.52239608370874,13.7015647533787,0.531269755222954,1.0,12,blocked_factorial.csv
+Protocol-blocked ANOVA (GG),t3_molecular_transition_f1,harness,0.394424011801929,1.0,9.0,0.54558727790719,1.0,12,blocked_factorial.csv
+Protocol-blocked ANOVA (GG),t3_molecular_transition_f1,model:harness,0.40780039787126,1.58273879550566,14.244649159551,0.626066029218049,1.0,12,blocked_factorial.csv
+Protocol-blocked ANOVA (GG),t3_state_f1,model,17.0320597786653,1.95193126058946,17.5673813453052,8.3712078509857e-05,0.001004544942118284,12,blocked_factorial.csv
+Protocol-blocked ANOVA (GG),t3_state_f1,harness,0.491611510659953,1.0,9.0,0.500934581707703,1.0,12,blocked_factorial.csv
+Protocol-blocked ANOVA (GG),t3_state_f1,model:harness,1.79314387287027,1.22137911816452,10.9924120634807,0.210734405388586,1.0,12,blocked_factorial.csv
+Protocol-blocked ANOVA (GG),t3_typed_edge_f1,model,0.516207790021664,1.72319159524387,15.5087243571948,0.580246278450224,1.0,12,blocked_factorial.csv
+Protocol-blocked ANOVA (GG),t3_typed_edge_f1,harness,0.952500559674356,1.0,9.0,0.35458498698645,1.0,12,blocked_factorial.csv
+Protocol-blocked ANOVA (GG),t3_typed_edge_f1,model:harness,0.358124316437514,1.38442369760551,12.4598132784496,0.629532241405409,1.0,12,blocked_factorial.csv

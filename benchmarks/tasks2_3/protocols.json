@@ -1,0 +1,377 @@
+{
+  "description": "Twenty-protocol linked T2/T3 benchmark manifest. Sources are the complete approved primary-evidence bundles; legacy curation and current benchmark records are excluded.",
+  "protocols": [
+    {
+      "protocol_id": "10x_chromium_single_cell_atac_v2",
+      "display_name": "10x Chromium Single Cell ATAC v2",
+      "sources": [
+        {
+          "path": "10x_chromium_single_cell_atac_v2/10xChromium_scATACv2.pdf",
+          "sha256": "bd4f79e69dc1768e0eb1ba0dc202d87a0998b64a4e51eae5665ea8704b002579"
+        },
+        {
+          "path": "10x_chromium_single_cell_atac_v2/10x_scATAC_barcode_table.xlsx",
+          "sha256": "68b9e997ef35d9cd1a56d9b8f2390802a81ecdede3865125eaf687370d7a2289"
+        },
+        {
+          "path": "10x_chromium_single_cell_atac_v2/10x_scATAC_foundational_paper.pdf",
+          "sha256": "d8d1486de10fdecbc720a267bb4fb54e3818677380d1873491333f3311c5052f"
+        },
+        {
+          "path": "10x_chromium_single_cell_atac_v2/10x_scATAC_foundational_supplement.pdf",
+          "sha256": "8ecc3a81de7feda3cf1917aa9bb802dd89de400b46daf1e98e651c40ed7e5823"
+        }
+      ],
+      "groundtruth_prefix": "10x_chromium_single_cell_atac_v2"
+    },
+    {
+      "protocol_id": "10x_chromium_3_gene_expression_v4",
+      "display_name": "10x Chromium 3' Gene Expression v4",
+      "sources": [
+        {
+          "path": "10x_chromium_3_gene_expression_v4/10xChromium3v4.pdf",
+          "sha256": "6661eb5da6e604436675db567467f859d22f3d901afdb45f13b03a65f42589fb"
+        },
+        {
+          "path": "10x_chromium_3_gene_expression_v4/Chromium_3p_foundational_paper.pdf",
+          "sha256": "3fd14d3c9fde8f8a16d938ebfe405920c16feeccc780561dc2d0a504f01baab4"
+        },
+        {
+          "path": "10x_chromium_3_gene_expression_v4/Chromium_3p_foundational_supplement.pdf",
+          "sha256": "700d938ef92c836f2499b5b40135b7fa172328c7871f273e43120a409535b06b"
+        }
+      ],
+      "groundtruth_prefix": "10x_chromium_3_gene_expression_v4"
+    },
+    {
+      "protocol_id": "10x_chromium_3_feature_barcoding",
+      "display_name": "10x Chromium 3' Feature Barcoding",
+      "sources": [
+        {
+          "path": "10x_chromium_3_feature_barcoding/10xChromium3fb.pdf",
+          "sha256": "4b03b7d4448836f839e0cbedb8012e402a99b152b6a23a8046fabb0c5381a819"
+        },
+        {
+          "path": "10x_chromium_3_feature_barcoding/CG000149_cell_surface_labeling_protocol.pdf",
+          "sha256": "3b5cab389d029681913c0f84c85614b43cd5a45d63161f4356bf8a6d951f174f"
+        },
+        {
+          "path": "10x_chromium_3_feature_barcoding/CITE-seq_author_protocol.pdf",
+          "sha256": "6e647bd42ded5b516ecc7f8e33752aeb000038c015ba01724f325c046708ba42"
+        },
+        {
+          "path": "10x_chromium_3_feature_barcoding/CITE-seq_foundational_paper.pdf",
+          "sha256": "a99c39250a40ad6990bebc0c36c9a259fe8f85d31a8729deeb3fac52cd3f469a"
+        },
+        {
+          "path": "10x_chromium_3_feature_barcoding/CITE-seq_supplement.pdf",
+          "sha256": "fe052825574f89bc187d9a78ac194a8c125d1cc3617f7b54e3c1377cc63d84c4"
+        }
+      ],
+      "groundtruth_prefix": "10x_chromium_3_feature_barcoding"
+    },
+    {
+      "protocol_id": "drop_seq",
+      "display_name": "Drop-seq",
+      "sources": [
+        {
+          "path": "drop_seq/Drop-seq_author_protocol_v1.1.pdf",
+          "sha256": "0e662a35307956437f2414ffbbe1681f6fcd9f0c6403e4a7f148215e417b1b93"
+        },
+        {
+          "path": "drop_seq/drop-seq_paper.pdf",
+          "sha256": "84179dc8bfce57a3195ebe5d53ed1257883d9e18111cef6a2dcd90dfadae92b7"
+        },
+        {
+          "path": "drop_seq/drop-seq_supp.pdf",
+          "sha256": "7b63216599c518dccd63c484cb6bc448fa181e8d9ddbdf0f2ac788b12296442d"
+        }
+      ],
+      "groundtruth_prefix": "drop_seq"
+    },
+    {
+      "protocol_id": "seq_well_s3",
+      "display_name": "Seq-Well S3",
+      "sources": [
+        {
+          "path": "seq_well_s3/SeqWell_S3_paper.pdf",
+          "sha256": "b634dc0f285332de12725f34dba11715720cacf31d84982d8f52a9a01d07f2a7"
+        },
+        {
+          "path": "seq_well_s3/SeqWell_S3_supp.pdf",
+          "sha256": "0de4dfbdf46f494f68387b80bd122e3614006039257340a94dba75718a870635"
+        },
+        {
+          "path": "seq_well_s3/supplementary_mmc1.pdf",
+          "sha256": "0d64ab07db193fdb84289d86a58a558d987a8d53e30a79d3180957b56c430d08"
+        }
+      ],
+      "groundtruth_prefix": "seq_well_s3"
+    },
+    {
+      "protocol_id": "indrop_v1",
+      "display_name": "inDrop v1",
+      "sources": [
+        {
+          "path": "indrop_v1/inDrop_original_paper.pdf",
+          "sha256": "7d733db669f43d6787261ef494200d0d3099c0c12c428d75793e29b4db05c81b"
+        },
+        {
+          "path": "indrop_v1/inDrop_v1_supp.pdf",
+          "sha256": "8f9c9a3c42a2a608fa809bb2cdbf9ef04a4217fb891892345f3bc3ae1728dda8"
+        }
+      ],
+      "groundtruth_prefix": "indrop_v1"
+    },
+    {
+      "protocol_id": "s3_atac",
+      "display_name": "s3-ATAC",
+      "sources": [
+        {
+          "path": "s3_atac/s3-ATAC.pdf",
+          "sha256": "1234d1e43ed42f74d771a141c3731585b39251f3ffc4614413ab3d0672d164ab"
+        },
+        {
+          "path": "s3_atac/s3-ATAC.xlsx",
+          "sha256": "3b59fe6bd20c2bd1d123c830fcd8507112b2df34633519685a61c75a9ec0ae89"
+        },
+        {
+          "path": "s3_atac/supplementary_NIHMS1707134-supplement-Supplementary_Information.pdf",
+          "sha256": "dd2af9d0611f13f7710a171abbaaa977a880c80608c98c8d95514089ce454064"
+        }
+      ],
+      "groundtruth_prefix": "s3_atac"
+    },
+    {
+      "protocol_id": "cel_seq",
+      "display_name": "CEL-seq",
+      "sources": [
+        {
+          "path": "cel_seq/CEL-Seq_paper.pdf",
+          "sha256": "b9daf7249858227bd6ff4d68ab5f777e1cb0dc1bb5a2b731be058cad45039a83"
+        },
+        {
+          "path": "cel_seq/CEL-Seq_protocol.pdf",
+          "sha256": "2cbc831215ee3f8473219a5c08d6871ae7fe49c34c9f1e3bf70b592c6a5ecf6e"
+        }
+      ],
+      "groundtruth_prefix": "cel_seq"
+    },
+    {
+      "protocol_id": "split_seq",
+      "display_name": "SPLiT-seq",
+      "sources": [
+        {
+          "path": "split_seq/SPLiT-seq.xlsx",
+          "sha256": "1bf965120d296995ee6793340b5ee0fecf3c06806a55a5318cd5d15cd6bae426"
+        },
+        {
+          "path": "split_seq/SPLiT-seq_paper.pdf",
+          "sha256": "f374224c2a8533eef5bf47f313812d41d69dd2bee6a87c0a0f0525858f201fc0"
+        },
+        {
+          "path": "split_seq/SPLiT-seq_supp.pdf",
+          "sha256": "79bd5601be71f1a052ed5816740ea842e29a204f4f58f4ab5badac02c1c0c9fc"
+        }
+      ],
+      "groundtruth_prefix": "split_seq"
+    },
+    {
+      "protocol_id": "sci_rna_seq",
+      "display_name": "sci-RNA-seq",
+      "sources": [
+        {
+          "path": "sci_rna_seq/paper.pdf",
+          "sha256": "31fbcab82aa907036f6641f7e66bcba0a9cf06ecfefcc365bcc66e5eb6dc3c6a"
+        },
+        {
+          "path": "sci_rna_seq/supplementary.pdf",
+          "sha256": "4fa14ce56e305c1369ca1ecc5207d77cb2e9488f2c8e8c71ca4125ce17bf2019"
+        }
+      ],
+      "groundtruth_prefix": "sci_rna_seq"
+    },
+    {
+      "protocol_id": "sci_atac_seq",
+      "display_name": "sci-ATAC-seq",
+      "sources": [
+        {
+          "path": "sci_atac_seq/sci-ATAC-seq.xlsx",
+          "sha256": "954913c9ac149978d5221b375d40689a0ac9ec3e8c60f7165f2fa7d1de3f4ec4"
+        },
+        {
+          "path": "sci_atac_seq/sci-ATAC-seq_original_paper_corrected.pdf",
+          "sha256": "e633a06145b85d90feaef58c2790bfdc5b6711ef98c5fb15aed45d88a3ad1d1f"
+        },
+        {
+          "path": "sci_atac_seq/sci-ATAC-seq_paper.pdf",
+          "sha256": "bcf526797a5efa310c8b5edab0c0b6c84650b36f0cd4c7aba23a82fe67d898e3"
+        },
+        {
+          "path": "sci_atac_seq/sci-ATAC-seq_supp.pdf",
+          "sha256": "1c6fb4ba5a9558de4490cb0c6d7a948a43fffe9c33e87a650378dd632205d1b0"
+        }
+      ],
+      "groundtruth_prefix": "sci_atac_seq"
+    },
+    {
+      "protocol_id": "microwell_seq",
+      "display_name": "Microwell-seq",
+      "sources": [
+        {
+          "path": "microwell_seq/Microwell-seq.pdf",
+          "sha256": "64b440bc37f6cb00700a6ada5258d3fff0a64ea790e04478d895105a9714a38e"
+        },
+        {
+          "path": "microwell_seq/Microwell-seq_supp1.xlsx",
+          "sha256": "df348ae5348eb00b30211b7cafa3301db6604bbda8db5a2490360c81e5cc1d88"
+        },
+        {
+          "path": "microwell_seq/Microwell-seq_supp2.xlsx",
+          "sha256": "185aa52c602b216cb015ed1056bd52a7e877d00dacbbdce0ca8d904b5371b5b7"
+        }
+      ],
+      "groundtruth_prefix": "microwell_seq"
+    },
+    {
+      "protocol_id": "scrrbs",
+      "display_name": "scRRBS",
+      "sources": [
+        {
+          "path": "scrrbs/paper.pdf",
+          "sha256": "4d31ab24e81f0f3f5f7547a6cf030bbb8ee19532b191da79604fa151be5a4651"
+        },
+        {
+          "path": "scrrbs/scRRBS.pdf",
+          "sha256": "c3521a628635553e2de9169214b731a676bae6dcf9f11467d5014aad8fbcbc30"
+        }
+      ],
+      "groundtruth_prefix": "scrrbs"
+    },
+    {
+      "protocol_id": "pip_seq_v4",
+      "display_name": "PIP-seq v4",
+      "sources": [
+        {
+          "path": "pip_seq_v4/PIP-seq_oligo_table.xlsx",
+          "sha256": "7a338bc093b8ba415407c4bdad5cd159f5c1bdc384dc4982934a6fcec4456e0a"
+        },
+        {
+          "path": "pip_seq_v4/PIP-seq_original_paper.pdf",
+          "sha256": "3de78ffa0bbeece92a70bd6555a8a921f22b8ea772e1d8bac3559952108e4a12"
+        },
+        {
+          "path": "pip_seq_v4/PIP-seqv4.pdf",
+          "sha256": "9299bdb6ea132d575413e55d0203a094ccfe7cb7942a2d85136bae1994874bb6"
+        }
+      ],
+      "groundtruth_prefix": "pip_seq_v4"
+    },
+    {
+      "protocol_id": "scdamid",
+      "display_name": "scDamID",
+      "sources": [
+        {
+          "path": "scdamid/scDamID_indexing_primers_table.doc",
+          "sha256": "66e170fbf743ccffd0540b43c991a97e61b512995ebea7585c7b7036cf7cb1b3"
+        },
+        {
+          "path": "scdamid/scDamID_paper.pdf",
+          "sha256": "15207de0a14eaad90d99b0a9fea5aad226db62b9ed702bae0cc16abbf7707201"
+        },
+        {
+          "path": "scdamid/scDamID_supp.pdf",
+          "sha256": "80a616cc1df0614cd32ac916cf6d55a473ccde9ed3fb6829d04b85c4e13c937c"
+        }
+      ],
+      "groundtruth_prefix": "scdamid"
+    },
+    {
+      "protocol_id": "ddseq_single_cell_3_rna_seq_kit",
+      "display_name": "ddSEQ Single-Cell 3' RNA-Seq Kit",
+      "sources": [
+        {
+          "path": "ddseq_single_cell_3_rna_seq_kit/ddSEQ_3pRNA.pdf",
+          "sha256": "35a78f75c3baf198214338b3ede9741e186ae45bcf792d756b976a0e88512c0a"
+        }
+      ],
+      "groundtruth_prefix": "ddseq_single_cell_3_rna_seq_kit"
+    },
+    {
+      "protocol_id": "smart_seq",
+      "display_name": "SMART-seq",
+      "sources": [
+        {
+          "path": "smart_seq/SMART-seq.pdf",
+          "sha256": "48a390025bcb3786a8f0b975e352ed4aa881d5b9924c375d58b9ffa6c242ac34"
+        },
+        {
+          "path": "smart_seq/supplementary_NIHMS379463-supplement-1.pdf",
+          "sha256": "3e0e8ae7a9081025219d6e771687ffd106630301a4731edde95f6c9d9867cf4f"
+        }
+      ],
+      "groundtruth_prefix": "smart_seq"
+    },
+    {
+      "protocol_id": "share_seq",
+      "display_name": "SHARE-seq",
+      "sources": [
+        {
+          "path": "share_seq/SHARE-seq.pdf",
+          "sha256": "be7253756f1f3567daa7270433b1ce00306b42da7560978682bc5ea4349b5083"
+        },
+        {
+          "path": "share_seq/SHARE-seq.xlsx",
+          "sha256": "f3b0ce8e4612f651c26292a4cf0ce1fbfbde5931eee25af05d2b8751b3a4ff71"
+        },
+        {
+          "path": "share_seq/SHARE-seq_workflow_supplement.pdf",
+          "sha256": "15fac55d0920a31453bad8354d511581d5f12dff2c7992efbc93baa1b815afbe"
+        }
+      ],
+      "groundtruth_prefix": "share_seq"
+    },
+    {
+      "protocol_id": "dr_seq",
+      "display_name": "DR-seq",
+      "sources": [
+        {
+          "path": "dr_seq/DR-seq.pdf",
+          "sha256": "c6cbc1210a713990c7b6d421ebd768a49ec7a9e7469a6bc9b99248d26bc817b8"
+        },
+        {
+          "path": "dr_seq/supplementary_NIHMS61543-supplement-1.pdf",
+          "sha256": "2407cf96e68c81d330dbae2a95e9b9acbfb3a0a8ba5a463f2633815a229afe01"
+        }
+      ],
+      "groundtruth_prefix": "dr_seq"
+    },
+    {
+      "protocol_id": "petri_seq",
+      "display_name": "PETRI-seq",
+      "sources": [
+        {
+          "path": "petri_seq/PETRI-seq.xlsx",
+          "sha256": "10bf95fd2dd0c5428886fac0b9d05eb6b8b22d412beed6ed97d37bfcfdd36707"
+        },
+        {
+          "path": "petri_seq/PETRI-seq_paper.pdf",
+          "sha256": "6fca897787f341946baed886faad10f0cd6877bd110ee84f1c5518a46baa6b7c"
+        },
+        {
+          "path": "petri_seq/PETRI-seq_protocol.pdf",
+          "sha256": "8c1b4caaf6b8a300beb7901dacda9656015c5868c8fdb2fd20eaf44823a2bdc1"
+        },
+        {
+          "path": "petri_seq/supplementary_NIHMS1587539-supplement-1587539_Supp_Fig1-2-Supp_Tab1-2.pdf",
+          "sha256": "d0dfa0b2465647483e02e497c071c8e14a1697cdc7ddced8a2690cd8fb39208a"
+        },
+        {
+          "path": "petri_seq/supplementary_NIHMS1587539-supplement-1587539_Supp_Tab3-5.xlsx",
+          "sha256": "e48e334700133a320a4c875453fe45fe9cd57bedf649cfd87996586ddfb02dec"
+        }
+      ],
+      "groundtruth_prefix": "petri_seq"
+    }
+  ]
+}

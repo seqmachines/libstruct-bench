@@ -1,0 +1,126 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/improvement/kb_validator_review_manifest.schema.json",
+  "title": "Read-only validator review manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "review_id",
+    "purpose",
+    "source_experiment",
+    "benchmark_version",
+    "selected_checkpoint",
+    "workspace_root",
+    "aggregate_inputs",
+    "review_scope",
+    "prohibited_actions",
+    "entries",
+    "created_at",
+    "manifest_digest"
+  ],
+  "properties": {
+    "schema_version": {"const": "libstruct.libgen_kb_validator_review_manifest.v1"},
+    "review_id": {"$ref": "#/$defs/id"},
+    "purpose": {"const": "validator_diagnostic_only"},
+    "source_experiment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["root", "experiment_digest", "experiment_sha256", "design_digest", "final_lock_digest", "final_lock_sha256", "verifier_source_digest"],
+      "properties": {
+        "root": {"type": "string", "minLength": 1},
+        "experiment_digest": {"$ref": "#/$defs/sha256"},
+        "experiment_sha256": {"$ref": "#/$defs/sha256"},
+        "design_digest": {"$ref": "#/$defs/sha256"},
+        "final_lock_digest": {"$ref": "#/$defs/sha256"},
+        "final_lock_sha256": {"$ref": "#/$defs/sha256"},
+        "verifier_source_digest": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "benchmark_version": {"const": "4.5.0"},
+    "selected_checkpoint": {"const": "C30"},
+    "workspace_root": {"type": "string", "minLength": 1},
+    "aggregate_inputs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["validation", "test"],
+      "properties": {
+        "validation": {"$ref": "#/$defs/artifact"},
+        "test": {"$ref": "#/$defs/artifact"}
+      }
+    },
+    "review_scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["conditions_compared", "adjudicated_observations", "c0_role", "human_gate"],
+      "properties": {
+        "conditions_compared": {"const": ["C0", "C30"]},
+        "adjudicated_observations": {"const": "C30_substantive_only"},
+        "c0_role": {"const": "metric_and_persistent_behavior_context_only"},
+        "human_gate": {"const": "protocol_level_classification_approval"}
+      }
+    },
+    "prohibited_actions": {
+      "type": "array",
+      "minItems": 6,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": [
+          "agent_rerun",
+          "pact_update",
+          "prompt_update",
+          "knowledge_base_update",
+          "ground_truth_update",
+          "benchmark_promotion",
+          "verifier_update",
+          "capability_synthesis"
+        ]
+      }
+    },
+    "entries": {
+      "type": "array",
+      "minItems": 15,
+      "maxItems": 15,
+      "items": {"$ref": "#/$defs/entry"}
+    },
+    "created_at": {"type": "string", "format": "date-time"},
+    "manifest_digest": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "id": {"type": "string", "minLength": 1, "maxLength": 240, "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"},
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "groundtruth": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["T1", "T2", "T3"],
+      "properties": {
+        "T1": {"$ref": "#/$defs/artifact"},
+        "T2": {"$ref": "#/$defs/artifact"},
+        "T3": {"$ref": "#/$defs/artifact"}
+      }
+    },
+    "entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["position", "panel", "protocol_id", "comparison_path", "source_manifest", "groundtruth"],
+      "properties": {
+        "position": {"type": "integer", "minimum": 1, "maximum": 15},
+        "panel": {"type": "string", "enum": ["validation", "test"]},
+        "protocol_id": {"$ref": "#/$defs/id"},
+        "comparison_path": {"type": "string", "minLength": 1},
+        "source_manifest": {"$ref": "#/$defs/artifact"},
+        "groundtruth": {"$ref": "#/$defs/groundtruth"}
+      }
+    }
+  }
+}

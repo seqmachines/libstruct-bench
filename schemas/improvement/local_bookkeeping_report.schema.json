@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/improvement/local_bookkeeping_report.schema.json",
+  "title": "Deterministic local proposal-bookkeeping normalization report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "source_draft_sha256",
+    "source_event_log_sha256",
+    "repairs",
+    "normalized_draft_sha256"
+  ],
+  "properties": {
+    "schema_version": {"const": "libstruct.libgen_local_bookkeeping.v1"},
+    "source_draft_sha256": {"$ref": "#/$defs/sha256"},
+    "source_event_log_sha256": {"$ref": "#/$defs/sha256"},
+    "repairs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["change_id", "field", "recorded_executed_tests"],
+        "properties": {
+          "change_id": {"$ref": "#/$defs/id"},
+          "field": {"const": "synthetic_tests"},
+          "recorded_executed_tests": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {"$ref": "#/$defs/path"}
+          }
+        }
+      }
+    },
+    "normalized_draft_sha256": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 240,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+    },
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "path": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^synthetic_tests/(?!.*(?:^|/)\\.\\.(?:/|$))[^\\u0000]+$"
+    }
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/improvement/agent_checkpoint_sweep.schema.json",
+  "title": "Agent-guided cumulative checkpoint validation sweep",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "experiment_digest", "agent_manifest_digest", "verifier_lock_digest", "after_batch", "checkpoint_labels", "protocol_ids", "jobs", "sealed_final_test_used", "created_at", "sweep_digest"],
+  "properties": {
+    "schema_version": {"const": "libstruct.libgen_agent_checkpoint_sweep.v1"},
+    "experiment_digest": {"$ref": "#/$defs/sha256"},
+    "agent_manifest_digest": {"$ref": "#/$defs/sha256"},
+    "verifier_lock_digest": {"$ref": "#/$defs/sha256"},
+    "after_batch": {"type": "string", "enum": ["B1", "B2", "B3", "B4", "B5"]},
+    "checkpoint_labels": {"type": "array", "minItems": 1, "maxItems": 5, "uniqueItems": true, "items": {"type": "string", "enum": ["C5", "C10", "C15", "C20", "C25"]}},
+    "protocol_ids": {"type": "array", "minItems": 5, "maxItems": 5, "uniqueItems": true, "items": {"$ref": "#/$defs/id"}},
+    "jobs": {"type": "array", "minItems": 1, "maxItems": 5, "items": {"$ref": "#/$defs/job"}},
+    "sealed_final_test_used": {"const": false},
+    "created_at": {"type": "string", "format": "date-time"},
+    "sweep_digest": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "id": {"type": "string", "minLength": 1, "maxLength": 240, "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"},
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "job": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["order", "checkpoint_label", "pack_digest", "integration_digest", "config_path", "config_sha256", "job_name", "expected_result_root", "harbor_command"],
+      "properties": {
+        "order": {"type": "integer", "minimum": 1, "maximum": 5},
+        "checkpoint_label": {"type": "string", "enum": ["C5", "C10", "C15", "C20", "C25"]},
+        "pack_digest": {"$ref": "#/$defs/sha256"},
+        "integration_digest": {"$ref": "#/$defs/sha256"},
+        "config_path": {"type": "string", "minLength": 1},
+        "config_sha256": {"$ref": "#/$defs/sha256"},
+        "job_name": {"$ref": "#/$defs/id"},
+        "expected_result_root": {"type": "string", "minLength": 1},
+        "harbor_command": {"type": "array", "minItems": 1, "items": {"type": "string"}}
+      }
+    }
+  }
+}

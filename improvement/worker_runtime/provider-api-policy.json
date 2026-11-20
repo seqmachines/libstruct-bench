@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "enforcement": "docker_internal_network_with_connect_proxy",
+  "agent_phase_transition": "first_model_provider_connect",
+  "provider_hosts": [
+    "api.openai.com",
+    "auth.openai.com",
+    "chatgpt.com"
+  ],
+  "setup_hosts": [],
+  "unrelated_web_probe": "https://example.com/",
+  "model_api_probe": "https://api.openai.com/v1/models"
+}

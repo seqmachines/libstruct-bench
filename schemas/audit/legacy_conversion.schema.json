@@ -1,0 +1,132 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seqmachines.org/schemas/libstruct/legacy_conversion.schema.json",
+  "title": "Hash-pinned legacy ground-truth conversion bundle",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "conversion_id",
+    "protocol_id",
+    "packet_sha256",
+    "input_manifest_sha256",
+    "status",
+    "run",
+    "candidates",
+    "candidate_sha256s",
+    "lineage",
+    "notes"
+  ],
+  "properties": {
+    "conversion_id": {"$ref": "#/$defs/stable_id"},
+    "protocol_id": {"$ref": "#/$defs/stable_id"},
+    "packet_sha256": {"$ref": "#/$defs/sha256"},
+    "input_manifest_sha256": {"$ref": "#/$defs/sha256"},
+    "status": {"const": "unapproved_legacy_conversion"},
+    "run": {"$ref": "#/$defs/run"},
+    "candidates": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["T1", "T2", "T3"],
+      "properties": {
+        "T1": {"type": "object"},
+        "T2": {"type": "object"},
+        "T3": {"type": "object"}
+      }
+    },
+    "candidate_sha256s": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["T1", "T2", "T3"],
+      "properties": {
+        "T1": {"$ref": "#/$defs/sha256"},
+        "T2": {"$ref": "#/$defs/sha256"},
+        "T3": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "lineage": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {"$ref": "#/$defs/lineage"}
+    },
+    "notes": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1}
+    }
+  },
+  "$defs": {
+    "stable_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+    },
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "lineage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["task", "source_ids", "summary"],
+      "properties": {
+        "task": {"type": "string", "enum": ["T1", "T2", "T3"]},
+        "source_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/stable_id"}
+        },
+        "summary": {"type": "string", "minLength": 1}
+      }
+    },
+    "run": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "run_id",
+        "agent",
+        "provider",
+        "model",
+        "tool_version",
+        "harness_version",
+        "review_mode",
+        "started_at",
+        "completed_at",
+        "prompt_sha256",
+        "skill_sha256",
+        "policy_sha256",
+        "schema_sha256",
+        "skills",
+        "tools",
+        "permission_mode",
+        "checkpoint_id"
+      ],
+      "properties": {
+        "run_id": {"$ref": "#/$defs/stable_id"},
+        "agent": {"type": "string", "minLength": 1},
+        "provider": {"type": "string", "minLength": 1},
+        "model": {"type": "string", "minLength": 1},
+        "tool_version": {"type": "string", "minLength": 1},
+        "harness_version": {"type": "string", "minLength": 1},
+        "review_mode": {"type": "string", "enum": ["primary", "independent"]},
+        "started_at": {"type": "string", "format": "date-time"},
+        "completed_at": {"type": "string", "format": "date-time"},
+        "prompt_sha256": {"$ref": "#/$defs/sha256"},
+        "skill_sha256": {"$ref": "#/$defs/sha256"},
+        "policy_sha256": {"$ref": "#/$defs/sha256"},
+        "schema_sha256": {"$ref": "#/$defs/sha256"},
+        "skills": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "tools": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "permission_mode": {"type": "string", "minLength": 1},
+        "checkpoint_id": {"$ref": "#/$defs/stable_id"}
+      }
+    }
+  }
+}
