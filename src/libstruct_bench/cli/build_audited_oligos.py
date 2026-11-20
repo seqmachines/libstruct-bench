@@ -49,7 +49,7 @@ def main(argv: list[str] | None = None) -> int:
         "--metadata-schema",
         type=Path,
         default=REPO_ROOT
-        / "schemas"
+        / "paper/schemas"
         / "audit"
         / "oligo_output_build.schema.json",
     )

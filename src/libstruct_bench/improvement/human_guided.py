@@ -25,6 +25,7 @@ from .artifacts import (
     canonical_digest,
     freeze_tree,
     improvement_schema_root,
+    repository_root,
     load_and_validate,
     reject_private_output_in_repository,
     safe_relative_path,
@@ -2830,8 +2831,8 @@ def _validate_schema(
 
 def _validate_error_analysis(document: dict[str, Any], label: str) -> None:
     schema = (
-        improvement_schema_root().parent
-        / "analysis"
+        repository_root()
+        / "schemas/analysis"
         / "libgen_error_analysis.schema.json"
     )
     try:

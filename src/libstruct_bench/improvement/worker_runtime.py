@@ -107,7 +107,7 @@ def prepare_isolated_codex_launch(
     runtime_root = _runtime_root()
     compose_path = runtime_root / "docker-compose.yaml"
     proxy_path = (
-        _repository_root() / "benchmarks/tasks2_3/docker_network/provider_egress_proxy.py"
+        _repository_root() / "benchmarks/molecular_workflow_reconstruction/docker_network/provider_egress_proxy.py"
     )
     policy_path = runtime_root / "provider-api-policy.json"
     for path, label in (

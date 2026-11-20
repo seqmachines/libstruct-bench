@@ -73,7 +73,7 @@ def repository_root() -> Path:
 
 
 def improvement_schema_root() -> Path:
-    return repository_root() / "schemas" / "improvement"
+    return repository_root() / "paper/schemas" / "improvement"
 
 
 def canonical_digest(value: Any) -> str:

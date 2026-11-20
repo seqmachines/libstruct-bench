@@ -20,6 +20,14 @@ class AuditArtifactError(ValueError):
     """Raised when an audit artifact is missing or invalid."""
 
 
+def audit_schema_dir(schema_root: Path) -> Path:
+    """Locate audit contracts in the paper checkout or an explicitly supplied schema tree."""
+    repo = Path(__file__).resolve().parents[3]
+    if schema_root.resolve() == repo / "schemas":
+        return repo / "paper/schemas/audit"
+    return schema_root / "audit"
+
+
 def sha256_bytes(value: bytes) -> str:
     return hashlib.sha256(value).hexdigest()
 

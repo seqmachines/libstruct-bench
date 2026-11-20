@@ -163,10 +163,11 @@ def test_cli_returns_numeric_zero_for_legacy_groundtruth(tmp_path: Path) -> None
     assert json.loads(reward_path.read_text(encoding="utf-8"))["schema_valid"] == 0.0
 
 
-def test_new_prediction_schemas_are_valid_draft_2020_12() -> None:
+def test_benchmark_prediction_schemas_are_valid_draft_2020_12() -> None:
     for name in (
-        "library_structure_prediction.v1.schema.json",
-        "oligo_extraction_prediction.v2.schema.json",
+        "library_structure_prediction.v0.schema.json",
+        "benchmark/oligo_prediction.schema.json",
+        "benchmark/library_generation_workflow_prediction.schema.json",
     ):
         schema = json.loads((REPO_ROOT / "schemas" / name).read_text(encoding="utf-8"))
         Draft202012Validator.check_schema(schema)

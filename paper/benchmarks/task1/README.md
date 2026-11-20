@@ -7,11 +7,11 @@ separate API executions with the protocol name/version and no documents.
 
 | File | Purpose |
 | --- | --- |
-| [Current inventory](../../../benchmarks/task1/protocols.json) | Pinned 20-protocol PDF inventory, API model/settings defaults and recorded attachment exclusions. |
+| [Current inventory](protocols.json) | Pinned 20-protocol PDF inventory, API model/settings defaults and recorded attachment exclusions. |
 | `codex.json`, `claude-code.json`, `antigravity-cli.json` | Native-agent Harbor configurations: one attempt per protocol, requested high reasoning. |
 | `name_only.json` | Protocol-name-only API control, exact model/settings and historical input hashes. |
 | `provenance/original_protocols.json` | Earlier input inventory used to verify that only seven XLSX attachments from six protocols were excluded; all 20 protocols were retained. |
-| [Task rules](../../../benchmarks/shared/protocol_processing_rules.md) | Shared task instructions. |
+| [Task rules](../../../benchmarks/final_library_structure_extraction/rules.md) | Shared task instructions. |
 
 The configured API models are GPT-5.6 Sol, Claude Opus 5 and Gemini 3.7 Flash,
 with requested high reasoning and a 64,000 completion-token cap. Native CLI
@@ -42,7 +42,7 @@ python -m libstruct_bench.cli.run_task1_name_only --help
 python -m libstruct_bench.cli.task1_name_only_sandbox --help
 ```
 
-The Task 1 generator/API runner default to `benchmarks/task1/protocols.json`.
+The Task 1 generator/API runner default to `paper/benchmarks/task1/protocols.json`.
 Use approved references and lawfully acquired, hash-verified source copies.
 Source PDFs and generated tasks are not redistributed. Historical input-repo
 identifiers are provenance, not a grant of redistribution rights.

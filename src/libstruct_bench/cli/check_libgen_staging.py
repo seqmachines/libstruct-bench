@@ -11,7 +11,7 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         description="Check approved sources and canonical T1/T2/T3 before HF export."
     )
-    parser.add_argument("--protocols", default="benchmarks/tasks2_3/protocols.json")
+    parser.add_argument("--protocols", default="paper/benchmarks/tasks2_3/protocols.json")
     parser.add_argument("--source-root", required=True)
     parser.add_argument("--groundtruth-root", required=True)
     parser.add_argument("--schema-root", default="schemas")

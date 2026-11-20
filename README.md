@@ -1,9 +1,9 @@
 # LibStructBench
 
-LibStructBench evaluates two native Harbor tasks from sequencing protocol evidence.
+LibStructBench evaluates how native agents interpret sequencing protocol documents with Harbor.
 
-- **Task 1 — Final library structure** reconstructs the final library sequences.
-- **Tasks 2–3 — Workflow reconstruction** reconstructs oligo families (Task 2) and molecular states and transitions (Task 3) in one run.
+- **Final library structure extraction** reconstructs the sequences of the final libraries.
+- **Molecular workflow reconstruction** produces an oligo-family catalog and a graph of molecular states and transitions in one run.
 
 [Prepare a local task and run Harbor](benchmarks/README.md).
 
@@ -73,37 +73,20 @@ The final paper uses **verifier 4.7.0**, available explicitly as
 `libstruct-grade-libgen` remains **4.6.0**. Do not use that default to claim a
 4.7.0 reproduction. Both implementations and regression tests are retained;
 see the [verifier changelog](src/libstruct_bench/libgen/v4_7_0/CHANGELOG.md).
-Task 1 has its separate sequence scorer.
-
-| Manuscript analysis | Public results and methods |
-| --- | --- |
-| Task 1 API/agent and PDF controls | [Task 1 configuration](paper/benchmarks/task1/README.md), `paper/data/main/task1_*.csv`, `paper/data/bonferroni/` |
-| Native and model–harness baselines | `paper/data/main/`, `paper/data/model_harness/`, `paper/data/secondary/` |
-| Error profiles | `paper/data/main/error_profiles.csv`, [analysis definitions](paper/benchmarks/tasks2_3/error-analysis.md) |
-| External knowledge and cumulative learning | Figures 4a/4c/4d in `paper/data/main/`, [learning code and designs](docs/improvement/README.md) |
-| Weight and threshold sensitivity | `paper/data/sensitivity/`, `paper/methods/camera_ready/sensitivity/` |
-| Repeated GPT/Codex executions | `paper/data/repeats/` (60 executions; descriptive analysis) |
-| Protocol-name-only controls | `paper/data/name_only/` (primary comparison: one selected execution per condition) |
-| Ground-truth validation and adjudication | [Audit guide](docs/audit/README.md), [agent instructions](paper/audit/), `schemas/`, `tests/audit/` |
-
-Figures 3a and 3b retain one selected execution per system and protocol.
-Task 2 primary macro-F1 excludes protocols with no required recoverable oligo
-families; Task 3 retains its original panels. The historical C30 selection is
-unchanged. Three GPT/Codex executions are a separate variability analysis,
-not three attempts for every Figure 3 system. Name-only results distinguish
-Task 1 API calls from Tasks 2–3 native agents and use the verified Claude
-SHARE-seq retry. Final statistical tables use the recorded Bonferroni families.
+Final library structure extraction uses its own sequence scorer. The paper package
+documents the selected protocols, controls, metrics, and statistical comparisons.
+[Tables and study definitions](paper/README.md#authoritative-tables)
 
 ## Repository layout
 
 ```text
 src/libstruct_bench/  scorers, validators, audit tools, harness adapters, learning
-schemas/             prediction, ground-truth, audit, and analysis contracts
-benchmarks/          protocol inventories, task rules, and Docker network assets
+schemas/             prediction, ground-truth, and verifier output contracts
+benchmarks/          public Harbor preparation guide, rules, and Docker network assets
 skills/              portable protocol bundle collection
 tests/               synthetic regression and isolation tests
 docs/                audit policies, experiment workflows, release review
-paper/               frozen results, historical run configs, learning experiments and audit workflows
+paper/               frozen results, panel inventories, audit and learning workflows and their schemas
 tools/               public-export and release-audit utilities
 ```
 

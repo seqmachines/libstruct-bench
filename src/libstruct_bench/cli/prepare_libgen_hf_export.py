@@ -12,7 +12,7 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         description="Create separate agent-source and private-groundtruth HF upload trees."
     )
-    parser.add_argument("--protocols", default="benchmarks/tasks2_3/protocols.json")
+    parser.add_argument("--protocols", default="paper/benchmarks/tasks2_3/protocols.json")
     parser.add_argument("--source-root", required=True)
     parser.add_argument("--groundtruth-root", required=True)
     parser.add_argument("--schema-root", default="schemas")

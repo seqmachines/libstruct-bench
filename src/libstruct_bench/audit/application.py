@@ -76,7 +76,7 @@ def apply_review_decision(
     if regression_schema_path is None:
         regression_schema_path = (
             Path(__file__).resolve().parents[3]
-            / "schemas"
+            / "paper/schemas"
             / "audit"
             / "accepted_correction_regression.schema.json"
         )

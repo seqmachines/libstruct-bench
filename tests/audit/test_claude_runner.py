@@ -27,7 +27,7 @@ from tests.audit.test_review_application import _proposal
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 AUDIT_WORKSPACE = REPO_ROOT / "paper" / "audit"
-AUDIT_SCHEMAS = REPO_ROOT / "schemas" / "audit"
+AUDIT_SCHEMAS = REPO_ROOT / "paper/schemas" / "audit"
 PROMPTS = AUDIT_WORKSPACE / ".claude" / "prompts"
 REPAIR_PROMPT = PROMPTS / "audit-comparison-repair.md"
 SKILL = AUDIT_WORKSPACE / ".claude" / "skills" / "audit-protocol" / "SKILL.md"

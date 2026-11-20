@@ -9,7 +9,11 @@ from dataclasses import dataclass
 from pathlib import Path, PurePosixPath
 from typing import Any
 
-from libstruct_bench.harbor_task import build_task_directory, copy_task_modules
+from libstruct_bench.harbor_task import (
+    build_task_directory,
+    copy_task_modules,
+    document_inventory,
+)
 from libstruct_bench.audit.artifacts import validate_document
 from libstruct_bench.audit.connected_process import (
     ConnectedProcessMigrationError,
@@ -22,7 +26,7 @@ from libstruct_bench.libgen.validation import (
 from libstruct_bench.libgen.version import LIBGEN_BENCHMARK_VERSION
 
 
-DEFAULT_BENCHMARK_DIR = Path("benchmarks/tasks2_3")
+DEFAULT_BENCHMARK_DIR = Path("benchmarks/molecular_workflow_reconstruction")
 GROUNDTRUTH_FILENAMES = (
     "groundtruth_final_lib_struct.json",
     "groundtruth_oligos.json",
@@ -59,12 +63,15 @@ class PreparedGroundtruth:
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
-        description="Prepare Tasks 2–3 — Workflow reconstruction, from local evidence and approved references."
+        description="Prepare Molecular workflow reconstruction from local evidence and approved references."
     )
-    parser.add_argument(
-        "--protocols", default=str(DEFAULT_BENCHMARK_DIR / "protocols.json")
+    evidence = parser.add_mutually_exclusive_group()
+    evidence.add_argument(
+        "--document", action="append",
+        help="Local document relative to the protocol folder. Repeat for supplements.",
     )
-    parser.add_argument(
+    evidence.add_argument("--protocols", type=Path, help="Use a saved protocol inventory.")
+    evidence.add_argument(
         "--audit-manifest-root",
         help=(
             "derive the selected protocol source inventories from validated "
@@ -76,7 +83,7 @@ def main(argv: list[str] | None = None) -> int:
         "--rules",
         help=(
             "explicit agent rules file; defaults to rules.md beside --protocols, "
-            "or benchmarks/tasks2_3/rules.md with --audit-manifest-root"
+            "or the built-in molecular workflow rules for local documents"
         ),
     )
     parser.add_argument("--out", default=str(DEFAULT_BENCHMARK_DIR / "tasks"))
@@ -130,8 +137,13 @@ def main(argv: list[str] | None = None) -> int:
         parser.error("pinned-hf delivery requires both repositories and their revisions")
     source_delivery = args.source_delivery or ("pinned-hf" if all(pins) else "embedded")
 
-    config_path = Path(args.protocols)
-    if args.audit_manifest_root:
+    config_path = args.protocols or Path("paper/benchmarks/tasks2_3/protocols.json")
+    if args.document:
+        if any(pins) or source_delivery != "embedded":
+            parser.error("--document requires local embedded evidence")
+        protocols = document_inventory(Path(args.source_root), args.protocol_id, args.document)["protocols"]
+        default_rules_path = DEFAULT_BENCHMARK_DIR / "rules.md"
+    elif args.audit_manifest_root:
         if not args.protocol_id:
             raise ValueError(
                 "--audit-manifest-root requires one or more --protocol-id values"
@@ -144,6 +156,8 @@ def main(argv: list[str] | None = None) -> int:
         config = json.loads(config_path.read_text(encoding="utf-8"))
         protocols = _selected_protocols(config, args.protocol_id)
         default_rules_path = config_path.parent / "rules.md"
+        if not any(pins) and args.protocols is None:
+            default_rules_path = DEFAULT_BENCHMARK_DIR / "rules.md"
     source_root = Path(args.source_root).resolve()
     groundtruth_root = Path(args.groundtruth_root).resolve()
     schema_root = _repo_root() / "schemas"
@@ -217,7 +231,7 @@ def _protocols_from_audit_manifests(
             f"audit input manifest root is missing or symlinked: {unresolved_root}"
         )
     root = unresolved_root.resolve()
-    schema_path = _repo_root() / "schemas/audit/audit_input_manifest.schema.json"
+    schema_path = _repo_root() / "paper/schemas/audit/audit_input_manifest.schema.json"
     protocols: list[dict[str, Any]] = []
     for protocol_id in requested:
         if not re.fullmatch(r"[a-z0-9][a-z0-9_]*", protocol_id):
@@ -438,7 +452,7 @@ def _write_task(
         groundtruth_revision = "sha256:" + groundtruth_source_bundle_hash
 
     (task_dir / "instruction.md").write_text(
-        _instruction(protocol_id, display_name, sources, local_release=local_release), encoding="utf-8"
+        _instruction(protocol_id, display_name, sources), encoding="utf-8"
     )
     (task_dir / "task.toml").write_text(
         _task_toml(
@@ -514,6 +528,7 @@ def _write_task(
             groundtruth_revision,
             groundtruth.staged_hashes,
             local_only=local_release or groundtruth.transform != NO_GROUNDTRUTH_TRANSFORM,
+            descriptive_outputs=True,
         ),
         encoding="utf-8",
     )
@@ -564,24 +579,23 @@ def _task_sources(protocol: dict[str, Any]) -> list[dict[str, str]]:
 
 
 def _instruction(
-    protocol_id: str, display_name: str, sources: list[dict[str, str]], *, local_release: bool = False
+    protocol_id: str, display_name: str, sources: list[dict[str, str]]
 ) -> str:
     listing = "\n".join(
         f"- `/workspace/input/{item['local_path']}` (`sha256:{item['sha256']}`)"
         for item in sources
     )
-    title = "Tasks 2–3 — Workflow reconstruction" if local_release else "T2/T3 protocol understanding"
-    return f"""# {title}: {display_name}
+    return f"""# Molecular workflow reconstruction: {display_name}
 
 Read `/workspace/rules.md` completely before starting. The approved source
 bundle is already downloaded and hash-checked. Inspect every file:
 
 {listing}
 
-Produce a linked T2 oligo catalog and T3 molecular state-transition graph for
+Produce a linked oligo-family catalog and molecular state-transition graph for
 protocol `{protocol_id}`. Use local IDs consistently; IDs themselves are not
 scored. Represent barcode/index panels as one family template rather than
-enumerating concrete members, and reference that family-level T2 ID from T3.
+enumerating concrete members, and reference the same oligo-family ID in the molecular workflow.
 Write the two required files under `/logs/artifacts/` and run the local validator
 shown in the rules. Do not search for or reconstruct benchmark ground truth,
 legacy curation, audit records, or prior answers.
@@ -622,7 +636,7 @@ def _task_toml(
             'destination = "provider_egress.jsonl", service = "provider-egress" }'
         )
     description = (
-        f"Tasks 2–3 — Workflow reconstruction: {display_name}" if local_release
+        f"Molecular workflow reconstruction: {display_name}" if local_release
         else f"Reconstruct linked oligos and molecular library generation for {display_name}."
     )
     artifacts_toml = ",\n  ".join(artifact_entries)
@@ -814,6 +828,7 @@ def _test_sh(
     groundtruth_hashes: dict[str, str],
     *,
     local_only: bool,
+    descriptive_outputs: bool = False,
 ) -> str:
     remote_options = ""
     if not local_only:
@@ -822,12 +837,22 @@ def _test_sh(
             f"  --groundtruth-revision {json.dumps(revision)} \\\n"
             f"  --groundtruth-prefix {json.dumps(protocol_id)} \\\n"
         )
+    oligos = "/logs/artifacts/t2_prediction.json"
+    workflow = "/logs/artifacts/t3_prediction.json"
+    select_outputs = ""
+    if descriptive_outputs:
+        select_outputs = f"""oligos=/logs/artifacts/oligo_family_prediction.json
+workflow=/logs/artifacts/molecular_workflow_prediction.json
+if [ ! -f "$oligos" ]; then oligos={oligos}; fi
+if [ ! -f "$workflow" ]; then workflow={workflow}; fi
+"""
+        oligos, workflow = '"$oligos"', '"$workflow"'
     return f"""#!/usr/bin/env bash
 set -euo pipefail
 mkdir -p /logs/verifier
-python /tests/grade.py \\
-  --t2-prediction /logs/artifacts/t2_prediction.json \\
-  --t3-prediction /logs/artifacts/t3_prediction.json \\
+{select_outputs}python /tests/grade.py \\
+  --t2-prediction {oligos} \\
+  --t3-prediction {workflow} \\
   --protocol-id {json.dumps(protocol_id)} \\
 {remote_options}\
   --groundtruth-dir /tests/groundtruth \\

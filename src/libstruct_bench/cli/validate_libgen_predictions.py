@@ -14,10 +14,10 @@ from libstruct_bench.libgen.prediction_validation import (
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
-        description="Validate linked libgen T2/T3 predictions."
+        description="Validate the oligo-family catalog and molecular workflow predictions."
     )
-    parser.add_argument("--t2", required=True)
-    parser.add_argument("--t3", required=True)
+    parser.add_argument("--oligos", "--t2", dest="t2", required=True)
+    parser.add_argument("--workflow", "--t3", dest="t3", required=True)
     parser.add_argument("--protocol-id", required=True)
     parser.add_argument("--schema-root", required=True)
     args = parser.parse_args(argv)

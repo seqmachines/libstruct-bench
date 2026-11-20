@@ -1,63 +1,60 @@
-# Prepare and run a Harbor task
+# Prepare and run a Harbor benchmark
 
-Run these commands from the LibStructBench checkout after installing the package
-with `python -m pip install -e .`. For execution, use a Harbor installation
-with Docker and authentication for your chosen native agent.
+Install LibStructBench from the checkout with `python -m pip install -e .`. Run
+the preparation commands from the repository root. Set `protocol` to your
+protocol ID, `source_root` to the parent of its local document folder, and
+`truth_root` to the parent of its separate, approved ground-truth folder.
 
-Set `protocol` to the protocol ID. Set `source_root` to the local directory
-containing `<protocol_id>/<document>` and `truth_root` to the **separate**
-directory containing the approved records under `<protocol_id>/`. Both commands
-select evidence by inventory. Keep only primary documents in the source tree.
-Generated tasks contain verifier-only answers and belong in a private directory.
+Use the actual filenames from `$source_root/$protocol/` for each `--document`.
+Repeat the flag to include supplements. The examples use `manual.pdf` and
+`oligos.xlsx`. Preparation embeds the selected files and records their SHA-256
+hashes. Keep the generated directory private because it also holds the verifier.
 
-## Task 1 — Final library structure
+## Final library structure extraction
 
 ```sh
-libstruct-generate-library-v0-tasks --protocol-id "$protocol" \
-  --source-root "$source_root" --groundtruth-root "$truth_root" \
-  --out runs/prepared/task1
+libstruct-prepare-final-library --protocol-id "$protocol" \
+  --source-root "$source_root" --document manual.pdf \
+  --groundtruth-root "$truth_root" --out runs/prepared/final_library_structure_extraction
 ```
 
-The generator embeds the selected documents, records their SHA-256 hashes,
-and places `groundtruth_final_lib_struct.json` in the separate verifier.
-The default [inventory](task1/protocols.json) selects the paper's Task 1 PDFs.
-Use `--protocols PATH` for a different inventory. The agent writes
-`prediction.json` according to the task instructions and [shared rules](shared/protocol_processing_rules.md).
+The agent reconstructs the final library sequences and writes `prediction.json`.
+The verifier compares the prediction with `groundtruth_final_lib_struct.json`
+under `$truth_root/$protocol/`. [Extraction rules](final_library_structure_extraction/rules.md)
 
-## Tasks 2–3 — Workflow reconstruction
+## Molecular workflow reconstruction
 
 ```sh
-libstruct-generate-libgen-tasks --protocol-id "$protocol" \
-  --source-root "$source_root" --groundtruth-root "$truth_root" \
-  --out runs/prepared/tasks2_3
+libstruct-prepare-molecular-workflow --protocol-id "$protocol" \
+  --source-root "$source_root" --document manual.pdf --document oligos.xlsx \
+  --groundtruth-root "$truth_root" --out runs/prepared/molecular_workflow_reconstruction
 ```
 
-One task produces Task 2 oligo-family predictions and Task 3 molecular-workflow
-predictions, with separate metrics for each. The [inventory](tasks2_3/protocols.json)
-pins the source hashes. The generator packages the [rules](tasks2_3/rules.md),
-prediction schemas, Docker network policy, and verifier with the approved T1,
-T2, and T3 reference files. For a custom inventory, pass `--protocols PATH` and
-`--rules benchmarks/tasks2_3/rules.md`. The generated verifier uses 4.6.0.
-The final paper scores use 4.7.0.
+The agent writes a linked oligo-family catalog (`oligo_family_prediction.json`)
+and a molecular state-transition graph (`molecular_workflow_prediction.json`).
+The verifier scores each separately. It requires `groundtruth_final_lib_struct.json`,
+`groundtruth_oligos.json`, and `groundtruth_library_generation_workflow.json`
+under `$truth_root/$protocol/`. [Reconstruction rules](molecular_workflow_reconstruction/rules.md)
 
-## Run either task
+## Run with Harbor
 
-Harbor gives the agent the generated `instruction.md` and the task's rules.
-The verifier runs separately when the agent finishes. No agent skill is required.
-
-Choose the prepared directory for the requested task. For all three tasks, run
-each directory once. Each invocation creates a new timestamped job by default.
+Set `task_dir` to the prepared protocol directory. Choose a native agent and
+model supported by your Harbor installation. Execution requires Docker and
+credentials for that provider.
 
 ```sh
-task_dir="runs/prepared/task1/$protocol"  # or runs/prepared/tasks2_3/$protocol
+task_dir="runs/prepared/molecular_workflow_reconstruction/$protocol"
 harbor run --path "$task_dir" --agent "$agent" --model "$model" --jobs-dir runs/jobs
 ```
 
-For Codex, add `--agent-kwarg "version=$codex_version"` to select a CLI version.
-Append `--print-config` to preview the job. Changing the native agent, model,
-or its version reuses the same prepared task. Harbor saves each trial's results
-in the job directory, including the verifier's `reward.json`.
+For Codex, add `--agent-kwarg "version=$codex_version"` to pin the agent CLI.
+Append `--print-config` to preview the configuration. Harbor delivers the
+instructions and rules to the agent, runs the verifier separately, and saves
+each trial's scores in `verifier/reward.json` inside the job directory.
 
-The [paper configurations](../paper/benchmarks/) preserve the original agent
-pins and study conditions. The generators also support the original pinned
-remote-source workflow. Run either setup command with `--help` for its options.
+To reuse a saved protocol inventory, pass `--protocols PATH` in place of the
+document flags. For molecular workflow inventories, place `rules.md` beside
+the inventory or pass `--rules benchmarks/molecular_workflow_reconstruction/rules.md`.
+The paper inventories pin its 20-protocol panel. The generated
+molecular workflow verifier uses 4.6.0. The paper reports scores from 4.7.0.
+[Study configurations and reproduction](../paper/README.md)

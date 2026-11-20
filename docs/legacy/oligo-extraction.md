@@ -1,5 +1,5 @@
 > Historical standalone extraction benchmark. The final paper's Task 2 is
-> the linked [Libgen family scorer](../../benchmarks/README.md#tasks-23--workflow-reconstruction), with separate definitions
+> the linked [Libgen family scorer](../../benchmarks/README.md#molecular-workflow-reconstruction), with separate definitions
 > and selected results in `paper/`. Old source-dataset identifiers below are
 > provenance, not authorization to redistribute documents. Generated task trees
 > are excluded from the public release.
@@ -53,7 +53,7 @@ the parent oligo has no concrete `sequence`, so assembled oligos with a full
 sequence are not double-counted.
 
 `oligo_id` and extra fields are allowed but ignored by the v1 reward. The JSON
-schema lives at `schemas/oligo_extraction_prediction.v1.schema.json`.
+format is supported by the legacy parser in `src/libstruct_bench/schema.py`.
 
 Agents should preserve source-visible strand orientation (`5_to_3`, `3_to_5`,
 or `unknown`) and must not reverse-complement, complete, repair, or invent

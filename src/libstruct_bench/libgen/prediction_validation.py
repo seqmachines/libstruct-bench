@@ -9,7 +9,7 @@ from jsonschema import Draft202012Validator
 
 
 class LibgenPredictionValidationError(ValueError):
-    """Raised when an agent-visible linked T2/T3 prediction is invalid."""
+    """Raised when an agent-visible catalog or workflow prediction is invalid."""
 
 
 def default_schema_root() -> Path:
@@ -26,10 +26,10 @@ def validate_t2_prediction(
     _validate_schema(
         document,
         root / "benchmark" / "oligo_prediction.schema.json",
-        "T2 prediction",
+        "oligo-family prediction",
     )
-    _require_protocol(document, protocol_id, "T2 prediction")
-    _unique_ids(document["oligos"], "oligo_id", "T2 oligos")
+    _require_protocol(document, protocol_id, "oligo-family prediction")
+    _unique_ids(document["oligos"], "oligo_id", "catalog oligos")
 
 
 def validate_t3_prediction(
@@ -42,9 +42,9 @@ def validate_t3_prediction(
     _validate_schema(
         document,
         root / "benchmark" / "library_generation_workflow_prediction.schema.json",
-        "T3 prediction",
+        "molecular workflow prediction",
     )
-    _require_protocol(document, protocol_id, "T3 prediction")
+    _require_protocol(document, protocol_id, "molecular workflow prediction")
 
 
 def validate_prediction_links(
@@ -54,20 +54,20 @@ def validate_prediction_links(
     """Check generic linked-prediction integrity without benchmark answers."""
 
     if t2_document.get("protocol_id") != t3_document.get("protocol_id"):
-        raise LibgenPredictionValidationError("linked T2/T3 protocol IDs must agree")
-    oligo_ids = _unique_ids(t2_document["oligos"], "oligo_id", "T2 oligos")
+        raise LibgenPredictionValidationError("catalog and workflow protocol IDs must agree")
+    oligo_ids = _unique_ids(t2_document["oligos"], "oligo_id", "catalog oligos")
     workflow_ids: set[str] = set()
     for workflow in t3_document["workflows"]:
         workflow_id = workflow["workflow_id"]
-        _add_unique(workflow_ids, workflow_id, "T3 workflow")
+        _add_unique(workflow_ids, workflow_id, "molecular workflow")
         states = {state["state_id"]: state for state in workflow["states"]}
         if len(states) != len(workflow["states"]):
             raise LibgenPredictionValidationError(
-                f"T3 workflow {workflow_id} states contain duplicate IDs"
+                f"molecular workflow {workflow_id} states contain duplicate IDs"
             )
         state_ids = set(states)
         for state in workflow["states"]:
-            _validate_molecular_state(state, label=f"T3 state {state['state_id']}")
+            _validate_molecular_state(state, label=f"molecular state {state['state_id']}")
             for strand in state["strands"]:
                 for segment in strand["segments"]:
                     derivations = segment.get("oligo_derivations", [])
@@ -75,31 +75,31 @@ def validate_prediction_links(
                     _require_refs(
                         references,
                         oligo_ids,
-                        f"T3 state {state['state_id']} strand {strand['strand_id']} "
+                        f"molecular state {state['state_id']} strand {strand['strand_id']} "
                         f"segment {segment['segment_id']} oligo derivations",
                     )
                     if len(references) != len(set(references)):
                         raise LibgenPredictionValidationError(
-                            f"T3 state {state['state_id']} segment "
-                            f"{segment['segment_id']} repeats a T2 oligo derivation"
+                            f"molecular state {state['state_id']} segment "
+                            f"{segment['segment_id']} repeats an oligo derivation"
                         )
 
         initial_ids = set(workflow["initial_state_ids"])
         final_state_ids = [item["state_id"] for item in workflow["final_outputs"]]
         if len(final_state_ids) != len(set(final_state_ids)):
             raise LibgenPredictionValidationError(
-                f"T3 workflow {workflow_id} lists a terminal state more than once"
+                f"molecular workflow {workflow_id} lists a terminal state more than once"
             )
         final_ids = set(final_state_ids)
         _require_refs(
             workflow["initial_state_ids"],
             state_ids,
-            f"T3 workflow {workflow_id} initial_state_ids",
+            f"molecular workflow {workflow_id} initial_state_ids",
         )
         _require_refs(
             final_state_ids,
             state_ids,
-            f"T3 workflow {workflow_id} final_outputs",
+            f"molecular workflow {workflow_id} final_outputs",
         )
 
         adjacency: dict[str, set[str]] = defaultdict(set)
@@ -113,7 +113,7 @@ def validate_prediction_links(
             _add_unique(
                 transition_ids,
                 transition_id,
-                f"T3 workflow {workflow_id} transition",
+                f"molecular workflow {workflow_id} transition",
             )
             transition_substrates = set(transition["substrate_state_ids"])
             products = set(transition["product_state_ids"])
@@ -122,28 +122,28 @@ def validate_prediction_links(
             _require_refs(
                 list(transition_substrates | products),
                 state_ids,
-                f"T3 transition {transition_id} state references",
+                f"molecular transition {transition_id} state references",
             )
             _require_refs(
                 transition["oligo_ids"],
                 oligo_ids,
-                f"T3 transition {transition_id} oligo_ids",
+                f"molecular transition {transition_id} oligo_ids",
             )
             if not continuing.issubset(products) or not transition_discarded.issubset(
                 products
             ):
                 raise LibgenPredictionValidationError(
-                    f"T3 transition {transition_id} carried/discarded products "
+                    f"molecular transition {transition_id} carried/discarded products "
                     "must be product states"
                 )
             if continuing & transition_discarded:
                 raise LibgenPredictionValidationError(
-                    f"T3 transition {transition_id} cannot both carry and discard "
+                    f"molecular transition {transition_id} cannot both carry and discard "
                     "a product"
                 )
             if continuing | transition_discarded != products:
                 raise LibgenPredictionValidationError(
-                    f"T3 transition {transition_id} must classify every product"
+                    f"molecular transition {transition_id} must classify every product"
                 )
             carried.update(continuing)
             discarded.update(transition_discarded)
@@ -155,19 +155,19 @@ def validate_prediction_links(
         reused_discarded = discarded & substrates
         if reused_discarded:
             raise LibgenPredictionValidationError(
-                f"T3 workflow {workflow_id} uses discarded products downstream: "
+                f"molecular workflow {workflow_id} uses discarded products downstream: "
                 + ", ".join(sorted(reused_discarded))
             )
         unproduced_substrates = substrates - initial_ids - carried
         if unproduced_substrates:
             raise LibgenPredictionValidationError(
-                f"T3 workflow {workflow_id} has substrates not carried forward: "
+                f"molecular workflow {workflow_id} has substrates not carried forward: "
                 + ", ".join(sorted(unproduced_substrates))
             )
         unused_carried = carried - final_ids - substrates
         if unused_carried:
             raise LibgenPredictionValidationError(
-                f"T3 workflow {workflow_id} has unused carried products: "
+                f"molecular workflow {workflow_id} has unused carried products: "
                 + ", ".join(sorted(unused_carried))
             )
         _reject_cycles(state_ids, adjacency, workflow_id)
@@ -175,7 +175,7 @@ def validate_prediction_links(
         unreachable = final_ids - _reachable(initial_ids, continuing_adjacency)
         if unreachable:
             raise LibgenPredictionValidationError(
-                f"T3 workflow {workflow_id} final states are unreachable: "
+                f"molecular workflow {workflow_id} final states are unreachable: "
                 + ", ".join(sorted(unreachable))
             )
 
@@ -384,7 +384,7 @@ def _reject_cycles(
     def visit(state_id: str) -> None:
         if state_id in visiting:
             raise LibgenPredictionValidationError(
-                f"T3 workflow {workflow_id} contains an unintended graph cycle"
+                f"molecular workflow {workflow_id} contains an unintended graph cycle"
             )
         if state_id in visited:
             return
@@ -417,6 +417,6 @@ def _require_weakly_connected(
     disconnected = state_ids - _reachable({next(iter(state_ids))}, undirected)
     if disconnected:
         raise LibgenPredictionValidationError(
-            f"T3 workflow {workflow_id} must be one connected process; "
+            f"molecular workflow {workflow_id} must be one connected process; "
             "disconnected states: " + ", ".join(sorted(disconnected))
         )

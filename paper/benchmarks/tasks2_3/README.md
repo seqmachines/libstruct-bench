@@ -1,13 +1,12 @@
 # Tasks 2–3: oligo families and molecular workflows
 
 The linked benchmark reconstructs T2 oligo families and T3 molecular graphs.
-The [runtime inventory](../../../benchmarks/tasks2_3/protocols.json) fixes the 20-protocol native panel and source inventories;
+The [runtime inventory](protocols.json) fixes the 20-protocol native panel and source inventories;
 `provenance/planning_matrix.json` preserves the earlier, broader model/harness
 plan; it is not the definition of the final comparison panel. The paper's
 selected trials and ten-protocol comparisons are pinned in
 [`paper/provenance/`](../../provenance/), not inferred from every planned
-matrix cell. The rules and network assets under `benchmarks/tasks2_3/` define the
-agent contract and execution isolation.
+matrix cell. The [original rules](rules.md) define the agent contract and the [network policy](network-policy.json) defines execution isolation.
 
 ## Reproduce the paper statistics
 

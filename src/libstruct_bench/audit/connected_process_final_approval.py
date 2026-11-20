@@ -6,6 +6,7 @@ from pathlib import Path, PurePosixPath
 from typing import Any, Mapping
 
 from .artifacts import (
+    audit_schema_dir,
     AuditArtifactError,
     load_json_object,
     normalize_timestamp,
@@ -73,12 +74,12 @@ def record_connected_process_final_approval(
     plan = load_json_object(migration_plan_path, label="migration plan")
     _validate(
         preview,
-        schema_root / "audit" / "connected_process_preview.schema.json",
+        audit_schema_dir(schema_root) / "connected_process_preview.schema.json",
         "preview manifest",
     )
     _validate(
         plan,
-        schema_root / "audit" / "connected_process_migration_plan.schema.json",
+        audit_schema_dir(schema_root) / "connected_process_migration_plan.schema.json",
         "migration plan",
     )
     try:
@@ -148,10 +149,10 @@ def record_connected_process_final_approval(
                         proposal_path=proposal_path,
                         decision_path=working_path,
                         proposal_schema_path=(
-                            schema_root / "audit" / "protocol_audit.schema.json"
+                            audit_schema_dir(schema_root) / "protocol_audit.schema.json"
                         ),
                         decision_schema_path=(
-                            schema_root / "audit" / "review_decision.schema.json"
+                            audit_schema_dir(schema_root) / "review_decision.schema.json"
                         ),
                         require_final=False,
                     )
@@ -193,10 +194,10 @@ def record_connected_process_final_approval(
                         proposal_path=proposal_path,
                         decision_path=final_path,
                         proposal_schema_path=(
-                            schema_root / "audit" / "protocol_audit.schema.json"
+                            audit_schema_dir(schema_root) / "protocol_audit.schema.json"
                         ),
                         decision_schema_path=(
-                            schema_root / "audit" / "review_decision.schema.json"
+                            audit_schema_dir(schema_root) / "review_decision.schema.json"
                         ),
                         require_final=True,
                     )
@@ -280,7 +281,7 @@ def validate_connected_process_final_approval(
     approval = load_json_object(approval_path, label="connected-process final approval")
     _validate(
         approval,
-        schema_root / "audit" / "connected_process_final_approval.schema.json",
+        audit_schema_dir(schema_root) / "connected_process_final_approval.schema.json",
         "connected-process final approval",
     )
 
@@ -312,22 +313,22 @@ def validate_connected_process_final_approval(
     )
     _validate(
         preview,
-        schema_root / "audit" / "connected_process_preview.schema.json",
+        audit_schema_dir(schema_root) / "connected_process_preview.schema.json",
         "approved preview",
     )
     _validate(
         plan,
-        schema_root / "audit" / "connected_process_migration_plan.schema.json",
+        audit_schema_dir(schema_root) / "connected_process_migration_plan.schema.json",
         "approved migration plan",
     )
     _validate(
         policy_proposal,
-        schema_root / "audit" / "connected_process_policy_proposal.schema.json",
+        audit_schema_dir(schema_root) / "connected_process_policy_proposal.schema.json",
         "approved policy proposal",
     )
     _validate(
         policy_decision,
-        schema_root / "audit" / "connected_process_policy_decision.schema.json",
+        audit_schema_dir(schema_root) / "connected_process_policy_decision.schema.json",
         "preview policy decision",
     )
 
@@ -542,15 +543,15 @@ def _validate_protocol_review(
         _, working = validate_review_decision(
             proposal_path=proposal_path,
             decision_path=working_path,
-            proposal_schema_path=schema_root / "audit" / "protocol_audit.schema.json",
-            decision_schema_path=schema_root / "audit" / "review_decision.schema.json",
+            proposal_schema_path=audit_schema_dir(schema_root) / "protocol_audit.schema.json",
+            decision_schema_path=audit_schema_dir(schema_root) / "review_decision.schema.json",
             require_final=False,
         )
         _, final = validate_review_decision(
             proposal_path=proposal_path,
             decision_path=final_path,
-            proposal_schema_path=schema_root / "audit" / "protocol_audit.schema.json",
-            decision_schema_path=schema_root / "audit" / "review_decision.schema.json",
+            proposal_schema_path=audit_schema_dir(schema_root) / "protocol_audit.schema.json",
+            decision_schema_path=audit_schema_dir(schema_root) / "review_decision.schema.json",
             require_final=True,
         )
     except ReviewError as error:

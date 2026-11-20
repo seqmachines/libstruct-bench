@@ -18,7 +18,7 @@ from libstruct_bench.library_structure_inputs import PDF_ONLY_INSTRUCTION
 
 
 ROOT = Path(__file__).resolve().parents[1]
-ROUND2 = ROOT / "benchmarks/task1"
+ROUND2 = ROOT / "paper/benchmarks/task1"
 
 
 class LibraryStructureRound2Tests(unittest.TestCase):

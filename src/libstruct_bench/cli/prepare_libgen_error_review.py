@@ -339,9 +339,9 @@ def _artifact_role(path: Path) -> str:
         if name.startswith("trajectory") and name.endswith(".json"):
             return "agent_trajectory"
         return "agent_log"
-    if name == "t2_prediction.json":
+    if name in {"oligo_family_prediction.json", "t2_prediction.json"}:
         return "t2_prediction"
-    if name == "t3_prediction.json":
+    if name in {"molecular_workflow_prediction.json", "t3_prediction.json"}:
         return "t3_prediction"
     if name == "reward.json":
         return "verifier_reward"

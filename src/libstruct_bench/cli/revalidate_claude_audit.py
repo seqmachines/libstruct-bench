@@ -11,7 +11,7 @@ from libstruct_bench.audit.claude_runner import (
 
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
-AUDIT_SCHEMAS = REPO_ROOT / "schemas" / "audit"
+AUDIT_SCHEMAS = REPO_ROOT / "paper/schemas" / "audit"
 
 
 def main(argv: list[str] | None = None) -> int:

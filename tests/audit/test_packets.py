@@ -10,7 +10,7 @@ from libstruct_bench.audit.packets import PacketError, build_phase_packet
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-AUDIT_SCHEMAS = REPO_ROOT / "schemas" / "audit"
+AUDIT_SCHEMAS = REPO_ROOT / "paper/schemas" / "audit"
 
 
 def _write(path: Path, data: bytes) -> None:

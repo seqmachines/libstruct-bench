@@ -18,7 +18,7 @@ from harbor.agents.installed.codex import Codex
 
 
 def test_rules_change_only_evidence_grounding():
-    rules = (Path(__file__).parents[1] / 'benchmarks/tasks2_3/rules.md').read_text()
+    rules = (Path(__file__).parents[1] / 'paper/benchmarks/tasks2_3/rules.md').read_text()
     adapted = adapt_rules(rules)
     assert 'internal knowledge only' in adapted
     assert '/workspace/input/' not in adapted

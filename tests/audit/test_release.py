@@ -10,7 +10,7 @@ from libstruct_bench.audit.release import SCHEMA_FILES, ReleaseError, build_rele
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-AUDIT = REPO_ROOT / "schemas" / "audit"
+AUDIT = REPO_ROOT / "paper/schemas" / "audit"
 
 
 def _spec() -> dict:

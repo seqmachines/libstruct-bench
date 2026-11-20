@@ -126,8 +126,8 @@ def prepare(out: Path, groundtruth_root: Path, gcp_project: str) -> dict:
     protocols = json.loads((ROOT / "paper/benchmarks/task1/name_only.json").read_text())["protocols"]
     assert len(protocols) == 20
     assert {p["protocol_id"] for p in protocols} == {
-        p["protocol_id"] for p in json.loads((ROOT / "benchmarks/tasks2_3/protocols.json").read_text())["protocols"]}
-    rules = adapt_rules((ROOT / "benchmarks/tasks2_3/rules.md").read_text())
+        p["protocol_id"] for p in json.loads((ROOT / "paper/benchmarks/tasks2_3/protocols.json").read_text())["protocols"]}
+    rules = adapt_rules((ROOT / "paper/benchmarks/tasks2_3/rules.md").read_text())
     baseline = freeze_baselines(protocols)
     truths = {}
     for p in protocols:
@@ -140,7 +140,7 @@ def prepare(out: Path, groundtruth_root: Path, gcp_project: str) -> dict:
         truths[pid] = {"files": files, "hashes": {f.name: sha(f) for f in files.values()},
                        "n_required": int(metrics["required_family_count"])}
     out.mkdir(parents=True, exist_ok=True)
-    policy = json.loads((ROOT / "benchmarks/tasks2_3/network-policy.json").read_text())
+    policy = json.loads((ROOT / "benchmarks/molecular_workflow_reconstruction/network-policy.json").read_text())
     policy["provider_hosts"] = PROVIDER_HOSTS
     policy.pop("qwen_openai_base_url", None)
     policy["agent_phase_transition"] = "explicit_connect_preflight_before_model"
@@ -191,7 +191,7 @@ audit records, or prior answers.
                      if p.is_file() and p.name != 'Dockerfile'}
         write_json(env / "name_only_inventory.json", inventory)
         for name in ("ProviderProxy.Dockerfile", "provider_egress_proxy.py", "docker-compose.yaml"):
-            shutil.copy2(ROOT / "benchmarks/tasks2_3/docker_network" / name, env / name)
+            shutil.copy2(ROOT / "benchmarks/molecular_workflow_reconstruction/docker_network" / name, env / name)
         # Do not carry the baseline smoke service's host mounts into inference jobs.
         import yaml
         compose = yaml.safe_load((env / "docker-compose.yaml").read_text())

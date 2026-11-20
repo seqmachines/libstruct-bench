@@ -7,7 +7,7 @@ from pathlib import Path
 from libstruct_bench.audit.packets import PacketError, build_phase_packet
 
 
-SCHEMA_DIR = Path(__file__).resolve().parents[3] / "schemas" / "audit"
+SCHEMA_DIR = Path(__file__).resolve().parents[3] / "paper/schemas" / "audit"
 
 
 def main(argv: list[str] | None = None) -> int:

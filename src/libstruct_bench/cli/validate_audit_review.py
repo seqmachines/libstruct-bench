@@ -7,7 +7,7 @@ from pathlib import Path
 from libstruct_bench.audit.review import ReviewError, validate_review_decision
 
 
-SCHEMA_DIR = Path(__file__).resolve().parents[3] / "schemas" / "audit"
+SCHEMA_DIR = Path(__file__).resolve().parents[3] / "paper/schemas" / "audit"
 
 
 def main(argv: list[str] | None = None) -> int:

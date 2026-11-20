@@ -100,7 +100,7 @@ def _fixture_release(root: Path) -> tuple[Path, Path, Path]:
         ),
         encoding="utf-8",
     )
-    (root / "rules.md").write_text((ROOT / "benchmarks/tasks2_3/rules.md").read_text())
+    (root / "rules.md").write_text((ROOT / "paper/benchmarks/tasks2_3/rules.md").read_text())
     return protocols, source_root, truth_root
 
 
@@ -192,7 +192,7 @@ def test_generator_builds_separate_docker_task_without_truth_leakage() -> None:
             "libgen/__init__.py",
             "libgen/prediction_validation.py",
         }
-        assert not (task / "environment/schemas/audit").exists()
+        assert not (task / "environment/paper/schemas/audit").exists()
         assert not (task / "environment/schemas/groundtruth").exists()
         assert not (agent_package / "audit").exists()
         assert not (agent_package / "libgen/scoring.py").exists()
@@ -491,7 +491,7 @@ def test_generator_projects_only_included_primary_audit_sources() -> None:
                     "--audit-manifest-root",
                     str(manifest_root),
                     "--rules",
-                    str(ROOT / "benchmarks/tasks2_3/rules.md"),
+                    str(ROOT / "paper/benchmarks/tasks2_3/rules.md"),
                     "--protocol-id",
                     "example_protocol",
                     "--out",
@@ -577,12 +577,12 @@ def test_generator_can_build_native_harbor_allowlist_task() -> None:
 
 
 def test_docker_proxy_switches_from_setup_to_provider_only() -> None:
-    proxy_path = ROOT / "benchmarks/tasks2_3/docker_network/provider_egress_proxy.py"
+    proxy_path = ROOT / "benchmarks/molecular_workflow_reconstruction/docker_network/provider_egress_proxy.py"
     spec = importlib.util.spec_from_file_location("libgen_provider_proxy", proxy_path)
     assert spec is not None and spec.loader is not None
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
-    policy = module.Policy(ROOT / "benchmarks/tasks2_3/network-policy.json")
+    policy = module.Policy(ROOT / "benchmarks/molecular_workflow_reconstruction/network-policy.json")
     for host in (
         "registry.npmjs.org",
         "antigravity.google",
@@ -613,7 +613,7 @@ def test_docker_proxy_switches_from_setup_to_provider_only() -> None:
 def test_docker_proxy_uses_independent_long_lived_tunnel_timeout(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
-    proxy_path = ROOT / "benchmarks/tasks2_3/docker_network/provider_egress_proxy.py"
+    proxy_path = ROOT / "benchmarks/molecular_workflow_reconstruction/docker_network/provider_egress_proxy.py"
     spec = importlib.util.spec_from_file_location(
         "libgen_provider_proxy_timeout", proxy_path
     )
@@ -662,7 +662,7 @@ def test_docker_proxy_uses_independent_long_lived_tunnel_timeout(
 def test_docker_proxy_reports_idle_tunnel_closure(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
-    proxy_path = ROOT / "benchmarks/tasks2_3/docker_network/provider_egress_proxy.py"
+    proxy_path = ROOT / "benchmarks/molecular_workflow_reconstruction/docker_network/provider_egress_proxy.py"
     spec = importlib.util.spec_from_file_location(
         "libgen_provider_proxy_idle", proxy_path
     )
@@ -689,7 +689,7 @@ def test_docker_proxy_reports_idle_tunnel_closure(
 def test_docker_proxy_clears_socket_timeouts_after_connect(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
-    proxy_path = ROOT / "benchmarks/tasks2_3/docker_network/provider_egress_proxy.py"
+    proxy_path = ROOT / "benchmarks/molecular_workflow_reconstruction/docker_network/provider_egress_proxy.py"
     spec = importlib.util.spec_from_file_location(
         "libgen_provider_proxy_connect", proxy_path
     )
@@ -760,7 +760,7 @@ def test_docker_proxy_clears_socket_timeouts_after_connect(
 def test_docker_proxy_writes_structured_diagnostic_log(
     monkeypatch: pytest.MonkeyPatch, tmp_path: Path
 ) -> None:
-    proxy_path = ROOT / "benchmarks/tasks2_3/docker_network/provider_egress_proxy.py"
+    proxy_path = ROOT / "benchmarks/molecular_workflow_reconstruction/docker_network/provider_egress_proxy.py"
     spec = importlib.util.spec_from_file_location(
         "libgen_provider_proxy_diagnostics", proxy_path
     )
@@ -789,7 +789,7 @@ def test_docker_proxy_writes_structured_diagnostic_log(
 
 
 def test_matrix_planner_rejects_network_smoke_without_setup_phase() -> None:
-    policy = json.loads((ROOT / "benchmarks/tasks2_3/network-policy.json").read_text())
+    policy = json.loads((ROOT / "benchmarks/molecular_workflow_reconstruction/network-policy.json").read_text())
     policy_digest = hashlib.sha256(
         json.dumps(policy, sort_keys=True, separators=(",", ":")).encode()
     ).hexdigest()
@@ -927,7 +927,7 @@ def test_generated_libgen_tasks_keep_verifier_snapshots_synchronized(tmp_path: P
             "libgen/prediction_validation.py",
         }, f"{protocol_id}: agent runtime leakage"
         assert not any("connected_process" in item for item in agent_files)
-        assert not (task / "environment/schemas/audit").exists()
+        assert not (task / "environment/paper/schemas/audit").exists()
         assert not (task / "environment/schemas/groundtruth").exists()
         assert (agent_package / "libgen/prediction_validation.py").read_bytes() == (
             source_package / "libgen/prediction_validation.py"
@@ -951,10 +951,10 @@ def test_generated_libgen_tasks_keep_verifier_snapshots_synchronized(tmp_path: P
                 ROOT / "schemas" / schema_relative
             ).read_bytes(), f"{protocol_id}: stale agent {schema_relative}"
         assert (task / "rules.md").read_bytes() == (
-            ROOT / "benchmarks/tasks2_3/rules.md"
+            ROOT / "paper/benchmarks/tasks2_3/rules.md"
         ).read_bytes(), f"{protocol_id}: stale rules.md"
         assert (task / "environment/rules.md").read_bytes() == (
-            ROOT / "benchmarks/tasks2_3/rules.md"
+            ROOT / "paper/benchmarks/tasks2_3/rules.md"
         ).read_bytes(), f"{protocol_id}: stale environment/rules.md"
         assert (task / "environment/Dockerfile").read_text() == (
             _environment_dockerfile()
@@ -966,7 +966,7 @@ def test_generated_libgen_tasks_keep_verifier_snapshots_synchronized(tmp_path: P
             "provider_egress_proxy.py",
         ):
             assert (task / "environment" / network_asset).read_bytes() == (
-                ROOT / "benchmarks/tasks2_3/docker_network" / network_asset
+                ROOT / "benchmarks/molecular_workflow_reconstruction/docker_network" / network_asset
             ).read_bytes(), f"{protocol_id}: stale {network_asset}"
 
 
@@ -1059,7 +1059,7 @@ def test_matrix_planner_creates_16_unique_cells_and_64_trial_pilot(
     with tempfile.TemporaryDirectory() as tmp:
         root = Path(tmp)
         tasks = root / "tasks"
-        protocols = json.loads((ROOT / "benchmarks/tasks2_3/protocols.json").read_text())
+        protocols = json.loads((ROOT / "paper/benchmarks/tasks2_3/protocols.json").read_text())
         for protocol in protocols["protocols"]:
             task = tasks / protocol["protocol_id"]
             task.mkdir(parents=True)
@@ -1101,7 +1101,7 @@ def test_matrix_planner_creates_16_unique_cells_and_64_trial_pilot(
             lambda: {"claude-code", "codex", "gemini-cli", "kimi-cli", "mini-swe-agent", "pi", "qwen-coder"},
         )
         policy = json.loads(
-            (ROOT / "benchmarks/tasks2_3/network-policy.json").read_text()
+            (ROOT / "benchmarks/molecular_workflow_reconstruction/network-policy.json").read_text()
         )
         policy_digest = hashlib.sha256(
             json.dumps(policy, sort_keys=True, separators=(",", ":")).encode()

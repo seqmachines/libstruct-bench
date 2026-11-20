@@ -43,7 +43,7 @@ def build_checkpoint_report(
     proposals = [_file(path, "audit proposal") for path in proposal_paths]
     decisions = [_file(path, "review decision") for path in decision_paths]
     applications = [_file(path, "application log") for path in application_log_paths]
-    schema_root = Path(__file__).resolve().parents[3] / "schemas" / "audit"
+    schema_root = Path(__file__).resolve().parents[3] / "paper/schemas" / "audit"
     application_schema_path = _file(
         application_schema_path
         or schema_root / "application_log.schema.json",

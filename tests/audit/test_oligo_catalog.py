@@ -15,7 +15,7 @@ from libstruct_bench.audit.oligo_catalog import (
 REPO_ROOT = Path(__file__).resolve().parents[2]
 T2_SCHEMA = REPO_ROOT / "schemas" / "groundtruth" / "oligo_groundtruth.schema.json"
 CATALOG_SCHEMA = REPO_ROOT / "schemas" / "groundtruth" / "oligo_catalog.schema.json"
-METADATA_SCHEMA = REPO_ROOT / "schemas" / "audit" / "oligo_output_build.schema.json"
+METADATA_SCHEMA = REPO_ROOT / "paper/schemas" / "audit" / "oligo_output_build.schema.json"
 NOW = "2026-08-01T12:00:00Z"
 
 

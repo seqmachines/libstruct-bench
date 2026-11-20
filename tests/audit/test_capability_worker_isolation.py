@@ -16,7 +16,7 @@ from libstruct_bench.improvement.local_learning import LocalCodexRunRequest
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 RUNTIME_ROOT = REPO_ROOT / "paper/improvement" / "worker_runtime"
-PROXY_PATH = REPO_ROOT / "benchmarks/tasks2_3/docker_network/provider_egress_proxy.py"
+PROXY_PATH = REPO_ROOT / "benchmarks/molecular_workflow_reconstruction/docker_network/provider_egress_proxy.py"
 POLICY_PATH = RUNTIME_ROOT / "provider-api-policy.json"
 
 

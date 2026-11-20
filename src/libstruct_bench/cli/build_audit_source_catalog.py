@@ -9,7 +9,7 @@ from libstruct_bench.audit.source_catalog import SourceCatalogError, build_sourc
 
 SCHEMA = (
     Path(__file__).resolve().parents[3]
-    / "schemas"
+    / "paper/schemas"
     / "audit"
     / "source_catalog.schema.json"
 )

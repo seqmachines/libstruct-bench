@@ -7,7 +7,12 @@ import shutil
 from pathlib import Path
 from typing import Any
 
-from libstruct_bench.harbor_task import build_task_directory, copy_task_modules
+from libstruct_bench.harbor_task import (
+    DOCUMENT_SUFFIXES,
+    build_task_directory,
+    copy_task_modules,
+    document_inventory,
+)
 from libstruct_bench.audit.artifacts import sha256_file
 from libstruct_bench.library_structure import parse_library_entries
 from libstruct_bench.library_structure_inputs import (
@@ -27,8 +32,8 @@ from libstruct_bench.library_structure_policy import (
 )
 
 
-DEFAULT_BENCHMARK_DIR = Path("benchmarks/task1")
-SHARED_RULES_RELATIVE_PATH = Path("benchmarks/shared/protocol_processing_rules.md")
+DEFAULT_BENCHMARK_DIR = Path("benchmarks/final_library_structure_extraction")
+SHARED_RULES_RELATIVE_PATH = Path("benchmarks/final_library_structure_extraction/rules.md")
 SHARED_RULES_SECTION = """## Shared Protocol Processing Rules
 
 Read `protocol_processing_rules.md` before working. It defines source-grounding, oligo-extraction, normalization, and library-construction rules shared by protocol-processing tasks. The task-specific instructions below define the required output schema and which section or sections to complete.
@@ -37,11 +42,14 @@ Read `protocol_processing_rules.md` before working. It defines source-grounding,
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
-        description="Prepare Task 1 — Final library structure for Harbor."
+        description="Prepare Final library structure extraction for Harbor."
     )
-    parser.add_argument(
-        "--protocols", default=str(DEFAULT_BENCHMARK_DIR / "protocols.json")
+    evidence = parser.add_mutually_exclusive_group()
+    evidence.add_argument(
+        "--document", action="append",
+        help="Local document relative to the protocol folder. Repeat for supplements.",
     )
+    evidence.add_argument("--protocols", type=Path, help="Use a saved protocol inventory.")
     parser.add_argument("--out", default=str(DEFAULT_BENCHMARK_DIR / "tasks"))
     parser.add_argument(
         "--protocol-id",
@@ -71,11 +79,15 @@ def main(argv: list[str] | None = None) -> int:
     )
     args = parser.parse_args(argv)
 
-    config_path = Path(args.protocols)
-    if not config_path.exists() and config_path.name == "protocols.json":
-        config_path = config_path.with_name("protocols.example.json")
-
-    config = json.loads(config_path.read_text(encoding="utf-8"))
+    if args.document:
+        if not args.source_root or not args.groundtruth_root:
+            parser.error("--document requires --source-root and --groundtruth-root")
+        config = document_inventory(args.source_root, args.protocol_id, args.document)
+    else:
+        config_path = args.protocols or Path("paper/benchmarks/task1/protocols.json")
+        if not config_path.exists() and config_path.name == "protocols.json":
+            config_path = config_path.with_name("protocols.example.json")
+        config = json.loads(config_path.read_text(encoding="utf-8"))
     protocols = config["protocols"]
     requested = set(args.protocol_id)
     missing = requested - {p["protocol_id"] for p in protocols}
@@ -279,16 +291,7 @@ def _embed_inputs(
             or not source.is_file()
         ):
             raise ValueError(f"invalid or missing local source: {value}")
-        if source.suffix.lower() not in {
-            ".pdf",
-            ".doc",
-            ".docx",
-            ".xls",
-            ".xlsx",
-            ".tsv",
-            ".csv",
-            ".txt",
-        }:
+        if source.suffix.lower() not in DOCUMENT_SUFFIXES:
             raise ValueError(f"unsupported source document: {value}")
         target = destination / source.name
         if target.exists():
@@ -346,8 +349,7 @@ Inspect all downloaded files in `input/`:"""
         "Ground the prediction in those files. Exclude remembered or expected constructs."
         if embedded else HARBOR_SOURCE_POLICY
     )
-    title = "Task 1 — Final library structure" if embedded else "Library Structure"
-    return f"""# {title}: {display_name}
+    return f"""# Final library structure extraction: {display_name}
 
 {SHARED_RULES_SECTION}
 
@@ -425,7 +427,7 @@ def _task_toml(
 HF_TOKEN = "${HF_TOKEN}"
 '''
     description = (
-        f"Task 1 — Final library structure: {display_name}" if embedded
+        f"Final library structure extraction: {display_name}" if embedded
         else f"Extract the final library structure sequence for {display_name}."
     )
     return f"""schema_version = "1.3"

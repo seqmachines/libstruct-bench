@@ -1186,7 +1186,7 @@ def _stage_validator_workspace(
                 repository / relative, inputs / "policies" / Path(relative).name
             )
         verifier_files = [
-            repository / "benchmarks/tasks2_3/rules.md",
+            repository / "paper/benchmarks/tasks2_3/rules.md",
             *sorted((repository / "src/libstruct_bench/libgen").glob("*.py")),
             *sorted((repository / "schemas/benchmark").glob("*.json")),
             *sorted((repository / "schemas/groundtruth").glob("*.json")),

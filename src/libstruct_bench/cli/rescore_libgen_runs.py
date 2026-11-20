@@ -80,8 +80,8 @@ def main(argv: list[str] | None = None) -> int:
             task: truth_dir / filename
             for task, filename in GROUNDTRUTH_FILENAMES.items()
         }
-        t2_prediction = _prediction_path(trial, "t2_prediction.json")
-        t3_prediction = _prediction_path(trial, "t3_prediction.json")
+        t2_prediction = _prediction_path(trial, "oligo_family_prediction.json", "t2_prediction.json")
+        t3_prediction = _prediction_path(trial, "molecular_workflow_prediction.json", "t3_prediction.json")
         trajectory = _trajectory_path(trial)
         command = [
             "--t2-prediction",
@@ -178,11 +178,12 @@ def _protocol_id(result: dict[str, Any], trial: Path) -> str:
     raise ValueError(f"cannot determine protocol ID for trial {trial}")
 
 
-def _prediction_path(trial: Path, filename: str) -> Path:
-    candidates = (
-        trial / "artifacts" / "logs" / "artifacts" / filename,
-        trial / "artifacts" / filename,
-    )
+def _prediction_path(trial: Path, filename: str, legacy_name: str) -> Path:
+    candidates = [
+        trial / subdir / name
+        for name in (filename, legacy_name)
+        for subdir in ("artifacts/logs/artifacts", "artifacts")
+    ]
     return next((path for path in candidates if path.is_file()), candidates[0])
 
 

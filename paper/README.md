@@ -74,11 +74,10 @@ were replaced; these are **locators**, not evidence that a file is distributed:
 `provenance/` preserves selected-trial, prediction and reference identities.
 Public folder names omit version and date suffixes; original source paths,
 verifier versions, and hashes remain recorded for reproducibility.
-Benchmark configs are now grouped under `benchmarks/task1/`,
-`benchmarks/tasks2_3/` and `benchmarks/shared/`. The
-[relocation inventory](../docs/release/benchmark_layout.json) maps old benchmark
-paths to current files. Frozen input manifests keep their original identities;
-an old path is not permission to replace a pinned hash or resume an old lock.
+The panel inventories and original study rules are in the [paper benchmark configurations](benchmarks/).
+The [current Harbor guide](../benchmarks/README.md) describes new runs.
+The [historical relocation inventory](../docs/release/benchmark_layout.json)
+records an earlier checkout layout. Frozen input manifests keep their original paths and hashes.
 Hashes inside these historical manifests identify original bytes. They are
 not recalculated to describe the path-redacted copies; published-copy hashes
 are in `export_manifest.json`. The paper can therefore trace an input without

@@ -19,7 +19,7 @@ from libstruct_bench.audit.review import (
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-AUDIT = REPO_ROOT / "schemas" / "audit"
+AUDIT = REPO_ROOT / "paper/schemas" / "audit"
 GROUNDTRUTH = REPO_ROOT / "schemas" / "groundtruth"
 NOW = "2026-08-01T12:00:00Z"
 LATER = "2026-08-01T12:05:00Z"

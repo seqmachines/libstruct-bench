@@ -16,7 +16,7 @@ from libstruct_bench.audit.artifacts import (
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-SCHEMA_DIR = REPO_ROOT / "schemas" / "audit"
+SCHEMA_DIR = REPO_ROOT / "paper/schemas" / "audit"
 GROUNDTRUTH_SCHEMA_DIR = REPO_ROOT / "schemas" / "groundtruth"
 
 

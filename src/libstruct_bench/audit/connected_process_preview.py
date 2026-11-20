@@ -8,6 +8,7 @@ from pathlib import Path, PurePosixPath
 from typing import Any, Mapping
 
 from .artifacts import (
+    audit_schema_dir,
     AuditArtifactError,
     canonical_json_bytes,
     load_json_object,
@@ -76,7 +77,7 @@ def compile_connected_process_preview(
     plan = load_json_object(plan_path, label="connected-process migration plan")
     _validate(
         plan,
-        schema_root / "audit" / "connected_process_migration_plan.schema.json",
+        audit_schema_dir(schema_root) / "connected_process_migration_plan.schema.json",
         "connected-process migration plan",
     )
     plan_sha = sha256_file(plan_path)
@@ -94,12 +95,12 @@ def compile_connected_process_preview(
     )
     _validate(
         policy_proposal,
-        schema_root / "audit" / "connected_process_policy_proposal.schema.json",
+        audit_schema_dir(schema_root) / "connected_process_policy_proposal.schema.json",
         "connected-process policy proposal",
     )
     _validate(
         policy_decision,
-        schema_root / "audit" / "connected_process_policy_decision.schema.json",
+        audit_schema_dir(schema_root) / "connected_process_policy_decision.schema.json",
         "connected-process policy decision",
     )
     if policy_decision["proposal_id"] != policy_proposal["proposal_id"]:
@@ -181,7 +182,7 @@ def compile_connected_process_preview(
         }
         _validate(
             manifest,
-            schema_root / "audit" / "connected_process_preview.schema.json",
+            audit_schema_dir(schema_root) / "connected_process_preview.schema.json",
             "connected-process preview manifest",
         )
         write_json_atomic(temporary / "preview-manifest.json", manifest)
@@ -242,11 +243,9 @@ def _compile_protocol(
             proposal, decision = validate_review_decision(
                 proposal_path=proposal_path,
                 decision_path=decision_path,
-                proposal_schema_path=schema_root
-                / "audit"
+                proposal_schema_path=audit_schema_dir(schema_root)
                 / "protocol_audit.schema.json",
-                decision_schema_path=schema_root
-                / "audit"
+                decision_schema_path=audit_schema_dir(schema_root)
                 / "review_decision.schema.json",
                 require_final=False,
             )

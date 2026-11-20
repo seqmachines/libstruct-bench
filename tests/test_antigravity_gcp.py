@@ -140,11 +140,11 @@ def test_libgen_gcp_overlay_adds_only_vertex_and_preserves_network_policy(tmp_pa
     overlay = yaml.safe_load((root / "paper/benchmarks/tasks2_3/antigravity-gcp.compose.yaml").read_text())
     entrypoint = overlay["services"]["provider-egress"]["entrypoint"]
     source = tmp_path / "base.json"
-    original = (root / "benchmarks/tasks2_3/network-policy.json").read_bytes()
+    original = (root / "benchmarks/molecular_workflow_reconstruction/network-policy.json").read_bytes()
     source.write_bytes(original)
     effective = tmp_path / "effective.json"
     events = tmp_path / "logs/provider_egress.jsonl"
-    proxy_path = root / "benchmarks/tasks2_3/docker_network/provider_egress_proxy.py"
+    proxy_path = root / "benchmarks/molecular_workflow_reconstruction/docker_network/provider_egress_proxy.py"
     monkeypatch.setattr(sys, "argv", ["-c", str(source), str(effective), str(events), str(proxy_path)])
     executions = []
     monkeypatch.setattr(os, "execv", lambda *args: executions.append(args))

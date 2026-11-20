@@ -17,6 +17,7 @@ from .artifacts import (
     CapabilityImprovementError,
     canonical_digest,
     improvement_schema_root,
+    repository_root,
     validate_digest,
     with_digest,
 )
@@ -513,8 +514,8 @@ def _load_error_analysis(
     try:
         validate_document(
             document,
-            improvement_schema_root().parent
-            / "analysis"
+            repository_root()
+            / "schemas/analysis"
             / "libgen_error_analysis.schema.json",
             label="verifier error analysis",
         )

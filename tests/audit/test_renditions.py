@@ -12,7 +12,7 @@ from libstruct_bench.audit.renditions import RenditionError, build_rendition_bun
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-SCHEMA_DIR = REPO_ROOT / "schemas" / "audit"
+SCHEMA_DIR = REPO_ROOT / "paper/schemas" / "audit"
 MANIFEST_SCHEMA = SCHEMA_DIR / "audit_input_manifest.schema.json"
 PACKET_SCHEMA = SCHEMA_DIR / "audit_packet.schema.json"
 RENDITION_SCHEMA = SCHEMA_DIR / "rendition_bundle.schema.json"

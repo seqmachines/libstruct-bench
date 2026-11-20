@@ -5,6 +5,7 @@ from pathlib import Path, PurePosixPath
 from typing import Any
 
 from .artifacts import (
+    audit_schema_dir,
     AuditArtifactError,
     load_json_object,
     sha256_file,
@@ -33,7 +34,7 @@ def validate_connected_process_source_check(
     try:
         validate_document(
             report,
-            schema_root / "audit" / "connected_process_source_check.schema.json",
+            audit_schema_dir(schema_root) / "connected_process_source_check.schema.json",
             label="connected-process source check",
         )
     except AuditArtifactError as error:

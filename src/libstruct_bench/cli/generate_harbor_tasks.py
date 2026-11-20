@@ -7,7 +7,7 @@ from pathlib import Path
 from typing import Any
 
 
-SHARED_RULES_RELATIVE_PATH = Path("benchmarks/shared/protocol_processing_rules.md")
+SHARED_RULES_RELATIVE_PATH = Path("benchmarks/final_library_structure_extraction/rules.md")
 SHARED_RULES_SECTION = """## Shared Protocol Processing Rules
 
 Read `protocol_processing_rules.md` before working. It defines source-grounding, oligo-extraction, normalization, and library-construction rules shared by protocol-processing tasks. The task-specific instructions below define the required output schema and which section or sections to complete.

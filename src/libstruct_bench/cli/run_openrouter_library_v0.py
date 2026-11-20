@@ -37,7 +37,7 @@ from libstruct_bench.library_structure_policy import (
     PLACEHOLDER_POLICY,
 )
 
-DEFAULT_BENCHMARK_DIR = Path("benchmarks/task1")
+DEFAULT_BENCHMARK_DIR = Path("paper/benchmarks/task1")
 DEFAULT_MODELS = [
     "openai/gpt-5.4",
     "anthropic/claude-sonnet-4.6",

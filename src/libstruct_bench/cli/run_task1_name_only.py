@@ -28,6 +28,13 @@ MODELS = {
 }
 
 
+def _study_input(path):
+    original = ROOT / path
+    if path == "benchmarks/task1/protocols.json" and not original.exists():
+        return ROOT / "paper" / path
+    return original
+
+
 def read(path):
     return json.loads(Path(path).read_text())
 
@@ -127,9 +134,9 @@ def load_config(path=DEFAULT_CONFIG, *, verify_locked_files=True):
     }:
         raise ValueError('Unexpected name-only condition or API settings')
     for item in config['locked_files'] if verify_locked_files else []:
-        if sha(ROOT / item['path']) != item['sha256']:
+        if sha(_study_input(item['path'])) != item['sha256']:
             raise ValueError(f"Locked input changed: {item['path']}")
-    round2 = read(ROOT / config['round2_manifest'])
+    round2 = read(_study_input(config['round2_manifest']))
     ids = [p['protocol_id'] for p in config['protocols']]
     if len(ids) != 20 or len(set(ids)) != 20 or ids != [p['protocol_id'] for p in round2['protocols']]:
         raise ValueError('Expected exactly the round-2 protocols, in manifest order')

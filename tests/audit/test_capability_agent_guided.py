@@ -19,7 +19,7 @@ from libstruct_bench.improvement.artifacts import CapabilityImprovementError
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-SCHEMA_ROOT = REPO_ROOT / "schemas" / "improvement"
+SCHEMA_ROOT = REPO_ROOT / "paper/schemas" / "improvement"
 
 
 def test_agent_guided_schemas_are_valid() -> None:

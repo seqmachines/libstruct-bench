@@ -25,6 +25,8 @@ test = [
 ]
 
 [project.scripts]
+libstruct-prepare-final-library = "libstruct_bench.cli.generate_library_v0_tasks:main"
+libstruct-prepare-molecular-workflow = "libstruct_bench.cli.generate_libgen_tasks:main"
 libstruct-archive = "libstruct_bench.archive.cli:main"
 libstruct-grade = "libstruct_bench.cli.grade:main"
 libstruct-grade-oligos = "libstruct_bench.cli.grade_oligos:main"

@@ -3,6 +3,7 @@
 import hashlib
 import json
 import os
+import re
 import subprocess
 import sys
 from pathlib import Path
@@ -16,7 +17,8 @@ from tests.test_generate_libgen_tasks import _fixture_release
 
 
 @pytest.mark.parametrize("layout", ["task1", "tasks2_3"])
-def test_scored_local_harbor_task(tmp_path, layout):
+@pytest.mark.parametrize("local_documents", [True, False], ids=["documents", "inventory"])
+def test_scored_local_harbor_task(tmp_path, layout, local_documents):
     linked_inventory, sources, truth = _fixture_release(tmp_path)
     protocol = "example_protocol"
     out = tmp_path / "prepared"
@@ -62,20 +64,36 @@ def test_scored_local_harbor_task(tmp_path, layout):
             "t2_prediction.json": t2_prediction(),
             "t3_prediction.json": t3_prediction(),
         }
-    args += ["--protocols", str(inventory)]
+    if local_documents:
+        supplement = sources / protocol / "supplement.tsv"
+        supplement.write_text("synthetic supplement")
+        args += ["--document", "source.pdf", "--document", supplement.name]
+        if layout == "tasks2_3":
+            predictions = {
+                "oligo_family_prediction.json": t2_prediction(),
+                "molecular_workflow_prediction.json": t3_prediction(),
+            }
+    else:
+        args += ["--protocols", str(inventory)]
     assert build(args) == 0
 
     task = out / protocol
     env = task / "environment"
     verifier = task / "tests"
     bundle = json.loads((env / "input_manifest.json").read_text())
-    (document,) = bundle["sources"]
-    assert (
-        hashlib.sha256(
-            (env / "protocol_sources" / document["local_path"]).read_bytes()
-        ).hexdigest()
-        == document["sha256"]
-    )
+    documents = bundle["sources"]
+    expected_names = {"source.pdf", "supplement.tsv"} if local_documents else {"source.pdf"}
+    assert {doc["local_path"] for doc in documents} == expected_names
+    for doc in documents:
+        source = (sources / doc["path"]).read_bytes()
+        assert (env / "protocol_sources" / doc["local_path"]).read_bytes() == source
+        assert hashlib.sha256(source).hexdigest() == doc["sha256"]
+    instruction = (task / "instruction.md").read_text()
+    name = "Final library structure extraction" if layout == "task1" else "Molecular workflow reconstruction"
+    assert instruction.startswith("# " + name)
+    if local_documents:
+        rules = "protocol_processing_rules.md" if layout == "task1" else "rules.md"
+        assert not re.search(r"\b(?:T[123]|Tasks? [123])\b", instruction + (task / rules).read_text())
     assert list(out.iterdir()) == [task]
     assert not list(env.rglob("groundtruth*.json"))
     assert not (verifier / "libstruct_bench/archive").exists()
@@ -117,4 +135,18 @@ def test_scored_local_harbor_task(tmp_path, layout):
     with pytest.raises((ValueError, FileNotFoundError)):
         build([*args, "--force"])
     assert (task / "task.toml").read_bytes() == before
-    assert (env / "protocol_sources" / document["local_path"]).is_file()
+    assert (env / "protocol_sources" / "source.pdf").is_file()
+
+
+@pytest.mark.parametrize("filename", ["../outside.pdf", "groundtruth.tsv", "link.pdf", "unknown.json"])
+def test_explicit_documents_reject_non_evidence(tmp_path, filename):
+    from libstruct_bench.harbor_task import document_inventory
+
+    folder = tmp_path / "example"
+    folder.mkdir()
+    (tmp_path / "outside.pdf").write_text("private fixture")
+    (folder / "link.pdf").symlink_to(tmp_path / "outside.pdf")
+    (folder / "groundtruth.tsv").touch()
+    (folder / "unknown.json").touch()
+    with pytest.raises(ValueError, match="primary document"):
+        document_inventory(tmp_path, ["example"], [filename])

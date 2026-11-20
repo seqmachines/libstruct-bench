@@ -17,7 +17,7 @@ SOURCE_FILES = (
     'library_structure_inputs.py', 'hf_io.py', 'cli/__init__.py',
     'cli/run_openrouter_library_v0.py', 'cli/run_task1_name_only.py',
 )
-PROXY_SOURCE = run.ROOT / 'benchmarks/tasks2_3/docker_network/provider_egress_proxy.py'
+PROXY_SOURCE = run.ROOT / 'benchmarks/molecular_workflow_reconstruction/docker_network/provider_egress_proxy.py'
 IMAGE = 'libstruct-task1-name-only:local'
 
 # This check makes no generation request and consumes no attempt. A denied direct
@@ -72,7 +72,7 @@ def context(directory, config_path):
                for name in SOURCE_FILES}
     sources.update({
         'paper/benchmarks/task1/name_only.json': Path(config_path),
-        'benchmarks/task1/protocols.json': run.ROOT / 'benchmarks/task1/protocols.json',
+        'benchmarks/task1/protocols.json': run.ROOT / 'paper/benchmarks/task1/protocols.json',
         'proxy/provider_egress_proxy.py': PROXY_SOURCE,
     })
     hashes = {}

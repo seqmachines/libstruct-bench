@@ -14,9 +14,9 @@ from libstruct_bench.audit.source_catalog import (
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-CATALOG_SCHEMA = REPO_ROOT / "schemas" / "audit" / "source_catalog.schema.json"
+CATALOG_SCHEMA = REPO_ROOT / "paper/schemas" / "audit" / "source_catalog.schema.json"
 MANIFEST_SCHEMA = (
-    REPO_ROOT / "schemas" / "audit" / "audit_input_manifest.schema.json"
+    REPO_ROOT / "paper/schemas" / "audit" / "audit_input_manifest.schema.json"
 )
 NOW = "2026-08-01T12:00:00Z"
 SOURCE_REVISION = "a" * 40

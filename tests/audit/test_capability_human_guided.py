@@ -26,7 +26,7 @@ from libstruct_bench.improvement.local_learning import _prepare_or_validate_pack
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-SCHEMA_ROOT = REPO_ROOT / "schemas" / "improvement"
+SCHEMA_ROOT = REPO_ROOT / "paper/schemas" / "improvement"
 PACK_ROOT = REPO_ROOT / "paper/improvement" / "capability_pack"
 
 

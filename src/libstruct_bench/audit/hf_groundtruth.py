@@ -444,7 +444,7 @@ excluded. The CC BY 4.0 annotation license does not license the linked documents
 def prepare(*, private: Path, repo: Path, output: Path) -> dict:
     if output.exists():
         raise ValueError(f'Refusing to overwrite staging directory: {output}')
-    selected = [p['protocol_id'] for p in load(repo / 'benchmarks/tasks2_3/protocols.json')['protocols']]
+    selected = [p['protocol_id'] for p in load(repo / 'paper/benchmarks/tasks2_3/protocols.json')['protocols']]
     full = sorted(p.name for p in (private / 'ground_truth').iterdir()
                   if p.is_dir() and (p / GROUNDTRUTH_FILENAMES['T1']).is_file())
     if len(selected) != 20 or len(full) != 73 or not set(selected) <= set(full):

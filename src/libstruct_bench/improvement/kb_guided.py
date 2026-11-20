@@ -3853,8 +3853,8 @@ def _repository_lock_files(repository: Path) -> list[Path]:
         repository / "paper/improvement/kb_runtime",
         repository / "schemas/benchmark",
         repository / "schemas/groundtruth",
-        repository / "schemas/improvement",
-        repository / "benchmarks/tasks2_3/rules.md",
+        repository / "paper/schemas/improvement",
+        repository / "paper/benchmarks/tasks2_3/rules.md",
     ]
     paths: list[Path] = []
     for root in roots:
