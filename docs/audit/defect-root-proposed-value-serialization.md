@@ -44,7 +44,7 @@ All **three** root issues had `proposed_value` as `str`:
 [2] iss.t3.root   proposed_value = str    <- the one the error named
 ```
 
-`.claude/prompts/audit-comparison.md` does not state that a root issue's
+`paper/audit/.claude/prompts/audit-comparison.md` does not state that a root issue's
 `proposed_value` must be the complete document rather than a summary of it. As
 with the frozen-conversion citation defect, the invariant is enforced but never
 stated, so the natural behaviour is wrong.
@@ -76,7 +76,7 @@ observed a string each time, and generalised — but that issue was never the on
 under repair in either attempt. The correct check is the issue named in each
 attempt's `changed-paths.json`.
 
-`.claude/prompts/audit-comparison-repair.md` already carries the right
+`paper/audit/.claude/prompts/audit-comparison-repair.md` already carries the right
 instruction: "keep a repaired root `proposed_value` exactly equal as JSON to the
 value in its root patch". No repair-prompt change is needed.
 
@@ -136,7 +136,7 @@ to pass.
 
 ## Attribution
 
-Per `.claude/skills/audit-protocol/SKILL.md`: worker guidance omitted a
+Per `paper/audit/.claude/skills/audit-protocol/SKILL.md`: worker guidance omitted a
 deterministic validator invariant and that omission caused the rejection, so
 this is `agent_harness_or_context_error` with harness responsibility, not human
 curation.

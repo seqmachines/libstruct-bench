@@ -6,8 +6,7 @@ hooks:
     - hooks:
         - type: command
           command: python3
-          args:
-            - "${CLAUDE_PROJECT_DIR}/.claude/hooks/require_audit_question.py"
+          args: ["${CLAUDE_PROJECT_DIR}/.claude/hooks/require_audit_question.py"]
 ---
 
 # Audit sequencing-library ground truth
@@ -24,6 +23,10 @@ hooks:
   the console unless they are needed to resolve a blocker.
 
 ## Interactive controller
+
+Start the interactive session in `paper/audit/`, which contains `CLAUDE.md`.
+Resolve repository paths and run the shell examples from the repository root
+(`../..` from this workspace).
 
 Use Claude Code's `AskUserQuestion` tool for every human gate. Never substitute
 a printed question and then end the response while the tool is available. Ask

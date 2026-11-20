@@ -736,7 +736,7 @@ def test_codex_adjudicator_transcript_cannot_leave_workspace(tmp_path: Path) -> 
         manifest=manifest,
     )
 
-    audit_skill = repository / ".agents/skills/libstruct-audit/SKILL.md"
+    audit_skill = repository / "paper/audit/.agents/skills/libstruct-audit/SKILL.md"
     audit_skill.parent.mkdir(parents=True)
     audit_skill.write_text("generic audit instructions\n", encoding="utf-8")
     event_path.write_text(

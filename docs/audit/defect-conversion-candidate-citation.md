@@ -35,7 +35,7 @@ if not cited_ids.issubset(allowed_evidence_ids):
     )
 ```
 
-`.claude/prompts/audit-comparison.md` says only:
+`paper/audit/.claude/prompts/audit-comparison.md` says only:
 
 - l.10 — "First read: the packet-listed `legacy_conversion_candidate`;"
 - l.76–78 — "`source_coverage` is primary-only: do not add legacy HTML, current
@@ -75,7 +75,7 @@ inadmissible citation edits evidence, so repair is forbidden from touching it.
 
 ## Attribution
 
-Per `.claude/skills/audit-protocol/SKILL.md`: "When worker guidance omitted a
+Per `paper/audit/.claude/skills/audit-protocol/SKILL.md`: "When worker guidance omitted a
 deterministic validator invariant and that omission caused a rejection,
 attribute the failure to `agent_harness_or_context_error` with harness
 responsibility and confirmed cause `agent_harness_or_context_error`, not to

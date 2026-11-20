@@ -5,9 +5,9 @@ description: Build, review, or independently exercise the sequencing-library gro
 
 # Library-structure audit
 
-Read `docs/audit/README.md`, `evidence-policy.md`,
-`adjudication-policy.md`, and `benchmark-standardization-policy.md` before
-work.
+Read `README.md`, `evidence-policy.md`, `adjudication-policy.md`, and
+`benchmark-standardization-policy.md` in the repository's `docs/audit/`
+directory before work. Repository paths below are relative to the checkout root.
 
 For pipeline engineering:
 

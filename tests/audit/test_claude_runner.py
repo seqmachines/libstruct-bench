@@ -20,15 +20,17 @@ from libstruct_bench.audit.claude_runner import (
     run_claude_audit,
 )
 from libstruct_bench.audit.packets import build_phase_packet
+from libstruct_bench.cli.run_claude_audit import main as run_audit_cli
 from tests.audit.test_packets import _fixture
 from tests.audit.test_review_application import _proposal
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
+AUDIT_WORKSPACE = REPO_ROOT / "paper" / "audit"
 AUDIT_SCHEMAS = REPO_ROOT / "schemas" / "audit"
-PROMPTS = REPO_ROOT / ".claude" / "prompts"
+PROMPTS = AUDIT_WORKSPACE / ".claude" / "prompts"
 REPAIR_PROMPT = PROMPTS / "audit-comparison-repair.md"
-SKILL = REPO_ROOT / ".claude" / "skills" / "audit-protocol" / "SKILL.md"
+SKILL = AUDIT_WORKSPACE / ".claude" / "skills" / "audit-protocol" / "SKILL.md"
 POLICIES = [
     REPO_ROOT / "docs" / "audit" / "evidence-policy.md",
     REPO_ROOT / "docs" / "audit" / "benchmark-standardization-policy.md",
@@ -457,6 +459,40 @@ def _conversion_output() -> dict:
         ],
         "notes": [],
     }
+
+
+@pytest.mark.parametrize(
+    ("phase", "make_packet", "make_response", "artifact_name", "prompt_name"),
+    [
+        (
+            "legacy_conversion", _conversion_packet, _conversion_output,
+            "conversion.json", "audit-legacy-conversion.md",
+        ),
+        (
+            "comparison", _packet, _comparison_without_scientific_issues,
+            "audit.json", "audit-comparison.md",
+        ),
+    ],
+)
+def test_cli_loads_audit_workspace_defaults(
+    tmp_path, monkeypatch, phase, make_packet, make_response, artifact_name, prompt_name
+):
+    monkeypatch.chdir(tmp_path)
+    packet = make_packet(tmp_path)
+    fake_claude = _fake_claude(tmp_path / "fake-claude", make_response())
+    output = tmp_path / "out"
+    assert run_audit_cli([
+        "--phase", phase,
+        "--packet", str(packet),
+        "--out", str(output),
+        "--model", "claude-sonnet-4-20250514",
+        "--run-id", "example-001",
+        "--claude-executable", str(fake_claude),
+    ]) == 0
+    run = json.loads((output / artifact_name).read_text())["run"]
+    assert run["skill_sha256"] == hashlib.sha256(SKILL.read_bytes()).hexdigest()
+    prompt_hash = hashlib.sha256((PROMPTS / prompt_name).read_bytes()).hexdigest()
+    assert run["prompt_sha256"] == prompt_hash
 
 
 def test_legacy_conversion_run_is_linked_hash_pinned_and_unapproved(
@@ -967,10 +1003,10 @@ def test_placeholder_orientation_contract_reaches_comparison_worker() -> None:
 
 def test_interactive_controller_requires_claude_question_tool() -> None:
     instruction_paths = [
-        REPO_ROOT / "CLAUDE.md",
+        AUDIT_WORKSPACE / "CLAUDE.md",
         SKILL,
         REPO_ROOT / "docs" / "audit" / "adjudication-policy.md",
-        REPO_ROOT / ".claude" / "rules" / "groundtruth-audit.md",
+        AUDIT_WORKSPACE / ".claude" / "rules" / "groundtruth-audit.md",
     ]
     for path in instruction_paths:
         text = path.read_text(encoding="utf-8")
@@ -983,10 +1019,10 @@ def test_interactive_controller_requires_claude_question_tool() -> None:
 
 def test_finalized_review_requires_separate_application_gate() -> None:
     instruction_paths = [
-        REPO_ROOT / "CLAUDE.md",
+        AUDIT_WORKSPACE / "CLAUDE.md",
         SKILL,
         REPO_ROOT / "docs" / "audit" / "adjudication-policy.md",
-        REPO_ROOT / ".claude" / "rules" / "groundtruth-audit.md",
+        AUDIT_WORKSPACE / ".claude" / "rules" / "groundtruth-audit.md",
     ]
     for path in instruction_paths:
         text = " ".join(path.read_text(encoding="utf-8").split())
@@ -1002,10 +1038,10 @@ def test_finalized_review_requires_separate_application_gate() -> None:
 
 def test_t3_final_approval_requires_direct_primary_source_fact_check() -> None:
     instruction_paths = [
-        REPO_ROOT / "CLAUDE.md",
+        AUDIT_WORKSPACE / "CLAUDE.md",
         SKILL,
         REPO_ROOT / "docs" / "audit" / "adjudication-policy.md",
-        REPO_ROOT / ".claude" / "rules" / "groundtruth-audit.md",
+        AUDIT_WORKSPACE / ".claude" / "rules" / "groundtruth-audit.md",
     ]
     for path in instruction_paths:
         text = " ".join(path.read_text(encoding="utf-8").split())
@@ -1031,11 +1067,11 @@ def test_active_audit_layout_has_no_pilot_namespace() -> None:
 
 def test_controller_defaults_to_one_review_pass_per_protocol() -> None:
     instruction_paths = [
-        REPO_ROOT / "CLAUDE.md",
+        AUDIT_WORKSPACE / "CLAUDE.md",
         SKILL,
         REPO_ROOT / "docs" / "audit" / "README.md",
         REPO_ROOT / "docs" / "audit" / "adjudication-policy.md",
-        REPO_ROOT / ".claude" / "rules" / "groundtruth-audit.md",
+        AUDIT_WORKSPACE / ".claude" / "rules" / "groundtruth-audit.md",
     ]
     for path in instruction_paths:
         text = " ".join(path.read_text(encoding="utf-8").lower().split())
@@ -1044,7 +1080,7 @@ def test_controller_defaults_to_one_review_pass_per_protocol() -> None:
 
 def test_source_availability_is_not_a_human_gate() -> None:
     skill = " ".join(SKILL.read_text(encoding="utf-8").split())
-    guidance = " ".join((REPO_ROOT / "CLAUDE.md").read_text(encoding="utf-8").split())
+    guidance = " ".join((AUDIT_WORKSPACE / "CLAUDE.md").read_text(encoding="utf-8").split())
     policy = " ".join(
         (REPO_ROOT / "docs" / "audit" / "evidence-policy.md")
         .read_text(encoding="utf-8")

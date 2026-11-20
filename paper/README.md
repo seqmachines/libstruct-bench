@@ -5,6 +5,10 @@ or checkpoint reselection. The final Tasks 2–3 verifier is 4.7.0 and the appro
 reference set is `approved-20261010-b672aab997a2fdc0`. C30 remains the checkpoint
 selected historically under the earlier validation criterion.
 
+The [audit workspace](audit/) contains the Claude and Codex instructions used
+to review ground truth. See the [audit guide](../docs/audit/README.md#running-from-claude-code)
+for setup and commands.
+
 ## Safe reproduction entry point
 
 From the repository root:

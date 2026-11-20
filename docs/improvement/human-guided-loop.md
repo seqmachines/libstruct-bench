@@ -103,11 +103,11 @@ libstruct-libgen-capability-improvement human-review-compile \
 The human review controller runs in Claude Code so every gate uses Claude's
 native `AskUserQuestion` selector. Codex remains the immutable proposal author;
 Claude presents evidence and records only the explicit human disposition.
-Start Claude Code from the repository root:
+Start Claude Code in the paper's audit workspace.
 
 ```bash
-cd ${LIBSTRUCT_REPO_ROOT}
-claude
+cd "${LIBSTRUCT_REPO_ROOT}/paper/audit"
+claude --add-dir ../..
 ```
 
 Then invoke the skill with the expanded absolute experiment path and reviewer

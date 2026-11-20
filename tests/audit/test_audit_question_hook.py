@@ -5,10 +5,13 @@ import subprocess
 import sys
 from pathlib import Path
 
+import pytest
+
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-HOOK = REPO_ROOT / ".claude" / "hooks" / "require_audit_question.py"
-SKILL = REPO_ROOT / ".claude" / "skills" / "audit-protocol" / "SKILL.md"
+AUDIT_WORKSPACE = REPO_ROOT / "paper" / "audit"
+HOOK = AUDIT_WORKSPACE / ".claude" / "hooks" / "require_audit_question.py"
+SKILLS = AUDIT_WORKSPACE / ".claude" / "skills"
 
 
 def _run_hook(message: str) -> dict:
@@ -69,21 +72,29 @@ def test_audit_question_hook_ignores_normal_completion() -> None:
     assert _run_hook("Audit proposal saved; no human gate is pending.") == {}
 
 
-def test_audit_skill_registers_scoped_stop_hook() -> None:
-    text = SKILL.read_text(encoding="utf-8")
-    assert "Stop:" in text
-    assert "require_audit_question.py" in text
-
-
-def test_capability_review_skill_registers_scoped_stop_hook() -> None:
-    skill = (
-        REPO_ROOT
-        / ".claude"
-        / "skills"
-        / "review-capability"
-        / "SKILL.md"
-    ).read_text(encoding="utf-8")
-    assert "Stop:" in skill
-    assert "require_audit_question.py" in skill
-    assert "AskUserQuestion" in skill
-    assert "<!-- capability-review-question-required -->" in skill
+@pytest.mark.parametrize("skill", ["audit-protocol", "review-capability"])
+def test_skill_stop_hook_runs_from_another_directory(tmp_path, skill):
+    text = (SKILLS / skill / "SKILL.md").read_text(encoding="utf-8")
+    frontmatter = text.split("---", 2)[1]
+    assert "Stop:" in frontmatter
+    hook_fields = dict(
+        line.strip().split(": ", 1)
+        for line in frontmatter.splitlines()
+        if line.strip().startswith(("command: ", "args: "))
+    )
+    args = [
+        arg.replace("${CLAUDE_PROJECT_DIR}", str(AUDIT_WORKSPACE))
+        for arg in json.loads(hook_fields["args"])
+    ]
+    result = subprocess.run(
+        [hook_fields["command"], *args],
+        cwd=tmp_path,
+        input=json.dumps({"last_assistant_message": "<!-- audit-question-required -->"}),
+        text=True,
+        capture_output=True,
+        check=True,
+    )
+    assert json.loads(result.stdout)["decision"] == "block"
+    if skill == "review-capability":
+        assert "AskUserQuestion" in text
+        assert "<!-- capability-review-question-required -->" in text

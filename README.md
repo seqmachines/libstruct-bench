@@ -75,7 +75,7 @@ Task 1 has its separate sequence scorer.
 | Weight and threshold sensitivity | `paper/data/sensitivity/`, `paper/methods/camera_ready/sensitivity/` |
 | Repeated GPT/Codex executions | `paper/data/repeats/` (60 executions; descriptive analysis) |
 | Protocol-name-only controls | `paper/data/name_only/` (primary comparison: one selected execution per condition) |
-| Ground-truth validation and adjudication | [Audit documentation](docs/audit/README.md), `schemas/`, `tests/audit/` |
+| Ground-truth validation and adjudication | [Audit guide](docs/audit/README.md), [agent instructions](paper/audit/), `schemas/`, `tests/audit/` |
 
 Figures 3a and 3b retain one selected execution per system and protocol.
 Task 2 primary macro-F1 excludes protocols with no required recoverable oligo

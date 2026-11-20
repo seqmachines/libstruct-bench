@@ -5,13 +5,14 @@ import sys
 from pathlib import Path
 
 from libstruct_bench.audit.claude_runner import (
+    AUDIT_CLAUDE_DIR,
     MAX_COMPARISON_REPAIR_ATTEMPTS,
+    REPO_ROOT,
     ClaudeAuditError,
     run_claude_audit,
 )
 
 
-REPO_ROOT = Path(__file__).resolve().parents[3]
 AUDIT_SCHEMAS = REPO_ROOT / "schemas" / "audit"
 
 
@@ -42,7 +43,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument(
         "--skill",
         type=Path,
-        default=REPO_ROOT / ".claude" / "skills" / "audit-protocol" / "SKILL.md",
+        default=AUDIT_CLAUDE_DIR / "skills" / "audit-protocol" / "SKILL.md",
     )
     parser.add_argument("--policy", type=Path, action="append")
     parser.add_argument("--schema", type=Path)
@@ -56,11 +57,11 @@ def main(argv: list[str] | None = None) -> int:
         "legacy_conversion": "legacy_conversion.schema.json",
         "comparison": "protocol_audit.schema.json",
     }[args.phase]
-    prompt = args.prompt or REPO_ROOT / ".claude" / "prompts" / {
+    prompt = args.prompt or AUDIT_CLAUDE_DIR / "prompts" / {
         "legacy_conversion": "audit-legacy-conversion.md",
         "comparison": "audit-comparison.md",
     }[args.phase]
-    repair_prompt = args.repair_prompt or REPO_ROOT / ".claude" / "prompts" / {
+    repair_prompt = args.repair_prompt or AUDIT_CLAUDE_DIR / "prompts" / {
         "legacy_conversion": "audit-legacy-conversion-repair.md",
         "comparison": "audit-comparison-repair.md",
     }[args.phase]

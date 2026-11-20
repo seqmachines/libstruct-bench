@@ -1,13 +1,13 @@
 __pycache__/
 .venv/
 .DS_Store
-# Local agent state is ignored except for the reviewed project audit skill.
-.agents/*
-!.agents/skills/
-.agents/skills/*
-!.agents/skills/libstruct-audit/
-!.agents/skills/libstruct-audit/**
-.claude/settings.local.json
+# Local agent installs and settings. Tracked audit workflows live in paper/audit.
+/.agents/
+/.claude/
+/skills-lock.json
+/paper/audit/.claude/settings.local.json
+/paper/audit/.agents/skills/*
+!/paper/audit/.agents/skills/libstruct-audit/
 tmp/
 analysis/*
 

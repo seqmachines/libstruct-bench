@@ -214,8 +214,16 @@ a separate branch or carried molecular product is essential downstream.
 
 ## Running from Claude Code
 
-Use `/audit-protocol s3_atac` from the repository root. Pass up to ten protocol
-IDs to prepare proposals concurrently. Workers stop at proposals; human review
+The paper's interactive audit instructions, skills, and review hooks live in
+`paper/audit/`. From the repository root, launch Claude Code with
+
+```bash
+cd paper/audit
+claude --add-dir ../..
+```
+
+In that session, use `/audit-protocol s3_atac`. Pass up to ten protocol IDs
+to prepare proposals concurrently. Workers stop at proposals; human review
 and deterministic application remain separate.
 
 See `evidence-policy.md`, `adjudication-policy.md`, and

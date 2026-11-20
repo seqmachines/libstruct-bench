@@ -1,14 +1,6 @@
----
-paths:
-  - "docs/audit/**"
-  - "schemas/audit/**"
-  - "src/libstruct_bench/audit/**"
-  - "tests/audit/**"
----
-
 # Ground-truth audit changes
 
-- Read the canonical policies under `docs/audit/` before editing these paths.
+- Read the canonical policies under `docs/audit/` before changing audit code, schemas, or workflows.
 - Put active audit artifacts directly in `ground_truth_audit/manifests/`,
   `renditions/`, `packets/`, `runs/`, `reviews/`, `applications/`, and
   `promotions/`. Do not create a `pilot/` namespace for new work; retain old

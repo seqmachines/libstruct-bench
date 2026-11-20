@@ -640,7 +640,7 @@ def _validate_codex_workspace_access(
     # this one exact instruction file while keeping the rest of the repository
     # outside the adjudicator's evidence boundary.
     allowed_instruction_files = {
-        (repository_root / ".agents/skills/libstruct-audit/SKILL.md")
+        (repository_root / "paper/audit/.agents/skills/libstruct-audit/SKILL.md")
         .resolve()
         .as_posix()
     }

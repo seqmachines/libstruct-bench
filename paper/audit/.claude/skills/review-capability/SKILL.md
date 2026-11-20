@@ -6,15 +6,16 @@ hooks:
     - hooks:
         - type: command
           command: python3
-          args:
-            - "${CLAUDE_PROJECT_DIR}/.claude/hooks/require_audit_question.py"
+          args: ["${CLAUDE_PROJECT_DIR}/.claude/hooks/require_audit_question.py"]
 ---
 
 # Review one capability-learning protocol
 
 ## Usage
 
-Run from the `libstruct-bench` repository root:
+Start Claude Code in `paper/audit/`, which contains `CLAUDE.md`. Resolve
+repository paths and run shell examples from the repository root (`../..`).
+Invoke the skill in that Claude session with
 
 ```text
 /review-capability <human_experiment_root> <reviewer_id>

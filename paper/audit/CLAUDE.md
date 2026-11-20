@@ -1,5 +1,8 @@
 # Claude Code guidance
 
+This audit workspace is `paper/audit/`. Repository paths and shell examples
+use the LibStructBench root (`../..` from this directory).
+
 Use `/audit-protocol <protocol_id>` for one protocol or pass up to ten protocol
 IDs to prepare proposals concurrently. The skill runs the conversion-first audit,
 resumes existing work, includes every available discovered source, marks missing

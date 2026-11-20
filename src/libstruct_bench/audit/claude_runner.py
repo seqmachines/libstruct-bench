@@ -39,19 +39,11 @@ MODEL_ALIASES = {"default", "sonnet", "opus", "haiku", "fable"}
 READ_ONLY_TOOLS = ("Read", "Glob", "Grep")
 REPAIR_TOOLS = ("Read",)
 MAX_COMPARISON_REPAIR_ATTEMPTS = 2
-GROUNDTRUTH_SCHEMA_DIR = Path(__file__).resolve().parents[3] / "schemas" / "groundtruth"
-DEFAULT_REPAIR_PROMPT = (
-    Path(__file__).resolve().parents[3]
-    / ".claude"
-    / "prompts"
-    / "audit-comparison-repair.md"
-)
-DEFAULT_CONVERSION_PROMPT = (
-    Path(__file__).resolve().parents[3]
-    / ".claude"
-    / "prompts"
-    / "audit-legacy-conversion.md"
-)
+REPO_ROOT = Path(__file__).resolve().parents[3]
+GROUNDTRUTH_SCHEMA_DIR = REPO_ROOT / "schemas" / "groundtruth"
+AUDIT_CLAUDE_DIR = REPO_ROOT / "paper" / "audit" / ".claude"
+DEFAULT_REPAIR_PROMPT = AUDIT_CLAUDE_DIR / "prompts" / "audit-comparison-repair.md"
+DEFAULT_CONVERSION_PROMPT = AUDIT_CLAUDE_DIR / "prompts" / "audit-legacy-conversion.md"
 CURRENT_TASK_BY_SOURCE_KIND = {
     "current_t1": "T1",
     "current_t2": "T2",

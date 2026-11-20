@@ -1,5 +1,8 @@
 # Repository guidance
 
+This audit workspace is `paper/audit/`. Repository paths and shell examples
+use the LibStructBench root (`../..` from this directory).
+
 ## Ground-truth audit
 
 - Read `docs/audit/README.md`, `docs/audit/evidence-policy.md`, and
