@@ -123,7 +123,7 @@ def prepare(out: Path, groundtruth_root: Path, gcp_project: str) -> dict:
         return validate_lock(out / "experiment.json")
     if (out / 'tasks').exists():
         raise ValueError('Unfinished preparation found; inspect it before replacing task files')
-    protocols = json.loads((ROOT / "benchmarks/task1/name_only.json").read_text())["protocols"]
+    protocols = json.loads((ROOT / "paper/benchmarks/task1/name_only.json").read_text())["protocols"]
     assert len(protocols) == 20
     assert {p["protocol_id"] for p in protocols} == {
         p["protocol_id"] for p in json.loads((ROOT / "benchmarks/tasks2_3/protocols.json").read_text())["protocols"]}

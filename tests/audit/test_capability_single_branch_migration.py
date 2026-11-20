@@ -24,7 +24,7 @@ from libstruct_bench.improvement.validation import validation_panel_commitment_d
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-PACK_ROOT = REPO_ROOT / "improvement" / "capability_pack"
+PACK_ROOT = REPO_ROOT / "paper/improvement" / "capability_pack"
 
 
 def _predecessor(root: Path) -> tuple[dict[str, str], Path]:

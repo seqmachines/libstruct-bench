@@ -140,7 +140,7 @@ running/succeeded/failed receipt:
 ```bash
 libstruct-libgen-capability-improvement kb-launch-loop \
   --experiment-root "$EXPERIMENT_ROOT" \
-  --base-config improvement/fixed_panel_harbor_base.json \
+  --base-config paper/improvement/fixed_panel_harbor_base.json \
   --max-protocols 53 \
   --receipt "$RUN_ROOT/receipts/training-loop.json" \
   --log "$RUN_ROOT/receipts/training-loop.log" \
@@ -156,7 +156,7 @@ One cycle can be exercised independently:
 ```bash
 libstruct-libgen-capability-improvement kb-run-next \
   --experiment-root "$EXPERIMENT_ROOT" \
-  --base-config improvement/fixed_panel_harbor_base.json \
+  --base-config paper/improvement/fixed_panel_harbor_base.json \
   --created-at "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
 ```
 
@@ -212,7 +212,7 @@ libstruct-libgen-capability-improvement kb-plan-evaluation \
   --experiment-root "$EXPERIMENT_ROOT" \
   --checkpoint "$checkpoint" \
   --panel test \
-  --base-config improvement/fixed_panel_harbor_base.json \
+  --base-config paper/improvement/fixed_panel_harbor_base.json \
   --created-at "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
 
 libstruct-libgen-capability-improvement kb-execute-harbor-plan \
@@ -238,7 +238,7 @@ runs exactly one concurrent ten-protocol test job:
 ```bash
 libstruct-libgen-capability-improvement kb-launch-final-replay \
   --experiment-root "$EXPERIMENT_ROOT" \
-  --base-config improvement/fixed_panel_harbor_base.json \
+  --base-config paper/improvement/fixed_panel_harbor_base.json \
   --receipt "$RUN_ROOT/receipts/final-replay.json" \
   --log "$RUN_ROOT/receipts/final-replay.log" \
   --composite-final-kb

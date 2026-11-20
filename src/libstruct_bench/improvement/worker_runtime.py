@@ -749,7 +749,7 @@ def _repository_root() -> Path:
 
 
 def _runtime_root() -> Path:
-    return _repository_root() / "improvement" / "worker_runtime"
+    return _repository_root() / "paper/improvement" / "worker_runtime"
 
 
 def standalone_main(argv: list[str] | None = None) -> int:

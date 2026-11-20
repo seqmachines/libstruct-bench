@@ -191,6 +191,7 @@ def execution_inputs(study, cfg, lock):
     allowed = (
         study.runs / "libgen",
         study.repo / "improvement",
+        study.repo / "paper/improvement",
         study.data / "libgen_capability_improvement",
         study.data / "external_knowledge",
     )

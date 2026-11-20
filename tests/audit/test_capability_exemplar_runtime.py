@@ -28,7 +28,7 @@ from libstruct_bench.improvement.exemplar_memory import (
 
 
 REPOSITORY_ROOT = Path(__file__).resolve().parents[2]
-RUNTIME_TOOLS = REPOSITORY_ROOT / "improvement" / "exemplar_memory_runtime" / "tools"
+RUNTIME_TOOLS = REPOSITORY_ROOT / "paper/improvement" / "exemplar_memory_runtime" / "tools"
 if str(RUNTIME_TOOLS) not in sys.path:
     sys.path.insert(0, str(RUNTIME_TOOLS))
 
@@ -262,7 +262,7 @@ def _work_record() -> dict[str, object]:
     record = json.loads(
         (
             REPOSITORY_ROOT
-            / "improvement"
+            / "paper/improvement"
             / "capability_pack"
             / "synthetic_tests"
             / "valid"

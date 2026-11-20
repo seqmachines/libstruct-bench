@@ -1337,7 +1337,7 @@ def build_learned_pact(
     source = (
         parent_pact.expanduser().resolve()
         if parent_pact is not None
-        else repository_root.expanduser().resolve() / "improvement/capability_pack"
+        else repository_root.expanduser().resolve() / "paper/improvement/capability_pack"
     )
     validate_kb_pact(source)
     target = output_root.expanduser().resolve()

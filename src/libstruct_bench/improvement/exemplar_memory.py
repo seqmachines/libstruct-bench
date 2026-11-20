@@ -51,7 +51,7 @@ T2_EXAMPLE_SCHEMA_VERSION = "libstruct.libgen_t2_example.v1"
 T3_EXAMPLE_SCHEMA_VERSION = "libstruct.libgen_t3_example.v1"
 
 IDENTITY_MAP_RELATIVE_PATH = Path("private/exemplar_identity_map.json")
-MEMORY_RUNTIME_SOURCE = repository_root() / "improvement" / "exemplar_memory_runtime"
+MEMORY_RUNTIME_SOURCE = repository_root() / "paper/improvement" / "exemplar_memory_runtime"
 MEMORY_RUNTIME_FILES = (
     "runtime/schemas/exemplar_query.schema.json",
     "runtime/schemas/exemplar_retrieval.schema.json",

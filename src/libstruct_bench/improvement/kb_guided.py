@@ -2886,7 +2886,7 @@ def _prepare_training_knowledge_exposure(
         write_json_atomic(exposure / "family_priorities.json", priorities, mode=0o444)
         runtime_source = (
             Path(str(manifest["repository"]["path"]))
-            / "improvement/kb_runtime/query_kb.py"
+            / "paper/improvement/kb_runtime/query_kb.py"
         )
         if not runtime_source.is_file() or runtime_source.is_symlink():
             raise CapabilityImprovementError(
@@ -2969,7 +2969,7 @@ def _prepare_checkpoint_exposure(
         write_json_atomic(exposure / "family_priorities.json", priorities, mode=0o444)
         runtime_source = (
             Path(str(manifest["repository"]["path"]))
-            / "improvement/kb_runtime/query_kb.py"
+            / "paper/improvement/kb_runtime/query_kb.py"
         )
         if not runtime_source.is_file() or runtime_source.is_symlink():
             raise CapabilityImprovementError(
@@ -3850,7 +3850,7 @@ def _repository_lock_files(repository: Path) -> list[Path]:
         repository / "src/libstruct_bench/libgen",
         repository / "src/libstruct_bench/improvement",
         repository / "src/libstruct_bench/cli/libgen_capability_improvement.py",
-        repository / "improvement/kb_runtime",
+        repository / "paper/improvement/kb_runtime",
         repository / "schemas/benchmark",
         repository / "schemas/groundtruth",
         repository / "schemas/improvement",

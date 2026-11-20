@@ -5,7 +5,7 @@ protocols have one final library; multimodal protocols have one final library
 entry per measured modality or final sequencing product.
 
 The paper-revision run is configured in
-[Task 1 round 2](../benchmarks/task1/README.md). It retains
+[Task 1 round 2](../paper/benchmarks/task1/README.md). It retains
 the 20-protocol panel, excludes XLSX attachments from both execution modes, and
 uses GPT-5.6 Sol, Claude Opus 5, and Gemini 3.7 Flash with high reasoning.
 Direct API calls have a 64,000-token completion cap, including reasoning.

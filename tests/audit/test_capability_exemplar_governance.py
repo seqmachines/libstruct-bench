@@ -35,7 +35,7 @@ from libstruct_bench.improvement.split_freeze import build_frozen_split
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-PACK_ROOT = REPO_ROOT / "improvement" / "capability_pack"
+PACK_ROOT = REPO_ROOT / "paper/improvement" / "capability_pack"
 NOW = "2026-08-22T12:00:00Z"
 
 

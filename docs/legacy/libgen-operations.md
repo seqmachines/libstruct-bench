@@ -331,7 +331,7 @@ match details into structured discrepancy records with entity IDs, scores,
 affected metrics, unresolved validity/attribution fields, a run summary, and
 conservative trajectory evidence when available. It does not change any score.
 All files are written under `/logs/verifier/`. See
-[error-analysis.md](../../benchmarks/tasks2_3/error-analysis.md) for the discrepancy-adjudication and
+[error-analysis.md](../../paper/benchmarks/tasks2_3/error-analysis.md) for the discrepancy-adjudication and
 trajectory-review procedure.
 
 Harbor persists the separate verifier directory automatically. Do not add

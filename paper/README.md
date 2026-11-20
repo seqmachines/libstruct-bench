@@ -9,6 +9,11 @@ The [audit workspace](audit/) contains the Claude and Codex instructions used
 to review ground truth. See the [audit guide](../docs/audit/README.md#running-from-claude-code)
 for setup and commands.
 
+The [Task 1](benchmarks/task1/README.md) and [Tasks 2–3](benchmarks/tasks2_3/README.md)
+study configurations preserve the original model pins, controls, and planning
+inventories. The [learning experiments](improvement/) include the capability
+pack and worker code. For a fresh native run, see the [Harbor guide](../benchmarks/README.md).
+
 ## Safe reproduction entry point
 
 From the repository root:

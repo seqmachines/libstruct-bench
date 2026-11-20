@@ -27,7 +27,7 @@ from libstruct_bench.improvement.local_learning import _prepare_or_validate_pack
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 SCHEMA_ROOT = REPO_ROOT / "schemas" / "improvement"
-PACK_ROOT = REPO_ROOT / "improvement" / "capability_pack"
+PACK_ROOT = REPO_ROOT / "paper/improvement" / "capability_pack"
 
 
 def test_validation_checkpoint_order_does_not_follow_json_key_order() -> None:

@@ -51,7 +51,7 @@ from libstruct_bench.libgen.version import LIBGEN_BENCHMARK_VERSION
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 SCHEMA_ROOT = REPO_ROOT / "schemas/improvement"
-PACK_ROOT = REPO_ROOT / "improvement/capability_pack"
+PACK_ROOT = REPO_ROOT / "paper/improvement/capability_pack"
 
 
 def test_all_kb_schemas_are_valid() -> None:
@@ -838,7 +838,7 @@ def test_kb_query_ranks_every_donor_then_fetches_agent_selection(
     tmp_path: Path,
 ) -> None:
     runtime = runpy.run_path(
-        (REPO_ROOT / "improvement/kb_runtime/query_kb.py").as_posix()
+        (REPO_ROOT / "paper/improvement/kb_runtime/query_kb.py").as_posix()
     )
     rank_donors = runtime["rank_donors"]
     fetch_selected = runtime["fetch_selected"]

@@ -71,7 +71,7 @@ def context(directory, config_path):
     sources = {f'src/libstruct_bench/{name}': run.ROOT / 'src/libstruct_bench' / name
                for name in SOURCE_FILES}
     sources.update({
-        'benchmarks/task1/name_only.json': Path(config_path),
+        'paper/benchmarks/task1/name_only.json': Path(config_path),
         'benchmarks/task1/protocols.json': run.ROOT / 'benchmarks/task1/protocols.json',
         'proxy/provider_egress_proxy.py': PROXY_SOURCE,
     })
@@ -84,7 +84,7 @@ def context(directory, config_path):
     (directory / 'Dockerfile').write_text(
         'FROM python:3.13-slim\nWORKDIR /app\n'
         'ENV PYTHONPATH=/app/src PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1\n'
-        'COPY src /app/src\nCOPY benchmarks /app/benchmarks\nCOPY proxy /proxy\n'
+        'COPY src /app/src\nCOPY benchmarks /app/benchmarks\nCOPY paper /app/paper\nCOPY proxy /proxy\n'
         'RUN mkdir -p /logs/network\n')
     return hashes
 

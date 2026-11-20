@@ -39,7 +39,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--out", required=True)
     parser.add_argument(
         "--pricing-snapshot",
-        default="benchmarks/tasks2_3/pricing-2026-08-15.json",
+        default="paper/benchmarks/tasks2_3/pricing-2026-08-15.json",
         help="fallback for legacy locks that do not embed their frozen snapshot",
     )
     args = parser.parse_args(argv)

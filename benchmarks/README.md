@@ -1,25 +1,63 @@
-# Benchmark configurations
+# Prepare and run a Harbor task
 
-Configurations are grouped by the tasks they evaluate:
+Run these commands from the LibStructBench checkout after installing the package
+with `python -m pip install -e .`. For execution, use a Harbor installation
+with Docker and authentication for your chosen native agent.
 
-| Folder | Contents |
-| --- | --- |
-| [task1/](task1/README.md) | Final-library reconstruction: PDF/API and native-agent configurations, name-only API control, and the earlier input inventory used to verify exclusions. |
-| [tasks2_3/](tasks2_3/README.md) | Linked oligo-family and molecular-workflow reconstruction: protocol/source inventory, rules, network assets, name-only native-agent configs, cost snapshot and historical planning provenance. |
-| [shared/](shared/) | Protocol-processing instructions consumed by Task 1 and the retained legacy extraction generator. |
+Set `protocol` to the protocol ID. Set `source_root` to the local directory
+containing `<protocol_id>/<document>` and `truth_root` to the **separate**
+directory containing the approved records under `<protocol_id>/`. Both commands
+select evidence by inventory. Keep only primary documents in the source tree.
+Generated tasks contain verifier-only answers and belong in a private directory.
 
-Selected predictions, panel membership, final scores, statistical tests and
-reference identities are in [`paper/`](../paper/README.md). This folder contains
-execution configurations, not a second copy of those results.
+## Task 1 — Final library structure
 
-Generated tasks, downloaded source files, verifier ground truth, experiment
-locks, credentials and logs are local/ignored artifacts. The superseded
-standalone oligo-extraction benchmark and obsolete model list were archived
-locally; their legacy generator accepts explicit `--protocols` and `--out`.
+```sh
+libstruct-generate-library-v0-tasks --protocol-id "$protocol" \
+  --source-root "$source_root" --groundtruth-root "$truth_root" \
+  --out runs/prepared/task1
+```
 
-The directory reorganization did not change agent prompts, scientific weights,
-protocol selection, model versions, saved run paths, or C30. Repository-path
-references were updated. Historical `paper/` manifests retain their original
-paths and hashes; [the relocation inventory](../docs/release/benchmark_layout.json)
-records where retained benchmark files now live. Historical locks are not
-silently rewritten to authorize resuming an old experiment with changed code.
+The generator embeds the selected documents, records their SHA-256 hashes,
+and places `groundtruth_final_lib_struct.json` in the separate verifier.
+The default [inventory](task1/protocols.json) selects the paper's Task 1 PDFs.
+Use `--protocols PATH` for a different inventory. The agent writes
+`prediction.json` according to the task instructions and [shared rules](shared/protocol_processing_rules.md).
+
+## Tasks 2–3 — Workflow reconstruction
+
+```sh
+libstruct-generate-libgen-tasks --protocol-id "$protocol" \
+  --source-root "$source_root" --groundtruth-root "$truth_root" \
+  --out runs/prepared/tasks2_3
+```
+
+One task produces Task 2 oligo-family predictions and Task 3 molecular-workflow
+predictions, with separate metrics for each. The [inventory](tasks2_3/protocols.json)
+pins the source hashes. The generator packages the [rules](tasks2_3/rules.md),
+prediction schemas, Docker network policy, and verifier with the approved T1,
+T2, and T3 reference files. For a custom inventory, pass `--protocols PATH` and
+`--rules benchmarks/tasks2_3/rules.md`. The generated verifier uses 4.6.0.
+The final paper scores use 4.7.0.
+
+## Run either task
+
+Harbor gives the agent the generated `instruction.md` and the task's rules.
+The verifier runs separately when the agent finishes. No agent skill is required.
+
+Choose the prepared directory for the requested task. For all three tasks, run
+each directory once. Each invocation creates a new timestamped job by default.
+
+```sh
+task_dir="runs/prepared/task1/$protocol"  # or runs/prepared/tasks2_3/$protocol
+harbor run --path "$task_dir" --agent "$agent" --model "$model" --jobs-dir runs/jobs
+```
+
+For Codex, add `--agent-kwarg "version=$codex_version"` to select a CLI version.
+Append `--print-config` to preview the job. Changing the native agent, model,
+or its version reuses the same prepared task. Harbor saves each trial's results
+in the job directory, including the verifier's `reward.json`.
+
+The [paper configurations](../paper/benchmarks/) preserve the original agent
+pins and study conditions. The generators also support the original pinned
+remote-source workflow. Run either setup command with `--help` for its options.

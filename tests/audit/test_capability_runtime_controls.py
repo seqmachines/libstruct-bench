@@ -40,7 +40,7 @@ NO_BYTECODE_ENV = {**os.environ, "PYTHONDONTWRITEBYTECODE": "1"}
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-PACK_ROOT = REPO_ROOT / "improvement" / "capability_pack"
+PACK_ROOT = REPO_ROOT / "paper/improvement" / "capability_pack"
 
 
 def _portable_checkpoint(

@@ -104,15 +104,15 @@ from pathlib import Path
 
 parent, protocol, output = sys.argv[1:]
 assert (Path(parent) / protocol / "task.toml").is_file(), "Prepare the Harbor task first"
-job = json.loads(Path("benchmarks/task1/codex.json").read_text())
+job = json.loads(Path("paper/benchmarks/task1/codex.json").read_text())
 job["datasets"] = [{"path": str(Path(parent).resolve()), "task_names": [protocol]}]
 Path(output).write_text(json.dumps(job, indent=2))
 PY
 ./tools/libstruct-archive launch -c "$config" --job-name "task1-$protocol-$(date -u +%Y%m%dT%H%M%SZ)"
 ```
 
-The Task 1 template fetches input documents from its pinned Hugging Face
-source. Tasks 2–3 support `--source-delivery embedded` to copy hash-checked
+The historical Task 1 template fetches pinned Hugging Face documents. New Task 1
+tasks generated with `--source-root` embed the local source documents. Tasks 2–3 support `--source-delivery embedded` to copy hash-checked
 local sources into a task at preparation time, or `pinned-hf` to download
 them during the image build. A directory of original PDFs is an input to
 task preparation. R2 receives the evidence and run artifacts after execution.
@@ -125,7 +125,7 @@ For an individual native Harbor config, prepare the versioned task context and p
 From the repo root, use this host command in a fresh shell. The example selects a new output directory for the existing Task 1 config. The name goes to both Harbor and the archive journal. A cloud or local archive launch refuses to reuse a populated job directory.
 
 ```sh
-./tools/libstruct-archive launch -c benchmarks/task1/codex.json --job-name "task1-codex-$(date -u +%Y%m%dT%H%M%SZ)"
+./tools/libstruct-archive launch -c paper/benchmarks/task1/codex.json --job-name "task1-codex-$(date -u +%Y%m%dT%H%M%SZ)"
 ./tools/libstruct-archive reconcile
 ```
 

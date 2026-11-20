@@ -125,7 +125,7 @@ def test_install_stops_on_version_drift(tmp_path):
 
 def test_round2_config_and_installer_pin_match():
     root = Path(__file__).resolve().parents[1]
-    config = json.loads((root / "benchmarks/task1/antigravity-cli.json").read_text())
+    config = json.loads((root / "paper/benchmarks/task1/antigravity-cli.json").read_text())
     agent = config["agents"][0]
     assert agent["kwargs"]["version"] == PINNED_VERSION
     assert agent["model_name"] == "google/gemini-3.7-flash-high"
@@ -137,7 +137,7 @@ def test_round2_config_and_installer_pin_match():
 def test_libgen_gcp_overlay_adds_only_vertex_and_preserves_network_policy(tmp_path, monkeypatch):
     yaml = pytest.importorskip("yaml")
     root = Path(__file__).resolve().parents[1]
-    overlay = yaml.safe_load((root / "benchmarks/tasks2_3/antigravity-gcp.compose.yaml").read_text())
+    overlay = yaml.safe_load((root / "paper/benchmarks/tasks2_3/antigravity-gcp.compose.yaml").read_text())
     entrypoint = overlay["services"]["provider-egress"]["entrypoint"]
     source = tmp_path / "base.json"
     original = (root / "benchmarks/tasks2_3/network-policy.json").read_bytes()

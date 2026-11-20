@@ -1,12 +1,12 @@
 # Tasks 2–3: oligo families and molecular workflows
 
 The linked benchmark reconstructs T2 oligo families and T3 molecular graphs.
-`protocols.json` fixes the 20-protocol native panel and source inventories;
+The [runtime inventory](../../../benchmarks/tasks2_3/protocols.json) fixes the 20-protocol native panel and source inventories;
 `provenance/planning_matrix.json` preserves the earlier, broader model/harness
 plan; it is not the definition of the final comparison panel. The paper's
 selected trials and ten-protocol comparisons are pinned in
-[`paper/provenance/`](../../paper/provenance/), not inferred from every planned
-matrix cell. `rules.md`, `network-policy.json`, and `docker_network/` define the
+[`paper/provenance/`](../../provenance/), not inferred from every planned
+matrix cell. The rules and network assets under `benchmarks/tasks2_3/` define the
 agent contract and execution isolation.
 
 ## Reproduce the paper statistics
@@ -16,7 +16,7 @@ python paper/reproduce.py --statistics
 ```
 
 Run from the repository root. No inference or Docker is needed. See
-[`paper/README.md`](../../paper/README.md) for the selected panels and final
+[`paper/README.md`](../../README.md) for the selected panels and final
 Bonferroni tables. Figure 3 uses one selected attempt per protocol/system;
 GPT/Codex repeats are reported separately. The final name-only comparison is
 one original bundle execution versus one name-only execution, paired by protocol.
@@ -38,8 +38,8 @@ python -m libstruct_bench.cli.generate_libgen_tasks --help
 python -m libstruct_bench.cli.plan_libgen_matrix --help
 ```
 
-The generator requires source and ground-truth roots, protocol inventory,
-immutable input/reference revisions, and an output directory. With
+The generator takes local source and ground-truth roots, a protocol inventory,
+and an output directory. Remote releases also take immutable repository revisions. With
 `--source-delivery embedded`, source files are copied into the local Docker
 build context; this is not permission to publish the task tree. With
 `pinned-hf`, the historical downloader expects a source repository that may
@@ -61,16 +61,16 @@ and scores have not been moved or rewritten.
 `provenance/capability-training-protocols.json` retains an earlier ten-protocol
 training-source inventory. The final cumulative-learning experiment uses the
 58/5/10 design and historical C30 selection documented in
-[`docs/improvement/`](../../docs/improvement/README.md); do not infer that split
+[`docs/improvement/`](../../../docs/improvement/README.md); do not infer that split
 from the older inventory. The planner resolves the historical matrix's network
 policy relative to its new location without changing its settings.
 
 ## Related workflows
 
-- [Ground-truth validation and audit](../../docs/audit/README.md)
+- [Ground-truth validation and audit](../../../docs/audit/README.md)
 - [Error-profile definitions](error-analysis.md)
-- [Historical reference migration and scoring impact](../../docs/evaluation/groundtruth-migration-and-scoring-impact.md)
-- [Knowledge augmentation and cumulative learning](../../docs/improvement/README.md)
-- [Historical operator notes](../../docs/legacy/libgen-operations.md): retained
+- [Historical reference migration and scoring impact](../../../docs/evaluation/groundtruth-migration-and-scoring-impact.md)
+- [Knowledge augmentation and cumulative learning](../../../docs/improvement/README.md)
+- [Historical operator notes](../../../docs/legacy/libgen-operations.md): retained
   for old commands and planned designs; superseded choices are not final paper
   settings and source repository links do not authorize redistribution.

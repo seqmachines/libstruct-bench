@@ -87,7 +87,7 @@ _VERIFIER_SOURCE_PATHS = (
     Path("src/libstruct_bench/normalization.py"),
     Path("schemas/analysis/libgen_error_analysis.schema.json"),
     Path("schemas/benchmark"),
-    Path("benchmarks/tasks2_3/provenance/planning_matrix.json"),
+    Path("paper/benchmarks/tasks2_3/provenance/planning_matrix.json"),
 )
 _IGNORED_TREE_PARTS = frozenset({"__pycache__", ".pytest_cache", ".DS_Store"})
 

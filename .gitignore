@@ -75,8 +75,7 @@ ground_truth/
 # Task-oriented benchmark layout: local generated/private contexts.
 benchmarks/tasks2_3/capability-training-tasks/
 benchmarks/tasks2_3/capability-training-tasks-b5/
-benchmarks/tasks2_3/name_only/experiment.json
-benchmarks/tasks2_3/name_only/revisions/
+benchmarks/tasks2_3/name_only/
 
 # Private local experiment archive and transfer journal
 .archive-state/

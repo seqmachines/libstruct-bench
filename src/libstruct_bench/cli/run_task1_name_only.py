@@ -16,7 +16,7 @@ from libstruct_bench.library_structure import LibraryStructureValidationError, e
 from libstruct_bench.library_structure_policy import OPENROUTER_SOURCE_POLICY
 
 ROOT = Path(__file__).resolve().parents[3]
-DEFAULT_CONFIG = ROOT / 'benchmarks/task1/name_only.json'
+DEFAULT_CONFIG = ROOT / 'paper/benchmarks/task1/name_only.json'
 CONDITION = 'protocol-name-only (parametric-knowledge control)'
 GEMINI = 'google/gemini-3.7-flash'
 VERTEX_MODEL = 'gemini-3.7-flash'

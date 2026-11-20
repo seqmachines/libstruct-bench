@@ -1,5 +1,5 @@
 > Historical standalone extraction benchmark. The final paper's Task 2 is
-> the linked [Libgen family scorer](../../benchmarks/tasks2_3/README.md), with separate definitions
+> the linked [Libgen family scorer](../../benchmarks/README.md#tasks-23--workflow-reconstruction), with separate definitions
 > and selected results in `paper/`. Old source-dataset identifiers below are
 > provenance, not authorization to redistribute documents. Generated task trees
 > are excluded from the public release.

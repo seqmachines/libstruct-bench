@@ -1,17 +1,17 @@
 # Task 1 — final-library reconstruction
 
-This folder contains the manuscript's 20-protocol Task 1 configurations,
+This folder preserves the study configurations for the manuscript's 20-protocol Task 1 configurations,
 previously under `library_structure/round2/`. The document-supplied API and
 native-agent conditions use the same PDF inventory. The name-only control uses
 separate API executions with the protocol name/version and no documents.
 
 | File | Purpose |
 | --- | --- |
-| `protocols.json` | Pinned 20-protocol PDF inventory, API model/settings defaults and recorded attachment exclusions. |
+| [Current inventory](../../../benchmarks/task1/protocols.json) | Pinned 20-protocol PDF inventory, API model/settings defaults and recorded attachment exclusions. |
 | `codex.json`, `claude-code.json`, `antigravity-cli.json` | Native-agent Harbor configurations: one attempt per protocol, requested high reasoning. |
 | `name_only.json` | Protocol-name-only API control, exact model/settings and historical input hashes. |
 | `provenance/original_protocols.json` | Earlier input inventory used to verify that only seven XLSX attachments from six protocols were excluded; all 20 protocols were retained. |
-| `../shared/protocol_processing_rules.md` | Shared task instructions. |
+| [Task rules](../../../benchmarks/shared/protocol_processing_rules.md) | Shared task instructions. |
 
 The configured API models are GPT-5.6 Sol, Claude Opus 5 and Gemini 3.7 Flash,
 with requested high reasoning and a 64,000 completion-token cap. Native CLI
@@ -29,7 +29,7 @@ python paper/reproduce.py --statistics
 ```
 
 Final reference-corrected Task 1 scores and Bonferroni tests are under
-[`paper/data/`](../../paper/README.md). The older labels used during execution
+[`paper/data/`](../../README.md). The older labels used during execution
 were not changed in-place. Exact counts and sequence similarity have separate
 definitions; exact reconstruction also requires matching library counts.
 

@@ -9,6 +9,7 @@ from dataclasses import dataclass
 from pathlib import Path, PurePosixPath
 from typing import Any
 
+from libstruct_bench.harbor_task import build_task_directory, copy_task_modules
 from libstruct_bench.audit.artifacts import validate_document
 from libstruct_bench.audit.connected_process import (
     ConnectedProcessMigrationError,
@@ -58,7 +59,7 @@ class PreparedGroundtruth:
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
-        description="Generate linked T2/T3 Harbor tasks from pinned HF repositories."
+        description="Prepare Tasks 2–3 — Workflow reconstruction, from local evidence and approved references."
     )
     parser.add_argument(
         "--protocols", default=str(DEFAULT_BENCHMARK_DIR / "protocols.json")
@@ -81,14 +82,14 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--out", default=str(DEFAULT_BENCHMARK_DIR / "tasks"))
     parser.add_argument("--source-root", required=True)
     parser.add_argument("--groundtruth-root", required=True)
-    parser.add_argument("--input-repo", required=True)
-    parser.add_argument("--input-revision", required=True)
-    parser.add_argument("--groundtruth-repo", required=True)
-    parser.add_argument("--groundtruth-revision", required=True)
+    parser.add_argument("--input-repo")
+    parser.add_argument("--input-revision")
+    parser.add_argument("--groundtruth-repo")
+    parser.add_argument("--groundtruth-revision")
     parser.add_argument(
         "--source-delivery",
         choices=SOURCE_DELIVERY_MODES,
-        default="pinned-hf",
+        default=None,
         help=(
             "pinned-hf downloads approved source bytes from the immutable input "
             "revision; embedded copies the same hash-verified bytes into the task "
@@ -117,12 +118,17 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--force", action="store_true")
     args = parser.parse_args(argv)
 
-    _require_pinned_revision(args.input_revision, "input revision")
-    _require_pinned_revision(args.groundtruth_revision, "ground-truth revision")
-    if args.input_repo == args.groundtruth_repo:
-        raise ValueError(
-            "agent inputs and private ground truth must use different HF repositories"
-        )
+    pins = (args.input_repo, args.input_revision, args.groundtruth_repo, args.groundtruth_revision)
+    if any(pins) and not all(pins):
+        parser.error("supply both repository IDs and their revisions, or omit all four for local files")
+    if all(pins):
+        _require_pinned_revision(args.input_revision, "input revision")
+        _require_pinned_revision(args.groundtruth_revision, "ground-truth revision")
+        if args.input_repo == args.groundtruth_repo:
+            raise ValueError("agent inputs and private ground truth must use different HF repositories")
+    if args.source_delivery == "pinned-hf" and not all(pins):
+        parser.error("pinned-hf delivery requires both repositories and their revisions")
+    source_delivery = args.source_delivery or ("pinned-hf" if all(pins) else "embedded")
 
     config_path = Path(args.protocols)
     if args.audit_manifest_root:
@@ -156,26 +162,28 @@ def main(argv: list[str] | None = None) -> int:
     if rules_path.is_symlink() or not rules_path.is_file():
         raise FileNotFoundError(f"agent rules file is missing: {rules_path}")
     for protocol in protocols:
-        _write_task(
-            protocol,
-            output_root=output_root,
-            package_root=package_root,
-            schema_root=schema_root,
-            rules_path=rules_path,
-            input_repo=args.input_repo,
-            input_revision=args.input_revision,
-            groundtruth_repo=args.groundtruth_repo,
-            groundtruth_revision=args.groundtruth_revision,
-            network_profile=args.network_profile,
-            source_delivery=args.source_delivery,
-            source_root=source_root,
-            groundtruth_dir=groundtruth_root
-            / _required_string(protocol, "protocol_id"),
-            groundtruth=groundtruth[_required_string(protocol, "protocol_id")],
-            network_assets_root=network_assets_root,
-            network_policy=network_policy,
-            force=args.force,
-        )
+        with build_task_directory(
+            output_root, protocol["protocol_id"], force=args.force, inputs=(source_root, groundtruth_root)
+        ) as task_dir:
+            _write_task(
+                protocol,
+                task_dir=task_dir,
+                package_root=package_root,
+                schema_root=schema_root,
+                rules_path=rules_path,
+                input_repo=args.input_repo,
+                input_revision=args.input_revision,
+                groundtruth_repo=args.groundtruth_repo,
+                groundtruth_revision=args.groundtruth_revision,
+                network_profile=args.network_profile,
+                source_delivery=source_delivery,
+                source_root=source_root,
+                groundtruth_dir=groundtruth_root
+                / _required_string(protocol, "protocol_id"),
+                groundtruth=groundtruth[_required_string(protocol, "protocol_id")],
+                network_assets_root=network_assets_root,
+                network_policy=network_policy,
+            )
     return 0
 
 
@@ -309,7 +317,7 @@ def _validate_local_release(
             relative = _safe_relative_path(_required_string(source, "path"))
             expected_hash = _required_sha256(source, "sha256")
             path = source_root / relative
-            if not path.is_file():
+            if path.resolve() != path or not path.is_file():
                 raise FileNotFoundError(
                     f"{protocol_id} is missing approved source {relative}"
                 )
@@ -381,14 +389,14 @@ def _prepare_groundtruth_documents(
 def _write_task(
     protocol: dict[str, Any],
     *,
-    output_root: Path,
+    task_dir: Path,
     package_root: Path,
     schema_root: Path,
     rules_path: Path,
-    input_repo: str,
-    input_revision: str,
-    groundtruth_repo: str,
-    groundtruth_revision: str,
+    input_repo: str | None,
+    input_revision: str | None,
+    groundtruth_repo: str | None,
+    groundtruth_revision: str | None,
     network_profile: str,
     source_delivery: str,
     source_root: Path,
@@ -396,16 +404,8 @@ def _write_task(
     groundtruth: PreparedGroundtruth,
     network_assets_root: Path,
     network_policy: dict[str, Any],
-    force: bool,
 ) -> None:
     protocol_id = _required_string(protocol, "protocol_id")
-    task_dir = output_root / protocol_id
-    if task_dir.exists():
-        if not force:
-            raise FileExistsError(
-                f"{task_dir} exists; pass --force to replace generated files"
-            )
-        shutil.rmtree(task_dir)
     environment_dir = task_dir / "environment"
     tests_dir = task_dir / "tests"
     environment_dir.mkdir(parents=True)
@@ -431,8 +431,14 @@ def _write_task(
     ).hexdigest()
     display_name = protocol.get("display_name", protocol_id)
 
+    local_release = input_repo is None
+    if local_release:
+        input_repo = groundtruth_repo = "local"
+        input_revision = "sha256:" + source_manifest_hash
+        groundtruth_revision = "sha256:" + groundtruth_source_bundle_hash
+
     (task_dir / "instruction.md").write_text(
-        _instruction(protocol_id, display_name, sources), encoding="utf-8"
+        _instruction(protocol_id, display_name, sources, local_release=local_release), encoding="utf-8"
     )
     (task_dir / "task.toml").write_text(
         _task_toml(
@@ -449,6 +455,7 @@ def _write_task(
             groundtruth_source_bundle_hash=groundtruth_source_bundle_hash,
             groundtruth_bundle_hash=groundtruth_bundle_hash,
             groundtruth_transform=groundtruth.transform,
+            local_release=local_release,
         ),
         encoding="utf-8",
     )
@@ -506,7 +513,7 @@ def _write_task(
             groundtruth_repo,
             groundtruth_revision,
             groundtruth.staged_hashes,
-            local_only=groundtruth.transform != NO_GROUNDTRUTH_TRANSFORM,
+            local_only=local_release or groundtruth.transform != NO_GROUNDTRUTH_TRANSFORM,
         ),
         encoding="utf-8",
     )
@@ -519,10 +526,21 @@ def _write_task(
             shutil.copy2(groundtruth_dir / filename, destination)
         else:
             destination.write_bytes(_json_bytes(groundtruth.documents[task]))
-    shutil.copytree(
-        package_root, tests_dir / "libstruct_bench", ignore=_ignore_python_cache
-    )
-    shutil.copytree(schema_root, tests_dir / "schemas")
+    if local_release:
+        package = tests_dir / "libstruct_bench"
+        copy_task_modules(package_root, package, (
+            "__init__.py", "cli/__init__.py", "cli/grade_libgen.py",
+            "hf_io.py", "matching.py", "modalities.py", "normalization.py",
+            "audit/artifacts.py", "audit/groundtruth.py",
+            "libgen/__init__.py", "libgen/error_analysis.py", "libgen/scoring.py",
+            "libgen/validation.py", "libgen/prediction_validation.py", "libgen/version.py",
+        ))
+        (package / "audit/__init__.py").touch()
+        for name in ("benchmark", "groundtruth"):
+            shutil.copytree(schema_root / name, tests_dir / "schemas" / name)
+    else:
+        shutil.copytree(package_root, tests_dir / "libstruct_bench", ignore=_ignore_python_cache)
+        shutil.copytree(schema_root, tests_dir / "schemas")
 
 
 def _task_sources(protocol: dict[str, Any]) -> list[dict[str, str]]:
@@ -546,13 +564,14 @@ def _task_sources(protocol: dict[str, Any]) -> list[dict[str, str]]:
 
 
 def _instruction(
-    protocol_id: str, display_name: str, sources: list[dict[str, str]]
+    protocol_id: str, display_name: str, sources: list[dict[str, str]], *, local_release: bool = False
 ) -> str:
     listing = "\n".join(
         f"- `/workspace/input/{item['local_path']}` (`sha256:{item['sha256']}`)"
         for item in sources
     )
-    return f"""# T2/T3 protocol understanding: {display_name}
+    title = "Tasks 2–3 — Workflow reconstruction" if local_release else "T2/T3 protocol understanding"
+    return f"""# {title}: {display_name}
 
 Read `/workspace/rules.md` completely before starting. The approved source
 bundle is already downloaded and hash-checked. Inspect every file:
@@ -584,11 +603,16 @@ def _task_toml(
     groundtruth_source_bundle_hash: str,
     groundtruth_bundle_hash: str,
     groundtruth_transform: str,
+    local_release: bool = False,
 ) -> str:
     agent_network = _phase_network_toml(
         network_profile, tuple(network_policy["provider_hosts"])
     )
     verifier_network = _phase_network_toml(network_profile, VERIFIER_ALLOWED_HOSTS)
+    verifier_env = '[verifier.environment.env]\nHF_TOKEN = "${HF_TOKEN:-}"\n'
+    if local_release:
+        verifier_network = ""
+        verifier_env = ""
     artifact_entries = [
         '{ source = "/logs/agent/trajectory.json", destination = "agent_trajectory.json" }'
     ]
@@ -597,6 +621,10 @@ def _task_toml(
             '{ source = "/logs/network/provider-egress.jsonl", '
             'destination = "provider_egress.jsonl", service = "provider-egress" }'
         )
+    description = (
+        f"Tasks 2–3 — Workflow reconstruction: {display_name}" if local_release
+        else f"Reconstruct linked oligos and molecular library generation for {display_name}."
+    )
     artifacts_toml = ",\n  ".join(artifact_entries)
     return f"""schema_version = "1.3"
 artifacts = [
@@ -605,7 +633,7 @@ artifacts = [
 
 [task]
 name = "sequencing/libgen-{protocol_id}"
-description = {json.dumps(f"Reconstruct linked oligos and molecular library generation for {display_name}.")}
+description = {json.dumps(description)}
 authors = [{{ name = "Seq Machines" }}]
 keywords = ["genomics", "oligo", "molecular-workflow", "protocol-understanding"]
 
@@ -644,14 +672,12 @@ memory_mb = 8192
 storage_mb = 16384
 
 [verifier.environment]
-network_mode = "public"
+network_mode = "{'no-network' if local_release else 'public'}"
 cpus = 1
 memory_mb = 2048
 storage_mb = 4096
 
-[verifier.environment.env]
-HF_TOKEN = "${{HF_TOKEN:-}}"
-"""
+{verifier_env}"""
 
 
 def _phase_network_toml(network_profile: str, allowed_hosts: tuple[str, ...]) -> str:
@@ -885,11 +911,7 @@ def _ignore_python_cache(_path: str, names: list[str]) -> set[str]:
 
 
 def _copy_agent_runtime(package_root: Path, destination: Path) -> None:
-    for relative in AGENT_RUNTIME_FILES:
-        source = package_root / relative
-        target = destination / relative
-        target.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copy2(source, target)
+    copy_task_modules(package_root, destination, AGENT_RUNTIME_FILES)
     # The full package initializer imports the scorer. The agent runtime must not.
     (destination / "libgen" / "__init__.py").write_text(
         '"""Agent-visible Libgen prediction validation runtime."""\n',

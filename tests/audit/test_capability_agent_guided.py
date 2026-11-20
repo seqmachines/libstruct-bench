@@ -96,7 +96,7 @@ def test_checkpoint_sweep_command_opts_into_host_codex_auth(tmp_path: Path) -> N
 
 
 def test_protocol_review_worker_can_read_primary_evidence_formats() -> None:
-    dockerfile = (REPO_ROOT / "improvement/worker_runtime/Dockerfile").read_text(
+    dockerfile = (REPO_ROOT / "paper/improvement/worker_runtime/Dockerfile").read_text(
         encoding="utf-8"
     )
     assert "file" in dockerfile
@@ -146,7 +146,7 @@ def _seed_lock_repository(root: Path) -> None:
         "src/libstruct_bench/normalization.py": "fixture\n",
         "schemas/analysis/libgen_error_analysis.schema.json": "{}\n",
         "schemas/benchmark/example.schema.json": "{}\n",
-        "benchmarks/tasks2_3/provenance/planning_matrix.json": "{}\n",
+        "paper/benchmarks/tasks2_3/provenance/planning_matrix.json": "{}\n",
     }
     for relative, content in files.items():
         path = root / relative

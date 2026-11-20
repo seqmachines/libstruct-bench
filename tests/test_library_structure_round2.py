@@ -26,7 +26,7 @@ class LibraryStructureRound2Tests(unittest.TestCase):
         self.manifest = json.loads((ROUND2 / "protocols.json").read_text())
 
     def test_round2_removes_only_xlsx_and_preserves_protocols_and_revision(self):
-        original = json.loads((ROOT / "benchmarks/task1/provenance/original_protocols.json").read_text())
+        original = json.loads((ROOT / "paper/benchmarks/task1/provenance/original_protocols.json").read_text())
         self.assertEqual(self.manifest["input_revision"], original["input_revision"])
         self.assertEqual(len(self.manifest["protocols"]), 20)
         self.assertEqual(
@@ -139,7 +139,7 @@ class LibraryStructureRound2Tests(unittest.TestCase):
         expected = {"codex": "gpt-5.6-sol", "claude-code": "claude-opus-5",
                     "antigravity-cli": "google/gemini-3.7-flash-high"}
         for harness, model in expected.items():
-            config = json.loads((ROUND2 / f"{harness}.json").read_text())
+            config = json.loads((ROOT / "paper/benchmarks/task1" / f"{harness}.json").read_text())
             self.assertEqual(config["n_attempts"], 1)
             self.assertEqual(config["datasets"][0]["path"], "runs/library_structure/round2/tasks")
             self.assertEqual(config["agents"][0]["model_name"], model)
@@ -172,7 +172,7 @@ class LibraryStructureRound2Tests(unittest.TestCase):
                 root = Path(tmp)
                 fake_token = "test-only-oauth-secret-ABCDEFGHIJK"
                 host_env = {switch: "1", "CLAUDE_CODE_OAUTH_TOKEN": fake_token}
-                config = json.loads((ROUND2 / f"{harness}.json").read_text())
+                config = json.loads((ROOT / "paper/benchmarks/task1" / f"{harness}.json").read_text())
                 with patch.dict(os.environ, host_env, clear=True), \
                         patch.object(Path, "home", return_value=root):
                     adapter = object.__new__(adapter_class)

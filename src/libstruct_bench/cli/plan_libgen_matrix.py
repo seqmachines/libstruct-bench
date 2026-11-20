@@ -37,7 +37,7 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         description="Resolve and lock a historical Libgen planning matrix; paper selections are recorded separately in paper/provenance."
     )
-    parser.add_argument("--matrix", default="benchmarks/tasks2_3/provenance/planning_matrix.json")
+    parser.add_argument("--matrix", default="paper/benchmarks/tasks2_3/provenance/planning_matrix.json")
     parser.add_argument("--tasks", default="benchmarks/tasks2_3/tasks")
     parser.add_argument("--mode", choices=["smoke", "pilot", "full"], required=True)
     parser.add_argument("--out", required=True)
@@ -45,7 +45,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--harbor-version", required=True)
     parser.add_argument(
         "--pricing-snapshot",
-        default="benchmarks/tasks2_3/pricing-2026-08-15.json",
+        default="paper/benchmarks/tasks2_3/pricing-2026-08-15.json",
         help="frozen direct-API pricing snapshot embedded in the experiment lock",
     )
     parser.add_argument(

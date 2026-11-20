@@ -1167,7 +1167,7 @@ def test_matrix_planner_creates_16_unique_cells_and_64_trial_pilot(
             plan_main(
                 [
                     "--matrix",
-                    str(ROOT / "benchmarks/tasks2_3/provenance/planning_matrix.json"),
+                    str(ROOT / "paper/benchmarks/tasks2_3/provenance/planning_matrix.json"),
                     "--tasks",
                     str(tasks),
                     "--mode",
@@ -1290,7 +1290,7 @@ def test_matrix_planner_creates_16_unique_cells_and_64_trial_pilot(
             plan_main(
                 [
                     "--matrix",
-                    str(ROOT / "benchmarks/tasks2_3/provenance/planning_matrix.json"),
+                    str(ROOT / "paper/benchmarks/tasks2_3/provenance/planning_matrix.json"),
                     "--tasks",
                     str(tasks),
                     "--mode",
@@ -1320,7 +1320,7 @@ def test_matrix_planner_creates_16_unique_cells_and_64_trial_pilot(
             plan_main(
                 [
                     "--matrix",
-                    str(ROOT / "benchmarks/tasks2_3/provenance/planning_matrix.json"),
+                    str(ROOT / "paper/benchmarks/tasks2_3/provenance/planning_matrix.json"),
                     "--tasks",
                     str(tasks),
                     "--mode",
@@ -1346,7 +1346,7 @@ def test_matrix_planner_creates_16_unique_cells_and_64_trial_pilot(
             plan_main(
                 [
                     "--matrix",
-                    str(ROOT / "benchmarks/tasks2_3/provenance/planning_matrix.json"),
+                    str(ROOT / "paper/benchmarks/tasks2_3/provenance/planning_matrix.json"),
                     "--tasks",
                     str(tasks),
                     "--mode",

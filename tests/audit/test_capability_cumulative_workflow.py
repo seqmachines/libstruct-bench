@@ -68,7 +68,7 @@ from libstruct_bench.libgen.error_analysis import build_error_analysis
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-PACK_ROOT = REPO_ROOT / "improvement" / "capability_pack"
+PACK_ROOT = REPO_ROOT / "paper/improvement" / "capability_pack"
 SCHEMA_ROOT = REPO_ROOT / "schemas" / "improvement"
 NOW = "2026-08-22T12:00:00Z"
 LATER = "2026-08-22T12:05:00Z"

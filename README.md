@@ -1,14 +1,23 @@
 # LibStructBench
 
-LibStructBench evaluates reconstruction of sequencing-library preparation from
-protocol evidence: **Task 1**, final library sequences; **Task 2**, oligo
-families; and **Task 3**, molecular states, transitions, and typed graph edges.
+LibStructBench evaluates two native Harbor tasks from sequencing protocol evidence.
+
+- **Task 1 — Final library structure** reconstructs the final library sequences.
+- **Tasks 2–3 — Workflow reconstruction** reconstructs oligo families (Task 2) and molecular states and transitions (Task 3) in one run.
+
+[Prepare a local task and run Harbor](benchmarks/README.md).
+
 This is the code and results preparation for the NeurIPS 2026 manuscript.
 The public paper/preprint link will be added by the authors.
 
+## Collect protocol documents
+
+The [bundle-fetch skill](skills/fetch-protocol-bundle/SKILL.md) collects the original documents for a protocol from its name, paper, DOI, or link. Copy the skill into any agent workspace. Harbor supplies the task instructions during a benchmark run.
+
 ## Install and test
 
-Run from the repository root:
+For a benchmark run, install the core package with `python -m pip install -e .`.
+For the full developer test suite, run from the repository root:
 
 ```bash
 python -m venv .venv
@@ -68,9 +77,9 @@ Task 1 has its separate sequence scorer.
 
 | Manuscript analysis | Public results and methods |
 | --- | --- |
-| Task 1 API/agent and PDF controls | [Task 1 configuration](benchmarks/task1/README.md), `paper/data/main/task1_*.csv`, `paper/data/bonferroni/` |
+| Task 1 API/agent and PDF controls | [Task 1 configuration](paper/benchmarks/task1/README.md), `paper/data/main/task1_*.csv`, `paper/data/bonferroni/` |
 | Native and model–harness baselines | `paper/data/main/`, `paper/data/model_harness/`, `paper/data/secondary/` |
-| Error profiles | `paper/data/main/error_profiles.csv`, [analysis definitions](benchmarks/tasks2_3/error-analysis.md) |
+| Error profiles | `paper/data/main/error_profiles.csv`, [analysis definitions](paper/benchmarks/tasks2_3/error-analysis.md) |
 | External knowledge and cumulative learning | Figures 4a/4c/4d in `paper/data/main/`, [learning code and designs](docs/improvement/README.md) |
 | Weight and threshold sensitivity | `paper/data/sensitivity/`, `paper/methods/camera_ready/sensitivity/` |
 | Repeated GPT/Codex executions | `paper/data/repeats/` (60 executions; descriptive analysis) |
@@ -90,11 +99,11 @@ SHARE-seq retry. Final statistical tables use the recorded Bonferroni families.
 ```text
 src/libstruct_bench/  scorers, validators, audit tools, harness adapters, learning
 schemas/             prediction, ground-truth, audit, and analysis contracts
-benchmarks/          task1/, tasks2_3/, shared/: inventories, rules and run configs
-improvement/         procedural packs and learning runtime
+benchmarks/          protocol inventories, task rules, and Docker network assets
+skills/              portable protocol bundle collection
 tests/               synthetic regression and isolation tests
 docs/                audit policies, experiment workflows, release review
-paper/               version-locked numerical results and analysis provenance
+paper/               frozen results, historical run configs, learning experiments and audit workflows
 tools/               public-export and release-audit utilities
 ```
 
@@ -117,36 +126,11 @@ for proofreading edits, since editing through a link changes the original.
 The tool refuses to overwrite an existing index; use `--output runs/by_setting_new`
 to create another view. All generated views remain local and Git-ignored.
 
-## Archive native experiments
+## Internal archiving
 
-On a configured benchmark host, start a new native Harbor job from the repository
-root with the command below. Set `config` to the path of a prepared job JSON.
+Host operators can use the [experiment archive guide](docs/experiment-archive.md).
 
-```sh
-./tools/libstruct-archive launch -c "$config" --job-name "native-$(date -u +%Y%m%dT%H%M%SZ)"
-```
-
-The launcher loads the private host profile and archives eligible trials on exit.
-Retry pending transfers with `./tools/libstruct-archive reconcile`.
-
-Use the [experiment archive guide](docs/experiment-archive.md) to inventory local runs,
-identify verifier versions, restore one trial by checksum, or configure private R2 and
-Atlas archiving. The default inventory covers native scg_lib_structs trials and records
-the sibling parser-control experiments as local-only. Production writes require a
-confirmed target and bulk migration requires the reviewed inventory digest.
-
-## Executing or rescoring a benchmark
-
-To run one protocol, point the Harbor config at the local prepared task
-collection and put the protocol ID in its `task_names` list. The
-[single-protocol example](docs/experiment-archive.md#run-a-single-protocol)
-shows how to select a folder, launch a native agent, and archive the result.
-
-See the [benchmark index](benchmarks/README.md), [Tasks 2–3 setup](benchmarks/tasks2_3/README.md) and
-[Task 1 setup](benchmarks/task1/README.md). Task generators
-require hash-pinned source copies and approved ground truth. They separate
-agent inputs from verifier-only answers. Generated tasks are deliberately not
-checked in. No new inference is necessary to reproduce saved-score statistics.
+## Reproducing earlier runs
 
 Full raw-prediction rescoring and regeneration of every historical figure also
 require the frozen local inputs named in the manifests. Those inputs are not
