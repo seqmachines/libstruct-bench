@@ -10,6 +10,7 @@ from pathlib import Path
 
 import pytest
 
+from libstruct_bench import paper_groundtruth
 from libstruct_bench.cli.generate_libgen_tasks import main as build_workflow
 from libstruct_bench.cli.generate_library_v0_tasks import main as build_final_library
 from tests.libgen_fixtures import t1_groundtruth, t2_prediction, t3_prediction
@@ -52,12 +53,7 @@ def test_scored_local_harbor_task(tmp_path, layout, selection, capsys):
             )
         )
         build = build_final_library
-        predictions = {
-            "prediction.json": {
-                **t1_groundtruth(),
-                "schema_version": "libstruct.library_structure.v0",
-            }
-        }
+        predictions = {"prediction.json": t1_groundtruth()}
     else:
         inventory = linked_inventory
         build = build_workflow
@@ -106,6 +102,13 @@ def test_scored_local_harbor_task(tmp_path, layout, selection, capsys):
     instruction = (task / "instruction.md").read_text()
     name = "Final library structure extraction" if layout == "task1" else "Molecular workflow reconstruction"
     assert instruction.startswith("# " + name)
+    shared = Path(__file__).resolve().parents[1] / "benchmarks/shared/protocol_processing_rules.md"
+    assert (task / shared.name).read_bytes() == (env / shared.name).read_bytes() == shared.read_bytes()
+    assert shared.name in instruction
+    assert f"COPY {shared.name} /workspace/{shared.name}" in (env / "Dockerfile").read_text()
+    if layout == "tasks2_3":
+        assert "/workspace/rules.md" in instruction
+        assert (env / "rules.md").read_bytes() == (task / "rules.md").read_bytes()
     if local_documents:
         rules = "protocol_processing_rules.md" if layout == "task1" else "rules.md"
         assert not re.search(r"\b(?:T[123]|Tasks? [123])\b", instruction + (task / rules).read_text())
@@ -114,8 +117,13 @@ def test_scored_local_harbor_task(tmp_path, layout, selection, capsys):
     assert not (verifier / "libstruct_bench/archive").exists()
     assert not (verifier / "libstruct_bench/improvement").exists()
     assert "HF_TOKEN" not in (task / "task.toml").read_text()
+    schemas = {p.name for p in (env / "schemas/benchmark").iterdir()}
     if layout == "task1":
+        assert '"schema_version"' not in instruction
         assert "fetch_input.py" not in (task / "instruction.md").read_text()
+        assert schemas == {"final_library_structure_prediction.schema.json"}
+    else:
+        assert schemas == {"oligo_prediction.schema.json", "library_generation_workflow_prediction.schema.json"}
 
     logs = tmp_path / "logs"
     artifacts = logs / "artifacts"
@@ -143,7 +151,9 @@ def test_scored_local_harbor_task(tmp_path, layout, selection, capsys):
     )
     metrics = json.loads((logs / "verifier/reward.json").read_text())
     assert metrics["reward"] == pytest.approx(1)
-    if layout == "tasks2_3":
+    if layout == "task1":
+        assert metrics["exact_match"] == 1
+    else:
         assert json.loads((logs / "verifier/details.json").read_text())["benchmark_version"] == "4.7.0"
 
     # A failed rebuild must preserve the previously usable task.
@@ -155,6 +165,89 @@ def test_scored_local_harbor_task(tmp_path, layout, selection, capsys):
         build([*args, "--force"])
     assert (task / "task.toml").read_bytes() == before
     assert (env / "protocol_sources" / "source.pdf").is_file()
+
+
+@pytest.fixture
+def paper_release(tmp_path, monkeypatch):
+    _, sources, truth = _fixture_release(tmp_path)
+    protocol = "example_protocol"
+    files = {p.name: p.read_bytes() for p in (truth / protocol).iterdir()}
+    manifest = tmp_path / "manifest.json"
+    manifest.write_text(json.dumps({
+        "panels": [{"protocol_id": protocol, "panel": "fig3a"}],
+        "inputs": {f"external/audit-data/ground_truth/{protocol}/{k}": hashlib.sha256(v).hexdigest()
+                   for k, v in files.items()},
+    }))
+    monkeypatch.setattr(paper_groundtruth, "PAPER_MANIFEST", manifest)
+    requests = []
+
+    def download(*, repo_id, revision, path):
+        assert (repo_id, revision) == (paper_groundtruth.REPOSITORY, paper_groundtruth.REVISION)
+        folder, filename = path.split("/")
+        assert folder == protocol
+        requests.append(filename)
+        return files[filename]
+
+    monkeypatch.setattr(paper_groundtruth, "download_hf_dataset_file", download)
+    return sources / protocol, files, requests
+
+
+def test_prepare_with_paper_truth_fetches_only_missing_files(tmp_path, paper_release):
+    bundle, files, requests = paper_release
+    cache = tmp_path / "ground_truth" / bundle.name
+    final = "groundtruth_final_lib_struct.json"
+    assert build_final_library([str(bundle), "--paper-truth", "--out", str(tmp_path / "library")]) == 0
+    assert requests == [final]
+    assert {p.name for p in cache.iterdir()} == {final}
+    assert (tmp_path / "library" / bundle.name / "tests/groundtruth.json").read_bytes() == files[final]
+
+    out = tmp_path / "workflow"
+    args = [str(bundle), "--paper-truth", "--truth", str(cache), "--out", str(out)]
+    assert build_workflow(args) == 0
+    assert sorted(requests) == sorted(files)
+    assert {p.name: p.read_bytes() for p in cache.iterdir()} == files
+    assert not list((out / bundle.name / "environment").rglob("groundtruth*.json"))
+    assert build_workflow([*args, "--force"]) == 0
+    assert len(requests) == len(files)
+
+
+def test_paper_truth_mismatch_preserves_existing_files(tmp_path, paper_release):
+    bundle, files, requests = paper_release
+    cache = tmp_path / "references"
+    cache.mkdir()
+    final = cache / "groundtruth_final_lib_struct.json"
+    final.write_bytes(b"custom curation")
+    with pytest.raises(ValueError, match="existing file does not match"):
+        paper_groundtruth.setup_paper_truth(bundle.name, cache, tuple(files))
+    assert final.read_bytes() == b"custom curation"
+    assert list(cache.iterdir()) == [final]
+    assert requests == []
+
+
+def test_paper_truth_corrupt_download_can_be_retried(tmp_path, paper_release):
+    bundle, files, requests = paper_release
+    cache = tmp_path / "cache"
+    names = tuple(sorted(files))
+    original = files[names[-1]]
+    files[names[-1]] = b"corrupt"
+    with pytest.raises(ValueError, match="download does not match"):
+        paper_groundtruth.setup_paper_truth(bundle.name, cache, names)
+    assert not list(cache.iterdir())
+    files[names[-1]] = original
+    paper_groundtruth.setup_paper_truth(bundle.name, cache, names)
+    assert (cache / names[-1]).read_bytes() == original
+    assert requests == list(names) * 2
+
+
+def test_paper_truth_rejects_unknown_protocol_and_overlapping_output(tmp_path, paper_release):
+    bundle, files, requests = paper_release
+    cache = tmp_path / "cache"
+    with pytest.raises(ValueError, match="outside the paper panel"):
+        paper_groundtruth.setup_paper_truth("unknown", cache, tuple(files))
+    with pytest.raises(SystemExit):
+        build_final_library([str(bundle), "--paper-truth", "--truth", str(cache / bundle.name), "--out", str(cache)])
+    assert not cache.exists()
+    assert requests == []
 
 
 @pytest.mark.parametrize("filename", ["../outside.pdf", "groundtruth.tsv", "link.pdf", "unknown.json"])

@@ -8,9 +8,34 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 
 from libstruct_bench.audit.artifacts import sha256_file
+from libstruct_bench.paper_groundtruth import setup_paper_truth
 
 
 DOCUMENT_SUFFIXES = {".pdf", ".doc", ".docx", ".xls", ".xlsx", ".csv", ".tsv", ".txt"}
+
+
+def repository_file(relative: Path) -> Path:
+    for root in (Path(__file__).resolve().parents[2], Path.cwd()):
+        candidate = root / relative
+        if candidate.is_file():
+            return candidate
+    raise FileNotFoundError(f"Missing benchmark file: {relative}")
+
+
+def copy_shared_rules(task_dir: Path) -> None:
+    source = repository_file(Path("benchmarks/shared/protocol_processing_rules.md"))
+    snapshot = task_dir / source.name
+    shutil.copyfile(source, snapshot)
+    shutil.copyfile(snapshot, task_dir / "environment" / source.name)
+
+
+def _check_output_location(target: Path, inputs: Iterable[Path | str | None]) -> None:
+    for directory in inputs:
+        if directory is None:
+            continue
+        source = Path(directory).resolve()
+        if source.is_relative_to(target) or target.is_relative_to(source):
+            raise ValueError("task output overlaps a source or ground-truth directory")
 
 
 @contextmanager
@@ -24,12 +49,7 @@ def build_task_directory(
     ):
         raise ValueError(f"invalid protocol ID: {protocol_id!r}")
     target = out.resolve() / protocol_id
-    for directory in inputs:
-        if directory is None:
-            continue
-        source = Path(directory).resolve()
-        if source.is_relative_to(target) or target.is_relative_to(source):
-            raise ValueError("task output overlaps a source or ground-truth directory")
+    _check_output_location(target, inputs)
     if target.is_symlink() or (target.exists() and (not target.is_dir() or not force)):
         raise FileExistsError(f"{target} already exists")
     target.parent.mkdir(parents=True, exist_ok=True)
@@ -90,11 +110,13 @@ def document_inventory(root: Path, protocol_ids: list[str], documents: list[str]
     }
 
 
-def select_bundle(parser: argparse.ArgumentParser, args: argparse.Namespace, benchmark: Path) -> None:
+def select_bundle(
+    parser: argparse.ArgumentParser, args: argparse.Namespace, benchmark: Path, reference_files: tuple[str, ...]
+) -> None:
     """Translate a protocol folder into the same inputs as an explicit document selection."""
     if args.bundle is None:
-        if args.truth is not None:
-            parser.error("--truth requires a protocol folder")
+        if args.truth is not None or args.paper_truth:
+            parser.error("--truth and --paper-truth require a protocol folder")
         args.out = args.out or benchmark / "tasks"
         return
     if any((args.protocols, args.protocol_id, args.document, args.source_root,
@@ -107,8 +129,6 @@ def select_bundle(parser: argparse.ArgumentParser, args: argparse.Namespace, ben
         parser.error(f"expected a protocol folder: {bundle}")
     truth = args.truth or ((args.groundtruth_root or bundle.parent.parent / "ground_truth") / bundle.name)
     truth = truth.expanduser().resolve()
-    if not truth.is_dir():
-        parser.error(f"missing reference folder {truth}; specify it with --truth FOLDER")
     if bundle.is_relative_to(truth) or truth.is_relative_to(bundle):
         parser.error("protocol documents and ground truth must be in separate folders")
     documents = sorted(
@@ -120,9 +140,19 @@ def select_bundle(parser: argparse.ArgumentParser, args: argparse.Namespace, ben
     )
     if not documents:
         parser.error(f"no supported protocol documents found in {bundle}")
+    args.out = args.out or Path("runs/prepared") / benchmark.name
+    if args.paper_truth:
+        try:
+            _check_output_location(args.out.resolve() / bundle.name, (truth, bundle))
+            setup_paper_truth(bundle.name, truth, reference_files)
+        except (OSError, ValueError) as error:
+            parser.error(str(error))
+    missing = [name for name in reference_files if not (truth / name).is_file()]
+    if missing:
+        parser.error(f"missing reference files in {truth}: {', '.join(missing)}. "
+                     "Use --truth FOLDER for local references or --paper-truth for the paper panel.")
     args.bundle = bundle
     args.truth = truth
     args.protocol_id = [bundle.name]
     args.source_root = bundle.parent
     args.document = documents
-    args.out = args.out or Path("runs/prepared") / benchmark.name

@@ -54,6 +54,7 @@ class RunOpenRouterLibraryV0Tests(unittest.TestCase):
                                       provider_only=["google-vertex/global"])
                 optimize.assert_called_once_with(b"original", image_dpi=200)
             self.assertEqual(result["status"], "completed")
+            self.assertNotIn("schema_version", json.loads((run / "prediction.json").read_text()))
             self.assertEqual(post.call_count, 2)
             self.assertFalse((run / "error.json").exists())
             with zipfile.ZipFile(next((run / "attempt_history").glob("*.zip"))) as archive:
@@ -245,6 +246,7 @@ class RunOpenRouterLibraryV0Tests(unittest.TestCase):
         )
 
         self.assertIn("STRICTLY PROHIBITED: do not search the web", prompt)
+        self.assertNotIn('"schema_version"', prompt)
         self.assertIn("scg_lib_struct", prompt)
         self.assertIn("Use only the attached protocol input", prompt)
         self.assertIn("must be a non-empty string", prompt)

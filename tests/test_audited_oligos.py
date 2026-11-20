@@ -165,7 +165,7 @@ def test_cli_returns_numeric_zero_for_legacy_groundtruth(tmp_path: Path) -> None
 
 def test_benchmark_prediction_schemas_are_valid_draft_2020_12() -> None:
     for name in (
-        "library_structure_prediction.v0.schema.json",
+        "benchmark/final_library_structure_prediction.schema.json",
         "benchmark/oligo_prediction.schema.json",
         "benchmark/library_generation_workflow_prediction.schema.json",
     ):

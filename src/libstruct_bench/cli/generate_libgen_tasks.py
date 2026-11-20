@@ -11,6 +11,7 @@ from typing import Any
 
 from libstruct_bench.harbor_task import (
     build_task_directory,
+    copy_shared_rules,
     copy_task_modules,
     document_inventory,
     select_bundle,
@@ -127,8 +128,12 @@ def main(argv: list[str] | None = None) -> int:
     )
     parser.add_argument("--protocol-id", action="append", default=[])
     parser.add_argument("--force", action="store_true")
+    parser.add_argument(
+        "--paper-truth", action="store_true",
+        help="Fetch missing paper reference files and verify their checksums for this protocol.",
+    )
     args = parser.parse_args(argv)
-    select_bundle(parser, args, DEFAULT_BENCHMARK_DIR)
+    select_bundle(parser, args, DEFAULT_BENCHMARK_DIR, GROUNDTRUTH_FILENAMES)
 
     if not args.source_root or not (args.truth or args.groundtruth_root):
         parser.error("provide a protocol folder or specify --source-root and --groundtruth-root")
@@ -489,6 +494,7 @@ def _write_task(
     (task_dir / "rules.md").write_text(
         rules_path.read_text(encoding="utf-8"), encoding="utf-8"
     )
+    copy_shared_rules(task_dir)
     (task_dir / "input_manifest.json").write_text(
         json.dumps(source_manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8"
     )
@@ -517,9 +523,7 @@ def _write_task(
         task_dir / "input_manifest.json", environment_dir / "input_manifest.json"
     )
     _copy_agent_runtime(package_root, environment_dir / "libstruct_bench")
-    shutil.copytree(
-        schema_root / "benchmark", environment_dir / "schemas" / "benchmark"
-    )
+    copy_workflow_prediction_schemas(schema_root, environment_dir)
     if network_profile == "docker-provider-only":
         for filename in (
             "ProviderProxy.Dockerfile",
@@ -572,6 +576,13 @@ def _write_task(
         shutil.copytree(schema_root, tests_dir / "schemas")
 
 
+def copy_workflow_prediction_schemas(schema_root: Path, environment: Path) -> None:
+    dest = environment / "schemas/benchmark"
+    dest.mkdir(parents=True)
+    for name in ("oligo_prediction.schema.json", "library_generation_workflow_prediction.schema.json"):
+        shutil.copyfile(schema_root / "benchmark" / name, dest / name)
+
+
 def _task_sources(protocol: dict[str, Any]) -> list[dict[str, str]]:
     protocol_id = _required_string(protocol, "protocol_id")
     result: list[dict[str, str]] = []
@@ -601,8 +612,10 @@ def _instruction(
     )
     return f"""# Molecular workflow reconstruction: {display_name}
 
-Read `/workspace/rules.md` completely before starting. The approved source
-bundle is already downloaded and hash-checked. Inspect every file:
+Read the shared protocol-processing rules in `/workspace/protocol_processing_rules.md`
+and the workflow instructions in `/workspace/rules.md` before starting. Follow the
+workflow instructions for family grouping, sequence notation, validation, and output paths.
+The approved source bundle is already downloaded and hash-checked. Inspect every file:
 
 {listing}
 
@@ -819,6 +832,7 @@ RUN python -m pip install --no-cache-dir --upgrade pip \\
 COPY fetch_input.py /workspace/fetch_input.py
 RUN python /workspace/fetch_input.py
 COPY rules.md /workspace/rules.md
+COPY protocol_processing_rules.md /workspace/protocol_processing_rules.md
 COPY input_manifest.json /workspace/input_manifest.json
 COPY libstruct_bench /workspace/libstruct_bench
 COPY schemas /workspace/schemas

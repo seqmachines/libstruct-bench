@@ -27,6 +27,8 @@ test = [
 
 [project.scripts]
 libstruct-prep-library = "libstruct_bench.cli.generate_library_v0_tasks:main"
+libstruct-run-library = "libstruct_bench.cli.run_openrouter_library_v0:main"
+libstruct-score-library = "libstruct_bench.cli.grade_final_library:main"
 libstruct-prep-workflow = "libstruct_bench.cli.generate_libgen_tasks:main"
 libstruct-prepare-final-library = "libstruct_bench.cli.generate_library_v0_tasks:main"
 libstruct-prepare-molecular-workflow = "libstruct_bench.cli.generate_libgen_tasks:main"
@@ -79,6 +81,7 @@ libstruct-adopt-exemplar-memory = "libstruct_bench.cli.libgen_capability_improve
 where = ["src"]
 
 [tool.setuptools.package-data]
+"libstruct_bench" = ["library_reference_lock.json"]
 "libstruct_bench.archive" = ["*.schema.json"]
 
 [tool.pytest.ini_options]

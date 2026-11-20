@@ -11,7 +11,7 @@ separate API executions with the protocol name/version and no documents.
 | `codex.json`, `claude-code.json`, `antigravity-cli.json` | Native-agent Harbor configurations: one attempt per protocol, requested high reasoning. |
 | `name_only.json` | Protocol-name-only API control, exact model/settings and historical input hashes. |
 | `provenance/original_protocols.json` | Earlier input inventory used to verify that only seven XLSX attachments from six protocols were excluded; all 20 protocols were retained. |
-| [Task rules](../../../benchmarks/final_library_structure_extraction/rules.md) | Shared task instructions. |
+| [Shared protocol-processing rules](../../../benchmarks/shared/protocol_processing_rules.md) | Shared task instructions. |
 
 The configured API models are GPT-5.6 Sol, Claude Opus 5 and Gemini 3.7 Flash,
 with requested high reasoning and a 64,000 completion-token cap. Native CLI
@@ -36,8 +36,9 @@ definitions; exact reconstruction also requires matching library counts.
 ## Execution tools
 
 ```bash
-python -m libstruct_bench.cli.generate_library_v0_tasks --help
-python -m libstruct_bench.cli.run_openrouter_library_v0 --help
+libstruct-prep-library --help
+libstruct-run-library --help
+libstruct-score-library --help
 python -m libstruct_bench.cli.run_task1_name_only --help
 python -m libstruct_bench.cli.task1_name_only_sandbox --help
 ```

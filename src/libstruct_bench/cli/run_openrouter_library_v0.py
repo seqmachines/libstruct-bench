@@ -55,7 +55,7 @@ class OpenRouterResponseError(RuntimeError):
 
 
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description="Run the v0.1 OpenRouter library-structure baseline.")
+    parser = argparse.ArgumentParser(description="Run final library structure extraction through the OpenRouter API.")
     parser.add_argument("--protocols", default=str(DEFAULT_BENCHMARK_DIR / "protocols.json"))
     parser.add_argument("--out", required=True, help="Output directory for raw responses and predictions.")
     parser.add_argument(
@@ -469,7 +469,7 @@ def _run_one(
 
 def _prediction_document(parsed: dict[str, Any], protocol_id: str) -> dict[str, Any]:
     """Shared Task 1 API extraction; no sequence rewriting or scoring here."""
-    prediction = {"schema_version": PREDICTION_SCHEMA_VERSION, "protocol_id": protocol_id}
+    prediction = {"protocol_id": protocol_id}
     if isinstance(parsed.get("libraries"), list):
         prediction["libraries"] = parsed["libraries"]
     else:
@@ -736,9 +736,10 @@ def _response_snippet(body: str) -> str:
 
 def _prompt(
     *, protocol_id: str, display_name: str, input_paths: list[str],
-    input_policy: str | None = None,
+    input_policy: str | None = None, legacy_schema: bool = False,
 ) -> str:
     input_list = "\n".join(f"- {path}" for path in input_paths)
+    legacy_field = f'  "schema_version": "{PREDICTION_SCHEMA_VERSION}",\n' if legacy_schema else ""
     return f"""Protocol id: {protocol_id}
 Protocol name: {display_name}
 
@@ -755,8 +756,7 @@ examples only. Do not copy the example `library_id`, `modality`,
 `library_sequence`, `annotated_library_sequence`, bases, placeholder lengths, or
 segment order unless the attached source files support them.
 {{
-  "schema_version": "{PREDICTION_SCHEMA_VERSION}",
-  "protocol_id": "{protocol_id}",
+{legacy_field}  "protocol_id": "{protocol_id}",
   "libraries": [
     {{
       "library_id": "example_library",

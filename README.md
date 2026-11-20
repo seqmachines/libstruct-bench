@@ -10,25 +10,27 @@ python -m pip install -e .
 
 ## 1. Prepare the task
 
-Set the path to a protocol folder, then run **one** of the two preparation commands. The folder name supplies the protocol ID. Each command collects the documents in the folder and prints the prepared Harbor task path.
+Set the path to one protocol's document folder. Its name supplies the protocol ID. For any of the paper's 20 protocols, use one of the commands below. `--paper-truth` downloads missing ground-truth files, checks them against the paper's SHA-256 hashes, and reuses verified local copies.
 
 ```sh
-bundle="/path/to/protocols_scg_all/split_seq"
+bundle="/path/to/collection/protocols/my_protocol"
 ```
 
 **Final library structure extraction**
 
 ```sh
-task=$(libstruct-prep-library "$bundle")
+task=$(libstruct-prep-library "$bundle" --paper-truth)
 ```
 
 **Molecular workflow reconstruction**
 
 ```sh
-task=$(libstruct-prep-workflow "$bundle")
+task=$(libstruct-prep-workflow "$bundle" --paper-truth)
 ```
 
-For this layout, both commands find the reference JSON files in `ground_truth/split_seq/` beside `protocols_scg_all/`. To use another reference folder, add `--truth /path/to/references/split_seq`. Keep the generated task private because it contains the verifier's reference answers. [Protocol bundle collection skill](skills/fetch-protocol-bundle/SKILL.md)
+For your own ground truth, replace `--paper-truth` with `--truth "/path/to/reference-folder"`. Both commands also work offline with just `"$bundle"` when the required files are already in `collection/ground_truth/<protocol_id>/`. The command prints the prepared task path. Keep that directory private because the verifier contains the answers. [Protocol bundle collection skill](skills/fetch-protocol-bundle/SKILL.md)
+
+Both Harbor tasks include the shared rules for reading protocol evidence alongside their task-specific instructions. [Shared protocol-processing rules](benchmarks/shared/protocol_processing_rules.md)
 
 ## 2. Run the agent
 
@@ -40,9 +42,11 @@ model="your-model-id"
 harbor run --path "$task" --agent "$agent" --model "$model" --jobs-dir runs/jobs
 ```
 
+For **Final library structure extraction**, you can also use `libstruct-run-library` to run a direct OpenRouter API prediction from a protocol inventory. Score the saved prediction with `libstruct-score-library`. [Direct API commands](benchmarks/README.md#run-through-the-direct-api)
+
 ## 3. Read the results
 
-Open `runs/jobs/<job>/<trial>/verifier/reward.json` for the scores. The verifier writes the diagnostics alongside it.
+Open `runs/jobs/<job>/<trial>/verifier/reward.json` for the scores. Final library extraction reports the paper's sequence similarity and protocol-level exact match. Molecular workflow reconstruction uses verifier 4.7.0. The verifier writes diagnostics alongside the scores.
 
 | Benchmark | Agent predictions | Verifier diagnostics |
 | --- | --- | --- |

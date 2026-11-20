@@ -12,7 +12,7 @@ import urllib.error
 from pathlib import Path
 
 from libstruct_bench.cli import run_openrouter_library_v0 as api
-from libstruct_bench.library_structure import LibraryStructureValidationError, extract_json_document
+from libstruct_bench.library_structure import PREDICTION_SCHEMA_VERSION, LibraryStructureValidationError, extract_json_document
 from libstruct_bench.library_structure_policy import OPENROUTER_SOURCE_POLICY
 
 ROOT = Path(__file__).resolve().parents[3]
@@ -57,7 +57,7 @@ def write(path, value):
 def prompt(protocol):
     # Retain the PDF task's schema, mechanistic reconstruction and placeholder rules.
     # Only grounding instructions change. No case ID/category/reference reaches the API.
-    text = api._prompt(protocol_id='protocol_name_only', display_name='', input_paths=[])
+    text = api._prompt(protocol_id='protocol_name_only', display_name='', input_paths=[], legacy_schema=True)
     text = text[text.index('Return only JSON with this shape.'):]
     changes = {
         OPENROUTER_SOURCE_POLICY: (
@@ -323,6 +323,7 @@ def interpret_response(response, model, protocol_id):
     try:
         parsed = extract_json_document(text)
         prediction = api._prediction_document(parsed, protocol_id)
+        prediction['schema_version'] = PREDICTION_SCHEMA_VERSION
     except (LibraryStructureValidationError, ValueError, TypeError, AttributeError) as exc:
         return {'status': 'invalid_output', 'error': str(exc)}, None, text
     return {'status': 'completed', 'error': ''}, prediction, text

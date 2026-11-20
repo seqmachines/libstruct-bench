@@ -10,8 +10,10 @@ from typing import Any
 from libstruct_bench.harbor_task import (
     DOCUMENT_SUFFIXES,
     build_task_directory,
+    copy_shared_rules,
     copy_task_modules,
     document_inventory,
+    repository_file,
     select_bundle,
 )
 from libstruct_bench.audit.artifacts import sha256_file
@@ -34,7 +36,6 @@ from libstruct_bench.library_structure_policy import (
 
 
 DEFAULT_BENCHMARK_DIR = Path("benchmarks/final_library_structure_extraction")
-SHARED_RULES_RELATIVE_PATH = Path("benchmarks/final_library_structure_extraction/rules.md")
 SHARED_RULES_SECTION = """## Shared Protocol Processing Rules
 
 Read `protocol_processing_rules.md` before working. It defines source-grounding, oligo-extraction, normalization, and library-construction rules shared by protocol-processing tasks. The task-specific instructions below define the required output schema and which section or sections to complete.
@@ -43,7 +44,7 @@ Read `protocol_processing_rules.md` before working. It defines source-grounding,
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
-        description="Prepare Final library structure extraction for Harbor."
+        description="Prepare final library structure extraction for Harbor."
     )
     parser.add_argument("bundle", type=Path, nargs="?", help="Local folder of primary documents for one protocol.")
     evidence = parser.add_mutually_exclusive_group()
@@ -80,8 +81,12 @@ def main(argv: list[str] | None = None) -> int:
         action="store_true",
         help="overwrite existing generated task directories",
     )
+    parser.add_argument(
+        "--paper-truth", action="store_true",
+        help="Fetch missing paper reference files and verify their checksums for this protocol.",
+    )
     args = parser.parse_args(argv)
-    select_bundle(parser, args, DEFAULT_BENCHMARK_DIR)
+    select_bundle(parser, args, DEFAULT_BENCHMARK_DIR, ("groundtruth_final_lib_struct.json",))
 
     if args.document:
         if not args.source_root or not (args.groundtruth_root or args.truth):
@@ -106,7 +111,6 @@ def main(argv: list[str] | None = None) -> int:
             raise ValueError(f"invalid protocol ID: {pid!r}")
     output_dir = Path(args.out)
     package_src = Path(__file__).resolve().parents[1]
-    shared_rules_path = _shared_rules_path()
     input_repo = "local" if args.source_root else _required(config, "input_repo")
     groundtruth_repo = (
         "local" if args.groundtruth_root or args.truth else _required(config, "groundtruth_repo")
@@ -142,7 +146,6 @@ def main(argv: list[str] | None = None) -> int:
                 protocol=protocol,
                 task_dir=task_dir,
                 package_src=package_src,
-                shared_rules_path=shared_rules_path,
                 input_repo=input_repo,
                 groundtruth_repo=groundtruth_repo,
                 input_revision=input_revision,
@@ -162,7 +165,6 @@ def _write_task(
     protocol: dict[str, Any],
     task_dir: Path,
     package_src: Path,
-    shared_rules_path: Path,
     input_repo: str,
     groundtruth_repo: str,
     input_revision: str,
@@ -176,9 +178,11 @@ def _write_task(
     environment_dir = task_dir / "environment"
     tests_dir.mkdir(parents=True)
     environment_dir.mkdir(parents=True)
-    shutil.copyfile(shared_rules_path, task_dir / "protocol_processing_rules.md")
-    shutil.copyfile(shared_rules_path, environment_dir / "protocol_processing_rules.md")
+    copy_shared_rules(task_dir)
 
+    schema = Path("schemas/benchmark/final_library_structure_prediction.schema.json")
+    (environment_dir / schema.parent).mkdir(parents=True)
+    shutil.copyfile(repository_file(schema), environment_dir / schema)
     display_name = protocol.get("display_name", protocol_id)
     input_paths = _input_paths(protocol)
     groundtruth_path = (
@@ -263,9 +267,11 @@ def _write_task(
             (
                 "__init__.py",
                 "cli/__init__.py",
-                "cli/grade_library_v0.py",
+                "cli/grade_final_library.py",
                 "hf_io.py",
                 "library_structure.py",
+                "library_reference.py",
+                "library_reference_lock.json",
                 "matching.py",
             ),
         )
@@ -314,18 +320,6 @@ def _required(protocol: dict[str, Any], key: str) -> str:
     return value
 
 
-def _shared_rules_path() -> Path:
-    repo_root = Path(__file__).resolve().parents[3]
-    candidates = (
-        repo_root / SHARED_RULES_RELATIVE_PATH,
-        Path.cwd() / SHARED_RULES_RELATIVE_PATH,
-    )
-    for candidate in candidates:
-        if candidate.exists():
-            return candidate
-    raise FileNotFoundError(f"missing shared rules file: {SHARED_RULES_RELATIVE_PATH}")
-
-
 def _instruction(
     *,
     protocol_id: str,
@@ -365,6 +359,7 @@ Extract the final sequencing library structure from the provided {input_kind} fi
 
 {input_policy_instruction(input_policy)}
 
+The output schema is `/workspace/schemas/benchmark/final_library_structure_prediction.schema.json`.
 Create `/logs/artifacts/prediction.json` using this JSON shape. The verifier reads only that file.
 JSON returned only in your final chat response is ignored and will score as
 missing output. The values in the block below are dummy schema examples only. Do
@@ -374,7 +369,6 @@ segment order unless the downloaded source files support them.
 
 ```json
 {{
-  "schema_version": "libstruct.library_structure.v0",
   "protocol_id": "{protocol_id}",
   "libraries": [
     {{
@@ -526,6 +520,7 @@ RUN python -m pip install --no-cache-dir --upgrade pip \\
     && python -m pip install --no-cache-dir pymupdf pypdf docling openpyxl pillow
 {copy_inputs}
 COPY protocol_processing_rules.md /workspace/protocol_processing_rules.md
+COPY schemas/ /workspace/schemas/
 """
 
 
@@ -567,7 +562,7 @@ import sys
 
 sys.path.insert(0, "/tests")
 
-from libstruct_bench.cli.grade_library_v0 import main
+from libstruct_bench.cli.grade_final_library import main
 
 if __name__ == "__main__":
     raise SystemExit(main())

@@ -1,6 +1,6 @@
 # Library Structure Benchmark
 
-V0 evaluates reconstruction of final sequencing library structure strings. Most
+This benchmark evaluates reconstruction of final sequencing library structure strings. Most
 protocols have one final library; multimodal protocols have one final library
 entry per measured modality or final sequencing product.
 
@@ -14,7 +14,6 @@ Direct API calls have a 64,000-token completion cap, including reasoning.
 
 ```json
 {
-  "schema_version": "libstruct.library_structure.v0",
   "protocol_id": "drop_seq",
   "libraries": [
     {
@@ -32,8 +31,7 @@ library-generation explanations.
 
 ## Source Policy
 
-Online search is strictly prohibited for both v0.1 LLM runs and v0.2 coding
-agent runs. Predictions must use only the protocol input files attached to the
+Direct API and Harbor agent runs both prohibit online search. Predictions must use only the protocol input files attached to the
 LLM request or downloaded into the task `input/` directory. Do not browse,
 search, retrieve protocol pages, consult `scg_lib_struct`, inspect benchmark
 ground truth, or look up prior answer keys, repository copies, papers,
@@ -57,7 +55,7 @@ use rendered pages only for visual layout checks.
 ## Derivation Policy
 
 Final library structures are usually derived constructs, not strings printed
-verbatim in the source. v0.1 LLM calls and v0.2 coding-agent tasks should build
+verbatim in the source. Direct API models and Harbor agents should build
 the final construct by simulating library construction forward from the
 source-visible components.
 
@@ -113,7 +111,7 @@ Use two representations:
 
 - Structured oligo extraction, memory files, graph memory, and debug/display
   fields: canonical `[ROLE:LENGTH]`, for example `[CELL_BARCODE:16]`.
-- V0 final-string scoring: expanded non-biological placeholder characters, for
+- Final library scoring uses expanded non-biological placeholder characters, for
   example `################`.
 - Biological payload placeholders such as `[CDNA]`, `[GDNA]`, `[VDJ_INSERT]`,
   and `[SGRNA_SPACER]` are display/debug annotations only and must not appear in
@@ -158,7 +156,7 @@ Terms observed in ground truth oligo map as follows:
   `None/A/TA/GTA/NNNNNNNN`, and source-visible uncertain overhang or structural
   variable bases.
 
-When a source gives `[ROLE:LENGTH]` or `[8-bp UMI]`, the v0 grader expands it to
+When a source gives `[ROLE:LENGTH]` or `[8-bp UMI]`, the grader expands it to
 the scored character repeated by length before computing similarity. If a source
 gives a range such as `[0-4 bp PB]`, use the maximum explicit length for the
 single scored string (`????`). If the exact function of a generic barcode is

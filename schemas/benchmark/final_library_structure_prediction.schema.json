@@ -1,18 +1,15 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://seqmachines.com/schemas/library_structure_prediction.v0.schema.json",
-  "title": "Library Structure Prediction V0",
+  "$id": "https://seqmachines.org/schemas/libstruct/benchmark/final_library_structure_prediction.schema.json",
+  "title": "Final library structure prediction",
   "type": "object",
   "additionalProperties": true,
-  "required": ["schema_version", "protocol_id"],
+  "required": ["protocol_id"],
   "anyOf": [
     {"required": ["libraries"]},
     {"required": ["library_sequence"]}
   ],
   "properties": {
-    "schema_version": {
-      "const": "libstruct.library_structure.v0"
-    },
     "protocol_id": {
       "type": "string",
       "minLength": 1
@@ -29,7 +26,7 @@
     "libraries": {
       "type": "array",
       "minItems": 1,
-      "description": "Preferred v0 output. Include one entry per final sequencing library or modality.",
+      "description": "Include one entry per final sequencing library or modality.",
       "items": {
         "type": "object",
         "additionalProperties": true,
@@ -48,7 +45,7 @@
           "library_sequence": {
             "type": "string",
             "minLength": 1,
-            "description": "Final library structure as one 5'->3' sequence string. This is the v0 scoring target for this entry; use expanded non-biological placeholder characters for scored variable regions."
+            "description": "Final library structure as one 5'->3' sequence string. The verifier scores this field. Use expanded non-biological placeholder characters for scored variable regions."
           },
           "annotated_library_sequence": {
             "type": ["string", "null"],

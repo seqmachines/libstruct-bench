@@ -1,9 +1,13 @@
+import hashlib
 import json
 import tempfile
 import unittest
 from pathlib import Path
 
-from libstruct_bench.cli.grade_library_v0 import main as grade_main
+import pytest
+
+from libstruct_bench.cli import grade_final_library
+from libstruct_bench.cli.grade_final_library import main as grade_main
 from libstruct_bench.library_structure import (
     PREDICTION_SCHEMA_VERSION,
     LibraryStructureValidationError,
@@ -170,7 +174,7 @@ class LibraryStructureTests(unittest.TestCase):
         self.assertAlmostEqual(metrics["sequence_similarity"], 1 - 1 / 14)
         self.assertEqual(metrics["edit_distance"], 1.0)
 
-    def test_prediction_requires_schema_version(self):
+    def test_historical_parser_requires_schema_version(self):
         with self.assertRaises(LibraryStructureValidationError):
             parse_prediction_document(
                 {"protocol_id": "example_protocol", "library_sequence": "ACGT"},
@@ -213,7 +217,66 @@ class LibraryStructureTests(unittest.TestCase):
             audit = json.loads(audit_path.read_text(encoding="utf-8"))
             self.assertEqual(metrics["sequence_similarity"], 0.0)
             self.assertEqual(metrics["prediction_parse_valid"], 0.0)
+            self.assertEqual(metrics["exact_match"], 0.0)
             self.assertIn("error", audit)
+
+
+def test_public_scorer_accepts_untagged_and_archived_predictions():
+    tagged = prediction("AACCGG###~~~TT")
+    public = {k: v for k, v in tagged.items() if k != "schema_version"}
+    reference = json.dumps(GROUND_TRUTH).encode()
+    grade = grade_final_library.grade_final_library
+    assert grade(public, reference) == grade(tagged, reference)
+    assert "schema_version" not in public
+    with pytest.raises(LibraryStructureValidationError, match="protocol_id"):
+        grade({"library_sequence": "AAAA"}, reference, expected_protocol_id="example_protocol")
+    with pytest.raises(LibraryStructureValidationError, match="schema_version"):
+        grade({**public, "schema_version": "unrecognized"}, reference)
+
+
+def test_segmented_reference_and_strict_protocol_exact_match():
+    reference = json.dumps({
+        "protocol_id": "example_protocol",
+        "libraries": [{
+            "library_sequence": "[CELL_BARCODE1:2]ACGTGG",
+            "segments": [
+                {"segment_id": "barcode", "kind": "variable", "placeholder": "[CELL_BARCODE1:2]"},
+                {"segment_id": "fixed", "kind": "constant", "sequence": "ACGT"},
+                {"segment_id": "payload", "kind": "biological_insert", "sequence": "GG"},
+            ],
+        }],
+    }).encode()
+    metrics, audit = grade_final_library.grade_final_library(prediction("##ACGT"), reference)
+    assert metrics["sequence_similarity"] == metrics["exact_match"] == 1
+    assert audit["groundtruth_sha256"] == hashlib.sha256(reference).hexdigest()
+    extra = prediction("##ACGT")
+    extra["libraries"] = [{"library_sequence": "##ACGT"}, {"library_sequence": "A"}]
+    metrics, _ = grade_final_library.grade_final_library(extra, reference)
+    assert metrics["sequence_similarity"] == 1
+    assert metrics["exact_match"] == 0
+
+
+def test_reference_length_choices_require_identical_reference_bytes(tmp_path, monkeypatch):
+    reference = json.dumps({
+        "protocol_id": "example_protocol",
+        "libraries": [{
+            "library_sequence": "[CELL_BARCODE1]",
+            "segments": [{"segment_id": "bc", "kind": "variable", "placeholder": "[CELL_BARCODE1]"}],
+        }],
+    }).encode()
+    lock = tmp_path / "lock.json"
+    lock.write_text(json.dumps({
+        "files": [{"protocol_id": "example_protocol", "sha256": hashlib.sha256(reference).hexdigest()}],
+        "length_alternatives": [{"protocol_id": "example_protocol", "library_index": 0,
+                                 "segment_id": "bc", "placeholder": "[CELL_BARCODE1]", "lengths": [2, 3]}],
+    }))
+    monkeypatch.setattr(grade_final_library, "REFERENCE_LOCK", lock)
+    metrics, audit = grade_final_library.grade_final_library(prediction("###"), reference)
+    assert metrics["exact_match"] == 1
+    assert audit["reference_length_choices"] == [{"library_index": 0, "segment_id": "bc", "length": 3}]
+    metrics, audit = grade_final_library.grade_final_library(prediction("###"), reference + b"\n")
+    assert metrics["exact_match"] == 0
+    assert audit["reference_length_choices"] == []
 
 
 if __name__ == "__main__":

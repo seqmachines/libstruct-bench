@@ -185,7 +185,7 @@ audit records, or prior answers.
         (env / "rules.md").write_text(rules)
         (env / "Dockerfile").write_text(DOCKERFILE)
         gen._copy_agent_runtime(ROOT / "src/libstruct_bench", env / "libstruct_bench")
-        shutil.copytree(ROOT / "schemas/benchmark", env / "schemas/benchmark")
+        gen.copy_workflow_prediction_schemas(ROOT / "schemas", env)
         # Record only files copied into the agent workspace (no protocol evidence).
         inventory = {str(p.relative_to(env)): sha(p) for p in sorted(env.rglob('*'))
                      if p.is_file() and p.name != 'Dockerfile'}
