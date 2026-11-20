@@ -11,6 +11,7 @@ requires-python = ">=3.10"
 dependencies = [
     "dirhash>=0.5,<1",
     "jsonschema>=4.20,<5",
+    "tomli>=2; python_version < '3.11'",
 ]
 
 [project.optional-dependencies]
@@ -18,13 +19,15 @@ audit-docs = [
     "openpyxl>=3.1,<4",
     "pymupdf>=1.24,<2",
 ]
-archive = ["botocore>=1.43,<2", "pymongo>=4.9,<5", "tomli>=2; python_version < '3.11'"]
+archive = ["botocore>=1.43,<2", "pymongo>=4.9,<5"]
 archive-test = ["moto[s3]>=5,<6", "mongomock>=4,<5"]
 test = [
     "pytest>=8,<10",
 ]
 
 [project.scripts]
+libstruct-prep-library = "libstruct_bench.cli.generate_library_v0_tasks:main"
+libstruct-prep-workflow = "libstruct_bench.cli.generate_libgen_tasks:main"
 libstruct-prepare-final-library = "libstruct_bench.cli.generate_library_v0_tasks:main"
 libstruct-prepare-molecular-workflow = "libstruct_bench.cli.generate_libgen_tasks:main"
 libstruct-archive = "libstruct_bench.archive.cli:main"

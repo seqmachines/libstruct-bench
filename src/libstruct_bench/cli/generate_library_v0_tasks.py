@@ -12,6 +12,7 @@ from libstruct_bench.harbor_task import (
     build_task_directory,
     copy_task_modules,
     document_inventory,
+    select_bundle,
 )
 from libstruct_bench.audit.artifacts import sha256_file
 from libstruct_bench.library_structure import parse_library_entries
@@ -44,13 +45,14 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         description="Prepare Final library structure extraction for Harbor."
     )
+    parser.add_argument("bundle", type=Path, nargs="?", help="Local folder of primary documents for one protocol.")
     evidence = parser.add_mutually_exclusive_group()
     evidence.add_argument(
         "--document", action="append",
         help="Local document relative to the protocol folder. Repeat for supplements.",
     )
     evidence.add_argument("--protocols", type=Path, help="Use a saved protocol inventory.")
-    parser.add_argument("--out", default=str(DEFAULT_BENCHMARK_DIR / "tasks"))
+    parser.add_argument("--out", type=Path, help="Parent directory for prepared tasks.")
     parser.add_argument(
         "--protocol-id",
         action="append",
@@ -63,6 +65,7 @@ def main(argv: list[str] | None = None) -> int:
         help="Embed inventory files from this local root in the agent image.",
     )
     labels = parser.add_mutually_exclusive_group()
+    labels.add_argument("--truth", type=Path, help="Folder of reference JSON files for this protocol.")
     labels.add_argument(
         "--groundtruth-root",
         type=Path,
@@ -78,9 +81,10 @@ def main(argv: list[str] | None = None) -> int:
         help="overwrite existing generated task directories",
     )
     args = parser.parse_args(argv)
+    select_bundle(parser, args, DEFAULT_BENCHMARK_DIR)
 
     if args.document:
-        if not args.source_root or not args.groundtruth_root:
+        if not args.source_root or not (args.groundtruth_root or args.truth):
             parser.error("--document requires --source-root and --groundtruth-root")
         config = document_inventory(args.source_root, args.protocol_id, args.document)
     else:
@@ -105,23 +109,21 @@ def main(argv: list[str] | None = None) -> int:
     shared_rules_path = _shared_rules_path()
     input_repo = "local" if args.source_root else _required(config, "input_repo")
     groundtruth_repo = (
-        "local" if args.groundtruth_root else _required(config, "groundtruth_repo")
+        "local" if args.groundtruth_root or args.truth else _required(config, "groundtruth_repo")
     )
     input_revision = "" if args.source_root else _required(config, "input_revision")
     groundtruth_revision = (
         ""
-        if args.groundtruth_root or args.groundtruth_dir
+        if args.groundtruth_root or args.truth or args.groundtruth_dir
         else _required(config, "groundtruth_revision")
     )
     frozen_labels: dict[str, bytes] = {}
-    if args.groundtruth_dir or args.groundtruth_root:
+    if args.groundtruth_dir or args.groundtruth_root or args.truth:
         for protocol in protocols:
             protocol_id = _required(protocol, "protocol_id")
             label = (
-                args.groundtruth_root
-                / protocol_id
-                / "groundtruth_final_lib_struct.json"
-                if args.groundtruth_root
+                (args.truth or args.groundtruth_root / protocol_id) / "groundtruth_final_lib_struct.json"
+                if args.truth or args.groundtruth_root
                 else Path(args.groundtruth_dir) / f"{protocol_id}.json"
             )
             raw = label.read_bytes()
@@ -134,7 +136,7 @@ def main(argv: list[str] | None = None) -> int:
             output_dir,
             pid,
             force=args.force,
-            inputs=(args.source_root, args.groundtruth_root, args.groundtruth_dir),
+            inputs=(args.bundle or args.source_root, args.truth or args.groundtruth_root, args.groundtruth_dir),
         ) as task_dir:
             _write_task(
                 protocol=protocol,
@@ -150,6 +152,8 @@ def main(argv: list[str] | None = None) -> int:
                 source_root=args.source_root,
             )
 
+    if args.bundle:
+        print((Path(args.out) / args.bundle.name).resolve())
     return 0
 
 

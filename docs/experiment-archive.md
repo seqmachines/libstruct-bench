@@ -12,13 +12,13 @@ source .venv/bin/activate
 review_dir=$(mktemp -d)
 trial=libgen/codex/libgen-gpt-5-6-sol/10x_chromium_3_feature_barcoding__bN2Lxic
 libstruct-archive inventory --output "$review_dir/inventory.json"
-libstruct-archive verifier-report --version 4.6.0 --output "$review_dir/verifier-4.6.csv"
+libstruct-archive verifier-report --version 4.7.0 --output "$review_dir/verifier-4.7.csv"
 libstruct-archive ingest "$trial" --dry-run --manifest-out "$review_dir/pilot-manifest.json"
 ```
 
 The inventory uses original Harbor configs and results. It skips the linked run browser and inventories direct API, Pi and mini-SWE trials as local-only. The sibling `important_runs` contains two five-protocol GPT-5.5/Codex parser controls, plus `parser_analysis` tables, code and figures. These are useful provenance for the parser experiment. Their local-only status follows their experimental condition even though Codex executed them. The private source resolver checks `protocols-test/protocols_scg_all/`, the earlier `protocols/` layout, and the task’s embedded source directory by recorded SHA-256. Set `LSB_IMPORTANT_RUNS` to override the parser-control directory. See [.env.example](../.env.example) for all path overrides.
 
-The verifier report identifies each trial directory, its protocol, model, execution ID, execution-time version, whether the requested version was used at execution or during rescoring, and the newest attributable version. The archive compares numeric versions and prefers the frozen final-paper result at the same version. Task 1 uses separate reference-corrected scores. Superseded verifier directories stay local. Original job receipts and trial results can contain the score Harbor recorded at execution. Those files remain execution evidence. The searchable metrics record the selected evaluation version and origin. The historical scorer command continues to use 4.6.0.
+The verifier report identifies each trial directory, its protocol, model, execution ID, execution-time version, whether the requested version was used at execution or during rescoring, and the newest attributable version. The archive compares numeric versions and prefers the frozen final-paper result at the same version. Task 1 uses separate reference-corrected scores. Superseded verifier directories stay local. Original job receipts and trial results can contain the score Harbor recorded at execution. Those files remain execution evidence. The searchable metrics record the selected evaluation version and origin.
 
 ## Exercise the full workflow locally
 

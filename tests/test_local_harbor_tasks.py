@@ -17,8 +17,9 @@ from tests.test_generate_libgen_tasks import _fixture_release
 
 
 @pytest.mark.parametrize("layout", ["task1", "tasks2_3"])
-@pytest.mark.parametrize("local_documents", [True, False], ids=["documents", "inventory"])
-def test_scored_local_harbor_task(tmp_path, layout, local_documents):
+@pytest.mark.parametrize("selection", ["inventory", "documents", "bundle", "bundle-with-truth"])
+def test_scored_local_harbor_task(tmp_path, layout, selection, capsys):
+    local_documents = selection != "inventory"
     linked_inventory, sources, truth = _fixture_release(tmp_path)
     protocol = "example_protocol"
     out = tmp_path / "prepared"
@@ -75,7 +76,21 @@ def test_scored_local_harbor_task(tmp_path, layout, local_documents):
             }
     else:
         args += ["--protocols", str(inventory)]
+    if selection.startswith("bundle"):
+        folder = sources / protocol
+        (folder / "SOURCE_MANIFEST.tsv").touch()
+        (folder / "~$unopened.xlsx").touch()
+        (folder / ".metadata.txt").touch()
+        args = [str(folder), "--out", str(out)]
+        if selection == "bundle":
+            truth.rename(tmp_path / "ground_truth")
+        else:
+            references = tmp_path / "private references"
+            (truth / protocol).rename(references)
+            args += ["--truth", str(references)]
     assert build(args) == 0
+    if selection.startswith("bundle"):
+        assert capsys.readouterr().out.strip() == str((out / protocol).resolve())
 
     task = out / protocol
     env = task / "environment"
@@ -128,11 +143,15 @@ def test_scored_local_harbor_task(tmp_path, layout, local_documents):
     )
     metrics = json.loads((logs / "verifier/reward.json").read_text())
     assert metrics["reward"] == pytest.approx(1)
+    if layout == "tasks2_3":
+        assert json.loads((logs / "verifier/details.json").read_text())["benchmark_version"] == "4.7.0"
 
     # A failed rebuild must preserve the previously usable task.
     before = (task / "task.toml").read_bytes()
     (sources / protocol / "source.pdf").unlink()
-    with pytest.raises((ValueError, FileNotFoundError)):
+    if selection.startswith("bundle"):
+        (sources / protocol / "supplement.tsv").unlink()
+    with pytest.raises((ValueError, FileNotFoundError, SystemExit)):
         build([*args, "--force"])
     assert (task / "task.toml").read_bytes() == before
     assert (env / "protocol_sources" / "source.pdf").is_file()

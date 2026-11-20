@@ -10,46 +10,34 @@ python -m pip install -e .
 
 ## 1. Prepare the task
 
-Set the protocol ID and the two parent directories. Put the documents the agent may read in `$source_root/$protocol/` and the approved reference files in `$truth_root/$protocol/`. The [bundle-fetch skill](skills/fetch-protocol-bundle/SKILL.md) can help collect documents from a protocol name, paper, DOI, or link.
+Set the path to a protocol folder, then run **one** of the two preparation commands. The folder name supplies the protocol ID. Each command collects the documents in the folder and prints the prepared Harbor task path.
 
 ```sh
-protocol="my_protocol"
-source_root="/path/to/protocols"
-truth_root="/path/to/ground-truth"
+bundle="/path/to/protocols_scg_all/split_seq"
 ```
 
-Choose one command below. Replace the example filenames with yours and repeat `--document` for any supplements. Each command packages the instructions, output format, and verifier. Keep the prepared folder private because the verifier contains the reference answers.
-
-### Final library structure extraction
-
-The verifier needs `groundtruth_final_lib_struct.json`.
+**Final library structure extraction**
 
 ```sh
-prepared="runs/prepared/final_library_structure_extraction"
-libstruct-prepare-final-library --protocol-id "$protocol" \
-  --source-root "$source_root" --document manual.pdf \
-  --groundtruth-root "$truth_root" --out "$prepared"
+task=$(libstruct-prep-library "$bundle")
 ```
 
-### Molecular workflow reconstruction
-
-The verifier needs `groundtruth_final_lib_struct.json`, `groundtruth_oligos.json`, and `groundtruth_library_generation_workflow.json`.
+**Molecular workflow reconstruction**
 
 ```sh
-prepared="runs/prepared/molecular_workflow_reconstruction"
-libstruct-prepare-molecular-workflow --protocol-id "$protocol" \
-  --source-root "$source_root" --document manual.pdf --document oligos.xlsx \
-  --groundtruth-root "$truth_root" --out "$prepared"
+task=$(libstruct-prep-workflow "$bundle")
 ```
+
+For this layout, both commands find the reference JSON files in `ground_truth/split_seq/` beside `protocols_scg_all/`. To use another reference folder, add `--truth /path/to/references/split_seq`. Keep the generated task private because it contains the verifier's reference answers. [Protocol bundle collection skill](skills/fetch-protocol-bundle/SKILL.md)
 
 ## 2. Run the agent
 
-Use the same shell. Set the agent and model to a pair your provider supports. You can reuse the prepared folder to compare agents or models.
+Use the same shell. Set the agent and model to a pair your provider supports.
 
 ```sh
 agent="codex"
 model="your-model-id"
-harbor run --path "$prepared/$protocol" --agent "$agent" --model "$model" --jobs-dir runs/jobs
+harbor run --path "$task" --agent "$agent" --model "$model" --jobs-dir runs/jobs
 ```
 
 ## 3. Read the results
@@ -61,6 +49,6 @@ Open `runs/jobs/<job>/<trial>/verifier/reward.json` for the scores. The verifier
 | Final library structure extraction | `prediction.json` | `audit.json` |
 | Molecular workflow reconstruction | `oligo_family_prediction.json`, `molecular_workflow_prediction.json` | `details.json`, `error_analysis.json` |
 
-The molecular workflow quickstart uses verifier 4.6.0. The paper reports scores from 4.7.0. [Harbor options](benchmarks/README.md) · [Paper results and reproduction](paper/README.md)
+[Harbor options](benchmarks/README.md) · [Paper results and reproduction](paper/README.md)
 
 The benchmark reference records build on [scg_lib_structs (CC BY 4.0)](https://doi.org/10.5281/zenodo.10042390). [20-protocol reference dataset](https://huggingface.co/datasets/sequencing/scg-protocols-v1-groundtruth) · [Protocol source inventory](docs/release/source_inventory.csv)

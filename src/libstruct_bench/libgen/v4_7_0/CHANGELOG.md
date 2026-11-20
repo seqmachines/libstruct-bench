@@ -1,15 +1,7 @@
-# Verifier 4.7.0 — opt-in correction
+# Molecular workflow verifier 4.7.0
 
-This is a separately versioned fork of the frozen 4.6.0 scorer (SHA-256
-`c23eee3363e8bde80cc31529c66008267aaf61f7456c482a23502ab169f2b2f7`).
-The default package export, Harbor verifier, generated tasks, and production
-version remain 4.6.0. Nothing imports this version implicitly.
-
-Use `from libstruct_bench.libgen.v4_7_0 import grade_libgen` with the same four
-validated document arguments as 4.6.0. Returned details identify `4.7.0`.
-Validation, normalization, and assignment helpers are shared, with exact code
-hashes pinned in the accompanying frozen-analysis manifest. A later dependency
-change requires revalidation; this version label does not freeze those imports.
+The installed scorer, Harbor verifier, and rescoring command use the paper implementation in
+`libstruct_bench.libgen.v4_7_0`. Its SHA-256 is recorded in the paper's frozen analysis manifest.
 
 ## Family comparison and construction
 

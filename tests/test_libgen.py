@@ -958,7 +958,7 @@ def test_concrete_panel_members_collapse_to_one_required_family() -> None:
     ]
 
 
-def test_unrelated_concrete_panel_counts_as_one_extra_family() -> None:
+def test_unrelated_explicit_molecules_count_as_separate_extra_families() -> None:
     predictions = [
         _panel_member(oligo_id="required_1", barcode="ACGT"),
         _panel_member(oligo_id="required_2", barcode="TGCA"),
@@ -983,15 +983,13 @@ def test_unrelated_concrete_panel_counts_as_one_extra_family() -> None:
     )
 
     assert metrics["predicted_member_count"] == 4.0
-    assert metrics["predicted_family_count"] == 2.0
-    assert metrics["required_family_precision"] == pytest.approx(0.5)
+    assert metrics["predicted_family_count"] == 3.0
+    assert metrics["required_family_precision"] == pytest.approx(1 / 3)
     assert metrics["required_family_recall"] == pytest.approx(1.0)
-    assert metrics["required_family_f1"] == pytest.approx(2 / 3)
+    assert metrics["required_family_f1"] == pytest.approx(0.5)
     assert metrics["exact_required_family_recall"] == pytest.approx(1.0)
-    assert len(details["unmatched_prediction_families"]) == 1
-    assert details["unmatched_prediction_families"][0]["member_oligo_ids"] == [
-        "extra_1",
-        "extra_2",
+    assert [f["member_oligo_ids"] for f in details["unmatched_prediction_families"]] == [
+        ["extra_1"], ["extra_2"],
     ]
 
 

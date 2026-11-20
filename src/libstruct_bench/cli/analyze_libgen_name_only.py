@@ -115,7 +115,8 @@ def main(argv=None):
     task_root = args.experiment.parent / 'tasks'
     # Use the frozen grader implementation; refuse silent scoring-code drift.
     exemplar = task_root / lock['protocols'][0]['protocol_id'] / 'tests'
-    for relative in ('libgen/scoring.py', 'libgen/version.py', 'libgen/validation.py',
+    for relative in ('libgen/scoring.py', 'libgen/version.py', 'libgen/v4_7_0/scoring.py',
+                     'libgen/v4_7_0/version.py', 'libgen/validation.py',
                      'libgen/prediction_validation.py', 'matching.py', 'modalities.py',
                      'normalization.py', 'audit/groundtruth.py', 'audit/artifacts.py'):
         frozen = exemplar / 'libstruct_bench' / relative

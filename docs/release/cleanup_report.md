@@ -81,7 +81,7 @@ used one of these paths must restore or regenerate its private task context.
 
 - Final paper scorer: explicit `libstruct_bench.libgen.v4_7_0`, SHA-256
   `1618943605e33e488654c7b02af85b027d3009c82f1aa1572d0d782b7c1da11e`, matching
-  the camera-ready input manifest. Historical default 4.6.0 is unchanged.
+  the camera-ready input manifest.
 - Reference set: `approved-20261010-b672aab997a2fdc0`. C30 retains its historical
   selection; no selector was rerun. No original figure was regenerated.
 - Figure 3a/3b selected attempts remain unchanged. The 60 GPT/Codex repeats

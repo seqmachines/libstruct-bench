@@ -21,11 +21,6 @@ GPT/Codex repeats are reported separately. The final name-only comparison is
 one original bundle execution versus one name-only execution, paired by protocol.
 Task 2 primary macro-F1 excludes ddSEQ (`N_req=0`); Task 3 retains all protocols.
 
-The paper's corrected scorer is explicitly imported from
-`libstruct_bench.libgen.v4_7_0`; the historical `libstruct-grade-libgen` entry
-point and generated historical verifier snapshots remain 4.6.0. No default
-scoring behavior was changed during release cleanup.
-
 ## Generate private local tasks
 
 Generated task directories are excluded from Git because they contain private

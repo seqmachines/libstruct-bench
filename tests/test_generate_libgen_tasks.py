@@ -1063,7 +1063,7 @@ def test_matrix_planner_creates_16_unique_cells_and_64_trial_pilot(
         for protocol in protocols["protocols"]:
             task = tasks / protocol["protocol_id"]
             task.mkdir(parents=True)
-            (task / "task.toml").write_text('schema_version = "1.3"\n')
+            (task / "task.toml").write_text(f'schema_version = "1.3"\n[metadata]\nbenchmark_version = "{LIBGEN_BENCHMARK_VERSION}"\n')
         env_names = [
             "LIBGEN_CORE_MODEL_GPT_5_6_SOL",
             "LIBGEN_NATIVE_MODEL_GPT_5_6_SOL",

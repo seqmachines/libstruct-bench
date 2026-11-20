@@ -10,8 +10,12 @@ from pathlib import Path
 from typing import Any
 
 from libstruct_bench.archive.hooks import launcher
+from libstruct_bench.archive.provenance import toml_metadata
 from libstruct_bench.libgen.error_analysis import task_bundle_sha256
 from libstruct_bench.libgen.version import LIBGEN_BENCHMARK_VERSION
+
+
+PAPER_MATRIX = Path(__file__).resolve().parents[3] / "paper/benchmarks/tasks2_3/provenance/planning_matrix.json"
 
 
 _HOST_SUBSCRIPTION_AUTH: dict[str, dict[str, Any]] = {
@@ -37,7 +41,7 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         description="Resolve and lock a historical Libgen planning matrix; paper selections are recorded separately in paper/provenance."
     )
-    parser.add_argument("--matrix", default="paper/benchmarks/tasks2_3/provenance/planning_matrix.json")
+    parser.add_argument("--matrix", type=Path, default=PAPER_MATRIX)
     parser.add_argument("--tasks", default="benchmarks/tasks2_3/tasks")
     parser.add_argument("--mode", choices=["smoke", "pilot", "full"], required=True)
     parser.add_argument("--out", required=True)
@@ -101,7 +105,8 @@ def main(argv: list[str] | None = None) -> int:
     pricing_path = Path(args.pricing_snapshot)
     pricing_bytes = pricing_path.read_bytes()
     pricing_snapshot = json.loads(pricing_bytes)
-    if matrix.get("benchmark_version") != LIBGEN_BENCHMARK_VERSION:
+    # The frozen paper matrix supplies model/harness cells for new plans.
+    if args.matrix.resolve() != PAPER_MATRIX and matrix.get("benchmark_version") != LIBGEN_BENCHMARK_VERSION:
         raise ValueError(
             "matrix benchmark version does not match the installed scorer: "
             f"{matrix.get('benchmark_version')!r} != {LIBGEN_BENCHMARK_VERSION!r}"
@@ -133,6 +138,10 @@ def main(argv: list[str] | None = None) -> int:
         raise ValueError(
             f"full matrix requires exactly 20 generated tasks, found {len(task_ids)}"
         )
+    for protocol_id in selected:
+        metadata = toml_metadata(tasks_root / protocol_id / "task.toml")
+        if metadata.get("benchmark_version") != LIBGEN_BENCHMARK_VERSION:
+            raise ValueError(f"prepare {protocol_id} with verifier {LIBGEN_BENCHMARK_VERSION} before planning")
     task_digest = task_bundle_sha256(tasks_root, task_ids)
     pilot_clearance = None
     if args.mode == "full":
@@ -260,7 +269,7 @@ def main(argv: list[str] | None = None) -> int:
 
     lock = {
         "mode": args.mode,
-        "benchmark_version": matrix["benchmark_version"],
+        "benchmark_version": LIBGEN_BENCHMARK_VERSION,
         "research_question": matrix["research_question"],
         "harbor_version": installed_harbor,
         "environment": matrix["environment"],

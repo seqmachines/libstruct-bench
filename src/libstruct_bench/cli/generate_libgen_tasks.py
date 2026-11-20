@@ -13,6 +13,7 @@ from libstruct_bench.harbor_task import (
     build_task_directory,
     copy_task_modules,
     document_inventory,
+    select_bundle,
 )
 from libstruct_bench.audit.artifacts import validate_document
 from libstruct_bench.audit.connected_process import (
@@ -65,6 +66,7 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         description="Prepare Molecular workflow reconstruction from local evidence and approved references."
     )
+    parser.add_argument("bundle", type=Path, nargs="?", help="Local folder of primary documents for one protocol.")
     evidence = parser.add_mutually_exclusive_group()
     evidence.add_argument(
         "--document", action="append",
@@ -86,9 +88,11 @@ def main(argv: list[str] | None = None) -> int:
             "or the built-in molecular workflow rules for local documents"
         ),
     )
-    parser.add_argument("--out", default=str(DEFAULT_BENCHMARK_DIR / "tasks"))
-    parser.add_argument("--source-root", required=True)
-    parser.add_argument("--groundtruth-root", required=True)
+    parser.add_argument("--out", type=Path, help="Parent directory for prepared tasks.")
+    parser.add_argument("--source-root", type=Path)
+    labels = parser.add_mutually_exclusive_group()
+    labels.add_argument("--groundtruth-root", type=Path)
+    labels.add_argument("--truth", type=Path, help="Folder of reference JSON files for this protocol.")
     parser.add_argument("--input-repo")
     parser.add_argument("--input-revision")
     parser.add_argument("--groundtruth-repo")
@@ -105,11 +109,11 @@ def main(argv: list[str] | None = None) -> int:
     )
     parser.add_argument(
         "--network-policy",
-        default=str(DEFAULT_BENCHMARK_DIR / "network-policy.json"),
+        default=str(_repo_root() / DEFAULT_BENCHMARK_DIR / "network-policy.json"),
     )
     parser.add_argument(
         "--network-assets-root",
-        default=str(DEFAULT_BENCHMARK_DIR / "docker_network"),
+        default=str(_repo_root() / DEFAULT_BENCHMARK_DIR / "docker_network"),
     )
     parser.add_argument(
         "--network-profile",
@@ -124,7 +128,10 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--protocol-id", action="append", default=[])
     parser.add_argument("--force", action="store_true")
     args = parser.parse_args(argv)
+    select_bundle(parser, args, DEFAULT_BENCHMARK_DIR)
 
+    if not args.source_root or not (args.truth or args.groundtruth_root):
+        parser.error("provide a protocol folder or specify --source-root and --groundtruth-root")
     pins = (args.input_repo, args.input_revision, args.groundtruth_repo, args.groundtruth_revision)
     if any(pins) and not all(pins):
         parser.error("supply both repository IDs and their revisions, or omit all four for local files")
@@ -142,7 +149,7 @@ def main(argv: list[str] | None = None) -> int:
         if any(pins) or source_delivery != "embedded":
             parser.error("--document requires local embedded evidence")
         protocols = document_inventory(Path(args.source_root), args.protocol_id, args.document)["protocols"]
-        default_rules_path = DEFAULT_BENCHMARK_DIR / "rules.md"
+        default_rules_path = _repo_root() / DEFAULT_BENCHMARK_DIR / "rules.md"
     elif args.audit_manifest_root:
         if not args.protocol_id:
             raise ValueError(
@@ -151,22 +158,26 @@ def main(argv: list[str] | None = None) -> int:
         protocols = _protocols_from_audit_manifests(
             Path(args.audit_manifest_root), args.protocol_id
         )
-        default_rules_path = DEFAULT_BENCHMARK_DIR / "rules.md"
+        default_rules_path = _repo_root() / DEFAULT_BENCHMARK_DIR / "rules.md"
     else:
         config = json.loads(config_path.read_text(encoding="utf-8"))
         protocols = _selected_protocols(config, args.protocol_id)
         default_rules_path = config_path.parent / "rules.md"
         if not any(pins) and args.protocols is None:
-            default_rules_path = DEFAULT_BENCHMARK_DIR / "rules.md"
+            default_rules_path = _repo_root() / DEFAULT_BENCHMARK_DIR / "rules.md"
     source_root = Path(args.source_root).resolve()
-    groundtruth_root = Path(args.groundtruth_root).resolve()
+    truth_dirs = {
+        p["protocol_id"]: args.truth or args.groundtruth_root.resolve() / p["protocol_id"]
+        for p in protocols
+    }
     schema_root = _repo_root() / "schemas"
     network_assets_root = Path(args.network_assets_root).resolve()
     network_policy = _load_network_policy(Path(args.network_policy).resolve())
     groundtruth = _validate_local_release(
         protocols,
         source_root=source_root,
-        groundtruth_root=groundtruth_root,
+        truth_dirs=truth_dirs,
+        source_check_root=args.bundle or source_root,
         schema_root=schema_root,
     )
 
@@ -177,7 +188,7 @@ def main(argv: list[str] | None = None) -> int:
         raise FileNotFoundError(f"agent rules file is missing: {rules_path}")
     for protocol in protocols:
         with build_task_directory(
-            output_root, protocol["protocol_id"], force=args.force, inputs=(source_root, groundtruth_root)
+            output_root, protocol["protocol_id"], force=args.force, inputs=(args.bundle or source_root, args.truth or args.groundtruth_root)
         ) as task_dir:
             _write_task(
                 protocol,
@@ -192,12 +203,13 @@ def main(argv: list[str] | None = None) -> int:
                 network_profile=args.network_profile,
                 source_delivery=source_delivery,
                 source_root=source_root,
-                groundtruth_dir=groundtruth_root
-                / _required_string(protocol, "protocol_id"),
+                groundtruth_dir=truth_dirs[protocol["protocol_id"]],
                 groundtruth=groundtruth[_required_string(protocol, "protocol_id")],
                 network_assets_root=network_assets_root,
                 network_policy=network_policy,
             )
+    if args.bundle:
+        print((Path(args.out) / args.bundle.name).resolve())
     return 0
 
 
@@ -301,12 +313,13 @@ def _validate_local_release(
     protocols: list[dict[str, Any]],
     *,
     source_root: Path,
-    groundtruth_root: Path,
+    truth_dirs: dict[str, Path],
+    source_check_root: Path,
     schema_root: Path,
 ) -> dict[str, PreparedGroundtruth]:
     forbidden = sorted(
         path.relative_to(source_root).as_posix()
-        for path in source_root.rglob("*")
+        for path in source_check_root.rglob("*")
         if path.is_file()
         and (
             path.name.startswith("groundtruth")
@@ -342,7 +355,7 @@ def _validate_local_release(
                     f"expected {expected_hash}, found {actual_hash}"
                 )
 
-        truth_dir = groundtruth_root / protocol_id
+        truth_dir = truth_dirs[protocol_id]
         source_hashes = {
             filename: _sha256(truth_dir / filename)
             for filename in GROUNDTRUTH_FILENAMES
@@ -548,6 +561,7 @@ def _write_task(
             "hf_io.py", "matching.py", "modalities.py", "normalization.py",
             "audit/artifacts.py", "audit/groundtruth.py",
             "libgen/__init__.py", "libgen/error_analysis.py", "libgen/scoring.py",
+            "libgen/v4_7_0/__init__.py", "libgen/v4_7_0/scoring.py", "libgen/v4_7_0/version.py",
             "libgen/validation.py", "libgen/prediction_validation.py", "libgen/version.py",
         ))
         (package / "audit/__init__.py").touch()

@@ -524,6 +524,7 @@ source = { editable = "." }
 dependencies = [
     { name = "dirhash" },
     { name = "jsonschema" },
+    { name = "tomli", marker = "python_full_version < '3.11'" },
 ]
 
 [package.optional-dependencies]
@@ -531,7 +532,6 @@ archive = [
     { name = "botocore" },
     { name = "pymongo", version = "4.18.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11'" },
     { name = "pymongo", version = "4.20.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
-    { name = "tomli", marker = "python_full_version < '3.11'" },
 ]
 archive-test = [
     { name = "mongomock" },
@@ -556,7 +556,7 @@ requires-dist = [
     { name = "pymongo", marker = "extra == 'archive'", specifier = ">=4.9,<5" },
     { name = "pymupdf", marker = "extra == 'audit-docs'", specifier = ">=1.24,<2" },
     { name = "pytest", marker = "extra == 'test'", specifier = ">=8,<10" },
-    { name = "tomli", marker = "python_full_version < '3.11' and extra == 'archive'", specifier = ">=2" },
+    { name = "tomli", marker = "python_full_version < '3.11'", specifier = ">=2" },
 ]
 provides-extras = ["audit-docs", "archive", "archive-test", "test"]
 

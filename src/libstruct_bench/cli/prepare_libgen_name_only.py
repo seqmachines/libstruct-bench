@@ -174,11 +174,11 @@ audit records, or prior answers.
         config = config.replace(f'name = "sequencing/libgen-{pid}"', f'name = "sequencing/libgen-name-only-{pid}"')
         parsed = tomllib.loads(config)
         for key, value in parsed["metadata"].items():
-            if key in {"input_repo", "input_revision", "source_delivery", "source_manifest_sha256",
+            if key in {"benchmark_version", "input_repo", "input_revision", "source_delivery", "source_manifest_sha256",
                        "groundtruth_repo", "groundtruth_revision", "groundtruth_source_bundle_sha256",
                        "groundtruth_bundle_sha256", "groundtruth_transform", "network_policy_sha256"}:
                 config = config.replace(f"{key} = {json.dumps(value)}\n", "")
-        config = config.replace('[metadata]\n', '[metadata]\ncondition = "protocol-name-only"\n')
+        config = config.replace('[metadata]\n', f'[metadata]\nbenchmark_version = "{LIBGEN_BENCHMARK_VERSION}"\ncondition = "protocol-name-only"\n')
         config = config.replace('[verifier.environment]\nnetwork_mode = "public"', '[verifier.environment]\nnetwork_mode = "no-network"')
         config = config.split('[verifier.environment.env]')[0]
         (task / "task.toml").write_text(config)

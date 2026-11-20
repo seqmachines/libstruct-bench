@@ -87,7 +87,9 @@ distributing its contents or the workstation account name.
 original `analysis/paper_results/` layout, local input manifests, prior-stage
 results, manuscript checkout, and R packages. Path redaction makes those files
 **provenance copies, not standalone entry points**. Use `paper/reproduce.py`
-for the portable checks. Do not run a historical `freeze.py`, plotter, or
+for the portable checks. The scorer and version files at their original paths
+are available in the [pre-upgrade checkout](https://github.com/seqmachines/libstruct-bench/tree/ab1e68f769e9d7588a837c7b4af466d40d7851cc/src/libstruct_bench/libgen)
+for methods that verify those historical file hashes. Do not run a historical `freeze.py`, plotter, or
 finalizer against the locked output directories.
 
 ## Additional inputs needed for full reproduction

@@ -1,4 +1,4 @@
-"""Regression contract for the opt-in verifier; no private reference fixtures."""
+"""Regression contract for the default verifier; no private reference fixtures."""
 import copy
 import hashlib
 import math
@@ -6,7 +6,7 @@ from pathlib import Path
 
 import pytest
 
-from libstruct_bench.libgen import scoring as historical
+from libstruct_bench.libgen import scoring as default
 from libstruct_bench.libgen.v4_7_0 import scoring as corrected
 from tests.libgen_fixtures import t2_prediction, t2_groundtruth, t3_prediction, t3_groundtruth
 
@@ -17,29 +17,25 @@ def oligo(sequence, **kw):
                 sequence=sequence, **kw)
 
 
-def test_production_is_preserved_and_version_is_opt_in():
-    assert historical.LIBGEN_BENCHMARK_VERSION == '4.6.0'
-    assert corrected.LIBGEN_BENCHMARK_VERSION == '4.7.0'
-    assert hashlib.sha256(Path(historical.__file__).read_bytes()).hexdigest() == (
-        'c23eee3363e8bde80cc31529c66008267aaf61f7456c482a23502ab169f2b2f7')
+def test_default_is_the_paper_verifier():
+    assert default is corrected
+    assert default.LIBGEN_BENCHMARK_VERSION == '4.7.0'
+    assert hashlib.sha256(Path(default.__file__).read_bytes()).hexdigest() == (
+        '1618943605e33e488654c7b02af85b027d3009c82f1aa1572d0d782b7c1da11e')
     docs = (t2_prediction(), t3_prediction(), t2_groundtruth(), t3_groundtruth())
     before = copy.deepcopy(docs)
     metrics, details = corrected.grade_libgen(*docs)
     assert all(v == pytest.approx(1) for v in metrics.values())
     assert details['benchmark_version'] == '4.7.0'
     assert docs == before
-    for name in ['T2_WEIGHTS', 'TRANSITION_WEIGHTS', 'STATE_WEIGHTS']:
-        assert getattr(corrected, name) == getattr(historical, name)
 
 
 @pytest.mark.parametrize('base', list('ACGTU'))
 def test_predicted_placeholder_cannot_hide_fixed_bases(base):
-    assert historical._family_tokens_match('<UMI>', base)
     assert not corrected._family_tokens_match('<UMI>', base)
     assert corrected._family_tokens_match(base, '<UMI>')
     gt = oligo(base * 4 + '[UMI:2]')
     pred = oligo('[UMI:6]')
-    assert historical._oligo_similarity(pred, gt, scorable_only=True) == 1
     assert corrected._oligo_similarity(pred, gt, scorable_only=True) == pytest.approx(2/6)
     score, _ = corrected.score_t2([pred], [gt], required_oligo_ids={'o'})
     assert score['exact_required_family_recall'] == 0
@@ -124,14 +120,13 @@ def test_neutral_transition_reproduces_rounding_discontinuity_and_fix(monkeypatc
              products=.21276595744680848, disposition=.15957446808510634,
              oligos=.21276595744680848)
     assert sum(w.values()) != 1
-    for scorer in [historical, corrected]:
-        _, baseline = scorer.grade_libgen(*docs)
-        assert next(iter(baseline['t3']['workflows'].values()))['transition_matches'][0]['neutralized']
-        monkeypatch.setattr(scorer, 'TRANSITION_WEIGHTS', w)
-        _, perturbed = scorer.grade_libgen(*docs)
-        match = next(iter(perturbed['t3']['workflows'].values()))['transition_matches'][0]
-        assert match['neutralized'] == (scorer is corrected)
-        assert match['scientific_alignment_score'] < 1
+    _, baseline = corrected.grade_libgen(*docs)
+    assert next(iter(baseline['t3']['workflows'].values()))['transition_matches'][0]['neutralized']
+    monkeypatch.setattr(corrected, 'TRANSITION_WEIGHTS', w)
+    _, perturbed = corrected.grade_libgen(*docs)
+    match = next(iter(perturbed['t3']['workflows'].values()))['transition_matches'][0]
+    assert match['neutralized']
+    assert match['scientific_alignment_score'] < 1
 
 
 def test_imperfect_neutral_transition_is_not_excused(monkeypatch):

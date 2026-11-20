@@ -210,7 +210,7 @@ not changed, and both source and derived bundle digests remain in task metadata.
 
 ## Scoring
 
-Benchmark version: `4.6.0`. Version 3.0 introduced one connected molecular
+Version 3.0 introduced one connected molecular
 process per T3 workflow. Version 3.1 repaired molecular-state equivalence by
 canonicalizing a narrow set of biological-payload aliases, accepting terminal
 token-aware reverse complements, removing free-text state metadata from
@@ -350,8 +350,8 @@ PYTHONPATH=src python -m libstruct_bench.cli.rescore_libgen_runs \
 ```
 
 For each trial this writes
-`verifier/rescore/libgen-4.6.0/{reward,details,error_analysis}.json` and writes a
-run-level `rescore/libgen-4.6.0/summary.json`. Original Harbor results are kept
+`verifier/rescore/libgen-4.7.0/{reward,details,error_analysis}.json` and writes a
+run-level `rescore/libgen-4.7.0/summary.json`. Original Harbor results are kept
 unchanged so incompatible benchmark versions cannot be confused. Rerunning was
 required for 3.0 because the agent-facing T3 contract changed; 3.1, 3.2, 4.0,
 4.1 through 4.6 may rescore preserved predictions because their changes are

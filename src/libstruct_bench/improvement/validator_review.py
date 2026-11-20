@@ -1187,7 +1187,7 @@ def _stage_validator_workspace(
             )
         verifier_files = [
             repository / "paper/benchmarks/tasks2_3/rules.md",
-            *sorted((repository / "src/libstruct_bench/libgen").glob("*.py")),
+            *sorted((repository / "src/libstruct_bench/libgen").rglob("*.py")),
             *sorted((repository / "schemas/benchmark").glob("*.json")),
             *sorted((repository / "schemas/groundtruth").glob("*.json")),
         ]
