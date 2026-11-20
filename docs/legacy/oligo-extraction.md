@@ -1,13 +1,9 @@
-> Historical standalone extraction benchmark. The final paper's Task 2 is
-> the linked [Libgen family scorer](../../benchmarks/README.md#molecular-workflow-reconstruction), with separate definitions
-> and selected results in `paper/`. Old source-dataset identifiers below are
-> provenance, not authorization to redistribute documents. Generated task trees
-> are excluded from the public release.
+# Scoring historical standalone oligo predictions
 
-# Oligo Extraction Benchmark
-
-This benchmark scores extraction of oligo names and sequences from sequencing
-protocol inputs. Full library construction is out of scope for v1.
+Use `libstruct-grade` to score a saved prediction from the retired standalone
+oligo extraction benchmark. The prediction format and metrics below describe
+those runs. For new runs that extract oligo families, use
+[Molecular workflow reconstruction](../../benchmarks/README.md#molecular-workflow-reconstruction).
 
 ## Prediction Format
 
@@ -162,29 +158,3 @@ computed on sequence-matched pairs and does not affect reward.
 `/logs/verifier/reward.json` contains numeric metrics only. Detailed pairings
 and errors are written to `/logs/verifier/matches.json` and
 `/logs/verifier/error.txt`.
-
-## Harbor Data Layout
-
-The Harbor manifest is `benchmarks/oligo_extraction/protocols.json`.
-It defines the 20-protocol benchmark set, pins both Hugging Face dataset
-revisions by commit SHA, and lists every raw file exposed to each protocol task.
-
-- Raw inputs: `sequencing/scg-protocols-v1`, public, agent-visible.
-- Ground truth: `sequencing/scg-oligo-groundtruth-v1`, verifier-only.
-- Generated tasks live under `benchmarks/oligo_extraction/tasks/<protocol_id>/`.
-- `benchmarks/oligo_extraction/dataset.toml` pins the generated task digests
-  for Harbor publish/registry workflows.
-- Local Docker runs use `network_mode = "public"` because Harbor's Docker
-  provider does not enforce host allowlists.
-
-Each task downloads all listed raw files into `input/` via `python fetch_input.py`.
-The separate verifier downloads the matching `groundtruth_oligos.json` using
-`HF_TOKEN` and grades only `/logs/artifacts/prediction.json`.
-
-Harbor coding agents should use Docling with OCR disabled when it is available.
-PyMuPDF (`import fitz`) and `pypdf` layout extraction are acceptable stable
-alternatives and cross-checks. Agents should not run OCR or use OCR-derived
-text as evidence for raw PDFs because OCR can introduce unstable sequence
-conversions. They should combine native text, layout-sorted text blocks, table
-cells, appendix text, and stable vector/text-layer labels from diagrams, and
-use rendered pages only for visual layout checks.

@@ -30,7 +30,6 @@ libstruct-prepare-molecular-workflow = "libstruct_bench.cli.generate_libgen_task
 libstruct-archive = "libstruct_bench.archive.cli:main"
 libstruct-grade = "libstruct_bench.cli.grade:main"
 libstruct-grade-oligos = "libstruct_bench.cli.grade_oligos:main"
-libstruct-generate-harbor-tasks = "libstruct_bench.cli.generate_harbor_tasks:main"
 libstruct-grade-library-v0 = "libstruct_bench.cli.grade_library_v0:main"
 libstruct-grade-library = "libstruct_bench.cli.grade_library:main"
 libstruct-generate-library-v0-tasks = "libstruct_bench.cli.generate_library_v0_tasks:main"
